@@ -1,6 +1,6 @@
 # P2-2. Perspective-filter equivalence: results
 
-Pre-registered in `experiments/p2-2-perspective.md` (D2), commit `fc00c58`, before any call. `claude-haiku-5-5`, 11,070 calls (200 rewrites, 8,000 primary, 1,000 for the 2 × 2, 2,000 two-turn order conversations, less the cells of the 5 templates that failed the rewrite check), **$0.61** of the $1.25 cap, no refusal, no missing answers. Engine odds 55; Sean's odds not recorded before data. Audited in round 2 (see the next line).
+Pre-registered in `experiments/p2-2-perspective.md` (D2), commit `fc00c58`, before any call. `claude-haiku-5-5`, 11,070 cached jobs (13,050 API requests; each two-turn order conversation is one job and two requests) (200 rewrites, 8,000 primary, 1,000 for the 2 × 2, 2,000 two-turn order conversations, less the cells of the 5 templates that failed the rewrite check), **$0.61** of the $1.25 cap, no refusal, no missing answers. Engine odds 55; Sean's odds not recorded before data. Audited in round 2 (see the next line).
 
 > Audited 2026-11-04 (round 2, entangled-mind audit2 8091d01, audits/om-p2-2.md): verdict stands as fail; 13 required cuts applied in D5.
 
@@ -27,7 +27,7 @@ Pre-registered in `experiments/p2-2-perspective.md` (D2), commit `fc00c58`, befo
 - On Haiku and these BigToM stories, the seed hypothesis in this simple form is not supported.
 
 **Limits.**
-- The second-person stories were rewritten by Haiku itself. 195 of 200 passed the frozen check. The five that failed kept the name ("You, Olumide, …") and were dropped from both versions.
+- The second-person stories were rewritten by Haiku itself. 195 of 200 passed the frozen check. The five that failed kept the name ("You, Olumide, …"; "You are Dalia, …") and were dropped from both versions.
 - The two versions change grammatical person, filtering and the question (belief against world) at once. The 2 × 2 separates person from filtering on false-belief stories only; nothing separates the question wording from the person.
 - One model; BigToM's templated, model-generated stories. The engine expected a pass (55). This was a miss.
 
@@ -72,6 +72,6 @@ Pre-registered in `experiments/p2-2-perspective.md` (D2), commit `fc00c58`, befo
 
 - TB, rendering (i): 25% of templates have a mean above 50; 57% are below 20; the median is 15. The highest are stories whose "aware" sentence names a cause rather than the outcome: "Ivana feels the earthquake" (X = the ice is thick and solid, rated 100); "Xiomara witnesses the underwater landslide" (X = the coral colony is healthy, 100).
 - FB, rendering (i): 8% of templates are below 50.
-- Rewrite-check failures: templates 59, 68, 97, 117, 184 (the name kept as an appositive: "You, Olumide, …").
+- Rewrite-check failures: templates 59, 68, 97, 117, 184 (the name kept: three as an appositive, "You, Olumide, …", and two as "You are <name>": "You are Leonardo Martinez", "You are Dalia, …").
 
 Archive: `results/p2-2-calls.json`, `data/p2-2-second-person.json`, `results/p2-2-perspective.json`. Regenerate with `python experiments/p2_2_perspective.py --analyse`.

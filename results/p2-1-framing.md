@@ -28,7 +28,7 @@ Pre-registered in `experiments/p2-1-framing.md` (D1), commit `8fb40f3`, before a
 
 **Limits.**
 - One model (Haiku), one item set: claims taken from the model's own earlier reasoning about trivia and technical questions.
-- Many of these claims are about "the writer" or about an answer, and "how confident are you" may be read as being about the model's own position. Exploratory: on the 28 claims that mention the writer, memory, confirmation or uncertainty, the a–b correlation is 0.71, against 0.88 on the rest. So part of the gap may be about these self-referential claims. The test cannot say how much.
+- Many of these claims are about "the writer" or about an answer, and "how confident are you" may be read as being about the model's own position. Exploratory: on the 28 claims that mention the writer, memory, confirmation or uncertainty, the a–b correlation is 0.71, against 0.88 on the rest. The split is the case-insensitive regex `\b(writer|I|my|memory|recall|confirm|uncertain|cannot)\b` on the claim text, chosen after seeing the flips (`experiments/p2_1_exploratory.py`). So part of the gap may be about these self-referential claims. The test cannot say how much.
 - The engine expected a pass (60). This was a miss.
 
 ## Tables
@@ -56,6 +56,7 @@ Pre-registered in `experiments/p2-1-framing.md` (D1), commit `8fb40f3`, before a
 | a – p1 (test–retest) | 0.955 [0.884, 1.006] | −0.50 [−2.31, +0.95] | 0.966 |
 
 - Leave-one-question-out range of Q(a, b): 0.763 to 0.802. No single question carries the result.
+- Leave-one-claim-out 0.769–0.800; removing 7 claims (largest |a−b| differences, 5 questions) gives Q 0.90. (Exploratory; `experiments/p2_1_exploratory.py`, `results/p2-1-exploratory.json`.)
 - **Primary verdict (§5): fail.** Q < 0.90; the shift condition is met. **Secondary (b – d): fail.**
 
 ### Exploratory (not pre-registered): largest a–b differences

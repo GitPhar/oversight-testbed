@@ -26,10 +26,10 @@ Opened 2026-11-04 (America/Denver). Scouting is done. **First wave run 2026-11-0
 |---|---|---|---|---|
 | P2-1 | Is "how likely is p" the same as "how confident are you that p"? | **fail**: they share 77% of reproducible item variation (bar 90%); the same wording across sessions shares 96% | 60 | `results/p2-1-framing.md` |
 | P2-2 | Is "what Noor believes" the same as "what is true, given only what Noor saw"? | **fail**: 50% pooled (bar 80%), about 0 within condition; a 9-point curse of knowledge; the filter is partly flawed where perception names only a cause | 55 | `results/p2-2-perspective.md` |
-| P2-4 | Does the model predict its own measured fingerprint better than "Sam's"? | **pass, unreplicated**: no detectable self advantage (point estimate favours self), r = 0.95; causal reports run opposite to the truth in both arms | 60 | `results/p2-4-interpersonal.md` |
+| P2-4 | Does the model predict its own measured fingerprint better than "Sam's"? | **undetermined** (audited; the test could not detect a self advantage smaller than about 0.084). The point estimate and exploratory data lean toward a self advantage on own-answer commitment | 60 | `results/p2-4-interpersonal.md` |
 | P2-3 | Is SimpleToM's "stated but not used" gap a memory effect? | **untestable**: the API refused a severity-3 story (explosives) after 26 calls; stop-on-refusal held | 70 | `results/p2-3-simpletom.md` |
 
-In one line: on Haiku, *how* a belief question is worded, and *whose* belief it asks about, changes the numbers (P2-1, P2-2). Yet the model's account of itself is no better than its account of a similar assistant reading the same transcript (P2-4). P2-3 waits on Sean's call about the refusal.
+In one line: on Haiku, *how* a belief question is worded, and *whose* belief it asks about, changes the numbers (P2-1, P2-2). Whether the model's account of itself beats its account of a similar assistant reading the same transcript is undecided: P2-4 lacked the power to tell, and leans toward a self advantage. P2-3 waits on Sean's call about the refusal.
 
 - `map/program-2-map.md`: 13 ranked directions, each with the assumption at stake, who has looked, the cheapest falsifying test with program 1's instruments, its cost, and the engine's odds stated before any data.
 - `map/human-odds.md`: the form for Sean's odds. It is filled in separately, before any data, and does not show the engine's numbers.
