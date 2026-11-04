@@ -403,6 +403,22 @@ Total if everything ran at the lean costs: about 184 QPU s. Recommended plan (be
 - 1 correlated secondary event: P3-11's eigenstate prediction;
 - 1 mathematics-graded bet: P3-8. That is enough to put a second column on the calibration chart. It is not enough to compare calibrations with confidence (see the notes below).
 
+## After wave 1 (2026-11-04)
+
+Odds above are not revised. Outcomes, all unaudited:
+
+| id | verdict | one line |
+|---|---|---|
+| P3-1 | fail | Scheduled sim 0.268 (control 0.267); idle decay closes 7% of the Nov 3 gap |
+| P3-5 | fail, incoherent better | ΔlogL −43.5, −34.9, +63.0 |
+| P3-2 | untestable | No gap on Nov 4: chip 0.246, sim 0.269 (Nov 3 chip: 0.502) |
+| P3-3 | untestable | Same; alternative layouts 0.277 / 0.297 against sim 0.265 / 0.264 |
+
+- **Re-weighting.** The question "is the Nov 3 gap the device or one afternoon?" is now the live one. P3-3's repeat arm, unrun, is its direct test, and it is cheap (~1 s per repeat). Coherent-error directions (P3-2's premise; P3-4 in part) cool: P3-5 leaned incoherent, and on Nov 4 there was no gap for twirling to close.
+- **Defaults for waves 2–3** (P3-2's pre-registered rule): twirling off, DD off.
+- **New leads, not bets:** qubit 141's measured readout error (P(1|0) 0.21) is about 20× its reported value; the mirror circuit succeeds 2.2% on the chip against 13.6% in the corrected sim.
+- **QPU:** 8.0 s billed against 7.6 estimated; cumulative 54 s.
+
 ## Notes for the engine
 
 - **The comparison this program exists for is underpowered, and it is said so up front.**
