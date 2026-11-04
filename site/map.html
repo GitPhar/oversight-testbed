@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The map</title>
+<meta name="description" content="Research paths fanning out from a seed question and collapsing as bets land.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script src="vendor/marked.min.js"></script>
+</head>
+<body>
+<main>
+  <h1>The map</h1>
+  <p class="how">Each program starts from one question on the left. Paths fan out to the right, one per direction we could take. Faint dotted paths are still open. A bright path is a bet that landed, and the next paths grow from it. A cross is a direction that died. Hover over or tap any point to see why.</p>
+
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div class="seed-label">Seed question</div>
+  <p class="seed" id="seed"></p>
+  <div class="key" id="key"></div>
+
+  <div class="mapbox" id="mapbox"><div class="empty" style="margin:24px">Loading the map…</div></div>
+
+  <div class="timebar" id="timebar" hidden>
+    <button class="btn" id="play" type="button">▶ Replay</button>
+    <input type="range" id="when" min="0" max="0" step="1" aria-label="Show the map as it stood at this time">
+    <output id="whenout" for="when"></output>
+  </div>
+  <p class="muted small" id="timenote" hidden>Drag the slider to watch the paths open and collapse in the order the bets landed.</p>
+
+  <p><button class="btn" id="listbtn" type="button" aria-expanded="false">Show as a list</button></p>
+  <div class="listview" id="listview" hidden></div>
+</main>
+<script type="module" src="assets/map.js"></script>
+</body>
+</html>

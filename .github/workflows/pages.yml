@@ -1,0 +1,54 @@
+# Publishes site/ to GitHub Pages. No build step: site/assemble.sh only copies files.
+# The site reads the engine's ledger/ and map/, and program 1's paper/ folder, at the commit being deployed.
+# It redeploys on every push to main, every night after the nightly updater (23:33 America/Denver),
+# on demand, and when a program repository sends a "program-updated" repository_dispatch.
+name: Pages
+
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", "ledger/**", "map/**", "README.md", "proposal.md", ".github/workflows/pages.yml"]
+  schedule:
+    - cron: "50 6 * * *"        # 23:50 America/Denver (MST, UTC-7)
+  workflow_dispatch:
+  repository_dispatch:
+    types: [program-updated]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TZ: America/Denver
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check out program 1 (entangled-mind)
+        uses: actions/checkout@v4
+        with:
+          repository: GitPhar/entangled-mind
+          path: programs/entangled-mind
+          fetch-depth: 1
+      - name: Lay out the site
+        run: site/assemble.sh _site programs/entangled-mind
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
