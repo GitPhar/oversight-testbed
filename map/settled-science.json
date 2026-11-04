@@ -1,0 +1,12 @@
+{"program": "settled-science", "seed_question": "Bet on results already settled in the literature, outcome hidden; the referee is the published record.",
+ "scouted": "2026-11-04",
+ "directions": [
+  {"id": "ss-b1", "title": "Post-cutoff Brier beats a constant 0.5 (95% upper bound below 0.25)", "parent": null, "status": "open",
+   "engine_odds": 0.50, "engine_odds_first": 0.60, "engine_odds_at": "2026-11-04 17:12 America/Denver", "odds_template": "item-writer, one pass (D1)",
+   "source": "human", "cost": "$6 cap shared", "referee": "published-record"},
+  {"id": "ss-b2", "title": "Post-cutoff bettor beats the publication-bias baseline (paired 95% upper bound below 0)", "parent": "ss-b1", "status": "open",
+   "engine_odds": 0.30, "engine_odds_at": "2026-11-04 17:12 America/Denver", "odds_template": "item-writer, one pass (D1)",
+   "source": "engine", "cost": "$0 beyond ss-b1", "referee": "published-record"},
+  {"id": "ss-b3", "title": "Pre-cutoff items score better than post-cutoff (memory signal; 95% upper bound below 0)", "parent": "ss-b1", "status": "open",
+   "engine_odds": 0.35, "engine_odds_at": "2026-11-04 17:12 America/Denver", "odds_template": "item-writer, one pass (D1)",
+   "source": "engine", "cost": "$0 beyond ss-b1", "referee": "published-record"}]}
