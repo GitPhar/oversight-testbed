@@ -36,7 +36,7 @@ In SimpleToM stories, a character does not know something (the chips are mouldy,
 
   Conditions 5 and 6 differ only in whose wrong answer is visible; both hide the model's own.
 - **Seed:** CURBY-Q latest completed round **28297, at 2025-08-22 13:42 America/Denver** (checked 2026-11-04 15:07 with `experiments/curby_seed.mjs check`, before this commit). That is more than 24 hours old, so CURBY-Q is **stalled** (hardware.md as amended in oversight-testbed `69d1bcd`). **Seed: the first CURBy-RNG pulse timestamped after this commit.** seed = the first 8 bytes of SHA-256(randomness ‖ `om-p2-3`) by `ledger/seed.py --purpose boot`, and its `seed32` is the bootstrap seed. No items, splits or orders are drawn. *Filled in by the seed commit, before any data:*
-  `chain:` ___ · `pulse index:` ___ · `pulse_time:` ___ · `previous pulse time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seed32 (boot):` ___
+  `chain:` CURBy-RNG · `pulse index:` 1591352 · `pulse_time:` 2026-11-04 15:08:00 America/Denver · `previous pulse time:` 15:07:00 (index 1591351, before the 15:07:51 commit) · `randomness:` 1de53b4b8e582296fe19e9f7831b509049c25b5221fe7688c69ffaf7fbff8ad619ea7ce904506b63bb79e674664a5e5baacc7adff7ac6620ce2bb58edb272c69 · `client:` @buff-beacon-project/curby-client@1.2.0 via `experiments/curby_seed.mjs` · `certificate_verified:` false · `seed (boot):` 17468122858864229010 · `seed32 (boot):` 2809903762. Record: `data/p2-3-seed.json`.
 - **Scale:** not graded (two-option choices). The one-direction rule does not apply.
 
 ## 3. Calls
