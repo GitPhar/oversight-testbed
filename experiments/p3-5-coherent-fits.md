@@ -32,7 +32,7 @@ In program 1, the chip held two-qubit entanglement on all three test items, but 
 - **Fitting:** L-BFGS-B. For each family and item: 1 start at ρ_ref (zero angles; logits −8), plus 20 random starts (angles U(−0.3, 0.3); logits U(−8, −2)) drawn from the seed. The best of the 21 is kept.
 - **Code:** `experiments/p3_5_fits.py`. A dry run on synthetic counts only (`--synthetic`, before this commit; no archive) recovered the generating family both ways: ΔlogL +73 on coherent-generated data, −2,053 on incoherent-generated data.
 - **Seed** (operators/hardware.md): CURBY-Q latest completed round **28297, result pulse 2025-08-22 13:42 America/Denver** (checked 2026-11-04 15:30, before this commit), so it is **stalled**. **Seed: the first CURBy-RNG pulse timestamped after this commit.** seed = the first 8 bytes of SHA-256(randomness ‖ `ng-p3-5`) by `ledger/seed.py --purpose starts`. Its `seed32` seeds numpy's `default_rng` for the random starts. *Filled in by the seed commit, before the archive is opened:*
-  `chain:` ___ · `pulse index:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seed (starts):` ___ · `seed32 (starts):` ___
+  `chain:` CURBy-RNG · `pulse index:` 1591384 · `pulse_time:` 2026-11-04 15:40:00 America/Denver · `previous pulse:` index 1591383 at 2026-11-04 15:39:00 (before the commit at 2026-11-04 15:39:08) · `randomness:` d3c172cea0457b4e810090109ac744c57f1081713e8932412c5749cc65fdbc9c2049277f5c904c4fb8891a8426963f4fe1e0624b15f31fd0229ea1cd421cc12e · `client:` @buff-beacon-project/curby-client@1.2.0 via `experiments/curby_seed.mjs` · `certificate_verified:` false · `seed (starts):` 15010879962529819217 · `seed32 (starts):` 2090756689. Record: `data/p3-5-seed.json`.
 
 ## 3. Calls
 

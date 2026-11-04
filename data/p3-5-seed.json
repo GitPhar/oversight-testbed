@@ -1,0 +1,22 @@
+{
+ "chain": "CURBy-RNG",
+ "pulse_index": 1591384,
+ "pulse_time_utc": "2026-11-04T22:40:00.181Z",
+ "previous_index": 1591383,
+ "previous_time_utc": "2026-11-04T22:39:00.190Z",
+ "commit_time_utc": "2026-11-04T22:39:08.000Z",
+ "randomness": "d3c172cea0457b4e810090109ac744c57f1081713e8932412c5749cc65fdbc9c2049277f5c904c4fb8891a8426963f4fe1e0624b15f31fd0229ea1cd421cc12e",
+ "client": "@buff-beacon-project/curby-client@1.2.0",
+ "certificate_verified": false,
+ "seed_source": "curby-rng",
+ "bet_id": "ng-p3-5",
+ "prereg_commit": "ff2c7e7",
+ "prereg_time": "2026-11-04T15:39:08-07:00",
+ "pulse_time_denver": "2026-11-04 15:40:00",
+ "previous_time_denver": "2026-11-04 15:39:00",
+ "curbyq_latest_completed_round": 28297,
+ "curbyq_round_time_denver": "2025-08-22 13:42:38",
+ "seed_starts": 15010879962529819217,
+ "seed32_starts": 2090756689,
+ "code": "experiments/curby_seed.mjs rng 2026-11-04T15:39:08-07:00; then oversight-testbed/ledger/seed.py <randomness> ng-p3-5 --purpose <p> for p in ['starts']"
+}
