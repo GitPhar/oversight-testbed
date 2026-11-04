@@ -54,7 +54,8 @@ function buildCards(programs, bets) {
         key: `${p.id}|${d.id}`, program: p.id, programTitle: p.title, programNum: progNum(p), id: d.id, status: d.status,
         question: r.question || d.title, known: r.known || [], test: r.cheapest_test || d.test || "",
         cost: d.cost || "", event: r.odds_event || d.bet?.oddsEvent || "", engine: d.engine,
-        title: d.title, betId: d.bet?.id || null,
+        title: d.title, betId: d.bet?.id || null, human: d.human ?? null,
+        prompt: r.human_prompt || "", engineOnly: r.engine_only || [],
       });
     }
   }
@@ -64,7 +65,7 @@ function buildCards(programs, bets) {
     const p = programs.find((x) => x.id === b.program);
     out.push({ key: `${b.program}|${b.direction || b.id}`, program: b.program, programTitle: p?.title || b.program, programNum: p ? progNum(p) : 99,
       id: String(b.direction || b.id), status: "running", question: b.title, known: [], test: b.raw.test || "", cost: b.cost,
-      event: b.oddsEvent, engine: b.engine, title: b.title, betId: b.id });
+      event: b.oddsEvent, engine: b.engine, title: b.title, betId: b.id, human: b.human ?? null, prompt: "", engineOnly: [] });
   }
   return out.sort((a, b) => a.programNum - b.programNum || hash(a.key + "cockpit") - hash(b.key + "cockpit"));
 }
@@ -80,23 +81,39 @@ function steersFor(c) {
     .filter((e) => e.program === c.program && String(e.direction) === c.id);
 }
 
+// The human bets on direction only (map/human-odds-template.md): one plain question per direction,
+// "is it worth about <cost>? will it come back a hit?". The technical test, its pass rule and its sub-bets are
+// engine-only. A direction pre-registered before the human gave a number is closed: no box, never filled later.
+function isClosed(c) { return !!c.betId && c.human == null && !oddsFor(c).some((e) => e.committed); }
+function needsOdds(c) { return !isClosed(c) && !oddsFor(c).length; }
+function askHTML(c) {
+  if (c.prompt) return `<h3>${esc(c.prompt)}</h3>`;
+  const cost = c.cost ? `about ${esc(c.cost)}` : "what it costs";
+  return `<h3>${esc(c.question)}</h3><p class="ask">Is it worth ${cost}? Will it come back a hit?</p>`;
+}
+
 function cardHTML(c) {
   const odds = oddsFor(c);
   const first = odds[0], last = odds[odds.length - 1];
   const steers = steersFor(c);
   const veto = steers.find((s) => s.action === "veto");
   const revealed = !!local.revealed[c.key];
-  const canReveal = odds.length > 0;
+  const canReveal = odds.length > 0 || isClosed(c);
   const progShort = c.programTitle.replace(/^Program\s*(\d+):\s*/i, "Program $1 · ");
   const known = c.known.length ? `<ul class="known">${c.known.slice(0, 2).map((k) => `<li>${esc(k)}</li>`).join("")}</ul>` : "";
-  const test = c.test ? `<p class="test"><b>Cheapest test:</b> ${esc(c.test)}${c.cost ? ` <span class="costpill">${esc(c.cost)}</span>` : ""}</p>`
-    : c.cost ? `<p class="test"><b>Cost:</b> <span class="costpill">${esc(c.cost)}</span></p>` : "";
-  const event = c.event
-    ? `<details class="event"><summary>The exact event you're betting on</summary><p style="margin:6px 0 0">${inline(c.event)}</p></details>`
-    : `<p class="event">No exact pass rule yet. Your number is for the question as written.</p>`;
+  const closed = isClosed(c);
+  const cost = c.cost ? `<p class="test"><b>Cost:</b> <span class="costpill">${esc(c.cost)}</span></p>` : "";
+  const tech = [
+    c.test ? `<p style="margin:6px 0 0"><b>The test:</b> ${esc(c.test)}</p>` : "",
+    c.event ? `<p style="margin:6px 0 0"><b>Its pass rule:</b> ${inline(c.event)}</p>` : "",
+    c.engineOnly.length ? `<ul style="margin:6px 0 0">${c.engineOnly.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : "",
+  ].join("");
+  const event = `<details class="event"><summary>Engine-only: the technical test (you are not asked about it)</summary>${tech || `<p style="margin:6px 0 0">No pass rule written yet.</p>`}<p class="muted small" style="margin:6px 0 0">A hit means this direction's first pre-registered test passes. The session marks it from the verdict; you don't need the rule.</p></details>`;
 
   let oddsBlock;
-  if (last && !c._changing) {
+  if (closed) {
+    oddsBlock = `<p class="event"><b>Closed for your odds.</b> This direction was pre-registered (${esc(c.betId)}) before you gave a number, so a number now would not be scored. Your odds: not recorded.</p>`;
+  } else if (last && !c._changing) {
     const changed = odds.length > 1 ? ` <span class="muted">(first said ${Math.round(first.odds_pct)}%)</span>` : "";
     oddsBlock = `<div class="oddsrow">
       <span class="recorded">Your odds: <b>${Math.round(last.odds_pct)}%</b>${changed} · ${esc(showTime(last.recorded))}${last.committed ? " · in the ledger" : ""}${last.saw_engine_odds ? " · after seeing the engine's" : ""}</span>
@@ -104,7 +121,7 @@ function cardHTML(c) {
     </div>`;
   } else {
     oddsBlock = `<div class="oddsrow">
-      <label class="big" for="o-${esc(c.key)}">Your odds it comes true</label>
+      <label class="big" for="o-${esc(c.key)}">Your odds it comes back a hit</label>
       <input type="number" inputmode="numeric" min="0" max="100" step="1" id="o-${esc(c.key)}" data-role="odds" placeholder="0–100" aria-describedby="g-${esc(c.key)}">
       <span class="pct">%</span>
       <button class="btn primary" type="button" data-act="record" disabled>Record my odds</button>
@@ -128,10 +145,10 @@ function cardHTML(c) {
     `<li>Question added: ${esc(s.reason)} <span class="muted">· ${s.committed ? "in the ledger" : local.exported[s.id] ? "downloaded" : "not downloaded yet"}</span>${!s.committed && !local.exported[s.id] ? ` <button class="btn" type="button" data-act="undo" data-id="${esc(s.id)}" style="font-size:13px;padding:0 10px">Undo</button>` : ""}</li>`).join("");
   const vetoLine = veto ? `<p class="vetonote"><b>Vetoed</b> · ${esc(veto.reason)} <span class="muted">· ${veto.committed ? "in the ledger" : local.exported[veto.id] ? "downloaded" : "not downloaded yet"}</span>${!veto.committed && !local.exported[veto.id] ? ` <button class="btn" type="button" data-act="undo" data-id="${esc(veto.id)}" style="font-size:13px;padding:0 10px">Undo</button>` : ""}</p>` : "";
 
-  return `<article class="card${veto ? " vetoed" : last ? " done" : ""}" data-key="${esc(c.key)}">
+  return `<article class="card${veto ? " vetoed" : last || closed ? " done" : ""}" data-key="${esc(c.key)}">
     <div class="c-top">${markSVG(c.status, 14)} ${STATUS[c.status].word} · ${esc(c.id)}<span class="prog">${esc(progShort)}</span></div>
-    <h3>${esc(c.question)}</h3>
-    ${known}${test}${event}
+    ${askHTML(c)}
+    ${known}${cost}${event}
     ${oddsBlock}
     ${reveal}
     <div class="actions">
@@ -155,7 +172,7 @@ function cardHTML(c) {
 }
 
 function visibleCards() {
-  return cards.filter((c) => (filter.program === "all" || c.program === filter.program) && (!filter.needOdds || !oddsFor(c).length));
+  return cards.filter((c) => (filter.program === "all" || c.program === filter.program) && (!filter.needOdds || needsOdds(c)));
 }
 
 function render() {
@@ -176,7 +193,7 @@ function rerenderCard(key) {
 
 function renderFilters() {
   const progs = [...new Map(cards.map((c) => [c.program, c])).values()];
-  const need = (p) => cards.filter((c) => (p === "all" || c.program === p) && !oddsFor(c).length).length;
+  const need = (p) => cards.filter((c) => (p === "all" || c.program === p) && needsOdds(c)).length;
   const count = (p) => cards.filter((c) => p === "all" || c.program === p).length;
   el("filters").innerHTML =
     [`<button class="btn" type="button" data-prog="all" aria-pressed="${filter.program === "all"}">All · ${count("all")}</button>`,
@@ -192,7 +209,7 @@ const lines = (arr) => arr.map((e) => JSON.stringify(clean(e))).join("\n") + (ar
 
 function renderBar() {
   const o = pendingOdds().length, sv = pendingSteers().filter((s) => s.action === "veto").length, sq = pendingSteers().filter((s) => s.action !== "veto").length;
-  const waiting = cards.filter((c) => !oddsFor(c).length).length;
+  const waiting = cards.filter(needsOdds).length;
   const any = o + sv + sq;
   el("bar").innerHTML = `<span class="count"><b>${waiting}</b> of ${cards.length} still need your odds${any ? ` · not downloaded yet: <b>${o}</b> odds, <b>${sv}</b> veto${sv === 1 ? "" : "es"}, <b>${sq}</b> question${sq === 1 ? "" : "s"}` : ""}${storageOK ? "" : ` · <span style="color:var(--kill)">this browser is not saving; download before you leave</span>`}</span>
     ${o ? `<button class="btn primary" type="button" data-dl="odds">Download odds (${o})</button>` : ""}
@@ -311,7 +328,7 @@ document.addEventListener("click", (e) => {
       const t = denverNow();
       local.odds.push({
         id: `ho-${t.stamp}-${rand()}`, program: c.program, direction: c.id, bet: c.betId,
-        question: c.question, event: c.event || null,
+        question: c.prompt || c.question, event: c.event || null,
         human_odds: n / 100, odds_pct: n, because: because || null,
         saw_engine_odds: revealed || !!seenBox?.checked,
         saw_engine_odds_note: revealed ? "revealed in the cockpit before this entry" : seenBox?.checked ? "the human said they had already seen it elsewhere" : "not seen: the cockpit hides it until this entry is recorded",

@@ -146,6 +146,7 @@ code { font-family: var(--mono); font-size: 0.86em; background: var(--surface-2)
 .card .known { margin: 0; padding: 0; list-style: none; color: var(--text-2); font-size: 16px; line-height: 1.45; }
 .card .known li { padding-left: 16px; position: relative; margin: 2px 0; }
 .card .known li::before { content: ""; position: absolute; left: 2px; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: var(--muted); }
+.card .ask { margin: 0; font-size: 17px; color: var(--text); line-height: 1.45; font-weight: 700; }
 .card .test { margin: 0; font-size: 16px; color: var(--text); line-height: 1.45; }
 .card .test b { color: var(--text-2); font-weight: 700; }
 .card .costpill { display: inline-block; margin-left: 6px; font-size: 14px; color: var(--text); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 0 9px; white-space: nowrap; }

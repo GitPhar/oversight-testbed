@@ -16,9 +16,14 @@ The session writes one question per direction in this exact form, in a shuffled 
 
 - **The sentence** names what is being found out and why anyone would care. It uses no symbol, threshold or term of art that a stranger would need explained. If you can't follow it, stop and ask for it to be rewritten.
 - **The cost** is what the direction's first test spends, in the unit that is scarce for that program.
+- **The same question may lead with the cost**, when the direction is a long clause: "Is it worth about <cost> to <do the direction>? Will it come back a hit?" Where it could be unclear which way counts, add "(here, a hit means …)".
 - **A hit** means the direction's first pre-registered test passes. You don't need to know its rule. The session marks hit or miss from the pre-registered verdict, and your number is scored against that (Brier score), next to the engine's.
 - A guide, if it helps: 5 = I'd be amazed. 25 = I doubt it. 50 = coin flip. 75 = I expect it. 95 = I'd be amazed if not.
 - Skip any you have no feel for. A blank is recorded as "no odds", not as 50.
+
+## The cockpit asks the same question
+
+The cockpit (`site/cockpit.html`) shows each open direction with exactly the question on this form. The session copies each question, verbatim, into that direction's node in `map/<program>.json` as `human_prompt`, and the direction's sub-bets as `engine_only`, in the same commit as the form. The card then asks only that question. It folds the technical test, its pass rule and the sub-bets into a section marked engine-only, and shows a direction pre-registered before you answered as closed, with no box. A direction with no `human_prompt` falls back to its plain `question` plus "Is it worth about <cost>? Will it come back a hit?".
 
 ## What you knew when you answered
 
