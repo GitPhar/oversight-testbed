@@ -1,139 +1,110 @@
 # Sean's odds for program 3
 
-**Fill this in before any program-3 test is pre-registered.** Each question names one event that a test will settle yes or no. For each, give a number from **0 to 100** for how likely you think the event is: 0 = certainly won't happen, 100 = certainly will (the same one direction as every scale in this project).
+**What you are judging.** Your judgment here is about *direction*: whether a line of work is worth what it costs, and whether it will pay off. It is not about mechanism. So each question below is one research direction from the map, in one sentence, with what it costs. For each one, say how likely you think it is to **come back a hit**, from **0 to 100**: 0 = certainly not, 100 = certainly. That is the same one direction as every scale in this project.
 
-How your numbers are used:
-- They are scored against the outcomes (Brier score), next to the engine's.
-- The two sets of scores are published side by side.
-- Here the outcomes are decided by IBM's quantum chip, not by a language model. One exception, Q3, is decided by a calculation. Q3 is the only one the chip doesn't decide, and it is scored separately.
+**What "a hit" means.** Each direction's first test has a pass rule, written down and committed before the test runs. A hit means that test passes. You don't need to know the rule. The session that runs the test marks hit or miss from the pre-registered verdict, and your number is scored against that (Brier score), next to the engine's.
 
-The engine's own numbers are deliberately left off this form, and so is its ranking. Program 1 showed that a number you have just seen pulls the next number you give. The questions are in a shuffled order (seed 20261105) so the order doesn't hint at a ranking either. If you have already read `program-3-map.md` or `odds-elicitation/`, say so in the box below. Your numbers still count, and that fact is recorded with them.
+**What only the engine bets on (engine-only).** Each test also carries technical sub-bets: the exact threshold in the pass rule, the simulator's own prediction for the chip, and a few secondary events listed at the end of this form. Those keep the engine's odds only and are marked `engine-only` in the ledger. You are not asked about them.
 
-You can dictate the answers. For each one, give a number and, if you have one, a sentence of why. Skip any you have no feel for; a blank is recorded as "no odds", not as 50.
+**Rules that keep it fair.**
+- The engine's numbers and ranking are left off this form. Program 1 showed that a number you have just seen pulls the next one you give.
+- The order is shuffled (seed 20261105), so it gives no hint of a ranking.
+- If you have already read `program-3-map.md` or `odds-elicitation/`, say so in the box below. Your numbers still count, and the ledger records that you had seen them.
+- You can dictate. Give a number and, if you have one, a line of why. Skip any you have no feel for; a blank is recorded as "no odds", not as 50.
 
 A guide, if it helps: 5 = I'd be amazed. 25 = I doubt it. 50 = coin flip. 75 = I expect it. 95 = I'd be amazed if not.
+
+**About costs.** Chip time is the scarce thing. About 374 seconds are left before the project's hard stop, and at least 120 of them are held back for repeating anything surprising. "Free" means laptop time only.
 
 - Date and time filled in (America/Denver): ______
 - Had you seen the engine's odds before filling this in? yes / no / some of them: ______
 
-**Two things that may help.**
-1. Quantum theory has never failed a test, so for most of these questions the physics is not in doubt. What is in doubt is whether this particular chip is clean enough to show it.
-2. In program 1, the chip's own simulator predicted 0.25 for one circuit and the chip gave 0.50.
+**Closed before you answered.** On 2026-11-04 you chose to start the first wave without giving odds. So Q2, Q7, Q9 and Q14 below were pre-registered with "human odds: not recorded", and a number given after their data exist would not be scored. They stay on the form so the list stays complete.
 
 ---
 
-**Q1 (P3-12). Do quick repeated measurements remember each other?**
-- **Test:** On about 50 qubits at once, we measure each qubit eight times in a row, alternating between two incompatible kinds of measurement. Quantum theory says each result forgets the ones before it. One proposal (Hossenfelder, a test of "superdeterminism") says there could be a short memory.
-- **Event:** The results show no memory: every correlation is below 0.01. A control run, repeating the *same* measurement, agrees with itself at least 95% of the time.
-- **Cost:** about 6 seconds of chip time.
+**Q1 (P3-12).** Is checking whether a qubit's quick repeated measurements "remember" one another, which one fringe theory of reality predicts and ordinary quantum theory rules out, worth about **6 seconds of chip time**? Will it come back a hit?
 
-Your odds (0–100): ____ Why: ____
+Your odds (0–100): ____ Why (one line): ____
 
-**Q2 (P3-1). Was our simulator just built wrong?**
-- **Background:** In program 1, the chip gave 0.50 where its simulator said 0.25. One possible reason is that our simulator let qubits sit idle with no decay at all, because of a missing setting.
-- **Test:** We redo the simulation on the laptop with idle decay switched on.
-- **Event:** The corrected simulation gives 0.40 or more, which closes most of the gap without touching the chip.
-- **Cost:** free.
+**Q2 (P3-1). Closed: pre-registered without your odds.** Is re-running program 1's simulation on the laptop, with a setting fixed that we had left off, to see whether the 0.25-versus-0.50 surprise was our own set-up mistake, worth **an afternoon of laptop time (free)**? Will it come back a hit?
 
-Your odds: ____ Why: ____
+Your odds (0–100): closed Why: ____
 
-**Q3 (P3-8). A new kind of Wigner's-friend inequality, on paper.**
-- **Background:** Experts say that with only *one* "friend", these experiments reduce to an ordinary Bell test. A 2024 theorem suggests that stops being true when the experimenter has three choices instead of two. Nobody has written such an inequality down.
-- **Test:** A computer search, on the laptop.
-- **Event:** The search finds such an inequality, and quantum theory breaks it by a margin that survives at least 15% noise.
-- **Cost:** free. This one is decided by mathematics, not by the chip, so it is scored separately.
+**Q3 (P3-8).** Is a laptop search for a new, stronger version of the Wigner's-friend test (a puzzle about whether what one observer sees is a fact for everyone), the kind that would make next month's chip test about half as expensive, worth **a few hours of laptop time (free)**? Will it come back a hit? *This one is decided by mathematics, not by the chip, and is scored on its own line.*
 
-Your odds: ____ Why: ____
+Your odds (0–100): ____ Why (one line): ____
 
-**Q4 (P3-4). Can a standard noise-cancelling trick bring back lost entanglement?**
-- **Background:** In program 1, the chip held about half the entanglement its simulator predicted.
-- **Test:** We rerun one of those measurements with "dynamical decoupling" (pulses that protect idle qubits) switched on and off.
-- **Event:** Decoupling recovers at least half of the missing entanglement.
-- **Cost:** about 9 seconds.
+**Q4 (P3-4).** Is trying a standard trick that protects resting qubits, to see whether it wins back the entanglement the chip lost in program 1, worth about **9 seconds of chip time**? Will it come back a hit?
 
-Your odds: ____ Why: ____
+Your odds (0–100): ____ Why (one line): ____
 
-**Q5 (P3-9). Does the contextuality analysis from program 1 work where physics says it must?**
-- **Background:** Program 1 used a method called Contextuality-by-Default on the model's ratings and found nothing. Here we point the same method at the chip, running a textbook contextuality experiment (the Peres–Mermin square), measuring one thing after another.
-- **Event:** The method says "contextual" for both starting states, even after it subtracts the disturbance each measurement causes to the next.
-- **Cost:** about 42 seconds.
+**Q5 (P3-9).** Is pointing program 1's "does the answer depend on what else was asked?" check at a textbook quantum experiment, where physics says it must find that effect, worth about **42 seconds of chip time**? Will it come back a hit?
 
-Your odds: ____ Why: ____
+Your odds (0–100): ____ Why (one line): ____
 
-**Q6 (P3-6). Does one qubit "hear" the settings on its neighbour?**
-- **Background:** On older IBM chips, a qubit's results shifted slightly depending on what was done to a different qubit. Nobody knows why. A newer chip of our type (ibm_kingston) was clean. Ours, ibm_fez, has never been checked.
-- **Event:** ibm_fez is clean: no qubit pair shows a shift beyond the statistical threshold.
-- **Cost:** about 13 seconds.
+**Q6 (P3-6).** Is screening this chip for qubits that "overhear" their neighbours' settings, which every later foundations test here quietly assumes never happens, worth about **13 seconds of chip time**? Will it come back a hit (here, a hit means the chip comes back clean)?
 
-Your odds: ____ Why: ____
+Your odds (0–100): ____ Why (one line): ____
 
-**Q7 (P3-5). Do the chip's errors steer the qubits, or just blur them? (old data)**
-- **Background:** We already hold the detailed state measurements from program 1's entanglement test.
-- **Test:** We fit two explanations to those data, each with the same number of adjustable knobs. One is "steering" errors (the chip systematically rotates the state a little). The other is "blurring" errors (random noise).
-- **Event:** Steering fits clearly better on at least 2 of the 3 items.
-- **Cost:** free.
+**Q7 (P3-5). Closed: pre-registered without your odds.** Is re-analysing program 1's saved entanglement data, to see whether the chip's errors are steady systematic twists rather than random blur, worth **an afternoon of laptop time (free)**? Will it come back a hit?
 
-Your odds: ____ Why: ____
+Your odds (0–100): closed Why: ____
 
-**Q8 (P3-7). Wigner's friend on the chip, the strong version.**
-- **Background:** A "friend" is a small group of qubits that records a measurement, and is later un-recorded. Quantum theory predicts a violation of a "genuine" local-friendliness inequality, one that is stronger than an ordinary Bell test. That would mean that what the friend observed cannot be an absolute fact for everyone (given locality and free choice). It has been shown with photons, but never on any quantum computer. The settings come from a public randomness source, not from the chip.
-- **Event:** The violation shows up clearly (5 standard errors) with a friend of at least 1 qubit, and all the safety checks pass.
-- **Cost:** about 37 seconds.
+**Q8 (P3-7).** Is the first-ever chip run of the strong Wigner's-friend test, asking whether what a small "observer" made of qubits saw can be a fact for everyone, worth about **37 seconds of chip time**? Will it come back a hit?
 
-Your odds: ____ Why: ____
+Your odds (0–100): ____ Why (one line): ____
 
-**Q9 (P3-2). Are the chip's errors "steering" errors that scrambling removes?**
-- **Test:** We rerun the program 1 circuit with "twirling" on and off. Twirling randomly scrambles the gates so that systematic errors turn into random ones.
-- **Event:** Twirling moves the chip's answer at least halfway back toward what the simulator predicted.
-- **Cost:** about 6 seconds.
+**Q9 (P3-2). Closed: pre-registered without your odds.** Is re-running program 1's circuit with its errors deliberately scrambled, to see whether that pulls the chip back toward its simulator, worth about **6 seconds of chip time**? Will it come back a hit?
 
-Your odds: ____ Why: ____
+Your odds (0–100): closed Why: ____
 
-**Q10 (P3-10). The simplest contextuality check for the program 1 method.**
-- **Test:** A four-measurement version of Q5, small enough that the method's verdict is exactly right in theory.
-- **Event:** It says "contextual" clearly (99.9% confidence) in both measurement orders.
-- **Cost:** about 15 seconds.
+**Q10 (P3-10).** Is a small four-measurement version of the Q5 check, where the method's verdict is exactly right in theory, worth about **15 seconds of chip time**? Will it come back a hit?
 
-Your odds: ____ Why: ____
+Your odds (0–100): ____ Why (one line): ____
 
-**Q11 (P3-14). Is the quantum state "real", or just our knowledge?**
-- **Background:** One family of theories says a quantum state is only partial knowledge about some hidden real state. In those theories, two quantum states overlap entirely because the hidden states overlap. Photon experiments ruled out the strongest such theories, but only by assuming the detectors miss photons fairly. A chip has no missed detections.
-- **Event:** The chip rules them out clearly (a 5-standard-error margin) without that assumption.
-- **Cost:** about 21 seconds.
+**Q11 (P3-14).** Is testing whether a quantum state is something real or only a summary of our ignorance, counting every result with none thrown away, worth about **21 seconds of chip time**? Will it come back a hit?
 
-Your odds: ____ Why: ____
+Your odds (0–100): ____ Why (one line): ____
 
-**Q12 (P3-11). Does a single qubit fail the "common-sense realism" test, fairly?**
-- **Background:** The Leggett–Garg test asks whether a qubit has a definite value even between looks, and whether looking can be harmless. Earlier IBM tests could not rule out that the looking itself caused the effect ("clumsiness").
-- **Test:** We add a pre-registered clumsiness check and the program 1 disturbance correction.
-- **Event:** The qubit still fails the realism test clearly, by more than clumsiness could explain.
-- **Cost:** about 29 seconds.
+**Q12 (P3-11).** Is testing whether a single qubit fails the common-sense rule that things have definite values even when nobody looks, with a check that clumsy measuring didn't fake it, worth about **29 seconds of chip time**? Will it come back a hit?
 
-Your odds: ____ Why: ____
+Your odds (0–100): ____ Why (one line): ____
 
-**Q13 (P3-13). Can that same qubit certify random numbers?**
-- **Test:** Using the data from Q12, a published formula turns a strong enough realism violation into "certified" random bits.
-- **Event:** The data certify at least 0.05 random bits per run after a strict small-sample correction.
-- **Cost:** free on top of Q12.
+**Q13 (P3-13).** Is squeezing certified random numbers out of the Q12 data, at no extra chip time, worth **an hour of laptop time (free, if Q12 runs)**? Will it come back a hit?
 
-Your odds: ____ Why: ____
+Your odds (0–100): ____ Why (one line): ____
 
-**Q14 (P3-3). Is the program 1 surprise about the chip, or about nine particular qubits on one afternoon?**
-- **Test:** We rerun the program 1 circuit on two other sets of nine qubits, chosen in advance, and repeat it hours apart.
-- **Event:** On both other sets, the chip agrees with its simulator at least twice as well as on the original set.
-- **Cost:** about 6 seconds.
+**Q14 (P3-3). Closed: pre-registered without your odds.** Is re-running program 1's circuit on two other sets of qubits on the same chip, to see whether the surprise belongs to the chip or to nine particular qubits, worth about **6 seconds of chip time**? Will it come back a hit?
 
-Your odds: ____ Why: ____
+Your odds (0–100): closed Why: ____
 
 ---
 
 **Optional, one line each:**
-- **Which test would you cut first, and why?** ____
-- **Is there a question about the chip, or about reality, that you'd add?** ____
+- **Which direction would you cut first, and why?** ____
+- **Is there a direction you'd add?** ____
+- **For any question, "If it fails, the most likely reason is …"** (scored after the run, like the engine's; `oversight-testbed/operators/premortem.md`): ____
+
+---
+
+## Engine-only sub-bets (no human odds asked)
+
+These are scored events with engine odds only. Each is correlated with its parent direction and marked as such in the ledger.
+
+| parent | sub-bet | why engine-only |
+|---|---|---|
+| every direction | the exact threshold in the pass rule (e.g. "≥ 0.40", "ΔlogL ≥ 10", "≥ 3σ") | mechanism, not direction |
+| every chip direction | whether the chip agrees with the corrected simulator's prediction | mechanism |
+| P3-3 | whether two runs of the same circuit hours apart differ by more than 0.05 | secondary, correlated |
+| P3-7 | the largest "friend" size that still passes, as an interval | secondary, correlated |
+| P3-11 | the eigenstate prediction (no contextuality expected from \|0⟩) | secondary, correlated |
+| P3-1, 4, 6, 8, 11, 12, 13 | the paraphrased and negated re-elicitations (`odds-elicitation/`) | checks on the engine's own wording |
 
 ---
 
 *For the session recording this form:*
-1. Commit this file unchanged, with the time, to `oversight-testbed/ledger/human-odds/program-3-<date>.md`, before any program-3 pre-registration.
-2. Copy each number, divided by 100, into the matching bet's `human_odds`.
+1. Commit the filled form unchanged, with the time, to `oversight-testbed/ledger/human-odds/program-3-<date>.md`, and append one line per answered question to `oversight-testbed/ledger/human-odds.jsonl`, before the matching direction's pre-registration.
+2. Copy each number, divided by 100, into the `human_odds` of that direction's primary bet. Sub-bets get `human_odds: null` with `human_odds_note: "engine-only"`.
 3. Q3 (P3-8) goes to the ledger with `referee: mathematics` and is reported apart from the nature-graded column.
+4. A "closed" question is never filled in later. Its bet keeps `human_odds: null` with the reason.
