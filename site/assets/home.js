@@ -1,5 +1,5 @@
 import { DATA, header, getText, esc, inline, manifest } from "./common.js";
-import { loadBets, loadMaps, loadKills, joinBets } from "./data.js";
+import { loadBets, loadMaps, loadKills, joinBets, loadHumanOdds, joinHumanOdds } from "./data.js";
 import { listFromManifest } from "./papers-common.js";
 
 header();
@@ -25,14 +25,24 @@ header();
 })();
 
 (async () => {
-  const [bets, maps, kills, m] = await Promise.all([loadBets(), loadMaps(), loadKills(), manifest()]);
-  joinBets(maps, bets);
+  const [bets, maps, kills, m, odds] = await Promise.all([loadBets(), loadMaps(), loadKills(), manifest(), loadHumanOdds()]);
+  joinHumanOdds(joinBets(maps, bets), odds);
   const dirs = maps.flatMap((p) => p.directions);
   const set = (id, t) => { if (t) document.getElementById(id).textContent = t; };
   const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
   if (dirs.length) {
-    const open = dirs.filter((d) => d.status === "open" || d.status === "running").length;
+    const open = dirs.filter((d) => (d.status === "open" || d.status === "running") && !d.raw.moved_to).length;
     set("n-map", `${plural(maps.length, "program")} · ${plural(dirs.length, "path")} · ${open} still open`);
+  }
+  const waiting = dirs.filter((d) => (d.status === "open" || d.status === "running") && !d.raw.moved_to);
+  if (waiting.length) {
+    const need = waiting.filter((d) => d.human == null).length;
+    set("n-cock", `${plural(waiting.length, "open question")} · ${need} waiting for the human's odds`);
+  }
+  // the chip's budget, from the program that uses it as referee
+  const q = maps.map((p) => p.raw?.qpu).find(Boolean);
+  if (q && q.used_s != null && q.hard_stop_s != null) {
+    set("qpu", `Chip time used so far: ${q.used_s} of ${q.hard_stop_s} seconds allowed for the whole project.`);
   }
   const withOdds = bets.filter((b) => b.engine != null);
   if (bets.length) set("n-cal", `${plural(bets.length, "bet")} in the ledger · ${withOdds.length} with odds stated`);

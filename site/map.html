@@ -11,26 +11,40 @@
 <link rel="stylesheet" href="assets/style.css">
 <script src="vendor/marked.min.js"></script>
 </head>
-<body>
-<main>
-  <h1>The map</h1>
-  <p class="how">Each program starts from one question on the left. Paths fan out to the right, one per direction we could take. Faint dotted paths are still open. A bright path is a bet that landed, and the next paths grow from it. A cross is a direction that died. Hover over or tap any point to see why.</p>
-
-  <div class="tabs" role="tablist" id="tabs"></div>
-  <div class="seed-label">Seed question</div>
-  <p class="seed" id="seed"></p>
-  <div class="key" id="key"></div>
-
-  <div class="mapbox" id="mapbox"><div class="empty" style="margin:24px">Loading the map…</div></div>
-
-  <div class="timebar" id="timebar" hidden>
-    <button class="btn" id="play" type="button">▶ Replay</button>
-    <input type="range" id="when" min="0" max="0" step="1" aria-label="Show the map as it stood at this time">
-    <output id="whenout" for="when"></output>
+<body class="widepage">
+<main class="wide">
+  <div class="maphead">
+    <h1>The map</h1>
+    <div class="tabs" role="tablist" id="tabs"></div>
   </div>
-  <p class="muted small" id="timenote" hidden>Drag the slider to watch the paths open and collapse in the order the bets landed.</p>
+  <p class="seedline"><span class="seed-label">Seed question</span> <span id="seed"></span></p>
+  <div class="keyrow">
+    <div class="key" id="key"></div>
+    <details class="howto">
+      <summary>How to read it</summary>
+      <p>Each program starts from one question on the left. Paths fan out to the right, one per direction we could take. Faint dotted paths are still open. A bright path is a bet that landed, and the next paths grow from it. A cross is a direction that died. Hover over or tap any point to see why. Press Replay to watch the paths open and collapse in the order the bets landed.</p>
+    </details>
+  </div>
 
-  <p><button class="btn" id="listbtn" type="button" aria-expanded="false">Show as a list</button></p>
+  <div class="mapframe" id="mapframe">
+    <div class="mapbox" id="mapbox" tabindex="0" aria-label="The map. Plus and minus zoom, arrow keys move it, 0 fits it to the screen."><div class="empty" style="margin:24px">Loading the map…</div></div>
+    <div class="timebar">
+      <span class="replay" id="timebar" hidden>
+        <button class="btn play" id="play" type="button">▶ Replay</button>
+        <input type="range" id="when" min="0" max="0" step="1" aria-label="Show the map as it stood at this time">
+        <output id="whenout" for="when"></output>
+      </span>
+      <span class="muted small" id="noreplay" hidden>Nothing has landed yet, so there is no replay: every path opened at the same moment.</span>
+      <span class="zoombar" role="group" aria-label="Zoom">
+        <span class="maphint">scroll or pinch to zoom · drag to move</span>
+        <button class="btn icon" id="zout" type="button" aria-label="Zoom out" title="Zoom out">−</button>
+        <button class="btn" id="zfit" type="button" title="Fit the whole map on the screen">Fit</button>
+        <button class="btn icon" id="zin" type="button" aria-label="Zoom in" title="Zoom in">+</button>
+      </span>
+    </div>
+  </div>
+
+  <p class="listtoggle"><button class="btn" id="listbtn" type="button" aria-expanded="false">Show as a list</button></p>
   <div class="listview" id="listview" hidden></div>
 </main>
 <script type="module" src="assets/map.js"></script>

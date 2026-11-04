@@ -5,11 +5,14 @@ export const SITE = {
   title: "Oversight testbed",            // placeholder until the title is chosen (CONTEXT.md §0)
   titleNote: "working title",
   engineRepo: "https://github.com/GitPhar/oversight-testbed",
+  operator: "Sean Pharris",              // the human whose odds and steers the cockpit records
   programs: {
     "entangled-mind": {
       repo: "https://github.com/GitPhar/entangled-mind",
       raw: "https://raw.githubusercontent.com/GitPhar/entangled-mind/main/",
     },
+    "other-minds": { repo: null },       // local only so far; its map is copied into map/other-minds.json
+    "nature-graded": { repo: null },     // local only so far; its map is copied into map/nature-graded.json
   },
 };
 
@@ -18,6 +21,7 @@ export const DATA = "data/";
 const PAGES = [
   ["index.html", "Home"],
   ["map.html", "Map"],
+  ["cockpit.html", "Cockpit"],
   ["calibration.html", "Calibration"],
   ["instruments.html", "Instruments"],
   ["kills.html", "Kill log"],

@@ -1,7 +1,7 @@
 // Loads the ledger and the maps, and joins them. Every page reads through here.
 import { DATA, getJSON, getJSONL, getText, manifest, normBet, normStatus, num } from "./common.js";
 
-const FALLBACK_MAPS = ["entangled-mind.json", "other-minds.json"];
+const FALLBACK_MAPS = ["entangled-mind.json", "other-minds.json", "nature-graded.json"];
 
 export async function loadBets() {
   const rows = (await getJSONL(DATA + "ledger/bets.jsonl")) || [];
@@ -10,6 +10,11 @@ export async function loadBets() {
 
 export async function loadSteers() {
   return (await getJSONL(DATA + "ledger/steers.jsonl")) || [];
+}
+
+// The human's odds, one line per entry, written by the cockpit (site/cockpit.html) and committed by hand.
+export async function loadHumanOdds() {
+  return (await getJSONL(DATA + "ledger/human-odds.jsonl")) || [];
 }
 
 export async function loadBrierMd() {
@@ -27,12 +32,15 @@ export async function loadMaps() {
     const list = Array.isArray(g.programs) ? g.programs : [g];
     for (const p of list) programs.push(normProgram(p, names[i].replace(/\.json$/, "")));
   });
-  return programs;
+  // "Program 1: …", "Program 2: …" in that order, whatever the file names
+  const n = (p) => { const m = String(p.title).match(/program\s*(\d+)/i); return m ? +m[1] : 99; };
+  return programs.sort((a, b) => n(a) - n(b));
 }
 
 function normProgram(p, fallbackId) {
   const dirs = p.directions || p.nodes || p.map || [];
   return {
+    raw: p,
     id: p.program || p.id || fallbackId,
     title: p.title || p.name || p.program || fallbackId,
     seed: p.seed_question || p.question || p.seed || "",
@@ -77,6 +85,28 @@ export function joinBets(programs, bets) {
     }
   }
   return programs;
+}
+
+// A committed human-odds entry fills a direction's human odds. The first entry wins: it is the one given
+// before any later look at the engine's number.
+export function joinHumanOdds(programs, entries) {
+  const first = new Map();
+  for (const e of [...entries].sort((a, b) => String(a.recorded).localeCompare(String(b.recorded)))) {
+    const k = `${e.program}|${e.direction}`;
+    if (!first.has(k)) first.set(k, e);
+  }
+  for (const p of programs) for (const d of p.directions) {
+    const e = first.get(`${p.id}|${d.id}`);
+    if (e && d.human == null) { d.human = num(e.human_odds); d.humanEntry = e; }
+  }
+  return programs;
+}
+
+// The engine's odds on a path that is still open stay hidden until the human has given theirs, so the public
+// pages cannot anchor the human before the cockpit asks. Once a bet lands, or the human's odds are in, they show.
+export function engineOddsVisible(d) {
+  const open = d.status === "open" || d.status === "running";
+  return !open || d.human != null;
 }
 
 // Kills come from three places; nothing is dropped, duplicates are merged.
