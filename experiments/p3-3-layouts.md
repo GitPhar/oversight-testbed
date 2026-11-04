@@ -34,7 +34,7 @@ Maybe program 1's surprise belongs to nine particular qubits, one of which (qubi
   - *Specification of the map's rule:* the map says "exclude qubit 125; among chains of the original's connectivity, maximise median T2". Steps 1, 2 and 5 are added here (D4).
 - **Predictions** S_L1 and S_L2: the P3-1 construction on the live target (as P3-2's S), 100,000 shots each, committed in the prediction commit before submission, with the layouts.
 - **Seed** (operators/hardware.md): CURBY-Q latest completed round **28297, result pulse 2025-08-22 13:42 America/Denver** (checked 2026-11-04 15:30), so it is **stalled**. **Seed: the first CURBy-RNG pulse timestamped after this commit**, by `ledger/seed.py --purpose layout`; its `seed32` seeds the tie-break keys. *Filled in by the seed commit:*
-  `chain:` ___ · `pulse index:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seed (layout):` ___ · `seed32 (layout):` ___
+  `chain:` CURBy-RNG · `pulse index:` 1591395 · `pulse_time:` 2026-11-04 15:51:00 America/Denver · `previous pulse:` index 1591394 at 2026-11-04 15:50:00 (before the commit at 2026-11-04 15:50:03) · `randomness:` 4d53a094d97a8ef0213b94084485f1af4759afdb5475443b7b25310b4e51dc0503d6d4d2a65cd31f00b35c80b2670e7458a137ce46839736d633a01ef6aef8a2 · `client:` @buff-beacon-project/curby-client@1.2.0 via `experiments/curby_seed.mjs` · `certificate_verified:` false · `seed (layout):` 695859889174533085 · `seed32 (layout):` 3820016605. Record: `data/p3-3-seed.json`.
 
 ## 3. Calls
 
