@@ -2,7 +2,7 @@
 
 > Audited 2026-11-04 (round 2, entangled-mind audit2 8091d01, audits/ng-p3-2-3.md): verdict stands (P3-2 untestable, P3-3 untestable); 13 of 15 required cuts applied in D5 (cuts 14 and 15 are in README.md and map/program-3-map.md and were not applied here; see D5).
 
-Pre-registrations: `experiments/p3-2-twirl-dd.md` (commit `534b3eb`, seed `80db49d`, CURBy-RNG 1591393) and `experiments/p3-3-layouts.md` (`4d1fea0`, seed `ce9e186`, CURBy-RNG 1591395). The predictions and all 200 circuits were committed before submission (`cd2963a`). One job on `ibm_fez`, `dblrect8ft8s738tl2v0`, submitted 15:52:32 (local clock); execution started 15:52:37 (IBM), America/Denver, 2026-11-04, via `run_hardware`. **Billed 8.0 QPU s** (estimate 7.6 s, so the 1.5× re-costing rule is not triggered). Cumulative project use: **54 s** of the 420 s hard stop. **Verdicts: P3-2 untestable, P3-3 untestable** (unaudited). Engine odds 0.25 and 0.12. Human odds not recorded.
+Pre-registrations: `experiments/p3-2-twirl-dd.md` (commit `534b3eb`, seed `80db49d`, CURBy-RNG 1591393) and `experiments/p3-3-layouts.md` (`4d1fea0`, seed `ce9e186`, CURBy-RNG 1591395). The predictions and all 200 circuits were committed before submission (`cd2963a`). One job on `ibm_fez`, `dblrect8ft8s738tl2v0`, submitted 15:52:32 (local clock); execution started 15:52:37 (IBM), America/Denver, 2026-11-04, via `run_hardware`. **Billed 8.0 QPU s** (estimate 7.6 s, so the 1.5× re-costing rule is not triggered). Cumulative project use: **54 s** of the 420 s hard stop. **Verdicts: P3-2 untestable, P3-3 untestable** (audited in round 2; see above). Engine odds 0.25 and 0.12. Human odds not recorded.
 
 ## In plain English
 

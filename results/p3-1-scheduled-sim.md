@@ -2,7 +2,7 @@
 
 > Audited 2026-11-04 (round 2, entangled-mind audit2 8091d01, audits/ng-p3-1.md): verdict stands (fail); 15 required cuts applied in D5. The run did not load the job-time T1/T2 (qiskit `Target.qubit_properties` returns a copy, so the assignment was discarded and FakeFez's 2025 values stayed) and did not apply E2's ZZ term (the all-qubit ZZ error is overridden by the local CZ errors); with T1/T2 set properly the verdict is unchanged (control 0.268, scheduled 0.268, auditor's re-run). Adopting this model as the program's "corrected simulator" is held until that is fixed.
 
-Pre-registration: `experiments/p3-1-scheduled-sim.md` (commit `bbd6348`, 15:34; seed commit `593f8fd`, CURBy-RNG pulse 1591379 at 15:35). Run 2026-11-04 on the laptop: $0, 0 QPU s. **Verdict: fail** (unaudited). Engine odds were 0.07. Human odds were not recorded.
+Pre-registration: `experiments/p3-1-scheduled-sim.md` (commit `bbd6348`, 15:34; seed commit `593f8fd`, CURBy-RNG pulse 1591379 at 15:35). Run 2026-11-04 on the laptop: $0, 0 QPU s. **Verdict: fail** (audited in round 2; see above). Engine odds were 0.07. Human odds were not recorded.
 
 ## In plain English
 

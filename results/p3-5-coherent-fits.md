@@ -2,7 +2,7 @@
 
 > Audited 2026-11-04 (round 2, entangled-mind audit2 8091d01, audits/ng-p3-5.md): verdict stands (fail, "incoherent better" as the §5.2 count; the reading "blur, not steering" does not stand); 11 required cuts applied in D5.
 
-Pre-registration: `experiments/p3-5-coherent-fits.md` (commit `ff2c7e7`, 15:39; seed commit `1593b09`, CURBy-RNG pulse 1591384 at 15:40). Run 2026-11-04 on the laptop: $0, 0 QPU s. **Verdict: fail, "incoherent better"** (unaudited): a 2–1 split; the third pair favours steering by 63, and no uncertainty was pre-registered. Engine odds were 0.42. Human odds were not recorded.
+Pre-registration: `experiments/p3-5-coherent-fits.md` (commit `ff2c7e7`, 15:39; seed commit `1593b09`, CURBy-RNG pulse 1591384 at 15:40). Run 2026-11-04 on the laptop: $0, 0 QPU s. **Verdict: fail, "incoherent better"** (audited in round 2; see above): a 2–1 split; the third pair favours steering by 63, and no uncertainty was pre-registered. Engine odds were 0.42. Human odds were not recorded.
 
 ## In plain English
 
