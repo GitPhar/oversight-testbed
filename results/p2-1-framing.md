@@ -1,6 +1,6 @@
 # P2-1. Whose belief is a rating? The framing check: results
 
-Pre-registered in `experiments/p2-1-framing.md` (D1), commit `8fb40f3`, before any call. `claude-haiku-5-5`, 6,400 calls, **$0.27** of the $0.40 cap, no refusal, no missing answers. Engine odds 60; Sean's odds not recorded before data. Not yet audited.
+Pre-registered in `experiments/p2-1-framing.md` (D1), commit `8fb40f3`, before any call. `claude-haiku-5-5`, 6,400 calls, **$0.27** of the $0.40 cap, no refusal, no missing answers. Engine odds 60; Sean's odds not recorded before data. Audited in round 2 (see the next line).
 
 > Audited 2026-11-04 (round 2, entangled-mind audit2 8091d01, audits/om-p2-1.md): verdict stands as fail; 4 required cuts applied in D5.
 

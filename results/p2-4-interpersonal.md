@@ -1,6 +1,6 @@
 # P2-4. Interpersonal replication against program 1's fingerprint: results
 
-Pre-registered in `experiments/p2-4-interpersonal.md` (D3), commit `0ee0ee9`. Seed commit `d8bdbc7` (CURBy-RNG pulse 1591349; CURBY-Q stalled). Both came before any call. `claude-haiku-5-5`, 13,796 calls, **$0.90** of the $1.25 cap, no refusal. Engine odds 60; Sean's odds not recorded before data. Not yet audited.
+Pre-registered in `experiments/p2-4-interpersonal.md` (D3), commit `0ee0ee9`. Seed commit `d8bdbc7` (CURBy-RNG pulse 1591349; CURBY-Q stalled). Both came before any call. `claude-haiku-5-5`, 13,796 calls, **$0.90** of the $1.25 cap, no refusal. Engine odds 60; Sean's odds not recorded before data. Audited in round 2 (see the next line).
 
 > Audited 2026-11-04 (round 2, entangled-mind audit2 8091d01, audits/om-p2-4.md): verdict reversed: pass → undetermined; 14 required cuts applied in D5.
 

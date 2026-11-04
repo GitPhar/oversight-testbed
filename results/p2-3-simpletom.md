@@ -1,6 +1,6 @@
 # P2-3. SimpleToM decomposed: results (stopped on a refusal)
 
-Pre-registered in `experiments/p2-3-simpletom.md` (D4), commit `6f17538`. Seed commit `46378b0` (CURBy-RNG pulse 1591352). Both came before any call. `claude-haiku-5-5`. **Stopped on a refusal after 26 calls, $0.001 of the $1.75 cap.** Engine odds 70; Sean's odds not recorded before data. Not yet audited.
+Pre-registered in `experiments/p2-3-simpletom.md` (D4), commit `6f17538`. Seed commit `46378b0` (CURBy-RNG pulse 1591352). Both came before any call. `claude-haiku-5-5`. **Stopped on a refusal after 26 calls, $0.001 of the $1.75 cap.** Engine odds 70; Sean's odds not recorded before data. Audited in round 2 (see the next line).
 
 > Audited 2026-11-04 (round 2, entangled-mind audit2 8091d01, audits/om-p2-3.md): verdict stands as untestable; 2 required cuts applied in D5.
 

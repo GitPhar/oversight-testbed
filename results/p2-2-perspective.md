@@ -1,6 +1,6 @@
 # P2-2. Perspective-filter equivalence: results
 
-Pre-registered in `experiments/p2-2-perspective.md` (D2), commit `fc00c58`, before any call. `claude-haiku-5-5`, 11,070 calls (200 rewrites, 8,000 primary, 1,000 for the 2 × 2, 2,000 two-turn order conversations, less the cells of the 5 templates that failed the rewrite check), **$0.61** of the $1.25 cap, no refusal, no missing answers. Engine odds 55; Sean's odds not recorded before data. Not yet audited.
+Pre-registered in `experiments/p2-2-perspective.md` (D2), commit `fc00c58`, before any call. `claude-haiku-5-5`, 11,070 calls (200 rewrites, 8,000 primary, 1,000 for the 2 × 2, 2,000 two-turn order conversations, less the cells of the 5 templates that failed the rewrite check), **$0.61** of the $1.25 cap, no refusal, no missing answers. Engine odds 55; Sean's odds not recorded before data. Audited in round 2 (see the next line).
 
 > Audited 2026-11-04 (round 2, entangled-mind audit2 8091d01, audits/om-p2-2.md): verdict stands as fail; 13 required cuts applied in D5.
 
