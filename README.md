@@ -22,13 +22,13 @@ That simulator matters in its own right. In program 1, IBM's own noise model of 
 
 ## Status
 
-Opened 2026-11-04 (America/Denver). Scouting is done. **Wave 1 ran on 2026-11-04** (four bets, each pre-registered and seeded from CURBy before its data; all unaudited; no model API called):
+Opened 2026-11-04 (America/Denver). Scouting is done. **Wave 1 ran on 2026-11-04** (four bets, each pre-registered and seeded from CURBy before its data; audited in round 2, entangled-mind audit2 `8091d01`, all verdicts stand; no model API called):
 
-- **P3-1, fail.** Fixing the simulator's idle-decay omission moves its prediction from 0.267 to 0.268, not to 0.40. The 3 November gap was not our set-up (`results/p3-1-scheduled-sim.md`).
-- **P3-5, fail (incoherent better).** In program 1's entanglement data, random-blur errors fit better than steering errors on two of three pairs (`results/p3-5-coherent-fits.md`).
-- **P3-2 and P3-3, untestable.** One 8-second chip job on the same circuit and qubits found the gap gone: the chip gave 0.246 against the simulator's 0.269 (it gave 0.502 on 3 November). Twirling and decoupling defaults for later waves: both off, by the pre-registered rule (`results/p3-2-3-job.md`).
+- **P3-1, fail.** Fixing the simulator's idle-decay omission moves its prediction from 0.267 to 0.268, not to 0.40. Idle decay does not explain the 3 November gap; other differences between our simulation and that run stay untested. The run kept FakeFez's 2025 T1/T2 by a bug (the verdict is unchanged with them fixed), and adopting this model as the program's corrected simulator is held until the fix is made and checked (`results/p3-1-scheduled-sim.md`).
+- **P3-5, fail (incoherent better).** In program 1's entanglement data, a blurring model fits better than a steering model on two of three pairs. Both kinds of error are present on every pair, so this is not "blur, not steering" (`results/p3-5-coherent-fits.md`).
+- **P3-2 and P3-3, untestable.** One 8-second chip job ran program 1's gate list on the same nine qubits, without the one pre-measurement barrier the 3 November circuit had and as 20 interleaved blocks of 100 shots instead of one block of 1,000. In P(yes), the gap was gone: the chip gave 0.246 against the simulator's 0.269 (it gave 0.502 on 3 November). Qubit by qubit, departures of up to 0.14 remain. Twirling and decoupling defaults for later waves: both off, by the pre-registered rule (`results/p3-2-3-job.md`).
 
-So far, the program's starting surprise looks like one unusual afternoon. The repeat test that could say how often that happens is the obvious next chip job.
+So far, the program's starting surprise did not recur on the next day's run; whether 3 November was unusual is untested. The two runs also differed in that barrier and in how the shots were grouped. The cheapest next chip test separates those (the audit's suggestion): the 3 November circuit with and without its barrier, each as one 1,000-shot block and as interleaved blocks, repeated hours apart.
 
 - `map/program-3-map.md` (and `.json`) has 14 ranked directions. Each one gives the assumption at stake, who has looked, the exact cheapest circuit-level test, its QPU cost, and the engine's odds stated before any data. The map ends with a month plan under the hard stop: about 146 s of chip time in three waves, up to 60 s more if conditions are met, and at least 120 s held back for replication.
 - `map/odds-elicitation/` records how the engine's odds were taken. A fresh context saw only the direction rows. A seeded random half was re-asked with each pass rule paraphrased and with the question negated. The engine's own numbers moved by 11 points on average under negation, and by up to 30. That spread is published next to the odds.
