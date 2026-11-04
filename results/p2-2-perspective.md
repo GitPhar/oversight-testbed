@@ -17,13 +17,13 @@ Pre-registered in `experiments/p2-2-perspective.md` (D2), commit `fc00c58`, befo
 - **When Noor saw the change**, the attribution version still gives about a 1-in-3 chance that she holds her old belief (mean 33). The second-person world-judgment (in these stories nothing is filtered) gives 13. In a quarter of these stories the attribution is above 50, and some are at 100.
   - Exploratory (not pre-registered, auditor's count): of the 48 such stories, 15 name only a cause ("Ivana feels the earthquake"), where the filtered story gives "you" more than Noor perceived; 25 state the outcome itself ("Amara discovers the hairline crack", rated 96). Dropping the 15 cause-only stories raises Q only to 0.55. The mismatch is mostly the attribution ignoring a stated perception, not the filter.
 - **When Noor did not see the change**, the attribution is 6 points *higher* than the filtered world-judgment (88 against 82).
-  - The 2 × 2 on 49 stories separates the parts. Deleting the unseen event from the third-person story raises "Noor believes X" from 89 to 98 (+9 [+5, +16]). This is consistent with a curse of knowledge, though deleting the event also deletes the "does not see" sentence and leaves the story ending on "Noor believes X". The typical story moves about 5 points (median); two stories that flip from about 4 to about 97 carry 40% of the mean.
+  - The 2 × 2 on 49 stories separates the parts. Deleting the unseen event from the third-person story raises "Noor believes X" from 89 to 98 (+9 [+5, +16]; a pre-registered secondary, median +5.0). This is consistent with a curse of knowledge, though deleting the event also deletes the "does not see" sentence and leaves the story ending on "Noor believes X". The typical story moves about 5 points (median); two stories that flip from about 4 to about 97 carry 40% of the mean.
   - With the event deleted in both versions, "Noor believes X" (98) is still above "X is true, from your view" (84): −15 [−18, −12]. This contrast changes person and question together and cannot say which matters; in 42 of 49 stories the filtered third-person text ends with the sentence the belief question asks about.
 - **Order.** Asking first about the opposite state moves the attribution (−10 [−18, −3] when Noor saw the change, +6 [+1, +12] when she did not) but not the filtered world-judgment (−1 [−4, +2] and +3 [−2, +7]). These are uncorrected; none survives correction for the 14 secondary tests; the attribution effects come from two or three stories that flip by about 90 points (medians −1 and +1), and the attribution-minus-world-judgment contrast is clear on neither kind of story. Secondary, on 49 stories.
 
 **What this means.**
 - On this model and these stories, attributing a belief is **not** the same operation as judging the world from the other person's evidence, by the test the map set.
-- Secondary and exploratory results suggest where they differ (uncorrected, 49 stories for the 2 × 2): (1) A curse-of-knowledge leak of about 9 points. (2) On false-belief stories only, the attribution is higher than the world-judgment (88 vs 82; 98 vs 84 with the event deleted from both). On true-belief stories the world-judgment is the more extreme (13 vs 33). (3) A difference in what counts as having seen something. In 15 of the 48 high true-belief stories this is a flaw in how the filtered stories were built; in most it is not.
+- Secondary and exploratory results suggest where they differ (uncorrected, 49 stories for the 2 × 2): (1) A curse-of-knowledge effect (secondary): mean +9, median +5.0, with two stories carrying 40% of the mean. (2) On false-belief stories only, the attribution is higher than the world-judgment (88 vs 82; 98 vs 84 with the event deleted from both). On true-belief stories the world-judgment is the more extreme (13 vs 33). (3) A difference in what counts as having seen something. In 15 of the 48 high true-belief stories this is a flaw in how the filtered stories were built; in most it is not.
 - On Haiku and these BigToM stories, the seed hypothesis in this simple form is not supported.
 
 **Limits.**
@@ -54,7 +54,7 @@ Pre-registered in `experiments/p2-2-perspective.md` (D2), commit `fc00c58`, befo
 
 | effect | points [95% CI] |
 |---|---|
-| filtering, third person (3f − i): the curse of knowledge | +9.2 [+4.7, +15.8] |
+| filtering, third person (3f − i), consistent with a curse of knowledge (secondary) | +9.2 [+4.7, +15.8]; median +5.0 |
 | filtering, second person (ii − 2u) | +69.2 [+63.5, +74.6] |
 | person and question, filtered (ii − 3f) | −14.7 [−17.8, −12.1] |
 | person and question, full (2u − i) | −74.7 [−81.1, −66.9] |
@@ -70,7 +70,7 @@ Pre-registered in `experiments/p2-2-perspective.md` (D2), commit `fc00c58`, befo
 
 ### Exploratory (not pre-registered)
 
-- TB, rendering (i): 25% of templates have a mean above 50; 57% are below 20; the median is 15. The highest are stories whose "aware" sentence names a cause rather than the outcome: "Ivana feels the earthquake" (X = the ice is thick and solid, rated 100); "Xiomara witnesses the underwater landslide" (X = the coral colony is healthy, 100).
+- TB, rendering (i): 25% of templates have a mean above 50; 57% are below 20; the median is 15. Of the 48 above 50, 15 have an "aware" sentence that names only a cause and 25 state the outcome itself (auditor's count; 8 ambiguous). Cause-only examples: "Ivana feels the earthquake" (X = the ice is thick and solid, rated 100); "Xiomara witnesses the underwater landslide" (X = the coral colony is healthy, 100).
 - FB, rendering (i): 8% of templates are below 50.
 - Rewrite-check failures: templates 59, 68, 97, 117, 184 (the name kept: three as an appositive, "You, Olumide, …", and two as "You are <name>": "You are Leonardo Martinez", "You are Dalia, …").
 
