@@ -29,20 +29,27 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-0 audits prepared with a sealed plant line: 0 still sealed, 0 revealed, of which 0 carried a plant. No plant has been revealed yet, so there is no catch rate to report.
+1 audit prepared with a sealed plant line: 1 still sealed, 0 revealed, of which 0 carried a plant. No plant has been revealed yet, so there is no catch rate to report.
 
 Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-6 of 27 bets carry an engine pre-mortem; 0 of those have failed and been scored. 21 earlier bets were pre-registered before pre-mortems existed and have none, honestly.
+6 of 27 bets carry an engine pre-mortem; 6 of those have failed and been scored. 21 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
-| engine: named the main reason | — |
-| engine: named it or its kind | — |
-| lazy baseline: failures whose reason was 'the effect is not there' | 0/2 = 0.00 [0.00, 0.66] |
+| engine: named the main reason | 3/6 = 0.50 [0.19, 0.81] |
+| engine: named it or its kind | 5/6 = 0.83 [0.44, 0.97] |
+| lazy baseline: failures whose reason was 'the effect is not there' | 5/8 = 0.62 [0.31, 0.86] |
 | human: named the main reason | — |
+
+| stated kind \ actual kind | world | design | execution | artefact |
+|---|---|---|---|---|
+| world | 3 | 1 | 0 | 0 |
+| design | 0 | 0 | 0 | 0 |
+| execution | 0 | 0 | 1 | 0 |
+| artefact | 0 | 1 | 0 | 0 |
 
 Descriptive under Q1 until there are at least 15 failed bets with pre-mortems.
 

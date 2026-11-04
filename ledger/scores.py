@@ -127,7 +127,7 @@ def section_premortems(w):
     w("## Pre-mortems (operators/premortem.md)")
     w("")
     w(f"{len(written)} of {len(bets)} bets carry an engine pre-mortem; {len(failed)} of those have failed and been scored. "
-      f"{sum(1 for b in bets if b.get('premortem_note'))} earlier bets were pre-registered before pre-mortems existed and have none, honestly.")
+      f"{len(bets) - len(written)} have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).")
     w("")
     def rate(k, n):
         if not n:

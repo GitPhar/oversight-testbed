@@ -151,6 +151,9 @@ def main():
     w(f"| direction 1 at 0.30 (its 0.15 was committed one minute after its pre-registration; see the bet's note) | {n} | {fmt(brier(alt_gm1))} |")
     w(f"| add direction 9 at {gm9['engine_odds']:.2f}, if its conceptual result is judged publishable | {n + 1} | {fmt(brier(eng + [(gm9['engine_odds'], 1)]))} |")
     w(f"| add direction 9 at {gm9['engine_odds']:.2f}, if it is judged not publishable | {n + 1} | {fmt(brier(eng + [(gm9['engine_odds'], 0)]))} |")
+    for sb in [b for b in bets if b.get("sensitivity_outcomes") and b.get("engine_odds") is not None]:
+        for o in sb["sensitivity_outcomes"]:
+            w(f"| add {sb['id']} ({sb['verdict']}) at {sb['engine_odds']:.2f}, counted as {'a hit' if o else 'a miss'} | {n + 1} | {fmt(brier(eng + [(sb['engine_odds'], o)]))} |")
     w("")
     w("## What is not scored, and why")
     w("")
@@ -160,8 +163,14 @@ def main():
     for b in unscored:
         w(f"- **{b['id']}** ({b['title']}): {b['scoring_note']}")
     w("")
-    w("No bet has an audit yet (`ledger/audits/` is empty). When an audit overturns a verdict, the outcome here changes "
-      "and the change is logged in the bet's `scoring_note`.")
+    audited = [b for b in bets if b.get("audit_path")]
+    reversed_ = [b for b in audited if b.get("verdict_stands") is False]
+    sa = [b for b in scored if b.get("audit_path")]
+    w(f"{len(audited)} of the {len(bets)} bets have an audit in `ledger/audits/`; {len(sa)} of the {n} scored bets are audited, "
+      f"and the audit reversed {len(reversed_)} verdict{'s' if len(reversed_) != 1 else ''}"
+      + (": " + "; ".join(f"{b['id']} → {b['verdict']}" for b in reversed_) if reversed_ else "")
+      + ". The founding-week audits (entangled-mind `audits/`, round 1) are not yet linked here. "
+      "When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.")
     (HERE / "brier.md").write_text("\n".join(L) + "\n")
     print(f"engine Brier {fmt(brier(eng))} on {n} bets; human {fmt(brier(hum))} on {len(hum)}")
 
