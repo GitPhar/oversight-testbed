@@ -36,7 +36,7 @@ Program: The Entangled Mind (2026-11-03 to 04). Starting hypothesis: encoding an
 
 - The hypothesis died cleanly: the quantum encoding ties a matched classical twin on two models; the learned encoding switched entanglement off itself; a pre-registered ablation showed the one apparent edge was single-claim readout geometry that a classical model reproduces. Eight hypotheses killed with diagnoses.
 - The attempt to measure beliefs produced the live finding: there is no stored credence to read out. Question order moves a model's rating by a median of 25 points; with its first answer hidden it repeats that answer within 5 points 36% of the time, against 86% when the answer is visible (consistency is memory; 40-item replication, entangled-mind `results/gm2b-self-conditioning-40.md`); six elicitation formats need six credences; another model judges its errors better than it does. This lands on model psychology, calibration evaluation and scalable oversight — three of the residency's named areas.
-- Engine calibration so far: odds were stated for six paid bets; two hit against an expectation of about 0.85 hits. Overclaims cut by independent re-checks: three. Artefacts caught: two.
+- Engine calibration so far: five bets carry pre-data odds and a scored outcome; two passed against an expectation of 1.15, and the engine's Brier score is 0.256 against 0.25 for always saying 50% (`ledger/brier.md`; too few bets to mean anything yet). Overclaims cut by independent re-checks: three. Artefacts caught: two.
 
 ## Related work
 

@@ -10,9 +10,9 @@ Sean Pharris · draft of 2026-11-04 (America/Denver) · companion to *The Entang
 
 ## Abstract
 
-**In plain English.** AI systems can now run much of a research project: read papers, design experiments, call models, analyse data and write up. The hard, risky part is moving from *doing* research to *choosing* it. Which question is worth a week? Is this result real, or does it only look good to the system that produced it? Does the human in charge add anything? We built a small, cheap engine that makes those three judgments measurable. The AI writes down its odds on each experiment before it sees any data. A separate session that has not seen the work tries to break every result. A human writes down his own odds separately and logs every time he steers. Everyone's odds are scored against what happens. In its first week, on one program, the engine killed its starting hypothesis cleanly with pre-registered tests and found a live result about model self-reports. Two scoring artefacts and three overclaims appeared and were caught by re-checks, which is the failure the engine is built to measure. Its stated odds were not yet better than a coin flip on four scored bets. That is too few to say anything, and we say so.
+**In plain English.** AI systems can now run much of a research project: read papers, design experiments, call models, analyse data and write up. The hard, risky part is moving from *doing* research to *choosing* it. Which question is worth a week? Is this result real, or does it only look good to the system that produced it? Does the human in charge add anything? We built a small, cheap engine that makes those three judgments measurable. The AI writes down its odds on each experiment before it sees any data. A separate session that has not seen the work tries to break every result. A human writes down his own odds separately and logs every time he steers. Everyone's odds are scored against what happens. In its first week, on one program, the engine killed its starting hypothesis cleanly with pre-registered tests and found a live result about model self-reports. Two scoring artefacts and three overclaims appeared and were caught by re-checks, which is the failure the engine is built to measure. Its stated odds were not yet better than a coin flip on five scored bets. That is too few to say anything, and we say so.
 
-**Technical.** As models take over research execution, the bottleneck and the risk move to direction: choosing what to test, judging whether a result holds, and keeping a human hand on the loop. Existing AI-scientist systems score outputs (paper quality, reviewer acceptance, benchmark tasks); existing oversight work scores judges on questions with known answers. Neither scores the *pre-data judgment* of a research agent, the marginal effect of an independent audit on its claims, or the marginal value of a human overseer on open-ended research. We describe an engine that does: every bet carries the agent's probability of passing its own pre-registered rule and a human's probability elicited blind to the agent's; every result is audited by a fresh session with a fixed adversarial checklist and scored on planted-fault canaries; every human steering act is logged and scored after its outcome. We pre-register five hypotheses about the engine (calibration, audit effect, human added value, path dependence across seed questions, and literature-sourced versus self-generated bets) with metrics and pass criteria. A founding-week case study (one program, 30+ pre-registered tests, about $50 of API and 46 QPU seconds) closed a quantum-encoding hypothesis as a tie with a matched classical twin and produced an open finding that an LLM's stated credence is constructed by question order, format and its own transcript. On the four bets with pre-data odds, the engine expected 0.85 passes and observed 2 (Poisson-binomial P(X ≥ 2) = 0.20); Brier 0.297 against 0.25 for a constant 0.5. We report this as uninformative at n = 4 and state the sample size at which each hypothesis becomes testable.
+**Technical.** As models take over research execution, the bottleneck and the risk move to direction: choosing what to test, judging whether a result holds, and keeping a human hand on the loop. Existing AI-scientist systems score outputs (paper quality, reviewer acceptance, benchmark tasks); existing oversight work scores judges on questions with known answers. Neither scores the *pre-data judgment* of a research agent, the marginal effect of an independent audit on its claims, or the marginal value of a human overseer on open-ended research. We describe an engine that does: every bet carries the agent's probability of passing its own pre-registered rule and a human's probability elicited blind to the agent's; every result is audited by a fresh session with a fixed adversarial checklist and scored on planted-fault canaries; every human steering act is logged and scored after its outcome. We pre-register five hypotheses about the engine (calibration, audit effect, human added value, path dependence across seed questions, and literature-sourced versus self-generated bets) with metrics and pass criteria. A founding-week case study (one program, 30+ pre-registered tests, about $50 of API and 46 QPU seconds) closed a quantum-encoding hypothesis as a tie with a matched classical twin and produced an open finding that an LLM's stated credence is constructed by question order, format and its own transcript. On the five bets with pre-data odds, the engine expected 1.15 passes and observed 2 (Poisson-binomial P(X ≥ 2) = 0.33), with Brier 0.256 against 0.25 for a constant 0.5. We report this as uninformative at n = 5 and state the sample size at which each hypothesis becomes testable.
 
 ---
 
@@ -321,14 +321,14 @@ The five hypotheses match `proposal.md` Q1–Q5. Each has a primary metric, a pa
 - **Inclusion.** Every bet whose pre-registration commit post-dates the engine odds' timestamp. Founding-week bets enter H1 only, and are flagged, because their odds were stated in a map before the scout's fixed format existed.
 - **Programs.** Program 1 (continuing its open self-report line) and program 2 (seed B). The two run under the same operators.
 - **Auditor assignment.** Every result is audited. Canaries are drawn by a seeded schedule held by the planting session, at roughly one per four audits.
-- **Scoring.** One script reads only the committed ledger and prints every number in §4. It is to be added as `scripts/score_ledger.py`, before the first analysis and in its own commit.
+- **Scoring.** `ledger/brier.py` reads only the committed ledger and writes `ledger/brier.md`. It already computes Brier, the constant and base-rate references, and the calibration table. The H1–H5 statistics it does not yet compute (running base rate, Poisson-binomial tail, split Brier, H2–H5 metrics) are to be added before the first analysis, in their own commit.
 - **Budget.** About $60 of API through 2026-11-22 across both programs (proposal.md); no hardware for the engine's own machinery.
 
 ---
 
 ## 6. Case study: the founding week (2026-11-03 to 04)
 
-This is evidence that the loop runs and that the failure modes it targets are real. It is not a test of H1–H5: the auditor was not yet a standing operator, no human odds were recorded, and only four bets carried pre-data odds.
+This is evidence that the loop runs and that the failure modes it targets are real. It is not a test of H1–H5: the auditor was not yet a standing operator, no human odds were recorded, and only five bets carried pre-data odds.
 
 ### 6.1 Phase A: a hypothesis killed cleanly
 
@@ -377,21 +377,29 @@ All five were caught by something independent of the pass that made them. None w
 
 ### 6.4 The engine's odds against outcomes
 
-| direction | P(pass) before data | outcome | y |
+Source: `ledger/bets.jsonl`, scored by `python3 ledger/brier.py` (`ledger/brier.md`). The table below and the numbers after it regenerate from those files.
+
+| bet | P(pass) before data | outcome | y |
 |---|---|---|---|
-| 1, privileged self-knowledge | 0.15 (revised from 0.30 after full reads, before data) | no self-advantage | 0 |
-| 2, self-conditioning | 0.25 | question-driven, by the pre-registered rule | 1 |
-| 3, format invariance | 0.25 (revised from 0.45 after full reads, before data) | no single credence | 1 |
-| 4, evidence seeking | 0.20 | mixed | 0 |
-| 9, NSIT (conceptual) | 0.20, as a conceptual result; not a pass rule | invasive in 5 of 6 families | not scored |
+| `em-gm1`, privileged self-knowledge | 0.15 (0.30 when first written; see below) | no self-advantage | 0 |
+| `em-gm2`, self-conditioning | 0.25 | question-driven, by the pre-registered rule; holds at 40 items | 1 |
+| `em-gm3b`, format invariance | 0.25 (0.45 when first written, revised after full reads, before data) | no single credence | 1 |
+| `em-gm4`, evidence seeking | 0.20 | mixed | 0 |
+| `em-gm5`, truth probe vs rating on Llama-3-8B (probes branch, not yet merged into entangled-mind main) | 0.30 | mixed: the probe moves with order, but not in step with the rating | 0 |
+| 9, NSIT (conceptual) | 0.20, for a conceptual result; no pass rule | invasive in 5 of 6 families | not scored |
 | 3a, free look | none stated | no evidence either way | not scored |
 
-- **Expected passes and observed.** The engine expected 0.85 passes and observed 2. Under the stated odds, P(X ≥ 2) = 0.20, which is not evidence of miscalibration.
-- **Brier.** The engine scored 0.297, against 0.25 for a constant 0.5. All four bets were pre-registered (03:52–04:05) before any of them resolved (04:15 on), so the running base rate of H1 is its prior of 0.5 for each, and BSS = 1 − 0.297/0.25 = −0.19. On four bets, the engine's stated odds did worse than a coin.
-- **Split by outcome.** The engine's Brier was 0.031 on the two non-passes and 0.563 on the two passes. Its odds were uniformly low (0.15–0.25), so it was right about the misses and wrong about both hits: no resolution, at n = 4.
-- **Revisions.** With the pre-revision odds, the Brier would have been 0.254 (P(X ≥ 2) = 0.37). The full-read revisions lowered both changed odds, and both of those bets then landed on opposite sides: one passed and one did not.
+- **Expected and observed passes.** The engine expected 1.15 passes and observed 2. Under the stated odds, P(X ≥ 2) = 0.33, which is not evidence of miscalibration.
+- **Brier.** The engine scored 0.256, against 0.25 for a constant 0.5.
+  - Bets 1–4 were pre-registered (03:52–04:05) before any bet had resolved.
+  - Bet 5 was pre-registered at 07:39, after two of four had passed.
+  - The running base rate of H1 is therefore 0.5 for every bet, and BSS = −0.02.
+- **Split by outcome.** The engine's Brier was 0.051 on the three non-passes and 0.563 on the two passes. Its odds were uniformly low (0.15–0.30), so it was right about the misses and wrong about both hits. At n = 5 that is no resolution.
+- **Revisions.** With the odds as first written, the Brier would have been 0.221 (BSS +0.11). Of the full-read revisions, the 0.45 → 0.25 cut on direction 3 cost the most, because direction 3 then passed.
+  - Direction 1's revision to 0.15 was committed at 03:53, one minute *after* its pre-registration (03:52) and 22 minutes before its result.
+  - Under this paper's inclusion rule (§5: odds must predate the pre-registration), direction 1 counts at 0.30, and the Brier is 0.269 (`ledger/brier.md`, sensitivity table).
 
-None of this is a finding at n = 4. It is the baseline the first analysis starts from. It also shows why H1 uses a skill score against the base rate rather than reporting a hit count.
+None of this is a finding at n = 5. It is the baseline the first analysis starts from. It also shows why H1 uses a skill score against the base rate rather than a hit count.
 
 ### 6.5 Steers
 
@@ -417,7 +425,7 @@ Nine human steers were reconstructed from the founding session (CONTEXT.md §8).
 
 - **The engine** is plain files in one public repository: `CONTEXT.md`, `ARCHITECTURE.md`, `proposal.md`, `operators/` (scout, auditor and the pre-registration template, the standing instructions every session follows), and `ledger/`, `map/` and `related-work/`. Every judgment is a commit with a timestamp: odds, pre-registrations, results, audits and steers. "Odds before data" is checkable from `git log` alone.
 - **Program 1** is in `GitPhar/entangled-mind`. `python experiments/reproduce.py` regenerates every results table from archived JSON, with no API keys. Its last run printed ALL TABLES REPRODUCED.
-- **The engine's own numbers.** `scripts/score_ledger.py` (to be added before the first analysis; §5) will regenerate every number in §4 from the committed ledger, with no keys.
+- **The engine's own numbers.** `python3 ledger/brier.py` regenerates `ledger/brier.md` from `ledger/bets.jsonl` with no keys. It is extended to every §4 statistic before the first analysis (§5).
 - **The prompts and operator instructions** are in the repository verbatim. A session that reads `operators/auditor.md` and nothing else can run an audit.
 - **Costs.** About $50 of API and 46 QPU seconds for the founding week; about $60 more planned through 2026-11-22.
 
