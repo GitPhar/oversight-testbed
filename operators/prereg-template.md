@@ -35,7 +35,7 @@ Written and frozen <YYYY-MM-DD HH:MM> (America/Denver), in its own commit, befor
 
 - *Models (exact ids), settings (thinking, max_tokens, temperature if any, structured output), prompts verbatim or by file path.*
 - *Items: source, n, selection rule, and the random seed for any draw.*
-- **Seed** (operators/hardware.md): the first CURBY-Q round whose pulse is timestamped after this commit. seed = the first 8 bytes of SHA-256(randomness ‖ bet-id), unsigned big-endian; sub-seeds per purpose by `ledger/seed.py --purpose <split|items|order>`. *Filled in by the seed commit, before any data:*
+- **Seed** (operators/hardware.md): CURBY-Q latest completed round ___ at ___ (checked before this commit). If that is under 24 h old, the seed is the first CURBY-Q round whose pulse is timestamped after this commit; if it is older (stalled), the first CURBy-RNG pulse timestamped after this commit. seed = the first 8 bytes of SHA-256(randomness ‖ bet-id), unsigned big-endian; sub-seeds per purpose by `ledger/seed.py --purpose <split|items|order>`. *Filled in by the seed commit, before any data:*
   `chain:` ___ · `round:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seed:` ___
 - *For a `tiebreak`: the circuit file and its SHA-256, the simulator and noise model, the backend, the shots, the calibration snapshot to record, and the simulator's prediction (committed here or in the seed commit, never after the chip runs).*
 - *Archives used, by path. If the test reads an archive, name exactly which fields will be read.*
@@ -104,7 +104,7 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
 - [ ] The pass rule in §5 can be applied by a stranger.
 - [ ] The pre-mortem in §0 is one sentence, names a checkable mechanism, and carries its kind.
 - [ ] One scale direction in every graded prompt.
-- [ ] The seed rule in §2 names the beacon; the seed commit follows this one before any data.
+- [ ] §2 records CURBY-Q's latest completed round and names the chain by the 24-hour rule; the seed commit follows this one before any data.
 - [ ] Budget and stop-on-refusal enforced in code, not by hand.
 - [ ] DEVIATIONS.md row added for this pre-registration.
 - [ ] Commit message: `Pre-register <bet-id>: <title> (D<n>)`.

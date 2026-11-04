@@ -9,7 +9,7 @@ Everything we can afford to run on the chip, a laptop can simulate exactly, fast
 What real quantum hardware *can* do for us is two narrower things.
 
 1. **Settle an argument about the real world.** A simulator says what an ideal or modelled device would do. Only a real device says what this one does. When a claim rests on a simulated circuit and someone doubts that the simulation is enough, the chip decides. Before it does, the engine bets on whether the chip will agree with the simulator. That bet is scored, and over time it tells us when the chip was never needed.
-2. **Choose our random splits for us.** If the session that runs a test also picks its random seed, it could, without meaning to, try seeds until the held-out set looks friendly. A seed taken from a public beacon *after* the pass rule is frozen cannot be shopped for, and anyone can check it later. CURBy's numbers come from a Bell test certified at NIST, so they are random in a sense a laptop's are not. To be honest about it, the certification is a bonus. What protects the test is that nobody in the loop chose the seed or could foresee it.
+2. **Choose our random splits for us.** If the session that runs a test also picks its random seed, it could, without meaning to, try seeds until the held-out set looks friendly. A seed taken from a public beacon *after* the pass rule is frozen cannot be shopped for, and anyone can check it later. When its quantum chain is running, CURBy's numbers come from a Bell test certified at NIST, so they are random in a sense a laptop's are not. **That chain has been stalled since 2025-08-22**, so for now our seeds come from CURBy's classical chain, which is public and timestamped but not certified. To be honest about it, the certification was always a bonus. What protects the test is that nobody in the loop chose the seed or could foresee it.
 
 ## Never a computational resource
 
@@ -40,25 +40,31 @@ Never call it to make a result look stronger. It is called to decide.
 ## Job 2: the seed source (CURBy)
 
 **The beacon.** CURBy (the CU Randomness Beacon) is run by the University of Colorado Boulder with NIST. It publishes 512-bit random strings whose randomness is certified by a loophole-free Bell test on entangled photons at NIST Boulder. Each pulse is hash-chained and timestamped with NIST's Twine protocol, so anyone can verify after the fact what was published and when. It runs two chains:
-- **CURBY-Q**, the quantum, device-independent chain whose output is Bell-certified. **Use this one.**
-- **CURBy-RNG**, a classical chain in the style of the NIST Randomness Beacon that pulses every minute. It is timestamped and public but not quantum-certified. It is the fallback only.
+- **CURBY-Q**, the quantum, device-independent chain whose output is Bell-certified. **Use it when it is live.**
+- **CURBy-RNG**, a classical chain in the style of the NIST Randomness Beacon that pulses every minute. It is timestamped and public but not quantum-certified. It is the fallback, and while CURBY-Q is stalled it is the seed source in practice.
 
-The official client is `@buff-beacon-project/curby-client` (npm; version 1.2.0 when this file was written). `DIRNGClient` fetches and validates CURBY-Q rounds: chain and pulse signatures, and the causal ordering of the Bell-response and seed pulses. Full certificate verification uses the project's separate `curby_verify` tool. **This client has not yet been called from this machine.** The first pre-registration that uses it records the exact code and client version in its seed commit, and this file is then updated with that code.
+**Status, 2026-11-04 14:56 America/Denver** (reported by the other-minds session on the first call of the client from this machine): CURBY-Q's latest completed round is 28297, with its result pulse at 2025-08-22 13:42 America/Denver. Round 28298 has sat at stage `request` since 2025-08-22 13:43 and never finished. CURBy-RNG is live, and its latest pulse was in the current minute.
+
+The official client is `@buff-beacon-project/curby-client` (npm; version 1.2.0 when this file was written). `DIRNGClient` fetches and validates CURBY-Q rounds: chain and pulse signatures, and the causal ordering of the Bell-response and seed pulses. Full certificate verification uses the project's separate `curby_verify` tool. It was first called from this machine on 2026-11-04 by the other-minds session, which installed it in a scratch directory with `npm install --ignore-scripts`. The calls used were `DIRNGClient.latest()`, `DIRNGClient.fetchRound('pending')` and `Client.randomness()`. Each seed commit records the exact code and client version it used.
 
 **Which draws use it.** Anything random that decides *what data a test sees*: train/test and held-out splits, item samples, the paraphrase and negation half in `operators/scout.md`, and the order of items or questions when order is randomised. Bootstrap resampling seeds may use it too, or a fixed constant stated in the pre-registration. The beacon is never used for anything that must stay secret, such as plant draws or seal salts: its output is public, so anyone could recompute the result (`operators/plant.md`).
 
 **Protocol (two commits, both before any data):**
 
-1. **Pre-registration commit.** §2 of the template says: *"Seed: the first CURBY-Q round whose pulse is timestamped after this commit. seed = the first 8 bytes of SHA-256(randomness ‖ bet-id), read as an unsigned big-endian integer; sub-seeds per purpose as `ledger/seed.py` derives them."* The beacon block is left blank.
-2. **Seed commit**, immediately after: fetch that round with the client, record the beacon block in the pre-registration (`chain`, `round`, `pulse_time` in America/Denver, `randomness` as hex, `client` and its version, and `certificate_verified: true|false`), compute the seed with
+1. **Pre-registration commit.** First check CURBY-Q's latest *completed* round (`DIRNGClient.latest()`, a free public read that fixes nothing) and write its round number and result-pulse time into §2. Then choose the chain by rule:
+   - **Live:** that round completed less than 24 hours before this commit. §2 says: *"Seed: the first CURBY-Q round whose pulse is timestamped after this commit."*
+   - **Stalled:** that round is 24 hours old or more. §2 says: *"CURBY-Q stalled (latest completed round <n>, <time>). Seed: the first CURBy-RNG pulse timestamped after this commit."*
+
+   Either way, §2 adds: *"seed = the first 8 bytes of SHA-256(randomness ‖ bet-id), read as an unsigned big-endian integer; sub-seeds per purpose as `ledger/seed.py` derives them."* The beacon block is left blank.
+2. **Seed commit**, immediately after: fetch that round with the client, record the beacon block in the pre-registration (`chain`, `round` or pulse index, `pulse_time` in America/Denver, `randomness` as hex, `client` and its version, and `certificate_verified: true|false`), compute the seed with
    ```
    python3 /Users/seanpharris/oversight-testbed/ledger/seed.py <randomness-hex> <bet-id> [--purpose split]
    ```
-   write it in, and commit with `Seed <bet-id>: CURBY-Q round <n>`. Nothing is drawn, fetched or opened between the two commits.
+   write it in, and commit with `Seed <bet-id>: <chain> <round or pulse index>`. On a stalled CURBY-Q, the seed commit can follow at once, because a CURBy-RNG pulse lands every minute. Nothing is drawn, fetched or opened between the two commits.
 
-**Fallback.** If no CURBY-Q round completes within 6 hours of the pre-registration commit, use the first **CURBy-RNG** pulse after that commit, and record `seed_source: curby-rng` (classical, not quantum-certified) and the reason. If both are down, wait. A local random generator is never used for a split once a pre-registration names the beacon. A seed is never re-drawn.
+**Fallback for a live but slow chain.** If CURBY-Q was live at the pre-registration but no round completes within 6 hours of the commit, use the first **CURBy-RNG** pulse after that commit, and record `seed_source: curby-rng` (classical, not quantum-certified) and the reason. If both are down, wait. *(Amended 2026-11-04 15:05. The first version always waited 6 hours, which, with CURBY-Q stalled for over a year, delayed every bet by 6 hours and protected nothing. Bets pre-registered under the first version log a deviation, before any data, and take the first CURBy-RNG pulse after their pre-registration commit.)* A local random generator is never used for a split once a pre-registration names the beacon. A seed is never re-drawn.
 
-**What the auditor checks** (`operators/auditor.md`, E23): the pulse time is after the pre-registration commit's author time; it is the *first* such round on its chain (fetch the round before it); the seed recomputes with `ledger/seed.py`; the split in the code uses that seed and no other. Any failure is a hole.
+**What the auditor checks** (`operators/auditor.md`, E23): the live/stalled choice follows from the CURBY-Q round recorded in §2 (the 24-hour rule); the pulse time is after the pre-registration commit's author time; it is the *first* such round or pulse on its chain (fetch the one before it and check that it predates the commit); the seed recomputes with `ledger/seed.py`; the split in the code uses that seed and no other. Any failure is a hole.
 
 ## Ledger fields: `ledger/bets.jsonl`
 
@@ -82,6 +88,6 @@ Standard bets have `tiebreak: null`. Shadow checks (`operators/veto.md`) are bet
 | | what it is | what it is not |
 |---|---|---|
 | IBM chip | a referee on whether a simulation describes this device; an apparatus for program-level foundations experiments (directions 7 and 8) | faster, better or "quantum-enhanced" computation of anything we use |
-| CURBy CURBY-Q | a public, Bell-certified, timestamped seed that no one in the loop chose | a reason any split is statistically better than one from a good generator |
-| CURBy-RNG | a public, timestamped fallback seed | quantum-certified |
+| CURBy CURBY-Q | a public, Bell-certified, timestamped seed that no one in the loop chose, when the chain is live (stalled since 2025-08-22) | a reason any split is statistically better than one from a good generator |
+| CURBy-RNG | a public, timestamped seed that no one in the loop chose; the seed source in practice while CURBY-Q is stalled | quantum-certified |
 | Budget | ≤ 60 QPU s per tiebreak, ≤ 120 s/month on tiebreaks, inside the 420 s hard stop; seeds cost $0 | a standing allowance to "try it on hardware" |
