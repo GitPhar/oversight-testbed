@@ -22,6 +22,8 @@ Written and frozen <YYYY-MM-DD HH:MM> (America/Denver), in its own commit, befor
 | engine odds, P(pass) | <0–100>, stated <timestamp> in map/<program>.json — *copied, not restated* |
 | human odds, P(pass) | <0–100>, recorded <timestamp> in ledger/human-odds/<file> — *or "not recorded", with why* |
 | budget | $<n> API · <n> QPU s · <n> laptop hours |
+| lesson | "Correcting <P-id(s)>: <what went wrong before>. This bet <what it does differently>, and its odds are <n>% (from <m>% on the map) because <reason from the ledger>." Written after reading ledger/bets.jsonl, brier.md, audits/ and lessons.jsonl (operators/learn.md). **Mandatory; never revised after this commit.** |
+| design review | before the first call, a fresh auditor dry-runs this design (operators/design-review.md) → `ledger/design-reviews/<bet-id>.md`, verdict go / fix-first / redesign. *No call runs before a go.* |
 | pre-mortem | "If this fails, the most likely reason is <one checkable mechanism, ≤35 words>." Kind: `world` / `design` / `execution` / `artefact` (operators/premortem.md). *Never revised after this commit.* |
 | auditor | fresh session per operators/auditor.md, after results |
 
@@ -88,6 +90,7 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
  "human_odds": null, "human_odds_at": null,
  "prereg_commit": "<filled by the next commit>", "budget_usd": 0,
  "referee": "model|nature|mathematics", "bet_type": "standard|tiebreak", "seed_source": "curby-q|curby-rng|fixed", "beacon": null, "seed": null, "tiebreak": null,
+ "lesson": "ls-<bet-id>", "design_review": {"path": "ledger/design-reviews/<bet-id>.md", "verdict": null, "commit": null, "reviewer_model": null, "fix_deviations": [], "missed": null},
  "premortem": "If this fails, the most likely reason is …", "premortem_kind": "world|design|execution|artefact",
  "premortem_at": "<this commit>", "human_premortem": null, "human_premortem_kind": null,
  "failed": null, "failure_reason": null, "failure_kind": null, "premortem_score": null,
@@ -100,6 +103,8 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
 ## 9. Checklist before the first call
 
 - [ ] This file is committed on its own; nothing has been run.
+- [ ] The lesson row in §0 is filled after reading ledger/bets.jsonl, brier.md, audits/ and lessons.jsonl; the same sentence goes to `ledger/lessons.jsonl` as `ls-<bet-id>` (operators/learn.md).
+- [ ] A fresh auditor's design review (operators/design-review.md) has returned **go**, or fix-first with every fix logged in DEVIATIONS and confirmed, before the first call. `python3 /Users/seanpharris/oversight-testbed/ledger/check_prereg.py <bet-id> <repo> <this file> --before-run` passes.
 - [ ] Engine odds and human odds are on record elsewhere, with timestamps earlier than this commit.
 - [ ] The pass rule in §5 can be applied by a stranger.
 - [ ] The pre-mortem in §0 is one sentence, names a checkable mechanism, and carries its kind.

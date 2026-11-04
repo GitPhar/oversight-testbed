@@ -39,7 +39,11 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 | plant | bet | class | caught | where (from the audit) | planter model |
 |---|---|---|---|---|---|
-| pl-001 | om-p2-1 | overclaim/scope | yes | audits/om-p2-1-blind-pl-001.md (entangled-mind audit2, 842e7af): Checklist C13 'Hole. L24: "is not supported in its simplest form on Claude models". One model (claude-haiku-5-5) was tested.'; Claims row 16; Required cut 4 | claude-opus-5-5 |
+| pl-001 | om-p2-1 | overclaim/scope | yes | ledger/audits/om-p2-1-blind-pl-001.md (from entangled-mind audit2 842e7af): Checklist C13 'Hole. L24: "is not supported in its simplest form on Claude models". One model (claude-haiku-5-5) was tested.'; Claims row 16; Required cut 4 | claude-opus-5-5 |
+
+**Limits, stated with the number:**
+
+- pl-001: Forced plant on Sean's instruction, not a 1/2 draw. Planter, blind auditor and scorer were subagents of one session (audit2), so blinding rests on that session's briefs. The bet had already been audited that afternoon (round 2), the tell plant.md was designed to avoid. Same model family throughout. One plant cannot estimate a rate.
 
 Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
@@ -76,4 +80,32 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 | QPU seconds used by tiebreaks | 0 |
 | bets by seed source: curby-rng | 6 |
 | bets by seed source: none recorded | 21 |
+
+## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
+
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 10 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 0 lesson lines written.
+
+| | count |
+|---|---|
+| pre-registrations since the rule | 0 |
+| with a lesson line | 0 |
+| with a design review | 0 |
+| **violations** (missing lesson or review) | 0 |
+| bets flagged `rule_violation` | 0 |
+| withdrawn after a design review said redesign | 0 |
+
+| pattern | title | cited by | recurred after citing |
+|---|---|---|---|
+| P1 | Odds too high where the engine had a story | 0 | 0 of 0 scored |
+| P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 0 | 0 of 0 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 0 | 0 of 0 scored |
+| P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 0 | 0 of 0 scored |
+| P5 | Unmatched rivals: the contest is decided by how the families were built | 0 | 0 of 0 scored |
+| P6 | A control that cannot fail | 0 | 0 of 0 scored |
+| P7 | A foreseeable execution risk run without a pilot | 0 | 0 of 0 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 0 | 0 of 0 scored |
+| P9 | The right rule, then the wrong noun | 0 | 0 of 0 scored |
+| P10 | A label that hangs on one item | 0 | 0 of 0 scored |
+
+**Does the loop help?** Not measurable yet: no bet with a lesson has a scored outcome. The test is Brier with the odds before the lesson against after it, paired.
 

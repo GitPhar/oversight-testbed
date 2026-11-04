@@ -78,6 +78,9 @@ Work through every line. Each line gets one of: *holds*, *hole* (with evidence),
 23. *Seed.* If the pre-registration names the beacon: the pulse is timestamped after the pre-registration commit's author time and is the first such round on its chain (fetch the round before it); the seed recomputes with `python3 /Users/seanpharris/oversight-testbed/ledger/seed.py`; the code's split uses that seed and no other; nothing was drawn or opened between the two commits (operators/hardware.md). A beacon fetch is a free public read, not a paid call.
 24. *Tiebreak.* For a `tiebreak` bet: the simulator's prediction was committed before the chip ran; the circuit's hash matches; QPU seconds are within budget; the result is read as evidence about the device, never as a computed estimate.
 
+25. *Lesson* (operators/learn.md). For bets pre-registered from 2026-11-04 17:00: the §0 lesson row is in the pre-registration commit; `ledger/lessons.jsonl` has the same sentence; its `read` block matches the ledger at that commit (resolved bets, Brier, newest audit); the cited pattern's `do_this` is actually in the design; and an odds change is recorded as a revision before data. Missing or late is a hole.
+26. *Design review* (operators/design-review.md). `ledger/design-reviews/<bet-id>.md` was committed after the pre-registration and before the first call, with verdict go (or fix-first, every fix in a DEVIATIONS row dated before data and confirmed). Then name any flaw you found that D1–D10 should have caught: it goes in `design_review_missed` in your header, so the design review gets a catch rate of its own.
+
 ## Output: `ledger/audits/<bet-id>.md`
 
 ```markdown
@@ -100,6 +103,7 @@ verdict_after_audit: pass|pass-unreplicated|classical|tie|null|untestable|mixed
 verdict_stands: true|false     # true only if verdict_after_audit == verdict_claimed
 canary: unknown                # the auditor never knows; filled in by the ledger session at reveal (plant id, clean|planted)
 false_alarms: 0               # filled later by the ledger session: holes shown wrong by the author's reply and Sean's decision
+design_review_missed: []      # E26: flaws the design review's D1–D10 should have caught (check ids)
 failed: true|false            # verdict_after_audit not pass/pass-unreplicated, or the run did not complete as pre-registered
 failure_reason: <one line, written before reading the pre-mortem>
 failure_kind: world|design|execution|artefact|null
@@ -120,7 +124,7 @@ risk_seen: true|false|null    # only when not_failed: did the named risk show up
 |---|---|---|---|
 
 ## Checklist
-<A1–E24, each: holds / hole / cannot check, with evidence and commands run>
+<A1–E26, each: holds / hole / cannot check, with evidence and commands run>
 
 ## The pre-mortem, scored
 <first your own one-line failure reason and its kind, written before you read the pre-registration's pre-mortem; then the pre-mortem quoted, and the score with one sentence of evidence (operators/premortem.md)>

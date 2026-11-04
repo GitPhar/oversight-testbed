@@ -6,7 +6,7 @@
 //   programs/entangled-mind/results/ibm-usage.json, api-usage.md   QPU seconds; itemised API dollars
 //   engine/CONTEXT.md                         the stated API spend and budget (§1 "Cost rule")
 //   programs/nature-graded/map/program-3-map.json   chip-graded bets and the odds-stability check (optional)
-import { header, esc, DATA, getText, getJSON, parseDate, fmtDate, markSVG, outcomeOf, num, STATUS } from "./common.js";
+import { header, esc, DATA, getText, getJSON, getJSONL, parseDate, fmtDate, markSVG, outcomeOf, num, STATUS } from "./common.js";
 import { loadBets, loadMaps, loadKills } from "./data.js";
 
 header();
@@ -384,6 +384,46 @@ function gaugeReversal(a) {
     { n: frag, cls: "c-frag", word: "fragile label" }, { n: stands, cls: "c-stand", word: "stands" },
   ].filter((g) => g.n > 0 || g.cls === "c-rev"));
 }
+// The auditor's own catch rate: known-bad claims planted before an audit, sealed, then revealed (operators/plant.md).
+function gaugeCatch(plants) {
+  const rev = (plants || []).filter((r) => r.status === "revealed" && r.plaintext);
+  const planted = rev.filter((r) => r.plaintext.planted);
+  const sealed = (plants || []).filter((r) => r.status === "sealed").length;
+  if (!planted.length) return missing("g-catch", "Audit: the auditor's catch rate", `no planted claim revealed yet${sealed ? ` (${sealed} sealed)` : ""} in <code>ledger/plants.jsonl</code>.`);
+  const k = planted.filter((r) => r.caught).length, n = planted.length;
+  const [lo, hi] = wilson(k, n);
+  const lim = planted.map((r) => r.limits).filter(Boolean);
+  const box = card("g-catch", {
+    label: "Audit: the auditor's catch rate",
+    value: `${k} of ${n}`, unit: `planted claim${n === 1 ? "" : "s"} caught · 95% interval ${pct(lo)}–${pct(hi)}`,
+    caption: `Another session hid a known-bad claim in a results file and sealed it before the audit; the auditor ${k === n ? "found every one" : `found ${k}`}. ${n < 10 ? `With ${n === 1 ? "one plant" : n + " plants"} this is not a rate yet (H2 needs 10).` : ""} ${lim.length ? "Limits: " + esc(lim[0].split(". ").slice(0, 2).join(". ")) + "." : ""}`,
+    source: `${src("ledger/plants.jsonl")} (hash-checked by <code>ledger/plants.py verify</code>) · ${src("ledger/scores.md", "scores.md")}`,
+  });
+  cells(box, [{ n: k, cls: "c-clean", word: "caught" }, { n: n - k, cls: "c-over", word: "missed" }]);
+}
+
+// The feedback loop: every pre-registration from the rule's start carries a lesson and a design review.
+function gaugeLearning(bets, lessons) {
+  const RULE_FROM = "2026-11-04 17:00";
+  const L = lessons || [];
+  const pats = L.filter((r) => r.kind === "pattern");
+  const les = new Map(L.filter((r) => r.kind === "lesson").map((r) => [r.bet, r]));
+  const since = bets.filter((b) => (b.raw?.prereg_time || "") >= RULE_FROM && b.raw?.verdict !== "withdrawn");
+  const bad = since.filter((b) => !les.has(b.id) || !b.raw?.design_review?.path).map((b) => b.id);
+  const pairs = [...les.values()].flatMap((l) => {
+    const b = bets.find((x) => x.id === l.bet); const o = b ? outcomeOf(b) : null;
+    return o != null && l.odds_before_lesson != null && l.odds_after_lesson != null ? [[l.odds_before_lesson, l.odds_after_lesson, o]] : [];
+  });
+  const bb = brier(pairs.map(([p, , o]) => ({ p, o }))), ba = brier(pairs.map(([, q, o]) => ({ p: q, o })));
+  const box = card("g-learn", {
+    label: "Learning: lessons before every bet",
+    value: since.length ? `${since.length - bad.length} of ${since.length}` : "0", unit: since.length ? "new bets with a lesson and a design review" : "new bets since the rule",
+    caption: `${pats.length} patterns from past misses and audit cuts are on file. Before each new bet the engine must say which one it is correcting and how its odds reflect it, and a fresh auditor must dry-run the design. ${bad.length ? `<b>Violations: ${bad.map(esc).join(", ")}.</b> ` : ""}${pairs.length ? `Brier with the odds before the lesson ${f3(bb)}, after it ${f3(ba)} (n = ${pairs.length}).` : "Whether the lessons improve the odds is measured once lesson-carrying bets resolve: Brier before the lesson against after it."}`,
+    source: `${src("ledger/lessons.jsonl")} · ${src("operators/learn.md", "learn.md")} · ${src("operators/design-review.md", "design-review.md")}`,
+  });
+  cells(box, [{ n: since.length - bad.length, cls: "c-clean", word: "with lesson + review" }, { n: bad.length, cls: "c-over", word: "violation" }]);
+}
+
 function gaugeKills(kills, p3) {
   const n = kills.length, diag = kills.filter((k) => String(k.diagnosis || "").trim()).length;
   const scout = (p3?.closed || []).filter((c) => String(c.status || "killed") === "killed");
@@ -612,13 +652,15 @@ function gaugeTimeline(bets, maps, p3) {
 
 // ---------- page ----------
 (async () => {
-  const [bets, maps, kills, auditMd, ibm, apiMd, ctxMd, p3] = await Promise.all([
+  const [bets, maps, kills, auditMd, ibm, apiMd, ctxMd, p3, plants, lessons] = await Promise.all([
     loadBets(), loadMaps(), loadKills(),
     getText(DATA + EM + "audits/SUMMARY.md"),
     getJSON(DATA + EM + "results/ibm-usage.json"),
     getText(DATA + EM + "results/api-usage.md"),
     getText(DATA + "engine/CONTEXT.md"),
     getJSON(DATA + NG + "map/program-3-map.json"),
+    getJSONL(DATA + "ledger/plants.jsonl"),
+    getJSONL(DATA + "ledger/lessons.jsonl"),
   ]);
   const ctx = readContext(ctxMd);
   const audit = readAudit(auditMd);
@@ -633,7 +675,9 @@ function gaugeTimeline(bets, maps, p3) {
   run(() => gaugeStability(p3));
   run(() => gaugeOverclaim(audit));
   run(() => gaugeReversal(audit));
+  run(() => gaugeCatch(plants));
   run(() => gaugeKills(kills, p3));
+  run(() => gaugeLearning(bets, lessons));
   run(() => gaugeAPI(ctx, bets, apiMd));
   run(() => gaugeQPU(ibm, ctx, p3));
   run(() => gaugeReferee(bets, p3));

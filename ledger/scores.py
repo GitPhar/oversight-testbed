@@ -5,7 +5,8 @@
 Reads only committed ledger files. brier.py covers calibration (H1); this file
 covers the scored veto (operators/veto.md) the auditor's catch rate on
 sealed plants (operators/plant.md), pre-mortems (operators/premortem.md), and hardware tiebreaks and beacon
-seeds (operators/hardware.md). Do not edit scores.md by hand.
+seeds (operators/hardware.md), and the feedback loop and design review
+(operators/learn.md, operators/design-review.md). Do not edit scores.md by hand.
 """
 import json
 import math
@@ -111,6 +112,13 @@ def section_plants(w):
             pt = r["plaintext"]
             w(f"| {r['id']} | {r['bet']} | {pt['class']}/{pt['subclass']} | {'yes' if r['caught'] else 'no'} | {r['caught_where']} | {r['planter_model']} |")
         w("")
+    lim = [r for r in rev if r.get("limits")]
+    if lim:
+        w("**Limits, stated with the number:**")
+        w("")
+        for r in lim:
+            w(f"- {r['id']}: {r['limits']}")
+        w("")
     w("Verify every revealed commitment with `python3 ledger/plants.py verify`.")
     w("")
 
@@ -178,6 +186,61 @@ def section_hardware(w):
     w("")
 
 
+RULE_FROM = "2026-11-04 17:00"   # operators/learn.md and operators/design-review.md apply from here
+
+
+def section_learning(w):
+    bets = load("bets.jsonl")
+    rows = load("lessons.jsonl")
+    pats = {r["id"]: r for r in rows if r.get("kind") == "pattern"}
+    lessons = {r["bet"]: r for r in rows if r.get("kind") == "lesson"}
+    since = [b for b in bets if (b.get("prereg_time") or "") >= RULE_FROM and b.get("verdict") != "withdrawn"]
+    withdrawn = [b for b in bets if b.get("verdict") == "withdrawn"]
+    no_lesson = [b["id"] for b in since if b["id"] not in lessons]
+    no_review = [b["id"] for b in since if not (b.get("design_review") or {}).get("path")]
+    flagged = [b["id"] for b in bets if b.get("rule_violation")]
+    w("## The feedback loop (operators/learn.md) and design review (operators/design-review.md)")
+    w("")
+    w(f"Both are mandatory for every pre-registration from {RULE_FROM} America/Denver. "
+      f"{len(pats)} patterns from past misses and audit cuts are on file in `lessons.jsonl`; {len(lessons)} lesson line{'s' if len(lessons) != 1 else ''} written.")
+    w("")
+    w("| | count |")
+    w("|---|---|")
+    w(f"| pre-registrations since the rule | {len(since)} |")
+    w(f"| with a lesson line | {len(since) - len(no_lesson)} |")
+    w(f"| with a design review | {len(since) - len(no_review)} |")
+    w(f"| **violations** (missing lesson or review) | {len(set(no_lesson) | set(no_review))}{': ' + ', '.join(sorted(set(no_lesson) | set(no_review))) if no_lesson or no_review else ''} |")
+    w(f"| bets flagged `rule_violation` | {len(flagged)}{': ' + ', '.join(flagged) if flagged else ''} |")
+    w(f"| withdrawn after a design review said redesign | {len(withdrawn)} |")
+    w("")
+    revs = [b["design_review"] for b in bets if (b.get("design_review") or {}).get("verdict")]
+    if revs:
+        vc = {v: sum(1 for r in revs if r["verdict"] == v) for v in ("go", "fix-first", "redesign")}
+        missed = [r for r in revs if r.get("missed")]
+        w(f"Design reviews: {vc['go']} go, {vc['fix-first']} fix-first, {vc['redesign']} redesign; "
+          f"{len(missed)} later found by the post-result audit to have missed a flaw they should have caught.")
+        w("")
+    scored = [l for l in lessons.values() if l.get("scored")]
+    pairs = []
+    for l in scored:
+        b = next((x for x in bets if x["id"] == l["bet"]), None)
+        if b and b.get("scored") and l.get("odds_before_lesson") is not None and l.get("odds_after_lesson") is not None:
+            pairs.append((l["odds_before_lesson"], l["odds_after_lesson"], b["outcome"]))
+    w("| pattern | title | cited by | recurred after citing |")
+    w("|---|---|---|---|")
+    for pid, pr in pats.items():
+        cit = [l for l in lessons.values() if pid in (l.get("patterns") or [])]
+        rec = sum(1 for l in cit if l.get("recurred") is True)
+        w(f"| {pid} | {pr['title']} | {len(cit)} | {rec} of {sum(1 for l in cit if l.get('recurred') is not None)} scored |")
+    w("")
+    if pairs:
+        bb = brier([(p, o) for p, _, o in pairs]); ba = brier([(q, o) for _, q, o in pairs])
+        w(f"**Does the loop help?** On {len(pairs)} scored bets, Brier with the odds before the lesson is {fmt(bb)}, after it {fmt(ba)}.")
+    else:
+        w("**Does the loop help?** Not measurable yet: no bet with a lesson has a scored outcome. The test is Brier with the odds before the lesson against after it, paired.")
+    w("")
+
+
 def main():
     L = []
     w = L.append
@@ -190,6 +253,7 @@ def main():
     section_plants(w)
     section_premortems(w)
     section_hardware(w)
+    section_learning(w)
     (HERE / "scores.md").write_text("\n".join(L) + "\n")
     print("wrote ledger/scores.md")
 

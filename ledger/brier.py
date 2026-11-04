@@ -72,10 +72,11 @@ def main():
       f"The engine expected {sum(p for p, _ in eng):.2f} hits and got {hits}.")
     w("")
     be, exp = brier(eng), sum(p for p, _ in eng)
-    vs = "about the same as" if abs(be - 0.25) < 0.01 else ("better than" if be < 0.25 else "worse than")
+    vs = (f"about the same as a coin ({n} bets cannot tell a gap of {abs(be - 0.25):.3f} from noise)" if abs(be - 0.25) < 0.05
+          else ("better than a coin" if be < 0.25 else "worse than a coin"))
     w(f"- **The engine's Brier score is {fmt(be)}.** Lower is better: 0 is perfect, "
       f"0.25 is what always saying 50% scores, and {fmt(brier([(base, o) for _, o in eng]))} is what always saying "
-      f"the observed hit rate ({hits}/{n}) would have scored. On this small sample the engine scored {vs} a coin"
+      f"the observed hit rate ({hits}/{n}) would have scored. On this small sample the engine scored {vs}"
       + (", and no better than knowing the hit rate in advance." if be >= brier([(base, o) for _, o in eng]) else "."))
     lo_p, hi_p = min(p for p, _ in eng), max(p for p, _ in eng)
     hit_p = sorted({p for p, o in eng if o == 1})

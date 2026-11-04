@@ -60,6 +60,8 @@ Each row names its parent direction and is marked `engine-only` and, where it ap
 
 ## For the session recording this form
 
+**Before pre-registering any direction on this form** (mandatory from 2026-11-04 17:00): the betting session reads `ledger/bets.jsonl`, `ledger/brier.md`, `ledger/audits/` and `ledger/lessons.jsonl` in the engine repo, and writes one lesson line in the pre-registration's §0: which past pattern it corrects, and how its odds reflect it (`operators/learn.md`). A fresh auditor then dry-runs the design and must say **go** before the first call (`operators/design-review.md`). A direction pre-registered without both is a rule violation: it is flagged in the ledger and on the site. Your own number on this form is unaffected; the lesson is the engine's.
+
 1. Commit the filled form on its own, before the pre-registration of any direction it answers. Never edit a number afterwards. A change of mind is a new line with a new time, and both stay (the first given is scored).
 2. For each answered question, copy the number into the line of that direction's **primary bet** in `ledger/bets.jsonl`:
    - `human_odds`: the number divided by 100 (for example `0.25`);
