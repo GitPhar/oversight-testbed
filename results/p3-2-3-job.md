@@ -1,21 +1,23 @@
 # P3-2 and P3-3 result: the gap was gone today, so neither bet could be tested
 
-Pre-registrations: `experiments/p3-2-twirl-dd.md` (commit `534b3eb`, seed `80db49d`, CURBy-RNG 1591393) and `experiments/p3-3-layouts.md` (`4d1fea0`, seed `ce9e186`, CURBy-RNG 1591395). The predictions and all 200 circuits were committed before submission (`cd2963a`). One job on `ibm_fez`, `dblrect8ft8s738tl2v0`, submitted 15:52:35 and run 15:52:36–15:52:51 America/Denver, 2026-11-04, via `run_hardware`. **Billed 8.0 QPU s** (estimate 7.6 s, so the 1.5× re-costing rule is not triggered). Cumulative project use: **54 s** of the 420 s hard stop. **Verdicts: P3-2 untestable, P3-3 untestable** (unaudited). Engine odds 0.25 and 0.12. Human odds not recorded.
+> Audited 2026-11-04 (round 2, entangled-mind audit2 8091d01, audits/ng-p3-2-3.md): verdict stands (P3-2 untestable, P3-3 untestable); 13 of 15 required cuts applied in D5 (cuts 14 and 15 are in README.md and map/program-3-map.md and were not applied here; see D5).
+
+Pre-registrations: `experiments/p3-2-twirl-dd.md` (commit `534b3eb`, seed `80db49d`, CURBy-RNG 1591393) and `experiments/p3-3-layouts.md` (`4d1fea0`, seed `ce9e186`, CURBy-RNG 1591395). The predictions and all 200 circuits were committed before submission (`cd2963a`). One job on `ibm_fez`, `dblrect8ft8s738tl2v0`, submitted 15:52:32 (local clock); execution started 15:52:37 (IBM), America/Denver, 2026-11-04, via `run_hardware`. **Billed 8.0 QPU s** (estimate 7.6 s, so the 1.5× re-costing rule is not triggered). Cumulative project use: **54 s** of the 420 s hard stop. **Verdicts: P3-2 untestable, P3-3 untestable** (unaudited). Engine odds 0.25 and 0.12. Human odds not recorded.
 
 ## In plain English
 
-On 3 November, program 1's circuit made the chip say "yes" 50% of the time, where the chip's own description predicted about 25%. Three of this program's first bets were built to find out why. Today, one day later, we ran the identical circuit on the identical nine qubits, 2,000 times. **The chip said "yes" 24.6% of the time. The corrected simulator, using today's calibration, predicted 26.9%.** The big disagreement did not come back.
+On 3 November, program 1's circuit made the chip say "yes" 50% of the time, where the chip's own description predicted about 25%. Three of this program's first bets were built to find out why. Today, one day later, we ran program 1's gate list on the same nine qubits, 2,000 times (without the one pre-measurement barrier the 3 November circuit had, and as 20 interleaved blocks of 100 shots rather than one block of 1,000). **The chip said "yes" 24.6% of the time. The corrected simulator, using today's calibration, predicted 26.9%.** The big disagreement in P(yes) did not come back. Qubit by qubit it is smaller but not gone: qubit 125 still reads 0.14 below the simulator (about 12 standard errors).
 
 That makes both chip bets untestable by the rules written before the run. P3-2 asked whether scrambling the errors (twirling) closes at least half the gap. P3-3 asked whether other qubits show less than half the gap. Each rule needs a gap to work on, and the pre-registration said in advance that below 0.125 (P3-2) or 0.10 (P3-3) the question cannot be answered. Today's gap is 0.023. This is not a pass or a fail, and it is not scored.
 
-**What it suggests, not scored.** Program 1's 50% looks like something that happened to this chip on 3 November, not a fixed property of these nine qubits or of the simulator. Its cause is unknown. The difference between the two days (0.502 against 0.246) is about 14 standard errors. Only a repeat, the drift check this session was told not to run, can say how often such afternoons happen. That makes it the most useful next chip test. It also changes how P3-1 and P3-5 read: they described one unusual afternoon's data.
+**What it suggests, not scored.** Program 1's 50% did not recur a day later on the same nine qubits. Two runs cannot say which day was typical, and the two runs also differed in one barrier and in how the shots were grouped. Its cause is unknown. The difference between the two days (0.502 against 0.246) is about 14 standard errors. Only a repeat, the drift check this session was told not to run, can say how often such afternoons happen. That makes it the most useful next chip test. P3-1 and P3-5 explain the 3 November data; whether that afternoon was unusual is untested.
 
 **The rest of the job, all secondary:**
-- **Twirling** moved the answer by +0.047 (z = 3.8). It went *past* the simulator, to 0.293 against 0.269, so it changed the error without simply removing it. Gate twirling alone moved it +0.038. **Decoupling** moved it +0.010, which is not distinguishable from zero. Both together moved it +0.031.
-- **The pre-registered defaults for waves 2–3: twirling off, decoupling off.** Twirling's shift of 0.047 is just under the 0.05 bar the rule set. Decoupling did not help.
-- **The two other sets of nine qubits** also agree with the simulator: 0.277 against 0.265, and 0.297 against 0.264.
-- **One qubit's readout is much worse than IBM reports.** On physical qubit 141, the job's own readout check read a prepared 0 as 1 21% of the time, and a prepared 1 as 0 11% of the time. IBM's calibration, read at the moment the job ran, says about 1%.
-- **The deep "mirror" check** runs the circuit forward and then backward, so a perfect device returns where it started. The chip got all nine qubits right in 2.2% of runs. A simulation run afterwards with the same noise model (not pre-registered) expects 13.6%. So on a circuit twice as deep, the chip still falls well short of its description, even on a day when the forward circuit agrees.
+- **Twirling** moved the answer by +0.047 (z = 3.8). It ended above the simulator (0.293; the model predicts 0.270 for the twirled circuits), by about 2.3 standard errors, which is not enough to say how it changed the error. Gate twirling alone moved it +0.038. **Decoupling** moved it +0.010, which is not distinguishable from zero. Both together moved it +0.031.
+- **The pre-registered defaults for waves 2–3: twirling off, decoupling off.** Twirling's shift of 0.047 (95% CI 0.019–0.075) is just under the 0.05 bar the rule set, so this default is close to a tie. Decoupling did not help.
+- **The two other sets of nine qubits** are also close to the simulator in P(yes): 0.277 against 0.265 (about 1 SE) and 0.297 against 0.264 (about 3 SE). Each has one qubit 0.12–0.14 below the simulator.
+- **One qubit's readout is much worse than IBM reports.** On physical qubit 141, the job's own readout check read a prepared 0 as 1 21% of the time, and a prepared 1 as 0 11% of the time. IBM's calibration, read at the moment the job ran, says about 1%. It was also unstable: about 0.3 in the first third of the 15-second job and about 0.17 at the end.
+- **The deep "mirror" check** runs the circuit forward and then backward, so a perfect device returns where it started. The chip got all nine qubits right in 2.2% of runs. A simulation run afterwards with the same noise model, idle periods included (not pre-registered; code not committed), expects 13.6%; without idle decay, 19.8%. The chip's 2.2% is far below either. On a circuit twice as deep, that is a lead for a pre-registered test, not a finding.
 
 ## Tables
 
@@ -24,7 +26,7 @@ That makes both chip bets untestable by the rules written before the run. P3-2 a
 | arm | what | P(yes) | SE |
 |---|---|---|---|
 | S | corrected-sim prediction, original layout (live calibration 15:51, 100,000 shots) | 0.269 | 0.001 |
-| **A** | **as run (identical to program 1's circuit and qubits)** | **0.246** | 0.008 |
+| **A** | **as run (program 1's gate list and qubits; no pre-measurement barrier)** | **0.246** | 0.008 |
 | B | gate + measurement twirl | 0.293 | 0.009 |
 | B2 | gate twirl only | 0.284 | 0.010 |
 | C | DD XY4 | 0.256 | 0.009 |
@@ -61,7 +63,7 @@ Qubit 125 is still the largest single-qubit departure today (0.51 against 0.65),
 **Pre-mortems**, for the auditor:
 - P3-2 said "the departure is stochastic, not coherent, so twirling leaves P(yes) near the untwirled arm" (`world`).
 - P3-3 said "the departure is device-wide … so other layouts depart as much as the original" (`world`).
-- Neither named the actual reason: the departure was absent on the day. Both bets are untestable, not failed.
+- Neither named the actual reason: the departure was absent on the day. Both bets are untestable, which counts as failed for pre-mortem scoring (operators/premortem.md).
 
 **Not run this session:** P3-3's two repeats ≥ 3 h apart (D0). After today, they are the direct test of what changed between 3 and 4 November.
 
