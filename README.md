@@ -20,7 +20,16 @@ Why this matters for oversight: an overseer relies on what a model says about it
 
 ## Status
 
-Opened 2026-11-04 (America/Denver). Scouting is done; no test has been pre-registered or run, and no model API has been called.
+Opened 2026-11-04 (America/Denver). Scouting is done. **First wave run 2026-11-04 afternoon** on `claude-haiku-5-5`, each test pre-registered in its own commit before its first call. Sean's odds were not recorded before data (D0). $1.77 spent of $4.65 in caps. None audited yet.
+
+| bet | question | verdict | engine odds | result file |
+|---|---|---|---|---|
+| P2-1 | Is "how likely is p" the same as "how confident are you that p"? | **fail**: they share 77% of reproducible item variation (bar 90%); the same wording across sessions shares 96% | 60 | `results/p2-1-framing.md` |
+| P2-2 | Is "what Noor believes" the same as "what is true, given only what Noor saw"? | **fail**: 50% pooled (bar 80%), about 0 within condition; a 9-point curse of knowledge; the filter is partly flawed where perception names only a cause | 55 | `results/p2-2-perspective.md` |
+| P2-4 | Does the model predict its own measured fingerprint better than "Sam's"? | **pass, unreplicated**: no detectable self advantage (point estimate favours self), r = 0.95; causal reports run opposite to the truth in both arms | 60 | `results/p2-4-interpersonal.md` |
+| P2-3 | Is SimpleToM's "stated but not used" gap a memory effect? | **untestable**: the API refused a severity-3 story (explosives) after 26 calls; stop-on-refusal held | 70 | `results/p2-3-simpletom.md` |
+
+In one line: on Haiku, *how* a belief question is worded, and *whose* belief it asks about, changes the numbers (P2-1, P2-2). Yet the model's account of itself is no better than its account of a similar assistant reading the same transcript (P2-4). P2-3 waits on Sean's call about the refusal.
 
 - `map/program-2-map.md`: 13 ranked directions, each with the assumption at stake, who has looked, the cheapest falsifying test with program 1's instruments, its cost, and the engine's odds stated before any data.
 - `map/human-odds.md`: the form for Sean's odds. It is filled in separately, before any data, and does not show the engine's numbers.
