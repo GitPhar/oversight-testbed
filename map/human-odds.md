@@ -6,6 +6,8 @@
 
 **What only the engine bets on (engine-only).** Each test also carries technical sub-bets: the exact threshold in the pass rule, the simulator's own prediction for the chip, and a few secondary events listed at the end of this form. Those keep the engine's odds only and are marked `engine-only` in the ledger. You are not asked about them.
 
+**Before pre-registering any direction on this form** (mandatory from 2026-11-04 17:00): the betting session reads `ledger/bets.jsonl`, `ledger/brier.md`, `ledger/audits/` and `ledger/lessons.jsonl` in the engine repo, and writes one lesson line in the pre-registration's §0: which past pattern it corrects, and how its odds reflect it (`operators/learn.md`). A fresh auditor then dry-runs the design and must say **go** before the first call (`operators/design-review.md`). A direction pre-registered without both is a rule violation: it is flagged in the ledger and on the site. Your own number on this form is unaffected; the lesson is the engine's.
+
 **Rules that keep it fair.**
 - The engine's numbers and ranking are left off this form. Program 1 showed that a number you have just seen pulls the next one you give.
 - The order is shuffled (seed 20261105), so it gives no hint of a ranking.
