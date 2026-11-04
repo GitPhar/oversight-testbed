@@ -19,6 +19,7 @@ const PAGES = [
   ["index.html", "Home"],
   ["map.html", "Map"],
   ["calibration.html", "Calibration"],
+  ["instruments.html", "Instruments"],
   ["kills.html", "Kill log"],
   ["record.html", "Record"],
   ["papers.html", "Papers"],
