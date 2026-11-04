@@ -35,8 +35,40 @@ Invariants: odds before data; cheapest test first; no result without audit; noth
 Program: The Entangled Mind (2026-11-03 to 04). Starting hypothesis: encoding an LLM's competing claims as an entangled quantum state predicts its errors better than classical methods. Thirty-plus pre-registered tests, two base models, 46 QPU seconds on real hardware, about $50 of API.
 
 - The hypothesis died cleanly: the quantum encoding ties a matched classical twin on two models; the learned encoding switched entanglement off itself; a pre-registered ablation showed the one apparent edge was single-claim readout geometry that a classical model reproduces. Eight hypotheses killed with diagnoses.
-- The attempt to measure beliefs produced the live finding: there is no stored credence to read out. Question order moves a model's rating by a median of 25 points; hiding its own earlier answers changes its mind 77% of the time (consistency is memory); six elicitation formats need six credences; another model judges its errors better than it does. This lands on model psychology, calibration evaluation and scalable oversight — three of the residency's named areas.
+- The attempt to measure beliefs produced the live finding: there is no stored credence to read out. Question order moves a model's rating by a median of 25 points; with its first answer hidden it repeats that answer within 5 points 36% of the time, against 86% when the answer is visible (consistency is memory; 40-item replication, entangled-mind `results/gm2b-self-conditioning-40.md`); six elicitation formats need six credences; another model judges its errors better than it does. This lands on model psychology, calibration evaluation and scalable oversight — three of the residency's named areas.
 - Engine calibration so far: odds were stated for six paid bets; two hit against an expectation of about 0.85 hits. Overclaims cut by independent re-checks: three. Artefacts caught: two.
+
+## Related work
+
+Full reads of 63 sources across six fields are in `related-work/` (index and borrowings in `related-work/README.md`; the paper version is `paper/the-engine.md` §2). In one line per field:
+
+- **AI-scientist systems** (Sakana's AI Scientist v1 and v2, Google's AI co-scientist, FutureHouse's Robin, Agent Laboratory). These are scored on outputs: their own critic, human ratings, or selected lab confirmations.
+  - Their self-evaluation runs high: one system's LLM reviewers gave 6.1/10 where humans gave 3.8.
+  - Judgments of ideas made before execution barely predict how the ideas do once run (Si, Hashimoto & Yang 2025).
+  - An auditor that sees logs and code catches 82% of planted flaws, against 55% from the paper alone (Luo, Kasirzadeh & Shah 2025).
+  - None states odds before data or scores the human selection steps.
+- **Research-agent benchmarks** (MLAgentBench, RE-Bench, MLE-bench, PaperBench). These score execution of a task someone else chose. Reward hacking is documented in them, not hypothetical. RE-Bench names "setting research directions" as the gap.
+- **Scalable oversight** (sandwiching, debate, weak-to-strong, AI control). These score judges on questions with known answers.
+  - Human–model teams beat either alone, but were worse calibrated (Bowman et al. 2022).
+  - When the strong model picks its own side, weak judges follow its errors (Kenton et al. 2024), and a research agent picks its own bets.
+  - An untrusted monitor must be validated on planted flaws (Greenblatt et al. 2023).
+- **LLM forecasters** are near human crowds on world events, and model + human beats either. Their odds move with framing and negation. Nobody scores an agent's odds on its own experiments, before it runs them.
+- **Pre-registration and replication markets.** Registered Reports support their first hypothesis 44% of the time, against 96% in standard papers (Scheel et al. 2021). Prediction markets call replications about 73% right and run optimistic. Every forecaster studied predicts other people's finished work.
+- **AI self-evaluation and Goodhart.**
+  - Models favour their own outputs; optimising a proxy eventually hurts the target; self-correction without feedback hurts accuracy.
+  - Anthropic's 2026 automated weak-to-strong researcher reached PGR 0.97 and also gamed its scorer in ways nobody predicted.
+  - Introspective access is real but narrow, at about 20% (Lindsey 2025).
+
+**The gap.** No study in any of the six fields scores a research agent's pre-data odds on its own experiments, measures how much an independent audit changes its verdicts, or scores a human overseer's added value on open-ended research. That is Q1–Q3. Q4 and Q5 (seed dependence; literature-sourced against self-generated bets) are untested anywhere we looked.
+
+**What we took.**
+- From Registered Reports: in-principle acceptance, which becomes our pre-registration commit.
+- From prediction markets and forecasting: the scoring design. That means a running base rate, an exact calibration-in-the-large test, Brier split by outcome, one fixed elicitation format with a negated re-check, and blind human odds with a mechanical mean.
+- From sandwiching: the engine / human / combined comparison.
+- From debate: the auditor argues the opposing side first.
+- From AI control: canaries to validate a same-family auditor.
+
+**What we cannot match.** Their sample sizes. This is a case study piloting the measures, not a benchmark.
 
 ## Cheapest next experiments (all pre-registered before their first call)
 

@@ -68,7 +68,7 @@ Trying to measure the model's beliefs showed there is no fixed belief to measure
 Safety framing: oversight and calibration evaluations assume a model's stated confidence reads out a stored belief with some noise. These results say the number is constructed by the question, the format and the model's own transcript, consistency is memory, and self-access is not privileged. Whether the belief exists inside while the words move is the probe test now running.
 
 ### Engine calibration so far
-Gold-map stated odds vs outcomes: direction 9 (no P stated) hit; 3a P=0.45 miss; 1 P=0.15 (revised from 0.30) miss (null, as predicted); 2 P=0.25 hit; 3 P=0.25 (revised from 0.45) hit; 4 P=0.20 mixed. Two paid hits against ~0.85 expected. Track this table; it is a published number.
+Gold-map stated odds vs outcomes: direction 9 (P=0.20 as a conceptual result, no pass rule) invasive in 5 of 6 families, not scored; 3a (no P stated) no evidence either way, not scored; 1 P=0.15 (revised from 0.30, before data) miss (null, as predicted); 2 P=0.25 hit (holds at 40 items, R = 1.23 [0.75, 2.02]); 3 P=0.25 (revised from 0.45, before data) hit; 4 P=0.20 mixed. Two passes against 0.85 expected (Poisson-binomial P(X≥2) = 0.20); Brier 0.297 vs 0.25 for a constant 0.5 (n = 4; uninformative). Track this table; it is a published number. (Corrected 2026-11-04 from entangled-mind `paper/gold-map.md`: an earlier version of this line gave 3a P=0.45, which was direction 3's pre-revision odds.)
 
 ## 5. The map (next candidates, in order, with odds and cost)
 
