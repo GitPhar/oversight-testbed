@@ -41,7 +41,7 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 |---|---|
 | engine: named the main reason | — |
 | engine: named it or its kind | — |
-| lazy baseline: failures whose reason was 'the effect is not there' | — |
+| lazy baseline: failures whose reason was 'the effect is not there' | 0/2 = 0.00 [0.00, 0.66] |
 | human: named the main reason | — |
 
 Descriptive under Q1 until there are at least 15 failed bets with pre-mortems.

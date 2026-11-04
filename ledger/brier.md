@@ -84,7 +84,7 @@ Predicted = mean stated probability in the bucket; observed = fraction that hit;
 - **em-dm4** (Multi-model: shown / redacted / planted transcripts on Sonnet and Opus): Not scored: a replication with no new probability stated.
 - **em-dm6** (Calibration (ECE) under two formats and two question orders): Not scored: no probability stated. Parse and token-cap problems (DM6a) leave 68-199 of 300 questions per cell.
 - **om-p2-3** (SimpleToM decomposed: is the 'stated but not used' gap a memory effect?): not scored: the pre-registered event was not decided (run stopped on a refusal, request req_011Cgih9NjqNtezArQLWd12p); failed/premortem fields left for the auditor
-- **ng-p3-2** (Coherent or stochastic? Twirling and DD on the Stage 1 circuit): open: shared ibm_fez job dblrect8ft8s738tl2v0 running (prediction commit cd2963a, estimate 7.6 QPU s)
-- **ng-p3-3** (Is the gap nine particular qubits, or one afternoon?): open: shared ibm_fez job dblrect8ft8s738tl2v0 running (prediction commit cd2963a, estimate 7.6 QPU s)
+- **ng-p3-2** (Coherent or stochastic? Twirling and DD on the Stage 1 circuit): Not scored: untestable by its pre-registered rule 5.1. Unaudited.
+- **ng-p3-3** (Is the gap nine particular qubits, or one afternoon?): Not scored: untestable by its pre-registered rule 5.1. Unaudited. QPU seconds are booked once, under ng-p3-2 (shared job).
 
 No bet has an audit yet (`ledger/audits/` is empty). When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.
