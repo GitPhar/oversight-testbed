@@ -110,4 +110,6 @@ These keep the engine's odds only (`human_odds: null`, `human_odds_note: "engine
 
 ## For the session recording this form
 
+**Before pre-registering any direction on this form** (mandatory from 2026-11-04 17:00): the betting session reads `ledger/bets.jsonl`, `ledger/brier.md`, `ledger/audits/` and `ledger/lessons.jsonl` in the engine repo, and writes one lesson line in the pre-registration's §0: which past pattern it corrects, and how its odds reflect it (`operators/learn.md`). A fresh auditor then dry-runs the design and must say **go** before the first call (`operators/design-review.md`). A direction pre-registered without both is a rule violation: it is flagged in the ledger and on the site. Your own number on this form is unaffected; the lesson is the engine's.
+
 Follow `oversight-testbed/map/human-odds-template.md`, "For the session recording this form". Commit the filled form on its own, before the pre-registration of any direction it answers. Copy each number into that direction's primary bet in `ledger/bets.jsonl` (`human_odds` = number / 100) and append a line to `ledger/human-odds.jsonl`. Sub-bets get `human_odds: null`. Never fill a closed question.
