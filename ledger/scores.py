@@ -3,8 +3,8 @@
     python3 ledger/scores.py
 
 Reads only committed ledger files. brier.py covers calibration (H1); this file
-covers the scored veto (operators/veto.md) and the auditor's catch rate on
-sealed plants (operators/plant.md). Do not edit scores.md by hand.
+covers the scored veto (operators/veto.md) the auditor's catch rate on
+sealed plants (operators/plant.md), and pre-mortems (operators/premortem.md). Do not edit scores.md by hand.
 """
 import json
 import math
@@ -114,6 +114,43 @@ def section_plants(w):
     w("")
 
 
+def section_premortems(w):
+    bets = load("bets.jsonl")
+    written = [b for b in bets if b.get("premortem")]
+    failed = [b for b in written if b.get("failed") and b.get("premortem_score") not in (None, "unclear")]
+    named = [b for b in failed if b["premortem_score"] == "named"]
+    kind = [b for b in failed if b["premortem_score"] in ("named", "kind_only")]
+    all_failed = [b for b in bets if b.get("failed")]
+    world = [b for b in all_failed if b.get("failure_kind") == "world"]
+    hum = [b for b in bets if b.get("human_premortem") and b.get("failed") and b.get("human_premortem_score") not in (None, "unclear")]
+    w("## Pre-mortems (operators/premortem.md)")
+    w("")
+    w(f"{len(written)} of {len(bets)} bets carry an engine pre-mortem; {len(failed)} of those have failed and been scored. "
+      f"{sum(1 for b in bets if b.get('premortem_note'))} earlier bets were pre-registered before pre-mortems existed and have none, honestly.")
+    w("")
+    def rate(k, n):
+        if not n:
+            return "—"
+        lo, hi = wilson(k, n)
+        return f"{k}/{n} = {k / n:.2f} [{lo:.2f}, {hi:.2f}]"
+    w("| measure | value (95% Wilson interval) |")
+    w("|---|---|")
+    w(f"| engine: named the main reason | {rate(len(named), len(failed))} |")
+    w(f"| engine: named it or its kind | {rate(len(kind), len(failed))} |")
+    w(f"| lazy baseline: failures whose reason was 'the effect is not there' | {rate(len(world), len(all_failed))} |")
+    w(f"| human: named the main reason | {rate(sum(1 for b in hum if b['human_premortem_score'] == 'named'), len(hum))} |")
+    w("")
+    if failed:
+        kinds = ("world", "design", "execution", "artefact")
+        w("| stated kind \\ actual kind | " + " | ".join(kinds) + " |")
+        w("|---|" + "---|" * len(kinds))
+        for sk in kinds:
+            w(f"| {sk} | " + " | ".join(str(sum(1 for b in failed if b['premortem_kind'] == sk and b.get('failure_kind') == ak)) for ak in kinds) + " |")
+        w("")
+    w("Descriptive under Q1 until there are at least 15 failed bets with pre-mortems.")
+    w("")
+
+
 def main():
     L = []
     w = L.append
@@ -124,6 +161,7 @@ def main():
     w("")
     section_vetoes(w)
     section_plants(w)
+    section_premortems(w)
     (HERE / "scores.md").write_text("\n".join(L) + "\n")
     print("wrote ledger/scores.md")
 

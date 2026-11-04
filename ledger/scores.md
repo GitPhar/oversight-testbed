@@ -33,3 +33,16 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
+## Pre-mortems (operators/premortem.md)
+
+0 of 20 bets carry an engine pre-mortem; 0 of those have failed and been scored. 20 earlier bets were pre-registered before pre-mortems existed and have none, honestly.
+
+| measure | value (95% Wilson interval) |
+|---|---|
+| engine: named the main reason | — |
+| engine: named it or its kind | — |
+| lazy baseline: failures whose reason was 'the effect is not there' | — |
+| human: named the main reason | — |
+
+Descriptive under Q1 until there are at least 15 failed bets with pre-mortems.
+

@@ -96,6 +96,11 @@ verdict_after_audit: pass|pass-unreplicated|classical|tie|null|untestable|mixed
 verdict_stands: true|false     # true only if verdict_after_audit == verdict_claimed
 canary: unknown                # the auditor never knows; filled in by the ledger session at reveal (plant id, clean|planted)
 false_alarms: 0               # filled later by the ledger session: holes shown wrong by the author's reply and Sean's decision
+failed: true|false            # verdict_after_audit not pass/pass-unreplicated, or the run did not complete as pre-registered
+failure_reason: <one line, written before reading the pre-mortem>
+failure_kind: world|design|execution|artefact|null
+premortem_score: named|kind_only|other|not_failed|unclear   # operators/premortem.md
+risk_seen: true|false|null    # only when not_failed: did the named risk show up anyway?
 ---
 
 # Audit of <bet-id>: <title>
@@ -113,6 +118,9 @@ false_alarms: 0               # filled later by the ledger session: holes shown 
 ## Checklist
 <A1–D22, each: holds / hole / cannot check, with evidence and commands run>
 
+## The pre-mortem, scored
+<first your own one-line failure reason and its kind, written before you read the pre-registration's pre-mortem; then the pre-mortem quoted, and the score with one sentence of evidence (operators/premortem.md)>
+
 ## Required cuts
 <exact sentences to remove or rewrite, with the replacement wording>
 
@@ -127,6 +135,10 @@ The audit is committed to `oversight-testbed` on its own, in a commit whose mess
 - The session that owns the result makes the required cuts **in the same commit series** as the result, and links the audit in the results file. It does not argue with the audit in the results file; a disagreement goes in the audit's own file as a reply section, and the human decides.
 - **Overriding an audit is a human steer.** Only Sean can do it; it is logged in `ledger/steers.jsonl` as `action: override_audit` with his reason, and scored later like every other steer.
 - The ledger session updates the bet's verdict from `verdict_after_audit`.
+
+## After the checklist: score the pre-mortem
+
+Every pre-registration carries one sentence, "If this fails, the most likely reason is …". **Do not read it until the checklist is done.** Then write your own one-line account of why the bet failed, if it did, with its kind (`world`, `design`, `execution` or `artefact`), and only then read the pre-mortem and score it: `named`, `kind_only`, `other`, `not_failed` or `unclear`, with the rules in `operators/premortem.md`. A pre-registration made before 2026-11-04 has no pre-mortem; then write `premortem_score: null`.
 
 ## Plants (how the auditor itself is scored)
 

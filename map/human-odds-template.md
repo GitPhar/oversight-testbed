@@ -44,6 +44,7 @@ Best practice: answer **before** you look at the engine's number. If you have al
 
 - **Would you run this test at all?** yes / no / only if cheaper
 - **What result would surprise you most?** ______________
+- **If it fails, the most likely reason is** ______________ (one sentence; scored after the run like the engine's, see `operators/premortem.md`)
 
 ---
 

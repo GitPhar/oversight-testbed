@@ -20,6 +20,7 @@ Written and frozen <YYYY-MM-DD HH:MM> (America/Denver), in its own commit, befor
 | engine odds, P(pass) | <0–100>, stated <timestamp> in map/<program>.json — *copied, not restated* |
 | human odds, P(pass) | <0–100>, recorded <timestamp> in ledger/human-odds/<file> — *or "not recorded", with why* |
 | budget | $<n> API · <n> QPU s · <n> laptop hours |
+| pre-mortem | "If this fails, the most likely reason is <one checkable mechanism, ≤35 words>." Kind: `world` / `design` / `execution` / `artefact` (operators/premortem.md). *Never revised after this commit.* |
 | auditor | fresh session per operators/auditor.md, after results |
 
 *Odds are copied from where they were first written, never re-elicited here. If either side revised its odds, both numbers appear, with dates.*
@@ -81,16 +82,21 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
  "engine_odds": 0.00, "engine_odds_at": "<timestamp>",
  "human_odds": null, "human_odds_at": null,
  "prereg_commit": "<filled by the next commit>", "budget_usd": 0,
+ "premortem": "If this fails, the most likely reason is …", "premortem_kind": "world|design|execution|artefact",
+ "premortem_at": "<this commit>", "human_premortem": null, "human_premortem_kind": null,
+ "failed": null, "failure_reason": null, "failure_kind": null, "premortem_score": null,
+ "human_premortem_score": null, "risk_seen": null,
  "verdict": "open", "date": "<YYYY-MM-DD>", "result": null, "audit": null, "diagnosis": null}
 ```
 
-*Append this line to `oversight-testbed/ledger/bets.jsonl` in the commit after this one, with `prereg_commit` set to this commit's hash. After the audit, the ledger session sets `verdict` from the audit's `verdict_after_audit`, `result` to one plain line, `audit` to the audit file path, and `diagnosis` if the direction closes.*
+*Append this line to `oversight-testbed/ledger/bets.jsonl` in the commit after this one, with `prereg_commit` set to this commit's hash. After the audit, the ledger session sets `verdict` from the audit's `verdict_after_audit`, `result` to one plain line, `audit` to the audit file path, `diagnosis` if the direction closes, and the pre-mortem score fields from the audit header.*
 
 ## 9. Checklist before the first call
 
 - [ ] This file is committed on its own; nothing has been run.
 - [ ] Engine odds and human odds are on record elsewhere, with timestamps earlier than this commit.
 - [ ] The pass rule in §5 can be applied by a stranger.
+- [ ] The pre-mortem in §0 is one sentence, names a checkable mechanism, and carries its kind.
 - [ ] One scale direction in every graded prompt.
 - [ ] Budget and stop-on-refusal enforced in code, not by hand.
 - [ ] DEVIATIONS.md row added for this pre-registration.
