@@ -1,0 +1,59 @@
+# Nature-Graded (placeholder name)
+
+Program 3 of a scalable-oversight testbed for AI-driven research (the engine: `GitPhar/oversight-testbed`, placeholder slug). Program 1 was [The Entangled Mind](https://github.com/GitPhar/entangled-mind). Program 2 is Other Minds.
+
+"Nature-Graded" is a working name taken from the repository slug. The real title will come from this program's proposal once that reads right.
+
+## What this is for, in plain English
+
+The testbed's engine is an AI research agent. Before every experiment, it writes down how likely it thinks the experiment is to pass. Afterwards we check how good those odds were. That number, its calibration, says whether the engine's judgment about what is worth doing can be trusted.
+
+The trouble is who does the grading. In program 1, what decided whether a bet passed was the behaviour of a language model. That is a referee built much the way the engine is built. An engine could look well calibrated there because it shares its referee's habits, not because its judgment is good. Its blind spots and the referee's would line up and never show.
+
+This program gives the same engine a second referee that shares none of its habits: a quantum computer. When the engine bets that a circuit on IBM's `ibm_fez` chip will show a certain result, the chip settles it. The chip cannot be talked round, does not read the engine's write-up, and does not care what the engine expected. We then compare the engine's calibration with an AI referee (program 1) against its calibration with nature as referee (this program).
+
+**The driving-test analogy.** Take one driver and two tests. In the first test the examiner learned to drive at the same school as the driver, from the same instructor. They make the same mistakes, so the examiner does not mark what they both miss. In the second test there is no examiner, only an icy road at night. The road grades you on whether the car stays on it. A driver who passes the first test and not the second cannot drive; they have learned to please one particular examiner. Here the engine is the driver and its judgment is the driving. Program 1 is the examiner from the same school. This program is the icy road. Same judgment, two referees.
+
+## The quantum computer is the referee, not a tool
+
+Every circuit in this program is small enough to simulate exactly on a laptop. The chip does no useful computation for us, so nothing here is a claim of quantum speedup or quantum advantage. **The hardware is used only as ground truth:** its outcomes are decided by physics, not by any model, including the engine's own simulator of the chip. Every write-up from this program will say so.
+
+That simulator matters in its own right. In program 1, IBM's own noise model of `ibm_fez` predicted P(yes) = 0.25 for one circuit; the chip gave 0.50, about 12 standard errors away (`entangled-mind/results/stage1-run-1.md`). For most bets in this program, quantum theory already says what an ideal device would do. What the engine really bets on is how far the real device strays from its description of itself. That is the same kind of judgment the engine has to make about research in general.
+
+## Status
+
+Opened 2026-11-04 (America/Denver). Scouting is done. No test has been pre-registered, no circuit has been submitted to hardware, and no model API has been called.
+
+- `map/program-3-map.md` (and `.json`) has 14 ranked directions. Each one gives the assumption at stake, who has looked, the exact cheapest circuit-level test, its QPU cost, and the engine's odds stated before any data. The map ends with a month plan under the hard stop: about 146 s of chip time in three waves, up to 60 s more if conditions are met, and at least 120 s held back for replication.
+- `map/odds-elicitation/` records how the engine's odds were taken. A fresh context saw only the direction rows. A seeded random half was re-asked with each pass rule paraphrased and with the question negated. The engine's own numbers moved by 11 points on average under negation, and by up to 30. That spread is published next to the odds.
+- `map/human-odds.md` is the form for Sean's odds. He fills it in separately, before any data, in shuffled order, and it does not show the engine's numbers or ranking.
+- `map/reads/` holds the scout's 81 Read records (47 read in full, 24 in part, 10 at abstract depth) in five clusters:
+  - local friendliness and Wigner's friend;
+  - sequential contextuality under Contextuality-by-Default;
+  - Leggett–Garg and certified randomness;
+  - Heron r2 device physics and noise-model gaps;
+  - other cheap foundations tests.
+
+**First steps, all pre-registered before they run:**
+- Two free tests on program 1's archived hardware data: is the 0.25-vs-0.50 gap a flaw in how our simulator was set up, and are the chip's errors systematic or random?
+- One 21-second device job: twirling, decoupling and layout checks on the same circuit.
+
+**Then, if approved:**
+- a check that the contextuality analysis from program 1 sees contextuality where physics guarantees it (about 59 s);
+- the first "genuine" Wigner's-friend inequality on a quantum computer;
+- a Leggett–Garg test with a clumsiness control (about 66 s for these two together).
+
+## Budget
+
+IBM Quantum Open Plan, 600 QPU seconds a month. The project's hard stop is 420 s cumulative. Program 1 used 46 s (Stage 1 pipe test, 2 s; entanglement witness, 44 s), which leaves **374 s** before the hard stop. Measured cost on `ibm_fez`: about 0.28 ms per shot plus 1–2 s per job.
+
+## Rules inherited from the engine
+
+- Odds before data, both sides, in writing.
+- Cheapest falsifier first: archives before hardware.
+- Every test is pre-registered in its own commit before its first submission, or before an archive is opened for analysis.
+- QPU budgets are enforced in code, and the hard stop is refused in code (`entangled-mind/src/entangled_mind/backends.py`, `run_hardware`).
+- Hardware is submitted only for a pre-registered, separately approved experiment.
+- No result stands without an independent audit.
+- Nothing disappears: dead directions stay on the map with a diagnosis.
+- Plain English first.
