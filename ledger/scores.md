@@ -29,7 +29,17 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-1 audit prepared with a sealed plant line: 1 still sealed, 0 revealed, of which 0 carried a plant. No plant has been revealed yet, so there is no catch rate to report.
+1 audit prepared with a sealed plant line: 0 still sealed, 1 revealed, of which 1 carried a plant. 
+
+**Catch rate: 1/1 = 1.00, 95% Wilson interval [0.21, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 1 is below that, so the arm is untestable for now.
+
+| class / subclass | planted | caught | missed: expected checklist line |
+|---|---|---|---|
+| overclaim / scope | 1 | 1 | — |
+
+| plant | bet | class | caught | where (from the audit) | planter model |
+|---|---|---|---|---|---|
+| pl-001 | om-p2-1 | overclaim/scope | yes | audits/om-p2-1-blind-pl-001.md (entangled-mind audit2, 842e7af): Checklist C13 'Hole. L24: "is not supported in its simplest form on Claude models". One model (claude-haiku-5-5) was tested.'; Claims row 16; Required cut 4 | claude-opus-5-5 |
 
 Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
