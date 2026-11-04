@@ -11,6 +11,7 @@ Every number on every page is read from the repositories' own files when the pag
 | `index.html` | the one-sentence description and the five commitments | `proposal.md` (## One sentence), `README.md` (## The five commitments) |
 | `map.html` | each program as paths fanning out from its seed question: open paths faint and dotted, landed bets bright, kills marked with a cross and their diagnosis on hover; a replay slider that collapses the paths in the order the bets landed; a list view (the default on phones) | `map/<program>.json` joined with `ledger/bets.jsonl` |
 | `calibration.html` | stated odds against outcomes: one dot per scored bet, buckets with 95% intervals, the Brier tiles, then `brier.md` itself | `ledger/brier.md` (its "Scores", "Calibration table" and "Every scored bet" tables); falls back to the scored rows of `bets.jsonl` |
+| `instruments.html` | one gauge per published number, each with a one-line caption: engine and human Brier against a coin flip; hits against expected (Poisson-binomial); odds stability (program 3's negation and rewording check); the audit's overclaim and verdict-reversal rates; kills with a diagnosis; API dollars and QPU seconds against budget; calibration side by side for AI-graded and chip-graded bets; a day-by-day count of bets placed, settled and killed. Empty sides say so | `ledger/bets.jsonl`, `map/*.json`, the kill log's sources, entangled-mind `audits/SUMMARY.md` ("Headline rates" table), `results/ibm-usage.json` and `results/api-usage.md`, `CONTEXT.md` §1 (the "$X of the $Y/month API credit" and "plan to … is about $Z more" sentences), nature-graded `map/program-3-map.json` (`referee`, `elicitation_check`, `qpu`) |
 | `kills.html` | every closed direction, newest first, with its diagnosis and evidence | killed map nodes, `null` bets, and `ledger/kills.jsonl` if it exists, merged |
 | `record.html` | program 1's record as a timeline by day | entangled-mind `paper/record.md` (dated paragraphs and table rows become cards) |
 | `papers.html`, `paper.html?p=<name>` | the papers as readable pages, with contents, figures and commit links | entangled-mind `paper/*.md`, and the engine's `proposal.md` |
@@ -36,13 +37,16 @@ A node that lists `bets` takes its verdict, odds, result, diagnosis and dates fr
 
 **`ledger/audits/<bet-id>.md`**: when a bet's `audit_path` is set, the kill log links to it. Until then, each card says "not yet audited".
 
+**The instruments page parses prose in two places.** In `audits/SUMMARY.md` it reads the "Headline rates" table by row label (`overclaim sentence to cut`, `claims checked`, `reversal rate`, `undetermined`, `fails under one defensible check`), each value as "a / b". In `CONTEXT.md` it reads the budget sentence of §1. If either is reworded, the gauge shows "No data yet" rather than a wrong number; change the pattern in `assets/instruments.js`. A bet's referee is its `referee` field (`nature`/`chip` → chip-graded, `mathematics` → left out); without one, program 1's bets count as AI-graded and `nature-graded` bets as chip-graded.
+
 ## Preview
 
 ```
-site/assemble.sh /tmp/site ../entangled-mind && python3 -m http.server -d /tmp/site 8000
+site/assemble.sh /tmp/site ../entangled-mind ../nature-graded && python3 -m http.server -d /tmp/site 8000
 ```
+The third argument (program 3) is optional; without it the chip-graded side and the odds-stability gauge show as empty.
 Then open http://localhost:8000. `LEDGER_DIR=…` and `MAP_DIR=…` read the data from another worktree.
 
 ## Deploy
 
-`.github/workflows/pages.yml` runs `assemble.sh` against a fresh checkout of `GitPhar/entangled-mind` and publishes the result. It runs on every push to `main` that touches the site, the ledger, the map, the README or the proposal. It also runs nightly at 23:50 America/Denver, on demand, and on a `program-updated` repository dispatch. In the repository's settings, Pages must be set to **Source: GitHub Actions** once.
+`.github/workflows/pages.yml` runs `assemble.sh` against a fresh checkout of `GitPhar/entangled-mind` (and of `GitPhar/nature-graded`, if that repository exists; the step is allowed to fail) and publishes the result. It runs on every push to `main` that touches the site, the ledger, the map, the README or the proposal. It also runs nightly at 23:50 America/Denver, on demand, and on a `program-updated` repository dispatch. In the repository's settings, Pages must be set to **Source: GitHub Actions** once.

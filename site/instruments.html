@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instruments</title>
+<meta name="description" content="Live gauges read from the ledger, the audits and the usage files: calibration, audit catch rates, kills, spend, odds stability, referees, and the day-by-day record.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<main>
+  <h1>Instruments</h1>
+  <p class="how">Each gauge reads one number from the repositories' own files when the page loads. The line under it says what the number means. The small print says which file it came from.</p>
+
+  <h2 class="g-section">Judgment: were the odds any good?</h2>
+  <div class="gauges">
+    <article class="gauge" id="g-brier-engine"></article>
+    <article class="gauge" id="g-brier-human"></article>
+    <article class="gauge" id="g-hits"></article>
+    <article class="gauge" id="g-stability"></article>
+  </div>
+
+  <h2 class="g-section">Audit: what an independent check found</h2>
+  <div class="gauges">
+    <article class="gauge" id="g-overclaim"></article>
+    <article class="gauge" id="g-reversal"></article>
+    <article class="gauge" id="g-kills"></article>
+  </div>
+
+  <h2 class="g-section">Spend: what it cost so far</h2>
+  <div class="gauges">
+    <article class="gauge" id="g-api"></article>
+    <article class="gauge" id="g-qpu"></article>
+  </div>
+
+  <h2 class="g-section">Referees: who decides whether a bet came true</h2>
+  <article class="gauge wide" id="g-referee"></article>
+
+  <h2 class="g-section">Day by day: bets placed, settled, killed</h2>
+  <article class="gauge wide" id="g-timeline"></article>
+</main>
+<script type="module" src="assets/instruments.js"></script>
+</body>
+</html>
