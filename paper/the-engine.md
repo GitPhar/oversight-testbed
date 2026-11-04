@@ -2,17 +2,32 @@
 
 ### A scalable-oversight testbed for AI-driven research, in which the AI's judgment, an independent auditor's, and a human's are each scored
 
-Sean Pharris · draft of 2026-11-04 (America/Denver) · companion to *The Entangled Mind* and *No credence to read* · repository `GitPhar/oversight-testbed`
+Sean Pharris · draft of 2026-11-04 (America/Denver), revised the same evening · companion to *The Entangled Mind* and *No credence to read* · repository `GitPhar/oversight-testbed`
 
-*Status: pre-registration of the engine's own hypotheses, with the founding-week case study as preliminary evidence. The pass criteria in §4 are frozen by the commit that adds this file; any later change is a dated deviation row.*
+*Status: pre-registration of the engine's own hypotheses, with the founding-week case study and the first independent audit as preliminary evidence. The pass criteria in §4 were frozen by the commit that added this file (`7b6bbb8`, 2026-11-04 10:06). This revision changes none of them. It adds three programs, a second kind of referee, four new instruments and secondary measures that are not pass criteria, all listed in §9.*
+
+*Citation convention.* Every factual claim names the file it comes from. Paths without a prefix are in this repository. Paths that begin `entangled-mind/`, `other-minds/` or `nature-graded/` are in the program repositories of those names (§8).
 
 ---
 
 ## Abstract
 
-**In plain English.** AI systems can now run much of a research project: read papers, design experiments, call models, analyse data and write up. The hard, risky part is moving from *doing* research to *choosing* it. Which question is worth a week? Is this result real, or does it only look good to the system that produced it? Does the human in charge add anything? We built a small, cheap engine that makes those three judgments measurable. The AI writes down its odds on each experiment before it sees any data. A separate session that has not seen the work tries to break every result. A human writes down his own odds separately and logs every time he steers. Everyone's odds are scored against what happens. In its first week, on one program, the engine killed its starting hypothesis cleanly with pre-registered tests and found a live result about model self-reports. Two scoring artefacts and three overclaims appeared and were caught by re-checks, which is the failure the engine is built to measure. Its stated odds were not yet better than a coin flip on five scored bets. That is too few to say anything, and we say so.
+**In plain English.** AI systems can now run much of a research project: read papers, design experiments, call models, analyse data and write up. The hard, risky part is moving from *doing* research to *choosing* it. Which question is worth a week? Is this result real, or does it only look good to the system that produced it? Does the human in charge add anything? We built a small, cheap engine that makes those three judgments measurable. The AI writes down its odds on each experiment before it sees any data. A separate session that has not seen the work tries to break every result. A human writes down separate odds, without seeing the AI's, and every steering act is logged. Everyone's odds are scored against what happens.
 
-**Technical.** As models take over research execution, the bottleneck and the risk move to direction: choosing what to test, judging whether a result holds, and keeping a human hand on the loop. Existing AI-scientist systems score outputs (paper quality, reviewer acceptance, benchmark tasks); existing oversight work scores judges on questions with known answers. Neither scores the *pre-data judgment* of a research agent, the marginal effect of an independent audit on its claims, or the marginal value of a human overseer on open-ended research. We describe an engine that does: every bet carries the agent's probability of passing its own pre-registered rule and a human's probability elicited blind to the agent's; every result is audited by a fresh session with a fixed adversarial checklist and scored on planted-fault canaries; every human steering act is logged and scored after its outcome. We pre-register five hypotheses about the engine (calibration, audit effect, human added value, path dependence across seed questions, and literature-sourced versus self-generated bets) with metrics and pass criteria. A founding-week case study (one program, 30+ pre-registered tests, about $50 of API and 46 QPU seconds) closed a quantum-encoding hypothesis as a tie with a matched classical twin and produced an open finding that an LLM's stated credence is constructed by question order, format and its own transcript. On the five bets with pre-data odds, the engine expected 1.15 passes and observed 2 (Poisson-binomial P(X ≥ 2) = 0.33), with Brier 0.256 against 0.25 for a constant 0.5. We report this as uninformative at n = 5 and state the sample size at which each hypothesis becomes testable.
+Here is what the first week shows.
+- **The first program.** It killed its starting hypothesis with pre-registered tests and produced a live, still-contested result about model self-reports.
+- **The audit.** The first full independent audit of that program checked 39 results. The numbers held up and the words did not. 38 of 39 results carried at least one sentence that said more than the data show, and 30% of the 560 claims checked failed. No verdict was reversed. Three quarters of the overclaims sat in the READMEs and papers, not in the results files: the prose grew stronger the further it travelled from the table.
+- **The odds.** The engine's stated odds scored 0.256 on five bets, where always saying 50% scores 0.25. That is no better than a coin, and five bets are too few to say more.
+- **The odds move with the wording.** When the engine's odds for a third program were asked again with the question negated, they moved by 11 points on average and by up to 30.
+- **Two kinds of referee.** Three programs are now open. In two of them a language model's behaviour settles each bet; in the third, a quantum chip does. Comparing the engine's calibration under the two referees is the point of the third program, and that comparison will be suggestive, not clean.
+
+We also add four instruments: a way to score the human's vetoes, an audit of the auditor, a written pre-mortem before each bet, and quantum hardware as both a referee and a source of research questions.
+
+**Technical.** As models take over research execution, the bottleneck and the risk move to direction: choosing what to test, judging whether a result holds, and keeping a human hand on the loop. Existing AI-scientist systems score outputs (paper quality, reviewer acceptance, benchmark tasks); existing oversight work scores judges on questions with known answers. Neither scores the *pre-data judgment* of a research agent, the marginal effect of an independent audit on its claims, or the marginal value of a human overseer on open-ended research. We describe an engine that does. Every bet carries the agent's probability of passing its own pre-registered rule and a human's probability elicited blind to the agent's. Every result is audited by a fresh session with a fixed adversarial checklist and scored on planted-fault canaries. Every human steering act is logged and scored after its outcome. We pre-register five hypotheses about the engine (calibration, audit effect, human added value, path dependence across seed questions, and literature-sourced versus self-generated bets) with metrics and pass criteria.
+
+A founding-week case study (one program, 30+ tests, about $50 of API and 46 QPU seconds) closed a quantum-encoding hypothesis against a matched classical twin. It also produced an open finding that, on Claude Haiku, a stated credence moves with question order, format and the model's own transcript. On the five bets with pre-data odds, the engine expected 1.15 passes and observed 2 (Poisson-binomial P(X ≥ 2) = 0.33), with Brier 0.256 against 0.25 for a constant 0.5. The first independent audit of the program's 39 results found at least one overclaim in 38 (97%; Wilson 95% interval [0.87, 1.00]), failed 166 of 560 claims checked (30%), reversed none of the 39 verdicts (0%; [0.00, 0.09]), and found a pre-registered label fragile under one defensible check in 9. It used no planted faults, so its catch rate is unmeasured.
+
+Two further programs opened the same day: a second model-graded program and a hardware-graded one. In the hardware-graded program, a negated re-elicitation of the engine's odds on a seeded half of 14 directions moved them by a mean of 11.3 points (paraphrase: 6.9; maximum 30). We report every engine-level result as uninformative at its current n, state the sample size at which each hypothesis becomes testable, and treat the cross-referee comparison as a pilot whose differences are confounded by item type.
 
 ---
 
@@ -20,19 +35,24 @@ Sean Pharris · draft of 2026-11-04 (America/Denver) · companion to *The Entang
 
 The Anthropic Residency describes the skill that matters as models improve: framing a research agenda and judging what is worth doing. Read as a prediction, it says the bottleneck in AI-driven research is moving from execution to direction. Read as a safety claim, it says that is also where the risk moves. Three failure modes follow, and each was observed in this project's first two days.
 
-1. **Goodhart on research.** An AI that proposes, runs and grades its own experiments can drift, without intent, toward results that look good to itself. In the founding week, a "significant" 28-to-9 sub-test turned out to be produced by exact floating-point comparison of values that were equal up to solver round-off; with a 10⁻⁶ tolerance it was 1-to-2 over 3 items (entangled-mind DEVIATIONS D32). A "near-zero" quantum signature turned out to come from pooling two scale directions (D33). Both were caught only because a separate pass re-checked.
-2. **Overclaiming.** Fluent write-ups drift from "on this set" to "every", from "secondary" to "finding", from "consistent with" to "caused by". Three such drifts were caught and corrected in the same two days (§6.3).
+1. **Goodhart on research.** An AI that proposes, runs and grades its own experiments can drift, without intent, toward results that look good to itself.
+   - In the founding week, a "significant" 28-to-9 sub-test turned out to be produced by exact floating-point comparison of values that were equal up to solver round-off. With a 10⁻⁶ tolerance it was 1-to-2 over 3 items (`entangled-mind/DEVIATIONS.md` D32).
+   - A "near-zero" quantum signature turned out to come from pooling two scale directions (D33).
+   - Both were caught only because a separate pass re-checked.
+2. **Overclaiming.** Fluent write-ups drift from "on this set" to "every", from "secondary" to "finding", from "consistent with" to "caused by". Three such drifts were caught in the first two days (§6.3). Then the first full audit found the drift in 38 of the program's 39 results (§6.4).
 3. **Loss of the human hand.** The easy failure is to hand the loop to the model and keep a human only nominally in it. Nobody has a routine way to show whether a human overseer's judgment of research adds anything.
 
-This paper describes an engine that turns all three into published numbers on real research, cheaply. The engine is itself the research object. Its programs (the first, *The Entangled Mind*, is summarised in §6) are its data. The contribution is not a better AI scientist. It is a way of scoring the judgment around one: the agent's pre-data odds, an auditor's effect, and a human's added value, on open-ended questions whose answers nobody knows in advance.
+This paper describes an engine that turns all three into published numbers on real research, cheaply. The engine is itself the research object. Its programs (three are open, §6) are its data. The contribution is not a better AI scientist. It is a way of scoring the judgment around one: the agent's pre-data odds, an auditor's effect, and a human's added value, on open-ended questions whose answers nobody knows in advance.
 
 The engine is built for trust, not volume. A system that reported a surprising positive result every day would be producing false positives, and the auditor's first job would be to say so.
 
 **Contributions.**
 - A loop and data model in which every research bet carries the agent's and the human's probability of passing a pre-registered rule, written before data and kept separately (§3).
-- A standing adversarial auditor with a fixed checklist drawn from observed failure classes, and planted-fault canaries so that its catch rate is measurable (§3.4).
-- Five pre-registered hypotheses about the engine with metrics, pass criteria and minimum sample sizes (§4).
-- A founding-week case study reported with its numbers, including the ones that do not flatter the engine (§6).
+- A standing adversarial auditor with a fixed checklist drawn from observed failure classes. Planted-fault canaries make its catch rate measurable (§3.4), and a second-level audit makes its precision measurable (§3.10).
+- Two kinds of referee for the same engine: a language model's behaviour, and a quantum chip that shares none of the engine's habits (§3.7).
+- A scored veto (§3.8) and a written pre-mortem before each bet (§3.9).
+- Five pre-registered hypotheses about the engine with metrics, pass criteria and minimum sample sizes (§4), plus secondary measures added in this revision (§4.6).
+- A founding-week case study and its first independent audit, reported with their numbers, including the ones that do not flatter the engine (§6).
 
 ---
 
@@ -112,7 +132,7 @@ The engine is built for trust, not volume. A system that reported a surprising p
 - Kadavath et al. (2022) showed calibration holds only when the question is formatted appropriately.
 - Pratt et al. (2024) showed raw Brier can reward always guessing "no", and found negated questions gave incoherent odds.
 - Paleka et al. (2024) found negation violations on 58% of question pairs for one model.
-- These match our first program's finding that stated confidence is constructed by elicitation (§6.2).
+- These match our first program's finding that stated confidence moves with how it is elicited (§6.2).
 
 **Human baseline.** Superforecasters' edge in the Good Judgment Project came mainly from resolution (Mellers et al. 2014). Small-sample reliability diagrams are unstable under bin choice (Dimitriadis et al. 2021).
 
@@ -182,7 +202,7 @@ Our own founding-week odds erred the other way (§6.4).
 - Goodhart types as diagnoses;
 - the automated-researcher posts' own failure list as the auditor's checklist B.
 
-Our first program's results add a specific reason. A model's stated confidence is constructed by question order, format and transcript, and it has no privileged access to its own errors. So an engine's odds and an engine's self-audit are exactly the self-reports an overseer should not take at face value.
+Our first program's results add a specific reason. On Haiku, a model's stated confidence moved with question order, format and its own transcript, and no self-advantage in judging its own errors was detected (§6.2). So an engine's odds and an engine's self-audit are exactly the self-reports an overseer should not take at face value.
 
 ### 2.7 Position
 
@@ -236,11 +256,72 @@ Every human act is a row in `ledger/steers.jsonl`: date, action, reason, and lat
 
 Every bet carries a budget enforced in code. Spending runs in the order archives → API → hardware. The founding week used about $50 of a $200/month API allowance and 46 of 600 monthly QPU seconds. The engine's own machinery (scout, auditor, ledger, site) uses no paid API calls; the scout and auditor run as interactive sessions on web reads and archived data.
 
+### 3.7 Two referees: a model's behaviour and a quantum chip
+
+**What settles a bet.** Every bet is settled by something outside the engine's control: its *referee*.
+- In programs 1 and 2, the referee is a language model's behaviour. These bets are *AI-graded*.
+- In program 3, the referee is the outcome of a circuit on IBM's `ibm_fez`. These bets are *nature-graded* (`nature-graded/README.md`).
+- One program-3 bet, P3-8, is decided by mathematics. It is scored on its own line as a third kind of referee and is not counted as nature-graded (`nature-graded/map/program-3-map.md`, P3-8).
+
+**Why a second referee.** An engine graded only by a referee built much as it is built could look well calibrated because it shares that referee's habits, not because its judgment is good. Their blind spots would line up and never show. A chip cannot be talked round and does not read the write-up (`nature-graded/README.md`).
+
+**The hardware as referee only.** Every program-3 circuit is small enough to simulate exactly. The chip does no useful computation, and nothing in program 3 claims quantum advantage (`nature-graded/README.md`). For most bets, quantum theory already says what an ideal device would do. What the engine really bets on is how far the real device strays from its own description. So each hardware pre-registration also records the corrected noisy-simulator prediction, and the chip's departure from it is scored separately (`nature-graded/map/program-3-map.md`, "Every hardware bet shares these rules").
+
+**The hardware as a source of seed questions.** Program 3's questions grew out of the hardware's own surprise in program 1. IBM's noise model of `ibm_fez` predicted P(yes) = 0.25 for one circuit; the chip gave 0.50, about 12 standard errors away (`entangled-mind/results/stage1-run-1.md`, as summarised in `nature-graded/README.md`). The program-3 map says it is seeded by program 1's Stage 1 gap, its witness data, its CbD instrument and gold-map directions 7, 8 and 11, so it is not an independent seed for H4 (`nature-graded/map/program-3-map.md`, "Notes for the engine").
+
+**What the hardware is not used for.**
+- *Random numbers.* Setting choices, circuit order and layout tie-breaks come from SHA-256 of the pre-registration commit hash joined with the first pulse of the public CURBy randomness beacon after that commit. Randomness certified by the chip itself (P3-13) is run as a foundations check, "not our seed source" (`nature-graded/map/program-3-map.md`, P3-13).
+- *An oracle for the engine.* Gold-map direction 11, hardware as an oracle for the engine, stays closed (same file, "Closed, merged and killed").
+
+This partly answers a question `CONTEXT.md` §1 kept open: whether quantum hardware can serve the testbed itself. It can, as a referee and as a source of questions.
+
+### 3.8 The scored veto
+
+A veto removes a direction before it runs. The ledger already has a `veto` action (`ARCHITECTURE.md`, Steer; `ledger/steers.jsonl`, st-06), and each human-odds form asks "Any direction to veto, and why?" (`other-minds/map/human-odds.md`). But a vetoed bet has no outcome, so the counterfactual score of §3.5 cannot reach it. An unscored veto is the cheapest way for a human hand to look useful.
+
+This revision specifies how a veto is scored. Nothing below has been built.
+- **At the time of the veto,** the veto row records the human's P(pass) for the vetoed bet, a reason class (*won't pass*, *not worth its cost*, *already settled*, *against a rule*) and whether the veto is *binding*.
+- **Binding vetoes never run.** A veto on rule or safety grounds is always binding, and the human may make any veto binding. Binding vetoes are scored only by the §3.5 rubric, and their count is published.
+- **A seeded share of non-binding vetoes runs anyway,** at the bet's original cap, as a control. The seed rule, share and cap are to be fixed in `operators/` before the first veto they apply to.
+- **The score.** A vetoed bet that runs is scored like any other. The human's P(pass) enters the human's Brier score. The veto's value is P_engine(vetoed) − y(vetoed): positive when the human was right to stop a bet the engine rated higher than its outcome justified.
+
+### 3.9 The pre-mortem
+
+Before each pre-registration is committed, the engine writes a short pre-mortem. It imagines that the result later turns out to be misleading, and names the likeliest reasons in the classes of the auditor's checklist (§3.4): tie-breaking, pooling, a few items driving the result, leakage between selection and test, a baseline that is too weak, scope drift in the write-up. For a nature-graded bet it also names device reasons: drift, layout, readout handling.
+
+Three rules keep the pre-mortem from contaminating the odds and from becoming a ritual.
+1. **Odds come first.** The headline P(pass) is elicited before the pre-mortem is written. Any number given after it is logged as a second number and never scored as the headline. This is the same treatment as the human's post-engine number in H3.
+2. **It is committed with the pre-registration,** so that its timing is checkable from `git log`.
+3. **It is scored.** The foresight rate is the share of the auditor's later holes that the pre-mortem named. The guard rate is the share of named risks that the design actually defended against.
+
+The motivation is in the first audit. Its holes fall mostly into a short list of recurring patterns (`entangled-mind/audits/SUMMARY.md`, "The common failure patterns"). One of its most serious findings was a known class, leakage between selection and test: the probe study seeded its test step from the same key as its selection step, so 500 of 500 test conversations replayed the gate (`entangled-mind/DEVIATIONS.md` D53). Whether a pre-mortem would have caught that is exactly what the foresight rate measures.
+
+### 3.10 The auditor of the auditor
+
+Canaries (§3.4) measure the auditor's *recall* on faults someone planted. They do not measure its *precision* on the faults it reports in real work, and they do not catch an auditor that is confidently wrong.
+
+The first audit shows why that matters.
+- Its per-audit "claims checked" counts follow each auditor's own granularity, so its 30% failure rate is "indicative, not exact" (`entangled-mind/audits/SUMMARY.md`, "How this audit was done, and its limits").
+- Its recomputation scripts stayed in the session scratchpad, not the repository (same section).
+- The program applied the audit's 369 listed cuts: 273 as written, 78 adapted, 5 obsolete, and 13 left for later entries (`entangled-mind/DEVIATIONS.md` D51). No one outside the audit checked whether the cuts were themselves right.
+- Inside the audit, a lead auditor re-verified every claim able to change a verdict or a headline (SUMMARY, same section). That is a first instance of a second level, but by the same team of sessions.
+
+This revision specifies a second-level audit. Nothing below has been built.
+- **Who:** a fresh session, from a different model family where possible.
+- **What it gets:** a seeded sample of each audit's findings (holes, overclaim calls and verdict changes), plus the archive.
+- **What it does:** labels each finding *upheld*, *overstated* or *wrong*, and reads the result for holes the auditor missed.
+- **The metrics:** auditor precision (findings upheld ÷ findings sampled), and second-level misses found per audit.
+- **Canaries at this level** are audits with a planted wrong finding, so the second level has a catch rate of its own.
+- **The regress stops here.** Two levels are scored. A third is not run.
+
+
 ---
 
 ## 4. Hypotheses, metrics and pre-registered pass criteria
 
 The five hypotheses match `proposal.md` Q1–Q5. Each has a primary metric, a pass criterion, a minimum sample below which the verdict is **untestable** rather than null, and the analysis date. The first analysis is frozen on **2026-11-21** for the residency submission and repeated whenever the ledger doubles. All intervals are 95% unless stated, by bootstrap over bets (10,000 resamples, seed 2026) unless an exact method is named. Odds are stored as 0–1. A bet's outcome y is 1 if its post-audit verdict is *pass* or *pass-unreplicated*, and 0 otherwise. *Mixed*, *tie*, *classical* and *null* count as 0. *Untestable* bets are excluded and counted.
+
+*Revision note (2026-11-04, evening).* H1–H5 and their pass criteria below are unchanged from `7b6bbb8`. Apart from one pronoun made neutral, the only addition is §4.6. It holds secondary, descriptive measures for the instruments of §3.7–3.10, and none of them is a pass criterion.
 
 ### H1 — Calibration (Q1)
 
@@ -284,7 +365,7 @@ The five hypotheses match `proposal.md` Q1–Q5. Each has a primary metric, a pa
   - Brier(human) against Brier(engine), paired.
   - The correlation between the two sides' odds. A high correlation despite blind elicitation means the human adds little independent signal.
   - Calibration and accuracy of the combined forecast reported separately. In sandwiching, human–model teams were more accurate but worse calibrated than either alone (Bowman et al. 2022).
-  - Deference: if the human gives a second number after seeing the engine's, the shift toward it is logged. That second number is never scored as his judgment, because even a deliberately biased assistant moves human forecasts (Schoenegger et al. 2024).
+  - Deference: if the human gives a second number after seeing the engine's, the shift toward it is logged. That second number is never scored as the human's judgment, because even a deliberately biased assistant moves human forecasts (Schoenegger et al. 2024).
   - Steer value: the mean over bet-changing steers of y(chosen) − P_engine(displaced).
   - The share of non-bet-changing steers judged positive by the rubric.
 - **Pass:** the paired difference is above 0, with the lower bound of its 90% bootstrap interval above 0. **Or** the mean steer value is above 0, with its interval excluding 0, over at least 8 bet-changing steers.
@@ -313,69 +394,144 @@ The five hypotheses match `proposal.md` Q1–Q5. Each has a primary metric, a pa
 
 **Power, stated plainly.** By 2026-11-21 the ledger will hold tens of bets at most. H1 and H2 may reach their minimum n, and H3–H5 probably will not. Each untestable verdict will be reported with the n reached. No criterion above will be relaxed to reach a verdict sooner.
 
+### 4.6 Secondary measures added in this revision (not pass criteria)
+
+Each is reported at the first analysis with its n, and is described, not tested.
+- **Calibration by referee.**
+  - Brier, BSS against the running base rate, and split Brier, computed separately for AI-graded, nature-graded and mathematics-graded bets.
+  - The comparison is reported beside the change in Brier produced by substituting the paraphrased and negation-implied odds on the re-elicited half of bets. A between-referee gap smaller than that change is read as no difference (`nature-graded/map/program-3-map.md`, "Notes for the engine").
+  - The chip's departure from its own noisy-simulator prediction is reported as its own scored quantity.
+- **Veto score** (§3.8). The number of vetoes by reason class and by binding or not; the human's Brier score on vetoed bets that ran; and the mean veto value, P_engine − y.
+- **Pre-mortem** (§3.9). The foresight rate and the guard rate, pooled over audited bets.
+- **Second-level audit** (§3.10). Auditor precision with a Wilson interval; misses per audit; the catch rate on planted wrong findings.
+- **Bet-level audit effect.** Of the audited bets, the number whose ledger outcome y changed after audit.
+
 ---
 
 ## 5. Methods for the first analysis
 
-- **Ledger.** `ledger/bets.jsonl`, one line per bet, written at pre-registration and completed after audit (`operators/prereg-template.md` §8). `ledger/steers.jsonl`, `ledger/human-odds/`, `ledger/audits/` and `ledger/audits/canaries/` hold the rest.
+- **Ledger.** `ledger/bets.jsonl`, one line per bet, written at pre-registration and completed after audit (`operators/prereg-template.md` §8). `ledger/steers.jsonl`, `ledger/human-odds/`, `ledger/audits/` and `ledger/plants.jsonl` (sealed plants, `operators/plant.md`) hold the rest.
 - **Inclusion.** Every bet whose pre-registration commit post-dates the engine odds' timestamp. Founding-week bets enter H1 only, and are flagged, because their odds were stated in a map before the scout's fixed format existed.
-- **Programs.** Program 1 (continuing its open self-report line) and program 2 (seed B). The two run under the same operators.
+- **Programs.** Three programs run under the same operators:
+  - program 1, *The Entangled Mind*, continuing its open self-report line (`entangled-mind/`);
+  - program 2, *Other Minds* (placeholder name), seed B (`other-minds/README.md`);
+  - program 3, *Nature-Graded* (placeholder name), the hardware-refereed program (`nature-graded/README.md`).
+  
+  H4 compares programs 1 and 2 as planned. Program 3 is seeded by program 1 (§3.7), so it enters H4 only as a descriptive third map.
 - **Auditor assignment.** Every result is audited. Plants are drawn per audit with probability ½ by `ledger/plants.py draw` (the operating system's secret randomness, never the public beacon), one plant per planted audit; 10 planted faults therefore need about 20 audits.
-- **Scoring.** `ledger/brier.py` reads only the committed ledger and writes `ledger/brier.md`. It already computes Brier, the constant and base-rate references, and the calibration table. The H1–H5 statistics it does not yet compute (running base rate, Poisson-binomial tail, split Brier, H2–H5 metrics) are to be added before the first analysis, in their own commit.
-- **Budget.** About $60 of API through 2026-11-22 across both programs (proposal.md); no hardware for the engine's own machinery.
+- **Scoring.** `ledger/brier.py` reads only the committed ledger and writes `ledger/brier.md`. It already computes Brier, the constant and base-rate references, and the calibration table. The H1–H5 statistics it does not yet compute (running base rate, Poisson-binomial tail, split Brier, H2–H5 metrics) and the §4.6 measures are to be added before the first analysis, in their own commit.
+- **Budget.**
+  - API: about $60 through 2026-11-22 across the programs (`proposal.md`). Program 2's first wave is capped at about $4.65 on Haiku (`other-minds/README.md`).
+  - Hardware: program 3's plan uses about 146 QPU s in three waves, holding at least 120 s in reserve for replication, under a hard stop of 420 s, of which 366 s remain after wave 1 (8 s used on 2026-11-04) (`nature-graded/README.md`; `nature-graded/map/program-3-map.md`, "Month plan").
+  - No hardware for the engine's own machinery.
 
 ---
 
 ## 6. Case study: the founding week (2026-11-03 to 04)
 
-This is evidence that the loop runs and that the failure modes it targets are real. It is not a test of H1–H5: the auditor was not yet a standing operator, no human odds were recorded, and only five bets carried pre-data odds.
+This is evidence that the loop runs and that the failure modes it targets are real. It is not a test of H1–H5:
+- the auditor was not yet a standing operator when the results were produced;
+- no human odds were recorded;
+- only five bets carried pre-data odds.
 
 ### 6.1 Phase A: a hypothesis killed cleanly
 
 **Hypothesis** (proposal of 2026-10-25). Encode an LLM's competing claims, extracted from its own visible reasoning, as qubits, with entangling gates between contradicting claims. The entangled readout then flags the model's wrong answers better than classical controls.
 
-**Result.**
+**Result** (`CONTEXT.md` §4; `entangled-mind/README.md`, Status).
 - On the locked test set, the learned quantum encoding A2 scored AUROC 0.83 against 0.84 for its learned classical Ising twin F2: a tie.
 - The learned encoding set its couplings near zero, which means it switched entanglement off by itself.
 - Reading the circuit stage by stage showed the error signal present at encoding (0.63), erased by the entangling evolution (0.49), and sharpened by the unentangled circuit (0.68).
-- On a second base model, A2 led F2 (0.90 against 0.82). A pre-registered ablation traced the lead to the per-claim readout angle. A classical twin given that angle matched it exactly, and setting the couplings to zero changed nothing.
-- The model's stated confidence alone tied the best structural model on both bases (0.82–0.83 and 0.91).
-- On hardware, the Stage 1 circuit ran on `ibm_fez` (9 qubits, 117 CZ gates). An entanglement witness certified two-qubit entanglement on 3 of 3 items (negativity 0.147, 0.063, 0.067; all intervals above 0).
+- On a second base model, A2 led F2 (0.90 against 0.82). A pre-registered ablation traced the lead to the per-claim readout angle. A classical twin given that angle (F2+) recovers all of that edge, and setting the couplings to zero changed nothing.
+- Experiment 5's held-out edge for the quantum belief state is recovered by a dephased classical Markov chain. After the audit, experiment 5's verdict was re-issued under its own §7.5 rule, from TIE to CLASSICAL. The parameter-free quantum signature is contradicted in each scale direction separately (`entangled-mind/DEVIATIONS.md` D52).
+- The model's stated confidence alone predicts its errors as well as anything tested, on both bases (`entangled-mind/README.md`).
+- On hardware, the Stage 1 circuit ran on `ibm_fez` (9 qubits, 117 CZ gates). An entanglement witness certified two-qubit entanglement on 3 of 3 items (negativity 0.147, 0.063, 0.067; all intervals above 0). One of the three certified pairs is decoupled from the rest of its state (`entangled-mind/README.md`, Status).
 
 So the entanglement was physically present and did no work.
 
-**What the loop did.** Thirty-plus tests, each pre-registered before its first call; 47+ dated deviation rows; eight hypotheses closed with diagnoses that stay on the map. The pre-registered bar was not lowered once.
+**What the loop did.** Thirty-plus tests; 47+ dated deviation rows before the audit and D51–D54a after it; eight hypotheses closed with diagnoses that stay on the map (`proposal.md`). The audit found no analysis run before its pre-registration, and no pre-registered verdict reversed. It did find small timing slips, mostly disclosed (`entangled-mind/audits/SUMMARY.md`, "Pre-registration timing").
 
 ### 6.2 Phase B: a live finding from the attempt to measure belief
 
-Trying to read the model's beliefs suggested that there may be no fixed belief to read. Eleven pre-registered tests ran overnight on 2026-11-04 for $4.17 (entangled-mind `results/`). Directions 1–4 and 9 were taken from a ranked map, in which each had been scouted with full reads and given stated odds.
+This section follows the post-audit record (`entangled-mind/README.md`, "Overnight, 2026-11-04"). An earlier draft of this paper carried several sentences the audit cut: "consistency is memory", "own answers act as commitments", and "eleven pre-registered tests" (§9).
 
-- **Order.**
-  - Graded sequential ratings show large order effects: a median 25-point swing in the main rating, and 60 of 80 claim–question pairs above 0.10.
-  - With the model's earlier answers hidden, question order still moves its final rating about as much as when they are shown. On all 40 items, R = 1.23 [0.75, 2.02], and the effect is spread across items (`results/gm2b-self-conditioning-40.md`). The first 10 items had overstated R (1.91), and the 40-item replication corrected it.
-- **Consistency is memory.** The model repeats its first answer within 5 points 86% of the time when that answer is visible, and 36% of the time when it is hidden.
-- **Own answers act as commitments.** The same number pulls the next rating (+0.37 [+0.17, +0.57]) when it is framed as the model's own earlier answer, and has about no pull when framed as another person's.
-- **Format.**
-  - Across six elicitation formats, separate credences per format fit better for 86% of 160 claims.
-  - Predicting a held-out format from the other five recovers 39% [30%, 50%] of its reproducible signal.
-- **No privileged self-knowledge.** The judge × author interaction was −0.055 [−0.103, −0.007]: another model judges this model's errors better than it does.
-- **Asking changes later answers** in 5 of 6 comparison families (Holm p = 0.0012).
+Eleven analyses ran overnight on 2026-11-04 for about $4.2.
+- **Six are frozen tests,** each pre-registered in its own commit before its first call.
+- **Five are exploratory re-analyses** of archives that earlier analyses had already opened (D54).
+- **One later test is also exploratory:** D46, the held-out-format test (D54a).
 
-These results are on one or two models from one family, and they are being replicated on further models. They bear directly on oversight: evaluations that treat a model's stated confidence as a noisy readout of a stored belief are measuring something the question, the format and the transcript construct.
+The program's own reading, stated as a reading and not a mechanism: **on Haiku, the answer is largely constructed by the asking; partly so on Sonnet; on Opus the format finding is contradicted** (F′ Q = 0.94 [0.90, 0.97]; `entangled-mind/DEVIATIONS.md` D49–D50).
+- **Order.** With the model's own earlier answers hidden, question order still moves its final rating about as much as when they are shown: R = 1.23 [0.75, 2.02] on all 40 items (`entangled-mind/results/gm2b-self-conditioning-40.md`). But the order pattern under hiding is largely different from the shown one; the profiles correlate 0.32 (`entangled-mind/audits/gm2b-self-conditioning-40.md`). The 30-item independent replication passes its frozen bar by 0.012, and fails it if any one of 7 of the 30 items is dropped (`entangled-mind/audits/SUMMARY.md`).
+- **Repeat agreement.** The model repeats its first rating within 5 points 86% of the time when that rating is visible, and 36% of the time when it is hidden (the same audit, claim 11).
+- **Format.** On Haiku, six ways of asking about the same 160 statements fit held-out repeats better with one credence per format than with one per statement, for 86% of claims. In an exploratory re-analysis, one credence recovers 39% [30%, 50%] of a left-out format; the audit calls that label undetermined (`gm3c-heldout-format`).
+- **Own versus other.** A number planted as the model's own earlier answer pulls its re-rating (slope +0.42). The same number credited to another person barely does (+0.05). But the two framings also differ in wording, schema and turn position (`entangled-mind/audits/SUMMARY.md`, cross-cutting hole 3).
+- **Self-knowledge.** No self-advantage in judging errors was detected. The judge × author interaction is −0.055 [−0.103, −0.007], and Sonnet judges Haiku's errors better than Haiku does (0.93 against 0.85). Every rating is a fresh call that sees only the answer text, so privileged access was not something this design could show (`entangled-mind/audits/SUMMARY.md`, hole 7).
+- **Asking is invasive.** Asking earlier questions changes later answers in 5 of 6 comparison families (an exploratory re-analysis, D34).
+- **Inside the model: unverified.** A truth probe in Llama-3-8B moves with chain order. Its test step replayed the selection conversations, so the result is marked unverified and a fresh run is queued (D53).
 
-### 6.3 The failure modes, observed
+**Scope.** Independent support is about four data collections, mostly on Haiku and two item sets, not eleven (`entangled-mind/audits/SUMMARY.md`, cross-cutting hole 2).
+
+Why this bears on oversight: an evaluation that treats a model's stated confidence as a noisy readout of a stored belief may be measuring something the question, the format and the transcript help build. That is a reading of these results, and it applies to the engine's own odds (§6.7).
+
+### 6.3 The failure modes, observed before the audit
 
 | class | instance | caught by | record |
 |---|---|---|---|
 | Goodhart artefact | a 28-to-9 "significant" a priori sub-test, produced by exact float comparison of values equal up to solver round-off; 1-to-2 over 3 items with a 10⁻⁶ tolerance | re-analysis after results | D32 |
 | Goodhart artefact | a "near-zero" QQ signature that came from pooling two scale directions; order effects survive one scale (12 of 16 pairs) and the QQ near-miss does not | a pre-registered one-scale rerun | D33 |
 | overclaim | a rule (R2) described as a quantum signature that a sequential-updating classical model also produces | a second session's read, before any data | D11 addendum |
-| overclaim | the 10-item values of R and b_MF reported as the finding; the 40-item replication cut R from 1.91 to 1.23 and dropped "the redacted effect is larger" | a pre-registered replication | `paper/no-credence-to-read.md`; D45 |
-| overclaim | two overstatements in the morning brief after the biomimetic run | a second session's read | CONTEXT.md §8, steer 5 |
+| overclaim | the 10-item values of R and b_MF reported as the finding; the 40-item replication cut R from 1.91 to 1.23 and dropped "the redacted effect is larger" | a pre-registered replication | `entangled-mind/paper/no-credence-to-read.md`; D45 |
+| overclaim | two overstatements in the morning brief after the biomimetic run | a second session's read | `CONTEXT.md` §8, steer 5 |
 
-All five were caught by something independent of the pass that made them. None was caught by a standing auditor, because none existed yet. That is the gap `operators/auditor.md` closes, and the reason H2 is measured on canaries rather than inferred from this table.
+All five were caught by something independent of the pass that made them. None was caught by a standing auditor, because none existed yet. The audit that followed found far more (§6.4).
 
-### 6.4 The engine's odds against outcomes
+### 6.4 The first independent audit
+
+**What was audited.** Branch `audit` of `entangled-mind`, committed `b009a15` at 2026-11-04 10:27, 21 minutes after this paper's pass criteria were frozen. It covered:
+- every result in `results/` plus the then-unmerged probe study, 39 per-result audits in all;
+- two cross-cutting audits, one of the record as a ledger and one of the README, morning brief and paper-level claims.
+
+Ten auditor sessions worked from written briefs. A lead auditor ran `reproduce.py`, did the timing analysis and re-verified every claim able to change a verdict. No API calls were made (`entangled-mind/audits/SUMMARY.md`).
+
+**Headline numbers** (all from `entangled-mind/audits/SUMMARY.md`, "Headline rates"):
+
+| measure | value |
+|---|---|
+| results with at least one overclaim sentence | **38 / 39 (97%)**; Wilson 95% [0.87, 1.00]; the exception is `exp5-pilot` |
+| claims checked that failed (overclaim or wrong) | **166 / 560 (30%)**; Wilson 95% [0.26, 0.34], with the granularity caveat below |
+| overclaim sentences listed | 356 (309 distinct file:line targets) |
+| where the overclaims sit | 74% in README / paper / DEVIATIONS; 26% in `results/*.md` |
+| verdicts reversed | **0 / 39 (0%)**; Wilson 95% [0.00, 0.09] |
+| verdicts undetermined after audit | 2 / 39 (`exp4-run-2`, `gm3c-heldout-format`) |
+| a pre-registered label fails one defensible check | 9 / 39 (23%) |
+| planted-fault canaries | none |
+
+*The Wilson intervals were computed for this paper from the counts in SUMMARY.*
+
+**In plain English:** the numbers are sound and the words are not. Every headline statistic recomputed from the archived data, apart from a handful of miscounts. The prose said more than the tables, and the further a sentence was from its table, the more it said.
+
+The five recurring patterns were:
+1. nulls written as findings;
+2. mechanism words that a behavioural contrast cannot carry;
+3. point estimates read as rankings;
+4. the same data counted twice;
+5. one or two items presented as general.
+
+**What the program did with it.** All of this happened within three and a half hours of the audit commit.
+- **The cuts (D51).** The audit's 369 listed cuts were applied: 273 as written, 78 adapted, 5 obsolete, and 13 left for later entries. About 134 more instances of the same patterns were fixed in a sweep.
+- **Experiment 5 (D52).** Its verdict was re-issued from TIE to CLASSICAL under its own rule.
+- **The probe result (D53).** It was marked unverified, and a fresh test step was queued.
+- **The archival tests (D54, D54a).** Five overnight tests, and later D46, were relabelled as exploratory re-analyses.
+
+All four entries are in `entangled-mind/DEVIATIONS.md`.
+
+**What it means for H2.** Taken at face value, the first audit meets two of H2's three pass conditions. The overclaim rate's interval excludes 0, and the reversal rate is below 0.5. The third condition, a canary catch rate above 0.5, has no data, so H2 stays **untestable** until 10 planted faults have been audited (§4, H2). Four further reasons keep this from being a test:
+- the audit was retrospective, not run by the standing operator with the `operators/auditor.md` header;
+- its sessions were the same model family as the sessions that did the work (the audit commit's co-author trailer is Claude Opus 5.5; build sessions run Opus, `CONTEXT.md` §7), which §2.6 says makes for a softer audit;
+- its claims-checked counts follow each auditor's own granularity (SUMMARY, limits);
+- nobody audited the auditor. §3.10 is the response.
+
+### 6.5 The engine's odds against outcomes
 
 Source: `ledger/bets.jsonl`, scored by `python3 ledger/brier.py` (`ledger/brier.md`). The table below and the numbers after it regenerate from those files.
 
@@ -385,15 +541,18 @@ Source: `ledger/bets.jsonl`, scored by `python3 ledger/brier.py` (`ledger/brier.
 | `em-gm2`, self-conditioning | 0.25 | question-driven, by the pre-registered rule; holds at 40 items | 1 |
 | `em-gm3b`, format invariance | 0.25 (0.45 when first written, revised after full reads, before data) | no single credence | 1 |
 | `em-gm4`, evidence seeking | 0.20 | mixed | 0 |
-| `em-gm5`, truth probe vs rating on Llama-3-8B (probes branch, not yet merged into entangled-mind main) | 0.30 | mixed: the probe moves with order, but not in step with the rating | 0 |
+| `em-gm5`, truth probe vs rating on Llama-3-8B | 0.30 | mixed; now marked unverified (D53) | 0 |
 | 9, NSIT (conceptual) | 0.20, for a conceptual result; no pass rule | invasive in 5 of 6 families | not scored |
 | 3a, free look | none stated | no evidence either way | not scored |
 
 - **Expected and observed passes.** The engine expected 1.15 passes and observed 2. Under the stated odds, P(X ≥ 2) = 0.33, which is not evidence of miscalibration.
-- **Brier.** The engine scored 0.256, against 0.25 for a constant 0.5.
+- **Brier.** The engine scored **0.256**, against 0.25 for a constant 0.5 and 0.240 for always saying the observed hit rate (`ledger/brier.md`). That is about the same as a coin, slightly worse.
   - Bets 1–4 were pre-registered (03:52–04:05) before any bet had resolved.
   - Bet 5 was pre-registered at 07:39, after two of four had passed.
   - The running base rate of H1 is therefore 0.5 for every bet, and BSS = −0.02.
+- **After the audit.** No scored bet's verdict was reversed. The audit gives `gm1-self-knowledge`, `gm2-self-conditioning` and `probe-dissociation` STANDS WITH CAVEATS, and `gm3b-format-invariance` and `gm4-evidence-seeking` STANDS (`entangled-mind/audits/SUMMARY.md`, per-result table). So no y changes and the Brier stands. Two caveats bear on it:
+  - `em-gm5` is now unverified. If the queued re-run (DP2) produced a clean dissociation, its y would become 1 and the Brier 0.336 (arithmetic from `ledger/brier.md`).
+  - `em-gm2`'s 30-item independent replication is fragile, although its 40-item primary is not.
 - **Split by outcome.** The engine's Brier was 0.051 on the three non-passes and 0.563 on the two passes. Its odds were uniformly low (0.15–0.30), so it was right about the misses and wrong about both hits. At n = 5 that is no resolution.
 - **Revisions.** With the odds as first written, the Brier would have been 0.221 (BSS +0.11). Of the full-read revisions, the 0.45 → 0.25 cut on direction 3 cost the most, because direction 3 then passed.
   - Direction 1's revision to 0.15 was committed at 03:53, one minute *after* its pre-registration (03:52) and 22 minutes before its result.
@@ -401,22 +560,78 @@ Source: `ledger/bets.jsonl`, scored by `python3 ledger/brier.py` (`ledger/brier.
 
 None of this is a finding at n = 5. It is the baseline the first analysis starts from. It also shows why H1 uses a skill score against the base rate rather than a hit count.
 
-### 6.5 Steers
+### 6.6 Steers
 
-Nine human steers were reconstructed from the founding session (CONTEXT.md §8). Among them: "never lower the bar", "find where quantum would have to win and test it there", "review adjacent research before designing experiment 5", "biomimetics", and the reframing of the project from a pipeline demo to a scored oversight system. They were reconstructed after the fact, not logged at the time. Their outcomes are recorded, but none is scored, because no counterfactual was written down when they were made. From program 2 onward, steers are logged as they happen.
+Nine human steers were reconstructed from the founding session (`CONTEXT.md` §8; `ledger/steers.jsonl`). Among them:
+- "never lower the bar";
+- "find where quantum would have to win and test it there";
+- "review adjacent research before designing experiment 5";
+- "biomimetics";
+- retiring the "window" visualisation, logged as a veto (st-06);
+- the reframing of the project from a pipeline demo to a scored oversight system.
+
+They were reconstructed after the fact, not logged at the time. Their outcomes are recorded, but none is scored, because no counterfactual was written down when they were made. From programs 2 and 3 onward, steers are logged as they happen, and vetoes are scored as in §3.8.
+
+### 6.7 Programs 2 and 3, opened, and how stable the engine's odds are
+
+Both programs opened on 2026-11-04. Neither has pre-registered or run a test, and neither human-odds form has been filled in (`other-minds/map/human-odds.md`; `nature-graded/map/human-odds.md`).
+
+**Program 2, *Other Minds*, AI-graded** (`other-minds/README.md`; `other-minds/map/program-2-map.md`).
+- **Seed question:** does a model's account of another mind behave like its account of its own?
+- **Reads:** 101 records in four clusters (39 full, 37 partial, 25 abstract or secondary).
+- **Map:** 13 directions with engine odds from 0.15 to 0.70, which sum to 5.55 expected passes.
+- **First wave:** four tests, with about $4.65 in caps on Haiku.
+- **Elicitation:** the odds were written by the scout in the map. The map records no paraphrase or negation re-check.
+
+**Program 3, *Nature-Graded*, hardware-graded** (`nature-graded/README.md`; `nature-graded/map/program-3-map.md`).
+- **Reads:** 81 records in five clusters (47 full, 24 partial, 10 abstract).
+- **Map:** 14 directions with engine odds from 0.07 to 0.72. The 13 nature-graded ones sum to 5.08 expected passes.
+- **Plan:** a month plan under the hard stop (§5).
+- **Elicitation:** the odds were taken at 14:06 by a fresh context that saw only the direction rows, not the reads or the ranking.
+
+**The odds-stability check** (`nature-graded/map/odds-elicitation/README.md`). A seeded random half of the directions (`random.Random(20261104).sample(ids, 7)`) was re-elicited by two further fresh contexts. One saw each pass rule paraphrased; the other was asked for P(not pass). All three elicitors were `claude-opus-5-5`.
+
+| measure | value |
+|---|---|
+| mean incoherence under negation, \|P(pass) + P(not pass) − 100\| | **11.3 points** |
+| mean \|original − paraphrase\| | 6.9 points |
+| largest spread of the three numbers | 30 points (P3-13: 35, 50, and an implied 65) |
+| direction of the negation shift | 5 of 7 implied a *higher* pass probability, 2 a lower |
+
+So the engine's own odds move with wording, the way program 1 found a model's stated confidence moves with question and format (§6.2). The source file states the limits: seven items cannot establish a bias, and one context saw all 14 rows at once (template variant `v1-batch`), so cross-row anchoring is possible. The headline odds stay the original ones, and the spread is published beside them.
+
+This is the first measurement of H1's elicitation-spread secondary (§4, H1). Its size matters. The program-1 odds that are scored so far span only 0.15 to 0.30, a 15-point range, while wording alone moved program-3 odds by 11 points on average.
+
+### 6.8 The referee comparison: suggestive, not clean
+
+Program 3 exists to compare the engine's calibration when a model referees with its calibration when a chip does (§3.7). That comparison will be reported, but it cannot isolate the referee.
+1. **The items differ, not only the referee.** Nature-graded bets are mostly bets about device noise against a known physics prediction. AI-graded bets are about a model's behaviour with no settled theory. A calibration gap could come from that difference alone (`nature-graded/map/program-3-map.md`, "Notes for the engine").
+2. **The samples are small.** Waves 0–3 give about 11 nature-graded bets by 2026-11-18, against 5 scored AI-graded bets. Between ledgers of that size, a Brier difference is noise unless it is large (same file and section).
+3. **The odds were elicited differently.**
+   - Program 1's five odds were stated inside a map before the fixed format existed (§5).
+   - Program 2's were written by its scout, with no re-check.
+   - Program 3's came from a separate fresh context, in a variant of the template.
+   
+   The program-3 map lists "both ledgers use the same v1 elicitation template" as a partial control. That holds for program 3 and for later bets, not for program 1's five.
+4. **The elicitation noise is as large as the effect sought.** Wording moved the engine's odds by 11.3 points on average, so a smaller calibration difference is not a difference (`nature-graded/map/odds-elicitation/README.md`).
+5. **The seeds are not independent.** Programs 2 and 3 both start from program 1's results (`other-minds/README.md`; `nature-graded/map/program-3-map.md`).
+
+One partial control is real. Each hardware bet also scores the chip's departure from its own noisy-simulator prediction (§3.7), so device noise is measured, not assumed. The comparison is a pilot of the measure, and §4.6 reports it as descriptive.
 
 ---
 
 ## 7. Limitations
 
 - **Small n.** The ledger will be small for months. Every hypothesis has a minimum n and an untestable verdict, and we expect to report several untestable verdicts on 2026-11-21.
-- **One human.** H3 measures one overseer, who designed the engine. His judgment is not independent of its structure, and the result does not generalise to overseers.
-- **One model family.** The engine, the auditor and the programs' subject models are mostly Claude models. Self-preference bias makes a same-family auditor a weaker test. Cross-model audits are recorded as such, but they may be few.
-- **The engine's odds are a self-report.** Program 1's own result is that a model's stated confidence is constructed by elicitation. A fixed elicitation format controls the variance, not the construct. A different format might give different odds, and a different Brier.
+- **One human.** H3 measures one overseer, who designed the engine. That overseer's judgment is not independent of the engine's structure, and the result does not generalise to overseers.
+- **One model family.** The engine, the auditor and the programs' subject models are mostly Claude models. Self-preference bias makes a same-family auditor a weaker test, and the first audit was same-family (§6.4). Cross-model audits are recorded as such, but they may be few.
+- **The engine's odds are a self-report.** A fixed elicitation format controls the variance, not the construct. The engine's odds moved by 11 points on average under negation (§6.7), so a different format might give a different Brier.
 - **Gaming the score.** Brier is proper for a fixed set of bets, but the engine also chooses the bets. It could look calibrated by betting only on near-certainties. We report the distribution of stated odds and the resolution term, and the map's weighting favours surprise potential, but this is mitigated, not solved.
+- **The referee comparison is confounded** by item type, elicitation history and sample size (§6.8).
+- **The four new instruments are specified, not built** (§3.7–3.10). Their parameters (veto share and cap, pre-mortem format, second-level sample size) are to be fixed in `operators/` before first use. Until then they are design, not evidence.
 - **Same-era comparisons.** Audited and unaudited results come from different weeks of the project, so the replication comparison in H2 is descriptive only.
 - **Canary realism.** Planted faults come from known classes. The catch rate on them may overstate the catch rate on novel faults.
-- **Path dependence is costly to measure.** H4 rests on one within-seed control run and one human-designed matching rubric.
+- **Path dependence is costly to measure.** H4 rests on one within-seed control run and one human-designed matching rubric, and both new programs are seeded by program 1.
 - **Founding-week evidence is retrospective.** It shows the failure modes are real and the loop runs. It does not show the engine works.
 
 ---
@@ -424,10 +639,31 @@ Nine human steers were reconstructed from the founding session (CONTEXT.md §8).
 ## 8. Reproducibility
 
 - **The engine** is plain files in one public repository: `CONTEXT.md`, `ARCHITECTURE.md`, `proposal.md`, `operators/` (scout, auditor and the pre-registration template, the standing instructions every session follows), and `ledger/`, `map/` and `related-work/`. Every judgment is a commit with a timestamp: odds, pre-registrations, results, audits and steers. "Odds before data" is checkable from `git log` alone.
-- **Program 1** is in `GitPhar/entangled-mind`. `python experiments/reproduce.py` regenerates every results table from archived JSON, with no API keys. Its last run printed ALL TABLES REPRODUCED.
+- **Program 1** is in `GitPhar/entangled-mind`.
+  - `python experiments/reproduce.py` regenerates every results table from archived JSON, with no API keys.
+  - The audit is in `audits/`. Its request-ID decoder, which dates every archived call independently of git, runs as `python audits/tools/ridtime.py results/*.json`.
+  - The audit's own recomputation scripts were not committed (`audits/SUMMARY.md`), which is a gap.
+- **Programs 2 and 3** are the repositories `other-minds` and `nature-graded`. As of this revision they are local and not yet published; each holds its reads, its map with engine odds, and the human-odds form. Program 3's elicitation check is in `map/odds-elicitation/`.
 - **The engine's own numbers.** `python3 ledger/brier.py` regenerates `ledger/brier.md` from `ledger/bets.jsonl` with no keys. It is extended to every §4 statistic before the first analysis (§5).
 - **The prompts and operator instructions** are in the repository verbatim. A session that reads `operators/auditor.md` and nothing else can run an audit.
-- **Costs.** About $50 of API and 46 QPU seconds for the founding week; about $60 more planned through 2026-11-22.
+- **Costs.** About $50 of API and 46 QPU seconds for the founding week; the audit made no API calls; about $60 more is planned through 2026-11-22, plus about 146 QPU s for program 3.
+
+---
+
+## 9. What this revision changed (2026-11-04, evening)
+
+No H1–H5 metric, pass criterion or minimum n changed.
+- **Added:**
+  - the first audit's numbers (§6.4);
+  - programs 2 and 3 and the odds-stability check (§6.7);
+  - the two referee types and the comparison's confounds (§3.7, §6.8);
+  - the scored veto (§3.8), the pre-mortem (§3.9) and the second-level audit (§3.10);
+  - the secondary measures for these (§4.6).
+- **Corrected to the post-audit record of program 1:**
+  - §6.2 no longer says "eleven pre-registered tests", "consistency is memory", "own answers act as commitments" or "no privileged self-knowledge" as findings;
+  - §6.1 gives experiment 5 as CLASSICAL (D52);
+  - `em-gm5` is marked unverified (D53).
+- **Wording:** one pronoun in H3 made neutral.
 
 ---
 
@@ -508,5 +744,8 @@ Full entries, read depths and the numbers quoted above are in `related-work/`. V
 - Wen, J., Zhong, R., Khan, A., et al. (2024). Language models learn to mislead humans via RLHF. arXiv:2409.12822.
 - Zheng, L., Chiang, W.-L., Sheng, Y., et al. (2023). Judging LLM-as-a-judge with MT-Bench and Chatbot Arena. arXiv:2306.05685.
 
+
 **This project.**
-- Pharris, S. (2026). The Entangled Mind (program 1 repository, papers and record). github.com/GitPhar/entangled-mind.
+- Pharris, S. (2026). The Entangled Mind (program 1 repository, papers, record and audit). github.com/GitPhar/entangled-mind.
+- Pharris, S. (2026). Other Minds (program 2 repository; placeholder name; local, not yet published).
+- Pharris, S. (2026). Nature-Graded (program 3 repository; placeholder name; local, not yet published).
