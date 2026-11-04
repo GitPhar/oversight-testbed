@@ -35,6 +35,10 @@ Independence rules:
 - New re-analyses of the archived data (a different seed, a leave-one-item-out pass, a permutation test, a split by item). Cost: $0. These are your main weapon.
 - **No new paid API calls and no hardware.** If breaking the result needs new data, write the test you would run, with its cost, as a recommendation. It becomes a bet with its own pre-registration.
 
+## First: argue the other side
+
+Before the checklist, write half a page headed **The case that this result is false**: the strongest argument you can make that the headline claim does not hold, as if you had been assigned that side of a debate. The engine chooses its own bets and argues for them, which is the "open consultancy" setting in which weak judges are most easily misled (Kenton et al. 2024, `related-work/scalable-oversight.md`). Assigning the auditor the opposing side is the cheapest counterweight. Then use the checklist to find out whether that case is right.
+
 ## The checklist
 
 Work through every line. Each line gets one of: *holds*, *hole* (with evidence), *cannot check* (with reason).
@@ -96,6 +100,9 @@ canary: unknown                # the auditor never knows; filled in by the ledge
 
 ## In plain English
 <three to six sentences: does the result stand, what had to be cut, what would break it>
+
+## The case that this result is false
+<half a page, written before the checklist>
 
 ## Claims checked
 | # | claim (quoted from the results file, ≤15 words, or paraphrased) | check run | outcome |
