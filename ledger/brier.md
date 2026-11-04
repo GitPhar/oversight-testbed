@@ -62,7 +62,7 @@ Predicted = mean stated probability in the bucket; observed = fraction that hit;
 
 ## What is not scored, and why
 
-15 of the 21 bets in the ledger are not scored:
+17 of the 23 bets in the ledger are not scored:
 
 - **em-gm9** (Clonable minds: NSIT on archived experiment-5 conversations): Not scored: the stated P is for 'a publishable conceptual result', which the pre-registered NSIT rule does not decide. It resolves when an audit or a reviewer judges paper/clonable-minds.md. brier.md shows both possible outcomes as a sensitivity row.
 - **em-gm3a** (Free look: does the scale-direction gap predict errors?): Not scored: the gold map gave this free look no probability ('—'). The 0.45 sometimes attached to it was direction 3's original P, not 3a's.
@@ -79,5 +79,7 @@ Predicted = mean stated probability in the bucket; observed = fraction that hit;
 - **em-dm4** (Multi-model: shown / redacted / planted transcripts on Sonnet and Opus): Not scored: a replication with no new probability stated.
 - **em-dm6** (Calibration (ECE) under two formats and two question orders): Not scored: no probability stated. Parse and token-cap problems (DM6a) leave 68-199 of 300 questions per cell.
 - **om-p2-2** (Perspective-filter equivalence: is attributing a belief judging the world from the other's evidence?): open
+- **om-p2-4** (Interpersonal replication: does the model's theory of another assistant predict its own measured fingerprint?): open
+- **om-p2-3** (SimpleToM decomposed: is the 'stated but not used' gap a memory effect?): open
 
 No bet has an audit yet (`ledger/audits/` is empty). When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.

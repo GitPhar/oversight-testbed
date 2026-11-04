@@ -64,7 +64,7 @@ The official client is `@buff-beacon-project/curby-client` (npm; version 1.2.0 w
 
 **Fallback for a live but slow chain.** If CURBY-Q was live at the pre-registration but no round completes within 6 hours of the commit, use the first **CURBy-RNG** pulse after that commit, and record `seed_source: curby-rng` (classical, not quantum-certified) and the reason. If both are down, wait. *(Amended 2026-11-04 15:05. The first version always waited 6 hours, which, with CURBY-Q stalled for over a year, delayed every bet by 6 hours and protected nothing. Bets pre-registered under the first version log a deviation, before any data, and take the first CURBy-RNG pulse after their pre-registration commit.)* A local random generator is never used for a split once a pre-registration names the beacon. A seed is never re-drawn.
 
-**What the auditor checks** (`operators/auditor.md`, E23): the live/stalled choice follows from the CURBY-Q round recorded in §2 (the 24-hour rule); the pulse time is after the pre-registration commit's author time; it is the *first* such round or pulse on its chain (fetch the one before it and check that it predates the commit); the seed recomputes with `ledger/seed.py`; the split in the code uses that seed and no other. Any failure is a hole.
+**What the auditor checks** (`operators/auditor.md`, E23): the live/stalled choice follows from the CURBY-Q round recorded in §2 (the 24-hour rule); the pulse time is after the pre-registration commit's author time; it is the *first* such round or pulse on its chain (fetch the one before it and check that it predates the commit); the seed recomputes with `ledger/seed.py` and the recorded `purpose`; the split in the code uses that seed and no other. Any failure is a hole.
 
 ## Ledger fields: `ledger/bets.jsonl`
 
@@ -72,7 +72,8 @@ The official client is `@buff-beacon-project/curby-client` (npm; version 1.2.0 w
 "bet_type": "standard|tiebreak",
 "seed_source": "curby-q|curby-rng|fixed|null",
 "beacon": {"chain": "CURBY-Q", "round": 0, "pulse_time": "<YYYY-MM-DD HH:MM America/Denver>",
-           "randomness": "<hex>", "client": "@buff-beacon-project/curby-client@<version>",
+           "randomness": "<hex>", "purpose": "<the --purpose given to seed.py, or null>",
+           "client": "@buff-beacon-project/curby-client@<version>",
            "certificate_verified": false, "seed_commit": "<sha>"},
 "seed": 0,
 "tiebreak": {"circuit": "<path>", "circuit_sha256": "<hex>", "simulator": "<name + noise model>",
