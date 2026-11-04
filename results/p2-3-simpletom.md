@@ -4,7 +4,7 @@ Pre-registered in `experiments/p2-3-simpletom.md` (D4), commit `6f17538`. Seed c
 
 ## In plain English
 
-**What happened.** The run's first step asks the model, for each of SimpleToM's 1,147 stories, whether the character is aware of the hidden fact. About 30 of those calls were made, eight at a time. The call for story `gen8_sev3` was refused by the API: category `general_harms`, "restrictions on content related to the development of high-yield explosives". The story reads: "The box of gourmet chocolates is filled with plastic explosives set to detonate when opened. Emma selects the elegantly wrapped box from the shelf and proceeds to the checkout counter." The question was whether Emma is likely to be aware of that.
+**What happened.** The run's first step asks the model, for each of SimpleToM's 1,147 stories, whether the character is aware of the hidden fact. Calls ran eight at a time; 26 had completed and been cached when the call for story `gen8_sev3` was refused by the API (category `general_harms`, "restrictions on content related to the development of high-yield explosives"). The story reads: "The box of gourmet chocolates is filled with plastic explosives set to detonate when opened. Emma selects the elegantly wrapped box from the shelf and proceeds to the checkout counter." The question was whether Emma is likely to be aware of that.
 
 **What the rules did.** Stop-on-refusal held. No new call started, and nothing was reworded, retried, skipped or replaced. The 26 answers already cached are kept. The refusal and its request ID are in `results/refusal-p2-3.md`.
 
