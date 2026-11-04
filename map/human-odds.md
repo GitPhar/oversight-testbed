@@ -14,7 +14,7 @@
 
 A guide, if it helps: 5 = I'd be amazed. 25 = I doubt it. 50 = coin flip. 75 = I expect it. 95 = I'd be amazed if not.
 
-**About costs.** Chip time is the scarce thing. About 374 seconds are left before the project's hard stop, and at least 120 of them are held back for repeating anything surprising. "Free" means laptop time only.
+**About costs.** Chip time is the scarce thing. About 366 seconds are left before the project's hard stop (after wave 1), and at least 120 of them are held back for repeating anything surprising. "Free" means laptop time only.
 
 - Date and time filled in (America/Denver): ______
 - Had you seen the engine's odds before filling this in? yes / no / some of them: ______
