@@ -63,16 +63,30 @@ def fake_fez():
     return FakeFez()
 
 
-def overwrite_calibration(backend, snapshot: dict, scale: float = 1.0):
+def overwrite_calibration(backend, snapshot: dict, scale: float = 1.0, legacy_t1t2_bug: bool = False):
     """Return a deep copy of `backend` whose target carries the snapshot's numbers on the snapshot's
     qubits and CZ pairs (both directions). `scale` multiplies every error rate and divides T1, T2
-    (exploratory only)."""
+    (exploratory only).
+
+    Fixed 2026-11-04 (nature-graded D8): in qiskit 2.6.1 `Target.qubit_properties` returns a new list on every
+    access, so the original per-element assignment was discarded and FakeFez's T1/T2 stayed. The whole list is now
+    assigned and the result asserted. `legacy_t1t2_bug=True` reproduces the original behaviour (T1/T2 untouched),
+    only to regenerate the first P3-1 / P3-5 runs."""
     be = copy.deepcopy(backend)
     t = be.target
+    qp = list(t.qubit_properties)
     for q in snapshot["qubits"]:
         i = q["qubit"]
-        t.qubit_properties[i] = QubitProperties(t1=q["T1_us"] * 1e-6 / scale, t2=q["T2_us"] * 1e-6 / scale,
-                                                frequency=t.qubit_properties[i].frequency)
+        qp[i] = QubitProperties(t1=q["T1_us"] * 1e-6 / scale, t2=q["T2_us"] * 1e-6 / scale, frequency=qp[i].frequency)
+    if not legacy_t1t2_bug:
+        t.qubit_properties = qp
+        for q in snapshot["qubits"]:
+            got = t.qubit_properties[q["qubit"]]
+            assert abs(got.t1 - q["T1_us"] * 1e-6 / scale) < 1e-12 and abs(got.t2 - q["T2_us"] * 1e-6 / scale) < 1e-12, \
+                f"T1/T2 not written for qubit {q['qubit']}"
+            assert abs(be.qubit_properties(q["qubit"]).t2 - q["T2_us"] * 1e-6 / scale) < 1e-12
+    for q in snapshot["qubits"]:
+        i = q["qubit"]
         for gate in ("sx", "x"):
             old = t[gate][(i,)]
             t.update_instruction_properties(gate, (i,), InstructionProperties(old.duration, q["sx_error"] * scale))
@@ -90,14 +104,25 @@ def snapshot(job_id: str) -> dict:
     return json.loads(CALIB.read_text())[job_id]
 
 
-def simulator(backend, method: str = "automatic", zz_phase: float = 0.0) -> AerSimulator:
+def simulator(backend, method: str = "automatic", zz_phase: float = 0.0, legacy_zz_bug: bool = False) -> AerSimulator:
+    """Fixed 2026-11-04 (nature-graded D8): the ZZ phase was added as an all-qubit CZ error, which Aer ignores where a
+    pair has its own (local) CZ error, i.e. everywhere after from_backend. It is now composed into every local CZ
+    error (Aer's add_quantum_error composes with an existing error) and checked. `legacy_zz_bug=True` reproduces the
+    original no-op."""
     nm = NoiseModel.from_backend(backend, thermal_relaxation=True)
     if zz_phase:
         from qiskit_aer.noise import coherent_unitary_error
         from scipy.linalg import expm
         zz = np.diag([1, -1, -1, 1]).astype(complex)
         err = coherent_unitary_error(expm(-0.5j * zz_phase * zz))
-        nm.add_all_qubit_quantum_error(err, ["cz"], warnings=False)
+        if legacy_zz_bug:
+            nm.add_all_qubit_quantum_error(err, ["cz"], warnings=False)
+        else:
+            local = dict(nm._local_quantum_errors.get("cz", {}))
+            assert local, "no local CZ errors to compose with"
+            for qubits, old in local.items():
+                nm.add_quantum_error(err, ["cz"], list(qubits), warnings=False)
+                assert nm._local_quantum_errors["cz"][qubits] != old, f"ZZ not composed on {qubits}"
     return AerSimulator.from_backend(backend, noise_model=nm, method=method)
 
 

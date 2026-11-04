@@ -122,7 +122,8 @@ def reference_states(item_files, noisy=True):
     """Exact simulated tomography of the 9 as-run setting circuits (readout excluded) -> linear inversion."""
     from qiskit_aer import AerSimulator
     base = p3sim.fake_fez()
-    be = p3sim.overwrite_calibration(base, p3sim.snapshot(JOB))
+    # legacy_t1t2_bug=True reproduces the run as made (D8); a corrected P3-5 re-run is not pre-registered
+    be = p3sim.overwrite_calibration(base, p3sim.snapshot(JOB), legacy_t1t2_bug=True)
     sim = p3sim.simulator(be, method="density_matrix") if noisy else AerSimulator(method="density_matrix")
     probs = {}
     for s, path in item_files.items():
