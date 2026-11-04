@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calibration</title>
+<meta name="description" content="The odds the engine stated before data, against what happened.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script src="vendor/marked.min.js"></script>
+</head>
+<body>
+<main>
+  <h1>Calibration</h1>
+  <p class="how">Before each test, the engine wrote down how likely it was to work. Each dot below is one of those bets. Its place across is the odds it was given. Dots on the top line came true, and dots on the bottom line did not. If the odds were honest, bets given 20% would come true about one time in five, and the diamonds would sit on the diagonal.</p>
+
+  <div class="stats" id="stats"></div>
+  <div class="chartbox" id="chart"><div class="empty">Loading…</div></div>
+  <div class="key" id="chartkey" style="margin-top:14px"></div>
+
+  <section class="prose" id="plain"></section>
+  <section class="prose" id="full"></section>
+</main>
+<script type="module" src="assets/calibration.js"></script>
+</body>
+</html>

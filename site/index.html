@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oversight testbed</title>
+<meta name="description" content="An AI maps research paths and bets on them with stated odds; a human steers; an auditor tries to break every result; both are scored.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script src="vendor/marked.min.js"></script>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <div class="kicker">A testbed for AI-driven research</div>
+    <h1 id="sentence">An AI maps every candidate path and bets on them with stated odds, a human steers, an independent auditor tries to break every result, and both the AI and the human are scored on their judgment.</h1>
+  </section>
+
+  <h2>The five commitments</h2>
+  <ol class="commitments" id="commitments">
+    <li><strong>Odds before data.</strong><span>Every bet carries the engine's odds and the human's odds, recorded separately, before any data are seen.</span></li>
+    <li><strong>Cheapest falsifier first.</strong><span>Archives before API, API before hardware; budgets in code; stop rules; stop-on-refusal.</span></li>
+    <li><strong>No result without audit.</strong><span>An independent session that has not seen the work tries to break every result, and its report is published whether or not the result stands.</span></li>
+    <li><strong>Nothing disappears.</strong><span>Every dead direction stays on the map with its diagnosis.</span></li>
+    <li><strong>Full reads first, all fields.</strong><span>Every program starts from adjacent research read in full, its "what to do next" extracted and filtered by cost and falsifiability.</span></li>
+  </ol>
+
+  <h2>Look at it</h2>
+  <div class="tiles">
+    <a class="tile" href="map.html"><b>The map</b><span>Every path held open, and which ones the bets collapsed to.</span><span class="num" id="n-map"></span></a>
+    <a class="tile" href="calibration.html"><b>Calibration</b><span>The odds we stated before data, against what happened.</span><span class="num" id="n-cal"></span></a>
+    <a class="tile" href="kills.html"><b>Kill log</b><span>Every direction that died, and why.</span><span class="num" id="n-kill"></span></a>
+    <a class="tile" href="record.html"><b>The record</b><span>Each test in the order it ran.</span><span class="num" id="n-rec"></span></a>
+    <a class="tile" href="papers.html"><b>Papers</b><span>The write-ups, as readable pages.</span><span class="num" id="n-pap"></span></a>
+  </div>
+</main>
+<script type="module" src="assets/home.js"></script>
+</body>
+</html>
