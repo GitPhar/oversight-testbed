@@ -1,0 +1,449 @@
+{
+ "program": "nature-graded",
+ "seed_question": "Open questions in quantum foundations and in Heron r2 device physics that fit the IBM Open Plan (600 QPU s/month, 374 s left, project hard stop 420 s), with the quantum chip as ground truth, never as a computational resource.",
+ "scouted": "2026-11-04",
+ "qpu": {
+  "used_s": 46,
+  "hard_stop_s": 420,
+  "remaining_s": 374,
+  "cost_rule": "0.28 ms x shots + ~2 s/job; x1.5 for mid-circuit measurement"
+ },
+ "expected_passes_nature_graded": 5.08,
+ "directions": [
+  {
+   "id": "P3-1",
+   "title": "Does a correctly scheduled noise model close the Stage 1 gap?",
+   "parent": null,
+   "status": "open",
+   "rank": 1,
+   "engine_odds": 0.07,
+   "engine_odds_at": "2026-11-04T14:06:13-07:00",
+   "odds_template": "v1-batch",
+   "referee": "nature",
+   "source": "L",
+   "cost": "0 QPU s, $0 (archive)",
+   "assumption_at_stake": "The Stage 1 gap is the device departing from its calibration, not our simulator mis-built",
+   "cheapest_test": "Re-simulate the archived ISA circuit ALAP-scheduled (FakeFez durations) with job-time calibration; pass if P(yes) >= 0.40",
+   "prior_work": [
+    "D: Aer from_backend source",
+    "D: Bautra 2026",
+    "D: Vezvaee 2025"
+   ],
+   "diagnosis": null,
+   "human_odds": null,
+   "elicitation_check": {
+    "paraphrase": 0.12,
+    "negation_not_pass": 0.85,
+    "incoherence": 0.08
+   }
+  },
+  {
+   "id": "P3-2",
+   "title": "Coherent or stochastic? Twirling and DD on the Stage 1 circuit",
+   "parent": "P3-1",
+   "status": "open",
+   "rank": 3,
+   "engine_odds": 0.25,
+   "engine_odds_at": "2026-11-04T14:06:13-07:00",
+   "odds_template": "v1-batch",
+   "referee": "nature",
+   "source": "L",
+   "cost": "~6 QPU s",
+   "assumption_at_stake": "Reported (twirled) error rates describe an untwirled structured circuit",
+   "cheapest_test": "4 interleaved arms x 2,000 shots (as run / twirl / DD XY4 / both) + readout cal; pass if twirl moves P(yes) >= 0.125 toward the corrected sim at >= 3 sigma",
+   "prior_work": [
+    "D: Wallman & Emerson 2016",
+    "D: Cenedese 2022",
+    "D: Proctor 2022",
+    "D: Vezvaee 2025",
+    "D: Hickman 2025"
+   ],
+   "diagnosis": null,
+   "human_odds": null
+  },
+  {
+   "id": "P3-3",
+   "title": "Is the gap nine particular qubits, or one afternoon?",
+   "parent": "P3-1",
+   "status": "open",
+   "rank": 4,
+   "engine_odds": 0.12,
+   "engine_odds_at": "2026-11-04T14:06:13-07:00",
+   "odds_template": "v1-batch",
+   "referee": "nature",
+   "source": "L",
+   "cost": "~6 QPU s",
+   "assumption_at_stake": "The gap is a stable property of the device as calibrated",
+   "cheapest_test": "2 pre-chosen alternative layouts x 2,000 shots + 2 repeats >= 3 h apart; pass if both alternative-layout gaps < half the same-job original gap",
+   "prior_work": [
+    "D: Klimov 2018",
+    "D: Carroll 2022",
+    "D: Kim Y. 2024/25"
+   ],
+   "diagnosis": null,
+   "human_odds": null
+  },
+  {
+   "id": "P3-4",
+   "title": "Does DD restore the missing entanglement?",
+   "parent": "P3-2",
+   "status": "open",
+   "rank": 11,
+   "engine_odds": 0.25,
+   "engine_odds_at": "2026-11-04T14:06:13-07:00",
+   "odds_template": "v1-batch",
+   "referee": "nature",
+   "source": "L",
+   "cost": "~9 QPU s",
+   "assumption_at_stake": "The missing witness negativity is idle dephasing",
+   "cheapest_test": "Re-tomography of item h088, DD off vs XY4, 1,000 shots/setting; pass if DD raises negativity by >= 0.043 with 95% CI above 0",
+   "prior_work": [
+    "D: Vezvaee 2025",
+    "D: Ezzell 2023",
+    "D: Hickman 2025"
+   ],
+   "diagnosis": null,
+   "human_odds": null,
+   "elicitation_check": {
+    "paraphrase": 0.3,
+    "negation_not_pass": 0.65,
+    "incoherence": 0.1
+   }
+  },
+  {
+   "id": "P3-5",
+   "title": "Coherent or incoherent, from the archived tomography",
+   "parent": null,
+   "status": "open",
+   "rank": 2,
+   "engine_odds": 0.42,
+   "engine_odds_at": "2026-11-04T14:06:13-07:00",
+   "odds_template": "v1-batch",
+   "referee": "nature",
+   "source": "E",
+   "cost": "0 QPU s, $0 (archive)",
+   "assumption_at_stake": "Reported (twirled) error rates describe untwirled circuits",
+   "cheapest_test": "7-parameter coherent (local unitaries + ZZ) vs incoherent (local Pauli + depolarising) fits to 3 archived tomographies; pass if coherent wins by dlogL >= 10 on >= 2 of 3",
+   "prior_work": [
+    "D: Cenedese 2022",
+    "D: McKay 2023"
+   ],
+   "diagnosis": null,
+   "human_odds": null
+  },
+  {
+   "id": "P3-6",
+   "title": "Does ibm_fez leak settings between qubits?",
+   "parent": null,
+   "status": "open",
+   "rank": 12,
+   "engine_odds": 0.5,
+   "engine_odds_at": "2026-11-04T14:06:13-07:00",
+   "odds_template": "v1-batch",
+   "referee": "nature",
+   "source": "L",
+   "cost": "~13 QPU s lean (30 full)",
+   "assumption_at_stake": "On-chip no-signalling holds on this Heron r2",
+   "cheapest_test": "Rybotycki idle test on ~40 pairs, phase-only settings; pass (clean) if no |dP| > 4.5 sigma after Bonferroni",
+   "prior_work": [
+    "E: Rybotycki 2025",
+    "E: Bednorz 2025",
+    "E: Big cats 2025"
+   ],
+   "diagnosis": null,
+   "human_odds": null,
+   "elicitation_check": {
+    "paraphrase": 0.5,
+    "negation_not_pass": 0.35,
+    "incoherence": 0.15
+   }
+  },
+  {
+   "id": "P3-7",
+   "title": "Two-friend genuine local friendliness with external settings",
+   "parent": null,
+   "status": "open",
+   "rank": 7,
+   "engine_odds": 0.48,
+   "engine_odds_at": "2026-11-04T14:06:13-07:00",
+   "odds_template": "v1-batch",
+   "referee": "nature",
+   "source": "L",
+   "cost": "~37 QPU s lean (70 full)",
+   "assumption_at_stake": "Local friendliness (absoluteness of observed events + no superdeterminism + locality)",
+   "cheapest_test": "Bong facet 1, 3x3 settings, friend n = 0,1,2,4, 2,500 shots/setting, beacon-fixed settings, decohered-friend and no-signalling controls; pass if S > 0 by >= 5 sigma at some n >= 1 with controls passing",
+   "prior_work": [
+    "A: Bong 2020",
+    "A: Zeng 2025",
+    "A: Laux & Cavalcanti 2026",
+    "A: Bednorz 2025"
+   ],
+   "diagnosis": null,
+   "human_odds": null
+  },
+  {
+   "id": "P3-8",
+   "title": "Is there a one-friend genuine LF inequality?",
+   "parent": "P3-7",
+   "status": "open",
+   "rank": 10,
+   "engine_odds": 0.35,
+   "engine_odds_at": "2026-11-04T14:06:13-07:00",
+   "odds_template": "v1-batch",
+   "referee": "mathematics",
+   "source": "L",
+   "cost": "$0 desk (then 17-26 QPU s)",
+   "assumption_at_stake": "For one friend there are no genuine LF inequalities beyond Bell",
+   "cheapest_test": "Facet enumeration + see-saw of the one-friend 3-setting LF polytope; pass if a non-Bell facet with >= 15% white-noise tolerance exists",
+   "prior_work": [
+    "A: Haddara & Cavalcanti 2024",
+    "A: Laux & Cavalcanti 2026",
+    "A: Haddara, Wiseman & Cavalcanti 2025 (abstract)"
+   ],
+   "diagnosis": null,
+   "human_odds": null,
+   "elicitation_check": {
+    "paraphrase": 0.3,
+    "negation_not_pass": 0.7,
+    "incoherence": 0.05
+   }
+  },
+  {
+   "id": "P3-9",
+   "title": "Sequential Peres-Mermin under exact Contextuality-by-Default",
+   "parent": "P3-10",
+   "status": "open",
+   "rank": 6,
+   "engine_odds": 0.4,
+   "engine_odds_at": "2026-11-04T14:06:13-07:00",
+   "odds_template": "v1-batch",
+   "referee": "nature",
+   "source": "L",
+   "cost": "~42 QPU s",
+   "assumption_at_stake": "Program 1's CbD pipeline sees contextuality where it exists; PM contextuality survives exact CbD on superconducting hardware",
+   "cheapest_test": "24 MCM circuits (6 contexts x 2 orders x 2 states) x 4,000 shots, individual outcomes; pass if exact CbD LP rejects noncontextuality (CNT2 99% lower bound > 0) for both states",
+   "prior_work": [
+    "B: Kirchmair 2009",
+    "B: Masse 2021",
+    "B: Kumar 2025",
+    "B: Kelleher & Holweck 2025",
+    "B: Kujala & Dzhafarov 2019"
+   ],
+   "diagnosis": null,
+   "human_odds": null
+  },
+  {
+   "id": "P3-10",
+   "title": "Sequential 4-cycle with the exact KDL criterion",
+   "parent": null,
+   "status": "open",
+   "rank": 5,
+   "engine_odds": 0.72,
+   "engine_odds_at": "2026-11-04T14:06:13-07:00",
+   "odds_template": "v1-batch",
+   "referee": "nature",
+   "source": "L",
+   "cost": "~15 QPU s",
+   "assumption_at_stake": "Program 1's CbD pipeline sees contextuality where it exists (cyclic case)",
+   "cheapest_test": "8 MCM circuits x 4,000 shots; pass if KDL statistic > 2 with 99.9% lower bound > 2 in both orders",
+   "prior_work": [
+    "B: KDL 2015",
+    "B: Malinowski 2018",
+    "B: Wang 2022",
+    "B: Guhne 2010"
+   ],
+   "diagnosis": null,
+   "human_odds": null
+  },
+  {
+   "id": "P3-11",
+   "title": "Leggett-Garg with MCM, clumsiness control and CbD",
+   "parent": null,
+   "status": "open",
+   "rank": 8,
+   "engine_odds": 0.72,
+   "engine_odds_at": "2026-11-04T14:06:13-07:00",
+   "odds_template": "v1-batch",
+   "referee": "nature",
+   "source": "L",
+   "cost": "~29 QPU s",
+   "assumption_at_stake": "Macrorealism with noninvasive measurability for one transmon; 'IBM violations are clumsiness'",
+   "cheapest_test": "16 circuits x 4,000 shots x 6 parallel copies; pass if CbD-corrected K3 > 1 by >= 5 sigma and K3 - 1 exceeds classical-preparation disturbance by >= 3 sigma",
+   "prior_work": [
+    "C: Huffman & Mizel 2017",
+    "C: Knee 2016",
+    "C: Ku 2020",
+    "C: Santini & Vitale 2022",
+    "C: KDL 2015"
+   ],
+   "diagnosis": null,
+   "human_odds": null,
+   "elicitation_check": {
+    "paraphrase": 0.72,
+    "negation_not_pass": 0.25,
+    "incoherence": 0.03
+   }
+  },
+  {
+   "id": "P3-12",
+   "title": "Do alternating non-commuting measurements show memory?",
+   "parent": null,
+   "status": "open",
+   "rank": 9,
+   "engine_odds": 0.68,
+   "engine_odds_at": "2026-11-04T14:06:13-07:00",
+   "odds_template": "v1-batch",
+   "referee": "nature",
+   "source": "L",
+   "cost": "~6 QPU s",
+   "assumption_at_stake": "No superdeterministic memory at microsecond spacing",
+   "cheapest_test": "~50 qubits, 8 alternating Z/X MCMs + all-Z control, 2 x 4,000 shots; pass if |Corr| < 0.01 at lags 2, 4, 6 and control repeat agreement >= 95%",
+   "prior_work": [
+    "E: Hossenfelder 2014",
+    "E: Hossenfelder & Palmer 2020"
+   ],
+   "diagnosis": null,
+   "human_odds": null,
+   "elicitation_check": {
+    "paraphrase": 0.5,
+    "negation_not_pass": 0.4,
+    "incoherence": 0.08
+   }
+  },
+  {
+   "id": "P3-13",
+   "title": "LG-certified randomness from P3-11's data",
+   "parent": "P3-11",
+   "status": "open",
+   "rank": 14,
+   "engine_odds": 0.35,
+   "engine_odds_at": "2026-11-04T14:06:13-07:00",
+   "odds_template": "v1-batch",
+   "referee": "nature",
+   "source": "L",
+   "cost": "0 extra QPU s",
+   "assumption_at_stake": "One transmon's LG violation certifies randomness semi-device-independently",
+   "cheapest_test": "Nath Theorem 2 bound with finite-size correction on P3-11's mixed-preparation data; pass if >= 0.05 bits/round at 99%",
+   "prior_work": [
+    "C: Nath 2025",
+    "C: Nath 2024",
+    "C: Liu 2025 (does not fit)"
+   ],
+   "diagnosis": null,
+   "human_odds": null,
+   "elicitation_check": {
+    "paraphrase": 0.5,
+    "negation_not_pass": 0.35,
+    "incoherence": 0.3
+   }
+  },
+  {
+   "id": "P3-14",
+   "title": "Maximally psi-epistemic models in d = 4, no fair sampling",
+   "parent": null,
+   "status": "open",
+   "rank": 13,
+   "engine_odds": 0.12,
+   "engine_odds_at": "2026-11-04T14:06:13-07:00",
+   "odds_template": "v1-batch",
+   "referee": "nature",
+   "source": "L",
+   "cost": "~21 QPU s",
+   "assumption_at_stake": "Maximally psi-epistemic models",
+   "cheapest_test": "Two-transmon real-amplitude ququart, 30 circuits x 2,000 shots + tomography; pass if S + 5 sigma < 1 under both omega_q choices",
+   "prior_work": [
+    "E: Ringbauer 2015",
+    "E: Yang, Yuan & Barnes 2025"
+   ],
+   "diagnosis": null,
+   "human_odds": null
+  }
+ ],
+ "closed": [
+  {
+   "id": "gold-map-11 hardware as oracle",
+   "status": "killed",
+   "diagnosis": "stays closed: the chip is a referee here, never a resource; RCS certified randomness needs ~2.2 s latency and exascale verification"
+  },
+  {
+   "id": "real vs complex QT",
+   "status": "killed",
+   "diagnosis": "settled on IBM hardware twice and on a USTC chip; independent sources impossible on one chip"
+  },
+  {
+   "id": "PBR",
+   "status": "killed",
+   "diagnosis": "already passed on Heron r2 (ibm_marrakesh); preparation independence cannot be closed on one chip"
+  },
+  {
+   "id": "Bell with k redundant friends",
+   "status": "killed",
+   "diagnosis": "merged into P3-7 as unanimity scoring"
+  },
+  {
+   "id": "Guhne full disturbance-corrected PM",
+   "status": "killed",
+   "diagnosis": "deferred follow-up to P3-9 (~57 s)"
+  },
+  {
+   "id": "Sorkin interference",
+   "status": "killed",
+   "diagnosis": "needs qutrits or multi-path systems"
+  },
+  {
+   "id": "KCBS / Yu-Oh / Luders-bound LG",
+   "status": "killed",
+   "diagnosis": "need qutrit control"
+  },
+  {
+   "id": "weak-measurement LG",
+   "status": "killed",
+   "diagnosis": "~560 s per job"
+  },
+  {
+   "id": "Born-rule 1e-3 deviations",
+   "status": "killed",
+   "diagnosis": "1e7-1e8 shots"
+  },
+  {
+   "id": "quantum Darwinism",
+   "status": "killed",
+   "diagnosis": "no assumption at stake"
+  },
+  {
+   "id": "quantum switch",
+   "status": "killed",
+   "diagnosis": "a chip runs gates in a definite order"
+  },
+  {
+   "id": "Frauchiger-Renner",
+   "status": "killed",
+   "diagnosis": "on chip only a Hardy-type probability"
+  },
+  {
+   "id": "MIPT",
+   "status": "killed",
+   "diagnosis": "exponential post-selection; a QT prediction"
+  },
+  {
+   "id": "loophole-free locality",
+   "status": "killed",
+   "diagnosis": "needs spacelike separation"
+  },
+  {
+   "id": "Leupold sustained sequences",
+   "status": "killed",
+   "diagnosis": "~1e7 measurements"
+  },
+  {
+   "id": "layer fidelity / SPL learning",
+   "status": "killed",
+   "diagnosis": "published by IBM; hides coherent error; too costly"
+  },
+  {
+   "id": "direct ZZ / leakage measurement",
+   "status": "killed",
+   "diagnosis": "needs pulse or qutrit access"
+  }
+ ]
+}
