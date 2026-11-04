@@ -15,7 +15,8 @@ Read in this order: `CONTEXT.md` (the living brain, rewritten nightly), `ARCHITE
 ## Programs
 
 - Program 1 — [The Entangled Mind](https://github.com/GitPhar/entangled-mind): a quantum encoding of a model's competing beliefs (closed, negative, with diagnosis) that produced a live finding about what a model's self-reports measure.
-- Program 2 — opening: does a model's account of another mind behave like its account of its own?
+- Program 2 — Other Minds (open): does a model's account of another mind behave like its account of its own? First bet om-p2-1 pre-registered.
+- Program 3 — Nature-Graded (open): the same engine's odds, graded by a quantum chip instead of a language model. The chip is a referee, never a computational resource (`operators/hardware.md`).
 
 ## Ledger, audits, map, site
 

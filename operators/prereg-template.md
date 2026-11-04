@@ -15,6 +15,7 @@ Written and frozen <YYYY-MM-DD HH:MM> (America/Denver), in its own commit, befor
 | field | value |
 |---|---|
 | bet id | `<program>-b<n>` |
+| referee | `model` (a language model's behaviour decides the outcome) / `nature` (the chip's outcomes decide it, program 3) / `mathematics` (a proof or exact computation decides it) |
 | bet type | `standard` / `tiebreak` (simulator vs chip, operators/hardware.md) / `shadow` (a vetoed direction's shadow check, operators/veto.md; recorded in ledger/shadows.jsonl) |
 | direction | `<program>-d<n>` (map/<program>.json) |
 | source | `literature` / `engine` / `human` — *where the idea came from (Q5)* |
@@ -86,7 +87,7 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
  "engine_odds": 0.00, "engine_odds_at": "<timestamp>",
  "human_odds": null, "human_odds_at": null,
  "prereg_commit": "<filled by the next commit>", "budget_usd": 0,
- "bet_type": "standard|tiebreak", "seed_source": "curby-q|curby-rng|fixed", "beacon": null, "seed": null, "tiebreak": null,
+ "referee": "model|nature|mathematics", "bet_type": "standard|tiebreak", "seed_source": "curby-q|curby-rng|fixed", "beacon": null, "seed": null, "tiebreak": null,
  "premortem": "If this fails, the most likely reason is …", "premortem_kind": "world|design|execution|artefact",
  "premortem_at": "<this commit>", "human_premortem": null, "human_premortem_kind": null,
  "failed": null, "failure_reason": null, "failure_kind": null, "premortem_score": null,

@@ -67,7 +67,17 @@ Turns a CURBy beacon pulse into a bet's seed: `python3 ledger/seed.py <randomnes
 
 ### New fields on every bet
 
-`premortem` and its scores, `bet_type` (`standard` or `tiebreak`), `seed_source`, `beacon`, `seed` and `tiebreak`. On founding-week bets they are empty, with a note saying why. Nothing was reconstructed after the fact.
+`referee` (`model` for every bet so far: a language model's behaviour decided the outcome; program 3's bets carry `nature` or `mathematics`, copied from its map), `premortem` and its scores, `bet_type` (`standard` or `tiebreak`), `seed_source`, `beacon`, `seed` and `tiebreak`. On founding-week bets they are empty, with a note saying why. Nothing was reconstructed after the fact.
+
+## Programs in the ledger
+
+| program | repository | map | referee | bets so far |
+|---|---|---|---|---|
+| 1 · The Entangled Mind | `GitPhar/entangled-mind` | `map/entangled-mind.json` | model | 19 |
+| 2 · Other Minds | `GitPhar/other-minds` (local; push pending) | `map/other-minds.json` | model | 1 open |
+| 3 · Nature-Graded | `GitPhar/nature-graded` (local; push pending) | `map/nature-graded.json` | nature (the `ibm_fez` chip), some mathematics | 0: 14 open directions carry engine odds, none pre-registered |
+
+Program 3 exists to test whether the engine's calibration survives a referee that shares none of its habits (steer st-10). Its bets enter `bets.jsonl` at pre-registration like any other, with `referee` set, so `brier.py` and the instruments page can compare AI-graded with chip-graded calibration.
 
 ## Where Sean's odds come from
 

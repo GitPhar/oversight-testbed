@@ -97,6 +97,10 @@ path_dependence_test:
     measure: do the maps converge, diverge, or cross?  which kills recur?  does the ledger differ?
     this is the order-effect question asked of research itself
 
+referee_test:
+    compare calibration(engine | referee = model, programs 1–2) vs calibration(engine | referee = nature, program 3)
+    an engine calibrated only when an AI grades it has borrowed its judgment from its grader
+
 auditor_test:
     catch rate = plants caught / plants planted, Wilson interval, by class; vs 82% (Luo et al. 2025, logs + code)
     the auditor never knows which audit carries a plant; its "stands" is only worth its catch rate
@@ -136,7 +140,8 @@ oversight-testbed/           # the engine (placeholder slug until the title is c
   site/                      # GitHub Pages: papers as pages, record as timeline, calibration chart, map view
 programs/
   entangled-mind/            # program 1 (own repo, already exists): quantum encoding (closed) → self-reports (open)
-  <program-2>/               # own repo: theory of mind as third-person self-report
+  other-minds/               # program 2 (own repo): theory of mind as third-person self-report
+  nature-graded/             # program 3 (own repo): the engine's odds graded by nature (ibm_fez as referee)
 ```
 
 ## Operators

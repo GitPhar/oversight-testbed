@@ -35,7 +35,7 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-0 of 20 bets carry an engine pre-mortem; 0 of those have failed and been scored. 20 earlier bets were pre-registered before pre-mortems existed and have none, honestly.
+0 of 21 bets carry an engine pre-mortem; 0 of those have failed and been scored. 21 earlier bets were pre-registered before pre-mortems existed and have none, honestly.
 
 | measure | value (95% Wilson interval) |
 |---|---|
@@ -57,5 +57,5 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 | Brier on tiebreaks, engine (n = 0) | — |
 | Brier on tiebreaks, human (n = 0) | — |
 | QPU seconds used by tiebreaks | 0 |
-| bets by seed source: none recorded | 20 |
+| bets by seed source: none recorded | 21 |
 
