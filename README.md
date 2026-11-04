@@ -25,7 +25,7 @@ Opened 2026-11-04 (America/Denver). Scouting is done. **First wave run 2026-11-0
 | bet | question | verdict | engine odds | result file |
 |---|---|---|---|---|
 | P2-1 | Is "how likely is p" the same as "how confident are you that p"? | **fail**: they share 77% of reproducible item variation (bar 90%); the same wording across sessions shares 96% | 60 | `results/p2-1-framing.md` |
-| P2-2 | Is "what Noor believes" the same as "what is true, given only what Noor saw"? | **fail**: 50% pooled (bar 80%), about 0 within condition; a 9-point curse of knowledge; the filter is partly flawed where perception names only a cause | 55 | `results/p2-2-perspective.md` |
+| P2-2 | Is "what Noor believes" the same as "what is true, given only what Noor saw"? | **fail**: 50% pooled (bar 80%), about 0 within condition. Secondary: a curse-of-knowledge effect, mean +9, median +5. The filter misfits only 15 of 48 high true-belief stories (auditor's count) | 55 | `results/p2-2-perspective.md` |
 | P2-4 | Does the model predict its own measured fingerprint better than "Sam's"? | **undetermined** (audited; the test could not detect a self advantage smaller than about 0.084). The point estimate and exploratory data lean toward a self advantage on own-answer commitment | 60 | `results/p2-4-interpersonal.md` |
 | P2-3 | Is SimpleToM's "stated but not used" gap a memory effect? | **untestable**: the API refused a severity-3 story (explosives) after 26 calls; stop-on-refusal held | 70 | `results/p2-3-simpletom.md` |
 
