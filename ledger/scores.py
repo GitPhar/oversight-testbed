@@ -3,7 +3,8 @@
     python3 ledger/scores.py
 
 Reads only committed ledger files. brier.py covers calibration (H1); this file
-covers the scored veto (operators/veto.md). Do not edit scores.md by hand.
+covers the scored veto (operators/veto.md) and the auditor's catch rate on
+sealed plants (operators/plant.md). Do not edit scores.md by hand.
 """
 import json
 import math
@@ -77,6 +78,42 @@ def section_vetoes(w):
     w("")
 
 
+def section_plants(w):
+    rows = load("plants.jsonl")
+    sealed = [r for r in rows if r["status"] == "sealed"]
+    rev = [r for r in rows if r["status"] == "revealed"]
+    planted = [r for r in rev if r["plaintext"]["planted"]]
+    caught = [r for r in planted if r["caught"]]
+    w("## The auditor's catch rate (operators/plant.md)")
+    w("")
+    w(f"{len(rows)} audit{'s' if len(rows) != 1 else ''} prepared with a sealed plant line: {len(sealed)} still sealed, {len(rev)} revealed, "
+      f"of which {len(planted)} carried a plant. "
+      + ("No plant has been revealed yet, so there is no catch rate to report." if not planted else ""))
+    w("")
+    if planted:
+        ci = wilson(len(caught), len(planted))
+        w(f"**Catch rate: {len(caught)}/{len(planted)} = {len(caught) / len(planted):.2f}, 95% Wilson interval [{ci[0]:.2f}, {ci[1]:.2f}].** "
+          "External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). "
+          f"H2 needs the lower bound above 0.50 on at least 10 plants; {'reached' if len(planted) >= 10 else f'n = {len(planted)} is below that, so the arm is untestable for now'}.")
+        w("")
+        w("| class / subclass | planted | caught | missed: expected checklist line |")
+        w("|---|---|---|---|")
+        keys = sorted({(r["plaintext"]["class"], r["plaintext"]["subclass"]) for r in planted})
+        for c, sc in keys:
+            cell = [r for r in planted if (r["plaintext"]["class"], r["plaintext"]["subclass"]) == (c, sc)]
+            miss = [r["plaintext"]["expect"] for r in cell if not r["caught"]]
+            w(f"| {c} / {sc} | {len(cell)} | {sum(1 for r in cell if r['caught'])} | {', '.join(miss) or '—'} |")
+        w("")
+        w("| plant | bet | class | caught | where (from the audit) | planter model |")
+        w("|---|---|---|---|---|---|")
+        for r in planted:
+            pt = r["plaintext"]
+            w(f"| {r['id']} | {r['bet']} | {pt['class']}/{pt['subclass']} | {'yes' if r['caught'] else 'no'} | {r['caught_where']} | {r['planter_model']} |")
+        w("")
+    w("Verify every revealed commitment with `python3 ledger/plants.py verify`.")
+    w("")
+
+
 def main():
     L = []
     w = L.append
@@ -86,6 +123,7 @@ def main():
       "Calibration of the engine's odds is in `brier.md`.")
     w("")
     section_vetoes(w)
+    section_plants(w)
     (HERE / "scores.md").write_text("\n".join(L) + "\n")
     print("wrote ledger/scores.md")
 

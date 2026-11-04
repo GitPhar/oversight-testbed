@@ -27,3 +27,9 @@ No veto has been scored yet. Vetoes of something other than a research direction
 
 Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H3. `probably_saved` comes from partial or weak shadows, which miss more easily than the full test would have, and is never added to `saved`.
 
+## The auditor's catch rate (operators/plant.md)
+
+0 audits prepared with a sealed plant line: 0 still sealed, 0 revealed, of which 0 carried a plant. No plant has been revealed yet, so there is no catch rate to report.
+
+Verify every revealed commitment with `python3 ledger/plants.py verify`.
+

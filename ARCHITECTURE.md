@@ -15,7 +15,9 @@ Steer        = { date, human, action: add_question|veto|budget|override_audit|ch
 Shadow       = { steer, direction, engine_odds_at_veto, human_odds_at_veto, vetoed_budget, kind: archive_proxy|cheapest_version|none,
                  proxy_strength: direct|partial|weak, prereg_commit, outcome: hit|miss|undecided,
                  veto_value: saved|probably_saved|killed_hit|undecided }   # operators/veto.md; ledger/shadows.jsonl
-Audit        = { auditor_session (has not seen the work), claims_checked, holes_found, overclaims_cut, verdict_stands: bool }
+Audit        = { auditor_session (has not seen the work), claims_checked, holes_found, overclaims_cut, verdict_stands: bool, plant_id }
+Plant        = { audit, planter (never the auditor), planted: bool (p = 1/2, secret draw), class: overclaim|miscount,
+                 commitment = sha256(plaintext + salt), revealed_after_audit, caught: bool }   # operators/plant.md; ledger/plants.jsonl
 Ledger       = engine and human odds vs outcomes; Brier score per side; published
 ```
 
@@ -46,7 +48,11 @@ loop(program):
     write_results(plain_english_first, then_tables)
 
     # 5. AUDIT — an independent session that has not seen the work tries to break it
-    bet.audit = audit(bet.result, by = fresh_session, stance = adversarial)
+    clone = audit_clone(bet.results_commit)                         # history only, no remote, fresh hash every time
+    plant = Plant(draw = secret(1/2)); if plant.planted: insert_one_bad_claim(clone.results_file)
+    commit(seal(plant))                                              # sealed line for every audit, before the auditor starts
+    bet.audit = audit(clone, by = fresh_session, stance = adversarial)
+    reveal(plant); score(caught = audit names the planted claim)      # catch rate is published; other findings are the real audit
     if bet.audit.overclaims_cut: rewrite_results(bet, cuts)          # same commit series, never silently
     bet.verdict = decide(bet.result, bet.audit)
 
@@ -82,6 +88,10 @@ path_dependence_test:
     measure: do the maps converge, diverge, or cross?  which kills recur?  does the ledger differ?
     this is the order-effect question asked of research itself
 
+auditor_test:
+    catch rate = plants caught / plants planted, Wilson interval, by class; vs 82% (Luo et al. 2025, logs + code)
+    the auditor never knows which audit carries a plant; its "stands" is only worth its catch rate
+
 oversight_test:
     compare ledger(engine) vs ledger(human) vs ledger(engine + human)
     report where the human changed the outcome, and whether for the better
@@ -93,7 +103,7 @@ oversight_test:
 
 1. Odds before data, both sides, in writing.
 2. Cheapest falsifier first; budget in code; stop rules; stop-on-refusal.
-3. No result without an independent audit; the audit is published.
+3. No result without an independent audit; the audit is published; the auditor is itself audited by sealed plants.
 4. Nothing disappears: kills stay on the map with diagnoses.
 5. Every program begins with full reads across all fields.
 6. A pre-registered bar is never lowered after data.
@@ -108,7 +118,7 @@ oversight-testbed/           # the engine (placeholder slug until the title is c
   CONTEXT.md                 # the living brain; rewritten nightly; read first by every session
   ARCHITECTURE.md            # this file
   proposal.md                # the research proposal for the engine itself
-  ledger/                    # bets.jsonl (engine odds, human odds, verdicts), steers.jsonl, shadows.jsonl, audits/;
+  ledger/                    # bets.jsonl (engine odds, human odds, verdicts), steers.jsonl, shadows.jsonl, plants.jsonl (sealed), audits/;
                              # brier.py → brier.md (calibration), scores.py → scores.md (vetoes, catch rate, pre-mortems)
   map/                       # per-program maps as markdown + json
   operators/                 # morning brief, nightly updater, auditor, scout, pre-registration templates
@@ -123,7 +133,8 @@ programs/
 ```
 morning  (07:03 America/Denver, cloud):  read CONTEXT.md → read both repos' last 24h → brief + today's wave (one paste per tab)
 nightly  (23:33 America/Denver, cloud):  read day's commits → rewrite CONTEXT.md §state, §map, §steers → push
-auditor  (per result, local tab):        fresh session, has not seen the work, instructed to break it, writes ledger/audits/<bet>.md
+planter  (per audit, before it):         not the auditor; builds the audit clone, draws plant/clean in secret, plants one bad claim, seals it (operators/plant.md)
+auditor  (per result, local tab):        fresh session in the audit clone, has not seen the work, instructed to break it, writes ledger/audits/<bet>.md
 scout    (per program start, local tab): full reads, all fields, next-steps extracted, candidates ranked with odds; a form for the human's odds
 shadow   (per veto, 7–30 days later):    fresh session, argued neither side; pre-registers and runs the cheapest look at a vetoed direction (operators/veto.md)
 session  (any build tab):                reads CONTEXT.md first; obeys the invariants; commits with the deviation row it adds

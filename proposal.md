@@ -19,14 +19,14 @@ The proposal makes all three measurable, on real research, cheaply.
 ## Research questions (about the engine, not about any one topic)
 
 - **Q1 Calibration.** Can an AI research agent state odds on its own bets, before data, that are well-calibrated? Metric: Brier score over the ledger; plotted as predicted vs. observed.
-- **Q2 Audit.** How much does an independent adversarial pass — a session that has not seen the work — change the AI's output? Metrics: overclaim rate (claims cut per result), verdict reversal rate, and whether audited results replicate better than unaudited ones.
+- **Q2 Audit.** How much does an independent adversarial pass — a session that has not seen the work — change the AI's output? Metrics: overclaim rate (claims cut per result), verdict reversal rate, whether audited results replicate better than unaudited ones, and the auditor's own **catch rate**. A session other than the auditor plants one known-bad claim (a deliberate overclaim or a table miscount) in the results file of half of all audits at random, and seals it in `ledger/plants.jsonl` before the audit starts. The share the auditor catches is published (`operators/plant.md`).
 - **Q3 Human oversight.** Does a non-ML human's judgment, recorded as separate odds on every bet and as logged steering acts (vetoes, added questions, budget calls, overrides of audits), improve outcomes over the engine alone — and where? Metrics: Brier(human) vs Brier(engine) vs Brier(engine+human); value of each logged steer scored after its outcome is known. A veto would otherwise be the one steer whose outcome is never seen, so every veto of a research direction gets a **shadow check** 7–30 days later: the cheapest version of the vetoed test, or an archive-only proxy, capped at $2. The ledger then says whether the veto saved money or killed a hit (`operators/veto.md`).
 - **Q4 Path dependence.** Does the agenda depend on where it starts? Two seed questions, same engine, same rules, run in parallel; measure convergence of maps, recurrence of kills, divergence of ledgers. (This is the order-effect question, asked of research itself.)
 - **Q5 Import.** Do bets sourced from adjacent literature — the "what to do next" that every paper suggests, read in full across all fields and filtered by cost and falsifiability — pay off at a higher rate than bets the AI generates on its own? Metric: hit rate by source of bet.
 
 ## Method
 
-The loop, per program: scout (full reads, all fields, next-steps extracted) → map (ranked directions, engine odds and human odds written before data) → pre-register (pass rule, statistic, split, seed, budget, in one commit) → run (cheapest falsifier first, budget in code, stop rules, stop-on-refusal) → audit (independent adversarial session; published) → verdict → ledger (both sides scored) → re-weight (a surprising, audited hit heats its neighbourhood and queues replication on more models and designs; a null closes the direction with a diagnosis that stays on the map) → steer (every human act logged with its later outcome; every veto shadow-checked later) → rewrite the living context so nothing exists only in a chat.
+The loop, per program: scout (full reads, all fields, next-steps extracted) → map (ranked directions, engine odds and human odds written before data) → pre-register (pass rule, statistic, split, seed, budget, in one commit) → run (cheapest falsifier first, budget in code, stop rules, stop-on-refusal) → audit (independent adversarial session; published; itself scored on sealed plants) → verdict → ledger (both sides scored) → re-weight (a surprising, audited hit heats its neighbourhood and queues replication on more models and designs; a null closes the direction with a diagnosis that stays on the map) → steer (every human act logged with its later outcome; every veto shadow-checked later) → rewrite the living context so nothing exists only in a chat.
 
 Invariants: odds before data; cheapest test first; no result without audit; nothing disappears; full reads first; a pre-registered bar is never lowered; a hit is not a hit until it replicates; plain English first.
 
@@ -66,7 +66,7 @@ Full reads of 63 sources across six fields are in `related-work/` (index and bor
 - From prediction markets and forecasting: the scoring design. That means a running base rate, an exact calibration-in-the-large test, Brier split by outcome, one fixed elicitation format with a negated re-check, and blind human odds with a mechanical mean.
 - From sandwiching: the engine / human / combined comparison.
 - From debate: the auditor argues the opposing side first.
-- From AI control: canaries to validate a same-family auditor.
+- From AI control: canaries to validate a same-family auditor, built here as sealed plants with a hash commitment.
 
 **What we cannot match.** Their sample sizes. This is a case study piloting the measures, not a benchmark.
 
