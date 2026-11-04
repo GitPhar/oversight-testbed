@@ -20,7 +20,7 @@ Why this matters for oversight: an overseer relies on what a model says about it
 
 ## Status
 
-Opened 2026-11-04 (America/Denver). Scouting is done. **First wave run 2026-11-04 afternoon** on `claude-haiku-5-5`, each test pre-registered in its own commit before its first call. Sean's odds were not recorded before data (D0). $1.77 spent of $4.65 in caps. None audited yet.
+Opened 2026-11-04 (America/Denver). Scouting is done. **First wave run 2026-11-04 afternoon** on `claude-haiku-5-5`, each test pre-registered in its own commit before its first call. Sean's odds were not recorded before data (D0). $1.77 spent of $4.65 in caps. All four audited in round 2 (entangled-mind audit2; cuts applied in D5, follow-ups in D6): P2-1, P2-2 and P2-3 stand; P2-4 reversed from pass to undetermined.
 
 | bet | question | verdict | engine odds | result file |
 |---|---|---|---|---|
