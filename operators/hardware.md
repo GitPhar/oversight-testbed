@@ -75,7 +75,7 @@ The official client is `@buff-beacon-project/curby-client` (npm; version 1.2.0 w
            "randomness": "<hex>", "purpose": "<the --purpose given to seed.py, or null>",
            "client": "@buff-beacon-project/curby-client@<version>",
            "certificate_verified": false, "seed_commit": "<sha>"},
-"seed": 0,
+"seed": 0,                      # or {"<purpose>": seed, …} when the pre-registration derives several sub-seeds; "purpose" is then a list
 "tiebreak": {"circuit": "<path>", "circuit_sha256": "<hex>", "simulator": "<name + noise model>",
              "statistic": "<name>", "sim_prediction": 0.0, "tolerance": 0.0, "shots": 0,
              "backend": "ibm_<name>", "calibration_snapshot": "<path>", "qpu_s_budget": 60,

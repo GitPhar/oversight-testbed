@@ -71,21 +71,39 @@ def main():
       f"{n} bets have both a stated probability and an outcome decided by their pre-registered rule. "
       f"The engine expected {sum(p for p, _ in eng):.2f} hits and got {hits}.")
     w("")
-    w(f"- **The engine's Brier score is {fmt(brier(eng))}.** Lower is better: 0 is perfect, "
+    be, exp = brier(eng), sum(p for p, _ in eng)
+    vs = "about the same as" if abs(be - 0.25) < 0.01 else ("better than" if be < 0.25 else "worse than")
+    w(f"- **The engine's Brier score is {fmt(be)}.** Lower is better: 0 is perfect, "
       f"0.25 is what always saying 50% scores, and {fmt(brier([(base, o) for _, o in eng]))} is what always saying "
-      f"the observed hit rate ({hits}/{n}) would have scored. On this tiny sample the engine scored about the same as a coin, slightly worse.")
-    w("- **The errors lean one way.** Every scored bet was given 15–30%, and both hits were bets given 25%. "
-      "If anything the odds were too low. With five bets, that lean is not reliable.")
-    w(f"- **On net, the full-read revisions made the odds worse.** Scored on the odds first written down "
-      f"(before the overnight literature pass), the Brier score is {fmt(brier(first))}. "
-      "The pass lowered direction 3 from 0.45 to 0.25, and direction 3 hit; it also lowered directions 1 and 4, which missed.")
+      f"the observed hit rate ({hits}/{n}) would have scored. On this small sample the engine scored {vs} a coin"
+      + (", and no better than knowing the hit rate in advance." if be >= brier([(base, o) for _, o in eng]) else "."))
+    lo_p, hi_p = min(p for p, _ in eng), max(p for p, _ in eng)
+    hit_p = sorted({p for p, o in eng if o == 1})
+    lean = ("too low" if hits > exp + 0.5 else "too high" if hits < exp - 0.5 else "about right in total")
+    w(f"- **Where the odds sat.** Scored bets were given {lo_p:.0%}–{hi_p:.0%}; the hits were bets given "
+      f"{', '.join(f'{p:.0%}' for p in hit_p) or 'nothing (no hits)'}. Expected {exp:.2f} hits, observed {hits}: "
+      f"on net the odds look {lean}. With {n} bets, none of this is reliable.")
+    bf = brier(first)
+    w(f"- **Odds as first written down score {fmt(bf)}** against {fmt(be)} for the odds in force at pre-registration. "
+      "In the founding week, the overnight literature pass lowered direction 3 from 0.45 to 0.25 (it hit) and lowered "
+      "directions 1 and 4 (they missed); later bets have not been revised.")
     covered = all(lo_ci <= pred <= hi_ci for pred, lo_ci, hi_ci in calib_rows(eng))
-    w("- **Five bets cannot establish calibration.** "
+    w(f"- **{n} bets cannot establish calibration** (H1 needs at least 20, with 4 hits and 4 misses). "
       + ("Every filled bucket's 95% interval includes its predicted value. " if covered
          else "At least one bucket's 95% interval excludes its predicted value. ")
       + "The table is published so the number accrues honestly, not because it says much yet.")
-    w("- **The human column is empty, honestly.** Sean's odds were not recorded in the founding week, so there is nothing to score. "
-      "From program 2 onward he records them before data with `map/human-odds-template.md`.")
+    refs = sorted({b.get("referee") or "model" for b in scored})
+    if len(refs) > 1:
+        parts = []
+        for r in refs:
+            pr = [(b["engine_odds"], b["outcome"]) for b in scored if (b.get("referee") or "model") == r]
+            parts.append(f"{r}-graded {fmt(brier(pr))} on {len(pr)}")
+        w("- **By referee** (what decided the outcome): " + "; ".join(parts) + ". Too few to compare yet (`ARCHITECTURE.md`, referee_test).")
+    if not hum:
+        w("- **The human column is empty, honestly.** No scored bet carries Sean's odds: they were not recorded in the founding week, "
+          "and later bets were pre-registered with the form blank. Each bet's `human_odds_note` says why.")
+    else:
+        w(f"- **Sean's odds are scored on {len(hum)} bet{'s' if len(hum) != 1 else ''}:** Brier {fmt(brier(hum))}.")
     w("")
     w("## Scores")
     w("")
