@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The cockpit</title>
+<meta name="description" content="Where the human steers: odds before data on every open question, vetoes with reasons, and new questions, saved as JSON lines to commit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script src="vendor/marked.min.js"></script>
+</head>
+<body class="widepage">
+<main>
+  <h1>The cockpit</h1>
+  <p class="how">One card per open question. Give your odds first; the engine's number stays hidden until you do. Veto a direction with a reason, or add a question. Nothing is sent anywhere: you download what you entered and commit it to the ledger.</p>
+
+  <div class="cockpit-bar" id="bar"></div>
+  <div class="filters" id="filters"></div>
+  <div class="cards" id="cards"><div class="empty">Loading the open questions…</div></div>
+
+  <section class="export" id="addq">
+    <h2>Add a new question</h2>
+    <p class="muted small" style="margin:0 0 10px">A question that does not grow from any card above. It goes into the ledger as a steer; the next scout session maps it.</p>
+    <div class="panelbox">
+      <label class="lbl" for="newprog">Which program</label>
+      <select id="newprog" class="because"></select>
+      <label class="lbl" for="newq">Your question, in your own words</label>
+      <textarea id="newq" placeholder="e.g. Does the model treat a user's stated belief the way it treats its own?"></textarea>
+      <div class="actions"><button class="btn primary" id="newqbtn" type="button" disabled>Add this question</button></div>
+    </div>
+  </section>
+
+  <section class="export" id="export"></section>
+</main>
+<script type="module" src="assets/cockpit.js"></script>
+</body>
+</html>

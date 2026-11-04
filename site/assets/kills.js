@@ -21,7 +21,7 @@ function resultLink(program, file) {
   kills.sort((a, b) => (parseDate(b.date)?.getTime() || 0) - (parseDate(a.date)?.getTime() || 0));
   const n = kills.length;
   main.innerHTML = `<h1>Kill log</h1>
-    <p class="how">A direction is killed when its pre-registered test says no. It is not deleted: it stays on the map, marked with a cross, and it is listed here with the reason it died. Newest first.</p>
+    <p class="how">A direction is killed when its pre-registered test says no, or when a scout drops it before any test (too costly, already settled, or nothing at stake). It is not deleted: it stays on the map, marked with a cross, and it is listed here with the reason it died. Newest first.</p>
     ${n ? `<p class="lede" style="margin-bottom:32px">${n} directions closed so far, each with its diagnosis.</p>` : ""}
     <ol class="kills" id="list"></ol>`;
   const list = document.getElementById("list");

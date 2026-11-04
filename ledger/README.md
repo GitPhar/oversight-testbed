@@ -29,6 +29,12 @@ A **steer** is a decision by the human: start a program, add a question, set a r
 
 These judgments are opinions written by the ledger session from the record. They are **not** measurements: there was no control run without the steer. Six are judged `helped` and three are `pending`; none `hurt`. Expect an auditor to push back on some of the six. A ledger where the human never hurts is a ledger to distrust.
 
+### `human-odds.jsonl`: Sean's odds, from the cockpit
+
+The site's cockpit page (`site/cockpit.html`) shows every open question with the engine's number hidden. Sean types his odds, then can reveal the engine's. The page downloads the new entries as JSON lines, which are appended here by hand and committed (`cat ~/Downloads/human-odds-<time>.jsonl >> ledger/human-odds.jsonl`). The commit time is the proof the number came before data.
+
+Each line records whether he had seen the engine's number (`saw_engine_odds`, with a note saying how). Entries are never edited: a change of mind is a new line, and the first line for a direction is the independent one. When a direction is pre-registered as a bet, its first entry is copied into that bet's `human_odds` in `bets.jsonl` and `brier.py` is rerun, as in the form's instructions. Vetoes and added questions from the cockpit are appended to `steers.jsonl` the same way.
+
 ### `brier.md`: how good were the guesses?
 
 The **Brier score** is the standard score for probability guesses. For each bet, take (stated probability − outcome)², and average. 0 is perfect. Always saying 50% scores 0.25.

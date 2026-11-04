@@ -18,6 +18,39 @@
     <h1 id="sentence">An AI maps every candidate path and bets on them with stated odds, a human steers, an independent auditor tries to break every result, and both the AI and the human are scored on their judgment.</h1>
   </section>
 
+  <div class="explain">
+    <section class="panel" aria-labelledby="p1">
+      <h2 id="p1"><span class="n">1</span> What this is</h2>
+      <p>An AI that does research, and a public record of whether its judgment can be trusted.</p>
+      <p>Before every experiment, the AI writes down how likely it thinks the experiment is to work. Then it runs the cheapest test that could prove it wrong. A fresh AI session that has not seen the work tries to break the result. Each guess is scored against what happened, and the wrong guesses stay on the record.</p>
+    </section>
+    <section class="panel" aria-labelledby="p2">
+      <h2 id="p2"><span class="n">2</span> What the human does</h2>
+      <p>One person steers. For every open question, the human writes down their own odds <b>before</b> seeing the AI's number. They can veto a direction, giving a reason, or add a question the AI did not think of.</p>
+      <p>Every one of those moves is logged, and later scored, so the record shows whether the human's hand made the research better or worse.</p>
+      <a class="cta" href="cockpit.html">Open the cockpit →</a>
+    </section>
+    <section class="panel" aria-labelledby="p3">
+      <h2 id="p3"><span class="n">3</span> What the quantum chip is for, and not for</h2>
+      <p>One program uses a real IBM quantum chip as a referee. When the AI bets on how the chip will behave, the chip settles it. Nothing the AI writes can talk it round.</p>
+      <ul>
+        <li><span class="yes">For:</span> grading the AI's bets with outcomes set by physics, not by another AI.</li>
+        <li><span class="no">Not for:</span> computing anything, speeding anything up, or making the AI smarter. Every circuit is small enough to simulate on a laptop.</li>
+      </ul>
+      <p class="muted small" id="qpu"></p>
+    </section>
+  </div>
+
+  <h2>Look at it</h2>
+  <div class="tiles">
+    <a class="tile" href="map.html"><b>The map</b><span>Every path held open, and which ones the bets collapsed to.</span><span class="num" id="n-map"></span></a>
+    <a class="tile" href="cockpit.html"><b>Cockpit</b><span>Where the human gives odds, vetoes and adds questions.</span><span class="num" id="n-cock"></span></a>
+    <a class="tile" href="calibration.html"><b>Calibration</b><span>The odds we stated before data, against what happened.</span><span class="num" id="n-cal"></span></a>
+    <a class="tile" href="kills.html"><b>Kill log</b><span>Every direction that died, and why.</span><span class="num" id="n-kill"></span></a>
+    <a class="tile" href="record.html"><b>The record</b><span>Each test in the order it ran.</span><span class="num" id="n-rec"></span></a>
+    <a class="tile" href="papers.html"><b>Papers</b><span>The write-ups, as readable pages.</span><span class="num" id="n-pap"></span></a>
+  </div>
+
   <h2>The five commitments</h2>
   <ol class="commitments" id="commitments">
     <li><strong>Odds before data.</strong><span>Every bet carries the engine's odds and the human's odds, recorded separately, before any data are seen.</span></li>
@@ -27,14 +60,6 @@
     <li><strong>Full reads first, all fields.</strong><span>Every program starts from adjacent research read in full, its "what to do next" extracted and filtered by cost and falsifiability.</span></li>
   </ol>
 
-  <h2>Look at it</h2>
-  <div class="tiles">
-    <a class="tile" href="map.html"><b>The map</b><span>Every path held open, and which ones the bets collapsed to.</span><span class="num" id="n-map"></span></a>
-    <a class="tile" href="calibration.html"><b>Calibration</b><span>The odds we stated before data, against what happened.</span><span class="num" id="n-cal"></span></a>
-    <a class="tile" href="kills.html"><b>Kill log</b><span>Every direction that died, and why.</span><span class="num" id="n-kill"></span></a>
-    <a class="tile" href="record.html"><b>The record</b><span>Each test in the order it ran.</span><span class="num" id="n-rec"></span></a>
-    <a class="tile" href="papers.html"><b>Papers</b><span>The write-ups, as readable pages.</span><span class="num" id="n-pap"></span></a>
-  </div>
 </main>
 <script type="module" src="assets/home.js"></script>
 </body>
