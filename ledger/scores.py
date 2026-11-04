@@ -4,7 +4,8 @@
 
 Reads only committed ledger files. brier.py covers calibration (H1); this file
 covers the scored veto (operators/veto.md) the auditor's catch rate on
-sealed plants (operators/plant.md), and pre-mortems (operators/premortem.md). Do not edit scores.md by hand.
+sealed plants (operators/plant.md), pre-mortems (operators/premortem.md), and hardware tiebreaks and beacon
+seeds (operators/hardware.md). Do not edit scores.md by hand.
 """
 import json
 import math
@@ -151,6 +152,32 @@ def section_premortems(w):
     w("")
 
 
+def section_hardware(w):
+    bets = load("bets.jsonl")
+    tb = [b for b in bets if b.get("bet_type") == "tiebreak"]
+    done = [b for b in tb if b["tiebreak"] and b["tiebreak"].get("agree") is not None]
+    eng = [(b["engine_odds"], int(b["tiebreak"]["agree"])) for b in done if b.get("engine_odds") is not None]
+    hum = [(b["human_odds"], int(b["tiebreak"]["agree"])) for b in done if b.get("human_odds") is not None]
+    qpu = sum((b["tiebreak"] or {}).get("qpu_s_used") or 0 for b in tb)
+    src = {}
+    for b in bets:
+        src[b.get("seed_source") or "none recorded"] = src.get(b.get("seed_source") or "none recorded", 0) + 1
+    w("## Hardware: tiebreaks and beacon seeds (operators/hardware.md)")
+    w("")
+    w("The chip is a referee and the beacon a seed source; neither computes anything the engine uses.")
+    w("")
+    w("| | value |")
+    w("|---|---|")
+    w(f"| tiebreak bets logged / resolved | {len(tb)} / {len(done)} |")
+    w(f"| chip agreed with the simulator | {sum(1 for b in done if b['tiebreak']['agree'])} of {len(done)} |")
+    w(f"| Brier on tiebreaks, engine (n = {len(eng)}) | {fmt(brier(eng))} |")
+    w(f"| Brier on tiebreaks, human (n = {len(hum)}) | {fmt(brier(hum))} |")
+    w(f"| QPU seconds used by tiebreaks | {qpu:g} |")
+    for k in sorted(src):
+        w(f"| bets by seed source: {k} | {src[k]} |")
+    w("")
+
+
 def main():
     L = []
     w = L.append
@@ -162,6 +189,7 @@ def main():
     section_vetoes(w)
     section_plants(w)
     section_premortems(w)
+    section_hardware(w)
     (HERE / "scores.md").write_text("\n".join(L) + "\n")
     print("wrote ledger/scores.md")
 

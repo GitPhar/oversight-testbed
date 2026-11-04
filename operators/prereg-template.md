@@ -15,6 +15,7 @@ Written and frozen <YYYY-MM-DD HH:MM> (America/Denver), in its own commit, befor
 | field | value |
 |---|---|
 | bet id | `<program>-b<n>` |
+| bet type | `standard` / `tiebreak` (simulator vs chip, operators/hardware.md) / `shadow` (a vetoed direction's shadow check, operators/veto.md; recorded in ledger/shadows.jsonl) |
 | direction | `<program>-d<n>` (map/<program>.json) |
 | source | `literature` / `engine` / `human` — *where the idea came from (Q5)* |
 | engine odds, P(pass) | <0–100>, stated <timestamp> in map/<program>.json — *copied, not restated* |
@@ -33,6 +34,9 @@ Written and frozen <YYYY-MM-DD HH:MM> (America/Denver), in its own commit, befor
 
 - *Models (exact ids), settings (thinking, max_tokens, temperature if any, structured output), prompts verbatim or by file path.*
 - *Items: source, n, selection rule, and the random seed for any draw.*
+- **Seed** (operators/hardware.md): the first CURBY-Q round whose pulse is timestamped after this commit. seed = the first 8 bytes of SHA-256(randomness ‖ bet-id), unsigned big-endian; sub-seeds per purpose by `ledger/seed.py --purpose <split|items|order>`. *Filled in by the seed commit, before any data:*
+  `chain:` ___ · `round:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seed:` ___
+- *For a `tiebreak`: the circuit file and its SHA-256, the simulator and noise model, the backend, the shots, the calibration snapshot to record, and the simulator's prediction (committed here or in the seed commit, never after the chip runs).*
 - *Archives used, by path. If the test reads an archive, name exactly which fields will be read.*
 - *Scale: one direction, 0 = certainly false, 100 = certainly true, in every graded prompt.*
 
@@ -82,6 +86,7 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
  "engine_odds": 0.00, "engine_odds_at": "<timestamp>",
  "human_odds": null, "human_odds_at": null,
  "prereg_commit": "<filled by the next commit>", "budget_usd": 0,
+ "bet_type": "standard|tiebreak", "seed_source": "curby-q|curby-rng|fixed", "beacon": null, "seed": null, "tiebreak": null,
  "premortem": "If this fails, the most likely reason is …", "premortem_kind": "world|design|execution|artefact",
  "premortem_at": "<this commit>", "human_premortem": null, "human_premortem_kind": null,
  "failed": null, "failure_reason": null, "failure_kind": null, "premortem_score": null,
@@ -98,6 +103,7 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
 - [ ] The pass rule in §5 can be applied by a stranger.
 - [ ] The pre-mortem in §0 is one sentence, names a checkable mechanism, and carries its kind.
 - [ ] One scale direction in every graded prompt.
+- [ ] The seed rule in §2 names the beacon; the seed commit follows this one before any data.
 - [ ] Budget and stop-on-refusal enforced in code, not by hand.
 - [ ] DEVIATIONS.md row added for this pre-registration.
 - [ ] Commit message: `Pre-register <bet-id>: <title> (D<n>)`.

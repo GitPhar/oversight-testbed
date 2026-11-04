@@ -26,7 +26,7 @@ The proposal makes all three measurable, on real research, cheaply.
 
 ## Method
 
-The loop, per program: scout (full reads, all fields, next-steps extracted) → map (ranked directions, engine odds and human odds written before data) → pre-register (pass rule, statistic, split, seed, budget and a one-sentence pre-mortem, in one commit) → run (cheapest falsifier first, budget in code, stop rules, stop-on-refusal) → audit (independent adversarial session; published; itself scored on sealed plants) → verdict → ledger (both sides scored) → re-weight (a surprising, audited hit heats its neighbourhood and queues replication on more models and designs; a null closes the direction with a diagnosis that stays on the map) → steer (every human act logged with its later outcome; every veto shadow-checked later) → rewrite the living context so nothing exists only in a chat.
+The loop, per program: scout (full reads, all fields, next-steps extracted) → map (ranked directions, engine odds and human odds written before data) → pre-register (pass rule, statistic, split, budget and a one-sentence pre-mortem, in one commit; the seed then fixed from the next certified-random beacon pulse) → run (cheapest falsifier first, budget in code, stop rules, stop-on-refusal) → audit (independent adversarial session; published; itself scored on sealed plants) → verdict → ledger (both sides scored) → re-weight (a surprising, audited hit heats its neighbourhood and queues replication on more models and designs; a null closes the direction with a diagnosis that stays on the map) → steer (every human act logged with its later outcome; every veto shadow-checked later) → rewrite the living context so nothing exists only in a chat.
 
 Invariants: odds before data; cheapest test first; no result without audit; nothing disappears; full reads first; a pre-registered bar is never lowered; a hit is not a hit until it replicates; plain English first.
 
@@ -78,7 +78,16 @@ Full reads of 63 sources across six fields are in `related-work/` (index and bor
 4. Open program 2 from a second seed in model psychology — does a model's account of another mind behave like its account of its own? — and begin the path-dependence comparison (≈ $10).
 5. Score every logged steer from the founding week against its outcome; publish the first human-vs-engine ledger ($0).
 
-Total through 2026-11-22: about $60 of API, no new hardware time. Quantum hardware remains available for program-level experiments; whether it can serve the testbed itself is an open question, kept open.
+Total through 2026-11-22: about $60 of API, no new hardware time.
+
+## Quantum hardware, sized honestly
+
+Quantum hardware is a referee and a seed source, never a computational resource (`operators/hardware.md`). Every circuit we can afford is exactly simulable on a laptop, so the chip cannot improve any number the engine uses; program 1 showed as much.
+
+- **Referee.** When a result rests on a simulated circuit and the simulation's adequacy is disputed, the IBM chip decides. It does so as a logged `tiebreak` bet: engine and human odds that the chip will agree with the simulator within a pre-registered tolerance, with the simulator's prediction committed first, at most 60 QPU s each. Scored over time, this says when the chip was never needed.
+- **Seed source.** Every split and item draw is seeded from the first CURBy beacon round after the pre-registration commit, so nobody in the loop chose the seed or could foresee it, and the pulse is recorded in the pre-registration. CURBy is NIST and CU Boulder's Bell-test-certified beacon, not our chip. The certification is a bonus; the protection against seed shopping is the point.
+
+Program-level foundations experiments, where the chip is the thing measured (gold-map directions 7 and 8), remain separately approved. Whether hardware can serve the testbed in other ways stays an open question.
 
 ## What would change our mind
 

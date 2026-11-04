@@ -46,3 +46,16 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 Descriptive under Q1 until there are at least 15 failed bets with pre-mortems.
 
+## Hardware: tiebreaks and beacon seeds (operators/hardware.md)
+
+The chip is a referee and the beacon a seed source; neither computes anything the engine uses.
+
+| | value |
+|---|---|
+| tiebreak bets logged / resolved | 0 / 0 |
+| chip agreed with the simulator | 0 of 0 |
+| Brier on tiebreaks, engine (n = 0) | — |
+| Brier on tiebreaks, human (n = 0) | — |
+| QPU seconds used by tiebreaks | 0 |
+| bets by seed source: none recorded | 20 |
+

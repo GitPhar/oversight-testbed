@@ -21,6 +21,10 @@ Audit        = { auditor_session (has not seen the work), claims_checked, holes_
 Plant        = { audit, planter (never the auditor), planted: bool (p = 1/2, secret draw), class: overclaim|miscount,
                  commitment = sha256(plaintext + salt), revealed_after_audit, caught: bool }   # operators/plant.md; ledger/plants.jsonl
 Ledger       = engine and human odds vs outcomes; Brier score per side; published
+Beacon       = { chain: CURBY-Q (Bell-certified) | CURBy-RNG (fallback), round, pulse_time > prereg_commit, randomness,
+                 seed = sha256(randomness ‖ bet_id)[:8] }                        # operators/hardware.md; ledger/seed.py
+Tiebreak     = Bet{ bet_type: tiebreak, event: chip agrees with simulator within tolerance, sim_prediction committed first,
+                 qpu_s ≤ 60 }                                                     # the chip referees; it never computes
 ```
 
 ## The loop (one program, one cycle)
@@ -44,7 +48,8 @@ loop(program):
     # 3. PRE-REGISTER — one commit, before the first call or the first archive read
     bet = top(program.map)
     bet.premortem = one_sentence("If this fails, the most likely reason is")   # written before the run, never revised
-    bet.prereg_commit = commit(pass_rule, statistic, split, seed, budget, stop_rules, premortem)
+    bet.prereg_commit = commit(pass_rule, statistic, split, seed_rule = first CURBY-Q round after this commit, budget, stop_rules, premortem)
+    bet.seed = commit(seed(fetch(beacon, first_round_after(bet.prereg_commit)), bet.id))   # before any data; nobody chose it
 
     # 4. RUN — budget in code; stop-on-refusal; one scale direction; caches so a crash never pays twice
     bet.result = run(bet)
@@ -113,6 +118,7 @@ oversight_test:
 6. A pre-registered bar is never lowered after data.
 7. A hit is not a hit until replicated on more than one model and design.
 8. Plain English first in every artifact.
+9. Quantum hardware is a referee (simulator-vs-chip tiebreaks, scored as bets) and a seed source (CURBy), never a computational resource.
 
 ## Repositories
 
@@ -123,9 +129,10 @@ oversight-testbed/           # the engine (placeholder slug until the title is c
   ARCHITECTURE.md            # this file
   proposal.md                # the research proposal for the engine itself
   ledger/                    # bets.jsonl (engine odds, human odds, verdicts), steers.jsonl, shadows.jsonl, plants.jsonl (sealed), audits/;
-                             # brier.py → brier.md (calibration), scores.py → scores.md (vetoes, catch rate, pre-mortems)
+                             # brier.py → brier.md (calibration), scores.py → scores.md (vetoes, catch rate, pre-mortems, tiebreaks),
+                             # plants.py (seal/reveal/verify), seed.py (beacon → seed)
   map/                       # per-program maps as markdown + json
-  operators/                 # morning brief, nightly updater, auditor, scout, pre-registration templates
+  operators/                 # morning brief, nightly updater, auditor, plant, scout, veto, premortem, hardware, pre-registration template
   site/                      # GitHub Pages: papers as pages, record as timeline, calibration chart, map view
 programs/
   entangled-mind/            # program 1 (own repo, already exists): quantum encoding (closed) → self-reports (open)

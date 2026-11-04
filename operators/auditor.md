@@ -74,6 +74,10 @@ Work through every line. Each line gets one of: *holds*, *hole* (with evidence),
 21. One scale direction in every graded design (0 = certainly false, 100 = certainly true).
 22. A hit is not called a hit until replicated on more than one model and design (invariant 7). An unreplicated pass is reported as "pass, unreplicated".
 
+**E. Engine records**
+23. *Seed.* If the pre-registration names the beacon: the pulse is timestamped after the pre-registration commit's author time and is the first such round on its chain (fetch the round before it); the seed recomputes with `python3 /Users/seanpharris/oversight-testbed/ledger/seed.py`; the code's split uses that seed and no other; nothing was drawn or opened between the two commits (operators/hardware.md). A beacon fetch is a free public read, not a paid call.
+24. *Tiebreak.* For a `tiebreak` bet: the simulator's prediction was committed before the chip ran; the circuit's hash matches; QPU seconds are within budget; the result is read as evidence about the device, never as a computed estimate.
+
 ## Output: `ledger/audits/<bet-id>.md`
 
 ```markdown
@@ -116,7 +120,7 @@ risk_seen: true|false|null    # only when not_failed: did the named risk show up
 |---|---|---|---|
 
 ## Checklist
-<A1–D22, each: holds / hole / cannot check, with evidence and commands run>
+<A1–E24, each: holds / hole / cannot check, with evidence and commands run>
 
 ## The pre-mortem, scored
 <first your own one-line failure reason and its kind, written before you read the pre-registration's pre-mortem; then the pre-mortem quoted, and the score with one sentence of evidence (operators/premortem.md)>
