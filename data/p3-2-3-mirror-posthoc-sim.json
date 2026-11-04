@@ -1,0 +1,15 @@
+{
+ "note": "post hoc, not pre-registered: corrected simulator (live target at analysis time, ALAP) on the 20 submitted mirror circuits, 1,000 shots each, seed 7",
+ "success": 0.1363,
+ "per_qubit_error": [
+  0.21495,
+  0.19415,
+  0.21844999999999998,
+  0.28325,
+  0.26480000000000004,
+  0.3729,
+  0.35640000000000005,
+  0.26504999999999995,
+  0.19394999999999998
+ ]
+}
