@@ -2,28 +2,29 @@
 
 Pre-registered in `experiments/p2-2-perspective.md` (D2), commit `fc00c58`, before any call. `claude-haiku-5-5`, 11,070 calls (200 rewrites, 8,000 primary, 1,000 for the 2 × 2, 2,000 two-turn order conversations, less the cells of the 5 templates that failed the rewrite check), **$0.61** of the $1.25 cap, no refusal, no missing answers. Engine odds 55; Sean's odds not recorded before data. Not yet audited.
 
+> Audited 2026-11-04 (round 2, entangled-mind audit2 8091d01, audits/om-p2-2.md): verdict stands as fail; 13 required cuts applied in D5.
+
 ## In plain English
 
 **The question.** Is saying what Noor believes the same as judging the world from only what Noor saw? We asked "how likely is it that Noor believes X?" about each whole BigToM story. Separately, we retold the story to the model as if it were Noor, leaving out what Noor did not see, and asked "how likely is X?".
 
 **Pre-registered verdict: fail, even on the lenient test.**
-- The pre-registration said in advance that the pooled test would be easy: most of the variation is the gap between stories where Noor saw the change and stories where she did not, and any model that tracks seeing should pass. It did not. Allowing for noise between repeats, the two versions share **50%** of their story-by-story variation (Q = 0.50 [0.41, 0.59]; the bar was 80%).
+- The pre-registration said in advance that the pooled test would be easy: most of the variation is the gap between stories where Noor saw the change and stories where she did not. It did not. Rendering (i) varies a lot within each kind of story, so even a rendering that tracked only seeing would have scored about 0.48. Allowing for noise between repeats, the two versions share **50%** of their variation across the 390 story-and-condition items, and almost all of that is the seen/not-seen split (with each condition's mean removed, 8%) (Q = 0.50 [0.41, 0.59]; the bar was 80%).
 - Within each kind of story, they share almost nothing: Q = 0.07 for stories where Noor saw the change and 0.09 where she did not. Both versions are highly repeatable (reliability 0.99), so this is not noise. The two questions rank the stories differently.
 - Both versions do separate "saw" from "didn't see": a 55-point gap in the attribution version and 69 points in the filtered version.
 
 **Where they differ.**
-- **When Noor saw the change**, the attribution version still gives about a 1-in-3 chance that she holds her old belief (mean 33). The filtered first-person version gives 13. In a quarter of these stories the attribution is above 50, and some are at 100.
-  - Exploratory (not pre-registered): those are stories where Noor's perception names the *cause*, not the result. "Ivana feels the earthquake" does not say she knows the ice cracked. The model's attribution respects that distinction. The filtered story narrates the result as "your" experience, so it hands the result to "you". The filter assumed the agent saw everything the narrator describes, and the model does not assume that about Noor. So **part of this failure is the design's, not the model's**: the two versions do not hold the same evidence in those stories.
+- **When Noor saw the change**, the attribution version still gives about a 1-in-3 chance that she holds her old belief (mean 33). The second-person world-judgment (in these stories nothing is filtered) gives 13. In a quarter of these stories the attribution is above 50, and some are at 100.
+  - Exploratory (not pre-registered, auditor's count): of the 48 such stories, 15 name only a cause ("Ivana feels the earthquake"), where the filtered story gives "you" more than Noor perceived; 25 state the outcome itself ("Amara discovers the hairline crack", rated 96). Dropping the 15 cause-only stories raises Q only to 0.55. The mismatch is mostly the attribution ignoring a stated perception, not the filter.
 - **When Noor did not see the change**, the attribution is 6 points *higher* than the filtered world-judgment (88 against 82).
-  - The 2 × 2 on 49 stories separates the parts. Deleting the unseen event from the third-person story raises "Noor believes X" from 89 to 98 (+9 [+5, +16]). That is a **curse of knowledge**: knowing what happened behind Noor's back pulls the attribution down by about 9 points.
-  - With the event deleted in both versions, "Noor believes X" (98) is still above "X is true, from your view" (84): −15 [−18, −12]. The model is surer about what Noor believes than about the world on the same evidence.
-- **Order.** Asking first about the opposite state moves the attribution (−10 [−18, −3] when Noor saw the change, +6 [+1, +12] when she did not) but not the filtered world-judgment (−1 [−4, +2] and +3 [−2, +7]). Secondary, on 49 stories.
+  - The 2 × 2 on 49 stories separates the parts. Deleting the unseen event from the third-person story raises "Noor believes X" from 89 to 98 (+9 [+5, +16]). This is consistent with a curse of knowledge, though deleting the event also deletes the "does not see" sentence and leaves the story ending on "Noor believes X". The typical story moves about 5 points (median); two stories that flip from about 4 to about 97 carry 40% of the mean.
+  - With the event deleted in both versions, "Noor believes X" (98) is still above "X is true, from your view" (84): −15 [−18, −12]. This contrast changes person and question together and cannot say which matters; in 42 of 49 stories the filtered third-person text ends with the sentence the belief question asks about.
+- **Order.** Asking first about the opposite state moves the attribution (−10 [−18, −3] when Noor saw the change, +6 [+1, +12] when she did not) but not the filtered world-judgment (−1 [−4, +2] and +3 [−2, +7]). These are uncorrected; none survives correction for the 14 secondary tests; the attribution effects come from two or three stories that flip by about 90 points (medians −1 and +1), and the attribution-minus-world-judgment contrast is clear on neither kind of story. Secondary, on 49 stories.
 
 **What this means.**
 - On this model and these stories, attributing a belief is **not** the same operation as judging the world from the other person's evidence, by the test the map set.
-- Three things separate them. (1) A curse-of-knowledge leak of about 9 points. (2) A confidence gap: the attributions are more extreme than the world-judgments. (3) A difference in what counts as having seen something. The third is partly a flaw in how the filtered stories were built.
-- The secondary results point the same way: the attribution is moved by a preceding question and the filtered world-judgment is not.
-- The seed hypothesis ("an account of another mind is a world-judgment run on that mind's transcript") does not hold in this simple form.
+- Secondary and exploratory results suggest where they differ (uncorrected, 49 stories for the 2 × 2): (1) A curse-of-knowledge leak of about 9 points. (2) On false-belief stories only, the attribution is higher than the world-judgment (88 vs 82; 98 vs 84 with the event deleted from both). On true-belief stories the world-judgment is the more extreme (13 vs 33). (3) A difference in what counts as having seen something. In 15 of the 48 high true-belief stories this is a flaw in how the filtered stories were built; in most it is not.
+- On Haiku and these BigToM stories, the seed hypothesis in this simple form is not supported.
 
 **Limits.**
 - The second-person stories were rewritten by Haiku itself. 195 of 200 passed the frozen check. The five that failed kept the name ("You, Olumide, …") and were dropped from both versions.
@@ -69,7 +70,7 @@ Pre-registered in `experiments/p2-2-perspective.md` (D2), commit `fc00c58`, befo
 
 ### Exploratory (not pre-registered)
 
-- TB, rendering (i): 25% of templates have a mean above 50; 57% are below 20; the median is 15. The highest are stories whose "aware" sentence names a cause rather than the outcome: "Ivana feels the earthquake" (X = the ice is thick and solid, rated 100); "Hiro witnesses the gust of wind snapping off the branches" (X = the bonsai tree has overgrown branches, 100); "Xiomara witnesses the underwater landslide" (X = the coral colony is healthy, 100).
+- TB, rendering (i): 25% of templates have a mean above 50; 57% are below 20; the median is 15. The highest are stories whose "aware" sentence names a cause rather than the outcome: "Ivana feels the earthquake" (X = the ice is thick and solid, rated 100); "Xiomara witnesses the underwater landslide" (X = the coral colony is healthy, 100).
 - FB, rendering (i): 8% of templates are below 50.
 - Rewrite-check failures: templates 59, 68, 97, 117, 184 (the name kept as an appositive: "You, Olumide, …").
 

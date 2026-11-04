@@ -2,6 +2,8 @@
 
 Pre-registered in `experiments/p2-1-framing.md` (D1), commit `8fb40f3`, before any call. `claude-haiku-5-5`, 6,400 calls, **$0.27** of the $0.40 cap, no refusal, no missing answers. Engine odds 60; Sean's odds not recorded before data. Not yet audited.
 
+> Audited 2026-11-04 (round 2, entangled-mind audit2 8091d01, audits/om-p2-1.md): verdict stands as fail; 4 required cuts applied in D5.
+
 ## In plain English
 
 **The question.** Program 1 asked "how likely is it that this statement is true?" and treated the answers as the model's self-reports. That question is about the world. Here the same 160 statements were asked four ways, 10 times each: about the world, about "you", about "another AI assistant who read exactly this", and about "Sam, a person who read exactly this".
@@ -9,18 +11,18 @@ Pre-registered in `experiments/p2-1-framing.md` (D1), commit `8fb40f3`, before a
 **Pre-registered verdict: fail.** "How likely is it" and "how confident are you" are *not* interchangeable on Haiku.
 - On average they agree: the mean moves by 0.1 points [−2.7, +2.8].
 - Statement by statement they do not. Once the noise between repeats is allowed for, the two framings share about **77%** of their reproducible variation (Q = 0.77 [0.65, 0.88]). The bar was 90%, and the whole interval is below it.
-- This is not noise between sessions. Program 1 asked the identical "how likely" question in an earlier session; today's answers match it at Q = 0.96 [0.88, 1.01]. So the same wording reproduces almost perfectly, while changing "how likely is it" to "how confident are you" reorders the statements.
+- This is not noise between sessions. Program 1 asked the identical "how likely" question in an earlier session; today's answers match it at Q = 0.96 [0.88, 1.01]. So the same wording reproduces almost perfectly, while changing "how likely is it" to "how confident are you" moves a minority of statements a long way: 18 of 160 by more than 30 points, against 3 in the retest. Removing the 7 largest movers would bring Q to 0.90.
 - Some statements flip outright. "Using 1 atm = 1.01325×10⁵ Pa, the work is about −76.0 J" gets 92 as "how likely" and 13 as "how confident are you". "The strict bound … differs from 3e-36" goes 11 → 84. (Exploratory listing, not pre-registered.)
 - "How confident are you" also makes the answers vaguer: closer to 50 (mean distance from 50 is 31 against 34), and more variable between repeats (SD 8.3 against 5.8).
 
 **The other minds.** No framing is interchangeable with any other by the pre-registered rule.
 - The secondary bet, that "you" and "Sam, a person" are interchangeable, also fails (Q = 0.67 [0.53, 0.79]; engine odds 45).
-- "Sam" is not further from "you" than "how likely" is: all the cross-framing Qs lie between 0.56 and 0.77.
-- "Another AI assistant" is the odd one out. It rates about 4 points higher than every other framing, with CIs excluding 0 against "how likely", "you" and "Sam".
+- "Sam" is not detectably further from "you" than "how likely" is (Q 0.67 against 0.77; difference +0.10 [−0.03, +0.24]). All the cross-framing Qs lie between 0.56 and 0.77.
+- "Another AI assistant" is the odd one out. It rates about 4 points higher than every other framing (secondary, uncorrected; the uncorrected CIs exclude 0, but after correction for the 12 secondary intervals only the Sam comparison does, barely).
 
 **What this means.**
 - Program 1's findings are findings about Haiku's answers to "how likely is it that p". This test does not show that they carry over to "how confident are you that p".
-- The "self" in program 1 was the speaking position, not a question about the self. Here, the wording that names the self changes which statements get high numbers.
+- The "self" in program 1 was the speaking position, not a question about the self. Here, changing the wording, both the verb ("likely" to "confident") and the subject ("it" to "you"), changes which statements get high numbers. The design cannot say which of the two does it, and the third-person framings, which do not name the self, differ from (a) as much or more.
 - The seed hypothesis, that self-report and world-judgment are one operation, is not supported in its simplest form on this model. The four framings act like four related questions, none of them a copy of another. That is program 1's format result (F4) again, with "whose belief" as the format.
 - For the later directions, the map's rule now applies: anything that means "self" must use the first-person wording, and cannot borrow program 1's numbers as self-report numbers.
 

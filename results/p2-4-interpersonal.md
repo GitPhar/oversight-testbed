@@ -2,6 +2,8 @@
 
 Pre-registered in `experiments/p2-4-interpersonal.md` (D3), commit `0ee0ee9`. Seed commit `d8bdbc7` (CURBy-RNG pulse 1591349; CURBY-Q stalled). Both came before any call. `claude-haiku-5-5`, 13,796 calls, **$0.90** of the $1.25 cap, no refusal. Engine odds 60; Sean's odds not recorded before data. Not yet audited.
 
+> Audited 2026-11-04 (round 2, entangled-mind audit2 8091d01, audits/om-p2-4.md): verdict reversed: pass → undetermined; 14 required cuts applied in D5.
+
 ## In plain English
 
 **The question.** Program 1 measured how Haiku's ratings really move:
@@ -11,33 +13,32 @@ Pre-registered in `experiments/p2-4-interpersonal.md` (D3), commit `0ee0ee9`. Se
 
 Here Haiku was shown the very conversations program 1 ran (384 planted-answer set-ups and 3,200 archived order and repeat conversations), each stopped just before the answer. It predicted the answer once as itself ("you") and once for "an AI assistant called Sam". From each set of predictions we rebuilt program 1's eleven measured effects and scored them against the truth.
 
-**Pre-registered verdict: pass.** On this test, the model knows itself about as well as it knows "Sam", and its two accounts look alike.
-- **Both arms know the fingerprint.** Each reproduces the eleven effects closely. Their departures from a know-nothing predictor correlate with the real ones at 0.98 (self) and 0.96 (Sam). The pre-registered gate is passed with room to spare.
-- **The self arm is not detectably more accurate.** Mean error: 0.054 for self, 0.097 for Sam. The difference, −0.043, has a 95% interval of [−0.074, +0.043], which includes 0. By the pre-registered rule that is "no detectable self advantage". The point estimate does favour the self arm, and the interval is wide. "No difference" would overstate it; "not shown" is accurate.
-- **The two accounts move together:** r = 0.95 [0.82, 0.98] across the eleven effects (the bar was 0.70). Prediction by prediction, the two arms correlate at 0.89.
+**Pre-registered rule: met by its letter; audited verdict: undetermined.** The test could not tell whether the model predicts itself better than "Sam". Its self-prediction error is about half of Sam's (0.054 vs 0.097). The pre-registered interval includes 0 only under a percentile bootstrap that is biased toward 0 here; basic and bias-corrected intervals exclude 0 (audit om-p2-4).
+- **Both arms beat chance.** Their departures from an always-50 predictor correlate with the measured ones at 0.98 (self) and 0.96 (Sam). A predictor that assumes no uptake at all and copies the visible answer also passes this gate (0.81 [0.48, 0.95]), so the gate shows little beyond reading the transcript.
+- **The self arm is not detectably more accurate.** Mean error: 0.054 for self, 0.097 for Sam. The difference, −0.043, has a 95% interval of [−0.074, +0.043], which includes 0. By the pre-registered rule that is "no detectable self advantage". The interval is lopsided because the bootstrap inflates the smaller error more: 82% of resamples favour the self arm, and the basic and BCa intervals are [−0.129, −0.012] and [−0.105, −0.004]. No power check was pre-registered; only a true difference of about 0.08 (nearly all of Sam's error) was detectable with 80% power. The point estimate does favour the self arm, and the interval is wide. "No difference" would overstate it; "not shown" is accurate.
+- r(a, b) on departures from always-50 is 0.95 [0.82, 0.98] (bar 0.70). A no-uptake predictor reaches 0.72 with the self arm on the same statistic, and the two arms' errors correlate at only 0.14, so this shows shared structure, not shared mistakes. Prediction by prediction, the two arms correlate at 0.89.
 
-**Where Sam's account goes wrong.** Almost all of the self arm's edge is one effect: commitment to one's own earlier answer.
+**Where Sam's account goes wrong.** All of the self arm's edge, and more, comes from the three own-answer uptakes (block ΔMAE −0.193 [−0.237, −0.016], exploratory); on other-person uptake the self arm is worse (+0.034), and on order and repeat effects they tie (+0.001).
 - The real uptake of a planted "own" answer is 0.71, 0.44 and 0.21 at 10, 30 and 60 points away. The self arm predicts 0.71, 0.42 and 0.22, close to exact. For Sam it predicts 0.84, 0.67 and 0.47. It expects Sam to stick to "his" answer far more than Haiku actually does.
-- Exploratory: Sam is predicted to repeat the shown number exactly 60% of the time, the self arm 41%.
+- Exploratory: Sam is predicted to repeat the shown number within ±1 point 60% of the time, the self arm 41%; the model actually did so 44% of the time (exactly: 49% and 32%).
 - This is the opposite of the pre-mortem's guess, which expected the "own" label to pull the self prediction and not Sam's. The label pulled both. The Sam account overdid it.
 - Cell by cell the picture is mixed. Correlation with the measured re-ratings: 0.87 (self) against 0.93 (Sam) on the planted-answer cells, and 0.89 against 0.88 on the order and repeat conversations (exploratory).
 
 **What the model says about its own influences is wrong, and the same for both arms (secondary).**
 - Asked "how much would the earlier number change the rating?", both arms answer: more the further away the number is, and more when it is another person's.
 - The truth is the reverse on both counts. The causal reports correlate with the measured uptake at −0.94 (self) and −0.97 (Sam), and with each other at 0.98.
-- So the model can *simulate* its own behaviour well when it is shown the situation. When asked *why*, it gives a theory that is wrong in the same way for itself and for Sam. That is Nisbett and Wilson's 1977 pattern, in a language model: subjects' and observers' causal reports agree with each other and not with what actually moved the behaviour.
+- Over six condition means (secondary; item-bootstrap CIs (a) [−0.98, −0.75], (b) [−0.98, −0.83]) the causal reports run opposite to the measured uptake. The design cannot separate a wrong causal theory from a reading of the scale as absolute change, and a third of the self arm's reports are 0. This resembles Nisbett and Wilson's pattern in this model, though here the observer reads the whole transcript, not a one-line description.
 
 **The one-line observer (secondary)** gets the repeat-agreement effects about right, but predicts the same uptake (about 0.45) at every distance and source. Its error is 0.21, worse than both transcript arms (CIs exclude 0).
 
 **What this means.**
-- The interpersonal test, Bem's and Nisbett and Wilson's, comes out on this model the way it came out in people. Given the same transcript, the model predicts "Sam" nearly as well as itself, and its causal self-reports are no better than its reports about Sam. Both are wrong.
-- This fits program 1's F5 (no privileged self-knowledge), now measured against the model's own behavioural fingerprint rather than against its errors.
-- It is the first wave result that supports the seed hypothesis: the account of self and the account of another assistant look like one operation run on the same transcript.
+- The interpersonal test does not decide on this model. The self arm's error is about half of Sam's, and the label changes the predicted own-answer uptake by −0.21 [−0.28, −0.14]. The causal reports are equally wrong in both arms.
+- It neither confirms nor contradicts program 1's F5.
 
 **Limits.**
 - "Self-prediction" here is a fresh context reading a transcript, not the model that produced the archived answers. Both arms may simply re-run the judgment. A pass says the "you" label adds little to that, not that no simulation happens.
-- Eleven effects are few, which is why the error-difference interval is wide. The point estimate leans toward a self advantage on own-answer commitment, and a larger test could find one.
-- One model; program 1's item sets. The engine gave 60; this was a hit, **pass, unreplicated**.
+- The interval's width comes from resampling 16 and 40 items. No power check was pre-registered, although the map's standing rule requires one for a self/other null. The point estimate leans toward a self advantage on own-answer commitment, and a larger test could find one.
+- One model; program 1's item sets. The engine gave 60. The frozen rule's letter was met; the audited verdict is **undetermined** (om-p2-4).
 
 ## Tables
 
@@ -67,8 +68,8 @@ Here Haiku was shown the very conversations program 1 ran (384 planted-answer se
 | **ΔMAE = (a) − (b)** | **−0.043 [−0.074, +0.043]** | CI not wholly below 0 | yes |
 | **r(a, b)** on departures from n50 | **0.948 [0.815, 0.982]** | ≥ 0.70 | yes |
 
-**Primary verdict (§5): pass.**
-- Leave-one-effect-out: ΔMAE ranges from −0.062 to −0.023, and r(a, b) from 0.904 to 0.941. No single effect decides it.
+**Primary verdict (§5): pass by the frozen code; undetermined after audit (percentile-interval bias, no power check; see audit).**
+- Leave-one-effect-out: ΔMAE ranges from −0.062 to −0.023, and r(a, b) on departures from always-50 from 0.907 to 0.965 (the 0.904–0.941 first reported was the raw-effect r, which D3 rules invalid). Every deletion leaves ΔMAE negative.
 
 ### Secondary
 
