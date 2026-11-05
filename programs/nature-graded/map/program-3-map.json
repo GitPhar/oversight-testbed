@@ -572,7 +572,10 @@
     "ng-p3-16"
    ],
    "closing_marked_at": "2026-11-05T04:45",
-   "closed_at": "2026-11-05"
+   "closed_at": "2026-11-05",
+   "rules_out": "Rules out, on ibm_fez on 5 November, that running the 3 November circuit alone in its own job brings back that day's 50% 'yes' rate: alone it gave 31%, sharing a job 32% (ng-p3-16).",
+   "rules_out_at": "2026-11-05T16:18",
+   "rules_out_by": "remap 2026-11-05c (fresh remap session, claude-opus-5-5)"
   },
   {
    "id": "P3-17",

@@ -81,8 +81,6 @@ How many steps from its program's first map the bet's direction sits: layer 1 is
 | layer 5 | 3 | 1 | 0.33 | [0.06, 0.79] | 0.31 | 0.099 |
 | layer 6 | 2 | 2 | 1.00 | [0.34, 1.00] | 0.67 | 0.113 |
 
-Placed by the bet they repeat (not on the map themselves): om-p2-6r.
-
 ## Closing reviews due
 
 A program whose last three layers with settled bets hold no landed bet and no finding labelled partly new or new is due a closing review by a fresh session (`operators/remap.md`, "Closing a program"). The review writes a diagnosis and either marks the seed question closed on the map or keeps it open with a stated reason. Settled means a verdict other than open or withdrawn; landed means pass, pass-unreplicated or hit; novelty is the bet's `novelty` field (rule 13), else its map node's.

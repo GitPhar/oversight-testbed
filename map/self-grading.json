@@ -849,7 +849,10 @@
    "novelty_bet": "sg-b8",
    "result_file": "programs/self-grading/results/sg-b8-wait.md",
    "audit": "ledger/audits/sg-b8.md",
-   "diagnosis": "'Wait.' at the start of the user's grading request did not take away half of the own-conversation blunting on Haiku or Opus 5.5 (Opus +0.9 of 6.0; Haiku -4.5, more lenient); Tsui's own placement (after the model's output) is untested here (sg-b8, audit 9bbca4a)."
+   "diagnosis": "'Wait.' at the start of the user's grading request did not take away half of the own-conversation blunting on Haiku or Opus 5.5 (Opus +0.9 of 6.0; Haiku -4.5, more lenient); Tsui's own placement (after the model's output) is untested here (sg-b8, audit 9bbca4a).",
+   "rules_out": "Rules out, on Haiku and Opus 5.5, that 'Wait.' opening the grading request removes half their own-conversation leniency on a planted overclaim (Opus +0.9 of 6.0; Haiku -4.5, more lenient; sg-b8); Tsui's placement, after the model's text, is untested.",
+   "rules_out_at": "2026-11-05T16:18",
+   "rules_out_by": "remap 2026-11-05c (fresh remap session, claude-opus-5-5)"
   }
  ],
  "remaps": [
