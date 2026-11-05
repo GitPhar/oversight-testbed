@@ -23,6 +23,7 @@ Written and frozen <YYYY-MM-DD HH:MM> (America/Denver), in its own commit, befor
 | bet type | `standard` / `tiebreak` (simulator vs chip, operators/hardware.md) / `shadow` (a vetoed direction's shadow check, operators/veto.md; recorded in ledger/shadows.jsonl) |
 | direction | `<program>-d<n>` (map/<program>.json) |
 | source | `literature` / `engine` / `human` — *where the idea came from (Q5)* |
+| prior work | **Rule 13, mandatory.** *What published work predicts for this exact pass rule, with citations (author, year, arXiv id or DOI) and on which models or participants; copied from the direction's Prior work line on the map and brought up to date (any paper since the map was written). Or "no prior statement found after <search, in one line: terms, where, date>". Then one clause: what this bet adds (new models, a new design, a rival the prior work left open, the replication invariant 7 owes). If the engine's odds sit far from what the prior work predicts, the lesson row or an odds rationale here says why. The design review checks it as D12 (`operators/design-review.md`); the audit as F27.* |
 | engine odds, P(pass) | <0–100>, stated <timestamp> in map/<program>.json — *copied, not restated* |
 | human odds, P(pass) | <0–100>, the first line for this direction in `ledger/human-odds.jsonl` (<line id>, <commit>) — *or "no human odds" if it has none; never asked for in a terminal* |
 | models | `claude-haiku-5-5`, `claude-sonnet-5-5` and `claude-opus-5-5` (CONTEXT §3 rule 12, from 2026-11-05) — *or "not all three, because <reason>": e.g. no model is in the loop (a chip or archive test), the test needs internals (an open-weight model), or the question is about one model by design (a replication completing an earlier run, a rater that must match the bettor). Cost too high is not a reason by itself: use fewer repeats or items on Opus (it cannot turn thinking off; its calls cost about 100 times Haiku's) and say so.* |
@@ -36,7 +37,7 @@ Written and frozen <YYYY-MM-DD HH:MM> (America/Denver), in its own commit, befor
 
 ## 1. In plain English
 
-*Three to six sentences a non-specialist can follow: what we think might be true, why it matters, what we will do, and what result would count against it. Say what the rival explanation is.*
+*Three to six sentences a non-specialist can follow: what we think might be true, why it matters, what we will do, and what result would count against it. Say what the rival explanation is, and say in one sentence what the prior work predicts and what would make this bet add to it (rule 13).*
 
 ## 2. Material
 
@@ -98,16 +99,32 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
  "lesson": "ls-<bet-id>", "design_review": {"path": "ledger/design-reviews/<bet-id>.md", "verdict": null, "commit": null, "reviewer_model": null, "fix_deviations": [], "missed": null},
  "premortem": "If this fails, the most likely reason is …", "premortem_kind": "world|design|execution|artefact",
  "premortem_at": "<this commit>", "human_premortem": null, "human_premortem_kind": null,
+ "prior_work": "<the §0 prior work row, verbatim>", "prior_work_predicts": "pass|fail|mixed|unknown",
+ "novelty": null, "novelty_line": null, "novelty_by": null, "novelty_at": null,
  "failed": null, "failure_reason": null, "failure_kind": null, "premortem_score": null,
  "human_premortem_score": null, "risk_seen": null,
  "verdict": "open", "date": "<YYYY-MM-DD>", "result": null, "audit": null, "diagnosis": null}
 ```
 
-*Append this line to `oversight-testbed/ledger/bets.jsonl` in the commit after this one, with `prereg_commit` set to this commit's hash. After the audit, the ledger session sets `verdict` from the audit's `verdict_after_audit`, `result` to one plain line, `audit` to the audit file path, `diagnosis` if the direction closes, and the pre-mortem score fields from the audit header.*
+*Append this line to `oversight-testbed/ledger/bets.jsonl` in the commit after this one, with `prereg_commit` set to this commit's hash. After the audit, the ledger session sets `verdict` from the audit's `verdict_after_audit`, `result` to one plain line, `audit` to the audit file path, `diagnosis` if the direction closes, and the pre-mortem score fields from the audit header. The four `novelty` fields are filled by the Novelty session (§10) before the results file is final: `novelty` is `known`, `partly new` or `new`; `novelty_line` the line verbatim; `novelty_by` the session's model and how it was launched; `novelty_at` the commit that added it.*
+
+## 10. Novelty line (rule 13; after the result, before the write-up is final)
+
+*A landed or mixed result is not final, and is not audited, until a **fresh session that did not run the bet** has searched the literature around the result and written the last line of the results file's plain-English section:*
+
+> **Novelty:** known | partly new | new. *Two to four sentences: what published work states for this exact result, with citations (author, year, arXiv id or venue); how ours differs or agrees; then "Search:" and one line a reader can repeat (terms, where, date); then the session's model.*
+
+*The three words, as `paper/novelty.md` defined them on 2026-11-05:*
+- ***known***: *a published or preprint paper states the same result, in the same direction, on some model;*
+- ***partly new***: *the kind of result is in print, but a specific comparison this bet made is not, or ours points the other way;*
+- ***new***: *no prior statement of the result was found after a direct search.*
+
+*The session searches around the result's own terms, its mechanism in other fields' words, and its rival explanation (the method of `operators/remap.md` Step 1b); web reads only, no paid calls; every number attributed to a paper comes from text it opened. It never cites from memory. It writes the same verdict into the ledger row (`novelty`, `novelty_line`, `novelty_by`, `novelty_at`), rebuilding the jsonl from HEAD and changing only this row (CONTEXT.md §2). A killed bet needs no Novelty line; its rules-out sentence (`operators/remap.md` Step 3) may cite prior work. The audit checks the line as F27 (`operators/auditor.md`). A `known` result is reported as a replication of the paper that found it, and never as "the first", "a finding" or "what this testbed was built to catch" without that paper's name in the same sentence.*
 
 ## 9. Checklist before the first call
 
 - [ ] This file is committed on its own; nothing has been run.
+- [ ] §0's prior work row states a predicted outcome for the pass rule with citations, or a search described in one line; what this bet adds is stated; the direction's Prior work line on the map says the same (rule 13; design review D12).
 - [ ] The lesson row in §0 is filled after reading ledger/bets.jsonl, brier.md, audits/ and lessons.jsonl; the same sentence goes to `ledger/lessons.jsonl` as `ls-<bet-id>` (operators/learn.md).
 - [ ] A fresh auditor's design review (operators/design-review.md) has returned **go**, or fix-first with every fix logged in DEVIATIONS and confirmed, before the first call. `python3 ledger/check_prereg.py <bet-id> . programs/<name>/experiments/<this file> --before-run` passes (run from the engine repo root).
 - [ ] The direction has a cockpit card in `map/cockpit-cards.jsonl`, committed before this file (give it one first if not), and `ledger/human-odds.jsonl` was read immediately before this commit.
@@ -119,3 +136,4 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
 - [ ] Budget and stop-on-refusal enforced in code, not by hand.
 - [ ] DEVIATIONS.md row added for this pre-registration.
 - [ ] Commit message: `Pre-register <bet-id>: <title> (D<n>)`.
+- [ ] *(after the result)* The Novelty line (§10) is written by a fresh session and in the ledger row before the results file is audited.

@@ -20,6 +20,8 @@ Pre-registered in `experiments/gm4-evidence-seeking.md` (D39), committed before 
 
 **Caveat.** "Informative" is computed from our own fitted models of the model, which the chooser never sees. A miss could be a miss of those models.
 
+**Novelty:** partly new. Jhaveri et al. 2026 (arXiv 2604.02485) report that eleven LLMs in a Wason 2-4-6 rule-discovery game mostly propose tests that confirm their current hypothesis rather than falsify it, and Bertolazzi et al. 2026 (arXiv 2606.04751) find the models that do seek falsification succeed more. Neither scores tests by expected information gain, shows the model a menu of its own claims about its own answer, or tests a Claude model. Our Haiku result agrees in lean (confirmatory) but is undecided on the informative-versus-confirmatory comparison, which is not in print: partly new. Search: WebSearch for "Jhaveri confirmation bias LLM", "LLM expected information gain choose question", "LLM self-verification evidence selection", "Wason 2-4-6 LLM information gain"; arXiv abstract and HTML pages opened. *(Rule 13, CONTEXT.md §3; written by a fresh claude-fable-5-1 subagent launched by the informed-engine session, 2026-11-05, web reads only, no model API; its papers-opened list and caveats are in programs/entangled-mind/map/reads/novelty-2026-11-05-em-gm4.md.)*
+
 ## Which rule picks the claim the model chose?
 
 | rule | hit rate | chance | excess over chance [95% item-bootstrap CI] |

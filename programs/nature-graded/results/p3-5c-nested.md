@@ -22,6 +22,8 @@ Overall: both present on 3 of 3 pairs; rotation only, blur only and neither on n
 - Spectator check (D23): on h088, 19 of 20 draws were invisible, so the "invisible" sentence applies. On h268, 20 of 20 were detected as rotation. §5 has no sentence for that outcome, so it appears only in the table.
 - The "never 'blur, not steering' or the reverse" rule: no sentence says either.
 
+**Novelty:** known. Tripathi et al. 2022 (Phys. Rev. Applied 18, 024068; arXiv 2108.04530) state that on IBM fixed-frequency transmons the always-on ZZ coupling "contributes to both coherent and incoherent crosstalk errors", alongside open-system decoherence; Carignan-Dugas et al. 2024 (Quantum 8, 1367; arXiv 2303.09945) measure "substantial coherent errors biased in Z" on three IBM chips next to decoherent error; Georgopoulos et al. 2021 (Phys. Rev. A 104, 062432) find operations "more or less erroneous than the hardware-calibrated parameters show". Our finding that ibm_fez pairs need both a rotation term and a blur term beyond the calibrated simulator is the same statement in the same direction, on a tunable-coupler Heron device. Search: WebSearch for "superconducting qubits coherent and incoherent errors gate set tomography IBM ZZ calibration noise model underpredicts", "ibm_fez Heron coherent errors", "gate set tomography IBM coherent stochastic"; arXiv abstract pages for each lead. *(Rule 13, CONTEXT.md §3; written by a fresh claude-fable-5-1 subagent launched by the informed-engine session, 2026-11-05, web reads only, no model API; its papers-opened list and caveats are in programs/nature-graded/map/reads/novelty-2026-11-05-ng-p3-5c.md.)*
+
 ## Tables
 
 **Primary tests** (16-knob model; LR = 2 × log-likelihood gain; null from the parametric bootstrap, B = 1,000):
