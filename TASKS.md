@@ -17,6 +17,7 @@ Last rewritten: 2026-11-04 18:10 America/Denver, by hand, by the close-founding 
 - In the shared checkout, commit only your own paths: `git commit -m "…" -- <paths>` (never `git add -A` / `git commit -a` at the root). Before committing a shared ledger file, `git diff <path>` and commit only your own hunks. See CONTEXT.md §2.
 - QPU budget rulings under the 420 s hard stop are the engine's call (Sean, 2026-11-04, st-16). Each hardware bet still needs its pre-registration, lesson and design-review go; the engine logs its budget ruling as a steer citing st-16.
 - No midday check-in. Morning and nightly only.
+- **Morning operator's checklist, remap (from 2026-11-05):** run `python3 ledger/check_remap.py` before building the wave. If it reports any landed or mixed bet that ends the map, or any program's round has settled (every bet has a verdict and a finished audit) since its last "Follow-ups (remap <date>)" section, the wave's first tab is a remap of that program (`operators/remap.md`, launch line there). The wave then draws its bets from the follow-ups, cheapest first. No map may end at a landed bet with no follow-up.
 - Quantum hardware is a referee and a seed source, never a computational resource; every mention states its limits first.
 - The project's title is still open; sessions do not propose names unless asked. Placeholder slug `oversight-testbed`.
 
