@@ -35,7 +35,7 @@ PAIRS = [("higher", "lower"), ("more", "less"), ("more", "fewer"), ("increased",
          ("smallest", "largest"), ("increasing", "decreasing"), ("rising", "falling"), ("up", "down"), ("wider", "narrower"),
          ("worse", "better"), ("larger", "lower"), ("higher", "smaller"), ("bigger", "smaller"), ("closer", "farther"),
          ("closer", "further"), ("more", "lower"), ("greater", "lower"), ("lengthened", "shortened"), ("strengthened", "weakened"),
-         ("widened", "narrowed"), ("amplified", "dampened"), ("amplified", "suppressed"), ("enhanced", "suppressed"),
+         ("widened", "narrowed"), ("easier", "harder"), ("high", "low"), ("deeper", "shallower"), ("an earlier", "a later"), ("rose", "declined"), ("amplified", "dampened"), ("amplified", "suppressed"), ("enhanced", "suppressed"),
          ("enhanced", "reduced"), ("increased", "reduced"), ("increase", "reduce"), ("increases", "reduces")]
 PAIRSET = {frozenset(p) for p in PAIRS}
 

@@ -1,0 +1,30 @@
+[
+ {
+  "src": "interpretability-post.jsonl:3",
+  "arxiv_id": "2610.38067",
+  "errors": [
+   "writer exclusion: 2610.38067: the writer reports the quote leaves the comparison target implicit; item-spec requires the quote alone to settle the answer"
+  ]
+ },
+ {
+  "src": "interpretability-post.jsonl:24",
+  "arxiv_id": "2610.35586",
+  "errors": [
+   "writer exclusion: 2610.35586: the writer reports the quote leaves the comparison target implicit; item-spec requires the quote alone to settle the answer"
+  ]
+ },
+ {
+  "src": "quantum-devices-post.jsonl:7",
+  "arxiv_id": "2610.40638",
+  "errors": [
+   "writer exclusion: 2610.40638: the finding is hedged ('across most of the hardware measurements'); item-spec says skip hedged findings"
+  ]
+ },
+ {
+  "src": "quantum-devices-post.jsonl:24",
+  "arxiv_id": "2610.41890",
+  "errors": [
+   "writer exclusion: 2610.41890 (second item): the writer reports the evidence quote settles the answer only with the preceding abstract sentence; item-spec requires the quote alone to settle it"
+  ]
+ }
+]

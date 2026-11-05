@@ -1,0 +1,12 @@
+{
+ "_note": "Item-writer decisions made before any leakage-check call (2026-11-04 18:05 America/Denver), from the helper sessions' own flags and the arXiv comments. Nothing here was decided from a leakage-check or bettor output.",
+ "exclude": {
+  "quantum-devices-post.jsonl:7": "2610.40638: the finding is hedged ('across most of the hardware measurements'); item-spec says skip hedged findings",
+  "quantum-devices-post.jsonl:24": "2610.41890 (second item): the writer reports the evidence quote settles the answer only with the preceding abstract sentence; item-spec requires the quote alone to settle it",
+  "interpretability-post.jsonl:3": "2610.38067: the writer reports the quote leaves the comparison target implicit; item-spec requires the quote alone to settle the answer",
+  "interpretability-post.jsonl:24": "2610.35586: the writer reports the quote leaves the comparison target implicit; item-spec requires the quote alone to settle the answer"
+ },
+ "earlier_version": {
+  "2608.27340": "comments: 'presented at 2026 ICML Mechanistic Interpretability Workshop'; a workshop copy may have been public before 2026-07-01, so Rule 2 moves it to pre-cutoff"
+ }
+}

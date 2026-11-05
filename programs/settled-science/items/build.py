@@ -16,7 +16,15 @@ KEEP = ("field", "arxiv_id", "title", "first_author", "question", "methods", "op
         "evidence_quote", "headline_side", "notes")
 
 
+def load_writer_rules():
+    """items/writer-exclusions.json: item-writer decisions made BEFORE any leakage-check call, each with its reason.
+    'exclude' keys are draft locations (file:line); 'earlier_version' keys are arXiv ids moved to pre-cutoff (Rule 2)."""
+    p = ROOT / "items" / "writer-exclusions.json"
+    return json.loads(p.read_text()) if p.exists() else {"exclude": {}, "earlier_version": {}}
+
+
 def main():
+    rules = load_writer_rules()
     paths = sorted((ROOT / "items" / "drafts").glob("*.jsonl"))
     items = []
     for p in paths:
@@ -30,6 +38,10 @@ def main():
     per_paper, out, rejected = defaultdict(int), [], []
     for it in items:
         errs, side = verify.check(it, meta)
+        if it["_src"] in rules["exclude"]:
+            errs = errs + [f"writer exclusion: {rules['exclude'][it['_src']]}"]
+        if it["arxiv_id"] in rules["earlier_version"]:
+            side = "pre"
         if errs:
             rejected.append({"src": it["_src"], "arxiv_id": it["arxiv_id"], "errors": errs})
             continue
