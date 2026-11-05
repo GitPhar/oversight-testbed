@@ -115,6 +115,20 @@ def main():
         conf = (re.search(r"^confirmed_at:\s*(.+)$", head, re.M) or [None, "null"])[1].strip()
         ok("R2", verdict == "go" or (verdict == "fix-first" and conf not in ("", "null")),
            f"verdict {verdict or '?'}" + (f", confirmed {conf}" if verdict == "fix-first" else ""))
+        # Every review of this bet must clear it, not only the first one found (<bet>.md and <bet>-*.md):
+        # when two reviewers are run, the stricter verdict binds.
+        others = sorted(p for p in (ROOT / "ledger" / "design-reviews").glob(f"{bet}*.md")
+                        if p != rv and (p.stem == bet or p.stem.startswith(bet + "-")))
+        for o in others:
+            oh = o.read_text().split("\n---", 2)[0]
+            ov = (re.search(r"^verdict:\s*(\S+)", oh, re.M) or [None, ""])[1]
+            ob = re.search(r"^verdict_by_bet:\s*\{(.*)\}", oh, re.M)
+            if ob:
+                mb = re.search(rf"{re.escape(bet)}\s*:\s*([\w-]+)", ob.group(1))
+                ov = mb.group(1) if mb else ov
+            oc = (re.search(r"^confirmed_at:\s*(.+)$", oh, re.M) or [None, "null"])[1].strip()
+            ok("R2+", ov == "go" or (ov == "fix-first" and oc not in ("", "null")),
+               f"{o.name}: verdict {ov or '?'}" + (f", confirmed {oc}" if ov == "fix-first" else ""))
         if not before_run:
             bets = [json.loads(l) for l in (HERE / "bets.jsonl").read_text().splitlines() if l.strip()]
             b = next((x for x in bets if x["id"] == bet), None)
