@@ -29,7 +29,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-24 audits prepared with a sealed plant line: 1 still sealed, 23 revealed, of which 10 carried a plant. 
+25 audits prepared with a sealed plant line: 1 still sealed, 24 revealed, of which 10 carried a plant. 
 
 **Catch rate: 10/10 = 1.00, 95% Wilson interval [0.72, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
 
@@ -116,12 +116,12 @@ Design reviews: 0 go, 26 fix-first, 6 redesign; 17 later found by the post-resul
 |---|---|---|---|
 | P1 | Odds too high where the engine had a story | 13 | 8 of 11 scored |
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 4 | 4 of 4 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 23 | 13 of 19 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 23 | 13 of 20 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 5 | 3 of 5 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 3 | 0 of 1 scored |
 | P6 | A control that cannot fail | 3 | 1 of 3 scored |
 | P7 | A foreseeable execution risk run without a pilot | 3 | 1 of 3 scored |
-| P8 | Comparing across conditions that differ in more than the factor named | 19 | 9 of 14 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 19 | 9 of 15 scored |
 | P9 | The right rule, then the wrong noun | 11 | 10 of 11 scored |
 | P10 | A label that hangs on one item | 12 | 11 of 12 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 2 | 1 of 1 scored |
@@ -131,5 +131,5 @@ Design reviews: 0 go, 26 fix-first, 6 redesign; 17 later found by the post-resul
 | P15 | A dry run built on assumed spreads or base rates, not measured ones | 1 | 0 of 1 scored |
 | P16 | A dumb baseline that is an item property, in dry-run worlds where item properties reach the outcome only through the predictor | 0 | 0 of 0 scored |
 
-**Does the loop help?** On 17 scored bets, Brier with the odds before the lesson is 0.187, after it 0.150.
+**Does the loop help?** On 18 scored bets, Brier with the odds before the lesson is 0.188, after it 0.153.
 
