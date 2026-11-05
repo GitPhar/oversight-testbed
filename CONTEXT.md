@@ -113,6 +113,7 @@ From `paper/gold-map.md` rev 2 and `paper/biomimetic-map.md` rev 2:
 4. Run: budgets in code, stop-on-refusal, one scale direction, caches so a crash never pays twice.
 5. Verdict: plain English first, then tables; overstatements corrected in-series; reproduce.py regenerates every table.
 6. Re-weight: a surprising result raises the weight of its neighbourhood (more scouting, follow-up tests); a dead direction is closed with a diagnosis and stays on the map as closed. The map is the trajectory. Calibration of the engine's own odds is published.
+6a. Remap (`operators/remap.md`, from 2026-11-05): once a program's round has settled (every bet has a verdict and a finished audit), a fresh session reads every settled result. For each bet that landed or came back mixed, it writes the next two cheapest follow-up directions, each with engine odds stated before data, a cost, and a one-sentence cockpit question; for each killed bet, one sentence saying what it rules out. The class comes from the ledger's verdict, never from the session's reading. **Rule: no map may end at a landed bet with no follow-up**; `python3 ledger/check_remap.py` checks it. Written because programs 2, 3 and 4 each ran one round on 2026-11-04 and stopped: nothing turned the audits' "what would break it next" into new directions.
 7. Human controls: the operator sees the map, the running bets, the results, and the calibration; steers by adding questions, vetoing directions, setting budgets. Daily brief in the morning; nightly rewrite of this file.
 
 ## 7. Operators
