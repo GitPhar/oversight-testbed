@@ -29,7 +29,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-33 audits prepared with a sealed plant line: 0 still sealed, 33 revealed, of which 13 carried a plant. 
+34 audits prepared with a sealed plant line: 0 still sealed, 34 revealed, of which 13 carried a plant. 
 
 **Catch rate: 13/13 = 1.00, 95% Wilson interval [0.77, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
 
@@ -125,16 +125,16 @@ Design reviews: 0 go, 35 fix-first, 9 redesign; 22 later found by the post-resul
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 3 | 0 of 2 scored |
 | P6 | A control that cannot fail | 3 | 1 of 3 scored |
 | P7 | A foreseeable execution risk run without a pilot | 3 | 1 of 3 scored |
-| P8 | Comparing across conditions that differ in more than the factor named | 21 | 10 of 19 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 21 | 10 of 20 scored |
 | P9 | The right rule, then the wrong noun | 11 | 10 of 11 scored |
 | P10 | A label that hangs on one item | 12 | 11 of 12 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 2 | 2 of 2 scored |
-| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 17 | 8 of 15 scored |
+| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 17 | 8 of 16 scored |
 | P13 | A boundary the rule names, compared in plain floating point | 2 | 2 of 2 scored |
 | P14 | Items that share a template or domain bootstrapped as if independent | 5 | 0 of 3 scored |
 | P15 | A dry run built on assumed spreads or base rates, not measured ones | 2 | 0 of 1 scored |
 | P16 | A dumb baseline that is an item property, in dry-run worlds where item properties reach the outcome only through the predictor | 0 | 0 of 0 scored |
 | P17 | A design-review fix that replaces a guard can loosen it on the real data | 0 | 0 of 0 scored |
 
-**Does the loop help?** On 27 scored bets, Brier with the odds before the lesson is 0.182, after it 0.147.
+**Does the loop help?** On 28 scored bets, Brier with the odds before the lesson is 0.177, after it 0.145.
 

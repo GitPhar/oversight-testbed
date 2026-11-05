@@ -571,7 +571,7 @@
    ],
    "human_prompt": "Would you spend about $3 to find out whether, with each pair of real and doctored abstracts shown both ways round, picking the version that is better news for the paper's own idea beats the neuroscientists on both smaller Claude models? Will it come back a hit (here, a hit means both clearly beat the neuroscientists' published score)?",
    "engine_only": [],
-   "status": "bet",
+   "status": "hit",
    "opened": "2026-11-05T10:12",
    "prior_work_line": "BrainBench (Luo et al. 2024, Nature Human Behaviour, arXiv 2403.03230): 15 open LLMs at 81.4% against 63.4% for experts, with local-context and shuffled-context controls and no valence, flattery or option-order control (models were scored by perplexity, so there is no option order). Lee 2026, 'LLMs Have Made Failure Worth Publishing' (arXiv 2604.06236, read 2026-11-05) proposes clinical-trial-registry tests of whether LLMs overestimate success, reports no data, and does not mention BrainBench or a valence shortcut. No prior statement of an order-balanced flattery rule's score on BrainBench, so the 0.634 bar is open (predicts: unknown). Adds: the ss-b10 audit's overturning test, with position bias removed.",
    "prior_work_predicts": "unknown",
@@ -594,7 +594,16 @@
     "note": "withdrawn before any call (D68)"
    },
    "revision_reason": "ss-b10c's fresh v2 odds, from a context handed scoring/dry_b10c.py (06c1fff); recorded here after the pre-registration (design review ss-b10c F3, D73); not re-elicited",
-   "bet": "ss-b10c"
+   "bet": "ss-b10c",
+   "bets": [
+    "ss-b10c"
+   ],
+   "verdict": "pass-unreplicated",
+   "result": "With each BrainBench pair shown in both orders and the ratings averaged, on the items ss-b10 rated once, the 'which version is better news for the paper's idea' question picked the real abstract 77.5% [69.5, 85.0] on Haiku and 89.7% [84.5, 94.4] on Sonnet, above the experts' 63.4%; pass, unreplicated. Scored by both picks (auditor), Haiku 67.0% [61.5, 72.5]. Opus 97.6% on 41 items.",
+   "audit": "ledger/audits/ss-b10c.md",
+   "novelty": "new",
+   "novelty_line": "**Novelty:** new. No published work I found reports that a valence question (\"which version is better news for the paper's own idea?\") solves BrainBench or any real-versus-altered results task. BrainBench (Luo et al., 2024, arXiv 2403.03230, *Nature Human Behaviour*) ran local-context, swapped-sentence, zlib-perplexity memorisation, publication-date, calibration and GPT-4-item controls, and found \"no indication that BrainBench was memorized\". It tests no valence, positive-result or publication-bias shortcut, and neither do its follow-ups (Luo, Sun and Love, 2024, arXiv 2405.09395; Luo, Ramscar and Love, 2024, arXiv 2411.11061) or Wen et al. (2025, arXiv 2506.00794, which checks \"superficial features like idea complexity\"). Lee (2026, arXiv 2604.06236) is not this test, and it does not mention BrainBench, valence or shortcuts. It proposes, without running anything (§5.5: \"does not include empirical validation\"), three things. §4.1: give LLMs only the starting information of 200–500 completed ClinicalTrials.gov trials, ask for a probability of success, and score with AUC-ROC and with the probabilities given to failed trials, hypothesising that \"LLMs systematically overestimate the probability of experimental success\". §4.2: compare five context conditions (none, successes only, failures only, both, failures classified by cause), with a dose-response at 10, 50, 100 and 200 failure records. §5.3: correlate \"the published positive-result ratio and the actual success ratio (obtainable from trial registries)\" across medical subfields, plus a peer-review test on OpenReview. So this project's earlier statement that ours is \"the test an April 2026 paper asked for\" (paper/novelty.md finding 8, ranked replication 1) overstates the link. The swap-both-orders-and-average fix and the first-position pull are known: Zheng et al. (2023, arXiv 2306.05685) found Claude-v1 consistent on swapped order 23.8% of the time and favouring the first answer 75.0%; Wang et al. (2023, arXiv 2305.17926, Balanced Position Calibration) average the scores over both orders. LLMs swayed by favourable framing is in print in another form (Yun et al., CHIL 2025, arXiv 2502.07963, spin in medical abstracts), but not as a rule for picking real results. What is new is only the headline, a one-line valence question beating the 63.4% for experts on BrainBench, and it cannot be told apart from memory or plausibility. Search: \"BrainBench\" with shortcut, valence, positive result, publication bias, memorization, contamination, follow-up; \"LLMs predict scientific results publication bias\"; \"LLM spin medical abstracts\"; \"position bias swap LLM judge\"; general web search and arxiv.org abstract and HTML pages, 2026-11-05. Model: claude-opus-5-5 (a fresh subagent that did not run ss-b10c).",
+   "what_would_break_it_next": "see ledger/audits/ss-b10c.md, 'What would break it next'"
   }
  ]
 }
