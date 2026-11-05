@@ -11,7 +11,7 @@ checks: {D1: flaw, D2: holds, D3: holds, D4: holds, D5: holds, D6: holds, D7: fl
 flaws: 5
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-04 18:50 America/Denver
 ---
 
 # Design review of ss-b1
@@ -159,3 +159,25 @@ Each needs a dated DEVIATIONS row (D11 onward) written before any bettor call, n
 **F5 (D9). Leave-one-item-out on every bet's label.** Extend `score.py`'s LOO to the ss-b2 paired difference and to ss-b3, both with the same rule (any single removal that flips the label marks it fragile, item named). Use 10,000 resamples with seed 20261104 for every LOO bound, as for the full-data bounds. Pre-register this in the DEVIATIONS row.
 
 When these are committed, a short addendum here confirms them before the first bettor call.
+
+## Addendum: fixes confirmed
+
+Checked 2026-11-04 18:50 America/Denver against commit `954c035` (DEVIATIONS D12–D16), by the same reviewer session. No paid calls were made, and no bettor cache or `bets.jsonl` exists yet.
+
+- **F1 holds.** `items.jsonl` differs from the frozen file only in `side` (post → pre) and a new `side_note` on ss-026, ss-027 and ss-094. The ids are unchanged, and `masked.jsonl` is unchanged (e9f60d9b…). `bettor.py --dry-run` gives the same draws as before: 184 items, 276 calls, option_b first on 94. The new `items.jsonl` SHA-256 is f924db16… and matches `SHA256SUMS`. Counts are 116 post and 68 pre (interpretability 29/18, model psychology 29/17, quantum devices 28/16, scalable oversight 30/17), as D12 states. `writer-exclusions.json` names both papers. D12 states the venue rule, which goes beyond the required fix by also moving ss-094 (TMLR). A scan of every item's comments finds no post-cutoff item left that names ICML, ICLR, TMLR or an earlier or extended version.
+- **F2 holds.** A refusal stubbed against scratch copies of the new `common.py` and `bettor.py` prints the request ID to stderr, creates `results/`, and writes `refusal.md` with the ID.
+- **F3 holds.** The same stub saves the bets made so far on every exit: a refusal at call 70 of step 1 leaves 69 primary bets in `bets.jsonl`, and a refusal in step 2 leaves all 184 primary bets plus 15 order-check bets. D14 records the rule for scoring a partial run.
+- **F4 holds.** D15 writes the untestable and fragile sentences and the untestable rules for ss-b2 and ss-b3, and the sentences use the scored n. `score.py` emits a label per bet:
+  - 50 post items scored → all three untestable;
+  - no pre-cutoff items → ss-b3 untestable;
+  - memory-only bettor → ss-b3 pass, ss-b1 null;
+  - `--synthetic` coin, oracle, headline and anti → ss-b1 null, pass, null (upper 0.255) and null.
+- **F5 holds.** Leave-one-item-out now runs on all three bets, with 10,000 resamples and seed 20261104. A synthetic bettor placed just under the line (upper 0.2486) is labelled "pass, fragile", with the 80 items that flip it named. D16 records two further changes: the bootstrap moved to numpy, and a 1e-12 tolerance was added to the "below" tests. The tolerance only tightens the rule. Both changes come before any data.
+
+Still open, none of it blocking:
+- leakage-check.md §5 still says "two quantum-devices items".
+- `year_bin` labels the moved 2026 papers "2026-pre".
+- `make_form.py --score` reads `human/answers.md`, not `ledger/human-odds.jsonl`.
+- The auditor should confirm from the API usage record that no claude-sonnet-5-5 call ran before 17:17:16.
+
+**Verdict is now go.** The first bettor call may run.
