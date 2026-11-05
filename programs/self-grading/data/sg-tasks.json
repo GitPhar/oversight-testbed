@@ -1,0 +1,998 @@
+{
+ "seed": 8674269314762371375,
+ "generator": "experiments/sg_items.py",
+ "n_test": 60,
+ "n_pilot": 6,
+ "tasks": [
+  {
+   "id": "t01",
+   "domain": 7,
+   "design": "randomised",
+   "complication": "short-follow-up",
+   "n_per_group": 600,
+   "true_delta": 0.0,
+   "diff": -0.1619,
+   "ci": [
+    -2.4252,
+    2.1013
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: parents of toddlers were randomly assigned either to text-message vaccination reminders or to carry on as usual.\nGroups: text-message vaccination reminders (n = 600) and usual practice (n = 600).\nOutcome: on-time vaccination, in percent of children (higher is better).\nResult: mean 72.0 (text-message vaccination reminders) against 72.2 (usual practice); difference -0.2 (95% interval -2.4 to 2.1).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t02",
+   "domain": 13,
+   "design": "randomised",
+   "complication": "none",
+   "n_per_group": 110,
+   "true_delta": 0.45,
+   "diff": 1.864,
+   "ci": [
+    0.754,
+    2.974
+   ],
+   "ci_excludes_0": true,
+   "study": "Study: primary-school pupils were randomly assigned either to a free school breakfast or to carry on as usual.\nGroups: a free school breakfast (n = 110) and usual practice (n = 110).\nOutcome: attendance, in days per 60-day term (higher is better).\nResult: mean 55.0 (a free school breakfast) against 53.2 (usual practice); difference 1.9 (95% interval 0.8 to 3.0)."
+  },
+  {
+   "id": "t03",
+   "domain": 4,
+   "design": "randomised",
+   "complication": "single-site",
+   "n_per_group": 35,
+   "true_delta": 0.0,
+   "diff": 1.4888,
+   "ci": [
+    -5.5392,
+    8.5167
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: ninth-grade algebra students were randomly assigned either to weekly peer tutoring or to carry on as usual.\nGroups: weekly peer tutoring (n = 35) and usual practice (n = 35).\nOutcome: end-of-term exam score, in points out of 100 (higher is better).\nResult: mean 64.9 (weekly peer tutoring) against 63.4 (usual practice); difference 1.5 (95% interval -5.5 to 8.5).\nEveryone in the study came from a single school."
+  },
+  {
+   "id": "t04",
+   "domain": 0,
+   "design": "before-after",
+   "complication": "short-follow-up",
+   "n_per_group": 22,
+   "true_delta": 0.12,
+   "diff": 0.718,
+   "ci": [
+    -5.9007,
+    7.3368
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 22 second-grade pupils before and after a phonics reading app was introduced. There was no comparison group.\nMeasurements: before (n = 22) and after (n = 22).\nOutcome: reading score, in points on a 100-point test (higher is better).\nResult: mean 61.8 (after) against 61.1 (before); difference 0.7 (95% interval -5.9 to 7.3).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t05",
+   "domain": 14,
+   "design": "before-after",
+   "complication": "dropout",
+   "n_per_group": 110,
+   "true_delta": 0.0,
+   "diff": -4.4395,
+   "ci": [
+    -19.2396,
+    10.3605
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 110 vineyard rows before and after a new irrigation schedule was introduced. There was no comparison group.\nMeasurements: before (n = 110) and after (n = 110).\nOutcome: grape yield, in kg per row (higher is better).\nResult: mean 407 (after) against 412 (before); difference -4 (95% interval -19 to 10).\nBefore the outcome was measured, 26% of the after group and 12% of the before group dropped out."
+  },
+  {
+   "id": "t06",
+   "domain": 18,
+   "design": "self-selected",
+   "complication": "single-site",
+   "n_per_group": 14,
+   "true_delta": 0.0,
+   "diff": 9.2741,
+   "ci": [
+    -61.1029,
+    79.6511
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: city streets chose for themselves whether to use a bike-lane extension; those who did were compared with those who did not.\nGroups: chose a bike-lane extension (n = 14) and did not (n = 14).\nOutcome: daily cyclist count, in cyclists per day (higher is better).\nResult: mean 317 (chose a bike-lane extension) against 307 (did not); difference 9 (95% interval -61 to 80).\nEveryone in the study came from a single city."
+  },
+  {
+   "id": "t07",
+   "domain": 15,
+   "design": "randomised",
+   "complication": "single-site",
+   "n_per_group": 35,
+   "true_delta": 0.45,
+   "diff": 0.4111,
+   "ci": [
+    -0.1511,
+    0.9734
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: software teams were randomly assigned either to a code-review checklist or to carry on as usual.\nGroups: a code-review checklist (n = 35) and usual practice (n = 35).\nOutcome: defects caught before release, in per 1,000 lines of code (higher is better).\nResult: mean 3.46 (a code-review checklist) against 3.05 (usual practice); difference 0.41 (95% interval -0.15 to 0.97).\nEveryone in the study came from a single company."
+  },
+  {
+   "id": "t08",
+   "domain": 12,
+   "design": "self-selected",
+   "complication": "none",
+   "n_per_group": 600,
+   "true_delta": 0.0,
+   "diff": -0.2321,
+   "ci": [
+    -0.9677,
+    0.5034
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: retirees chose for themselves whether to use a cognitive-training game; those who did were compared with those who did not.\nGroups: chose a cognitive-training game (n = 600) and did not (n = 600).\nOutcome: memory test score, in points out of 50 (higher is better).\nResult: mean 32.9 (chose a cognitive-training game) against 33.1 (did not); difference -0.2 (95% interval -1.0 to 0.5)."
+  },
+  {
+   "id": "t09",
+   "domain": 7,
+   "design": "randomised",
+   "complication": "short-follow-up",
+   "n_per_group": 600,
+   "true_delta": 0.45,
+   "diff": 11.4806,
+   "ci": [
+    9.2174,
+    13.7439
+   ],
+   "ci_excludes_0": true,
+   "study": "Study: parents of toddlers were randomly assigned either to text-message vaccination reminders or to carry on as usual.\nGroups: text-message vaccination reminders (n = 600) and usual practice (n = 600).\nOutcome: on-time vaccination, in percent of children (higher is better).\nResult: mean 81.6 (text-message vaccination reminders) against 70.1 (usual practice); difference 11.5 (95% interval 9.2 to 13.7).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t10",
+   "domain": 19,
+   "design": "before-after",
+   "complication": "none",
+   "n_per_group": 110,
+   "true_delta": 0.0,
+   "diff": 0.0429,
+   "ci": [
+    -2.2828,
+    2.3686
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 110 first-year medical students before and after a spaced-repetition flashcard app was introduced. There was no comparison group.\nMeasurements: before (n = 110) and after (n = 110).\nOutcome: anatomy exam score, in points out of 100 (higher is better).\nResult: mean 70.3 (after) against 70.3 (before); difference 0.0 (95% interval -2.3 to 2.4)."
+  },
+  {
+   "id": "t11",
+   "domain": 2,
+   "design": "randomised",
+   "complication": "none",
+   "n_per_group": 60,
+   "true_delta": 0.12,
+   "diff": -2.2545,
+   "ci": [
+    -8.6958,
+    4.1867
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: new users of a budgeting app were randomly assigned either to a redesigned onboarding email or to carry on as usual.\nGroups: a redesigned onboarding email (n = 60) and usual practice (n = 60).\nOutcome: 30-day retention, in percent of users (higher is better).\nResult: mean 38.5 (a redesigned onboarding email) against 40.7 (usual practice); difference -2.3 (95% interval -8.7 to 4.2)."
+  },
+  {
+   "id": "t12",
+   "domain": 4,
+   "design": "self-selected",
+   "complication": "short-follow-up",
+   "n_per_group": 60,
+   "true_delta": 0.0,
+   "diff": 1.1321,
+   "ci": [
+    -4.2355,
+    6.4998
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: ninth-grade algebra students chose for themselves whether to use weekly peer tutoring; those who did were compared with those who did not.\nGroups: chose weekly peer tutoring (n = 60) and did not (n = 60).\nOutcome: end-of-term exam score, in points out of 100 (higher is better).\nResult: mean 65.9 (chose weekly peer tutoring) against 64.8 (did not); difference 1.1 (95% interval -4.2 to 6.5).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t13",
+   "domain": 7,
+   "design": "self-selected",
+   "complication": "short-follow-up",
+   "n_per_group": 60,
+   "true_delta": 0.0,
+   "diff": -2.0028,
+   "ci": [
+    -9.1597,
+    5.1541
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: parents of toddlers chose for themselves whether to use text-message vaccination reminders; those who did were compared with those who did not.\nGroups: chose text-message vaccination reminders (n = 60) and did not (n = 60).\nOutcome: on-time vaccination, in percent of children (higher is better).\nResult: mean 71.0 (chose text-message vaccination reminders) against 73.0 (did not); difference -2.0 (95% interval -9.2 to 5.2).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t14",
+   "domain": 6,
+   "design": "before-after",
+   "complication": "short-follow-up",
+   "n_per_group": 35,
+   "true_delta": 0.12,
+   "diff": -53.0461,
+   "ci": [
+    -150.5003,
+    44.408
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 35 web servers before and after a new caching layer was introduced. There was no comparison group.\nMeasurements: before (n = 35) and after (n = 35).\nOutcome: throughput, in requests per second (higher is better).\nResult: mean 1,772 (after) against 1,825 (before); difference -53 (95% interval -151 to 44).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t15",
+   "domain": 5,
+   "design": "self-selected",
+   "complication": "none",
+   "n_per_group": 60,
+   "true_delta": 0.0,
+   "diff": -1.0761,
+   "ci": [
+    -3.581,
+    1.4288
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: office workers chose for themselves whether to use a 10-minute daily meditation app; those who did were compared with those who did not.\nGroups: chose a 10-minute daily meditation app (n = 60) and did not (n = 60).\nOutcome: wellbeing score, in points on a 50-point scale (higher is better).\nResult: mean 30.3 (chose a 10-minute daily meditation app) against 31.4 (did not); difference -1.1 (95% interval -3.6 to 1.4)."
+  },
+  {
+   "id": "t16",
+   "domain": 0,
+   "design": "randomised",
+   "complication": "single-site",
+   "n_per_group": 35,
+   "true_delta": 0.25,
+   "diff": -0.0746,
+   "ci": [
+    -6.634,
+    6.4848
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: second-grade pupils were randomly assigned either to a phonics reading app or to carry on as usual.\nGroups: a phonics reading app (n = 35) and usual practice (n = 35).\nOutcome: reading score, in points on a 100-point test (higher is better).\nResult: mean 60.2 (a phonics reading app) against 60.2 (usual practice); difference -0.1 (95% interval -6.6 to 6.5).\nEveryone in the study came from a single school."
+  },
+  {
+   "id": "t17",
+   "domain": 4,
+   "design": "self-selected",
+   "complication": "short-follow-up",
+   "n_per_group": 22,
+   "true_delta": 0.0,
+   "diff": 4.2028,
+   "ci": [
+    -4.6616,
+    13.0673
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: ninth-grade algebra students chose for themselves whether to use weekly peer tutoring; those who did were compared with those who did not.\nGroups: chose weekly peer tutoring (n = 22) and did not (n = 22).\nOutcome: end-of-term exam score, in points out of 100 (higher is better).\nResult: mean 67.8 (chose weekly peer tutoring) against 63.6 (did not); difference 4.2 (95% interval -4.7 to 13.1).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t18",
+   "domain": 5,
+   "design": "before-after",
+   "complication": "dropout",
+   "n_per_group": 240,
+   "true_delta": 0.0,
+   "diff": 0.0458,
+   "ci": [
+    -0.9561,
+    1.0478
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 240 office workers before and after a 10-minute daily meditation app was introduced. There was no comparison group.\nMeasurements: before (n = 240) and after (n = 240).\nOutcome: wellbeing score, in points on a 50-point scale (higher is better).\nResult: mean 31.3 (after) against 31.3 (before); difference 0.0 (95% interval -1.0 to 1.0).\nBefore the outcome was measured, 31% of the after group and 9% of the before group dropped out."
+  },
+  {
+   "id": "t19",
+   "domain": 1,
+   "design": "before-after",
+   "complication": "many-outcomes",
+   "n_per_group": 35,
+   "true_delta": 0.0,
+   "diff": 8.2553,
+   "ci": [
+    -9.7362,
+    26.2468
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 35 adults who reported poor sleep before and after a magnesium sleep supplement was introduced. There was no comparison group.\nMeasurements: before (n = 35) and after (n = 35).\nOutcome: total sleep time, in minutes per night (higher is better).\nResult: mean 367 (after) against 359 (before); difference 8 (95% interval -10 to 26).\nThis was one of nine outcomes measured; none of the nine reached p < 0.05."
+  },
+  {
+   "id": "t20",
+   "domain": 11,
+   "design": "before-after",
+   "complication": "subgroup",
+   "n_per_group": 22,
+   "true_delta": 0.0,
+   "diff": 0.6668,
+   "ci": [
+    -0.7988,
+    2.1324
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 22 website visitors before and after a pricing-page redesign was introduced. There was no comparison group.\nMeasurements: before (n = 22) and after (n = 22).\nOutcome: sign-up rate, in percent of visitors (higher is better).\nResult: mean 7.01 (after) against 6.35 (before); difference 0.67 (95% interval -0.80 to 2.13).\nSix subgroups were also examined; the difference was statistically significant (p = 0.03) only among women over 50."
+  },
+  {
+   "id": "t21",
+   "domain": 2,
+   "design": "self-selected",
+   "complication": "none",
+   "n_per_group": 600,
+   "true_delta": 0.0,
+   "diff": 0.1831,
+   "ci": [
+    -1.8538,
+    2.22
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: new users of a budgeting app chose for themselves whether to use a redesigned onboarding email; those who did were compared with those who did not.\nGroups: chose a redesigned onboarding email (n = 600) and did not (n = 600).\nOutcome: 30-day retention, in percent of users (higher is better).\nResult: mean 41.2 (chose a redesigned onboarding email) against 41.0 (did not); difference 0.2 (95% interval -1.9 to 2.2)."
+  },
+  {
+   "id": "t22",
+   "domain": 12,
+   "design": "before-after",
+   "complication": "short-follow-up",
+   "n_per_group": 240,
+   "true_delta": 0.25,
+   "diff": 1.1703,
+   "ci": [
+    0.2399,
+    2.1007
+   ],
+   "ci_excludes_0": true,
+   "study": "Study: the outcome was measured in the same 240 retirees before and after a cognitive-training game was introduced. There was no comparison group.\nMeasurements: before (n = 240) and after (n = 240).\nOutcome: memory test score, in points out of 50 (higher is better).\nResult: mean 33.8 (after) against 32.6 (before); difference 1.2 (95% interval 0.2 to 2.1).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t23",
+   "domain": 11,
+   "design": "before-after",
+   "complication": "many-outcomes",
+   "n_per_group": 35,
+   "true_delta": 0.45,
+   "diff": 1.6066,
+   "ci": [
+    0.4446,
+    2.7685
+   ],
+   "ci_excludes_0": true,
+   "study": "Study: the outcome was measured in the same 35 website visitors before and after a pricing-page redesign was introduced. There was no comparison group.\nMeasurements: before (n = 35) and after (n = 35).\nOutcome: sign-up rate, in percent of visitors (higher is better).\nResult: mean 8.05 (after) against 6.44 (before); difference 1.61 (95% interval 0.44 to 2.77).\nThis was one of nine outcomes measured; it is the only one with p < 0.05."
+  },
+  {
+   "id": "t24",
+   "domain": 19,
+   "design": "before-after",
+   "complication": "none",
+   "n_per_group": 14,
+   "true_delta": 0.12,
+   "diff": 3.1559,
+   "ci": [
+    -3.3633,
+    9.675
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 14 first-year medical students before and after a spaced-repetition flashcard app was introduced. There was no comparison group.\nMeasurements: before (n = 14) and after (n = 14).\nOutcome: anatomy exam score, in points out of 100 (higher is better).\nResult: mean 73.2 (after) against 70.0 (before); difference 3.2 (95% interval -3.4 to 9.7)."
+  },
+  {
+   "id": "t25",
+   "domain": 1,
+   "design": "randomised",
+   "complication": "many-outcomes",
+   "n_per_group": 60,
+   "true_delta": 0.45,
+   "diff": 20.3106,
+   "ci": [
+    3.134,
+    37.4872
+   ],
+   "ci_excludes_0": true,
+   "study": "Study: adults who reported poor sleep were randomly assigned either to a magnesium sleep supplement or to carry on as usual.\nGroups: a magnesium sleep supplement (n = 60) and usual practice (n = 60).\nOutcome: total sleep time, in minutes per night (higher is better).\nResult: mean 385 (a magnesium sleep supplement) against 365 (usual practice); difference 20 (95% interval 3 to 37).\nThis was one of nine outcomes measured; it is the only one with p < 0.05."
+  },
+  {
+   "id": "t26",
+   "domain": 11,
+   "design": "before-after",
+   "complication": "single-site",
+   "n_per_group": 110,
+   "true_delta": 0.0,
+   "diff": -0.7084,
+   "ci": [
+    -1.3638,
+    -0.0529
+   ],
+   "ci_excludes_0": true,
+   "study": "Study: the outcome was measured in the same 110 website visitors before and after a pricing-page redesign was introduced. There was no comparison group.\nMeasurements: before (n = 110) and after (n = 110).\nOutcome: sign-up rate, in percent of visitors (higher is better).\nResult: mean 5.45 (after) against 6.16 (before); difference -0.71 (95% interval -1.36 to -0.05).\nEveryone in the study came from a single market."
+  },
+  {
+   "id": "t27",
+   "domain": 14,
+   "design": "before-after",
+   "complication": "many-outcomes",
+   "n_per_group": 14,
+   "true_delta": 0.45,
+   "diff": 29.1796,
+   "ci": [
+    -12.3058,
+    70.665
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 14 vineyard rows before and after a new irrigation schedule was introduced. There was no comparison group.\nMeasurements: before (n = 14) and after (n = 14).\nOutcome: grape yield, in kg per row (higher is better).\nResult: mean 443 (after) against 413 (before); difference 29 (95% interval -12 to 71).\nThis was one of nine outcomes measured; none of the nine reached p < 0.05."
+  },
+  {
+   "id": "t28",
+   "domain": 15,
+   "design": "randomised",
+   "complication": "short-follow-up",
+   "n_per_group": 240,
+   "true_delta": 0.0,
+   "diff": 0.1722,
+   "ci": [
+    -0.0425,
+    0.3869
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: software teams were randomly assigned either to a code-review checklist or to carry on as usual.\nGroups: a code-review checklist (n = 240) and usual practice (n = 240).\nOutcome: defects caught before release, in per 1,000 lines of code (higher is better).\nResult: mean 3.34 (a code-review checklist) against 3.17 (usual practice); difference 0.17 (95% interval -0.04 to 0.39).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t29",
+   "domain": 13,
+   "design": "before-after",
+   "complication": "single-site",
+   "n_per_group": 110,
+   "true_delta": 0.0,
+   "diff": -0.4023,
+   "ci": [
+    -1.2903,
+    0.4857
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 110 primary-school pupils before and after a free school breakfast was introduced. There was no comparison group.\nMeasurements: before (n = 110) and after (n = 110).\nOutcome: attendance, in days per 60-day term (higher is better).\nResult: mean 52.7 (after) against 53.1 (before); difference -0.4 (95% interval -1.3 to 0.5).\nEveryone in the study came from a single school."
+  },
+  {
+   "id": "t30",
+   "domain": 12,
+   "design": "before-after",
+   "complication": "single-site",
+   "n_per_group": 240,
+   "true_delta": 0.0,
+   "diff": 0.06,
+   "ci": [
+    -0.8704,
+    0.9904
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 240 retirees before and after a cognitive-training game was introduced. There was no comparison group.\nMeasurements: before (n = 240) and after (n = 240).\nOutcome: memory test score, in points out of 50 (higher is better).\nResult: mean 33.1 (after) against 33.0 (before); difference 0.1 (95% interval -0.9 to 1.0).\nEveryone in the study came from a single town."
+  },
+  {
+   "id": "t31",
+   "domain": 16,
+   "design": "self-selected",
+   "complication": "short-follow-up",
+   "n_per_group": 14,
+   "true_delta": 0.25,
+   "diff": -1.2027,
+   "ci": [
+    -9.3516,
+    6.9462
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: heart-failure patients chose for themselves whether to use a nurse-led phone call after discharge; those who did were compared with those who did not.\nGroups: chose a nurse-led phone call after discharge (n = 14) and did not (n = 14).\nOutcome: days at home in the next 90 days, in days (higher is better).\nResult: mean 75.8 (chose a nurse-led phone call after discharge) against 77.0 (did not); difference -1.2 (95% interval -9.4 to 6.9).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t32",
+   "domain": 3,
+   "design": "randomised",
+   "complication": "single-site",
+   "n_per_group": 600,
+   "true_delta": 0.45,
+   "diff": 3.2725,
+   "ci": [
+    2.684,
+    3.8609
+   ],
+   "ci_excludes_0": true,
+   "study": "Study: tomato plots were randomly assigned either to a slow-release fertilizer or to carry on as usual.\nGroups: a slow-release fertilizer (n = 600) and usual practice (n = 600).\nOutcome: yield, in kg per plot (higher is better).\nResult: mean 26.2 (a slow-release fertilizer) against 23.0 (usual practice); difference 3.3 (95% interval 2.7 to 3.9).\nEveryone in the study came from a single farm."
+  },
+  {
+   "id": "t33",
+   "domain": 15,
+   "design": "self-selected",
+   "complication": "short-follow-up",
+   "n_per_group": 600,
+   "true_delta": 0.25,
+   "diff": 0.4298,
+   "ci": [
+    0.294,
+    0.5656
+   ],
+   "ci_excludes_0": true,
+   "study": "Study: software teams chose for themselves whether to use a code-review checklist; those who did were compared with those who did not.\nGroups: chose a code-review checklist (n = 600) and did not (n = 600).\nOutcome: defects caught before release, in per 1,000 lines of code (higher is better).\nResult: mean 3.64 (chose a code-review checklist) against 3.21 (did not); difference 0.43 (95% interval 0.29 to 0.57).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t34",
+   "domain": 2,
+   "design": "before-after",
+   "complication": "single-site",
+   "n_per_group": 60,
+   "true_delta": 0.12,
+   "diff": 0.6413,
+   "ci": [
+    -4.5116,
+    5.7943
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 60 new users of a budgeting app before and after a redesigned onboarding email was introduced. There was no comparison group.\nMeasurements: before (n = 60) and after (n = 60).\nOutcome: 30-day retention, in percent of users (higher is better).\nResult: mean 41.9 (after) against 41.3 (before); difference 0.6 (95% interval -4.5 to 5.8).\nEveryone in the study came from a single country."
+  },
+  {
+   "id": "t35",
+   "domain": 9,
+   "design": "randomised",
+   "complication": "many-outcomes",
+   "n_per_group": 22,
+   "true_delta": 0.25,
+   "diff": -1.4955,
+   "ci": [
+    -5.1003,
+    2.1094
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: adults over 70 were randomly assigned either to a probiotic yogurt or to carry on as usual.\nGroups: a probiotic yogurt (n = 22) and usual practice (n = 22).\nOutcome: grip strength, in kg (higher is better).\nResult: mean 24.8 (a probiotic yogurt) against 26.3 (usual practice); difference -1.5 (95% interval -5.1 to 2.1).\nThis was one of nine outcomes measured; none of the nine reached p < 0.05."
+  },
+  {
+   "id": "t36",
+   "domain": 18,
+   "design": "randomised",
+   "complication": "short-follow-up",
+   "n_per_group": 240,
+   "true_delta": 0.25,
+   "diff": 30.8938,
+   "ci": [
+    13.8962,
+    47.8915
+   ],
+   "ci_excludes_0": true,
+   "study": "Study: city streets were randomly assigned either to a bike-lane extension or to carry on as usual.\nGroups: a bike-lane extension (n = 240) and usual practice (n = 240).\nOutcome: daily cyclist count, in cyclists per day (higher is better).\nResult: mean 337 (a bike-lane extension) against 306 (usual practice); difference 31 (95% interval 14 to 48).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t37",
+   "domain": 10,
+   "design": "self-selected",
+   "complication": "short-follow-up",
+   "n_per_group": 240,
+   "true_delta": 0.45,
+   "diff": 7.732,
+   "ci": [
+    5.406,
+    10.058
+   ],
+   "ci_excludes_0": true,
+   "study": "Study: knee-surgery patients chose for themselves whether to use a gamified physiotherapy app; those who did were compared with those who did not.\nGroups: chose a gamified physiotherapy app (n = 240) and did not (n = 240).\nOutcome: knee range of motion, in degrees (higher is better).\nResult: mean 112.5 (chose a gamified physiotherapy app) against 104.8 (did not); difference 7.7 (95% interval 5.4 to 10.1).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t38",
+   "domain": 0,
+   "design": "randomised",
+   "complication": "none",
+   "n_per_group": 14,
+   "true_delta": 0.0,
+   "diff": 0.2299,
+   "ci": [
+    -10.1414,
+    10.6013
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: second-grade pupils were randomly assigned either to a phonics reading app or to carry on as usual.\nGroups: a phonics reading app (n = 14) and usual practice (n = 14).\nOutcome: reading score, in points on a 100-point test (higher is better).\nResult: mean 60.9 (a phonics reading app) against 60.6 (usual practice); difference 0.2 (95% interval -10.1 to 10.6)."
+  },
+  {
+   "id": "t39",
+   "domain": 3,
+   "design": "before-after",
+   "complication": "none",
+   "n_per_group": 14,
+   "true_delta": 0.25,
+   "diff": -0.5875,
+   "ci": [
+    -3.6693,
+    2.4942
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 14 tomato plots before and after a slow-release fertilizer was introduced. There was no comparison group.\nMeasurements: before (n = 14) and after (n = 14).\nOutcome: yield, in kg per plot (higher is better).\nResult: mean 22.7 (after) against 23.3 (before); difference -0.6 (95% interval -3.7 to 2.5)."
+  },
+  {
+   "id": "t40",
+   "domain": 3,
+   "design": "before-after",
+   "complication": "single-site",
+   "n_per_group": 14,
+   "true_delta": 0.0,
+   "diff": 0.0641,
+   "ci": [
+    -3.0177,
+    3.1458
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 14 tomato plots before and after a slow-release fertilizer was introduced. There was no comparison group.\nMeasurements: before (n = 14) and after (n = 14).\nOutcome: yield, in kg per plot (higher is better).\nResult: mean 23.6 (after) against 23.5 (before); difference 0.1 (95% interval -3.0 to 3.1).\nEveryone in the study came from a single farm."
+  },
+  {
+   "id": "t41",
+   "domain": 8,
+   "design": "before-after",
+   "complication": "dropout",
+   "n_per_group": 22,
+   "true_delta": 0.0,
+   "diff": 1.4567,
+   "ci": [
+    -2.7982,
+    5.7116
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 22 call-centre staff before and after a standing-desk programme was introduced. There was no comparison group.\nMeasurements: before (n = 22) and after (n = 22).\nOutcome: calls handled per shift, in calls (higher is better).\nResult: mean 56.3 (after) against 54.8 (before); difference 1.5 (95% interval -2.8 to 5.7).\nBefore the outcome was measured, 31% of the after group and 9% of the before group dropped out."
+  },
+  {
+   "id": "t42",
+   "domain": 6,
+   "design": "randomised",
+   "complication": "short-follow-up",
+   "n_per_group": 35,
+   "true_delta": 0.0,
+   "diff": -23.1207,
+   "ci": [
+    -144.9384,
+    98.697
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: web servers were randomly assigned either to a new caching layer or to carry on as usual.\nGroups: a new caching layer (n = 35) and usual practice (n = 35).\nOutcome: throughput, in requests per second (higher is better).\nResult: mean 1,821 (a new caching layer) against 1,844 (usual practice); difference -23 (95% interval -145 to 99).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t43",
+   "domain": 8,
+   "design": "randomised",
+   "complication": "single-site",
+   "n_per_group": 110,
+   "true_delta": 0.45,
+   "diff": 3.6038,
+   "ci": [
+    1.2253,
+    5.9824
+   ],
+   "ci_excludes_0": true,
+   "study": "Study: call-centre staff were randomly assigned either to a standing-desk programme or to carry on as usual.\nGroups: a standing-desk programme (n = 110) and usual practice (n = 110).\nOutcome: calls handled per shift, in calls (higher is better).\nResult: mean 56.7 (a standing-desk programme) against 53.1 (usual practice); difference 3.6 (95% interval 1.2 to 6.0).\nEveryone in the study came from a single call centre."
+  },
+  {
+   "id": "t44",
+   "domain": 9,
+   "design": "randomised",
+   "complication": "none",
+   "n_per_group": 22,
+   "true_delta": 0.25,
+   "diff": 2.8566,
+   "ci": [
+    -0.7483,
+    6.4615
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: adults over 70 were randomly assigned either to a probiotic yogurt or to carry on as usual.\nGroups: a probiotic yogurt (n = 22) and usual practice (n = 22).\nOutcome: grip strength, in kg (higher is better).\nResult: mean 28.9 (a probiotic yogurt) against 26.0 (usual practice); difference 2.9 (95% interval -0.7 to 6.5)."
+  },
+  {
+   "id": "t45",
+   "domain": 10,
+   "design": "before-after",
+   "complication": "single-site",
+   "n_per_group": 110,
+   "true_delta": 0.12,
+   "diff": 2.3911,
+   "ci": [
+    -0.3575,
+    5.1397
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 110 knee-surgery patients before and after a gamified physiotherapy app was introduced. There was no comparison group.\nMeasurements: before (n = 110) and after (n = 110).\nOutcome: knee range of motion, in degrees (higher is better).\nResult: mean 107.3 (after) against 104.9 (before); difference 2.4 (95% interval -0.4 to 5.1).\nEveryone in the study came from a single hospital."
+  },
+  {
+   "id": "t46",
+   "domain": 6,
+   "design": "self-selected",
+   "complication": "dropout",
+   "n_per_group": 22,
+   "true_delta": 0.0,
+   "diff": 9.0549,
+   "ci": [
+    -144.5953,
+    162.705
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: web servers chose for themselves whether to use a new caching layer; those who did were compared with those who did not.\nGroups: chose a new caching layer (n = 22) and did not (n = 22).\nOutcome: throughput, in requests per second (higher is better).\nResult: mean 1,846 (chose a new caching layer) against 1,837 (did not); difference 9 (95% interval -145 to 163).\nBefore the outcome was measured, 34% of the chose a new caching layer group and 8% of the did not group dropped out."
+  },
+  {
+   "id": "t47",
+   "domain": 1,
+   "design": "randomised",
+   "complication": "dropout",
+   "n_per_group": 35,
+   "true_delta": 0.25,
+   "diff": 28.9382,
+   "ci": [
+    6.4488,
+    51.4276
+   ],
+   "ci_excludes_0": true,
+   "study": "Study: adults who reported poor sleep were randomly assigned either to a magnesium sleep supplement or to carry on as usual.\nGroups: a magnesium sleep supplement (n = 35) and usual practice (n = 35).\nOutcome: total sleep time, in minutes per night (higher is better).\nResult: mean 390 (a magnesium sleep supplement) against 362 (usual practice); difference 29 (95% interval 6 to 51).\nBefore the outcome was measured, 34% of the a magnesium sleep supplement group and 8% of the usual practice group dropped out."
+  },
+  {
+   "id": "t48",
+   "domain": 17,
+   "design": "self-selected",
+   "complication": "dropout",
+   "n_per_group": 60,
+   "true_delta": 0.25,
+   "diff": -0.6641,
+   "ci": [
+    -3.5269,
+    2.1986
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: classrooms chose for themselves whether to use a quieter classroom ventilation unit; those who did were compared with those who did not.\nGroups: chose a quieter classroom ventilation unit (n = 60) and did not (n = 60).\nOutcome: average reading-test score, in points out of 100 (higher is better).\nResult: mean 65.5 (chose a quieter classroom ventilation unit) against 66.1 (did not); difference -0.7 (95% interval -3.5 to 2.2).\nBefore the outcome was measured, 34% of the chose a quieter classroom ventilation unit group and 8% of the did not group dropped out."
+  },
+  {
+   "id": "t49",
+   "domain": 16,
+   "design": "randomised",
+   "complication": "many-outcomes",
+   "n_per_group": 22,
+   "true_delta": 0.0,
+   "diff": 6.554,
+   "ci": [
+    0.0534,
+    13.0546
+   ],
+   "ci_excludes_0": true,
+   "study": "Study: heart-failure patients were randomly assigned either to a nurse-led phone call after discharge or to carry on as usual.\nGroups: a nurse-led phone call after discharge (n = 22) and usual practice (n = 22).\nOutcome: days at home in the next 90 days, in days (higher is better).\nResult: mean 85.1 (a nurse-led phone call after discharge) against 78.5 (usual practice); difference 6.6 (95% interval 0.1 to 13.1).\nThis was one of nine outcomes measured; it is the only one with p < 0.05."
+  },
+  {
+   "id": "t50",
+   "domain": 18,
+   "design": "before-after",
+   "complication": "none",
+   "n_per_group": 14,
+   "true_delta": 0.12,
+   "diff": 38.2454,
+   "ci": [
+    -18.0562,
+    94.547
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 14 city streets before and after a bike-lane extension was introduced. There was no comparison group.\nMeasurements: before (n = 14) and after (n = 14).\nOutcome: daily cyclist count, in cyclists per day (higher is better).\nResult: mean 343 (after) against 305 (before); difference 38 (95% interval -18 to 95)."
+  },
+  {
+   "id": "t51",
+   "domain": 10,
+   "design": "self-selected",
+   "complication": "short-follow-up",
+   "n_per_group": 600,
+   "true_delta": 0.0,
+   "diff": -0.0757,
+   "ci": [
+    -1.5468,
+    1.3954
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: knee-surgery patients chose for themselves whether to use a gamified physiotherapy app; those who did were compared with those who did not.\nGroups: chose a gamified physiotherapy app (n = 600) and did not (n = 600).\nOutcome: knee range of motion, in degrees (higher is better).\nResult: mean 103.7 (chose a gamified physiotherapy app) against 103.8 (did not); difference -0.1 (95% interval -1.5 to 1.4).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t52",
+   "domain": 19,
+   "design": "randomised",
+   "complication": "many-outcomes",
+   "n_per_group": 60,
+   "true_delta": 0.45,
+   "diff": 3.3093,
+   "ci": [
+    -0.627,
+    7.2456
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: first-year medical students were randomly assigned either to a spaced-repetition flashcard app or to carry on as usual.\nGroups: a spaced-repetition flashcard app (n = 60) and usual practice (n = 60).\nOutcome: anatomy exam score, in points out of 100 (higher is better).\nResult: mean 73.5 (a spaced-repetition flashcard app) against 70.2 (usual practice); difference 3.3 (95% interval -0.6 to 7.2).\nThis was one of nine outcomes measured; none of the nine reached p < 0.05."
+  },
+  {
+   "id": "t53",
+   "domain": 13,
+   "design": "before-after",
+   "complication": "none",
+   "n_per_group": 600,
+   "true_delta": 0.0,
+   "diff": -0.1658,
+   "ci": [
+    -0.5461,
+    0.2144
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 600 primary-school pupils before and after a free school breakfast was introduced. There was no comparison group.\nMeasurements: before (n = 600) and after (n = 600).\nOutcome: attendance, in days per 60-day term (higher is better).\nResult: mean 53.3 (after) against 53.5 (before); difference -0.2 (95% interval -0.5 to 0.2)."
+  },
+  {
+   "id": "t54",
+   "domain": 17,
+   "design": "before-after",
+   "complication": "dropout",
+   "n_per_group": 22,
+   "true_delta": 0.45,
+   "diff": 3.3771,
+   "ci": [
+    -0.4051,
+    7.1593
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 22 classrooms before and after a quieter classroom ventilation unit was introduced. There was no comparison group.\nMeasurements: before (n = 22) and after (n = 22).\nOutcome: average reading-test score, in points out of 100 (higher is better).\nResult: mean 68.9 (after) against 65.6 (before); difference 3.4 (95% interval -0.4 to 7.2).\nBefore the outcome was measured, 26% of the after group and 12% of the before group dropped out."
+  },
+  {
+   "id": "t55",
+   "domain": 5,
+   "design": "randomised",
+   "complication": "short-follow-up",
+   "n_per_group": 14,
+   "true_delta": 0.0,
+   "diff": -0.9098,
+   "ci": [
+    -6.0955,
+    4.2758
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: office workers were randomly assigned either to a 10-minute daily meditation app or to carry on as usual.\nGroups: a 10-minute daily meditation app (n = 14) and usual practice (n = 14).\nOutcome: wellbeing score, in points on a 50-point scale (higher is better).\nResult: mean 30.1 (a 10-minute daily meditation app) against 31.0 (usual practice); difference -0.9 (95% interval -6.1 to 4.3).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t56",
+   "domain": 8,
+   "design": "self-selected",
+   "complication": "short-follow-up",
+   "n_per_group": 14,
+   "true_delta": 0.25,
+   "diff": -0.7208,
+   "ci": [
+    -7.3881,
+    5.9465
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: call-centre staff chose for themselves whether to use a standing-desk programme; those who did were compared with those who did not.\nGroups: chose a standing-desk programme (n = 14) and did not (n = 14).\nOutcome: calls handled per shift, in calls (higher is better).\nResult: mean 53.2 (chose a standing-desk programme) against 53.9 (did not); difference -0.7 (95% interval -7.4 to 5.9).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "t57",
+   "domain": 16,
+   "design": "randomised",
+   "complication": "subgroup",
+   "n_per_group": 240,
+   "true_delta": 0.0,
+   "diff": 1.6493,
+   "ci": [
+    -0.3188,
+    3.6175
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: heart-failure patients were randomly assigned either to a nurse-led phone call after discharge or to carry on as usual.\nGroups: a nurse-led phone call after discharge (n = 240) and usual practice (n = 240).\nOutcome: days at home in the next 90 days, in days (higher is better).\nResult: mean 80.3 (a nurse-led phone call after discharge) against 78.7 (usual practice); difference 1.6 (95% interval -0.3 to 3.6).\nSix subgroups were also examined; the difference was statistically significant (p = 0.03) only among weekday participants."
+  },
+  {
+   "id": "t58",
+   "domain": 9,
+   "design": "self-selected",
+   "complication": "dropout",
+   "n_per_group": 35,
+   "true_delta": 0.0,
+   "diff": 0.3844,
+   "ci": [
+    -2.4737,
+    3.2424
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: adults over 70 chose for themselves whether to use a probiotic yogurt; those who did were compared with those who did not.\nGroups: chose a probiotic yogurt (n = 35) and did not (n = 35).\nOutcome: grip strength, in kg (higher is better).\nResult: mean 26.8 (chose a probiotic yogurt) against 26.4 (did not); difference 0.4 (95% interval -2.5 to 3.2).\nBefore the outcome was measured, 34% of the chose a probiotic yogurt group and 8% of the did not group dropped out."
+  },
+  {
+   "id": "t59",
+   "domain": 14,
+   "design": "randomised",
+   "complication": "dropout",
+   "n_per_group": 14,
+   "true_delta": 0.45,
+   "diff": 73.531,
+   "ci": [
+    21.6743,
+    125.3877
+   ],
+   "ci_excludes_0": true,
+   "study": "Study: vineyard rows were randomly assigned either to a new irrigation schedule or to carry on as usual.\nGroups: a new irrigation schedule (n = 14) and usual practice (n = 14).\nOutcome: grape yield, in kg per row (higher is better).\nResult: mean 490 (a new irrigation schedule) against 416 (usual practice); difference 74 (95% interval 22 to 125).\nBefore the outcome was measured, 26% of the a new irrigation schedule group and 12% of the usual practice group dropped out."
+  },
+  {
+   "id": "t60",
+   "domain": 17,
+   "design": "randomised",
+   "complication": "short-follow-up",
+   "n_per_group": 60,
+   "true_delta": 0.45,
+   "diff": 2.2131,
+   "ci": [
+    -0.6496,
+    5.0759
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: classrooms were randomly assigned either to a quieter classroom ventilation unit or to carry on as usual.\nGroups: a quieter classroom ventilation unit (n = 60) and usual practice (n = 60).\nOutcome: average reading-test score, in points out of 100 (higher is better).\nResult: mean 68.4 (a quieter classroom ventilation unit) against 66.2 (usual practice); difference 2.2 (95% interval -0.6 to 5.1).\nThe outcome was measured once, one week after the start."
+  },
+  {
+   "id": "p01",
+   "domain": 15,
+   "design": "self-selected",
+   "complication": "none",
+   "n_per_group": 22,
+   "true_delta": 0.25,
+   "diff": 0.6274,
+   "ci": [
+    -0.0817,
+    1.3366
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: software teams chose for themselves whether to use a code-review checklist; those who did were compared with those who did not.\nGroups: chose a code-review checklist (n = 22) and did not (n = 22).\nOutcome: defects caught before release, in per 1,000 lines of code (higher is better).\nResult: mean 3.86 (chose a code-review checklist) against 3.23 (did not); difference 0.63 (95% interval -0.08 to 1.34)."
+  },
+  {
+   "id": "p02",
+   "domain": 4,
+   "design": "self-selected",
+   "complication": "many-outcomes",
+   "n_per_group": 60,
+   "true_delta": 0.0,
+   "diff": -0.3409,
+   "ci": [
+    -5.7086,
+    5.0268
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: ninth-grade algebra students chose for themselves whether to use weekly peer tutoring; those who did were compared with those who did not.\nGroups: chose weekly peer tutoring (n = 60) and did not (n = 60).\nOutcome: end-of-term exam score, in points out of 100 (higher is better).\nResult: mean 65.8 (chose weekly peer tutoring) against 66.2 (did not); difference -0.3 (95% interval -5.7 to 5.0).\nThis was one of nine outcomes measured; none of the nine reached p < 0.05."
+  },
+  {
+   "id": "p03",
+   "domain": 11,
+   "design": "self-selected",
+   "complication": "single-site",
+   "n_per_group": 110,
+   "true_delta": 0.0,
+   "diff": -0.095,
+   "ci": [
+    -0.9142,
+    0.7243
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: website visitors chose for themselves whether to use a pricing-page redesign; those who did were compared with those who did not.\nGroups: chose a pricing-page redesign (n = 110) and did not (n = 110).\nOutcome: sign-up rate, in percent of visitors (higher is better).\nResult: mean 6.22 (chose a pricing-page redesign) against 6.32 (did not); difference -0.09 (95% interval -0.91 to 0.72).\nEveryone in the study came from a single market."
+  },
+  {
+   "id": "p04",
+   "domain": 18,
+   "design": "before-after",
+   "complication": "none",
+   "n_per_group": 240,
+   "true_delta": 0.25,
+   "diff": 31.8321,
+   "ci": [
+    18.2339,
+    45.4302
+   ],
+   "ci_excludes_0": true,
+   "study": "Study: the outcome was measured in the same 240 city streets before and after a bike-lane extension was introduced. There was no comparison group.\nMeasurements: before (n = 240) and after (n = 240).\nOutcome: daily cyclist count, in cyclists per day (higher is better).\nResult: mean 336 (after) against 304 (before); difference 32 (95% interval 18 to 45)."
+  },
+  {
+   "id": "p05",
+   "domain": 19,
+   "design": "randomised",
+   "complication": "dropout",
+   "n_per_group": 60,
+   "true_delta": 0.12,
+   "diff": 1.3973,
+   "ci": [
+    -2.539,
+    5.3336
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: first-year medical students were randomly assigned either to a spaced-repetition flashcard app or to carry on as usual.\nGroups: a spaced-repetition flashcard app (n = 60) and usual practice (n = 60).\nOutcome: anatomy exam score, in points out of 100 (higher is better).\nResult: mean 72.4 (a spaced-repetition flashcard app) against 71.0 (usual practice); difference 1.4 (95% interval -2.5 to 5.3).\nBefore the outcome was measured, 31% of the a spaced-repetition flashcard app group and 9% of the usual practice group dropped out."
+  },
+  {
+   "id": "p06",
+   "domain": 14,
+   "design": "before-after",
+   "complication": "single-site",
+   "n_per_group": 22,
+   "true_delta": 0.0,
+   "diff": -15.3314,
+   "ci": [
+    -48.4252,
+    17.7625
+   ],
+   "ci_excludes_0": false,
+   "study": "Study: the outcome was measured in the same 22 vineyard rows before and after a new irrigation schedule was introduced. There was no comparison group.\nMeasurements: before (n = 22) and after (n = 22).\nOutcome: grape yield, in kg per row (higher is better).\nResult: mean 393 (after) against 408 (before); difference -15 (95% interval -48 to 18).\nEveryone in the study came from a single vineyard."
+  }
+ ]
+}

@@ -1,0 +1,25 @@
+{
+ "bet": "sg-b1",
+ "chain": "CURBy-RNG",
+ "round": 1592184,
+ "pulse_time": "2026-11-05 05:00:00 America/Denver",
+ "previous_pulse": 1592183,
+ "previous_pulse_time": "2026-11-05 04:59:00 America/Denver",
+ "prereg_commit": "d2589e3",
+ "prereg_author_time": "2026-11-05 04:59:18 America/Denver",
+ "randomness": "2963777c38bde11fe56c9e90601e8a65e6a1a06b50860d1f0899ad3405ac8530674095981be6359fd4c0ecdf01617ea718f1bd977eb84f13e6e0510f2b6f8d25",
+ "purpose": [
+  "items",
+  "order",
+  "boot"
+ ],
+ "client": "@buff-beacon-project/curby-client@1.2.0 via programs/other-minds/experiments/curby_seed.mjs",
+ "certificate_verified": false,
+ "curby_q_status": "stalled: latest completed round 28297 at 2025-08-22 13:42 America/Denver (checked 2026-11-05 04:40)",
+ "seed_formula": "ledger/seed.py: first 8 bytes of SHA-256(randomness || 'sg-b1' || ':' || purpose), unsigned big-endian",
+ "seeds": {
+  "items": 8674269314762371375,
+  "order": 7908675163492430800,
+  "boot": 3283701424287018130
+ }
+}

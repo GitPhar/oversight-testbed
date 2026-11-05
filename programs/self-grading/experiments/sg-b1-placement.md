@@ -66,7 +66,7 @@ Six pilot studies, p01–p06, are drawn in the same run. They are excluded from 
 - seed = the first 8 bytes of SHA-256(randomness ‖ bet-id), read as an unsigned big-endian integer.
 - Sub-seeds per purpose come from `ledger/seed.py --purpose`: `items` (the study draw), `order` (the call order), `boot` (the bootstrap; `boot + 1` for the gate).
 
-*Filled in by the seed commit, before any data:* `chain:` ___ · `round:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seeds:` ___ (record: `data/sg-b1-seed.json`).
+*Filled in by the seed commit, before any data:* `chain:` CURBy-RNG · `round:` pulse 1592184 (previous 1592183 at 04:59:00, before this file's commit at 04:59:18) · `pulse_time:` 2026-11-05 05:00:00 America/Denver · `randomness:` 2963777c38bde11fe56c9e90601e8a65e6a1a06b50860d1f0899ad3405ac8530674095981be6359fd4c0ecdf01617ea718f1bd977eb84f13e6e0510f2b6f8d25 · `client:` @buff-beacon-project/curby-client@1.2.0 via `programs/other-minds/experiments/curby_seed.mjs` · `certificate_verified:` false · `seeds:` items 8674269314762371375, order 7908675163492430800, boot 3283701424287018130 (record: `data/sg-b1-seed.json`; the 66 studies drawn with the items seed are in `data/sg-tasks.json`: 23 randomised, 22 before-after, 15 self-selected; 14 of 60 with an interval excluding 0).
 
 ## 3. Calls
 
