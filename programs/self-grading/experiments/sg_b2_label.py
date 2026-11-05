@@ -64,13 +64,29 @@ def preflight(ts, cs, models):
     bad = frozen("d2589e3", ("WRITE", "GRADE_Q", "FRESH")) + frozen("ffa8033", ("LABELS",))
     if bad:
         raise SystemExit(f"sg-b2 prompts differ from the frozen ones: {bad}")
-    t, c = ts[0], cs[(models[0], ts[0]["id"])]
-    for a in ARMS:
-        body = labelled(t["study"], c, a)[0]["content"]
-        assert (sg_prompts.LABELS[a] in body) if sg_prompts.LABELS[a] else ("was written by" not in body), a
     missing = [(m, x["id"]) for m in models for x in ts if (m, x["id"]) not in cs]
     if missing:
         raise SystemExit(f"sg-b2: {len(missing)} conclusions missing from sg-b1's write cache, e.g. {missing[:3]}")
+    from sg_prompts import fresh
+    sentences = [v for v in sg_prompts.LABELS.values() if v]
+    bad = []
+    for m in models:                                   # D8c: every (model, study), not one
+        for x in ts:
+            c = cs[(m, x["id"])]
+            none = labelled(x["study"], c, "none")
+            if none != fresh(x["study"], c):
+                bad.append((m, x["id"], "none != sg-b1 fresh"))
+            nb = none[0]["content"]
+            for a in ("self", "other"):
+                body = labelled(x["study"], c, a)[0]["content"]
+                lab = sg_prompts.LABELS[a]
+                counts = [body.count(sv) for sv in sentences]
+                if body.count(lab) != 1 or sum(counts) != 1 or body.replace(lab + " ", "", 1) != nb:
+                    bad.append((m, x["id"], a))
+            if any(nb.count(sv) for sv in sentences):
+                bad.append((m, x["id"], "label sentence in none"))
+    if bad:
+        raise SystemExit(f"sg-b2 preflight: {len(bad)} arm(s) malformed, e.g. {bad[:3]}")
 
 
 def sha(x):
