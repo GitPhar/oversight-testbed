@@ -300,6 +300,7 @@ def git_head():
 
 
 def live_backend():
+    p3sim.load_ibm_token()
     from entangled_mind import backends
     return backends.backend()
 
@@ -369,6 +370,7 @@ def predict():
 # --- submit (after the prediction commit) --------------------------------------------------------------
 
 def submit():
+    p3sim.load_ibm_token()
     from entangled_mind import backends
     if RAW.exists():
         raise SystemExit("raw results already exist: this bet's one job has run; nothing is resubmitted")

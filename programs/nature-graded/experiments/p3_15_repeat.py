@@ -139,6 +139,7 @@ def git(*a):
 
 
 def predict(k: int):
+    p3sim.load_ibm_token()
     from entangled_mind import backends
     sd = seeds()
     be = backends.backend()
@@ -207,6 +208,7 @@ def f6_ruled() -> bool:
 
 
 def submit(k: int):
+    p3sim.load_ibm_token()
     from entangled_mind import backends
     if raw_path(k).exists() or already_logged(k):
         raise SystemExit(f"run {k} already ran (raw file or QPU ledger entry); nothing is resubmitted")

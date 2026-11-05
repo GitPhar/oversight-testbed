@@ -31,13 +31,17 @@ EM = ROOT.parent / "entangled-mind"
 sys.path.insert(0, str(EM / "src"))
 # The IBM token stays in the old checkout's .env (Sean's instruction): loaded into this process only, never printed
 # or copied. load_dotenv in entangled_mind.backends does not override variables already set.
+# Loaded only by code paths that talk to IBM (design review ng-p3-5c recommendation), never at import.
 _OLD_ENV = Path("/Users/seanpharris/entangled-mind/.env")
-if _OLD_ENV.exists():
+
+
+def load_ibm_token() -> None:
     import os
     from dotenv import dotenv_values
-    for _k, _v in dotenv_values(_OLD_ENV).items():
-        if _k.startswith("IBM_QUANTUM_") and _v and _k not in os.environ:
-            os.environ[_k] = _v
+    if _OLD_ENV.exists():
+        for _k, _v in dotenv_values(_OLD_ENV).items():
+            if _k.startswith("IBM_QUANTUM_") and _v and _k not in os.environ:
+                os.environ[_k] = _v
 HW = EM / "window" / "data" / "hardware"
 CALIB = EM / "results" / "ibm-calibration.json"
 

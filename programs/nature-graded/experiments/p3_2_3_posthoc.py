@@ -26,6 +26,7 @@ from qiskit import qpy  # noqa: E402
 
 
 def exec_calibration():
+    p3sim.load_ibm_token()
     from entangled_mind import backends
     o = json.loads(J.OUT.read_text())
     pred = json.loads(J.PRED.read_text())
@@ -56,6 +57,7 @@ def exec_calibration():
 
 
 def _model():
+    p3sim.load_ibm_token()
     from entangled_mind import backends
     be = backends.backend()
     return be, p3sim.simulator(be, method="density_matrix")
