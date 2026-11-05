@@ -65,7 +65,7 @@ The key trick: in one version (OWN), the displaced number is the model's own ans
   - `order`: its seed32 seeds `numpy.random.default_rng(seed32).permutation(1472)`, the order of the 1,472 distinct prompts within each repeat (`jobs()`);
   - `boot`: its seed32 seeds the bootstrap.
 
-  *Filled in by the seed commit, before any data:* `chain:` ___ · `pulse index:` ___ · `pulse_time:` ___ · `previous pulse time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seed32 (order):` ___ · `seed32 (boot):` ___. Record: `data/p2-5-seed.json`.
+  *Filled in by the seed commit, before any data:* `chain:` CURBy-RNG · `pulse index:` 1591638 · `pulse_time:` 2026-11-04 19:54:00 America/Denver · `previous pulse time:` 19:53:00 (index 1591637, before the 19:53:53 commit `a29d6ab`) · `randomness:` c02c89f81dacb760781f9e2f22e5aaff46b40727e2d63b501dd221f5b928eef562311fe3e441c76f1ff75682ba7705674880b37ce9a1a88b1a7b1c620b5ef14d · `client:` @buff-beacon-project/curby-client@1.2.0 via `experiments/curby_seed.mjs` · `certificate_verified:` false · `seed (order):` 2724043733722698475 · `seed32 (order):` 3710620395 · `seed (boot):` 17948192035247956964 · `seed32 (boot):` 4252181476. Record: `data/p2-5-seed.json`.
 - **Code:** `experiments/p2_5_egocentric.py` (run and analysis), `experiments/p2_5_dryrun.py` (stubbed dry run), `experiments/p2-5-dryrun-output.txt` (its output, synthetic data only).
 - **Not run in this bet:** the map's arm (a), Birch & Bloom's four-container task, and its secondary event (P = 0.70). It needs new items written and is not needed for the primary event. It stays on the map as an open secondary, unrun.
 
