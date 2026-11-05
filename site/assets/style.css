@@ -147,7 +147,7 @@ code { font-family: var(--mono); font-size: 0.86em; background: var(--surface-2)
 .nextrun .nr-prog { font-size: 13px; color: var(--muted); }
 .nextrun .nr-text { font-size: 15px; color: var(--text); line-height: 1.4; }
 .nextrun a.nr-text { text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
-.nextrun .costpill { align-self: flex-start; display: inline-block; font-size: 13px; color: var(--text); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 0 9px; white-space: nowrap; margin-top: 2px; }
+.nextrun .costpill { align-self: flex-start; display: inline-block; font-size: 13px; color: var(--text); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 0 9px; white-space: normal; overflow-wrap: anywhere; max-width: 100%; margin-top: 2px; }
 .nextrun .nr-approved { border-left-color: var(--hit); }
 .nextrun .nr-review, .nextrun .nr-fix { border-left-color: var(--mixed); }
 .nextrun .nr-go { border-left-color: var(--run); }
@@ -166,7 +166,7 @@ code { font-family: var(--mono); font-size: 0.86em; background: var(--surface-2)
 .card .ask { margin: 0; font-size: 17px; color: var(--text); line-height: 1.45; font-weight: 700; }
 .card .test { margin: 0; font-size: 16px; color: var(--text); line-height: 1.45; }
 .card .test b { color: var(--text-2); font-weight: 700; }
-.card .costpill { display: inline-block; margin-left: 6px; font-size: 14px; color: var(--text); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 0 9px; white-space: nowrap; }
+.card .costpill { display: inline-block; margin-left: 6px; font-size: 14px; color: var(--text); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 0 9px; white-space: normal; overflow-wrap: anywhere; max-width: 100%; }
 .card .event { margin: 0; font-size: 15px; color: var(--text-2); border-left: 3px solid var(--line); padding-left: 10px; }
 .oddsrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding-top: 10px; border-top: 1px solid var(--line); }
 .oddsrow label.big { font-weight: 700; font-size: 16px; }
@@ -477,4 +477,44 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
 @media (max-width: 640px) {
   .ref { padding: 14px 12px; }
   .gauge.wide { padding: 16px 12px; }
+}
+
+/* ---------- 2026-11-04 evening: referees, the human column, P2-path, kill days, ledger record ---------- */
+.hitsline { margin: 14px 0 0; font-size: 18px; color: var(--text); max-width: var(--measure); line-height: 1.5; }
+.stat .label svg { vertical-align: -2px; margin-right: 4px; }
+.refs.refs3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+.cockpit-two { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 16px; margin: 0 0 20px; align-items: start; }
+.cockpit-two > section { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 18px; min-width: 0; }
+.cockpit-two h2 { font-size: 15px; letter-spacing: .06em; text-transform: uppercase; color: var(--text-2); margin: 0 0 8px; }
+.cockpit-two p { margin: 0 0 8px; font-size: 16px; line-height: 1.45; }
+.hc-group { margin-top: 6px; }
+.hc-group summary { cursor: pointer; color: var(--text-2); font-size: 15px; padding: 3px 0; }
+.hc-group summary b { color: var(--text); font-weight: 700; }
+.hc { list-style: none; margin: 6px 0 4px; padding: 0; }
+.hc li { display: grid; grid-template-columns: minmax(0, 1fr) 7rem 10.5rem; gap: 4px 12px; align-items: baseline; padding: 6px 0; border-top: 1px solid var(--line); font-size: 15px; }
+.hc .hc-bet { min-width: 0; overflow-wrap: anywhere; }
+.hc .hc-bet svg { vertical-align: -2px; }
+.hc .hc-title { color: var(--text-2); }
+.hc .hc-lbl { color: var(--muted); font-size: 13px; margin-right: 4px; }
+.nohuman { color: #e07a3f; font-weight: 700; white-space: nowrap; }
+.p2cells { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin: 6px 0 8px; }
+.p2cell { height: 30px; border-radius: 6px; background: var(--surface-2); border: 1px dashed var(--line); font-size: 12px; color: var(--bg); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.p2cell.on { background: var(--run); border: 1px solid var(--run); font-weight: 700; }
+.k-day { list-style: none; display: flex; gap: 12px; align-items: baseline; margin: 18px 0 0; }
+.k-day:first-child { margin-top: 0; }
+.k-day h2 { margin: 0; font-size: 22px; }
+.kill .k-kind { display: inline-block; margin-left: 6px; font-size: 13px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 0 8px; vertical-align: 2px; }
+.ledger-record { margin-bottom: 40px; }
+.ledger-record > h2, .rec-p1 { margin-top: 28px; }
+.ev-verdict { margin: 4px 0 8px; font-size: 16px; }
+.ev-verdict svg { vertical-align: -2px; }
+.scope { font-family: var(--mono); font-size: 0.92em; color: var(--text); background: var(--surface-2); border-radius: 5px; padding: 0 6px; }
+.ev-audit { margin: 8px 0 0; color: var(--text-2); font-size: 15px; }
+.ev-time svg { vertical-align: -2px; }
+@media (max-width: 900px) { .cockpit-two { grid-template-columns: 1fr; } }
+@media (max-width: 640px) {
+  .hc li { grid-template-columns: 1fr 1fr; }
+  .hc .hc-bet { grid-column: 1 / -1; }
+  .ev-card dl { grid-template-columns: 1fr; gap: 2px; }
+  .ev-card dd { margin-bottom: 6px; }
 }
