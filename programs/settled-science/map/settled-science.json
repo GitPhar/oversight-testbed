@@ -209,8 +209,8 @@
    "cheapest_test": "The bettor's prompt and settings, unchanged, on Haiku and Sonnet, over round 1's 116 post-cutoff items and round 2's 92 template items; Opus's answers are the archive.",
    "models": "claude-haiku-5-5 and claude-sonnet-5-5 new calls; claude-opus-5-5 from the archive (rule 12 met)",
    "cost": "about $0.60 (Sonnet about $0.55; Haiku about $0.05)",
-   "engine_odds": 0.45,
-   "odds_event": "On round 1's 116 post-cutoff items, both Haiku and Sonnet beat always-50%: Brier 95% bootstrap upper bound below 0.25 for each.",
+   "engine_odds": 0.18,
+   "odds_event": "For both claude-haiku-5-5 and claude-sonnet-5-5 on round 1's 116 post-cutoff items: Brier upper bound < 0.25, and Brier minus the up-word rule's and minus the good-news (headline-tag) rule's each with upper bound < -0.01, every bound on both the item and the paper-cluster bootstrap.",
    "odds_rationale": "Program 4 is 6 hits in 6 scored, its odds ran low (P1 reversed here), and Opus scored 0.163, well clear of 0.25; Sonnet very likely passes. Haiku is the risk: weaker priors and worse calibration could push its Brier above 0.25. Above the running base rate 8/19 = 0.42 (ledger/brier.md) for Sonnet, held near it for the Haiku conjunct.",
    "question": "Can the smaller Claude models also tell which way a newly published finding went, or only the strongest?",
    "known": [
@@ -227,7 +227,7 @@
    "status": "open",
    "remap": "2026-11-05",
    "engine_odds_at": "2026-11-05T04:45",
-   "odds_template": "remap one pass (operators/remap.md), not v1; re-elicit under v1 before pre-registration",
+   "odds_template": "v2",
    "diagnosis": null,
    "source": "engine",
    "opened": "2026-11-05T04:45",
@@ -238,7 +238,14 @@
     "Sehwag et al. 2026, SciPredict, arXiv 2604.10718; opened HTML v1 (evaluates Llama 3.1 8B through Claude Opus 4.5; per-model numbers in figures only, overall 14 to 26%)"
    ],
    "prior_work_search": "WebSearch 'LLM predicting experimental results benchmark small models Llama 7B vs 70B accuracy scaling' (standard); reads of novelty.md item 7",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "engine_odds_first": 0.45,
+   "odds_prior": 0.32,
+   "odds_adjustment": -0.14,
+   "odds_reason": "Below settled-science (0.75) and published-record (1.00) rows despite them: Haiku and Sonnet must both clear good-news by 0.01 upper bound; Opus itself margined only 0.036.",
+   "odds_prior_commit": "bd3bbb5",
+   "engine_odds_revised_at": "2026-11-05T10:45",
+   "revision_reason": "re-elicited before pre-registration in a fresh v2 context (rule 14; prior.md at bd3bbb5); the remap's 0.45 was one pass, not v2; the pass rule now adds the up-word and good-news/flattery baselines at a 0.01 margin and a cluster bootstrap (P3, P14)"
   },
   {
    "id": "ss-f2",
@@ -256,8 +263,8 @@
     "claude-opus-5-5"
    ],
    "cost": "about $0.60",
-   "engine_odds": 0.45,
-   "odds_event": "On the 60 model-psychology items, the Opus bettor's Brier 95% bootstrap upper bound is below 0.25; Haiku and Sonnet reported.",
+   "engine_odds": 0.27,
+   "odds_event": "On the first 60 (at least 50) leakage-clean post-cutoff model-psychology template items, the claude-opus-5-5 bettor's Brier upper bound < 0.25, and Brier minus the up-word rule's and minus the Opus flattery rater's each with upper bound < -0.01, every bound on both the item and the swap-pair-cluster bootstrap; Haiku and Sonnet reported.",
    "odds_rationale": "Round 1's model-psychology items were its weakest field, and findings about models are where a model's priors may mislead it; template items give little context. But the field average was still near passing and 60 items is a reasonable n. Near the running base rate 8/19 = 0.42 (ledger/brier.md).",
    "question": "Can the model tell which way new research about AI models' own psychology went?",
    "known": [
@@ -270,7 +277,7 @@
    "status": "open",
    "remap": "2026-11-05",
    "engine_odds_at": "2026-11-05T04:45",
-   "odds_template": "remap one pass (operators/remap.md), not v1; re-elicit under v1 before pre-registration",
+   "odds_template": "v2",
    "diagnosis": null,
    "opened": "2026-11-05T04:45",
    "prior_work_line": "Nearest: Wen et al. 2025 (arXiv 2506.00794), on AI-research outcomes. Off-the-shelf models predicted which of two ideas scores higher at chance (GPT-4.1 51.4%; o3 'no better than random guessing'), NLP experts 48.9%, while a fine-tuned GPT-4.1 reached 77% on 1,585 post-cutoff pairs. For an untuned bettor on findings about models that predicts fail, though its task (idea pairs on benchmarks) differs from calling a published direction.",
@@ -280,7 +287,14 @@
     "Luo et al. 2024, BrainBench, arXiv 2403.03230; opened (LLMs above experts in every neuroscience subfield, Fig. 3B; no per-subfield numbers in the text)"
    ],
    "prior_work_search": "reads only (novelty.md item 7; ss-b1 results by-field table), each source opened",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "engine_odds_first": 0.45,
+   "odds_prior": 0.32,
+   "odds_adjustment": -0.05,
+   "odds_reason": "Settled-science (0.75) and published-record (1.00) rows pull up, but C3 cleared -0.01 by only 0.006 on 92 pairs; 60 items with 8-10 clusters widen that bound. Literature row 0.13.",
+   "odds_prior_commit": "bd3bbb5",
+   "engine_odds_revised_at": "2026-11-05T10:45",
+   "revision_reason": "re-elicited before pre-registration in a fresh v2 context (rule 14; prior.md at bd3bbb5); the remap's 0.45 was one pass, not v2; the pass rule now adds the up-word and good-news/flattery baselines at a 0.01 margin and a cluster bootstrap (P3, P14)"
   },
   {
    "id": "ss-f3",
@@ -499,6 +513,49 @@
    ],
    "prior_work_search": "paper/novelty.md item 8 and the ss-b5 and settled-science searches of this branch (BrainBench controls, valence shortcut), 2026-11-05",
    "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+  },
+  {
+   "id": "ss-f8",
+   "parent": "ss-f7",
+   "from_bet": "ss-b10",
+   "kind": "follow-up",
+   "referee": "model",
+   "source": "literature",
+   "source_note": "ledger/audits/ss-b10.md, 'What would break it next', first item; Sean's instruction (wave 4, Tab H)",
+   "short": "BrainBench flattery, both orders",
+   "title": "With each BrainBench item shown in both option orders and the two ratings averaged, does the flattery rule beat the neuroscientists' 63.4% on both Haiku and Sonnet?",
+   "assumption_at_stake": "ss-b10's Haiku miss reflects Haiku's judgment, not its habit of favouring whichever abstract is shown first.",
+   "cheapest_test": "ss-b10's flattery and forecasting prompts, unchanged, on all 200 items in both orders on Haiku and Sonnet (ss-b10's 974 archived calls reused by content hash, 626 new); Opus on both prompts in both orders on a beacon-drawn subset up to $1.50.",
+   "models": "claude-haiku-5-5 and claude-sonnet-5-5 (the rule); claude-opus-5-5 as a secondary on as many items as $1.50 allows (rule 12)",
+   "cost": "about $3.20 (Haiku and Sonnet about $1.70 at ss-b10's measured tokens; Opus up to $1.50); cap in code",
+   "odds_event": "On BrainBench's 200 human-written items, each rated in both option orders and the two ratings averaged, for both claude-haiku-5-5 and claude-sonnet-5-5 the flattery rater's accuracy has a 95% item-bootstrap lower bound above 0.634 (the published human-expert mean).",
+   "engine_odds": 0.78,
+   "odds_prior": 0.32,
+   "odds_adjustment": 0.46,
+   "odds_reason": "Settled-science row 0.75 and parent data (Sonnet lower bound 76.5; Haiku orders-averaged 75.0%) outweigh the literature 0.13 and model-referee 0.22 rows; Haiku's lower bound clearing 0.634 is the main risk.",
+   "odds_prior_commit": "bd3bbb5",
+   "odds_template": "v2",
+   "engine_odds_at": "2026-11-05T10:45",
+   "question": "When each pair of real and doctored neuroscience abstracts is shown both ways round, does 'which version is better news for the paper's idea' beat the neuroscientists on both smaller Claude models?",
+   "known": [
+    "Asked once per pair, Sonnet's flattery answer was right 81.8% and Haiku's 68.0%; Haiku was right 92.9% with the original first and 44.1% with it second (ss-b10, audited, mixed).",
+    "BrainBench reports 81.4% for LLMs scored by perplexity and 63.4% for 171 neuroscientists, and tests no valence shortcut."
+   ],
+   "human_prompt": "Would you spend about $3 to find out whether, with each pair of real and doctored abstracts shown both ways round, picking the version that is better news for the paper's own idea beats the neuroscientists on both smaller Claude models? Will it come back a hit (here, a hit means both clearly beat the neuroscientists' published score)?",
+   "engine_only": [],
+   "status": "open",
+   "opened": "2026-11-05T10:45",
+   "prior_work_line": "BrainBench (Luo et al. 2024, Nature Human Behaviour, arXiv 2403.03230): 15 open LLMs at 81.4% against 63.4% for experts, with local-context and shuffled-context controls and no valence, flattery or option-order control (models were scored by perplexity, so there is no option order). Lee 2026, 'LLMs Have Made Failure Worth Publishing' (arXiv 2604.06236, read 2026-11-05) proposes clinical-trial-registry tests of whether LLMs overestimate success, reports no data, and does not mention BrainBench or a valence shortcut. No prior statement of an order-balanced flattery rule's score on BrainBench, so the 0.634 bar is open (predicts: unknown). Adds: the ss-b10 audit's overturning test, with position bias removed.",
+   "prior_work_predicts": "unknown",
+   "prior_work_sources": [
+    "Luo et al. 2024, arXiv 2403.03230 (as read for ss-b10, v4 HTML)",
+    "Lee 2026, arXiv 2604.06236, abstract and HTML v1 section 4, opened 2026-11-05",
+    "ss-b10 results and audit (this repository)"
+   ],
+   "prior_work_search": "arXiv 2604.06236 HTML read in full for its protocols; BrainBench controls as read for ss-b10, 2026-11-05",
+   "prior_work_at": "2026-11-05T10:45",
+   "diagnosis": null,
+   "remap": null
   }
  ]
 }
