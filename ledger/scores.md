@@ -29,13 +29,13 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-18 audits prepared with a sealed plant line: 1 still sealed, 17 revealed, of which 7 carried a plant. 
+18 audits prepared with a sealed plant line: 0 still sealed, 18 revealed, of which 8 carried a plant. 
 
-**Catch rate: 7/7 = 1.00, 95% Wilson interval [0.65, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 7 is below that, so the arm is untestable for now.
+**Catch rate: 8/8 = 1.00, 95% Wilson interval [0.68, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 8 is below that, so the arm is untestable for now.
 
 | class / subclass | planted | caught | missed: expected checklist line |
 |---|---|---|---|
-| miscount / total | 3 | 3 | — |
+| miscount / total | 4 | 4 | — |
 | overclaim / mechanism | 2 | 2 | — |
 | overclaim / plain_vs_table | 1 | 1 | — |
 | overclaim / scope | 1 | 1 | — |
@@ -49,6 +49,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 | pl-009 | ng-p3-15 | overclaim/mechanism | yes | Holes / Required cut 1 (C14, C15, B11: 'made ... because the two 1,000-shot PUBs executed first') | claude-opus-5-5 |
 | pl-010 | ss-b7 | overclaim/mechanism | yes | Required cut 1 (mechanism sentence in 'What this rules out') | claude-opus-5-5 |
 | pl-016 | ta-b2 | overclaim/plain_vs_table | yes | Required cuts, item 1: Replace 'But the second chat wording lowered it by only 1.9 points on its own [−8.9, +0.6].' with '... 3.9 points ...' | claude-opus-5-5 |
+| pl-018 | sg-b3 | miscount/total | yes | Required cuts, item 1: 'Secondaries table, row "G, randomised (n 28)": replace "(n 28)" with "(n 23)". The archive ... sum to 60.' | claude-opus-5-5 |
 
 **Limits, stated with the number:**
 
@@ -93,35 +94,36 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
 
-Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 13 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 24 lesson lines written.
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 14 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 24 lesson lines written.
 
 | | count |
 |---|---|
 | pre-registrations since the rule | 23 |
 | with a lesson line | 20 |
-| with a design review verdict | 17 |
-| awaiting their design review (nothing may run yet) | 6: sv-b1, sv-b2, sv-b3, sg-b3, om-p2-7, ta-b1r |
+| with a design review verdict | 18 |
+| awaiting their design review (nothing may run yet) | 5: sv-b1, sv-b2, sv-b3, om-p2-7, ta-b1r |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 4 |
 
-Design reviews: 0 go, 17 fix-first, 4 redesign; 13 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 18 fix-first, 4 redesign; 14 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
 | P1 | Odds too high where the engine had a story | 11 | 7 of 9 scored |
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 4 | 4 of 4 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 18 | 10 of 14 scored |
-| P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 5 | 2 of 3 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 18 | 10 of 15 scored |
+| P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 5 | 2 of 4 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 1 | 0 of 1 scored |
-| P6 | A control that cannot fail | 3 | 1 of 2 scored |
+| P6 | A control that cannot fail | 3 | 1 of 3 scored |
 | P7 | A foreseeable execution risk run without a pilot | 3 | 0 of 2 scored |
-| P8 | Comparing across conditions that differ in more than the factor named | 14 | 8 of 12 scored |
-| P9 | The right rule, then the wrong noun | 11 | 9 of 9 scored |
-| P10 | A label that hangs on one item | 11 | 9 of 9 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 14 | 8 of 13 scored |
+| P9 | The right rule, then the wrong noun | 11 | 9 of 10 scored |
+| P10 | A label that hangs on one item | 11 | 9 of 10 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 1 | 1 of 1 scored |
-| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 12 | 5 of 6 scored |
+| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 12 | 5 of 7 scored |
 | P13 | A boundary the rule names, compared in plain floating point | 2 | 0 of 0 scored |
+| P14 | Items that share a template or domain bootstrapped as if independent | 0 | 0 of 0 scored |
 
-**Does the loop help?** On 12 scored bets, Brier with the odds before the lesson is 0.161, after it 0.130.
+**Does the loop help?** On 13 scored bets, Brier with the odds before the lesson is 0.201, after it 0.171.
 
