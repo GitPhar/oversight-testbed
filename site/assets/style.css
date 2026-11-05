@@ -553,3 +553,7 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
 .findings li { counter-increment: f; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px 12px; display: flex; flex-direction: column; gap: 8px; }
 .findings .f-said { font-size: 17px; line-height: 1.5; color: var(--text); }
 .findings .f-on { margin-top: auto; font-size: 14px; color: var(--text-2); border-top: 1px solid var(--line); padding-top: 8px; }
+
+/* ---------- instruments: what changed since yesterday ---------- */
+.changed { font-size: 18px; line-height: 1.55; max-width: var(--measure); margin: 0 0 8px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--run); border-radius: var(--radius); }
+.changed b { color: var(--text); }
