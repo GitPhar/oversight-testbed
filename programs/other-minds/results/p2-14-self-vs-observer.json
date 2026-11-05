@@ -1,0 +1,194 @@
+{
+ "per_model": {
+  "haiku": {
+   "reading": "self_better",
+   "block_error_self": 0.02440888262344994,
+   "block_error_sam": 0.20904617951329696,
+   "block_error_no_uptake": 0.4520661195261757,
+   "reps_used": {
+    "truth": null,
+    "pred": 10
+   },
+   "dmae_block": -0.184637296889847,
+   "bca": [
+    -0.2818188345480583,
+    -0.08714147884058333
+   ],
+   "pct": [
+    -0.24376172925899986,
+    -0.0027006746952881124
+   ],
+   "n_vignettes": 16,
+   "n_cells": 162,
+   "missing_cells": 0,
+   "effects_measured_a_b": {
+    "u_own_10": [
+     0.7077,
+     0.6909,
+     0.8594
+    ],
+    "u_own_30": [
+     0.443,
+     0.4012,
+     0.6647
+    ],
+    "u_own_60": [
+     0.2055,
+     0.2202,
+     0.4592
+    ]
+   },
+   "loo_flips": [],
+   "sentence": "On Haiku 5.5, on 16 vignettes, the model's predictions of its own-answer pull were more accurate under the self label than under the Sam label: self minus Sam error -0.185, 95% BCa interval [-0.282, -0.087], wholly below 0. Both labels read the same transcript; they differ only in the subject named. 'Self' is the model in a fresh context reading the transcript, not the model in its own conversation.",
+   "cost_usd": 0.223608
+  },
+  "sonnet": {
+   "cells_across_own_base": 3,
+   "without_cross_base": {
+    "reading": "undetermined",
+    "dmae_block": -0.05600072901748521,
+    "bca": [
+     -0.12592832654840513,
+     0.003528690463153069
+    ],
+    "n_vignettes": 16,
+    "n_cells": 156
+   },
+   "base_vs_om_p2_6r": {
+    "n_statements": 32,
+    "mean_abs_diff_points": 0.7291666666666663,
+    "mean_diff_points": 0.02083333333333319,
+    "r": 0.9994019556784632
+   },
+   "reading": "undetermined",
+   "block_error_self": 0.497970674319072,
+   "block_error_sam": 0.5518097524154685,
+   "block_error_no_uptake": 0.23217095043889246,
+   "reps_used": {
+    "truth": 3,
+    "pred": 3
+   },
+   "dmae_block": -0.05383907809639649,
+   "bca": [
+    -0.12425465741289439,
+    0.0037818194862248066
+   ],
+   "pct": [
+    -0.11935209864352221,
+    0.007303273041541486
+   ],
+   "n_vignettes": 16,
+   "n_cells": 159,
+   "missing_cells": 0,
+   "effects_measured_a_b": {
+    "u_own_10": [
+     0.3391,
+     0.8525,
+     0.8392
+    ],
+    "u_own_30": [
+     0.243,
+     0.6995,
+     0.7891
+    ],
+    "u_own_60": [
+     0.1144,
+     0.6384,
+     0.7236
+    ]
+   },
+   "loo_flips": [
+    "co08",
+    "co10"
+   ],
+   "sentence": "On Sonnet 5.5, on 16 vignettes, this test could not tell the self label from the Sam label: self minus Sam error -0.054, 95% BCa interval [-0.124, +0.004], neither inside \u00b10.05 nor wholly on one side of 0. Both labels read the same transcript; they differ only in the subject named. 'Self' is the model in a fresh context reading the transcript, not the model in its own conversation. Leaving out one vignette changes the reading: without any one of co08, co10.",
+   "cost_usd": 1.903932
+  },
+  "opus": {
+   "cells_across_own_base": 5,
+   "without_cross_base": {
+    "reading": "undetermined",
+    "dmae_block": -0.05486151000739754,
+    "bca": [
+     -0.14474806362156187,
+     0.03138356881004494
+    ],
+    "n_vignettes": 8,
+    "n_cells": 70
+   },
+   "base_vs_om_p2_6r": {
+    "n_statements": 16,
+    "mean_abs_diff_points": 1.375,
+    "mean_diff_points": 0.25,
+    "r": 0.9978331071163764
+   },
+   "reading": "undetermined",
+   "block_error_self": 0.029170096825326314,
+   "block_error_sam": 0.11988762196640908,
+   "block_error_no_uptake": 0.24966004411649514,
+   "reps_used": {
+    "truth": 2,
+    "pred": 1
+   },
+   "dmae_block": -0.09071752514108276,
+   "bca": [
+    -0.19558980358657585,
+    0.015691832315010406
+   ],
+   "pct": [
+    -0.1600942600521525,
+    0.09087865554044726
+   ],
+   "n_vignettes": 8,
+   "n_cells": 75,
+   "missing_cells": 0,
+   "effects_measured_a_b": {
+    "u_own_10": [
+     0.365,
+     0.3338,
+     0.5453
+    ],
+    "u_own_30": [
+     0.2213,
+     0.2271,
+     0.3163
+    ],
+    "u_own_60": [
+     0.1627,
+     0.2131,
+     0.247
+    ]
+   },
+   "loo_flips": [
+    "co-lin06",
+    "co07"
+   ],
+   "sentence": "On Opus 5.5, on 8 vignettes, this test could not tell the self label from the Sam label: self minus Sam error -0.091, 95% BCa interval [-0.196, +0.016], neither inside \u00b10.05 nor wholly on one side of 0. Both labels read the same transcript; they differ only in the subject named. 'Self' is the model in a fresh context reading the transcript, not the model in its own conversation. Leaving out one vignette changes the reading: without any one of co-lin06, co07.",
+   "cost_usd": 1.003296
+  }
+ },
+ "opus_vignettes": [
+  "co-lin06",
+  "co-lin08",
+  "co-lin10",
+  "co02",
+  "co05",
+  "co07",
+  "co08",
+  "co10"
+ ],
+ "label": "fail",
+ "sentence": "The pre-registered event did not occur: On Haiku 5.5, on 16 vignettes, the model's predictions of its own-answer pull were more accurate under the self label than under the Sam label: self minus Sam error -0.185, 95% BCa interval [-0.282, -0.087], wholly below 0. Both labels read the same transcript; they differ only in the subject named. 'Self' is the model in a fresh context reading the transcript, not the model in its own conversation.",
+ "calls": 6080,
+ "cost_usd": 3.130836,
+ "refused": 0,
+ "stop_record": null,
+ "run_caps": [
+  {
+   "label": "p2-14",
+   "run_cap": 3.9126,
+   "program_spent": 9.8374,
+   "program_limit": 13.75
+  }
+ ]
+}
