@@ -29,7 +29,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-12 audits prepared with a sealed plant line: 0 still sealed, 12 revealed, of which 6 carried a plant. 
+15 audits prepared with a sealed plant line: 1 still sealed, 14 revealed, of which 6 carried a plant. 
 
 **Catch rate: 6/6 = 1.00, 95% Wilson interval [0.61, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 6 is below that, so the arm is untestable for now.
 
@@ -56,19 +56,19 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-29 of 52 bets carry an engine pre-mortem; 12 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+30 of 53 bets carry an engine pre-mortem; 13 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
-| engine: named the main reason | 5/12 = 0.42 [0.19, 0.68] |
-| engine: named it or its kind | 10/12 = 0.83 [0.55, 0.95] |
-| lazy baseline: failures whose reason was 'the effect is not there' | 10/14 = 0.71 [0.45, 0.88] |
+| engine: named the main reason | 5/13 = 0.38 [0.18, 0.64] |
+| engine: named it or its kind | 10/13 = 0.77 [0.50, 0.92] |
+| lazy baseline: failures whose reason was 'the effect is not there' | 11/15 = 0.73 [0.48, 0.89] |
 | human: named the main reason | — |
 
 | stated kind \ actual kind | world | design | execution | artefact |
 |---|---|---|---|---|
 | world | 8 | 2 | 0 | 0 |
-| design | 0 | 0 | 0 | 0 |
+| design | 1 | 0 | 0 | 0 |
 | execution | 0 | 0 | 1 | 0 |
 | artefact | 0 | 1 | 0 | 0 |
 
@@ -85,42 +85,42 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 | Brier on tiebreaks, engine (n = 0) | — |
 | Brier on tiebreaks, human (n = 0) | — |
 | QPU seconds used by tiebreaks | 0 |
-| bets by seed source: curby-rng | 27 |
+| bets by seed source: curby-rng | 28 |
 | bets by seed source: inherited (ss-b4 seed e8f921e; no new draw) | 2 |
 | bets by seed source: inherited (sv-b1's CURBy-RNG pulse; no new draw) | 2 |
 | bets by seed source: none recorded | 21 |
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
 
-Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 13 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 22 lesson lines written.
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 13 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 23 lesson lines written.
 
 | | count |
 |---|---|
 | pre-registrations since the rule | 22 |
 | with a lesson line | 19 |
-| with a design review verdict | 12 |
-| awaiting their design review (nothing may run yet) | 10: ng-p3-16, sg-b1, ta-b1, ta-b2, sv-b1, sv-b2, sv-b3, ta-b3, sg-b2, sg-b3 |
+| with a design review verdict | 13 |
+| awaiting their design review (nothing may run yet) | 9: ng-p3-16, ta-b2, sv-b1, sv-b2, sv-b3, ta-b3, sg-b2, sg-b3, om-p2-7 |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
-| withdrawn after a design review said redesign | 3 |
+| withdrawn after a design review said redesign | 4 |
 
-Design reviews: 0 go, 12 fix-first, 3 redesign; 9 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 13 fix-first, 4 redesign; 10 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
-| P1 | Odds too high where the engine had a story | 10 | 6 of 8 scored |
-| P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 4 | 2 of 2 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 17 | 7 of 9 scored |
-| P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 4 | 2 of 3 scored |
+| P1 | Odds too high where the engine had a story | 11 | 6 of 8 scored |
+| P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 4 | 3 of 3 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 18 | 9 of 11 scored |
+| P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 5 | 2 of 3 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 1 | 0 of 1 scored |
 | P6 | A control that cannot fail | 3 | 1 of 1 scored |
 | P7 | A foreseeable execution risk run without a pilot | 2 | 0 of 1 scored |
-| P8 | Comparing across conditions that differ in more than the factor named | 13 | 5 of 6 scored |
-| P9 | The right rule, then the wrong noun | 10 | 7 of 7 scored |
-| P10 | A label that hangs on one item | 10 | 7 of 7 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 14 | 7 of 8 scored |
+| P9 | The right rule, then the wrong noun | 11 | 8 of 8 scored |
+| P10 | A label that hangs on one item | 11 | 8 of 8 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 1 | 1 of 1 scored |
-| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 10 | 2 of 2 scored |
-| P13 | A boundary the rule names, compared in plain floating point | 0 | 0 of 0 scored |
+| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 11 | 4 of 4 scored |
+| P13 | A boundary the rule names, compared in plain floating point | 1 | 0 of 0 scored |
 
-**Does the loop help?** On 9 scored bets, Brier with the odds before the lesson is 0.264, after it 0.222.
+**Does the loop help?** On 10 scored bets, Brier with the odds before the lesson is 0.243, after it 0.205.
 

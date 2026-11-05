@@ -137,3 +137,7 @@ The verdict is "same" on clean, self-written conclusions. The cheapest overturni
 A $0 check first: re-read sg-b1's archive with a one-notch criterion, the share of studies where own sits a notch above fresh against the share where fresh2 sits a notch above fresh. That would show whether the ±3 margin hid a consistent one-notch kindness on a subset. On this archive it cannot: own > fresh on only 5, 15 and 10 studies, against 20, 28 and 23 below.
 
 A paid check (about $0.90, Sonnet and Opus only): repeat with a 1-to-10 grade, or with an instruction to use the whole 0–100 range, to test whether the compressed working range is what made "same" easy to reach.
+
+---
+
+Revealed 2026-11-05 05:29 America/Denver: pl-014, **clean** (no plant; drawn at random, ½, with `ledger/plants.py draw`, sealed in `ledger/plants.jsonl` at `26eb9a5` before this audit began; revealed with `plants.py reveal`, the line committed in `51b461f` by program 6's session, unchanged; `plants.py verify`: ok). Every finding above is the audit of the real result. Its three required cuts are applied in the results file under program 5 D10.
