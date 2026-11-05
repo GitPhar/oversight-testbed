@@ -14,9 +14,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from common import ROOT, Caller, key_of, structured  # noqa: E402
 
 MODEL = "claude-sonnet-5-5"
-CAND = ROOT / "items" / "candidates.jsonl"
-LOG = ROOT / "items" / "leakage-log.jsonl"
-CACHE = ROOT / "items" / "leakage-cache.json"
+R = ROOT / "items" / ("r2" if "--r2" in sys.argv else "")   # round 2 (protocol/template-writer.md): same prompt, own files
+CAND = R / "candidates.jsonl"
+LOG = R / "leakage-log.jsonl"
+CACHE = R / "leakage-cache.json"
 
 SYSTEM = """You check forecasting items for answer leakage. Each item describes a published study and offers two possible results; a forecaster with no access to the study will later be asked which result was reported. You are told which one was reported. Your only job is to decide whether the WORDING of the item gives the answer away.
 
@@ -82,11 +83,11 @@ def status():
         n = len(flagged_versions.get(cid, ()))
         current[cid] = ("unchecked" if last is None else "dropped" if n >= 2 else "flagged" if last["leak"] else
                         "clean-after-rewrite" if n == 1 else "clean")
-    out = ROOT / "items" / "leakage-status.json"
+    out = R / "leakage-status.json"
     out.write_text(json.dumps(current, indent=1, sort_keys=True))
     from collections import Counter
     print(Counter(current.values()))
 
 
 if __name__ == "__main__":
-    status() if "--status" in sys.argv else main()
+    status() if "--status" in sys.argv else main()  # add --r2 for round 2

@@ -86,12 +86,14 @@ def item_from(paper, field):
     return None
 
 
-def fetch():
+def fetch(start=0):
+    """start=0: page 1 (results 0-299). start=300: the D22 extension, appended after page 1."""
     R2.mkdir(parents=True, exist_ok=True)
-    pool = {}
+    prev = json.loads((R2 / "pool.json").read_text()) if start else None
+    pool = prev["pool"] if prev else {}
     for field, q in QUERIES:
         url = ("https://export.arxiv.org/api/query?" + urllib.parse.urlencode(
-            {"search_query": f"({q}) AND {DATE}", "sortBy": "submittedDate", "sortOrder": "descending", "max_results": 300}))
+            {"search_query": f"({q}) AND {DATE}", "sortBy": "submittedDate", "sortOrder": "descending", "start": start, "max_results": 300}))
         for attempt in range(6):
             try:
                 xml = urllib.request.urlopen(url, timeout=120).read()
@@ -112,10 +114,12 @@ def fetch():
                         "published": e.find("a:published", NS).text[:10],
                         "comment": (e.find("arxiv:comment", NS).text if e.find("arxiv:comment", NS) is not None else ""),
                         "authors": [a.find("a:name", NS).text for a in e.findall("a:author", NS)]})
-        pool[field] = got
+        known = {p["id"] for p in pool.get(field, [])}
+        pool[field] = pool.get(field, []) + [p for p in got if p["id"] not in known]
         print(field, len(got), "papers", flush=True)
         time.sleep(5)
-    (R2 / "pool.json").write_text(json.dumps({"queries": QUERIES, "date": DATE, "pool": pool}, indent=1))
+    pages = (prev or {}).get("pages", [0]) + ([start] if start else [])
+    (R2 / "pool.json").write_text(json.dumps({"queries": QUERIES, "date": DATE, "pages": pages, "pool": pool}, indent=1))
 
 
 def build():
@@ -172,4 +176,4 @@ def selftest():
 
 
 if __name__ == "__main__":
-    {"--selftest": selftest, "--fetch": fetch, "--build": build}[sys.argv[1]]()
+    {"--selftest": selftest, "--fetch": fetch, "--fetch-more": lambda: fetch(300), "--build": build}[sys.argv[1]]()
