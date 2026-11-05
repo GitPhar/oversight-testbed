@@ -352,9 +352,11 @@ def tables_r2(s):
         L.append(f"- {b}: **{v.get('label_reported', v['label'])}**" + (f" ({v['reason']})" if v.get("reason") else "")
                  + (f"; item flips: {', '.join(v['fragile_items'])}" if v.get("fragile_items") else "; no single item flips it")
                  + (f"; query-bucket flips: {', '.join(v['field_flips'])}" if v.get("field_flips") else "; no single query bucket flips it" if "field_flips" in v else "")
+                 + ("; untestable without: " + ", ".join(k for k, x in v.get("leave_one_field_out", {}).items() if x["label"] == "untestable")
+                    if any(x["label"] == "untestable" for x in v.get("leave_one_field_out", {}).values()) else "")
                  + (f" [{v['status']}]" if v.get("status") else ""))
     L += [f"Swap-pair rule Brier {fmt(s['pair_rule']['brier'])}; bettor − rule {fmt(s['pair_rule']['bettor_minus_pair'])} [{fmt(s['pair_rule']['ci'][0])}, {fmt(s['pair_rule']['ci'][1])}].",
-          "", "| query bucket | n | Brier | 95% CI | accuracy | up-word rule Brier | bettor − rule [95% CI] |", "|---|---|---|---|---|---|---|"]
+          "", "Secondary (against the up-word rule only; not the ss-b5 test):", "", "| query bucket | n | Brier | 95% CI | accuracy | up-word rule Brier | bettor − rule [95% CI] |", "|---|---|---|---|---|---|---|"]
     for g, v in s["by_field"].items():
         L.append(f"| {g} | {v['n']} | {fmt(v['brier'])} | [{fmt(v['brier_ci'][0])}, {fmt(v['brier_ci'][1])}] | {fmt(v['accuracy'], 2)} | "
                  f"{fmt(v['headline_brier'])} | {fmt(v['minus_headline'])} [{fmt(v['minus_headline_ci'][0])}, {fmt(v['minus_headline_ci'][1])}] |")
