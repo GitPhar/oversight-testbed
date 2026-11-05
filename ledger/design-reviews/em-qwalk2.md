@@ -25,6 +25,7 @@ Disclosures:
 - I did not see `em-qwalk2-1b.md`. The only time I listed `ledger/design-reviews/` was at the start, filtered to "qwalk", and it showed only `em-qwalk.md` and `em-qwalk-1b.md`.
 - I invoked `qwalk2.py --run` twice in my worktree, against the brief. The first call (no seeds) was refused at the argument check. The second (`--seed-bootstrap 1 --seed-permutation 2`) was refused by `review_says_go()`, the first line of `run()` ("missing em-qwalk2.md"). Neither call loaded the inputs or computed anything.
 - I computed no score, AUROC, Δ or verdict on the real label values.
+- After writing this review, and just before committing it, I re-ran `check_prereg.py --before-run`. Its output line "R2+ FAIL em-qwalk2-1b.md: verdict fix-first, confirmed null" showed me the other review's verdict. I read nothing else of that file. Nothing in this review was changed after seeing that line, apart from adding this note.
 
 ## What I ran
 
