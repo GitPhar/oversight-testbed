@@ -218,3 +218,48 @@ Keep §5.4 (fragile) and §5.5 (scope), and append the qualifiers from F3 and F4
 ### Confirmation
 
 The reviewer confirms the five DEVIATIONS rows and the re-run dry-run output in a short addendum to this file before the go. No valence call runs before that.
+
+## Confirmation of fixes (2026-11-04 20:40 America/Denver; fix commit de2c99c, D32–D36)
+
+**Plain English.** All five fixes are in, and they work as the review specified. The new second leg computes exactly what my reference code computes: across 14 synthetic raters, the largest difference is 3e-17. Three small new problems appeared, all in the records and the generated sentences, not in the test itself, so `confirmed_at` stays null until they are fixed under one more DEVIATIONS row:
+- the bet row and the map page still describe the old one-leg test;
+- the reason given for raising the odds to 35 misreads what the "valence50" dry-run rater is;
+- two generated sentences have small text errors.
+
+I made no new paid call and wrote nothing in the program tree. Scratch scripts are in `/private/tmp/claude-501/-Users-seanpharris-oversight-testbed/19f84df9-a6ff-48ba-89d6-d3f43e5d1747/scratchpad/fixcheck/`. The author's `score.py` at de2c99c is run as is, and every synthetic rater from this review goes through it.
+
+| fix | status | evidence |
+|---|---|---|
+| F1 (D32) | **holds** | `SYSTEM` equals the review's text byte for byte. The user text is `Field: …\n\nOption 1: …\nOption 2: …`. Keys use `key_of("valence-v2", …)`: 92 jobs, 92 unique keys, and option order equal to the bettor's primary call on 92/92. The §2/§6 sentence on the publishability rival is in D32 (the frozen file is not edited, as is the convention). |
+| F2 (D33) | **holds** | `_fit`, `_feats` and `_loo` match `sim_b6_fair2.py`. Over 14 raters, the largest absolute difference in d₂ and in both recalibrated Briers is 2.8e-17. Leave-one-item-out and leave-one-bucket-out drop rows from the fixed d₁ and d₂ arrays without refitting. `lab()` requires both upper bounds below −EPS. Every author dry-run line reproduces: coin, up-word, alwaysup99 and swap-pair pass; copy is exactly 0, null; oracle is null; valence50 is "pass, fragile"; inverted is untestable through G1. My own raters also come out as expected: val_neutral50 and val_neutral_up at c = 0.75 and 0.9 are "pass, fragile" (d₂ −0.056 / −0.055 / −0.056 / −0.065, greedy k = 2 or 4); an inverted val_neutral50 is untestable (G1 = 0.23). |
+| F3 (D34) | **holds** | G1 uses only `up_side` and stops before scoring. G2 fires on alwaysup99 ("92 of 92"). G3: the regex matches "original … published", "real abstract" and "plausible", and not "lower noise is better news". A copy rater given real-sounding rationales gets the null qualifier (92 of 92). Note: "actual" and "actually" also match harmless uses ("Option 1 actually improves …"). The error only adds caution to a null, so I leave it, but the audit should read G3's matches before relying on the count. |
+| F4 (D35) | **holds**, with N3 | The leg-2 up/down split with CIs, the greedy flip count on leg 2 (e.g. alwaysup99 k = 16, all down-word), and the discordant-pair sign test (coin 17 of 19, p = 0.0004; valence50 3 of 4, p = 0.31) are all computed and reported. |
+| F5 (D36) | **holds**, with N3 | The pass, null and untestable sentences are verbatim, the null names the leg or legs that failed, and the qualifiers are appended in the order G2, G3, down-word, greedy, fragile. |
+
+**Does valence50 still passing mean a pass is partly built in? No.** Beating a rater that carries only valence is what a pass should mean. The fixes remove the built-in pass, but "valence" in that sentence means valence as this rater reports it.
+- **What valence50 is.** It is not a flattery rater. It is the bettor's own primary rating wherever the bettor said ≥ 70 or ≤ 30, and 50 elsewhere. It holds the bettor's confident information and loses only its weak signals.
+- **Why leg 2 cannot hand out a pass.** Leg 2 gives a pass only when the bettor's rating predicts the published sentence better than the rival's rating plus the up word, after the same recalibration on both sides. A rater holding all of the bettor's information ties exactly (copy: 0 [0, 0]).
+- **What valence50's result shows.** Beating it narrowly (d₂ −0.020 [−0.041, −0.002]; one chosen item flips it; it rests on r2-011, -091 and -094) shows that leg 2 is sensitive enough to see the information lost on the moderate items. Nothing more.
+- **What a pass would show.** A rater that carried only valence would be beaten only if the bettor knows something beyond valence and the up word. That is the audit's question.
+- **The residual.** The rater's valence report may be noisier than whatever valence the bettor uses internally, so the bettor could beat the report without knowing more. The pass sentence should therefore say "as this rater judged it" (N4).
+
+**Is the odds rise to 35 sound? The move is allowed, but its stated reason is not.**
+- **Allowed.** It moves toward the running base rate (0.41), which `operators/learn.md` allows without an extra reason. It is recorded before data, both numbers are kept, and it is booked as the review's move (`odds_after_review`), with ls-ss-b6's `odds_after_lesson` left at 0.25.
+- **The written reason is wrong.** The reason in D33 and the map is "valence50, the synthetic rater closest to an honest flattery rater, is beaten under both legs, so the fixed bar can be passed by a real result". As set out above, valence50 is built from the bettor's own confident ratings. Whether some synthetic rater can be beaten says nothing about the chance that the real rater is.
+- **The fixes pull both ways.** F2 made the bar harder (a second, conjunctive leg), which argues for lower odds. F1 probably makes the rater less contaminated, which argues for higher. The dry run settles neither.
+- **What the record does say.** On the six published sentences the audit coded as unflattering, the bettor was right on 3 and wrong on 3. That is the evidence behind the original 25.
+- **What to do.** The odds are the author's call. The reason must be replaced (N2).
+
+### New items (blocking confirmation; one DEVIATIONS row, D37, before any valence call)
+
+- **N1 (records).** Two records still describe the old one-leg test:
+  - In `ledger/bets.jsonl`, the ss-b6 `odds_event` reads "paired Brier difference, bettor minus valence rule, 95% upper bound below 0, on at least 60 of the 92 round-2 items". The 35 is for the two-leg event. Rewrite it to: "both the raw paired Brier difference and the recalibrated (leg 2, D33) paired difference, bettor minus valence rule, have 95% upper bounds below 0, on at least 60 of the 92 round-2 items, and gate G1 passes."
+  - `map/settled-science.md` still shows the one-leg event at **25**. Add the revision line (25 → 35, D33, the review's move) and the corrected reason. The JSON was updated; the page was not.
+- **N2 (odds reason).** In D37, the map's `revision_reason` and the bet row's `odds_revision`, replace the valence50 reason with a true one. For example: "moved toward the running base rate 0.41 (learn.md); F1 likely weakens the rater's contamination, F2 adds a harder leg; the dry run does not estimate P(pass)". Or keep 25. State that valence50 is built from the bettor's own confident ratings.
+- **N3 (generated sentences, `score_b6`).** Three text errors:
+  1. The fragile clause names only the items when items and buckets both flip. On valence50 it prints "rests on the items r2-011, r2-091, r2-094: without it …" and leaves out the three flipping buckets (interpretability, model-psychology, quantum-devices). Name both, as §5.4 says "<item / bucket>", and use "without them" for plurals.
+  2. The down-word qualifier has "71" and "21" hard-coded. Use the observed `leg2_up_word["n"]` and `leg2_down_word["n"]`, since n can be anywhere from 60 to 92.
+  3. "removing 1 chosen items" should be singular when k = 1.
+- **N4 (pass sentence, one phrase).** Change "Round 2's pass is not only picking the flattering version or the up word" to "Round 2's pass is not only picking the flattering version, as this rater judged it, or the up word". This is the valence-noise residual above.
+
+When D37 is committed, with the re-run `--synthetic` output pasted into it (valence50's sentence must name the buckets), I will confirm it in a second short addendum and set `confirmed_at`. No valence call runs before then.
