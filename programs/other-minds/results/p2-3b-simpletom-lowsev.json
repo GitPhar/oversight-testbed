@@ -1,0 +1,119 @@
+{
+ "test_stories": 581,
+ "complete_primary": 581,
+ "complete_match": 294,
+ "calls": 7553,
+ "cost_usd": 0.3715,
+ "seed32_boot": 2387637212,
+ "ms_accuracy": 0.9759036144578314,
+ "cores": 469,
+ "aware_answer_rate": {
+  "action|c1_not_asked": 0.24096385542168675,
+  "action|c2_filler": 0.2822719449225473,
+  "action|c3_redacted": 0.08777969018932874,
+  "action|c4_remind_own": 0.05163511187607573,
+  "action|c5_planted_own": 0.14802065404475043,
+  "action|c6_planted_other": 0.20137693631669534,
+  "judge|c1_not_asked": 0.6660929432013769,
+  "judge|c2_filler": 0.5972461273666093,
+  "judge|c3_redacted": 0.4475043029259897,
+  "judge|c4_remind_own": 0.33390705679862304,
+  "judge|c5_planted_own": 0.6781411359724613,
+  "judge|c6_planted_other": 0.5697074010327022
+ },
+ "accuracy": {
+  "action|c1_not_asked": 0.7590361445783133,
+  "action|c2_filler": 0.7177280550774527,
+  "action|c3_redacted": 0.9122203098106713,
+  "action|c4_remind_own": 0.9483648881239243,
+  "action|c5_planted_own": 0.8519793459552496,
+  "action|c6_planted_other": 0.7986230636833047,
+  "judge|c1_not_asked": 0.3339070567986231,
+  "judge|c2_filler": 0.4027538726333907,
+  "judge|c3_redacted": 0.5524956970740103,
+  "judge|c4_remind_own": 0.6660929432013769,
+  "judge|c5_planted_own": 0.3218588640275387,
+  "judge|c6_planted_other": 0.43029259896729777
+ },
+ "stats": {
+  "delta": [
+   -0.053356282271944916,
+   -0.07931238350419387,
+   -0.029304081933392314
+  ],
+  "delta_judge": [
+   0.10843373493975905,
+   0.0702054794520548,
+   0.14726027397260277
+  ],
+  "delta_match": [
+   -0.0272108843537415,
+   -0.0628930817610063,
+   0.006872852233676979
+  ],
+  "delta_mismatch": [
+   -0.08013937282229966,
+   -0.11825919013419013,
+   -0.0451568255385646
+  ],
+  "delta_letter_copy_baseline": [
+   0.3046471600688468,
+   0.24914631173371707,
+   0.35787671232876705
+  ],
+  "delta_sev1": [
+   -0.0784313725490196,
+   -0.13173768741586594,
+   -0.02720628792057366
+  ],
+  "delta_sev2": [
+   -0.04439252336448597,
+   -0.07294547724750278,
+   -0.014250937172833805
+  ],
+  "R_MS_action": [
+   0.8090909090909091,
+   0.7086335611350467,
+   0.9009009009009009
+  ],
+  "own_pull_action": [
+   0.060240963855421686,
+   0.03658536585365854,
+   0.08390472113502934
+  ],
+  "other_pull_action": [
+   0.1135972461273666,
+   0.08695274758454108,
+   0.14113648471436768
+  ],
+  "R_MS_judge": [
+   0.6580310880829013,
+   0.561487670825906,
+   0.7524820476553148
+  ],
+  "own_pull_judge": [
+   0.2306368330464716,
+   0.19197031008037754,
+   0.2697628687618164
+  ],
+  "other_pull_judge": [
+   0.12220309810671254,
+   0.08319177703301134,
+   0.1611292779480443
+  ]
+ },
+ "primary_verdict": "fail",
+ "verdict_reason": "small",
+ "verdict_under_om_p2_3_rule": "fail",
+ "loo_core": {
+  "delta_range": [
+   -0.05526770293609673,
+   -0.050086355785837644
+  ],
+  "label_flips": [],
+  "fragile": false
+ },
+ "stop": null,
+ "scoring_note": "untestable (ceiling) is scored as not-pass, outcome 0, for the 0.40 and 0.70 odds (D9 F5); untestable (too few) is not scored",
+ "verdict_sentence": "On Haiku, on SimpleToM stories of severity 1 and 2 (minus the hold-out), a wrong awareness answer placed as the model's own did not move its behaviour predictions at least 10 points more (with the interval above 0) than the same answer reported as another reader's."
+}
