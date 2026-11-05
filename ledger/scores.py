@@ -226,9 +226,11 @@ def section_learning(w):
     scored = [l for l in lessons.values() if l.get("scored")]
     pairs = []
     for l in scored:
-        b = next((x for x in bets if x["id"] == l["bet"]), None)
-        if b and b.get("scored") and l.get("odds_before_lesson") is not None and l.get("odds_after_lesson") is not None:
-            pairs.append((l["odds_before_lesson"], l["odds_after_lesson"], b["outcome"]))
+        per = l.get("odds_by_bet") or {l["bet"]: {"odds_before_lesson": l.get("odds_before_lesson"), "odds_after_lesson": l.get("odds_after_lesson")}}
+        for bid, od in per.items():
+            b = next((x for x in bets if x["id"] == bid), None)
+            if b and b.get("scored") and od.get("odds_before_lesson") is not None and od.get("odds_after_lesson") is not None:
+                pairs.append((od["odds_before_lesson"], od["odds_after_lesson"], b["outcome"]))
     w("| pattern | title | cited by | recurred after citing |")
     w("|---|---|---|---|")
     for pid, pr in pats.items():
