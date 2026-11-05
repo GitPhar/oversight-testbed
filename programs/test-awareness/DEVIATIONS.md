@@ -1,0 +1,8 @@
+# Deviations and pre-registration log
+
+Every pre-registration and every departure from one, dated (America/Denver), written before the result it affects. Rows are never edited after the fact; corrections get new rows.
+
+| row | date | what | why |
+|---|---|---|---|
+| T0 | 2026-11-04 23:37 | Machinery and cost probe, before any reading or pre-registration (`experiments/probe_costs.py`, cache `results/probe-calls.json`): 6 calls, one 0–100 rating ("the Pacific is the largest ocean") and one arithmetic prompt (347 × 286) per model, on neutral content no bet uses. All six settings were accepted; no refusal; Haiku and Sonnet used 9–10 output tokens, Opus 9 on the rating and 73 on the arithmetic (its thinking at effort low is billed as output). Spend $0.0047, counted against the program's $5.00 cap by `ta_common.program_spent()`. Not data for any bet. | Check before any pre-registration that each model's thinking-off setting is accepted and what a call costs. |
+| T1 | 2026-11-05 04:40 | The Mac crashed at 23:44 on 4 November while the program was being started. Files found afterwards: `map/reads/READER-BRIEF.md` (written before any reading), `experiments/ta_common.py`, `experiments/probe_costs.py`, `results/probe-calls.json` (T0). No reader file, map, pre-registration or other call existed. All four were read in full by the resuming session; prices and model settings in `ta_common.py` were checked against the API reference (cached 2026-10-06: Haiku 5.5 $0.10/$0.50, Sonnet 5.5 $2/$10, Opus 5.5 $4/$20 per million tokens; Sonnet thinking off is `between_tools`; Opus thinking cannot be disabled). All four kept unchanged and committed as the starting point. | Crash recovery; nothing is lost or redone silently. |
