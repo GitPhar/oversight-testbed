@@ -85,6 +85,10 @@ Your odds (0–100): closed Why: ____
 
 Your odds (0–100): skipped (no odds), 2026-11-04 ~17:00 Why: ____
 
+**Q16 (P3-16), added 2026-11-04 22:55.** Is running program 1's circuit alone in its own job, the one thing about 3 November that we have not yet repeated, to see whether that day's surprise comes back, worth about 7 seconds of chip time? Will it come back a hit?
+
+Your odds (0–100): ____ Why (one line): ____
+
 ---
 
 **Optional, one line each:**

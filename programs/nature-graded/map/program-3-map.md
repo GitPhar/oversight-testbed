@@ -77,6 +77,7 @@ The odds were not used to rank, so a long shot is not demoted for being one.
 | 13 | P3-14 | Maximally ψ-epistemic models in d = 4, no fair sampling | Maximally ψ-epistemic models | 30 circuits × 2,000 shots + 9 tomography | 21 | 0.12 | — |
 | 14 | P3-13 | LG-certified randomness from P3-11's data | Semi-DI randomness from one transmon's LG violation | Nath Theorem 2 bound on P3-11's data | 0 extra | 0.35 | 0.30 |
 | 15 (added 2026-11-04 17:00) | P3-15 | What made 3 November different: the afternoon, or the circuit's barrier and shot grouping? | Program 1's gap was the chip that afternoon, not the circuit build or job grouping | {barrier, no barrier} × {one 1,000-shot block, 10 × 100 interleaved} + R0/R1; repeated ≥ 3 h later | ≈ 3.4 per run (2 runs) | 0.07 | — |
+| 16 (added 2026-11-04 22:55) | P3-16 | Does 3 November's result come back when the circuit runs alone in its own job? | Program 1's gap was the chip that afternoon, not the circuit running alone in its own job | (A) barrier circuit alone, (B) no-barrier circuit alone, (C) both in one job; 1,000 shots each, back to back in a seeded order | ≈ 7.1 | 0.05 | — |
 
 Total if everything ran at the lean costs: about 184 QPU s. Recommended plan (below): about 146 s in waves 1–3, up to 60 s more conditionally, and a reserve of at least 120 s kept for replication.
 
@@ -348,6 +349,14 @@ Total if everything ran at the lean costs: about 184 QPU s. Recommended plan (be
 - **Cheapest test:** one job on the original nine qubits: barrier/no barrier × one 1,000-shot block / 10 × 100 interleaved, plus R0/R1 (5 × 100 each). An identical job ≥ 3 h later. ≈ 3.4 QPU s each.
 - **Pass rule (draft):** in the first job, the barrier block gives P(yes) ≥ 0.40 and beats the no-barrier block by ≥ 0.10 at z ≥ 3.
 - **Odds:** elicited in a fresh context from `odds-elicitation/rows-v1-p3-15.md` alone (template v1, single row; `odds-elicitation/v1-p3-15.md`, 17:00:05). No elicitation check. Human odds: Sean skipped (no odds).
+
+### P3-16. Does 3 November's result come back when the circuit runs alone in its own job? — added 2026-11-04 22:55 · P = 0.05 · source P1 (audit ng-p3-15, "What would break it next")
+- **Assumption at stake:** that program 1's 3 November gap (P(yes) 0.502 against a predicted ≈ 0.26) was the chip that afternoon, not the job it ran in: one circuit, alone in its job.
+- **Why now:** P3-15 found no effect of the barrier or of block-versus-pieces (0.28–0.32 in every arm, two runs), but in both its jobs the server ran the two 1,000-shot blocks together in one execution span. No 4 November job ran the circuit alone, which is the one 3 November feature not yet reproduced.
+- **What we know offline:** IBM's per-qubit calibration had not been re-measured between P3-15's two runs (values dated 12:04), so live predictions cannot see the ~0.2 per-qubit moves between runs.
+- **Cheapest test:** three jobs back to back in a seeded order on the original nine qubits, 1,000 shots per circuit: (A) the barrier circuit alone; (B) the no-barrier circuit alone; (C) both circuits in one job. ≈ 7.1 QPU s (0.28 ms per shot + ~2 s per job).
+- **Pass rule (draft):** job A gives P(yes) ≥ 0.40 and beats the barrier circuit in job C by ≥ 0.10 at z ≥ 3.
+- **Odds:** elicited in a fresh context from `odds-elicitation/rows-v1-p3-16.md` alone (template v1, single row; `odds-elicitation/v1-p3-16.md`, 22:54). No elicitation check. Human odds: from `ledger/human-odds.jsonl` only (CONTEXT §3 rule 11); none recorded when mapped.
 
 ---
 

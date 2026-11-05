@@ -378,6 +378,27 @@
    "diagnosis": null,
    "human_odds": null,
    "human_odds_note": "Sean skipped (no odds), 2026-11-04 ~17:00"
+  },
+  {
+   "id": "P3-16",
+   "title": "Does 3 November's result come back when the circuit runs alone in its own job?",
+   "parent": "P3-15",
+   "status": "open",
+   "rank": 16,
+   "engine_odds": 0.05,
+   "engine_odds_at": "2026-11-04T22:54:53-07:00",
+   "odds_template": "v1-single",
+   "referee": "nature",
+   "source": "P1",
+   "cost": "~7.1 QPU s (3 jobs)",
+   "assumption_at_stake": "Program 1's 3 November gap was the chip that afternoon, not the circuit running alone in its own job",
+   "cheapest_test": "(A) barrier circuit alone in its own job, (B) no-barrier circuit alone, (C) both in one job; 1,000 shots each on the original nine qubits, back to back in a seeded order; pass if A gives P(yes) >= 0.40 and beats C's barrier circuit by >= 0.10 at z >= 3",
+   "prior_work": [
+    "ng-p3-15 audit"
+   ],
+   "diagnosis": null,
+   "human_odds": null,
+   "human_odds_note": "none in ledger/human-odds.jsonl when mapped (CONTEXT §3 rule 11)"
   }
  ],
  "closed": [
