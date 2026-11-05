@@ -5,7 +5,7 @@
 - sonnet: claude-sonnet-5-5, {"thinking": {"type": "between_tools"}}, max_tokens 1000, repeats 2
 - opus: claude-opus-5-5, {"output_config": {"effort": "low"}}, max_tokens 1000, repeats 2
 - shared items: 17 (h019, h048, h058, h101, h112, h127, h142, h149, h173, h187, h190, h191, h214, h221, h238, h261, h279)
-- statements drawn with a stand-in seed: 34 (2 per item)
+- statements drawn with the beacon's items sub-seed 717985889: 34 (2 per item)
 - jobs: 612; per model haiku 204, sonnet 204, opus 204; distinct keys 612
 - cost estimate at program 1's archived full-price per graded-format call (Haiku $0.000043, Sonnet $0.00086, Opus $0.0044): $1.08; the Sam prompts are one sentence longer, so about $1.19 (cap $1.50, ratio 1.26)
 
@@ -17,22 +17,26 @@
 - the same content hash for two models? False (must be False)
 
 ## 3. Gate
-- gate now: no seed file at /Users/seanpharris/oversight-testbed/programs/other-minds/data/p2-7-seed.json
+- gate now: om-p2-7.md: verdict fix-first (not confirmed)
 - fix-first, unconfirmed: om-p2-7.md: verdict fix-first (not confirmed)
 - go: None
 
 ## 4. Stop rules with a stub
-- refusal at call 15: status refusal; calls entered 15; refused entries 1; refusal.md True; any Sonnet or Opus call False
-- re-run on that cache: exits (stub: a refusal is on record (haiku|h048|1|F5|0); not resumed)
+- refusal at call 15: status refusal; calls entered 15; refused entries 1; refusal.md False; any Sonnet or Opus call False
+- re-run on that cache: exits (stub: a refusal is on record (haiku|h173|6|F6|0); not resumed)
 - cap $0.40 at $0.01 a call: status cap; calls 40; spent $0.40
-/Users/seanpharris/entangled-mind/.venv/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1396: RuntimeWarning: All-NaN slice encountered
-  return _nanquantile_unchecked(
-- tampered entry: caught (cache entry haiku|h191|0|F5|0 does not match)
+- tampered entry: caught (cache entry haiku|h238|3|F5|0 does not match)
+/Users/seanpharris/entangled-mind/.venv/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:4609: RuntimeWarning: invalid value encountered in scalar subtract
+  diff_b_a = b - a
+/Users/seanpharris/entangled-mind/.venv/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:4610: RuntimeWarning: invalid value encountered in add
+  lerp_interpolation = add(a, diff_b_a * t, out=... if out is None else out)
+- slow refusal on Haiku's 204th call: status refusal (on haiku); Sonnet + Opus calls sent 0 (must be 0); record refusal-p2-7.md written True; shared refusal.md written False
+- start with the shared refusal.md present: exits (stub: a refusal is on record (results/refusal.md); not resumed)
 
 ## 5. The archived self data the worlds are built from (34 stand-in statements)
-- haiku: residual SD 0.173; split-half reliability of self residuals 0.97; mean per-call SD 0.078
-- sonnet: residual SD 0.106; split-half reliability of self residuals 0.97; mean per-call SD 0.046
-- opus: residual SD 0.043; split-half reliability of self residuals 0.94; mean per-call SD 0.027
+- haiku: residual SD 0.209; split-half reliability of self residuals 0.98; mean per-call SD 0.075
+- sonnet: residual SD 0.102; split-half reliability of self residuals 0.89; mean per-call SD 0.062
+- opus: residual SD 0.035; split-half reliability of self residuals 0.89; mean per-call SD 0.025
 
 ## 6. D1: one reading per table
 - holds: holds
@@ -42,8 +46,11 @@
 - P13 boundary: rel 0.5, rho 0.5, delta 0.10 exactly (computed as sums): holds   (0.3 - 0.2 = 0.09999999999999998)
 - P13 just below: rho 0.4999: fail-ceiling   (0.3 - 0.2 = 0.09999999999999998)
 - P13 just below: delta 0.0999: fail-generic   (0.3 - 0.2 = 0.09999999999999998)
-- P13 just below: rel_sam 0.4999: unreliable   (0.3 - 0.2 = 0.09999999999999998)
-- unreliable: unreliable
+- P13 just below: rel_sam 0.4999: fail-flat   (0.3 - 0.2 = 0.09999999999999998)
+- unreliable (self): unreliable
+- flat Sam (rel_sam 0.3): fail-flat; undefined Sam (nan): fail-flat
+- CI > 0 boundary (D15c): lower end computed as 0.3 - 0.1 - 0.2 = -2.7755575615628914e-17: fail-generic; lower end +1e-4: holds
+- sentences carry 3 decimals (D15c): On Opus 5.5, the self–Sam residual correlation was +0.495 [+0.300, +0.700] of its ceiling, below 0.5.
 - overall: all hold pass; one unreliable, two hold pass; two unreliable untestable; one fails fail
 
 ## 7. D11 / D5: readings under named worlds (60 simulated runs a world and model, bootstrap B = 400 here)
@@ -51,18 +58,21 @@ Worlds for Sam's true means: 'shared' = the model's own archived means; 'shared-
 | world | haiku | sonnet | opus |
 |---|---|---|---|
 | shared | {'holds': 60} | {'holds': 60} | {'holds': 60} |
-| shared-hedged | {'holds': 60} | {'holds': 60} | {'fail-generic': 50, 'unreliable': 8, 'holds': 2} |
-| mix:0.7 | {'holds': 60} | {'holds': 60} | {'fail-generic': 23, 'holds': 37} |
-| mix:0.5 | {'holds': 57, 'fail-generic': 3} | {'fail-generic': 34, 'holds': 26} | {'fail-generic': 59, 'holds': 1} |
+| shared-hedged | {'holds': 60} | {'holds': 60} | {'fail-generic': 37, 'fail-flat': 23} |
+| mix:0.7 | {'holds': 60} | {'holds': 60} | {'holds': 55, 'fail-generic': 5} |
+| mix:0.5 | {'holds': 36, 'fail-generic': 24} | {'fail-generic': 22, 'holds': 38} | {'fail-generic': 42, 'holds': 14, 'fail-flat': 4} |
 | independent | {'fail-ceiling': 60} | {'fail-ceiling': 60} | {'fail-ceiling': 60} |
-| generic | {'unreliable': 55, 'fail-ceiling': 5} | {'fail-generic': 42, 'fail-ceiling': 17, 'holds': 1} | {'fail-generic': 54, 'unreliable': 4, 'fail-ceiling': 2} |
-| no-deviation | {'unreliable': 60} | {'unreliable': 60} | {'fail-ceiling': 7, 'unreliable': 52, 'fail-generic': 1} |
+| generic | {'fail-generic': 49, 'fail-ceiling': 8, 'holds': 3} | {'fail-ceiling': 35, 'fail-generic': 7, 'fail-flat': 18} | {'fail-generic': 55, 'fail-flat': 4, 'fail-ceiling': 1} |
+| no-deviation | {'fail-flat': 60} | {'fail-flat': 60} | {'fail-flat': 48, 'fail-ceiling': 10, 'fail-generic': 2} |
 
-Overall P(pass) if every model is in the same world (readings assumed independent across models):
-- shared: P(pass) 1.00, P(untestable) 0.00, P(fail) 0.00
-- shared-hedged: P(pass) 0.17, P(untestable) 0.00, P(fail) 0.83
-- mix:0.7: P(pass) 0.62, P(untestable) 0.00, P(fail) 0.38
-- mix:0.5: P(pass) 0.01, P(untestable) 0.00, P(fail) 0.99
-- independent: P(pass) 0.00, P(untestable) 0.00, P(fail) 1.00
-- generic: P(pass) 0.00, P(untestable) 0.06, P(fail) 0.94
-- no-deviation: P(pass) 0.00, P(untestable) 1.00, P(fail) 0.00
+Overall P(pass) per combination of worlds (readings assumed independent across models; 'unreliable' means the model's own residuals, which come from the archive and do not depend on the world):
+- shared / shared / shared: P(pass) 1.00, P(untestable) 0.00, P(fail) 0.00
+- shared-hedged / shared-hedged / shared-hedged: P(pass) 0.00, P(untestable) 0.00, P(fail) 1.00
+- mix:0.7 / mix:0.7 / mix:0.7: P(pass) 0.92, P(untestable) 0.00, P(fail) 0.08
+- mix:0.5 / mix:0.5 / mix:0.5: P(pass) 0.09, P(untestable) 0.00, P(fail) 0.91
+- independent / independent / independent: P(pass) 0.00, P(untestable) 0.00, P(fail) 1.00
+- generic / generic / generic: P(pass) 0.00, P(untestable) 0.00, P(fail) 1.00
+- no-deviation / no-deviation / no-deviation: P(pass) 0.00, P(untestable) 0.00, P(fail) 1.00
+- shared / shared / no-deviation: P(pass) 0.00, P(untestable) 0.00, P(fail) 1.00
+- shared / shared / shared-hedged: P(pass) 0.00, P(untestable) 0.00, P(fail) 1.00
+- mix:0.7 / mix:0.7 / shared-hedged: P(pass) 0.00, P(untestable) 0.00, P(fail) 1.00

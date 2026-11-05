@@ -1,0 +1,142 @@
+{
+ "bet": "sv-b2",
+ "models": {
+  "claude-haiku-5-5": {
+   "auroc": 0.6868266262885097,
+   "auroc_ci": [
+    0.6305307810965523,
+    0.7394359223957145
+   ],
+   "margin": -0.08572593325956557,
+   "margin_ci": [
+    -0.17048157545509457,
+    -0.008270749720594776
+   ],
+   "dumb": {
+    "constant": 0.5,
+    "category": 0.7725525595480752,
+    "answer_bit": 0.6036049152641081,
+    "length": 0.5260613825636247
+   },
+   "n": 300,
+   "events": 77,
+   "boot_used": 2000,
+   "testable": true,
+   "clears_margin": false,
+   "passes": false,
+   "not_run": false,
+   "status": {
+    "items": 300,
+    "missing": 0,
+    "invalid_rating": 0,
+    "run": true
+   },
+   "secondary": {
+    "event_rate": 0.25666666666666665,
+    "event_rate_by_conf_quartile_low_to_high": [
+     0.38596491228070173,
+     null,
+     0.33557046979865773,
+     0.05319148936170213
+    ],
+    "auroc_among_correct": 0.7170886075949368,
+    "n_among_correct": 188,
+    "auroc_among_wrong": 0.5844517184942717,
+    "n_among_wrong": 112,
+    "agreement_with_own_number": 0.74,
+    "agreement_of_never_rule": 0.7433333333333333,
+    "accuracy_when_answering": 0.7533632286995515,
+    "code_check_margin_with_confidence_shuffled_across_items": -0.33256653660241103,
+    "margin_with_confidence_shuffled_within_category": -0.22916545338070005,
+    "loo_flip_ids": [],
+    "loo_testability_flip_ids": []
+   }
+  },
+  "claude-sonnet-5-5": {
+   "auroc": 0.8181701472098596,
+   "auroc_ci": [
+    0.7523039875451989,
+    0.8763026470057719
+   ],
+   "margin": 0.040867853474837346,
+   "margin_ci": [
+    -0.05237008702628011,
+    0.13663167435140086
+   ],
+   "dumb": {
+    "constant": 0.5,
+    "category": 0.7773022937350222,
+    "answer_bit": 0.6148579253680246,
+    "length": 0.5008986648408079
+   },
+   "n": 300,
+   "events": 46,
+   "boot_used": 2000,
+   "testable": true,
+   "clears_margin": false,
+   "passes": false,
+   "not_run": false,
+   "status": {
+    "items": 300,
+    "missing": 0,
+    "invalid_rating": 0,
+    "run": true
+   },
+   "secondary": {
+    "event_rate": 0.15333333333333332,
+    "event_rate_by_conf_quartile_low_to_high": [
+     0.4426229508196721,
+     0.13432835820895522,
+     0.14035087719298245,
+     0.017391304347826087
+    ],
+    "auroc_among_correct": 0.7765522875816994,
+    "n_among_correct": 222,
+    "auroc_among_wrong": 0.7578571428571429,
+    "n_among_wrong": 78,
+    "agreement_with_own_number": 0.8733333333333333,
+    "agreement_of_never_rule": 0.8466666666666667,
+    "accuracy_when_answering": 0.8110236220472441,
+    "code_check_margin_with_confidence_shuffled_across_items": -0.28316501198219785,
+    "margin_with_confidence_shuffled_within_category": -0.2529527559055118,
+    "loo_flip_ids": [],
+    "loo_testability_flip_ids": []
+   }
+  },
+  "claude-opus-5-5": {
+   "testable": false,
+   "n": 80,
+   "events": 6,
+   "not_run": false,
+   "status": {
+    "items": 80,
+    "missing": 0,
+    "invalid_rating": 0,
+    "run": true
+   },
+   "secondary": {
+    "event_rate": 0.075,
+    "event_rate_by_conf_quartile_low_to_high": [
+     0.3,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "auroc_among_correct": 0.9577464788732394,
+    "n_among_correct": 75,
+    "auroc_among_wrong": 0.6666666666666666,
+    "n_among_wrong": 5,
+    "agreement_with_own_number": 0.9,
+    "agreement_of_never_rule": 0.925,
+    "accuracy_when_answering": 0.972972972972973,
+    "loo_testability_flip_ids": []
+   }
+  }
+ },
+ "verdict": "fail",
+ "testable": [
+  "claude-haiku-5-5",
+  "claude-sonnet-5-5"
+ ],
+ "passing": []
+}

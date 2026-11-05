@@ -36,6 +36,7 @@ RESULTS, DATA = ROOT / "results", ROOT / "data"
 CACHE, OUT_JSON, OUT_MD = RESULTS / "p2-7-calls.json", RESULTS / "p2-7-format-fingerprint.json", RESULTS / "p2-7-tables.md"
 SEEDF = DATA / "p2-7-seed.json"
 REVIEW_GLOB = "om-p2-7*.md"
+REFUSAL_FILES = ("refusal-p2-7.md", "refusal.md")      # D15b (F2): written to the first; a run refuses to start if either exists
 CAP = 1.50                                             # dollars, three models together, checked under a lock before every call
 MODELS = {"haiku": "claude-haiku-5-5", "sonnet": "claude-sonnet-5-5", "opus": "claude-opus-5-5"}
 ORDER = ("haiku", "sonnet", "opus")
@@ -160,8 +161,9 @@ class GuardedCaller:
         self.path, self.cap, self.label, self.call_fn, self.recs = Path(cache_path), cap, label, call_fn, recs
         self.cache = json.loads(self.path.read_text()) if self.path.exists() else {}
         refused = [k for k, v in self.cache.items() if v.get("refused")]
-        if refused or (RESULTS / "refusal.md").exists():
-            sys.exit(f"{label}: a refusal is on record ({refused[0] if refused else 'results/refusal.md'}); not resumed")
+        on_file = [f for f in REFUSAL_FILES if (RESULTS / f).exists()]
+        if refused or on_file:                          # D15b (F2)
+            sys.exit(f"{label}: a refusal is on record ({refused[0] if refused else 'results/' + on_file[0]}); not resumed")
         self.lock, self.stop = threading.Lock(), threading.Event()
         self.refusal, self.errors, self.after_stop = {}, [], 0
 
@@ -220,7 +222,7 @@ class GuardedCaller:
             self.path.with_name(self.path.stem + "-stop.json").write_text(json.dumps(rec, indent=1))
             if self.refusal:
                 key, e = self.refusal["e"]
-                (RESULTS / "refusal.md").write_text(
+                (RESULTS / REFUSAL_FILES[0]).write_text(
                     f"# Run stopped on a refusal\n\n{self.label}, job `{key}`\n\nRefused call: **{getattr(e, 'call', '?')}**\n\n"
                     f"Request ID: `{getattr(e, 'request_id', None)}`\n\nStop details:\n\n```\n{getattr(e, 'stop_details', '')}\n```\n\n"
                     f"Calls already in flight that completed after the stop: {self.after_stop}.\n\n"
@@ -228,6 +230,16 @@ class GuardedCaller:
             return reason
         print(f"{self.label}: complete, {len(self.cache)} cached calls, ${self.spent():.4f}", flush=True)
         return "complete"
+
+
+def run_all(caller, jobs_):
+    """D15b (F2): one model at a time, in ORDER; the next model starts only if the previous one's run completed."""
+    status = None
+    for mk in ORDER:
+        status = caller.run([j for j in jobs_ if j[1] == mk])
+        if status != "complete":
+            return f"{status} (on {mk})"
+    return status
 
 
 def real_call():
@@ -336,8 +348,10 @@ def model_stats(S, S_halves, M, M_halves):
 
 
 def model_reading(st, ci):
-    if not (st["rel_self"] >= REL_MIN - EPS and st["rel_sam"] >= REL_MIN - EPS):
+    if not st["rel_self"] >= REL_MIN - EPS:             # D15a (F1): testability is gated on the model's own residuals only
         return "unreliable"
+    if not st["rel_sam"] >= REL_MIN - EPS:              # D15a (F1): reliable self, flat (or undefined) Sam: a fail
+        return "fail-flat"
     if st["rho"] < RHO_MIN - EPS:
         return "fail-ceiling"
     if st["delta"] >= MARGIN - EPS and ci["delta"][0] > EPS:
@@ -356,16 +370,20 @@ def fmt(x):
     return f"{x[0]:+.2f} [{x[1]:+.2f}, {x[2]:+.2f}]"
 
 
+def fmt3(x):                                            # D15c (F3): reading sentences carry 3 decimals
+    return f"{x[0]:+.3f} [{x[1]:+.3f}, {x[2]:+.3f}]"
+
+
 SENTENCES = {
     "pass": ("On {models}, on 34 statements from 17 of program 1's experiment-5 items and three graded formats, the "
-             "rating the model gave for Sam, a person who has read exactly what it has read, deviated from one shared "
-             "credence in the same statement-by-statement way as the model's own archived rating: on each model the "
+             "rating the model gave for Sam, a person who has read exactly what it has read, deviated from a one-latent-value "
+             "fit in the same statement-by-statement way as the model's own archived rating: on each model the "
              "self–Sam residual correlation reached at least 0.5 of its reliability ceiling and beat a generic-link "
-             "rival by at least 0.10 ({per_model}). On this design, the format fingerprint of an attributed credence "
-             "matches the model's own."),
+             "rival by at least 0.10 ({per_model}). On this design, the format fingerprint of the ratings given for Sam "
+             "matches that of the model's own ratings."),
     "fail": ("On {models}, on 34 statements from 17 of program 1's experiment-5 items and three graded formats, the "
-             "format fingerprint of the rating given for Sam did not match the model's own on every model tested by "
-             "the pre-registered rule (a self–Sam residual correlation of at least 0.5 of its reliability ceiling, "
+             "format fingerprint of the ratings given for Sam did not match that of the model's own ratings on every "
+             "model tested by the pre-registered rule (a self–Sam residual correlation of at least 0.5 of its reliability ceiling, "
              "beating a generic-link rival by at least 0.10 with its 95% interval above 0)."),
     "holds": ("On {M}, the self–Sam residual correlation was {rho} of its ceiling, {delta} above the generic-link "
               "rival."),
@@ -374,6 +392,14 @@ SENTENCES = {
                      "generic-link rival by the pre-registered 0.10 with its interval above 0 (difference {delta}), so "
                      "the match may come from the formats' shared shape rather than from statement-specific "
                      "deviations."),
+    "fail-flat": ("On {M}, the ratings given for Sam did not show a reproducible statement-by-format deviation (split-half "
+                  "reliability {rel_sam}, floor 0.5) where the model's own did ({rel_self}), so the fingerprint did not "
+                  "match."),                                                                   # D15a (F1)
+    "incomplete": ("{M} was not tested: {n} of 204 Sam calls are missing ({reason})."),      # D15e (F5)
+    "haiku_analogue": ("Nearest analogue of the event on Sean's cockpit card (one model; here 34 statements × three "
+                       "formats, not the card's 80 × six; no margin over the rival): Haiku's ρ is {rho}, which "
+                       "{does} reach 0.5."),                                                   # D15d (F4)
+    "every_model_rho": ("ρ ≥ 0.5 on every tested model (no margin over the rival): {val}."),  # D15d (F4)
     "unreliable": ("On {M}, the residuals were not reliable enough to test (split-half reliability self {rel_self}, "
                    "Sam {rel_sam}; the floor is 0.5), so {M} is not tested."),
     "fragile": ("Dropping item {item} alone on {M} changes the overall verdict to \"{v}\", so it rests on that item."),
@@ -406,7 +432,13 @@ def boot_model(S, Sh, M, Mh, items_of, seed32_boot):
         st = model_stats(S[pick], [h[pick] for h in Sh], M[pick], [h[pick] for h in Mh])
         for k in keys:
             vals[k].append(st[k])
-    return {k: [float(np.nanpercentile(v, 2.5)), float(np.nanpercentile(v, 97.5))] for k, v in vals.items()}
+    out = {}
+    for k, v in vals.items():                           # D15a (F1): an undefined resample counts as -inf (worst case)
+        a = np.array(v, float)
+        a = np.where(np.isnan(a), -np.inf, a)
+        out[k] = [float(np.percentile(a, 2.5)), float(np.percentile(a, 97.5))]
+    out["undefined_share"] = float(np.mean(np.isnan(np.array(vals["delta"], float))))
+    return out
 
 
 def analyse_model(mk, cache, stmts, seed32_boot):
@@ -416,7 +448,11 @@ def analyse_model(mk, cache, stmts, seed32_boot):
     res = {"calls_cached": len(calls), "cost_usd": sum(v["cost"] for v in calls.values()),
            "refused": sum(bool(v.get("refused")) for v in calls.values())}
     if np.isnan(M).any() or np.isnan(np.stack(Mh)).any():
-        res["incomplete"] = f"{NAME[mk]}: {int(np.isnan(M).sum())} of {M.size} Sam cells incomplete"
+        expected = len(stmts) * len(FORMATS) * REPEATS
+        got = sum(1 for v in calls.values() if not v.get("refused"))
+        reason = "a refusal" if res["refused"] else "the budget cap or an error stopped the run"
+        res["incomplete"] = f"{NAME[mk]}: {expected - got} of {expected} Sam calls missing"
+        res["sentence"] = SENTENCES["incomplete"].format(M=NAME[mk], n=expected - got, reason=reason)   # D15e (F5)
         return res
     assert not np.isnan(S).any(), f"{mk}: archived self data incomplete for the drawn statements"
     items_of = [q for q, _ in stmts]
@@ -424,9 +460,9 @@ def analyse_model(mk, cache, stmts, seed32_boot):
     ci = boot_model(S, Sh, M, Mh, items_of, seed32_boot)
     v = model_reading(st, ci)
     res.update(stats=st, ci=ci, reading=v, self_means=S.tolist(), sam_means=M.tolist(),
-               sentence=SENTENCES[v].format(M=NAME[mk], rho=fmt([st["rho"]] + ci["rho"]),
-                                            delta=fmt([st["delta"]] + ci["delta"]),
-                                            rel_self=f"{st['rel_self']:.2f}", rel_sam=f"{st['rel_sam']:.2f}"))
+               sentence=SENTENCES[v].format(M=NAME[mk], rho=fmt3([st["rho"]] + ci["rho"]),
+                                            delta=fmt3([st["delta"]] + ci["delta"]),
+                                            rel_self=f"{st['rel_self']:.3f}", rel_sam=f"{st['rel_sam']:.3f}"))
     # secondary: format means and Kendall's W per source; a shuffled-statement null for r
     res["format_means"] = {"self": S.mean(0).tolist(), "sam": M.mean(0).tolist()}
     es, em = one_credence_residuals(S)[0], one_credence_residuals(M)[0]
@@ -463,17 +499,24 @@ def analyse_cache(cache, recs, stmts, seed32_boot, check=True):
                         [f"{NAME[mk]} unreliable" for mk, x in readings.items() if x == "unreliable"]) + \
               f" (fewer than {MIN_MODELS} models testable)"
         res.update(verdict="untestable", why=why, sentence=SENTENCES["untestable"].format(why=why))
+        res["all_sentences"] = compose(res)
         return res
-    tested = [mk for mk, x in complete.items() if x != "unreliable"]
+    tested = [mk for mk, x in complete.items() if x != "unreliable"]   # fail-flat models are tested (D15a)
     models = " and ".join(NAME[mk] for mk in tested)
-    per = "; ".join(f"{NAME[mk]} {fmt([res['models'][mk]['stats']['rho']] + res['models'][mk]['ci']['rho'])} of the "
-                    f"ceiling, {fmt([res['models'][mk]['stats']['delta']] + res['models'][mk]['ci']['delta'])} above the rival"
+    per = "; ".join(f"{NAME[mk]} {fmt3([res['models'][mk]['stats']['rho']] + res['models'][mk]['ci']['rho'])} of the "
+                    f"ceiling, {fmt3([res['models'][mk]['stats']['delta']] + res['models'][mk]['ci']['delta'])} above the rival"
                     for mk in tested)
     res.update(verdict=v, tested=tested, sentence=SENTENCES[v].format(models=models, per_model=per))
-    # secondary, never scored: the human-odds card's event (the map's original), rho >= 0.5 on every tested model
-    res["card_event"] = all(res["models"][mk]["stats"]["rho"] >= RHO_MIN - EPS for mk in tested)
+    # D15d (F4): secondaries, never scored
+    if "stats" in res["models"]["haiku"]:
+        hr = res["models"]["haiku"]["stats"]["rho"]
+        res["haiku_analogue"] = bool(hr >= RHO_MIN - EPS)
+        res["haiku_analogue_sentence"] = SENTENCES["haiku_analogue"].format(
+            rho=fmt3([hr] + res["models"]["haiku"]["ci"]["rho"]), does="does" if res["haiku_analogue"] else "does not")
+    res["every_model_rho"] = all(res["models"][mk]["stats"]["rho"] >= RHO_MIN - EPS for mk in tested)
+    res["every_model_rho_sentence"] = SENTENCES["every_model_rho"].format(val="yes" if res["every_model_rho"] else "no")
     flips = []
-    for mk in tested:
+    for mk in complete:                                  # D15a (F1): leave-one-item-out on every complete model
         for q, x in res["models"][mk]["loo"].items():
             alt = dict(complete, **{mk: x["reading"]})
             if overall(alt) != v:
@@ -483,7 +526,16 @@ def analyse_cache(cache, recs, stmts, seed32_boot, check=True):
     if flips:
         f0 = flips[0]
         res["fragile_sentence"] = SENTENCES["fragile"].format(item=f0["item"], M=NAME[f0["model"]], v=f0["verdict"])
+    res["all_sentences"] = compose(res)                  # D15e (F5)
     return res
+
+
+def compose(res):
+    """D15e (F5): the verdict sentence, then every model's reading sentence, then the fragile sentence."""
+    out = [res["sentence"]] + [res["models"][mk]["sentence"] for mk in ORDER if "sentence" in res["models"][mk]]
+    if res.get("fragile_sentence"):
+        out.append(res["fragile_sentence"])
+    return out
 
 
 def write_md(r):
@@ -493,6 +545,7 @@ def write_md(r):
         m = r["models"][mk]
         L.append(f"- {NAME[mk]} (`{MODELS[mk]}`, {json.dumps(SETTINGS[mk])}, max_tokens {MAX_TOKENS[mk]}): calls "
                  f"{m['calls_cached']}; cost ${m['cost_usd']:.4f}; refused {m['refused']}; reading **{r['readings'][mk]}**")
+    L += ["", "## Sentences (frozen, numbers filled in)", ""] + [f"- {x}" for x in r["all_sentences"]]   # D15e (F5)
     if r["verdict"] == "untestable":
         OUT_MD.write_text("\n".join(L + ["", f"**Verdict: untestable** ({r['why']})"]) + "\n")
         return
@@ -523,7 +576,7 @@ def write_md(r):
             L.append(f"| format means F1 / F5 / F6, {NAME[mk]}: self | " + " / ".join(f"{x:.2f}" for x in m["format_means"]["self"])
                      + " | Sam " + " / ".join(f"{x:.2f}" for x in m["format_means"]["sam"]) + " | | secondary |")
     L += ["", f"Leave-one-item-out flips of the overall verdict: {len(r['loo_flips'])}.", "",
-          f"Secondary, not scored: the human-odds card's event (ρ ≥ 0.5 on every tested model): {r['card_event']}.", "",
+          "Secondaries, not scored (D15d): " + (r.get("haiku_analogue_sentence", "") + " " + r["every_model_rho_sentence"]).strip(), "",
           f"**Verdict by the pre-registered rule: {r['label']}**", ""]
     OUT_MD.write_text("\n".join(L) + "\n")
 
@@ -549,7 +602,10 @@ def main():
         if why:
             sys.exit(f"gate closed: {why}")
         c = GuardedCaller(CACHE, CAP, "p2-7", real_call(), recs)
-        print("run status:", c.run(jobs(stmts, so)))
+        status = run_all(c, jobs(stmts, so))
+        print("run status:", status)
+        if status.startswith("error"):                  # D15b (F2): resume from cache until complete, refusal or cap
+            sys.exit("stopped on a non-refusal error: the run is resumed from cache (run this command again) before any analysis")
     cache = json.loads(CACHE.read_text())
     res = analyse_cache(cache, recs, stmts, sb_)
     stopf = CACHE.with_name(CACHE.stem + "-stop.json")

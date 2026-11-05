@@ -164,3 +164,42 @@ Optional notes (not counted, no deviation row needed):
 2. Opus's archived graded calls reach $0.012 at full rate. If the Sam question raises Opus's spend about 45%, the cap stops Opus partway and the conjunction shrinks to two models. A projected-cost check before Opus starts would avoid paying for an Opus arm that cannot finish.
 3. The lesson's proof of reading cites `2efed51` "05:30" in §0 and `read_at: a0b0db3` in `lessons.jsonl`.
 4. Sean is scored on this stricter three-model event, while his 0.70 was for the card's one-model event. That is ledger policy, not design, and §0 discloses it.
+
+## Addendum: confirmation of fixes (2026-11-05 05:59 America/Denver)
+
+I checked fix commit `1e13a58` (DEVIATIONS D15a–D15e, the code, and the dry run re-run on the beacon draw) and the odds revision 0.20 → 0.15 at `e19c185`, which keeps 0.25 as `engine_odds_first`. Nothing was called. Everything was run with `env -u ANTHROPIC_API_KEY`, as stubs and in-process analysis in a scratch folder. The gate still reads this file as unconfirmed. **Four of five fixes hold. F5 holds except one sentence, so `confirmed_at` stays null.**
+
+- **F1 holds.**
+  - `model_reading()` now gates testability on `rel_self` alone. A model whose Sam reliability is below 0.5 or NaN now reads `fail-flat`, which `overall()` counts as tested and not holding.
+  - The frozen fail-flat sentence matches the review.
+  - On the beacon draw, the dry run gives P(pass) 1.00 in the shared world, 0.92 at 70% shared and 0.09 at half shared. It gives 0.00 in the hedged, independent, generic and no-deviation worlds, and 0.00 for (shared, shared, no-deviation on Opus). No-deviation is now fail 1.00, where it was untestable.
+  - Leave-one-item-out now runs on every complete model.
+  - Undefined bootstrap resamples are treated as −∞. One quirk: once about 50 or more of the 2,000 resamples are −∞, `np.percentile` returns NaN rather than −∞ (I measured 2% undefined → finite, 3% → NaN). The rule is unaffected, because NaN > EPS is false, so the reading is not *holds*, the same as under −∞. The printed CI, though, then shows "nan". Optional: print "−∞ (undefined in {undefined_share})" there.
+- **F2 holds.**
+  - `run_all()` runs one model at a time.
+  - The dry run sends a slow refusal on Haiku's 204th call: 0 Sonnet and 0 Opus calls go out, `refusal-p2-7.md` is written, and the shared `refusal.md` is not. A start with `refusal.md` present exits.
+  - My own stubs agree. A refusal on Sonnet's 50th call sends no Opus call. A Haiku refusal sends no later calls. A cap reached during Opus stops at Opus.
+  - After an error, the run command exits without analysing.
+  - Optional: `p2-7-calls-stop.json` is never removed after a resumed run completes, so `stop_record` in the results JSON can show a stale "error". Delete it, or mark it resolved, when a run completes.
+- **F3 holds.**
+  - Every reading sentence and the per-model clause of the pass sentence now print 3 decimals: 0.4951 prints "+0.495 … below 0.5".
+  - The CI > 0 boundary is in the dry run: a lower end computed as 0.3 − 0.1 − 0.2 reads fail-generic, and +1e-4 reads holds.
+  - A narrower contradiction window remains, [0.4995, 0.5) or [0.0995, 0.1). It is permitted by the fix as written. Optional: print 4 decimals near a boundary.
+- **F4 holds.**
+  - `card_event` is withdrawn. Two named secondaries replace it, `haiku_analogue` and `every_model_rho`, each with a frozen sentence, each saying it carries no margin over the rival, and neither calling itself the card's event.
+- **F5: holds, except one sentence.**
+  - What holds:
+    - No sentence contains "credence".
+    - The pass and fail nouns are as required.
+    - `compose()` outputs the verdict, every model's sentence and the fragile sentence, and `write_md` writes them.
+    - The incomplete sentence exists.
+  - **What still fails:** the incomplete sentence's `{reason}` is false for some tables the rule sends to it.
+    - `analyse_model` sets the reason to "a refusal" only when *that model's own* cache holds a refused call. Every other case reads "the budget cap or an error stopped the run".
+    - With `run_all()`, a refusal on an earlier model leaves the later models with no calls. My stubs then printed "Opus 5.5 was not tested: 204 of 204 Sam calls are missing (the budget cap or an error stopped the run)." after a Sonnet refusal, and the same for Sonnet and Opus after a Haiku refusal.
+    - Neither the cap nor an error stopped those runs. A refusal did.
+
+**Required to confirm (one line, D15e addendum row):** pass the stop record (`p2-7-calls-stop.json`: reason and job) to `analyse_cache`, and build `{reason}` from it. Then:
+- a model that was never started reads "the run stopped on a refusal on {M0} before {M}'s calls" (or "…on the budget cap…" or "…on an error…" for {M0});
+- a model stopped partway reads its own cause: refusal, cap or error, named separately, not "cap or error".
+
+Show this in the dry run with a Sonnet refusal (Opus's sentence) and a cap stop during Opus. When that commit is in, I confirm by addendum.
