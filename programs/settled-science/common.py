@@ -26,7 +26,7 @@ import anthropic  # noqa: E402
 from entangled_mind import llm  # noqa: E402
 
 load_dotenv(P1 / ".env")
-BUDGET_USD = 10.20  # $6.00 (protocol/fixed-rules.md) -> $5.00 before any call (D3) -> $7.50 by br-004 for ss-b10 (D51) -> $8.25 by br-005 for ss-b12 (D53) -> $8.95 by br-007 for ss-b13 (D62) -> $10.20 by br-008 for ss-b14 (D63)
+BUDGET_USD = 13.40  # $6.00 (protocol/fixed-rules.md) -> $5.00 before any call (D3) -> $7.50 by br-004 for ss-b10 (D51) -> $8.25 by br-005 for ss-b12 (D53) -> $8.95 by br-007 for ss-b13 (D62) -> $10.20 by br-008 for ss-b14 (D63) -> $13.40 by br-009 for ss-b10b (D64)
 ADAPTIVE_LOW = {"claude-opus-5-5"}  # D18: thinking cannot be disabled on this model
 THINKING_OFF = {}  # model -> the thinking setting that turns thinking off for it
 CACHES = [ROOT / "items" / "leakage-cache.json", ROOT / "bettor" / "bettor-cache.json", ROOT / "bettor" / "pilot-cache.json",
