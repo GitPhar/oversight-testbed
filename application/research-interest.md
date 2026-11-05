@@ -44,7 +44,7 @@ My background is psychology, philosophy and four years leading AI pipeline engin
 | probe moves with order more than the rating, not in step; three gate items, one non-tracking (h191); verdict mixed, scored 0 | ledger row em-gm5; `ledger/audits/probe-dissociation-dp2.md` (DP2 verified DP1; verdict stands) |
 | probe built after Marks & Tegmark 2023 | `CONTEXT.md` §1; `application/research-proposal.md`, mentor fit |
 | <!--n:scored-->44<!--/n--> scored bets one per run, Brier <!--n:brier-->0.160<!--/n--> (always 0.5: <!--n:coin-->0.250<!--/n-->; hindsight base rate <!--n:hit_rate_ref-->0.188<!--/n-->; every row counted: <!--n:brier_all-->0.182<!--/n--> on <!--n:scored_all-->50<!--/n-->) | `ledger/brier.md` (rule 15, one scored bet per run, `CONTEXT.md` §3) |
-| Sean's odds on <!--n:human_n-->12<!--/n--> scored bets, Brier <!--n:human_brier-->0.386<!--/n-->; <!--n:human_lines-->35<!--/n--> odds recorded, all blind | `ledger/brier.md`, `ledger/human-odds.jsonl`; the seven bets in `../paper/day-four.md` §7 |
+| Sean's odds on <!--n:human_n-->12<!--/n--> scored bets, Brier <!--n:human_brier-->0.386<!--/n-->; <!--n:human_lines-->37<!--/n--> odds recorded, all blind | `ledger/brier.md`, `ledger/human-odds.jsonl`; the seven bets in `../paper/day-four.md` §7 |
 | every checker a Claude model; no non-Claude audit yet | `ledger/scores.md` ("all 24 audits are Opus-family on Opus-family work"); `../paper/review-anthropic.md` Part 3 |
 | background | `CONTEXT.md` §1 |
 

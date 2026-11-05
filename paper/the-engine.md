@@ -958,7 +958,7 @@ The odds column above is one narrow measurement of the human: whether his number
 | by referee | model-graded <!--n:ref_model_brier-->0.162<!--/n--> on <!--n:ref_model_n-->36<!--/n-->; chip-graded <!--n:ref_nature_brier-->0.070<!--/n--> on <!--n:ref_nature_n-->5<!--/n-->; record-graded <!--n:ref_record_brier-->0.282<!--/n--> on <!--n:ref_record_n-->3<!--/n--> |
 | the prior (rule 14) | <!--n:prior_hits-->11<!--/n--> of <!--n:prior_n-->44<!--/n--> scored bets came true, <!--n:prior_rate-->0.25<!--/n-->, 95% interval <!--n:prior_ci-->[0.15, 0.39]<!--/n--> |
 | rule 14, prior alone / adjusted odds | 0.282 / 0.211 on 4 bets (`brier.md`); on the first 2 (sg-b4, sg-b5, at `e68eff1`) it was 0.282 / 0.360, so two bets flipped the sign |
-| human odds | <!--n:human_lines-->35<!--/n--> lines; scored on <!--n:human_n-->12<!--/n--> bets, Brier <!--n:human_brier-->0.386<!--/n--> (<!--n:human_brier_all-->0.365<!--/n--> on <!--n:human_n_all-->13<!--/n--> with the secondary row) |
+| human odds | <!--n:human_lines-->37<!--/n--> lines; scored on <!--n:human_n-->12<!--/n--> bets, Brier <!--n:human_brier-->0.386<!--/n--> (<!--n:human_brier_all-->0.365<!--/n--> on <!--n:human_n_all-->13<!--/n--> with the secondary row) |
 | steers valued | helped 18 of 28, neutral 10, hurt 0 (`ledger/steers.md`; §3.14, §6.11) |
 | planted faults | <!--n:plants_planted-->21<!--/n--> planted, <!--n:plants_caught-->21<!--/n--> caught, of <!--n:plants_revealed-->45<!--/n--> audits with a sealed line |
 | design reviews | <!--n:dr_go-->0<!--/n--> go, <!--n:dr_fix-->48<!--/n--> fix-first, <!--n:dr_redesign-->12<!--/n--> redesign; <!--n:dr_missed-->29<!--/n--> later found to have missed a flaw |
