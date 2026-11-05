@@ -39,7 +39,7 @@ P3-5 asked whether program 1's chip errors were *steering* (small systematic rot
   - **blur given steering:** LR_i = 2(logL_full − logL_coh), with a null from the fitted coh state.
   - p = (1 + #{LR* ≥ LR}) / (B + 1). Refits are warm-started from the full-data optima, plus 2 random starts.
 - **Seed** (operators/hardware.md): CURBY-Q latest completed round **28297, result pulse 2025-08-22 13:42 America/Denver** (checked 2026-11-04 17:30), so it is **stalled**. **Seed: the first CURBy-RNG pulse timestamped after this commit**, by `ledger/seed.py --purpose boot`. Its `seed32` seeds numpy's `default_rng` for every start, bootstrap and CV draw. *Filled in by the seed commit:*
-  `chain:` ___ · `pulse index:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seed (boot):` ___ · `seed32 (boot):` ___
+  `chain:` CURBy-RNG · `pulse index:` 1591496 · `pulse_time:` 2026-11-04 17:32:00 America/Denver · `previous pulse:` index 1591495 at 2026-11-04 17:31:00 (before the commit at 2026-11-04 17:31:33) · `randomness:` 27bba9e6c499e9a8a5647a0fcbdfd2947575e32c8a466e1f8b3daf80b95adeee2ba5836c348be9e0714f139e1b0edd4011d11494400f87c3729e7d1892e9731a · `client:` @buff-beacon-project/curby-client@1.2.0 via `experiments/curby_seed.mjs` · `certificate_verified:` false · `seed (boot):` 10131417812182473074 · `seed32 (boot):` 1446222194. Record: `data/p3-5c-seed.json`.
 - **Code:** `experiments/p3_5c_fits.py` (`--synthetic [--fast]`, `--run`).
 - **Synthetic dry run before this commit (D4; no archive).** Four known truths on a mixed reference, B = 20 (so p ≥ 0.048):
   - blur only: LR_c 4.2, p 0.71, so steering correctly not flagged; LR_i 2,118.
