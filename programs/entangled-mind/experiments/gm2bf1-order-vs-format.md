@@ -40,7 +40,7 @@ Program 1 found two ways a model's answer about a claim moves that it shouldn't:
   - format spread G = the SD over the six formats of the claim's percentile rank among the 160 claims, from each format's per-claim mean (ranks remove each format's scale);
   - extremity E = |mean 0–100 rating (format F1) − 50|.
 - **Seed** (operators/hardware.md): CURBY-Q's latest completed round is 28297 (2025-08-22 13:42 America/Denver; checked 06:24), so the chain is stalled. Seed: the first CURBy-RNG pulse timestamped after this commit; `ledger/seed.py <randomness> em-gm2bf1 --purpose bootstrap`. *Filled in by the seed commit, before any data:*
-  `chain:` ___ · `pulse_index:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seed:` ___
+  `chain:` CURBy-RNG · `pulse_index:` 1592288 · `pulse_time:` 2026-11-05 06:44:00 America/Denver (2026-11-05T13:44:00.173Z; previous pulse 1592287 at 13:43:00.220Z, before this file's commit e65b1d5 at 06:43:25) · `randomness:` 7f692e8d4c65b62fbc2f53dcca11a1414f2b57f3e9ec0dcf8038adef440076f61dfdb8c21b1a7bd25bd3d7d7ecf369cff8f50e1476ba1d1a02cae7cb327d8757 · `client:` @buff-beacon-project/curby-client@1.2.0 (Client.randomness(1592288)) · `certificate_verified:` false (classical chain) · `seed:` bootstrap 12485997366771242721
 - **Code:** `experiments/gm2bf1_order_vs_format.py`, committed with this file. `--selftest` runs three synthetic worlds (a shared instability beyond extremity → pass; both measures driven by extremity only → fail; unrelated → fail), plus boundary and measure checks. It never opens the archives, and it printed SELFTEST OK before this commit.
 - **Scale:** one direction (0 = false, 100 = true) in every format.
 
