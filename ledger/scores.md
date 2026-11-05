@@ -29,14 +29,14 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-9 audits prepared with a sealed plant line: 0 still sealed, 9 revealed, of which 5 carried a plant. 
+10 audits prepared with a sealed plant line: 0 still sealed, 10 revealed, of which 6 carried a plant. 
 
-**Catch rate: 5/5 = 1.00, 95% Wilson interval [0.57, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 5 is below that, so the arm is untestable for now.
+**Catch rate: 6/6 = 1.00, 95% Wilson interval [0.61, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 6 is below that, so the arm is untestable for now.
 
 | class / subclass | planted | caught | missed: expected checklist line |
 |---|---|---|---|
 | miscount / total | 3 | 3 | — |
-| overclaim / mechanism | 1 | 1 | — |
+| overclaim / mechanism | 2 | 2 | — |
 | overclaim / scope | 1 | 1 | — |
 
 | plant | bet | class | caught | where (from the audit) | planter model |
@@ -46,6 +46,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 | pl-004 | ss-b5 | miscount/total | yes | ledger/audits/ss-b5.md: Holes 1 / Required cut 1, scalable oversight n = 25 vs 21 in the generated table, the draw and the pre-registration; column sums to 96, not 92 | claude-opus-5-5 |
 | pl-006 | ss-b6 | miscount/total | yes | Holes 1 / Required cut 1 (table: 75 -> 71 up-word items) | claude-opus-5-5 |
 | pl-009 | ng-p3-15 | overclaim/mechanism | yes | Holes / Required cut 1 (C14, C15, B11: 'made ... because the two 1,000-shot PUBs executed first') | claude-opus-5-5 |
+| pl-010 | ss-b7 | overclaim/mechanism | yes | Required cut 1 (mechanism sentence in 'What this rules out') | claude-opus-5-5 |
 
 **Limits, stated with the number:**
 
@@ -96,13 +97,13 @@ Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denv
 |---|---|
 | pre-registrations since the rule | 11 |
 | with a lesson line | 8 |
-| with a design review verdict | 10 |
-| awaiting their design review (nothing may run yet) | 1: ss-b7 |
+| with a design review verdict | 11 |
+| awaiting their design review (nothing may run yet) | 0 |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 3 |
 
-Design reviews: 0 go, 10 fix-first, 3 redesign; 6 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 11 fix-first, 3 redesign; 7 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
@@ -114,10 +115,10 @@ Design reviews: 0 go, 10 fix-first, 3 redesign; 6 later found by the post-result
 | P6 | A control that cannot fail | 1 | 1 of 1 scored |
 | P7 | A foreseeable execution risk run without a pilot | 1 | 0 of 1 scored |
 | P8 | Comparing across conditions that differ in more than the factor named | 5 | 4 of 5 scored |
-| P9 | The right rule, then the wrong noun | 6 | 5 of 5 scored |
+| P9 | The right rule, then the wrong noun | 6 | 6 of 6 scored |
 | P10 | A label that hangs on one item | 6 | 6 of 6 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 1 | 1 of 1 scored |
-| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 1 | 0 of 0 scored |
+| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 1 | 1 of 1 scored |
 
-**Does the loop help?** On 7 scored bets, Brier with the odds before the lesson is 0.265, after it 0.224.
+**Does the loop help?** On 8 scored bets, Brier with the odds before the lesson is 0.277, after it 0.241.
 
