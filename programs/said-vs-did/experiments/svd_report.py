@@ -31,7 +31,8 @@ def stop_cause(model):
         p = C.RESULTS / f
         if p.exists():
             for ln in p.read_text().splitlines():
-                if model in ln or f == "sv-errors.md":
+                # D11: cap stops name the model; error stops name the job, whose key holds the model's short name
+                if (f == "sv-run-log.md" and model in ln) or (f == "sv-errors.md" and f"|{C.SHORT[model]}|" in ln):
                     causes.append(ln.lstrip("- ").split(" ", 1)[1])
     rp = C.RESULTS / "refusal.md"           # D10: a refusal stops every later call in the program
     if rp.exists():
