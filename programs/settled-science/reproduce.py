@@ -42,7 +42,7 @@ hand-written qualifiers ("unreplicated") are not checked. In detail:
                     tables; the exploratory up/down and word-pair table and the September-onward subset (recomputed from
                     the regenerated rows with the scorer's boot_ci and seed); the order check; leave-one-bucket-out sizes;
                     plain-English numbers. Not checked: leakage-check counts (146 of 243), the greedy count of 9, spend.
-  ss-b6-results.md  the verdict and the pre-registered sentence (exact); gates, measures, robustness and rater-noise
+  ss-b6-results.md  the verdict (after an audit reversal: the ledger's verdict with the scorer's label beside it) and the pre-registered sentence (exact); gates, measures, robustness and rater-noise
                     tables; the opposite-sentence paragraph; plain-English numbers. Not checked: the design review's
                     and the auditor's simulation rates (8%, 20-66%, 58%), spend.
   ss-b7-results.md  the verdict and the pre-registered sentence (exact); the noise-margin, gates, measures and robustness
@@ -349,8 +349,15 @@ def check_b6(rep, root, b, r):
                      for lab in ("null", "pass") if any(v["label"] == lab for v in lofo.values()))
     leg = lambda v: dci(v["d"], v["ci"], plus=True)  # noqa: E731
     dc, op = b["discordant"], sec["opposite_sides"]
+    # The verdict cell: the label the scorer gives, or, once an audit has reversed it, the ledger's verdict with the
+    # scorer's label kept beside it ("**undetermined** (round-3 audit; the pre-registered rule was met: ...)").
+    rule = f"{b.get('label_reported', b['label'])}, unreplicated"
+    led = next((x for x in lines(root.parents[1] / "ledger" / "bets.jsonl") if x.get("id") == "ss-b6"), {})
+    v = led.get("verdict")
+    verdict = (f"**{v}** (round-3 audit; the pre-registered rule was met: {rule})"
+               if v and not rule.startswith(v) else f"**{rule}**")
     tables = [
-        (0, {0: {2: f"**{b.get('label_reported', b['label'])}, unreplicated**"}}),
+        (0, {0: {2: verdict}}),
         (1, {0: {1: f"{g['G1_x']} of {g['G1_n']} ({g['G1_share_up']:.2f})"}, 1: {1: f"{g['G1_share_up']:.2f}"},
              2: {1: f"{g['G3_matches']} of {b['n']}"}}),
         (2, {0: {1: str(b["n"]), 2: u(L1["bettor_brier"]), 3: iv(sec["bettor_brier_ci"])},
@@ -451,7 +458,7 @@ def check_b7(rep, root, k, b6, r):
 
 # ---------------- main ----------------
 def main():
-    tmp = R.snapshot(["programs/settled-science"])     # score.py imports only json, math, random, re, sys and numpy
+    tmp = R.snapshot(["programs/settled-science", "ledger/bets.jsonl"])  # the ledger: read only, for audit-reversed verdicts     # score.py imports only json, math, random, re, sys and numpy
     try:
         root = tmp / "programs/settled-science"
         sys.path[:0] = [str(root / "scoring")]
