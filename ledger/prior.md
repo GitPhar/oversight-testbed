@@ -101,4 +101,4 @@ A program whose last three layers with settled bets hold no landed bet and no fi
 
 ## What is not counted
 
-30 of the 67 bets in the ledger are not in these tables: they are open, withdrawn before data, untestable, undetermined after audit, or stated no odds (`ledger/brier.md`, "What is not scored, and why").
+31 of the 68 bets in the ledger are not in these tables: they are open, withdrawn before data, untestable, undetermined after audit, or stated no odds (`ledger/brier.md`, "What is not scored, and why").
