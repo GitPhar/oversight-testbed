@@ -27,6 +27,8 @@ Round 2 (`experiments/ss-b4.md`): items written by a fixed template, with no mod
 
 Round 2b (`results/ss-b6-results.md`, unaudited): asked only which version flatters the paper, the same model picks the published sentence 90% of the time, against the bettor's 93%. The bettor's edge clears the bar narrowly and is **fragile**: one item, or one query bucket, flips it. So a same-model rater asked only which version flatters the paper matches most of round 2's result.
 
+Round 2c (`results/ss-b7-results.md`, unaudited): asked which version reports the more striking finding, the same model is near a coin (52%). The bettor beats it robustly, so that rival is ruled out; the flattery rival stands.
+
 ## Where things are
 
 | path | what |

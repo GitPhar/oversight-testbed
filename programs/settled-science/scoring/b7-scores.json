@@ -1,0 +1,189 @@
+{
+ "n": 92,
+ "missing": [],
+ "gates": {
+  "G1_share_up": 0.532608695652174,
+  "G1_n": 92,
+  "G1_x": 49,
+  "G3_matches": 14
+ },
+ "leg1": {
+  "d": -0.20270760869565219,
+  "ci": [
+   -0.2538945652173913,
+   -0.15215108695652174
+  ],
+  "bettor_brier": 0.06972934782608696,
+  "valence_brier": 0.2724369565217391,
+  "valence_accuracy": 0.5217391304347826
+ },
+ "leg2": {
+  "d": -0.13578201843190243,
+  "ci": [
+   -0.18768607346592497,
+   -0.08519614356927187
+  ],
+  "bettor_recal_brier": 0.05160482538751762,
+  "rival_recal_brier": 0.1873868438194201
+ },
+ "leg2_up_word": {
+  "n": 71,
+  "d": -0.032431844718720515,
+  "ci": [
+   -0.05212480715764635,
+   -0.002443251726223215
+  ]
+ },
+ "leg2_down_word": {
+  "n": 21,
+  "d": -0.4852040343193272,
+  "ci": [
+   -0.5856293315139764,
+   -0.3596535824656276
+  ]
+ },
+ "discordant": {
+  "n": 39,
+  "bettor_right": 37,
+  "one_sided_sign_p": 1.420630724169314e-09
+ },
+ "secondaries": {
+  "bettor_brier_ci": [
+   0.04972065217391304,
+   0.0930728260869565
+  ],
+  "valence_brier_ci": [
+   0.2273434782608696,
+   0.3185467391304347
+  ],
+  "valence_accuracy_ci": [
+   0.42391304347826086,
+   0.6195652173913043
+  ],
+  "leg1_up_word": {
+   "n": 71,
+   "d": -0.2014267605633803,
+   "ci": [
+    -0.25424225352112667,
+    -0.1514732394366197
+   ]
+  },
+  "leg1_down_word": {
+   "n": 21,
+   "d": -0.20703809523809524,
+   "ci": [
+    -0.3381809523809524,
+    -0.07436666666666662
+   ]
+  },
+  "opposite_sides": {
+   "items": [
+    "r2-007",
+    "r2-010",
+    "r2-016",
+    "r2-017",
+    "r2-018",
+    "r2-019",
+    "r2-022",
+    "r2-024",
+    "r2-025",
+    "r2-026",
+    "r2-030",
+    "r2-032",
+    "r2-033",
+    "r2-035",
+    "r2-036",
+    "r2-037",
+    "r2-038",
+    "r2-040",
+    "r2-042",
+    "r2-043",
+    "r2-044",
+    "r2-046",
+    "r2-050",
+    "r2-051",
+    "r2-054",
+    "r2-058",
+    "r2-061",
+    "r2-066",
+    "r2-068",
+    "r2-069",
+    "r2-071",
+    "r2-072",
+    "r2-073",
+    "r2-077",
+    "r2-079",
+    "r2-081",
+    "r2-083",
+    "r2-084",
+    "r2-089",
+    "r2-091",
+    "r2-095",
+    "r2-097"
+   ],
+   "bettor_right": 40,
+   "rater_at_50": [],
+   "share_of_leg1_gap": 0.9238783641033617
+  },
+  "leg2_without_near50_term": {
+   "d": -0.1320143682182807,
+   "ci": [
+    -0.18417837815683757,
+    -0.08027705049446072
+   ]
+  }
+ },
+ "scope": "Both the bettor and the rater ran as claude-opus-5-5 with adaptive thinking at effort low, with reasoning hidden; the result is about that setting.",
+ "sigma_retest": 0.3194840608652854,
+ "retest_pairs": 46,
+ "margin": -0.003071846354509919,
+ "null_false_pass_at_0": 0.28,
+ "label": "pass",
+ "fragile_items": [],
+ "leave_one_bucket_out": {
+  "interpretability": {
+   "n": 65,
+   "label": "pass"
+  },
+  "model-psychology": {
+   "n": 62,
+   "label": "pass"
+  },
+  "quantum-devices": {
+   "n": 78,
+   "label": "pass"
+  },
+  "scalable-oversight": {
+   "n": 71,
+   "label": "pass"
+  }
+ },
+ "bucket_flips": [],
+ "seed_labels": [
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass",
+  "pass"
+ ],
+ "seeds_other": 0,
+ "sigma_dis": 2.092257360213554,
+ "world_b_pass_rate": 0.98,
+ "sentence": "On 92 round-2 sentence pairs, the bettor picked the published sentence better than the same model asked only which version reports the more striking finding (shown only the field and the two sentences, not the question or methods) (raw d\u2081 -0.203 [-0.254, -0.152], striking rule Brier 0.272; recalibrated with the up word d\u2082 -0.136 [-0.188, -0.085], beyond the rater's call-to-call noise margin -0.0031). Round 2's pass is not only picking the more striking version, as this rater judged it, though this does not separate knowing the result from reasoning within the sentence, and the rater was the same model as the bettor; a bettor that differed from this rater only by stable item-level noise of the observed size would pass this test about 98% of the time.",
+ "verdict_reported": "pass, unreplicated"
+}
