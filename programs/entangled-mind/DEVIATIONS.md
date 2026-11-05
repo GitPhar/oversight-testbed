@@ -1470,3 +1470,7 @@ What changed, said plainly: the 30% wrong-target world now passes the bet 0.005 
 ## D93 — em-dm6f2f2f1 seed
 
 2026-11-05 (commit author time is the record), before any call. From CURBy-RNG pulse 1592875 (23:31:00.194Z), the first after the pre-registration commit `39b9f16` (author time 16:30:57; pulse 1592874 at 23:30:00 predates it): bootstrap 1922030650083322747, items 5271620121328318991 (`ledger/seed.py <randomness> em-dm6f2f2f1 --purpose …`). Written into §2 and the script's `SEED_RECORDED`. Nothing else changes.
+
+## D94 — em-dm6f2f2f2 pre-registered (map dm6f2f2-f2): the two missing cells of wording × guess form on Sonnet's science questions
+
+2026-11-05 (commit author time is the record), before any call. New pre-registration `experiments/dm6f2f2f2-science-2x2.md`, code `experiments/dm6f2f2f2_science_2x2.py` (em-dm6's and em-dm6f2f2's templates with only the guess field changed; em-dm6f2's statistic imported unchanged), dry run `results/dm6f2f2f2-dry-run.json`, odds record `experiments/dm6f2f2f2-odds.md` (`6b3f95c`). Differences from the map's draft (dm6f2f2-f2, `60b59bd`), chosen before data: 60 of the 120 science questions (120 cost about $0.97 at measured science costs; the card and br-022 give $0.56); the floor is 35 usable questions per cell, not 40 (Sonnet cut 15% of science calls at max_tokens in em-dm6f2f2). Budget $0.56 in code, worst-case chunks (br-022). Engine odds 0.57 (v2), map 0.36, both kept. Human odds 0.70 (`ho-20261105-162756-iy8`, committed `f65b377`), given on the card's 120-question event.
