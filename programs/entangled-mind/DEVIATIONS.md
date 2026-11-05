@@ -1259,3 +1259,10 @@ Not scored; counted as a withdrawal. The 0.5 bar is not moved. gm3c-f1 is parked
 ## D67 — em-bm9f2 pre-registered (remap follow-up bm9-f2, archive only, $0); bm9-f1 parked as not free
 
 2026-11-05 America/Denver (commit author time is the record), before `results/exp5-conversations.json` is opened for this analysis. Follow-up `bm9-f2` of `em-bm9`: on Haiku's 80 run-1 pairs, does a derivative-of-Gaussian pull beat a linear one by ΔAIC ≥ 4, beat an equally flexible tanh by ΔAIC ≥ 2, with its peak inside the observed gaps? Pre-registration `experiments/bm9f2-dog-shape.md`, code `experiments/bm9f2_dog_shape.py`. Departure from the remap's row, before data: the tanh rival and the A > 0 condition are added (lesson, P5). Engine odds: map 0.25, v1 0.08, after the lesson 0.08. No human odds. Before this, bm9-f1 (Sonnet and Opus) was checked and parked as not free: em-dm4's conversations put M, four S, then M again, not single S→M pairs. Only Haiku's exp5 has the QQ pairs, so bm9-f1 needs new calls (about $3).
+
+## D68 — em-dm6f2 audit applied: 3 cuts to the plain-English section; three record items logged
+
+2026-11-05, after the audit (`ledger/audits/em-dm6f2.md`, stands, pass-unreplicated). Cuts 1–3 were applied verbatim to `results/dm6f2-flag-overlap.md`. They state the rate-matched result as a secondary, give the category split (the effect is carried by the 94 science questions; simpleqa alone gives D +0.08, below the margin), and use "questions" for "answers". No table or number changed. Record items the audit found without a row (hole 5):
+- the seed commit `6520400` made two more time edits to the frozen pre-registration besides the header ("06:10" → "06:05" for the human-odds check; "06:05" → "about 06:02" for the v1 elicitation). Both correct guessed times; no rule, number or bar changed;
+- after the run, `dm6f2_flag_overlap.py` gained one output-only line (the placeholder plain-English heading for program 1's reproduce.py). It was re-run with the same seed, and the JSON was byte-identical (`f9d77e8`);
+- the same-format intervals added under D63 use the stream seed + 2, which §2 did not name. They feed reported intervals only.
