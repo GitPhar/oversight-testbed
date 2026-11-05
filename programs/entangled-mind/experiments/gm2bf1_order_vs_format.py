@@ -215,6 +215,11 @@ def selftest():
 
 
 def main():
+    global RESULTS
+    import sys as _sys
+    _sys.path.insert(0, str(HERE.parent / "src"))
+    from entangled_mind import config as _config      # D78: reproduce.py redirects config.RESULTS to its snapshot
+    RESULTS = Path(_config.RESULTS)
     ap = argparse.ArgumentParser()
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--seed", type=int)
