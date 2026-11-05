@@ -1458,3 +1458,7 @@ What changed, said plainly: the 30% wrong-target world now passes the bet 0.005 
 ## D90 — budget-ruling ids renumbered at the merge with main
 
 2026-11-05, at the merge of p1-wave3 into main. The rulings written on this branch as br-011 (em-gm2q2), br-012 (em-gm2bf1f1) and br-013 (em-dm6f2f2) collided with other-minds' br-011 to br-013 on main. They are renumbered **br-016**, **br-017** and **br-018** in `ledger/spend.jsonl` (each row says so in `renumbered`). Where D80, D82, D83, D84 and D87 name br-011, br-012 or br-013, read br-016, br-017 and br-018. Amounts and reasons are unchanged.
+
+## D91 — em-dm6f2f2 audit applied (pass-unreplicated stands; 3 cuts, 1 plant)
+
+2026-11-05, after the audit (`ledger/audits/em-dm6f2f2.md`, `8c88c81`; pl-040 caught). Cuts 2, 3 and 4 applied verbatim to `results/dm6f2f2-own-guess.md`: the manipulation drop is partly a change of denominator (science shares barely moved: chemistry 0.58 to 0.47, physics 0.37 to 0.35); "it grew" and "does not explain the gap" replaced with the frozen gate's wording and the audit's exploratory exclusion check, labelled as such; the Novelty line says the referent fix was attempted and only partly took effect. Cut 1 was the plant and is not applied. Record fixes: the lesson's read block gets `read_correction` (running base rate 0.23 = 7/31, not 0.24); the ledger's novelty fields carry the corrected line. The audit's recommendation to cite Gigerenzer, Hoffrage and Kleinbölting 1991 is noted, not added (not opened by this session).
