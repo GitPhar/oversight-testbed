@@ -50,7 +50,7 @@ The "you" sentence is true for every conclusion here. The "another AI model" sen
   - CURBY-Q stalled (latest completed round 28297, 2025-08-22 13:42 America/Denver; checked 2026-11-05 04:40).
   - Seed: the first CURBy-RNG pulse timestamped after this commit.
   - seed = the first 8 bytes of SHA-256(randomness ‖ bet-id); sub-seeds by `ledger/seed.py --purpose`: `order` (the call order) and `boot` (the bootstrap; `boot + 1` to `boot + 3` for the secondaries and the gate).
-  - *Filled in by the seed commit:* `chain:` ___ · `round:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seeds:` ___ (`data/sg-b2-seed.json`).
+  - *Filled in by the seed commit:* `chain:` CURBy-RNG · `round:` pulse 1592200 (previous 1592199 at 05:15:00, before this file's commit at 05:15:03) · `pulse_time:` 2026-11-05 05:16:00 America/Denver · `randomness:` 5851b65c550206819f51e95e8c21d1ee1f458150ff21b1a5a18304cfc9f693944338f5bb5e6f4edc33b9f88ac732d85a94c50b3e31b5f502dbfe7d173e7ae24f · `client:` @buff-beacon-project/curby-client@1.2.0 via `programs/other-minds/experiments/curby_seed.mjs` · `certificate_verified:` false · `seeds:` order 6297966146276274557, boot 3970054896881524028 (`data/sg-b2-seed.json`).
 
 ## 3. Calls
 
