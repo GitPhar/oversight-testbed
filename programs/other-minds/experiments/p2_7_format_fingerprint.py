@@ -218,7 +218,8 @@ class GuardedCaller:
             rid = getattr(self.refusal["e"][1], "request_id", None) if self.refusal else None
             rec = {"label": self.label, "reason": reason, "job": key, "request_id": rid,
                    "completed_after_stop": self.after_stop, "calls_cached": len(self.cache),
-                   "error": self.errors[0][1] if self.errors else None, "resumable": reason == "error"}
+                   "error": self.errors[0][1] if self.errors else None, "resumable": reason == "error",
+                   "model": jobs_[0][1] if jobs_ else None}                                   # D15f
             self.path.with_name(self.path.stem + "-stop.json").write_text(json.dumps(rec, indent=1))
             if self.refusal:
                 key, e = self.refusal["e"]
@@ -229,6 +230,9 @@ class GuardedCaller:
                     "Nothing was reworded or retried. The run is not resumed past this refusal.\n")
             return reason
         print(f"{self.label}: complete, {len(self.cache)} cached calls, ${self.spent():.4f}", flush=True)
+        stopf = self.path.with_name(self.path.stem + "-stop.json")
+        if stopf.exists() and jobs_ and jobs_[-1][1] == ORDER[-1]:                         # D15f: a resolved stop is not left on disk
+            stopf.rename(stopf.with_name(stopf.stem + "-resolved.json"))
         return "complete"
 
 
@@ -436,12 +440,28 @@ def boot_model(S, Sh, M, Mh, items_of, seed32_boot):
     for k, v in vals.items():                           # D15a (F1): an undefined resample counts as -inf (worst case)
         a = np.array(v, float)
         a = np.where(np.isnan(a), -np.inf, a)
-        out[k] = [float(np.percentile(a, 2.5)), float(np.percentile(a, 97.5))]
+        if np.isinf(a).any():                           # D15f: order statistics, so -inf never interpolates to nan
+            out[k] = [float(np.percentile(a, 2.5, method="lower")), float(np.percentile(a, 97.5, method="higher"))]
+        else:
+            out[k] = [float(np.percentile(a, 2.5)), float(np.percentile(a, 97.5))]
     out["undefined_share"] = float(np.mean(np.isnan(np.array(vals["delta"], float))))
     return out
 
 
-def analyse_model(mk, cache, stmts, seed32_boot):
+def incomplete_reason(mk, calls, stop):
+    """D15f: the cause of a missing model, from the stop record. A model that never started names the earlier model's
+    stop; a model stopped partway names its own cause."""
+    if any(v.get("refused") for v in calls.values()):
+        return "a refusal on this model stopped the run"
+    if stop and stop.get("model") and stop["model"] != mk and not calls:
+        return f"the run stopped on {('a ' + stop['reason']) if stop['reason'] != 'cap' else 'the budget cap'} on {NAME[stop['model']]} before {NAME[mk]}'s calls"
+    if stop and stop.get("model") == mk:
+        return {"cap": "the budget cap stopped the run on this model", "error": "an API error stopped the run on this model (resumable)",
+                "refusal": "a refusal on this model stopped the run"}[stop["reason"]]
+    return "the run did not reach this model's calls"
+
+
+def analyse_model(mk, cache, stmts, seed32_boot, stop=None):
     S, Sh = self_matrices(mk, stmts)
     M, Mh = sam_matrices(cache, mk, stmts)
     calls = {k: v for k, v in cache.items() if k.startswith(mk + "|")}
@@ -450,7 +470,7 @@ def analyse_model(mk, cache, stmts, seed32_boot):
     if np.isnan(M).any() or np.isnan(np.stack(Mh)).any():
         expected = len(stmts) * len(FORMATS) * REPEATS
         got = sum(1 for v in calls.values() if not v.get("refused"))
-        reason = "a refusal" if res["refused"] else "the budget cap or an error stopped the run"
+        reason = incomplete_reason(mk, calls, stop)
         res["incomplete"] = f"{NAME[mk]}: {expected - got} of {expected} Sam calls missing"
         res["sentence"] = SENTENCES["incomplete"].format(M=NAME[mk], n=expected - got, reason=reason)   # D15e (F5)
         return res
@@ -481,7 +501,7 @@ def analyse_model(mk, cache, stmts, seed32_boot):
     return res
 
 
-def analyse_cache(cache, recs, stmts, seed32_boot, check=True):
+def analyse_cache(cache, recs, stmts, seed32_boot, check=True, stop=None):
     if check:
         for key, v in cache.items():
             mk, q, k, f, r = key.split("|")
@@ -489,7 +509,7 @@ def analyse_cache(cache, recs, stmts, seed32_boot, check=True):
             assert v.get("sha256") == content_hash(mk, msgs, schema), f"cache entry {key} does not match"
     res = {"calls_cached": len(cache), "cost_usd": sum(v["cost"] for v in cache.values()),
            "refused": sum(bool(v.get("refused")) for v in cache.values()), "statements": stmts,
-           "models": {mk: analyse_model(mk, cache, stmts, seed32_boot) for mk in ORDER}}
+           "models": {mk: analyse_model(mk, cache, stmts, seed32_boot, stop) for mk in ORDER}}
     readings = {mk: m.get("reading", "incomplete") for mk, m in res["models"].items()}
     complete = {mk: v for mk, v in readings.items() if v != "incomplete"}
     res["readings"] = readings
@@ -607,9 +627,10 @@ def main():
         if status.startswith("error"):                  # D15b (F2): resume from cache until complete, refusal or cap
             sys.exit("stopped on a non-refusal error: the run is resumed from cache (run this command again) before any analysis")
     cache = json.loads(CACHE.read_text())
-    res = analyse_cache(cache, recs, stmts, sb_)
     stopf = CACHE.with_name(CACHE.stem + "-stop.json")
-    res["stop_record"] = json.loads(stopf.read_text()) if stopf.exists() else None
+    stop = json.loads(stopf.read_text()) if stopf.exists() else None
+    res = analyse_cache(cache, recs, stmts, sb_, stop=stop)
+    res["stop_record"] = stop
     OUT_JSON.write_text(json.dumps(res, indent=1))
     write_md(res)
     print(json.dumps({k: res[k] for k in ("verdict", "label", "sentence") if k in res}, indent=1))

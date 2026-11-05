@@ -267,3 +267,39 @@ for combo in combos:
         elif all(x == "h" for x in tested):
             pp += pr
     print(f"- {w}: P(pass) {pp:.2f}, P(untestable) {pt:.2f}, P(fail) {1 - pp - pt:.2f}")
+
+
+import warnings
+warnings.simplefilter("ignore", np.exceptions.RankWarning if hasattr(np, "exceptions") else np.RankWarning)   # constant stub answers
+print("\n## 8. D15f: the incomplete sentence names the right cause")
+with tempfile.TemporaryDirectory() as t:
+    T.RESULTS = Path(t)
+    n = {"i": 0}
+
+    def ref_sonnet(mk, msgs, schema):
+        n["i"] += 1
+        if mk == "sonnet" and n["i"] == 210:
+            raise FakeRefusal()
+        return ({"answer": "likely"} if "answer" in schema["properties"] else {next(iter(schema["properties"])): 50}), 0.0, f"r{n['i']}"
+    ref_sonnet.refusal_error = FakeRefusal
+    c = T.GuardedCaller(Path(t) / "c.json", 99, "stub", ref_sonnet, recs)
+    print(f"- a refusal at Sonnet's 6th call: {T.run_all(c, J)}")
+    stop = json.loads((Path(t) / "c-stop.json").read_text())
+    r = T.analyse_cache(json.loads((Path(t) / "c.json").read_text()), recs, stmts, 1, check=False, stop=stop)
+    for x in r["all_sentences"]:
+        print(f"  - {x}")
+with tempfile.TemporaryDirectory() as t:
+    T.RESULTS = Path(t)
+    def priced(mk, msgs, schema):
+        return ({"answer": "likely"} if "answer" in schema["properties"] else {next(iter(schema["properties"])): 50}), \
+            (0.01 if mk == "opus" else 0.0), "r"
+    priced.refusal_error = FakeRefusal
+    c = T.GuardedCaller(Path(t) / "c.json", 1.0, "stub", priced, recs)
+    print(f"- a cap stop during Opus (Haiku and Sonnet free, Opus $0.01 a call, cap $1.00): {T.run_all(c, J)}")
+    stop = json.loads((Path(t) / "c-stop.json").read_text())
+    r = T.analyse_cache(json.loads((Path(t) / "c.json").read_text()), recs, stmts, 1, check=False, stop=stop)
+    for x in r["all_sentences"]:
+        print(f"  - {x}")
+T.RESULTS = old
+a = np.array([0.2] * 950 + [-np.inf] * 50)
+print(f"- a CI lower end with 5% undefined resamples prints {T.fmt3([0.2, float(np.percentile(a, 2.5, method='lower')), 0.3])} (not nan)")

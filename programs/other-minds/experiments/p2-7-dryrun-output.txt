@@ -26,10 +26,6 @@
 - re-run on that cache: exits (stub: a refusal is on record (haiku|h173|6|F6|0); not resumed)
 - cap $0.40 at $0.01 a call: status cap; calls 40; spent $0.40
 - tampered entry: caught (cache entry haiku|h238|3|F5|0 does not match)
-/Users/seanpharris/entangled-mind/.venv/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:4609: RuntimeWarning: invalid value encountered in scalar subtract
-  diff_b_a = b - a
-/Users/seanpharris/entangled-mind/.venv/lib/python3.12/site-packages/numpy/lib/_function_base_impl.py:4610: RuntimeWarning: invalid value encountered in add
-  lerp_interpolation = add(a, diff_b_a * t, out=... if out is None else out)
 - slow refusal on Haiku's 204th call: status refusal (on haiku); Sonnet + Opus calls sent 0 (must be 0); record refusal-p2-7.md written True; shared refusal.md written False
 - start with the shared refusal.md present: exits (stub: a refusal is on record (results/refusal.md); not resumed)
 
@@ -76,3 +72,16 @@ Overall P(pass) per combination of worlds (readings assumed independent across m
 - shared / shared / no-deviation: P(pass) 0.00, P(untestable) 0.00, P(fail) 1.00
 - shared / shared / shared-hedged: P(pass) 0.00, P(untestable) 0.00, P(fail) 1.00
 - mix:0.7 / mix:0.7 / shared-hedged: P(pass) 0.00, P(untestable) 0.00, P(fail) 1.00
+
+## 8. D15f: the incomplete sentence names the right cause
+- a refusal at Sonnet's 6th call: refusal (on sonnet)
+  - The test could not answer its question as run: Sonnet 5.5: 199 of 204 Sam calls missing; Opus 5.5: 204 of 204 Sam calls missing (fewer than 2 models testable). No verdict is drawn.
+  - On Haiku 5.5, the self–Sam residual correlation was +0.006 [-0.036, +0.034] of its ceiling, below 0.5.
+  - Sonnet 5.5 was not tested: 199 of 204 Sam calls are missing (a refusal on this model stopped the run).
+  - Opus 5.5 was not tested: 204 of 204 Sam calls are missing (the run stopped on a refusal on Sonnet 5.5 before Opus 5.5's calls).
+- a cap stop during Opus (Haiku and Sonnet free, Opus $0.01 a call, cap $1.00): cap (on opus)
+  - On Haiku 5.5 and Sonnet 5.5, on 34 statements from 17 of program 1's experiment-5 items and three graded formats, the format fingerprint of the ratings given for Sam did not match that of the model's own ratings on every model tested by the pre-registered rule (a self–Sam residual correlation of at least 0.5 of its reliability ceiling, beating a generic-link rival by at least 0.10 with its 95% interval above 0).
+  - On Haiku 5.5, the self–Sam residual correlation was +0.006 [-0.036, +0.034] of its ceiling, below 0.5.
+  - On Sonnet 5.5, the self–Sam residual correlation was +0.008 [-0.075, +0.031] of its ceiling, below 0.5.
+  - Opus 5.5 was not tested: 104 of 204 Sam calls are missing (the budget cap stopped the run on this model).
+- a CI lower end with 5% undefined resamples prints +0.200 [-inf, +0.300] (not nan)
