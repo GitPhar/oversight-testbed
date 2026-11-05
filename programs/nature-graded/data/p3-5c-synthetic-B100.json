@@ -1,0 +1,46 @@
+{
+ "incoherent only": {
+  "LR_coherent_given_incoherent": 4.239922991429921,
+  "LR_incoherent_given_coherent": 2117.744231082368,
+  "p_coherent": 0.5346534653465347,
+  "p_incoherent": 0.009900990099009901,
+  "cv_gain_coherent": -74.39413579578104,
+  "cv_gain_incoherent": 2588.078832667241,
+  "label_coherent": "not detected",
+  "label_incoherent": "present",
+  "dlogL_7v7": -1056.752154045469
+ },
+ "coherent only": {
+  "LR_coherent_given_incoherent": 123.09926395044022,
+  "LR_incoherent_given_coherent": 0.43734922134899534,
+  "p_coherent": 0.009900990099009901,
+  "p_incoherent": 0.6336633663366337,
+  "cv_gain_coherent": 58.887633768172236,
+  "cv_gain_incoherent": -3.4507198855790193,
+  "label_coherent": "present",
+  "label_incoherent": "not detected",
+  "dlogL_7v7": 61.33095736454561
+ },
+ "both": {
+  "LR_coherent_given_incoherent": 93.04758036967542,
+  "LR_incoherent_given_coherent": 1813.8357586788043,
+  "p_coherent": 0.009900990099009901,
+  "p_incoherent": 0.009900990099009901,
+  "cv_gain_coherent": 18.67078760912409,
+  "cv_gain_incoherent": 2058.072211566221,
+  "label_coherent": "present",
+  "label_incoherent": "present",
+  "dlogL_7v7": -860.3940891545644
+ },
+ "neither": {
+  "LR_coherent_given_incoherent": 1.9576989653432975,
+  "LR_incoherent_given_coherent": 0.003410775010706857,
+  "p_coherent": 0.8712871287128713,
+  "p_incoherent": 0.7821782178217822,
+  "cv_gain_coherent": -10.324537451946526,
+  "cv_gain_incoherent": -2.560094262000348,
+  "label_coherent": "not detected",
+  "label_incoherent": "not detected",
+  "dlogL_7v7": 0.9771440951662953
+ }
+}
