@@ -59,7 +59,7 @@ Written and frozen 2026-11-05 (America/Denver), in its own commit, before any ca
 - **Calls:** belief 16 × 4 × 3 = 192; behaviour 90 × 3 × (2 + 1 + 1) = 1,080; **1,272**.
 - **Scale:** one direction in every prompt.
 - **Seed** (`operators/hardware.md`): CURBY-Q latest completed round **28297** (2025-08-22 13:42, checked 04:37 today): stalled. **Seed: the first CURBy-RNG pulse timestamped after this commit.** Sub-seeds `items`, `order`, `boot` by `ledger/seed.py <randomness> ta-b1r2 --purpose <p>`, into `experiments/ta-b1r2-seed.json` by the seed commit, which fills in:
-  `chain:` ___ · `pulse_index:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seeds:` ___
+  `chain:` CURBy-RNG · `pulse_index:` 1592245 · `pulse_time:` 2026-11-05 06:01:00 America/Denver (2026-11-05T13:01:00.177Z; previous pulse 1592244 at 06:00:00, before this file's commit 84deb7a at 06:00:03) · `randomness:` cbcdab880011cfee3da82c15e9ffdcaad79027054856a1a93491458eae447b0e57f348507a72cd7a04e8163e2ea1ae5105f6c8433475f179e3da409d388777be · `client:` @buff-beacon-project/curby-client@1.2.0 (`Client.randomness(1592245)`) · `certificate_verified:` false (classical chain) · `seeds:` seed 13124791812179855702; items 5334537968512012800; order 6918697602725183561; boot 1142758060700319074
 
 ## 3. Calls
 
