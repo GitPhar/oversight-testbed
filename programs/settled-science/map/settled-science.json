@@ -224,7 +224,7 @@
     "both pass on round 2's template items: engine odds 0.55 (correlated)"
    ],
    "kind": "follow-up",
-   "status": "open",
+   "status": "mixed",
    "remap": "2026-11-05",
    "engine_odds_at": "2026-11-05T04:45",
    "odds_template": "v2",
@@ -245,7 +245,17 @@
    "odds_reason": "Below settled-science (0.75) and published-record (1.00) rows despite them: Haiku and Sonnet must both clear good-news by 0.01 upper bound; Opus itself margined only 0.036.",
    "odds_prior_commit": "bd3bbb5",
    "engine_odds_revised_at": "2026-11-05T10:12",
-   "revision_reason": "re-elicited before pre-registration in a fresh v2 context (rule 14; prior.md at bd3bbb5); the remap's 0.45 was one pass, not v2; the pass rule now adds the up-word and good-news/flattery baselines at a 0.01 margin and a cluster bootstrap (P3, P14)"
+   "revision_reason": "re-elicited before pre-registration in a fresh v2 context (rule 14; prior.md at bd3bbb5); the remap's 0.45 was one pass, not v2; the pass rule now adds the up-word and good-news/flattery baselines at a 0.01 margin and a cluster bootstrap (P3, P14)",
+   "bet": "ss-b13",
+   "bets": [
+    "ss-b13"
+   ],
+   "verdict": "mixed",
+   "result": "Haiku and Sonnet as bettors on round 1's 116 post-cutoff findings: Sonnet met the rule (Brier 0.168, -0.064 [-0.099, -0.028] against the good-news rule), Haiku did not (Brier 0.208, -0.024 [-0.059, 0.011] against it); mixed, scored 0. Sean's card event (both under 0.25) was met.",
+   "audit": "ledger/audits/ss-b13.md",
+   "novelty": "partly new",
+   "novelty_line": "**Novelty:** partly new. Published work already shows that a model one tier down from the top forecasts research results about as well as the top one, and that much smaller models do worse. BrainBench (Luo et al., 2024, arXiv 2403.03230; Nature Human Behaviour) found that 7B models \"performed comparably to larger models\", while TinyLlama (1.1B) was \"falling much behind the 7B models\". SciPredict (arXiv 2604.10718, 2026) has Claude Sonnet 4.5 at 22.55% against Opus 4.5 at 23.05% and Llama 3.1 8B at 14.65%. Hewitt et al. (2024, working paper) found that accuracy \"improved steadily and markedly across generations of LLMs\". Ours agrees on the size pattern: Sonnet is not shown different from Opus (Brier 0.168 against 0.163; paired difference +0.004, interval −0.018 to +0.027) and Haiku is weaker (0.208; paired difference from Opus +0.044, interval +0.012 to +0.076). What we found in no paper is a test of a same-family smaller model against a publication-bias rule (\"bet on the paper's good-news side\") or a \"which version flatters the paper\" rater. Wen et al. (2025, arXiv 2506.00794) do not mention publication bias, and CUSP (Wu et al., 2026, arXiv 2605.22681) has always-No, chance and mean-date baselines but no publication-bias one; Jin et al. (2024, arXiv 2411.17595) found GPT-4o-mini predicting every clinical trial a success, a smaller same-family model collapsing onto a positive-outcome rule, but report no such rule as a baseline. So the result that Haiku beats a coin but is not shown to beat the good-news rule by the 0.01 margin, and that neither smaller model beats the flattery rater on round 2's items (a reported row), is new. Search: \"smaller language models predict research findings model size\", \"BrainBench small models scaling\", \"LLM predict experimental outcomes publication bias positive-result baseline\", \"predict outcome of new arXiv papers after training cutoff Claude Haiku Sonnet\", \"LLM forecasting scientific results larger vs smaller models same family\" on web search and arXiv, plus the full texts of 2403.03230, 2604.10718, 2506.00794, 2605.22681 and Hewitt et al., 2026-11-05; claude-opus-5-5 (a fresh subagent that did not run ss-b13).",
+   "what_would_break_it_next": "ss-b13 audit: run Opus's flattery rater on round 1's 116 items (about $0.30) and score Sonnet's C3 against it; on round 2 Sonnet only ties that rater (+0.002)."
   },
   {
    "id": "ss-f2",
