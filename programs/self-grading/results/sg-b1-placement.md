@@ -4,7 +4,7 @@ Pre-registered in `experiments/sg-b1-placement.md` (`d2589e3`, 2026-11-05 04:59 
 - **Design review** (`ledger/design-reviews/sg-b1.md`): fix-first with 5 flaws (`17b6495`). The fixes are D5a–D5f (`5a173cb`), confirmed at 05:14 (`360f874`); D5g corrected a table (`4a722d3`). All of this came before the first test call.
 - **Run:** 2026-11-05, from just after 05:15:29 (the D5g commit) to 05:19:58 America/Denver (the write cache was last saved 05:17:21, the grade cache 05:19:58). **720 calls (180 writes, 540 grades), complete, no refusal, $1.373** of the $1.80 cap. With the review's pilot ($0.069), the bet spent $1.44.
 - **Odds:** engine 24; no human odds.
-- **Audit:** not yet audited.
+- **Audit:** `ledger/audits/sg-b1.md` (`f0a577f`). The verdict stands, with 3 required cuts, applied in this file under D10. Plant pl-014 was a clean draw.
 
 ## In plain English
 
@@ -24,8 +24,8 @@ All three models read "same", not just two.
   | Sonnet | −0.4 | [−1.0, +0.2] |
   | Opus | −0.9 | [−1.6, −0.1] |
 
-- **"Detectably kinder or harsher" means by the pre-registered 3-point bar.** Below that bar, Haiku and Opus graded their own conclusion slightly lower in the conversation that wrote it, and their intervals exclude 0. The shift is about one point out of 100. This is a secondary observation, not the verdict.
-- Most studies got the identical grade in both conversations:
+- **"Detectably kinder or harsher" means by the pre-registered 3-point bar.** Below that bar, Haiku graded its own conclusion slightly lower in the conversation that wrote it: −1.1, an interval that excludes 0, and −1.0 [−1.6, −0.4] against the second fresh grade too. Opus's −0.9 is about the size of the gap between its own two identical fresh grades (−0.57). Against the second fresh grade it is −0.3 [−1.0, +0.5], so it cannot be told apart from re-grade noise. This is a secondary observation, not the verdict.
+- Many studies got the identical grade in both conversations: a majority for Haiku, fewer than half for Sonnet and Opus (79 of 180 in all):
   - **Haiku:** 35 of 60 got the identical grade.
   - **Sonnet:** 17 of 60.
   - **Opus:** 27 of 60.
@@ -35,7 +35,7 @@ All three models read "same", not just two.
 **Robustness (pre-registered).**
 - **Leave one study out:** no model's reading changes when any single study is dropped ("fragile": no, for all three).
 - **Ties excluded** (studies with the same grade in both conversations dropped): Sonnet and Opus still read "same"; Haiku becomes "undetermined" (−2.7). The verdict is unchanged: two models read "same".
-- **The noise-floor gate:** a second, identical fresh grade agreed with the first on average. The Opus difference was −0.57 [−1.18, −0.02], an interval that excludes 0. The gate did not fire only because of the 1-point size floor added before data (D5e). Without that floor, Opus would read untestable, and the verdict would still be fail-same (Haiku and Sonnet "same").
+- **The noise-floor gate:** a second, identical fresh grade differed from the first by less than 1 point on average for every model (Haiku −0.13, Sonnet −0.33, Opus −0.57). The Opus difference was −0.57 [−1.18, −0.02], an interval that excludes 0. The gate did not fire only because of the 1-point size floor added before data (D5e). Without that floor, Opus would read untestable, and the verdict would still be fail-same (Haiku and Sonnet "same").
 
 **The pre-mortem** named a ceiling. Grades ran 72–96, with no 100. Sonnet gave 95 or 96 to 35% of its grades; Haiku and Opus did so for 1% and 6%. The auditor scores the pre-mortem; this file only records the numbers.
 
