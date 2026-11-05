@@ -135,12 +135,20 @@ KILLED = [
 ]
 
 
+STATUS = {   # updated as bets land (wave 1, 2026-11-05)
+    "ta-d2": ("killed", "Closed (null): ta-b3, audited (71f1221). On Meinke's no-goal sandbagging prompt, Sonnet 5.5 and Opus 5.5 scored the same whichever way the unlearning threshold pointed (A - B +0.5 points each, 90% intervals within about 2 points); Haiku untestable (too weak at the items). The 2024 gap came with chain-of-thought; Sonnet ran with thinking off. Reopen only with thinking on or a goal in the system prompt, as a new direction."),
+    "ta-d4": ("open", "ta-b2 untestable (audited, 7a5f6f5): Haiku rated even the chat version 74/100 as a test, so the benchmark format did not raise its belief by 20 points; Opus not run (cost, floor). On Sonnet the benchmark format lowered 'not sure' by 7.8 points [-12.2, -3.3], not separable from rewording. A re-bet needs a belief gate piloted on every model, and Opus funded."),
+    "ta-d1": ("running", "ta-b1 and ta-b1r withdrawn before data on design review (no room to move at the measured spreads; pattern P15); ta-b1r2 pre-registered (84deb7a): trivia ratings, dry run from the pilot."),
+}
+
+
 def row(d):
-    return {"id": d["id"], "parent": d.get("parent"), "title": d["title"], "short": d["short"], "status": "open",
+    st, diag = STATUS.get(d["id"], ("open", None))
+    return {"id": d["id"], "parent": d.get("parent"), "title": d["title"], "short": d["short"], "status": st,
             "opened": AT, "rank": d["rank"], "engine_odds": d["odds"], "engine_odds_at": AT, "odds_template": "v1-batch",
             "odds_event": d["event"], "referee": "model", "question": d["question"], "known": d["known"],
             "assumption_at_stake": d["assumption"], "cheapest_test": d["test"], "cost": d["cost"], "source": d["source"],
-            "prior_work": d["prior"], "human_prompt": d["prompt"], "human_form": FORM, "diagnosis": None,
+            "prior_work": d["prior"], "human_prompt": d["prompt"], "human_form": FORM, "diagnosis": diag,
             "engine_only": ["the exact bar in the pass rule", "the paraphrase and negation re-elicitation where drawn (map/odds-elicitation/README.md)"]}
 
 
