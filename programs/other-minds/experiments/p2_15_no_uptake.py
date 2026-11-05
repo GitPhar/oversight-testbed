@@ -31,6 +31,7 @@ import p2_4_interpersonal as p4                          # noqa: E402  (program 
 om = p4.om
 OUT, TABLES, SEEDF = om.RESULTS / "p2-15-no-uptake.json", om.RESULTS / "p2-15-tables.md", om.DATA / "p2-15-seed.json"
 B, TOL, ALPHA = 10000, 1e-9, 0.05
+T975 = {14: 2.144786688, 15: 2.131449546}                # Student t, 0.975 quantile, by degrees of freedom (D17b)
 ARMS = ("a", "b", "c")                                   # self, Sam, Nisbett-Wilson one-line observer
 PREDS = ARMS + ("zero", "copy")                          # zero: no uptake (re-rating = usual rating); copy: re-rating = shown number
 NAMES = {"a": "self-prediction (a)", "b": "Sam (b)", "c": "one-line observer (c)", "zero": "no uptake (always 0)",
@@ -44,10 +45,11 @@ SENTENCES = {
     "fail": ("The pre-registered event did not occur. On Haiku, across the {n} uptake cells, the model's predictions of its "
              "own re-ratings missed its measured re-ratings by {ea:.2f} rating points on average, against {ez:.2f} for a "
              "guess that the shown number has no pull; the difference is {d:+.2f}, 95% BCa interval [{lo:+.2f}, {hi:+.2f}], not wholly "
-             "below 0. This test did not show that its self-predictions beat assuming no effect."),
+             "below 0. This test did not show that its self-predictions beat assuming no effect. This is about its "
+             "cell-by-cell shifts, not the average pattern of shifts across conditions."),
     "untestable": ("The test could not be run as pre-registered: {why}."),
-    "loo_flip": ("Leaving out one vignette changes the label: without {items}, the rule reads {other}. The label rests on "
-                 "{k} of 16 vignettes."),
+    "loo_flip": ("Leaving out one vignette changes the label: without any one of {items}, the rule reads {other}. The "
+                 "label rests on {k} of 16 vignettes."),
     "loo_holds": "Leaving out any one of the 16 vignettes leaves the label unchanged.",
 }
 
@@ -79,6 +81,13 @@ def cell_table(ctx, preds_source="cache", synth=None):
                 r[arm + "_n"] = p4.R_U
         r["zero"], r["copy"] = b, v["A"]
         rows.append(r)
+    # D17b (F2b): the measured-effect oracle predicts each cell's uptake as the measured mean uptake of its effect
+    # (source x |d|), i.e. it knows om-p2-4's six measured effects exactly and nothing cell-specific
+    eff = {}
+    for r in rows:
+        eff.setdefault((r["src"], abs(r["d"])), []).append((r["m"] - r["b"]) / r["D"])
+    for r in rows:
+        r["oracle"] = r["b"] + float(np.mean(eff[(r["src"], abs(r["d"]))])) * r["D"]
     return rows
 
 
@@ -134,8 +143,13 @@ def diff_stat(rows, items, counts, metric="u", pred="a", vs="zero", sel=lambda r
     ci, z0, a = bca(point, boots, jack)
     pct = [float(np.quantile(boots, ALPHA / 2)), float(np.quantile(boots, 1 - ALPHA / 2))]
     mae_p, mae_v = Sp.sum() / Np.sum(), Sv.sum() / Nv.sum()
-    return {"diff": float(point), "bca": ci, "pct": pct, "z0": z0, "a": a, "mae_pred": float(mae_p),
-            "mae_vs": float(mae_v), "n_cells": int(Np.sum()), "share_boots_below_0": float(np.mean(boots < 0))}
+    # D17b (design review F1): jackknife-t bound, theta + t(0.975, n - 1) * SE_jack, kept beside the BCa
+    n = len(jack)
+    se = float(np.sqrt((n - 1) / n * np.sum((jack - jack.mean()) ** 2)))
+    jt = [float(point - T975[n - 1] * se), float(point + T975[n - 1] * se)]
+    return {"diff": float(point), "bca": ci, "pct": pct, "jack_t": jt, "se_jack": se, "z0": z0, "a": a,
+            "mae_pred": float(mae_p), "mae_vs": float(mae_v), "n_cells": int(Np.sum()),
+            "share_boots_below_0": float(np.mean(boots < 0))}
 
 
 def reading(res, n_rows, n_missing, n_expected=384):
@@ -143,7 +157,8 @@ def reading(res, n_rows, n_missing, n_expected=384):
         return "untestable", f"only {n_rows} of {n_expected} cells survive program 1's drop rule (300 needed)"
     if n_missing > 0.02 * n_rows:
         return "untestable", f"{n_missing} of {n_rows} kept cells have no self-prediction (more than 2%)"
-    return ("pass" if res["bca"][1] < -TOL else "fail"), None   # P13: an upper bound within 1e-9 of 0 is not below 0
+    # P13: an upper bound within 1e-9 of 0 is not below 0. D17b (F1): the BCa and the jackknife-t bounds both below 0
+    return ("pass" if res["bca"][1] < -TOL and res["jack_t"][1] < -TOL else "fail"), None
 
 
 def effect_level(rows, items, counts):
@@ -191,13 +206,15 @@ def analyse_rows(rows, items, seed, b=B, loo=True):
         res = diff_stat(sub, keep, c2, metric="pts")
         lab, _ = reading(res, len(sub), sum(1 for r in sub if r["a"] is None), n_expected=len(sub))
         if lab != label:
-            flips.append({"dropped": q, "label": lab, "bca": res["bca"]})
+            flips.append({"dropped": q, "label": lab, "bca": res["bca"], "jack_t": res["jack_t"]})
     out["loo_flips"] = flips
     sec = {}
     by = {"own": lambda r: r["src"] == "own", "other": lambda r: r["src"] == "other"}
     for dist in (10, 30, 60):
         by[f"|d|={dist}"] = (lambda dd: (lambda r: abs(r["d"]) == dd))(dist)
     sec["self_vs_zero_by_subset"] = {k: diff_stat(rows, items, counts, metric="pts", sel=f) for k, f in by.items()}
+    sec["oracle_vs_zero"] = diff_stat(rows, items, counts, metric="pts", pred="oracle")
+    sec["self_vs_oracle"] = diff_stat(rows, items, counts, metric="pts", pred="a", vs="oracle")
     sec["self_vs_zero_uptake_units"] = diff_stat(rows, items, counts, metric="u")
     for p in ("b", "c", "copy"):
         sec[f"{p}_vs_zero"] = diff_stat(rows, items, counts, metric="pts", pred=p)
@@ -227,17 +244,19 @@ def write_tables(out):
     L = ["# P2-15 tables (generated by experiments/p2_15_no_uptake.py; do not edit)", "",
          f"Verdict: **{out['label']}**. {out['sentence']}", "",
          "## Primary: mean absolute error in rating points over the uptake cells, self-prediction minus no-uptake", "",
-         "| cells | MAE self (a) | MAE no uptake | difference | 95% BCa | 95% percentile | share of resamples < 0 |",
-         "|---|---|---|---|---|---|---|",
+         "| cells | MAE self (a) | MAE no uptake | difference | 95% BCa | 95% jackknife-t | 95% percentile | share of resamples < 0 |",
+         "|---|---|---|---|---|---|---|---|",
          f"| {p['n_cells']} | {p['mae_pred']:.3f} | {p['mae_vs']:.3f} | {p['diff']:+.3f} | [{p['bca'][0]:+.3f}, "
-         f"{p['bca'][1]:+.3f}] | [{p['pct'][0]:+.3f}, {p['pct'][1]:+.3f}] | {p['share_boots_below_0']:.3f} |", "",
+         f"{p['bca'][1]:+.3f}] | [{p['jack_t'][0]:+.3f}, {p['jack_t'][1]:+.3f}] | [{p['pct'][0]:+.3f}, {p['pct'][1]:+.3f}] | "
+         f"{p['share_boots_below_0']:.3f} |", "",
          "## Secondary (reported, never promoted)", "",
          "| comparison | cells | MAE first | MAE second | difference | 95% BCa | 95% percentile |", "|---|---|---|---|---|---|---|"]
     s = out["secondary"]
     rows = [(f"self vs no uptake, {k}", v) for k, v in s["self_vs_zero_by_subset"].items()]
     rows += [("self vs no uptake, uptake units (om-p2-4's unit)", s["self_vs_zero_uptake_units"]), ("Sam (b) vs no uptake", s["b_vs_zero"]),
              ("one-line observer (c) vs no uptake", s["c_vs_zero"]), ("copy vs no uptake", s["copy_vs_zero"]),
-             ("self vs copy", s["self_vs_copy"]), ("self vs Sam", s["self_vs_sam"])]
+             ("self vs copy", s["self_vs_copy"]), ("self vs Sam", s["self_vs_sam"]),
+             ("measured-effect oracle vs no uptake", s["oracle_vs_zero"]), ("self vs measured-effect oracle", s["self_vs_oracle"])]
     for name, v in rows:
         L.append(f"| {name} | {v['n_cells']} | {v['mae_pred']:.3f} | {v['mae_vs']:.3f} | {v['diff']:+.3f} | "
                  f"[{v['bca'][0]:+.3f}, {v['bca'][1]:+.3f}] | [{v['pct'][0]:+.3f}, {v['pct'][1]:+.3f}] |")
@@ -296,12 +315,42 @@ def dry_run(sims=200, b=2000):
             npass += out["label"] == "pass"
         res[name] = npass / sims
         print(f"  {name:45s} P(pass) = {npass / sims:.2f}")
+    for name, tail in (("NULL: error equals no-uptake's in expectation", None),):
+        npass = 0
+        for s_ in range(sims):
+            g = np.random.default_rng(5000 + s_)
+            rows = []
+            for r in rows0:
+                r = dict(r)
+                e = abs(r["m"] - r["b"]) * abs(1 + g.normal(0, 0.3))   # per-vignette-free noise around |m - b|
+                up, dn = r["m"] + e, r["m"] - e                        # pick a side that needs no clipping, so the
+                ok = [x for x in (up, dn) if 0 <= x <= 1]               # error equals e (clipping would shrink it)
+                r["a"] = float(ok[int(g.random() < 0.5) % len(ok)] if ok else np.clip(up, 0, 1))
+                rows.append(r)
+            npass += analyse_rows(rows, items, seed=s_, b=b, loo=False)["label"] == "pass"
+        res[name] = npass / sims
+        print(f"  {name:45s} P(pass) = {npass / sims:.3f}")
+    for name, lam, df, sc in (("knows its shift, t3 errors scale 4 pts", 1.0, 3, 0.04),
+                              ("knows its shift, t3 errors scale 6 pts", 1.0, 3, 0.06)):
+        npass = 0
+        for s_ in range(sims):
+            g = np.random.default_rng(7000 + s_)
+            rows = []
+            for r in rows0:
+                r = dict(r)
+                r["a"] = float(np.clip(r["b"] + lam * (r["m"] - r["b"]) + sc * g.standard_t(df), 0, 1))
+                rows.append(r)
+            npass += analyse_rows(rows, items, seed=s_, b=b, loo=False)["label"] == "pass"
+        res[name] = npass / sims
+        print(f"  {name:45s} P(pass) = {npass / sims:.2f}")
     # P13 boundary: an upper bound of exactly 0, and one a hair below 0 by float arithmetic, read fail; 1e-4 below passes
     for hi, want in ((0.0, "fail"), (0.3 - 0.1 - 0.2, "fail"), (-1e-4, "pass")):
-        got = reading({"bca": [-1.0, hi]}, 380, 0)[0]
+        got = reading({"bca": [-1.0, hi], "jack_t": [-1.0, -0.5]}, 380, 0)[0]
+        assert reading({"bca": [-1.0, -0.5], "jack_t": [-1.0, hi]}, 380, 0)[0] == want   # either bound alone decides
         print(f"  boundary: upper {hi!r} reads {got} (want {want})")
         assert got == want
-    assert reading({"bca": [-1, -1]}, 299, 0)[0] == "untestable" and reading({"bca": [-1, -1]}, 380, 8)[0] == "untestable"
+    assert reading({"bca": [-1, -1], "jack_t": [-1, -1]}, 299, 0)[0] == "untestable" and \
+        reading({"bca": [-1, -1], "jack_t": [-1, -1]}, 380, 8)[0] == "untestable"
     print("  untestable rules: hold")
     return res
 
