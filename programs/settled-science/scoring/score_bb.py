@@ -246,8 +246,8 @@ def sentences(s):
         no = [b for b in s["models"] if b not in yes]
         nd = "; ".join(f"{SHORT[b['model']]} ({fa(b)})" for b in no)
         main = (f"On {pairs}, a model asked only which version is better news for the paper's own idea beat the neuroscientists' "
-                f"published 63.4% on {SHORT[yes[0]['model']]} ({fa(yes[0])}) but was not shown to on {nd}, so the shortcut beats "
-                f"the experts on one of the two models only.")
+                f"published 63.4% on {SHORT[yes[0]['model']]} ({fa(yes[0])}) but was not shown to on {nd}, so this prompt beats "
+                f"the experts' published rate on one of the two models only.")
     elif v == "fail-partial":
         bad = [b for b in s["models"] if b.get("label") == "untestable"][0]
         ok_ = [b for b in s["models"] if b.get("label") != "untestable"][0]
@@ -279,7 +279,8 @@ def sentences(s):
         out.append(f"{SHORT[b['model']]}'s flattery rule was {word} the published 81.4% for LLMs (interval {civ(b['flattery']['ci'])}).")
     o = s.get("opus_secondary")
     if o and o.get("n"):
-        out.append(f"Opus, asked the flattery question on {o['n']} of the items (a secondary, not part of the rule), picked the "
+        cut = " (cut by the cap)" if o["n"] < 50 else ""
+        out.append(f"Opus, asked the flattery question on {o['n']} of the 50 items{cut} (a secondary, not part of the rule), picked the "
                    f"published abstract {pct(o['acc'])} {civ(o['ci'])} of the time; on the same items Sonnet's flattery rule was "
                    f"right {pct(o['sonnet_same_items'])} and Haiku's {pct(o['haiku_same_items'])}.")
     dumb = [k for k, d in s["dumb"].items() if d["clears_experts"]]
