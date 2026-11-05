@@ -15,3 +15,13 @@
 - `DEVIATIONS.md`: every pre-registration and every departure from one, dated.
 
 All times America/Denver.
+
+## Reproducibility
+
+One command, from the repository root, with Python 3 and numpy installed (no keys, no network):
+
+    python3 programs/test-awareness/reproduce.py
+
+The root `python3 reproduce.py` runs it too and prints one line for this program. It takes a copy of the program as committed, runs each bet's own `--analyse` step (`experiments/ta_b1.py`, `ta_b2.py`, `ta_b3.py`) on its archived call cache (`results/<bet>-calls.json`), and checks that `results/<bet>-analysis.json` comes out byte for byte the same.
+
+Today there is nothing to rebuild: no bet has run, and the only archived calls are the cost probe's (`results/probe-calls.json`), which feed no table. When a bet's analysis or a results write-up (`results/*.md`) lands, the script picks the analysis up by name; a write-up's tables are added to `reproduce.py` in the same commit, or the script fails on the unregistered file. Nothing is missing from the archive.
