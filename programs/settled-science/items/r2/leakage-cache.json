@@ -2094,5 +2094,1797 @@
 "thinking": "between_tools"
 },
 "model": "claude-sonnet-5-5"
+},
+"6af60ccb40f79aec7dcd6793": {
+"cid": "t-2608.07185",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002102,
+"request_id": "req_011Cgiyxv2gzbgBd9nU9PobY",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 956,
+"output_tokens": 19,
+"cost_usd": 0.002102,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"50a02010bbe6f6b28bd486cd": {
+"cid": "t-2608.06318",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001946,
+"request_id": "req_011CgiyxvYSuJVq9Xr7WgYY9",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 878,
+"output_tokens": 19,
+"cost_usd": 0.001946,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"377518d0a0ba082a11d007d1": {
+"cid": "t-2608.04780",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00196,
+"request_id": "req_011CgiyxvAsdo6hYTanKP3Kh",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 885,
+"output_tokens": 19,
+"cost_usd": 0.00196,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"34be4fe8bf0f1d84c8823b30": {
+"cid": "t-2608.17189",
+"leak": true,
+"cue": "unprecedented 1.7 kHz clock rate ... enter the sub-millisecond cycle regime for the first time",
+"fix": "Remove the surrounding context that makes only one direction sensible: drop 'unprecedented' and 'for the first time', and replace the clause with a neutral one, e.g. 'we operate repeated quantum circuits at a 1.7 kHz clock rate with atoms reused over 120 consecutive rounds, a factor of seven [higher/lower] than the previous record.'",
+"cost": 0.003694,
+"request_id": "req_011CgiyxuKH7GfbvrrbfLWNL",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 952,
+"output_tokens": 179,
+"cost_usd": 0.003694,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"cce6bb5311733830ade18122": {
+"cid": "t-2608.09018",
+"leak": true,
+"cue": "in a procedure we refer to as the Magic Scroll",
+"fix": "Remove the clause naming the procedure from both options, or replace it with a neutral descriptor, e.g. 'By combining colour and bilayer codes, we show how magic state cultivation procedures [12-14] can be [improved/worsened].' The appended sentence about a named procedure presupposes a constructive contribution, so 'worsened' reads as incoherent and the answer is guessable from wording alone.",
+"cost": 0.003416,
+"request_id": "req_011CgiyxvQ1iZYbYpBgFoSdL",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 873,
+"output_tokens": 167,
+"cost_usd": 0.003416,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"a5239aaf83d1de9ff7a8c668": {
+"cid": "t-2607.27111",
+"leak": true,
+"cue": "while remaining less effective",
+"fix": "The contrastive 'while' construction, which signals a caveat after 'can substantially reduce the gate error', makes 'less effective' the more natural continuation than 'more effective'. Rewrite the options so the target clause is neutral and doesn't signal contrast, e.g. 'we compare the effectiveness of correction fields derived from the Duffing approximation in the Duffing model and in the diagonalized-transmon model (with an independently calibrated baseline pulse), finding it to be [lower/higher] in the latter.'",
+"cost": 0.003848,
+"request_id": "req_011Cgiyy34rNh67uSohi1vJQ",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 944,
+"output_tokens": 196,
+"cost_usd": 0.003848,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"06982086b3330a007a79c75b": {
+"cid": "t-2609.20183",
+"leak": true,
+"cue": "The sentence itself says the protocol is \"expensive\" and that measurements \"additionally require shuttling the atoms\" - this context only makes sense if measurements are slower than gates, so Option 2 (\"faster\") contradicts its own rationale.",
+"fix": "Remove the self-evident context so the one-word swap cannot be resolved by internal logic, e.g. ask the forecaster to choose between \"slower\" and \"faster\" for a neutrally framed sentence: \"On neutral atoms, measurements are orders of magnitude [slower/faster] than gates.\" Alternatively, use a pair of options that both cohere with the stated conclusion.",
+"cost": 0.004104,
+"request_id": "req_011Cgiyy4g6K7BvRcgyuoLkf",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 902,
+"output_tokens": 230,
+"cost_usd": 0.004104,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"9aa6ffa6a74c6081f1665a7d": {
+"cid": "t-2608.04494",
+"leak": true,
+"cue": "SAFE can extend the cavity dephasing time by more than an order of magnitude while keeping residual drive-induced decoherence subdominant",
+"fix": "Replace the 'which of two sentences is in the abstract' format with a neutral quantitative question, e.g. 'By what factor did Monte Carlo simulations show the method extends the cavity dephasing time?' with options 'more than 10x' vs 'less than 10x'. The sentence context (an advertised-success method name SAFE, 'extend', and 'while keeping ... subdominant') presupposes a strong improvement and makes the 'less than an order of magnitude' option read as an obviously altered, weaker claim.",
+"cost": 0.004174,
+"request_id": "req_011CgiyxutVqsUEuTM7YpYMn",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 922,
+"output_tokens": 233,
+"cost_usd": 0.004174,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"95a54c7cd1a8867b90a4cbec": {
+"cid": "t-2609.20320",
+"leak": true,
+"cue": "Option 2: \"reverse order less than once, but these crossings\"",
+"fix": "Option 2 is semantically incoherent (\"less than once\" contradicts \"these crossings\" and \"more than once\" in the abstract's logic), so the genuine sentence can be identified by plausibility alone. Replace the distractor with a coherent alternative that differs by one word, e.g. \"The same pair can reverse order more than once, but these crossings may depend on the divergence used to compare them\" vs \"The same pair can reverse order at most once, so these crossings do not depend on the divergence used to compare them\" with both options matched in length, hedging, and structure, or switch to a question about a substantive finding rather than a sentence-recognition task.\"",
+"cost": 0.004192,
+"request_id": "req_011Cgiyy1iysNPgFkJvVf9ws",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 826,
+"output_tokens": 254,
+"cost_usd": 0.004192,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"2402393fa093b239a6e92e0b": {
+"cid": "t-2607.24521",
+"leak": true,
+"cue": "an increased energy gap ... which suppresses thermal excitations and stabilizes the correlated ground state",
+"fix": "Both options share a clause that only makes physical sense with a larger gap: a smaller gap would not suppress thermal excitations. Replace the shared consequence clause with a neutral one (e.g. 'which affects the thermal population of excited states'), and use the grammatically correct article ('a') in both options, since 'an decreased' in Option 2 is an ungrammatical tell that the sentence was edited.",
+"cost": 0.0037,
+"request_id": "req_011Cgiyy5HYkFnbkqakb8DRt",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 945,
+"output_tokens": 181,
+"cost_usd": 0.0037,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"4264e35c8bb9daf7f6eef455": {
+"cid": "t-2607.28795",
+"leak": true,
+"cue": "orders of magnitude slower than existing tools",
+"fix": "Replace the forced-choice-by-sentence format: Option 2's 'slower' contradicts the sentence's own context (a tool praised as enabling a 'practical path' and 'efficiently' mapping), so it is a self-evidently implausible foil. Instead ask for a neutral, quantitative result, e.g. 'How does sQetch's distance-estimation speed compare to existing tools?' with options 'orders of magnitude faster' vs 'comparable speed', or hide the abstract framing so both options are equally coherent within the sentence.",
+"cost": 0.004008,
+"request_id": "req_011Cgiyy2WsBrhNnDJvBJhZ4",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 954,
+"output_tokens": 210,
+"cost_usd": 0.004008,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"29ff49e5397ef4423eb19bb6": {
+"cid": "t-2607.21718",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001846,
+"request_id": "req_011CgiyyEuVxgKuVss6xGkaT",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 828,
+"output_tokens": 19,
+"cost_usd": 0.001846,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"9c1d8031875e1c4e7b7b8953": {
+"cid": "t-2607.02804",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002018,
+"request_id": "req_011CgiyyPUBceXf1Rebyrt9t",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 914,
+"output_tokens": 19,
+"cost_usd": 0.002018,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f8e42b81fa0d87560de19878": {
+"cid": "t-2607.12118",
+"leak": true,
+"cue": "resulting in a distance-5 code outperforming the best distance-3 in one basis",
+"fix": "Remove the downstream clause that presupposes the outcome from both options, or make it direction-neutral, e.g. \"Furthermore, we show a further substantial [decrease/increase] in logical errors when using leakage post-selection in combination with our defect exclusion strategies.\"",
+"cost": 0.00316,
+"request_id": "req_011CgiyyJt7v9EfWKUqch76A",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 905,
+"output_tokens": 135,
+"cost_usd": 0.00316,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"5abe4c7133983e13f9385da6": {
+"cid": "t-2609.14819",
+"leak": true,
+"cue": "for many reasons, including probabilistic and open-ended outputs, and behavior that shifts with prompt design and accumulated context",
+"fix": "The two options differ only in 'more' vs 'less', but the shared sentence body lists reasons (probabilistic, open-ended outputs, shifting behavior) that only make sense as support for 'more challenging'. Replace the task with one where the surrounding text is direction-neutral, e.g. truncate the sentence before the reasons: 'This evaluation can be [more/less] challenging than traditional machine learning.'",
+"cost": 0.003706,
+"request_id": "req_011CgiyyQyEQ3CJCr4QHUcgg",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 883,
+"output_tokens": 194,
+"cost_usd": 0.003706,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"794cb25ae3b8be4d0219c06e": {
+"cid": "t-2609.14728",
+"leak": true,
+"cue": "reflecting the suppressed dependence of weak-field observables on the bounce parameter",
+"fix": "Remove the explanatory clause from both options so the sentence ends after the comparison (e.g., 'We find that the matter parameter is generally constrained more/less strongly than the minimum-radius scale.'), or rewrite the explanation so it is direction-neutral.",
+"cost": 0.003068,
+"request_id": "req_011CgiyyTNas5vnPiKUXcUkr",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 879,
+"output_tokens": 131,
+"cost_usd": 0.003068,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"6556553c2c648293200d6343": {
+"cid": "t-2607.00688",
+"leak": true,
+"cue": "To suppress shorter-range hopping ... next-nearest-neighbor transmons",
+"fix": "Replace the contrast with a neutral swap that keeps both options physically coherent, e.g., change a non-semantic word, or rephrase the task as a numeric forecast: 'What frequency spread range of the next-nearest-neighbor transmons was found necessary to suppress the unwanted hopping?' with options '1-4 MHz' vs '10-40 MHz'.",
+"cost": 0.003408,
+"request_id": "req_011CgiyyPuV3njKpxpZZRFEX",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 869,
+"output_tokens": 167,
+"cost_usd": 0.003408,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"c9553a07b5d7a5c9a713ac07": {
+"cid": "t-2609.13824",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001848,
+"request_id": "req_011Cgiyyb6vkXXuJC43L9RYe",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 829,
+"output_tokens": 19,
+"cost_usd": 0.001848,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"a5ad785ccb61a7dbc23f0cb8": {
+"cid": "t-2609.08798",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001916,
+"request_id": "req_011Cgiyyb6BWune9TczcxQKP",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 863,
+"output_tokens": 19,
+"cost_usd": 0.001916,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"267fef35db4d369e08ee7e1e": {
+"cid": "t-2609.13893",
+"leak": true,
+"cue": "yielding a stronger early-warning signal",
+"fix": "Remove the framing that presupposes a directional claim: ask forecasters to compare audio-dynamics features against a lexical-only baseline and predict whether the audio-augmented model's early-warning performance on adverse SEC outcomes was higher or lower, with options differing only in 'higher'/'lower' and no preceding phrasing like 'encode managerial evasiveness beyond lexical content and call length' that implies added value.",
+"cost": 0.003452,
+"request_id": "req_011CgiyyaSyuwSkYFFHfhixX",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 881,
+"output_tokens": 169,
+"cost_usd": 0.003452,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"40700769c2ac19c001eb0f06": {
+"cid": "t-2609.08149",
+"leak": true,
+"cue": "suggesting that existing results on SWE-Bench Pro may overestimate real software engineering capability",
+"fix": "Remove or neutralize the shared trailing clause so it does not presuppose a direction, e.g. end both options at 'than previously evaluated' or replace it with a neutral clause such as 'suggesting that existing results on SWE-Bench Pro may not reflect real software engineering capability'.",
+"cost": 0.003252,
+"request_id": "req_011CgiyybQ3H1NHpp7oPACjH",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 906,
+"output_tokens": 144,
+"cost_usd": 0.003252,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"522bf5eced5991d0656f4190": {
+"cid": "t-2609.01073",
+"leak": true,
+"cue": "with particularly strong gains on high-entropy instances where capturing diverse human perspectives is most critical",
+"fix": "Make the shared continuation direction-neutral so it does not presuppose improvement, e.g. 'We find that NAPHA consistently [improves/worsens] soft-labels prediction across base LLM models and datasets, with the largest changes on high-entropy instances.' The remainder of both options must be identical and must not mention 'gains' or evaluative framing.",
+"cost": 0.003448,
+"request_id": "req_011CgiyyccDgfUfBj1NgsjaG",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 894,
+"output_tokens": 166,
+"cost_usd": 0.003448,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"1132d8a1da7a52200ccf0439": {
+"cid": "t-2608.30428",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00202,
+"request_id": "req_011CgiyyeYJ25tBCeZpbAzgy",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 915,
+"output_tokens": 19,
+"cost_usd": 0.00202,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8c2d1bbb28ff5e8dca8d7e30": {
+"cid": "t-2608.24753",
+"leak": true,
+"cue": "and provide an information-theoretic explanation for this asymmetry",
+"fix": "Remove the trailing clause from both options (end the sentence at 'for estimating policy adherence'), or replace it with a neutral clause such as 'and discuss the relationship between the two annotation types', so the shared text does not presuppose which annotation type is the more informative one.",
+"cost": 0.003064,
+"request_id": "req_011Cgiyyn5yNmnMEnvnrAonB",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 907,
+"output_tokens": 125,
+"cost_usd": 0.003064,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"83f0ef225db191d99344ec6b": {
+"cid": "t-2608.30047",
+"leak": true,
+"cue": "yet achieve lower performance / yet achieve higher performance",
+"fix": "The two options differ only in the final word, but the connective \"yet\" in both versions signals contrast: greater H-Creativity is contrasted with the outcome, which is only coherent if performance is lower. Rewrite with a neutral connective in both options, e.g. \"...LLMs exhibit greater H-Creativity than medal-winning humans, and achieve lower performance\" vs \"...and achieve higher performance\", or ask the forecaster directly whether LLMs' performance was lower or higher than medal-winning humans' without including a contrastive marker.",
+"cost": 0.004062,
+"request_id": "req_011CgiyyjpJUasa3i5fpZVb5",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 941,
+"output_tokens": 218,
+"cost_usd": 0.004062,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8f24692cd4e88412d3e4a5a4": {
+"cid": "t-2608.18607",
+"leak": true,
+"cue": "VA-Judger",
+"fix": "Replace the method name with a neutral placeholder such as 'Method X' in both options (and anywhere else it appears), so the name does not by itself suggest that the proposed system performs well. Keep the two options identical apart from the single direction word.",
+"cost": 0.002714,
+"request_id": "req_011CgiyynfTQ4o484ohDUyij",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 857,
+"output_tokens": 100,
+"cost_usd": 0.002714,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"103992f8054a0cc5326e9d98": {
+"cid": "t-2608.27746",
+"leak": true,
+"cue": "Notably, ... sometimes more strongly correlated ... than individual human annotations",
+"fix": "The framing 'Notably' with 'sometimes' signals a surprising positive finding for LLMs, so 'more strongly' reads as the natural abstract sentence while 'less strongly' would be unremarkable. Rewrite both options neutrally, e.g. 'LLM-based rankings were [more/less] strongly correlated with the reference ranking than individual human annotations were in some settings', removing 'Notably' and the 'sometimes' hedge, or ask a non-sentence-guessing question such as 'Did LLM-based rankings correlate more or less strongly with the reference ranking than individual human annotations?'",
+"cost": 0.004156,
+"request_id": "req_011CgiyymorbTFmb7pmojEFi",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 843,
+"output_tokens": 247,
+"cost_usd": 0.004156,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8e05bacd82a505b78ad50336": {
+"cid": "t-2608.26529",
+"leak": true,
+"cue": "Which of these two sentences is the one in the paper's abstract? ... substantially improve vs. substantially worsen",
+"fix": "Reframe the item as a prediction about the result rather than a choice between abstract sentences, e.g. 'On homogeneous panels, how did Score Averaging and Decision Voting affect accuracy and acceptance rate relative to a single judge?' with neutral options 'increased' vs 'decreased'. Drop the 'substantially' intensifier or apply it identically to both options, and avoid abstract-style phrasing that signals which sentence a paper would plausibly write.",
+"cost": 0.003796,
+"request_id": "req_011CgiyymxnSgopdXvMnLTZy",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 858,
+"output_tokens": 208,
+"cost_usd": 0.003796,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"31e1d7a528dacbcf63e4d274": {
+"cid": "t-2608.14161",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001946,
+"request_id": "req_011CgiyywjQNn9Zq4da32BjF",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 878,
+"output_tokens": 19,
+"cost_usd": 0.001946,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"23409fe03a883bf527f63a14": {
+"cid": "t-2608.17556",
+"leak": true,
+"cue": "Option 2: \"much higher latency than existing solutions\" \u2014 the sentence presents a system's components as enabling \"high-accuracy prompt safety filtering\"; \"higher latency\" is only sensible as a flaw, so the option reads as an implausible abstract claim and Option 1 is identifiable from wording alone.",
+"fix": "Use a neutral comparison where both directions are natural, e.g. ask which of two numeric/factual claims was reported (\"reduced latency by 40%\" vs \"increased latency by 40%\") framed as an empirical result with no self-promoting sentence structure, or drop the \"which sentence is in the abstract\" format in favor of a question about the measured latency difference.",
+"cost": 0.004102,
+"request_id": "req_011Cgiyynmuc1AkzT2uYjiqE",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 831,
+"output_tokens": 244,
+"cost_usd": 0.004102,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"0c2c0c5686c800718a26494c": {
+"cid": "t-2608.03776",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001992,
+"request_id": "req_011CgiyyzxdpT4EostAyHaVj",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 901,
+"output_tokens": 19,
+"cost_usd": 0.001992,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"53c19026bf23f8c9e70ac4ee": {
+"cid": "t-2608.15673",
+"leak": true,
+"cue": "This comes at the cost of lower over-refusal than the LLM-as-a-judge baseline, 14.4% versus 5.2%",
+"fix": "Remove the numbers from both options, or reword so neither option is internally inconsistent, e.g. 'over-refusal is [higher/lower] than the LLM-as-a-judge baseline' without '14.4% versus 5.2%' and without the phrase 'at the cost of'. Alternatively, ask directly which direction the over-refusal difference went.",
+"cost": 0.003462,
+"request_id": "req_011CgiyywZjbmi477xMJmGFG",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 851,
+"output_tokens": 176,
+"cost_usd": 0.003462,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"a35414c2b42ef6d43276223a": {
+"cid": "t-2607.25640",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001936,
+"request_id": "req_011Cgiyz3nXxVGouwbo4EZ38",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 873,
+"output_tokens": 19,
+"cost_usd": 0.001936,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"cf8f92eeb0c04b828b431f19": {
+"cid": "t-2608.11787",
+"leak": true,
+"cue": "Our results demonstrate that GRPO with a finance-grounded reward signal can produce substantially more/less useful business recommendations ... a valuable complement to",
+"fix": "The task asks which sentence is in the abstract, yet the surrounding wording (\"demonstrate that GRPO ... can produce\", \"valuable complement\") is written as a positive-result paper, so the \"less useful\" option reads as incoherent with the sentence and is easily rejected. Replace the abstract-recognition format with a neutral outcome question, e.g. 'In the paper, how did GRPO-trained recommendations compare in usefulness to commercial LLMs? (A) more useful (B) less useful', and remove the positively framed rest of the sentence from both options.",
+"cost": 0.004492,
+"request_id": "req_011Cgiyyy2Yrn5HaxS4a6yD8",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 961,
+"output_tokens": 257,
+"cost_usd": 0.004492,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"43c5e6573787b4d811fab9b1": {
+"cid": "t-2608.16213",
+"leak": true,
+"cue": "instantiate more process and preserve rather than erode human judgment and creativity",
+"fix": "The options differ only in the direction word (more vs less), but the rest of the sentence is written to fit one option. 'Preserve rather than erode human judgment' plus 'process audits' presuppose that the design principles add process, so option 2 ('less process') is incoherent with the surrounding wording and is easily excluded without any knowledge of the study. Replace this item with a sentence whose two variants are equally coherent in context (e.g. a quantitative or directional claim not constrained by the rest of the sentence), or ask directly 'Do the paper's design principles call for more or less process?' without the framing text that presupposes the answer.",
+"cost": 0.004148,
+"request_id": "req_011Cgiyywfgyu39CmpeK6BDk",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 869,
+"output_tokens": 241,
+"cost_usd": 0.004148,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"b941694fd0f354e033de6062": {
+"cid": "t-2607.21763",
+"leak": true,
+"cue": "37.1% of passes involved cheating, 21 of 22 models cheated, and scores were inflated by up to 5x",
+"fix": "Remove the shared numeric details (or any content that only fits one direction) so the options differ only in the direction word without a clause that contradicts one of them, e.g. use a neutral stem: 'We find cheating is [far more / far less] pervasive than previously estimated.' and omit the quantitative evidence, or present the evidence in a way compatible with both directions.",
+"cost": 0.003504,
+"request_id": "req_011Cgiyz5WUL7Ah6NeiBMSXa",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 897,
+"output_tokens": 171,
+"cost_usd": 0.003504,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"3683a2a793ba6393094e2925": {
+"cid": "t-2609.19022",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001864,
+"request_id": "req_011CgiyzAJSsXoW8gEhLfQrY",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 837,
+"output_tokens": 19,
+"cost_usd": 0.001864,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"01bac635170c04c8501c508f": {
+"cid": "t-2607.14345",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001876,
+"request_id": "req_011CgiyzBjGebaEbiHx84x16",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 843,
+"output_tokens": 19,
+"cost_usd": 0.001876,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"124d92fa72763dc33af2d642": {
+"cid": "t-2607.18966",
+"leak": true,
+"cue": "less than twice as sensitive ... rising from 33% to 86%",
+"fix": "Remove the numbers from the sentence, or make the options differ only in a non-implied direction word. 33% to 86% is about 2.6x, so the numbers make 'more than twice' the only sensible option. Rewrite e.g. 'A model organism trained to reward-hack (gpt-oss-120b) is [more/less] sensitive to grader preferences than the unmodified model.'",
+"cost": 0.003476,
+"request_id": "req_011Cgiyz9c2o1uf7rMoFzeDW",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 913,
+"output_tokens": 165,
+"cost_usd": 0.003476,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f363d33d87b68caa14d98541": {
+"cid": "t-2607.12085",
+"leak": true,
+"cue": "has evaluated less than two million interactions",
+"fix": "Make the contrast between the options natural and symmetric, e.g. use a different number in each option, such as 'more than two million interactions' versus 'more than twenty million interactions'. Alternatively, use a pair of comparable direction words, such as 'more than' versus 'fewer than'. The reported option should not be the only one that reads sensibly for a framework that processes 50,000 records daily.",
+"cost": 0.003196,
+"request_id": "req_011CgiyzChpVB5CpcJuYF9VH",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 823,
+"output_tokens": 155,
+"cost_usd": 0.003196,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"494265101d9b67cc45548590": {
+"cid": "t-2607.10579",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001948,
+"request_id": "req_011CgiyzGnsqmm7MENxBYGzr",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 879,
+"output_tokens": 19,
+"cost_usd": 0.001948,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"019fb7260ac05badcb82e0e4": {
+"cid": "t-2607.08374",
+"leak": true,
+"cue": "establishing a strong step toward theory-agnostic personality inference and supporting low-resource personality theories",
+"fix": "Make the shared continuation neutral so it fits either direction word, e.g. 'Experiments show that JAM [improves/worsens] cross-framework generalization and performance.' Or drop the question of which sentence is in the abstract and ask directly: 'Did JAM improve or worsen cross-framework generalization and performance?'",
+"cost": 0.003322,
+"request_id": "req_011CgiyzH7EJcnBZQtXjeXK2",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 876,
+"output_tokens": 157,
+"cost_usd": 0.003322,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8e5c367c2d591a3e8bd294e4": {
+"cid": "t-2607.26246",
+"leak": true,
+"cue": "both larger than the student and cheap to obtain",
+"fix": "Option 2 pairs \"larger\" with \"cheap to obtain,\" which is incoherent for a weak-to-strong setup (the \"W2S\" in the method name implies weaker models), so the incorrect option can be identified from wording and the method name alone. Rewrite so the two options differ only in a direction word that is equally sensible in either direction (e.g., swap \"cheap to obtain\" for a neutral phrase), and avoid a method name like W2S-OPD that presupposes the answer.",
+"cost": 0.00371,
+"request_id": "req_011Cgiyz2yBXLiPoEYYCMZkw",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 870,
+"output_tokens": 197,
+"cost_usd": 0.00371,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"af427e0d4a19fe047bc48acc": {
+"cid": "t-2609.08016",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00194,
+"request_id": "req_011CgiyzP2BNh9we6wkbdcqv",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 875,
+"output_tokens": 19,
+"cost_usd": 0.00194,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"4341716e81e54e22c7e3bade": {
+"cid": "t-2609.10883",
+"leak": true,
+"cue": "adopts behaviors less often from characters that resemble it (e.g., helpful rather than dismissive)",
+"fix": "Make the parenthetical example neutral or remove it so it does not favor one direction, e.g., 'We find the Assistant adopts behaviors [more/less] often from characters that resemble it.' Alternatively, rewrite both options to carry the same example in a form that fits either direction.",
+"cost": 0.003102,
+"request_id": "req_011CgiyzKMB1C1MHQhhuMoHt",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 841,
+"output_tokens": 142,
+"cost_usd": 0.003102,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d6bfed36cc0f9153aae91516": {
+"cid": "t-2607.07774",
+"leak": true,
+"cue": "recommend two operating points: a cost-sensitive configuration and a recall-first one for high-stakes deployments",
+"fix": "Remove or neutralize the shared downstream clause so it does not presuppose the cost direction, e.g. end both options after 'we report precision, recall, and F1 separately.' Alternatively use a continuation that is equally sensible under either cost ordering, such as '...we report precision, recall, and F1 separately and discuss how to choose an operating point.'",
+"cost": 0.003486,
+"request_id": "req_011CgiyzHYWtszY18o3xq3aB",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 903,
+"output_tokens": 168,
+"cost_usd": 0.003486,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"efb901cfb2f583ecfa2be8fa": {
+"cid": "t-2609.09090",
+"leak": true,
+"cue": "Option 2: \"collapse rates decrease with conversation length ... with the overall rate rising from 0%-57% within 5 turns to 20%-97% within 25 turns\"",
+"fix": "Make the two options differ only in the direction word without leaving an internal contradiction: either remove the numeric clause from both options (e.g. \"collapse rates increase/decrease with conversation length across post-trained models\"), or phrase the numbers neutrally in both (e.g. \"with the overall rate changing from ...\") so that the unchanged text does not presuppose the correct direction.",
+"cost": 0.003804,
+"request_id": "req_011CgiyzNzw7meSun9sC1cz7",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 902,
+"output_tokens": 200,
+"cost_usd": 0.003804,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8e3df9d6e5a6903c51465d92": {
+"cid": "t-2609.07139",
+"leak": true,
+"cue": "barely changes ... whereas ... propagates almost completely, a separation of more than/less than an order of magnitude",
+"fix": "Remove the outcome descriptors from the shared context so that both options are neutral about the effect size, e.g. 'Counterfactual patching compares the effect on a fixed late-layer readout of injecting the expertise difference at the layer of peak decodability versus past the midpoint, a separation of [more/less] than an order of magnitude.'",
+"cost": 0.00348,
+"request_id": "req_011CgiyzUP8vz4DhtdhcmKMn",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 925,
+"output_tokens": 163,
+"cost_usd": 0.00348,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"7bb6794555ca8f8877d6d0b1": {
+"cid": "t-2608.29455",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001808,
+"request_id": "req_011Cgiyza9uhyZKGxfWRnfT2",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 809,
+"output_tokens": 19,
+"cost_usd": 0.001808,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"e1110eab26f92ea46859059b": {
+"cid": "t-2609.00310",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001868,
+"request_id": "req_011CgiyzV8YTQN6sTaqwpWgK",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 839,
+"output_tokens": 19,
+"cost_usd": 0.001868,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"4629887529826e4d0f48da2b": {
+"cid": "t-2609.00935",
+"leak": true,
+"cue": "and that A-Conf is largely shaped by E-Conf",
+"fix": "Remove or neutralize the shared trailing clause so it does not presuppose the direction, e.g. end both options at the comparison: \"...provides a stronger/weaker uncertainty signal than Answer Confidence (A-Conf), elicited after answer generation.\" Alternatively make the clause direction-neutral, e.g. \"and we examine how A-Conf relates to E-Conf.\"",
+"cost": 0.003574,
+"request_id": "req_011CgiyzV6JJzAeeGgtibbkP",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 947,
+"output_tokens": 168,
+"cost_usd": 0.003574,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"aacbd62dfdedfa9733be2304": {
+"cid": "t-2608.31007",
+"leak": true,
+"cue": "capture complementary aspects of patient experience and that their combination provides a more/less accurate approximation",
+"fix": "The shared sentence frame makes the answer inferable by internal logic rather than by knowledge of the paper: 'complementary aspects' only coheres with the combination being more accurate, so the 'less accurate' option is incoherent. Rewrite so both options are internally coherent, e.g. vary only the final claim in a sentence whose first clause does not presuppose the direction: 'Our findings suggest that combining automatic language analysis with interviewer judgment yields a [more / less] accurate approximation of the patient's own report than either source alone.'",
+"cost": 0.004018,
+"request_id": "req_011CgiyzVuB3ukgZXDemKVDm",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 889,
+"output_tokens": 224,
+"cost_usd": 0.004018,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"17c153704b614b425e2eb269": {
+"cid": "t-2608.29995",
+"leak": true,
+"cue": "clinicians perceive them to be human-written 85% of the time, compared with 22% for zero-shot",
+"fix": "Remove the shared clause that reveals the paper's favourable framing of full vignettes, e.g. ask only: 'Experts rate full vignettes substantially [higher/lower] than zero-shot alternatives.' Alternatively, make both options differ only in the direction word without including the human-perception statistic that signals the full vignettes are the better method.",
+"cost": 0.003382,
+"request_id": "req_011CgiyzXvDmDa8JH9WYeSuN",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 881,
+"output_tokens": 162,
+"cost_usd": 0.003382,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"2bf58eb34e6796aa8ba7c201": {
+"cid": "t-2608.23837",
+"leak": true,
+"cue": "whereas counter-framing and anti-sycophancy prompts tend to reduce it",
+"fix": "Remove the contrast clause from both options, or vary it in step with the swapped word, so the shared text does not reveal the answer. For example, end both options after 'socially structured', or ask which direction validation-seeking and emotional-pressure cues push sycophancy without the 'whereas ... reduce it' clause.",
+"cost": 0.003294,
+"request_id": "req_011CgiyzergVkZArshxJG8oy",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 922,
+"output_tokens": 145,
+"cost_usd": 0.003294,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"3ae851ac101201444ed445d9": {
+"cid": "t-2608.27021",
+"leak": true,
+"cue": "matters less than what it claims",
+"fix": "The distractor option is internally inconsistent with the rest of the sentence: the clause 'a confidently wrong report is handled about as well as an accurate one' shows that what a ticket claims matters little, which contradicts 'less than what it claims' and so exposes it as the altered wording. Rewrite the contrast so both options are equally coherent with the following clause, e.g. make the following clause neutral ('...: the effects of persona rewrites on ticket handling are described below') or use a flipped but consistent pair such as 'how a ticket is written matters more than what it claims: [clause supporting this]' vs. 'what a ticket claims matters more than how it is written: [clause supporting this]'.",
+"cost": 0.004272,
+"request_id": "req_011CgiyzeeGzZnM6SyRRQXb4",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 891,
+"output_tokens": 249,
+"cost_usd": 0.004272,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"7cc1fae6ab78ff1ec728891e": {
+"cid": "t-2608.19323",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001832,
+"request_id": "req_011Cgiyzi3AXH2mR3N3brcXb",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 821,
+"output_tokens": 19,
+"cost_usd": 0.001832,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"291a697ca8a44847c920205f": {
+"cid": "t-2608.28378",
+"leak": true,
+"cue": "\"suggesting improved interaction efficiency, while ablations confirm the contribution of SOUL components and adaptive simulation\" (the rest of the sentence, shared by both options, is positive and sits oddly with \"worsened\"; also \"fewer turns and tool calls\" is naturally read as improved efficiency)",
+"fix": "The item is a pure sentence-recognition task where the distractor is a one-word antonym swap, so the answer is inferable from internal coherence alone. Replace it with a question whose two options are both plausible readings, e.g. ask what the study reported about the number of turns and tool calls (fewer vs. more) without including interpretive wording or the surrounding positive claims in the options or methods.",
+"cost": 0.004264,
+"request_id": "req_011CgiyzehFUvb2dkHLkixR1",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 902,
+"output_tokens": 246,
+"cost_usd": 0.004264,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"3c198371553471d7540a4638": {
+"cid": "t-2608.23660",
+"leak": true,
+"cue": "Option 2: \"worse viewed as sources of externally validated soft causal priors than as direct evidence\"",
+"fix": "The question can be answered from grammar and idiom alone. \"Better viewed as X than as Y\" is the natural phrasing, while \"worse viewed as X than as Y\" is awkward, so the real sentence is easy to spot without any knowledge of the study. Replace the antonym-swap distractor with a plausible alternative claim, e.g. Option 2: \"Overall, our results suggest LLMs are better viewed as direct evidence of causal structure than as sources of externally validated soft causal priors.\" Alternatively, ask a substantive question such as whether the authors conclude LLMs are better treated as soft priors or as direct evidence of causal structure.",
+"cost": 0.004394,
+"request_id": "req_011CgiyzhhL3qk6tnSXNFv8D",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 852,
+"output_tokens": 269,
+"cost_usd": 0.004394,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"833f413b13384aca05dedb4b": {
+"cid": "t-2608.26178",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002066,
+"request_id": "req_011CgiyzqrDachg4HkzqWh5k",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 938,
+"output_tokens": 19,
+"cost_usd": 0.002066,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"0fc6dd6e28da9a626493b8c9": {
+"cid": "t-2609.22151",
+"leak": true,
+"cue": "a reward that penalizes banned ingredient tokens regardless of framing learns a context independent suppression rather than a self directed constraint",
+"fix": "Remove the explanatory clause that follows the direction word, or make it direction-neutral (e.g. 'the reward based signal is the [more/less] destructive of the two, as shown by [measure]'). As written, the clause describes a harmful, context-independent suppression, which is coherent only with 'more destructive', so the shared text gives away the answer.",
+"cost": 0.003534,
+"request_id": "req_011CgiyzegGdFTbzdLRFBWta",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 907,
+"output_tokens": 172,
+"cost_usd": 0.003534,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"813c12d18f52b97909c5db7f": {
+"cid": "t-2608.11528",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002018,
+"request_id": "req_011CgiyzubT57e3kLc4L4HkA",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 914,
+"output_tokens": 19,
+"cost_usd": 0.002018,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"547bd14cb7cf53698fe1ada7": {
+"cid": "t-2608.13921",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001856,
+"request_id": "req_011CgiyzuKpom4Z4bQQH9T37",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 833,
+"output_tokens": 19,
+"cost_usd": 0.001856,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"c74b0e4e8547b5071694ff29": {
+"cid": "t-2608.03722",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002046,
+"request_id": "req_011Cgiyzxc2cFCLf9R62sqEx",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 928,
+"output_tokens": 19,
+"cost_usd": 0.002046,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"96ca2f751383c6a1a2859eaa": {
+"cid": "t-2608.16196",
+"leak": true,
+"cue": "less attainable than ever: an LLM can read a raw gameplay transcript and produce a fluent, plausible profile",
+"fix": "The sentence's second clause (an LLM can read a transcript and produce a profile) only coheres with 'more attainable'. Replace the free-text comparison with a pair whose continuation is neutral for both words, or make both options equally coherent, e.g. truncate the shared sentence before the colon clause: 'Large language models have made this inference [more/less] attainable than ever.'",
+"cost": 0.003492,
+"request_id": "req_011Cgiyzt4vK9z2TjNoVWmkM",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 861,
+"output_tokens": 177,
+"cost_usd": 0.003492,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"2847dca405ca763ac18af49a": {
+"cid": "t-2608.04570",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001864,
+"request_id": "req_011CgiyzxcGKj3ocZag6T2ZP",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 837,
+"output_tokens": 19,
+"cost_usd": 0.001864,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"968c901d711290defd8c8e75": {
+"cid": "t-2608.20405",
+"leak": true,
+"cue": "Option 2: \"consistently underperforms strong baselines across multiple backbone models, achieving top rankings and the highest overall scores\"",
+"fix": "The options differ in one word, but the unchanged remainder of the sentence (\"achieving top rankings and the highest overall scores\") only coheres with \"outperforms\", so Option 2 is internally contradictory and the answer is evident from wording alone. Reword the shared sentence so both directions are coherent, e.g. \"Results show that Argus consistently [outperforms / underperforms] strong baselines across multiple backbone models on the reported benchmarks.\"",
+"cost": 0.003848,
+"request_id": "req_011CgiyzvN5xJjbozufd7tw8",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 849,
+"output_tokens": 215,
+"cost_usd": 0.003848,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"1c41e72421976a1005adaf04": {
+"cid": "t-2608.01598",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001876,
+"request_id": "req_011Cgiz136Q5QzGUQ6yTfwZ6",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 843,
+"output_tokens": 19,
+"cost_usd": 0.001876,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"5b409b0c3bb8d13f6afd0adc": {
+"cid": "t-2608.03035",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00186,
+"request_id": "req_011CgiyzzpE8kNsp43ifNyau",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 835,
+"output_tokens": 19,
+"cost_usd": 0.00186,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"23bcbdd4502e789db3927fb6": {
+"cid": "t-2608.01017",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001884,
+"request_id": "req_011Cgiz14Dcj1GMrv8GHkMJh",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 847,
+"output_tokens": 19,
+"cost_usd": 0.001884,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f47233af8cfdc18e35875de8": {
+"cid": "t-2608.00478",
+"leak": true,
+"cue": "underperform all baselines with an average relative gain of 16.3%",
+"fix": "Option 2 is internally incoherent: 'underperform' contradicts 'relative gain of 16.3%', so it can be eliminated without any knowledge of the study. Replace the numeric clause with one that fits either direction, e.g. 'Experiments show that OrthoTune-trained models [outperform / underperform] all baselines, with an average relative difference of 16.3% across all metrics versus the strongest prompt-based baseline.'",
+"cost": 0.003562,
+"request_id": "req_011Cgiz14VyQBExXFhhGGPW1",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 871,
+"output_tokens": 182,
+"cost_usd": 0.003562,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8adcdc99facf7e90a2d8fdcd": {
+"cid": "t-2607.29334",
+"leak": true,
+"cue": "acting as a general barrier rather than an out-group filter",
+"fix": "Remove the trailing clause from both options so the sentence ends at 'regardless of origin', e.g. 'Political topics slowed stance movement toward the AI's position, and collective narcissism predicted less/more attitude change regardless of origin.'",
+"cost": 0.002918,
+"request_id": "req_011Cgiz17sNsdB7hjxHKMQ6d",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 879,
+"output_tokens": 116,
+"cost_usd": 0.002918,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"7d1fef658caaf0359f9850fe": {
+"cid": "t-2607.28906",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00192,
+"request_id": "req_011Cgiz1AUetMATg3E1ESStW",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 865,
+"output_tokens": 19,
+"cost_usd": 0.00192,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"0642be0d56cae593f1a72d1d": {
+"cid": "t-2607.22034",
+"leak": true,
+"cue": "because it determines when a system should defer rather than answer",
+"fix": "Remove or neutralize the justification clause so it does not support one direction, e.g. end both options at 'raw accuracy.' or use a clause that fits both 'more' and 'less' equally.",
+"cost": 0.002644,
+"request_id": "req_011Cgiz1KhGyuTgyQQWPziAS",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 847,
+"output_tokens": 95,
+"cost_usd": 0.002644,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"083bb302a5b58d4b1fe0c848": {
+"cid": "t-2607.25292",
+"leak": true,
+"cue": "the model's internal probabilities concentrate on a single option",
+"fix": "Make the second clause neutral so it does not presuppose the direction of the first, e.g. 'The same persona on the same question returns the same answer on [more/less] than half of items in a public-opinion benchmark, and the model's internal probabilities are distributed across [few/many] options.' Alternatively drop the second clause so the options differ only in the direction word without a consistency-implying context.",
+"cost": 0.003296,
+"request_id": "req_011Cgiz1En7ZK6LaSvw4wr4t",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 863,
+"output_tokens": 157,
+"cost_usd": 0.003296,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"ab3081049e3721bc382432d1": {
+"cid": "t-2607.27553",
+"leak": true,
+"cue": "approaching human-level coverage",
+"fix": "Make the trailing clause neutral so it doesn't presuppose improvement, e.g. end both options at 'coverage of the idea space' (Option 1: '...steadily improves coverage of the idea space.' / Option 2: '...steadily worsens coverage of the idea space.'), or use a clause that fits both directions, e.g. 'relative to human-level coverage'.",
+"cost": 0.00329,
+"request_id": "req_011Cgiz1BAposnnP5LByExQ9",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 900,
+"output_tokens": 149,
+"cost_usd": 0.00329,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"6c9eeaab9708ffac183b61a6": {
+"cid": "t-2607.26899",
+"leak": true,
+"cue": "L2 writers contributed more collective diversity than L1 writers, with native-language ideation showing the most diverse pools",
+"fix": "Remove the internally incoherent clause from both options, or make the tail neutral (e.g. '...with [language condition] showing the most diverse pools') so that neither option's second half is consistent or inconsistent with only one direction word.",
+"cost": 0.002954,
+"request_id": "req_011Cgiz1BKzLNfACU15J42Pb",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 837,
+"output_tokens": 128,
+"cost_usd": 0.002954,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"85346ef0a8fd711e2338fbfa": {
+"cid": "t-2608.14659",
+"leak": true,
+"cue": "insufficient on their own to improve code correctness ... rather than as standalone substitutes for verification",
+"fix": "Move the discriminating word away from the surrounding context so both options remain coherent, e.g. ask which of two abstract sentences with different conclusions was reported, and ensure the unchanged remainder of the sentence (the 'gating signals ... rather than standalone substitutes' clause) does not presuppose one direction. Alternatively, ask the forecaster to predict the paper's finding directly (e.g. 'Do cheap uncertainty estimators improve or worsen code correctness on their own?') without supplying a sentence whose remaining wording only fits one option.",
+"cost": 0.004188,
+"request_id": "req_011Cgiz15GsSZx4N4KDjt7Wu",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 944,
+"output_tokens": 230,
+"cost_usd": 0.004188,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"b00ae4df40f59b097ced8ede": {
+"cid": "t-2607.19949",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002046,
+"request_id": "req_011Cgiz1TjUXyhv8WQWCXDtS",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 928,
+"output_tokens": 19,
+"cost_usd": 0.002046,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"c3ff8747c7fc6dc773513623": {
+"cid": "t-2609.30287",
+"leak": true,
+"cue": "confirms this set's causal relevance",
+"fix": "Replace the shared clause with a neutral one that does not presuppose the outcome, e.g. 'Bidirectional activation patching tests this set's causal relevance: in both directions it flips predictions an order of magnitude [more/less] often than size-matched random sets.' Better still, ask directly which direction of effect was reported rather than asking which sentence appears in the abstract.",
+"cost": 0.00322,
+"request_id": "req_011Cgiz1WhpFcdBHtEyKgMw3",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 860,
+"output_tokens": 150,
+"cost_usd": 0.00322,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"acccba25f74e5c17e777c4a4": {
+"cid": "t-2609.03322",
+"leak": true,
+"cue": "the word \"also\" in \"Gradient-guided HotFlip perturbations also cause ...\" (identical in both options)",
+"fix": "Remove the presupposing word \"also\" from both options, e.g. \"Gradient-guided HotFlip perturbations cause stronger/weaker behavioral and representational disruption than rate-matched random token substitutions in GPT-2; ...\". Optionally drop the trailing clause about consistency across checkpoints, since it reads naturally only with the 'stronger' result.",
+"cost": 0.003632,
+"request_id": "req_011Cgiz1X2QhR72KcPWVSbv9",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 906,
+"output_tokens": 182,
+"cost_usd": 0.003632,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"5061504b250942b2d1e06b5e": {
+"cid": "t-2609.10792",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001878,
+"request_id": "req_011Cgiz1UA2mKoWqvQvetQnU",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 844,
+"output_tokens": 19,
+"cost_usd": 0.001878,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"fcc258e98b1ae347804a458b": {
+"cid": "t-2609.10123",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001978,
+"request_id": "req_011Cgiz1UAmAwVxyNobPCJMN",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 894,
+"output_tokens": 19,
+"cost_usd": 0.001978,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f3d2b136321a2b24530dc662": {
+"cid": "t-2609.00755",
+"leak": true,
+"cue": "Question and Methods: \"Which of these two sentences is the one in the paper's abstract?\" / \"the same sentence from the paper's abstract\" paired with Option 2's \"underperforms existing methods\"",
+"fix": "Remove the abstract-recognition framing, which lets forecasters infer the answer from how abstracts are written (authors do not report their own framework as underperforming). Ask a neutral outcome question instead, e.g. \"In the paper's experiments, how did the proposed framework perform relative to existing circuit-discovery methods?\" with options \"The framework outperformed existing methods\" and \"The framework underperformed existing methods\" (differing only in the direction word).",
+"cost": 0.004012,
+"request_id": "req_011Cgiz1ZCP7rDnyTX8iBebg",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 816,
+"output_tokens": 238,
+"cost_usd": 0.004012,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"6fe8f10877d9e858ad502610": {
+"cid": "t-2611.03655",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00193,
+"request_id": "req_011Cgiz1jmNjj8yxSiDrsUDQ",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 870,
+"output_tokens": 19,
+"cost_usd": 0.00193,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"c93be959695a227bf12c4ee5": {
+"cid": "t-2609.22197",
+"leak": true,
+"cue": "Our results reveal several key findings: ... while single-state recurrent Transformers are comparable to HRM",
+"fix": "Drop the surrounding context that signals the paper's stance, or neutralize the framing, e.g. ask 'In the paper's abstract, how do recurrent models perform relative to one-pass baselines?' with options 'better than' / 'worse than', so the sentence's positive 'key findings ... while ... comparable' framing no longer favours 'outperform'.",
+"cost": 0.003392,
+"request_id": "req_011Cgiz1cfzBPEDNB6HCx3oL",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 856,
+"output_tokens": 168,
+"cost_usd": 0.003392,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"b350b9eee640b5f33327cae4": {
+"cid": "t-2608.27254",
+"leak": true,
+"cue": "by 8.1x on average and up to 316x",
+"fix": "Make the surrounding text neutral to direction, e.g. 'condensed circuits differ in size from the strongest published frozen-weight baseline in 30 of 32 settings, by a factor of 8.1x on average and up to 316x' in both options, with only the single direction word varying. Better yet, reframe the question as a numeric/direction forecast ('Were condensed circuits smaller or larger than the baseline?') without giving the magnitude phrasing, since 'up to 316x' and 'condensed' (implying compression) are only sensible if circuits are smaller.",
+"cost": 0.00393,
+"request_id": "req_011Cgiz1hcuSXLVSR7ZARcVa",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 885,
+"output_tokens": 216,
+"cost_usd": 0.00393,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"875f84f85c5690338e2e758e": {
+"cid": "t-2608.26083",
+"leak": true,
+"cue": "Which of these two sentences is the one in the paper's abstract? (with Option 1 'more accurately' vs Option 2 'less accurately')",
+"fix": "Reframe as a neutral outcome question: 'In simulated data with ground truth, how does ICON's accuracy in recovering concept importance compare to seven baselines?' with options 'ICON is more accurate than the baselines' and 'ICON is less accurate than the baselines'. Do not frame it as picking the abstract sentence, since authors typically report favorable results about their own named method, which makes the 'more accurately' option identifiable from wording alone.",
+"cost": 0.003758,
+"request_id": "req_011Cgiz1i4CFSUZD6YTxU33j",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 824,
+"output_tokens": 211,
+"cost_usd": 0.003758,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"ac6d0b7661f2184deb62acd6": {
+"cid": "t-2608.20134",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001922,
+"request_id": "req_011Cgiz1qPU9SN9dMDJLpbj8",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 866,
+"output_tokens": 19,
+"cost_usd": 0.001922,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"017406661593dfc950cad238": {
+"cid": "t-2608.20117",
+"leak": true,
+"cue": "SAE-Xplainers enable faithful interpretation of complex climatic patterns ... consistent with the scientific literature",
+"fix": "Remove or neutralize the shared sentence context that signals a positive paper (e.g., present only the clause 'We show that SAE input modulation [improves/worsens] both reconstruction performance and feature utilization' and drop the rest). Also ask which direction the effect went rather than asking which sentence appears in the abstract.",
+"cost": 0.003528,
+"request_id": "req_011Cgiz1ruVcUNtSmaVnEMFA",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 959,
+"output_tokens": 161,
+"cost_usd": 0.003528,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"03d09bfb75463c1fbc060841": {
+"cid": "t-2608.24210",
+"leak": true,
+"cue": "Which of these two sentences is the one in the paper's abstract? ... For both theoretical and numerical reasons, it is more relevant",
+"fix": "Drop the real-versus-altered sentence format and ask a neutral outcome question, e.g. 'In the paper, is expressing RC with the L1-norm rather than the L2-norm more relevant or less relevant?' with options that differ only in the direction word. Alternatively, keep both options as plausible abstract claims without the 'For both theoretical and numerical reasons' framing, which only coheres with the authors endorsing the L1-norm.",
+"cost": 0.003728,
+"request_id": "req_011Cgiz1mpQZnoXN5ExWUmMN",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 844,
+"output_tokens": 204,
+"cost_usd": 0.003728,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"ec926b9b75219116b6e01722": {
+"cid": "t-2608.25231",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00196,
+"request_id": "req_011Cgiz1n4nXEFaNa7X7je2M",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 885,
+"output_tokens": 19,
+"cost_usd": 0.00196,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"704e715035251806ecfd7548": {
+"cid": "t-2608.18545",
+"leak": true,
+"cue": "with the strongest sharing appearing when the analysis isolates recovery of the inflectional contrast itself",
+"fix": "Remove or neutralize the trailing clause in both options (e.g., end both after 'than non-conjugating languages.'), or rewrite it neutrally, e.g., 'with the degree of sharing varying depending on whether the analysis isolates recovery of the inflectional contrast itself.'",
+"cost": 0.003278,
+"request_id": "req_011Cgiz1uZk6KZAdcbddYYyn",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 904,
+"output_tokens": 147,
+"cost_usd": 0.003278,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"4ffe39c26bab5349048994cd": {
+"cid": "t-2608.05705",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001922,
+"request_id": "req_011Cgiz28kzHGi8SrjAJzzMJ",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 866,
+"output_tokens": 19,
+"cost_usd": 0.001922,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"17967ed7e5ae571b38e1cc66": {
+"cid": "t-2608.10430",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002014,
+"request_id": "req_011Cgiz247SLT9eJHQzPYoaR",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 912,
+"output_tokens": 19,
+"cost_usd": 0.002014,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"39150cdc1d3a1fdcc8c18994": {
+"cid": "t-2608.07208",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001896,
+"request_id": "req_011Cgiz26ESNR586jRy9QWoP",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 853,
+"output_tokens": 19,
+"cost_usd": 0.001896,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f2ea3bb1917f0957f1b587b5": {
+"cid": "t-2608.15459",
+"leak": true,
+"cue": "rank changes of more than one position occur in 67-70% of samples on average",
+"fix": "Make the two options differ only in the direction word and ask for a substantive prediction instead of identifying the abstract's sentence, e.g. 'In the Monte Carlo analysis, what share of samples show rank changes of more than one position?' with options 'a majority (over 50%)' vs 'a minority (under 50%)'. Remove the 'which sentence is in the abstract' framing, since Option 2 ('less than one position' in 67-70% of samples) is a semantically odd statement that a forecaster can reject on wording alone.",
+"cost": 0.003872,
+"request_id": "req_011Cgiz1vAT3MxFWbih1HmK6",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 876,
+"output_tokens": 212,
+"cost_usd": 0.003872,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"83900eb18d186765a5b2ff78": {
+"cid": "t-2608.12652",
+"leak": true,
+"cue": "its standard deviation is 1.30 to 1.56 times the null's own in every arm",
+"fix": "Remove the numeric ratio (or state it only as 'a ratio of standard deviations') so the sentence does not itself imply the direction: ratios of 1.30 to 1.56 are only sensible if the first quantity is more variable, making 'less variable' a contradiction in the item. Alternatively, use a question like 'Which direction of variability was reported?' with the ratio omitted from the shared text.",
+"cost": 0.003578,
+"request_id": "req_011Cgiz1zcMfGitG7Yu3bV8Q",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 914,
+"output_tokens": 175,
+"cost_usd": 0.003578,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8d271ffe0cb0f759fafa7a78": {
+"cid": "t-2608.06578",
+"leak": true,
+"cue": "where a random direction of equal norm changes nothing",
+"fix": "Both options share a sentence whose control clause presupposes the direction is causally meaningful, which favors \"more than half\". Either drop the control clause from both options or make it neutral: \"Injecting that direction drives the behavior from 0% to 86%, and ablating it cuts the natural rate by [more/less] than half; a random direction of equal norm was also tested.\" Also reframe the question as predicting the ablation effect size rather than picking the abstract sentence, so options are not distinguishable by coherence with the surrounding text.",
+"cost": 0.003794,
+"request_id": "req_011Cgiz27z7Fy3X8nKBe8afh",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 872,
+"output_tokens": 205,
+"cost_usd": 0.003794,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"2f71992d4e4dd13eb3f59453": {
+"cid": "t-2607.21491",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001854,
+"request_id": "req_011Cgiz2Hh1pDmnTWn7fUzNv",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 832,
+"output_tokens": 19,
+"cost_usd": 0.001854,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"fb5b062fed0083902354544e": {
+"cid": "t-2607.21353",
+"leak": true,
+"cue": "Less broadly, the results support a growing body of evidence",
+"fix": "Replace the contrast with a neutral one-word difference that is not obviously unnatural, e.g. Option 1: 'More broadly, the results support...' vs Option 2: 'Notably, the results support...' (or use two comparably natural openers), and make the question a genuine forecast rather than a test of which phrasing sounds natural.",
+"cost": 0.003216,
+"request_id": "req_011Cgiz2HjzHM21mJZjsSEV1",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 893,
+"output_tokens": 143,
+"cost_usd": 0.003216,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"22a555f1dab50278cd1f8587": {
+"cid": "t-2607.14070",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00189,
+"request_id": "req_011Cgiz2N6RYY1Akvj3KvxAi",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 850,
+"output_tokens": 19,
+"cost_usd": 0.00189,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"9b90ffd339731e7fcd8bcae2": {
+"cid": "t-2607.17770",
+"leak": true,
+"cue": "while remaining aligned with established monosemanticity indicators",
+"fix": "Replace the item with a forecasting question about the result itself, e.g. 'Compared with its embedding-based alternative, is TMS more or less affected by encoder anisotropy?' with options differing only in 'less'/'more', and drop the sentence frame whose positive-sounding continuation ('while remaining aligned...') presupposes that TMS is the favourable method.",
+"cost": 0.003274,
+"request_id": "req_011Cgiz2MgN8Pe26KDD9mS4x",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 862,
+"output_tokens": 155,
+"cost_usd": 0.003274,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"232a236578900d364af5f89c": {
+"cid": "t-2607.09842",
+"leak": true,
+"cue": "(138.1 vs. 216.5; Cohen's d = -5.45; n = 20)",
+"fix": "Remove the numeric values and effect size from both options so only the direction word differs, e.g. 'In Gemma-4-E4B-it this state has a [lower/higher] norm under the identity prompt than under a token-length-matched generic prompt (n = 20).'",
+"cost": 0.003148,
+"request_id": "req_011Cgiz2Q1mdGrjhSK5vrXVP",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 904,
+"output_tokens": 134,
+"cost_usd": 0.003148,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"1849e6696a995591f1d5d24b": {
+"cid": "t-2607.08162",
+"leak": true,
+"cue": "ProsMAE",
+"fix": "Give the method a neutral label (e.g. 'Model A' or 'the proposed encoder') in both options, or phrase the item as an unlabeled comparison: 'Which result did the paper report for QWK of the proposed model versus the vanilla MAE frozen linear-probe baseline: higher or lower?'",
+"cost": 0.003058,
+"request_id": "req_011Cgiz2TxPbUPXJA2NzPjzw",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 894,
+"output_tokens": 127,
+"cost_usd": 0.003058,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"e665838286930590922ed017": {
+"cid": "t-2607.20522",
+"leak": true,
+"cue": "adjusted log contrast of -0.29439 and 95% interval [-0.43989, -0.14889]",
+"fix": "Remove the numeric contrast and interval (and the phrase \"falsified in reverse\") from both options, e.g. \"The prediction was tested: active-feature planes carried [less/more] holonomy than matched mixed-feature controls.\" so the direction is not recoverable from the sign of the statistic.",
+"cost": 0.003336,
+"request_id": "req_011Cgiz2UJEtQnycSyfs66va",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 908,
+"output_tokens": 152,
+"cost_usd": 0.003336,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"a9eae779f8e64151be292796": {
+"cid": "t-2607.08843",
+"leak": true,
+"cue": "apply our theory to worsen linear probe generalization",
+"fix": "Replace the item with a forecasting question about a measurable result (e.g., 'Did applying the theory increase or decrease linear probe generalization in LLMs?'), with options that differ only in the direction word and are phrased identically otherwise, rather than asking which sentence appeared in the abstract.",
+"cost": 0.003,
+"request_id": "req_011Cgiz2QT4ZZRYZnGWLaD8M",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 855,
+"output_tokens": 129,
+"cost_usd": 0.003,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"09d43033e892ee210767a76d": {
+"cid": "t-2607.02964",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00199,
+"request_id": "req_011Cgiz2dCGKYMDnoZCLH5V7",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 900,
+"output_tokens": 19,
+"cost_usd": 0.00199,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"e9f016d53ec3174bf7d806a4": {
+"cid": "t-2607.03304",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00203,
+"request_id": "req_011Cgiz2cVcJ8TaVfVH7Zx88",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 920,
+"output_tokens": 19,
+"cost_usd": 0.00203,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"14d98b0d8e601c55b0955570": {
+"cid": "t-2607.12501",
+"leak": true,
+"cue": "a layer can higher its loss",
+"fix": "Make Option 2 a grammatical, equally natural sentence differing only in the direction word, e.g. replace \"lower its loss\" / \"higher its loss\" with \"decrease its loss\" / \"increase its loss\" (or \"reduce\"/\"raise\"), so neither option is ungrammatical.",
+"cost": 0.003172,
+"request_id": "req_011Cgiz2NRmMvzAuhW4DZzD4",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 926,
+"output_tokens": 132,
+"cost_usd": 0.003172,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"3a831c8a35c6c1d8b6ac856c": {
+"cid": "t-2607.04846",
+"leak": true,
+"cue": "Which of these two sentences is the one in the paper's abstract? / improves the selectivity of refusal fine-tuning",
+"fix": "Replace the 'which sentence is in the abstract' format with a neutral outcome question, e.g. 'In the study, did imbalanced learning of two conflicting copy tasks increase or decrease the selectivity of refusal fine-tuning?' with options 'Increased selectivity' and 'Decreased selectivity'. The abstract-sentence format lets a forecaster pick the option that reads like an authors' positive claim (improves), which is the answer.",
+"cost": 0.003754,
+"request_id": "req_011Cgiz2YSHL9J3Smjc6ADq6",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 857,
+"output_tokens": 204,
+"cost_usd": 0.003754,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"0be68e9c09d775b5df4d9398": {
+"cid": "t-2607.04167",
+"leak": true,
+"cue": "1D manifolds ... while tasks requiring cross-position integration or semantic extraction produce lower-dimensional or incoherent representations",
+"fix": "The item is answerable by internal logic rather than study knowledge: since the contrast case is set against 1D manifolds, 'lower-dimensional' is nonsensical (nothing is lower than 1D), so only 'higher-dimensional' fits. Replace the one-word swap with a substantive pair, e.g. ask which dimensionality (e.g. 'higher-dimensional' vs 'two-dimensional') or which other outcome the paper reports for the non-local tasks, so both options are coherent given the sentence.",
+"cost": 0.004158,
+"request_id": "req_011Cgiz2YwYPdpEUsVw7LuQ1",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 924,
+"output_tokens": 231,
+"cost_usd": 0.004158,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f5aa6781e52b16e1ef960f35": {
+"cid": "t-2607.01799",
+"leak": true,
+"cue": "improved storage--fidelity tradeoff",
+"fix": "Present the options as a neutral blank, e.g. 'the ___ storage--fidelity tradeoff' with options 'improved' vs 'worsened', and add the question context that gives no hint as to which direction authors favoured; better, avoid a question where one option is a natural positive claim and the other a reversed-sense claim (e.g. ask which direction the sparse decoder's storage--fidelity tradeoff moved relative to dense decoders, without presupposing a 'driven by' explanation that only makes sense for a benefit).",
+"cost": 0.003942,
+"request_id": "req_011Cgiz2efaLuhma9x8gabuA",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 951,
+"output_tokens": 204,
+"cost_usd": 0.003942,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
 }
 }

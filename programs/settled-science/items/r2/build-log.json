@@ -1395,6 +1395,981 @@
   "dropped": "no candidate sentence"
  },
  {
+  "id": "2608.17913",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.17400",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.17331",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.17023",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.17005",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.16815",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.16716",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.16254",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.16183",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.15637",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.19243",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.14214",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13646",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13530",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13207",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13181",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13090",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.12858",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.12504",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.12312",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.12021",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11719",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11072",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.10087",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.09644",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.08475",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.10013",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07929",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07697",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07465",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07431",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07306",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07149",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.06988",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.06859",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.06570",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.06187",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.05686",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.05426",
+  "field": "quantum-devices",
+  "dropped": "in round 1"
+ },
+ {
+  "id": "2608.05320",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.05147",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.05010",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04812",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04290",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04128",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04103",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04089",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04081",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03809",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03325",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.02815",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.02773",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.02733",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.02245",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.02086",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01788",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01741",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01316",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01111",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.00162",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.29666",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.29603",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.29206",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28943",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28922",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28499",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28149",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.27945",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.27771",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.27644",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.27527",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.27094",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.27028",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.26745",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.26716",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.26438",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.26436",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.26242",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.26161",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.26019",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25834",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.20254",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25643",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25176",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25109",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25062",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.24937",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.24722",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.24714",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.24318",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.24050",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.23681",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.23463",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.23090",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.22429",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.22294",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.22243",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.22138",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.21554",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.20172",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.21360",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.21329",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.21216",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20998",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20795",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20616",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20292",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.19563",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.19286",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.19187",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18579",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18562",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18552",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18546",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18513",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18401",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18387",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.17583",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.17562",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.17204",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.16503",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.16151",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.15976",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.15764",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.15688",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.15597",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.14501",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.14441",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.14344",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.14293",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.14239",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.14217",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.14085",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.13842",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.14175",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.13580",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.13351",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.13342",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.13166",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.13145",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.12999",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.12996",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.12988",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.13121",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.12948",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.12565",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.12317",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.12047",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.12002",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.11846",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.11992",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.11554",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.11516",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.11514",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.11490",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.11282",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.10743",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.09844",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.09652",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.09570",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.09508",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.09414",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.08767",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.08687",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.08212",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.08078",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.07822",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.07549",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.07547",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.07167",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.07138",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.06718",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.06670",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.06672",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.06342",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.05786",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.05779",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.05760",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.05072",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.04742",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.04227",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.04090",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.03552",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.03337",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.03193",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.02987",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.02810",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.02289",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.02258",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.01787",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.01085",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.01037",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.00826",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.00462",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.00284",
+  "field": "quantum-devices",
+  "dropped": "no candidate sentence"
+ },
+ {
   "id": "2611.05556",
   "field": "scalable-oversight",
   "dropped": "no candidate sentence"
@@ -2711,6 +3686,1361 @@
  },
  {
   "id": "2609.17306",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.16501",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.16487",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.15422",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.15399",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.15384",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.14998",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.14896",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.14648",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.14438",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.14168",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.13773",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.13753",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.13425",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12936",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12822",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12623",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12607",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12459",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12439",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12191",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12039",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.11498",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.11028",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.10996",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12002",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.11989",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.09428",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.09135",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.08854",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.09250",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.08703",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.13268",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.13267",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.07120",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.06649",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.13259",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.06434",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.06367",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.05910",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.05838",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.05829",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.05586",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.05185",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.05018",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04999",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04812",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04665",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04598",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04173",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.03953",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.03945",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.03432",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04282",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.03007",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.02852",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.02371",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.02246",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.02054",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01772",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01595",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01432",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01139",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01113",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01056",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.02944",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00498",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00494",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00434",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00264",
+  "field": "scalable-oversight",
+  "dropped": "in round 1"
+ },
+ {
+  "id": "2609.02942",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00213",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00195",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.31075",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30968",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30924",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30902",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30819",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30724",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30682",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.29709",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30354",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30258",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30194",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30146",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00058",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.29647",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.29564",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.29460",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.29168",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.29030",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.28467",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.28366",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.27990",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.27127",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26982",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26780",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.27505",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26623",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26324",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26297",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.25869",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.25854",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.25105",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24419",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24314",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24302",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24135",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24958",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24108",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.23961",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.23941",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.23783",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.23705",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24945",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.23242",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26193",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.22938",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.22459",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.23632",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.22103",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.21962",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.21057",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.19940",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.19802",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.19692",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.19571",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26180",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.19121",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.19011",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.19002",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.18787",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.18740",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.18300",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.18239",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.17804",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.17776",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.17687",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.17423",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.17393",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.17177",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.17168",
+  "field": "scalable-oversight",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
+  "id": "2608.16609",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.15877",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.15604",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.15535",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.15432",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.15402",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.15392",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.14950",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13988",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13554",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26177",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13334",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.12585",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.12270",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11698",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11683",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11669",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11430",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13608",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11022",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.28639",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.26204",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.09857",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.08975",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07762",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07641",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07038",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.06924",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.06768",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.06632",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.06526",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.06179",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.06125",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.05822",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.05726",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.05573",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.05391",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.21398",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04783",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.05223",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04514",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04240",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04119",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03884",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03581",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03118",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03095",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.02937",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.02827",
+  "field": "scalable-oversight",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
+  "id": "2608.01941",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01645",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01423",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01346",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01012",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11243",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.00583",
+  "field": "scalable-oversight",
+  "dropped": "in round 1"
+ },
+ {
+  "id": "2608.00581",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.31622",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.29071",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28928",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28840",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28439",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28269",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28225",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28033",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28006",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.27916",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.27637",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.27466",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.27172",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.26766",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25823",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25726",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25333",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25300",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.00054",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.22368",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07529",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.22085",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.21961",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.21862",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.21472",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.21388",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20852",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.19923",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.19321",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.19292",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18665",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18575",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01622",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18467",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18110",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18068",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.17912",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18358",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.17645",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.17564",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.17532",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.17230",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.16848",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.16729",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.15696",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.14835",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.14558",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.14480",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.13705",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.13501",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.13347",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.13189",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.27463",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.12884",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.14622",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.12428",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.12213",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.13087",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.13083",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.11315",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.11267",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.16291",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.10626",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.10191",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.10080",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.09492",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.08215",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.07797",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.07784",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.07368",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.07149",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.07134",
+  "field": "scalable-oversight",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20518",
   "field": "scalable-oversight",
   "dropped": "no candidate sentence"
  },
@@ -4040,6 +6370,1336 @@
   "dropped": "no candidate sentence"
  },
  {
+  "id": "2609.15242",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.15191",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.15066",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.14896",
+  "field": "model-psychology",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2609.16077",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.13995",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.13841",
+  "field": "model-psychology",
+  "dropped": "in round 1"
+ },
+ {
+  "id": "2609.19167",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12872",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12851",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12801",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12694",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12623",
+  "field": "model-psychology",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2609.12373",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12191",
+  "field": "model-psychology",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2609.11020",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.10996",
+  "field": "model-psychology",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2609.10142",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.09899",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.09428",
+  "field": "model-psychology",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2609.08861",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.08637",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.08592",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.08288",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.07687",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.07672",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.07651",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.07573",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.07305",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.07120",
+  "field": "model-psychology",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2609.07117",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.06951",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.06879",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.06851",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.06715",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.22255",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.09203",
+  "field": "model-psychology",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
+  "id": "2610.00065",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04915",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04676",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04511",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04485",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04434",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04377",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04127",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.03677",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.03553",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.03507",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.03423",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.03293",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.03218",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.22224",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.02606",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.02526",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.02496",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01918",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01779",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01375",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01257",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01182",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01056",
+  "field": "model-psychology",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2609.01038",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00921",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00652",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00453",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00304",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00274",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30980",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30924",
+  "field": "model-psychology",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2608.30873",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30719",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.05514",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30033",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30023",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.29956",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00067",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.29798",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.22195",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.29198",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.29118",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.28945",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.28467",
+  "field": "model-psychology",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2608.28382",
+  "field": "model-psychology",
+  "dropped": "in round 1"
+ },
+ {
+  "id": "2608.28144",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.27808",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.27427",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.27219",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.27524",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26846",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26674",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26511",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26291",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26005",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26221",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.25329",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.29509",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.29508",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.25200",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.27484",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24369",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.29528",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24076",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.29522",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.23870",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.23666",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.23663",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.23484",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.23086",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.22802",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.22438",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.22411",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2610.32988",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.21841",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.21664",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.21242",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.21203",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.20975",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26182",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.20777",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.20717",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.20569",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.20320",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.19974",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.19549",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26180",
+  "field": "model-psychology",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2608.18816",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.17583",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.17084",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.16650",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.16118",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.15844",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.15687",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.15574",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.27756",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.14457",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.14399",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.14210",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13787",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13730",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13712",
+  "field": "model-psychology",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
+  "id": "2608.13482",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13069",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13063",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.22102",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.12307",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.12133",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.21415",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11649",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11354",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11200",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11025",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.10916",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.10760",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00014",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.10703",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.10672",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.10385",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.10218",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.10209",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.10186",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.09717",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.09638",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.09510",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.10042",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.09024",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.08889",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.25021",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.08852",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.08829",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.08691",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.08654",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.08300",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07952",
+  "field": "model-psychology",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
+  "id": "2608.07852",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07775",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.10008",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07316",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.06975",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.06811",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.06704",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.06485",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.05624",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.05611",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.05064",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.05249",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.05246",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04646",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04524",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04205",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04095",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03883",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04066",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03744",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03700",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03428",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03416",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03166",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03044",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.02941",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.02520",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.02046",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.02689",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01868",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01835",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01708",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01193",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01181",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01043",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01042",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.00979",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.00261",
+  "field": "model-psychology",
+  "dropped": "in round 1"
+ },
+ {
+  "id": "2608.05188",
+  "field": "model-psychology",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
+  "id": "2607.29585",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11241",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28818",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.14651",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28801",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28607",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28439",
+  "field": "model-psychology",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2607.28347",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28317",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28146",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.28623",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.27512",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.27379",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.27366",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.26977",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.26545",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.26473",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.26389",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.26375",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25765",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25600",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25423",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25364",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25218",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25166",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25152",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.25010",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.24539",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.24440",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.24341",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.24304",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.24191",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.22359",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24912",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.23538",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.23519",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.23242",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.22902",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.22182",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.21558",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.28615",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.22090",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20773",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20712",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20589",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20146",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.20827",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20082",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.19992",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.19794",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.19257",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.19243",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.19235",
+  "field": "model-psychology",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18826",
+  "field": "model-psychology",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
   "id": "2611.05919",
   "field": "interpretability",
   "dropped": "no candidate sentence"
@@ -5341,6 +9001,1196 @@
  },
  {
   "id": "2609.14151",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.13745",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.13556",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.13507",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.12591",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.11216",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.11085",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.10739",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.10299",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.09902",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.09860",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.09575",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.09556",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.09482",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.09113",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.09054",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.08901",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.08788",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.08582",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.08561",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.08410",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.08322",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.07876",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.07746",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.07681",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.07061",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.07037",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.06879",
+  "field": "interpretability",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2609.06862",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.06473",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.06289",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.06011",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.05575",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04808",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04582",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.04344",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.03687",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.03511",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.22230",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.03148",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.03090",
+  "field": "interpretability",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
+  "id": "2609.03026",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.22219",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01878",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01832",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01537",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01361",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01322",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.01048",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00868",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00823",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30902",
+  "field": "interpretability",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2608.30662",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30462",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30456",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30229",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.30072",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.29936",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00055",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.00051",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.29553",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.29431",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.29215",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.29070",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.29034",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.28924",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.28207",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.28191",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.27785",
+  "field": "interpretability",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
+  "id": "2608.27756",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.27750",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.27402",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.27397",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.27515",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26887",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.27510",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26686",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26419",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.22163",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.26090",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.25941",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.25354",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.25138",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24780",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24727",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24597",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24482",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24958",
+  "field": "interpretability",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2608.24065",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.24037",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.23873",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.23809",
+  "field": "interpretability",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
+  "id": "2608.22614",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.23634",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.22332",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.22155",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.22034",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.22007",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.21919",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.21664",
+  "field": "interpretability",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2608.21582",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.21147",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.20647",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.20569",
+  "field": "interpretability",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2608.20516",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.19338",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.18419",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.26112",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.16868",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.16661",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.16094",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.16085",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.15790",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.15632",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.14896",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13538",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13337",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.13167",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.12852",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.12717",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.12573",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.12086",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11475",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11197",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11171",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.11025",
+  "field": "interpretability",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2608.10657",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.10627",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.10537",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.10172",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.09928",
+  "field": "interpretability",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
+  "id": "2608.09643",
+  "field": "interpretability",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
+  "id": "2608.09638",
+  "field": "interpretability",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2608.08536",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.08383",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.08168",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.08027",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.08024",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07852",
+  "field": "interpretability",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2608.05732",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.05243",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04904",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.16931",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.16927",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04381",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.04183",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03913",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03629",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03620",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.03507",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.02957",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.02486",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.02415",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.01816",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07562",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.00583",
+  "field": "interpretability",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2608.00207",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.22362",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.29484",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.14656",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.20296",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.28906",
+  "field": "interpretability",
+  "dropped": "duplicate across fields"
+ },
+ {
+  "id": "2607.27404",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.26993",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.26119",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25507",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25459",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.25132",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.24645",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.24553",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.24471",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.24425",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.23458",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.23289",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.23054",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.21988",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.21433",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20778",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20652",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20596",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20351",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.20115",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.19806",
+  "field": "interpretability",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
+  "id": "2607.19618",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.07528",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18885",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.22337",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.17673",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.17524",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.17425",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.21633",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.17117",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.16938",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.16888",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.16693",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.18323",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.16448",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.17550",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.14943",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.18961",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.13346",
+  "field": "interpretability",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
+  "id": "2607.14147",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.12304",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.12166",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.12094",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.11414",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.11183",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.10034",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.08605",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.08499",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.08456",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.08393",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.08349",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.07670",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.07626",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.07316",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.07128",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.07003",
+  "field": "interpretability",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
+  "id": "2607.05615",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.05316",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.05188",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.04487",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.03598",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.21622",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.03009",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.02800",
+  "field": "interpretability",
+  "dropped": "ICML 2026 / TMLR comment"
+ },
+ {
+  "id": "2607.02494",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.02283",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.01951",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.01940",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.01802",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.01336",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.01124",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.00956",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.00946",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.19386",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2609.02893",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2607.00415",
+  "field": "interpretability",
+  "dropped": "no candidate sentence"
+ },
+ {
+  "id": "2608.20393",
   "field": "interpretability",
   "dropped": "no candidate sentence"
  }

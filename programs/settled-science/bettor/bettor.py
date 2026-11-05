@@ -15,10 +15,21 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from common import ROOT, Caller, key_of, structured  # noqa: E402
 
 MODEL = "claude-opus-5-5"
-MASKED = ROOT / "items" / "masked.jsonl"
-SEED = ROOT / "bettor" / "seed.json"
-CACHE = ROOT / "bettor" / "bettor-cache.json"
-OUT = ROOT / "bettor" / "bets.jsonl"
+R2 = "--r2" in sys.argv   # round 2 (experiments/ss-b4.md): template items, own seed, cache and output
+MASKED = ROOT / "items" / ("r2/masked.jsonl" if R2 else "masked.jsonl")
+SEED = ROOT / "bettor" / ("r2-seed.json" if R2 else "seed.json")
+CACHE = ROOT / "bettor" / ("r2-bettor-cache.json" if R2 else "bettor-cache.json")
+OUT = ROOT / "bettor" / ("r2-bets.jsonl" if R2 else "bets.jsonl")
+FIELDS = ("quantum-devices", "scalable-oversight", "model-psychology", "interpretability")
+
+
+def sample_r2(items, seed, per_field=30):
+    """Round 2 item draw (protocol/template-writer.md): a field with more than 30 items gives a beacon-seeded 30."""
+    rng, keep = random.Random(seed), set()
+    for f in FIELDS:
+        pool = sorted(it["id"] for it in items if it["field"] == f)
+        keep |= set(rng.sample(pool, per_field) if len(pool) > per_field else pool)
+    return [it for it in items if it["id"] in keep]
 
 SYSTEM = """You are forecasting the result of a scientific study that has already been published. You cannot look anything up, and you will not be told which study it is. You will see the research field, a question, a summary of the study's methods, and two possible results. Exactly one of the two is what the study reported.
 
@@ -47,6 +58,8 @@ def user_text(it, b_first):
 def main(dry):
     items = sorted((json.loads(l) for l in MASKED.read_text().splitlines() if l.strip()), key=lambda x: x["id"])
     seeds = json.loads(SEED.read_text())["seeds"]
+    if R2:
+        items = sample_r2(items, seeds["items"])
     swap, check = draws(items, seeds)
     jobs = []
     for it in items:

@@ -158,6 +158,27 @@ def build():
     print("dropped:", Counter(x["dropped"].split(":")[0] for x in log))
 
 
+def freeze():
+    """Keep leakage-clean items, ids r2-001.. in (field order, arxiv id) order; write items, masked, SHA-256 (D22)."""
+    import hashlib
+    st = json.loads((R2 / "leakage-status.json").read_text())
+    order = {f: i for i, (f, _) in enumerate(QUERIES)}
+    keep = sorted((c for c in (json.loads(l) for l in (R2 / "candidates.jsonl").read_text().splitlines() if l.strip())
+                   if st.get(c["cid"]) == "clean"), key=lambda c: (order[c["field"]], c["arxiv_id"]))
+    if len(keep) < 60:
+        sys.exit(f"{len(keep)} clean items < 60: round 2 is withdrawn unbet (D22)")
+    for n, c in enumerate(keep, 1):
+        c["id"], c["leakage_status"] = f"r2-{n:03d}", "clean"
+    full = "".join(json.dumps({"id": c["id"], **{k: v for k, v in c.items() if k != "id"}}) + "\n" for c in keep)
+    masked = "".join(json.dumps({k: c[k] for k in ("id", "field", "question", "methods", "option_a", "option_b")}) + "\n" for c in keep)
+    (R2 / "items.jsonl").write_text(full)
+    (R2 / "masked.jsonl").write_text(masked)
+    sums = "".join(f"{hashlib.sha256(t.encode()).hexdigest()}  items/r2/{n}\n" for n, t in (("items.jsonl", full), ("masked.jsonl", masked)))
+    (R2 / "SHA256SUMS").write_text(sums)
+    from collections import Counter
+    print(sums, len(keep), Counter(c["field"] for c in keep))
+
+
 def selftest():
     abstract = ("Language models are widely used. We study judges on 12 benchmarks with four model families. "
                 "We find that larger judges agree with human raters more often than smaller judges across all tasks. "
@@ -176,4 +197,4 @@ def selftest():
 
 
 if __name__ == "__main__":
-    {"--selftest": selftest, "--fetch": fetch, "--fetch-more": lambda: fetch(300), "--build": build}[sys.argv[1]]()
+    {"--selftest": selftest, "--fetch": fetch, "--fetch-more": lambda: fetch(300), "--build": build, "--freeze": freeze}[sys.argv[1]]()
