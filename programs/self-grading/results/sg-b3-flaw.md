@@ -6,7 +6,7 @@ Pre-registered in `experiments/sg-b3-flaw.md` (`e29f25c`, 2026-11-05 05:15 Ameri
   - D9f and D9g (`37d81f8`) completed them, confirmed at 05:35:55 (`8ef7909`), before the first test call.
 - **Run:** 2026-11-05, from just after 05:36:05 to 05:39:26 America/Denver. **720 calls, complete, no refusal, $1.231** of the $1.40 cap. With the pilot, the bet spent $1.29.
 - **Odds:** engine 18; no human odds (Sean's cockpit line for sg-d3 reached the ledger at 05:19, after this pre-registration).
-- **Audit:** not yet audited.
+- **Audit:** `ledger/audits/sg-b3.md` (`1ed913d`). The verdict stands as pass, unreplicated, with 5 required cuts. Cut 1 named the planted miscount (pl-018) and is not applied to the real record, which already reads n 23. Cuts 2–5 and the audit's two recommended sentences are applied under D12.
 
 ## In plain English
 
@@ -24,7 +24,7 @@ The two models are Haiku and Opus. Sonnet read "same", and no model read "sharpe
 - The measure is how many points the exaggeration cost in each place.
 
 **What the numbers say.**
-- **Every model noticed the exaggeration everywhere.** It cost 67 to 88 points out of 100 in every cell. No model missed it outright.
+- **Every model docked the exaggeration heavily in both places.** On average it cost 67 to 88 points out of 100, for each model in each place. (A grade drop is not the same as naming the flaw; no explanation was asked for.)
 - **But two of the three docked it less in their own conversation:**
 
   | model | points docked fresh | points docked in its own conversation | difference | 95% interval |
@@ -39,7 +39,7 @@ The two models are Haiku and Opus. Sonnet read "same", and no model read "sharpe
   - **Opus:** 10.0 against 4.4 (+5.7 [+5.0, +6.3]).
 - **On the clean text, no model was kinder in its own conversation:** own − fresh was −1.0 (Haiku), −0.3 (Sonnet) and −0.3 (Opus). That repeats sg-b1's "same" on this bet's own clean cells (reported, not scored).
 
-**So, on this test:** the self-grading loop did not make these models kinder to good work. It did make two of them go easier on a bad sentence sitting in their own turn.
+**So, on this test:** grading in the conversation that wrote the conclusion (the bundle: turn, message count, lead-in) did not go with kinder grades for the clean conclusions (a secondary, not scored). In two of the three models it went with a smaller penalty for a planted overclaim sitting in the model's own turn.
 
 **Robustness (pre-registered).**
 - **Leave one study out:** no reading changes ("fragile": no, for all three).
@@ -48,11 +48,11 @@ The two models are Haiku and Opus. Sonnet read "same", and no model read "sharpe
 - **Ties excluded:** the readings are unchanged (Haiku blunted, Sonnet same, Opus blunted).
 - **The floor** (D9a): fresh, the flawed text scored below 5 on average for Sonnet (4.8) and Opus (4.4).
   - For them, harsher treatment in their own conversation could not have shown. That is why "sharpened" was not measurable for them, and why Sonnet's "same" is reported as "not blunted (sharpening not measurable at the floor)".
-  - The floor does not affect blunting: there was room above it, and both Opus and Haiku used it.
+  - The floor did not stop blunting from showing: there was room above it, and both Opus and Haiku used it. It does shrink the gap in points: on a logit scale Opus's gap (0.97) is close to Haiku's (1.19), though in points it is half.
 - **By study design:**
   - Haiku: 13.4 randomised, 13.5 before-after, 9.9 self-selected;
   - Opus: 6.9, 4.9 and 6.1.
-- **Where the appended sentence contradicts the data** (the 46 studies whose interval includes 0), against the 14 where the data show a difference:
+- **By whether the study's interval includes 0** (46 studies, where the appended sentence contradicts the data), against the 14 whose interval excludes 0 (13 above 0, where it overreaches; 1 below 0, where it also contradicts):
   - Haiku: 13.6 against 9.1;
   - Opus: 5.3 against 8.0.
 - **Haiku's flawed text ran past three sentences in 14 studies;** there its difference was 7.4, against 14.2 elsewhere. For Sonnet and Opus almost every flawed text ran past three sentences, so they have no comparison.
@@ -66,7 +66,8 @@ The two models are Haiku and Opus. Sonnet read "same", and no model read "sharpe
 - **The flawed text also broke the request's three-sentence limit,** and in most studies contradicted the conclusion's own first sentence. The effect is about that whole edit.
 - **A lower penalty is not the same as not noticing.** Every model still docked the overclaim heavily.
 - **Three models from one family, one item set.** Not "models", not "every".
-- **It is unreplicated:** one design (invariant 7). The intervals treat studies as independent. The 60 come from 20 domains, a caution the sg-b1 audit raised and this bet did not pre-register.
+- **It is unreplicated:** one design (invariant 7). The intervals treat studies as independent. The 60 come from 20 domains, a caution the sg-b1 audit raised and this bet did not pre-register. An audit's bootstrap over the 20 domains gives Haiku [+10.0, +15.3], Sonnet [+0.1, +2.8], Opus [+4.6, +7.2], so every reading stands. Opus's interval includes values below the 5-point bar under either bootstrap.
+- The two-of-three rule is the only multiplicity control; no interval is corrected.
 
 ## Tables
 
