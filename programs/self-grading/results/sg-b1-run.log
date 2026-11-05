@@ -1,0 +1,9 @@
+sg-b1 write: 100 done, $0.105 (program $0.174)
+sg-b1 write: complete, 180 cached calls, $0.4909 (program $0.5595)
+sg-b1 grade: 100 done, $0.007 (program $0.567)
+sg-b1 grade: 200 done, $0.044 (program $0.604)
+sg-b1 grade: 300 done, $0.199 (program $0.759)
+sg-b1 grade: 400 done, $0.425 (program $0.984)
+sg-b1 grade: 500 done, $0.749 (program $1.309)
+sg-b1 grade: complete, 540 cached calls, $0.8822 (program $1.4417)
+exit 0
