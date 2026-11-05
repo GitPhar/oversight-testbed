@@ -165,7 +165,10 @@ def verdict(readings):
     return {"turn role": "pass", "layout": "fail", "undetermined": "mixed"}.get(readings["haiku"], "untestable")
 
 
-def analyse(cache=None, s=None, robust=True):
+def analyse(pilot=False, cache=None, s=None, robust=True):
+    """pilot: accepted for reproduce.py's calling convention (analyse(pilot)); these bets have no pilot (D24)."""
+    if pilot:
+        raise SystemExit("no pilot for this bet")
     cache = cache if cache is not None else json.loads((RESULTS / f"{BET}-grade-calls.json").read_text())
     S.verify(cache, messages)
     s = s or S.seeds(BET)
