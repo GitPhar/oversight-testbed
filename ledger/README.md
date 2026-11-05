@@ -19,7 +19,8 @@ A **bet** is one pre-registered test. Each line says:
 - **the verdict**: `pass` (the pre-registered effect, or the overturning direction, was found), `null` (it was not), `mixed` (the rule itself returned mixed or partial), plus the pre-registered reading word for word (`verdict_prereg`);
 - **the outcome**: 1 if the event the odds were for happened, 0 if not. Only bets with stated odds and an outcome decided by the pre-registered rule are scored (`scored: true`); `scoring_note` says why any other bet is not;
 - **the audit path**: empty for every bet so far, because no independent audit has been run yet;
-- what it cost, and which earlier bet it replicates, if any.
+- what it cost, and which earlier bet it replicates, if any;
+- **the Novelty line (rule 13, from 2026-11-05)**, on every landed or mixed bet: `novelty` is `known` (a paper states the same result, in the same direction, on some model), `partly new` (the kind of result is in print, but not this comparison, or ours points the other way) or `new` (no prior statement found after a search); `novelty_line` is the sentence with its citations and the search in one line; `novelty_by` names the fresh session that wrote it (never the session that ran the bet); `novelty_at` the commit or pass that added it. The same line ends the results file's plain-English section. Bets settled before the rule got theirs in the backward pass of 2026-11-05 (`paper/informed-engine.md`); the audit checks the line as F27. A `known` result keeps its verdict and its score: the word changes what the result is evidence of, not its standing here.
 
 There are 19 bets. Five are scored. Most of the rest are biomimetic tests (that map ranked ideas but gave no probabilities) or replications (no new probability was stated).
 

@@ -1,0 +1,16 @@
+# em-gm4
+
+*Novelty check for em-gm4 (rule 13), written 2026-11-05 by a fresh claude-fable-5-1 subagent launched by the informed-engine session: web reads only, no model API, no repo edits; every number below comes from a page the session opened. Its Novelty line is in the results file and the ledger row.*
+
+## Verdict
+partly new
+## Novelty line
+Jhaveri et al. 2026 (arXiv 2604.02485) report that eleven LLMs in a Wason 2-4-6 rule-discovery game mostly propose tests that confirm their current hypothesis rather than falsify it, and Bertolazzi et al. 2026 (arXiv 2606.04751) find the models that do seek falsification succeed more. Neither scores tests by expected information gain, shows the model a menu of its own claims about its own answer, or tests a Claude model. Our Haiku result agrees in lean (confirmatory) but is undecided on the informative-versus-confirmatory comparison, which is not in print: partly new. Search: WebSearch for "Jhaveri confirmation bias LLM", "LLM expected information gain choose question", "LLM self-verification evidence selection", "Wason 2-4-6 LLM information gain"; arXiv abstract and HTML pages opened.
+## Papers opened
+- Jhaveri, GX-Chen, Sucholutsky, Choi, 2026, "Failing to Falsify: Evaluating and Mitigating Confirmation Bias in Language Models", https://arxiv.org/abs/2604.02485 (full text at https://arxiv.org/html/2604.02485, first 100k characters). Eleven LLMs (Qwen3, Llama-3.3-70B, GPT-4o, Gemini-2.5-Pro, QwQ, DeepSeek-R1-Distill; no Claude) propose confirming triples more than falsifying ones; bias measured as the incompatible-to-compatible test ratio (e.g. Gemini-2.5-Pro 0.66, Qwen3-32B 0.14 at baseline); prompting interventions lift rule discovery from 42% to 56%. No information-gain criterion; tests are classed only as compatible or incompatible with the current hypothesis. Bears directly on the confirmatory lean, not on the informative-check comparison.
+- Bertolazzi, Tentori, Bernardi, 2026, "FalsifyBench: Evaluating Inductive Reasoning in LLMs with Rule Discovery Games", https://arxiv.org/abs/2606.04751. Twelve LLMs on a 2-4-6 variant; models that actively try to disprove hypotheses outperform those mainly seeking confirmation; no informativeness measure in the abstract.
+- Mazzaccara, Testoni, Bernardi, 2024, "Learning to Ask Informative Questions: Enhancing LLMs with Preference Optimization and Expected Information Gain", https://arxiv.org/abs/2406.17453 (EMNLP 2024 Findings). LLaMA 2-Chat 7B often generates low-EIG questions in 20 Questions by default; DPO on high- versus low-EIG pairs improves it. Shows poor default EIG seeking in question generation, not choice among a model's own claims.
+## Not found / caveats
+- No paper found that offers a model a menu of its own claims about its own answer and scores the pick against an expected-information-gain rule, or that runs this on a Claude model.
+- Jhaveri et al. was read from the arXiv HTML up to 100,000 characters of 136,278; the appendix after that was not read, so an information-gain analysis hidden there would be missed.
+- The result file cites "Jhaveri et al." without a year or identifier; the paper found is arXiv 2604.02485 (April 2026), the only Jhaveri paper on LLM confirmation bias the search returned.

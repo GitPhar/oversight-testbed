@@ -47,6 +47,8 @@ So changing the format, or putting the question in a conversation, changes *whic
 
 # Pre-registered analysis (DM6, strict parse rule)
 
+**Novelty:** partly new. That verbalised-confidence ECE depends on how the question is asked is in print: Tian et al. (2023, arXiv:2305.14975, EMNLP) report claude-2 ECE from 0.048 to 0.238 across their prompt variants on SciQ, and Kim and Kang (2026, arXiv:2605.27752) call confidence "protocol-dependent" on open models, most of the shift coming from the instruction. A 2026 preprint (arXiv:2603.01239) finds Claude Sonnet 4.6's calibration error drifting across turns. None tests probability against frequency wording (a human precedent is Gigerenzer and Hoffrage, 1995, Psychological Review), finds a format effect on Sonnet but not Haiku, or reports a question-order null. Search: WebSearch for "verbalized confidence" with "frequency format", "out of 100", "question order", "multi-turn calibration ECE"; arXiv abstract pages opened and Tian et al. HTML read. *(Rule 13, CONTEXT.md §3; written by a fresh claude-fable-5-1 subagent launched by the informed-engine session, 2026-11-05, web reads only, no model API; its papers-opened list and caveats are in programs/entangled-mind/map/reads/novelty-2026-11-05-em-dm6.md.)*
+
 ## haiku
 
 Cost $0.12; abandoned conversations: 32.

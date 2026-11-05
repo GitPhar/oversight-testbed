@@ -6,6 +6,8 @@ Pre-registered in `experiments/mm-gm2-self-conditioning.md` (DM4), committed bef
 
 (Hand-written after the run; excluded from reproduce.py's comparison.)
 
+**Novelty:** partly new. The multi-model run of em-gm2 (mixed: Sonnet's order effect survives redaction, ratio 2.95 [0.99, 12.55]; Opus's does not decide, 0.93 [0.06, 7.31]). The prior work is em-gm2's: the visible-answer part is Kumaran et al. 2025 (arXiv 2507.03120, on Gemma 3, GPT-4o and o1-preview); no paper found measures the order effect with the answers hidden on any model, so the Sonnet and Opus readings have no prior statement either way. Search: paper/novelty.md, 2026-11-05, by a claude-fable-5-1 session on the novelty-check branch (93f47af); carried here by the informed-engine session. *(Rule 13, CONTEXT.md §3; written by paper/novelty.md (claude-fable-5-1 session, novelty-check branch, commit 93f47af); carried into this file and the ledger by the informed-engine session (claude-fable-5-1), which did not run the bet.)*
+
 ## Primary: the order effect with and without the record
 
 | model | complete conversations | cost | gate p | OE shown | OE redacted | **R = OE_redacted / OE_shown** | reading |

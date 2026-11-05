@@ -19,6 +19,8 @@ Pre-registered in `experiments/gm3c-heldout-format.md` (D46), committed before t
 - One model, one context per statement.
 - The interval's upper end sits right at the 0.5 line, so "partial" is only narrowly excluded.
 
+**Novelty:** partly new. Predicting a held-out prompt from the others is Smolin and Wilder's (2026, arXiv:2609.07943) own test: on nine non-Claude models they report held-out R2 of 60 to 90% for capable models, pooled R2 of about 0.6 to 0.8 zero-shot to an unseen framing, and much lower scores for less capable models. Our figure for Claude Haiku on its own claims is an R2 of 0.37 from the other five formats, or 39% of each format's split-half ceiling, below their range; the ceiling-normalised ratio appears nowhere we found. Search: WebSearch for "latent belief" "held-out" "framing" "LLM" and "cross-format prediction credence"; Smolin and Wilder PDF read in full. *(Rule 13, CONTEXT.md §3; written by a fresh claude-fable-5-1 subagent launched by the informed-engine session, 2026-11-05, web reads only, no model API; its papers-opened list and caveats are in programs/entangled-mind/map/reads/novelty-2026-11-05-em-gm3c.md.)*
+
 ## Cross-format prediction against each format's own split-half ceiling
 
 | held-out format | R² from the other five | R² ceiling (own even repeats) | Q = ratio | Spearman, cross / ceiling |
