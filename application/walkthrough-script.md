@@ -4,11 +4,11 @@
 
 **How to read this.** Plain text is what you say. Lines in **[SCREEN: …]** are what to have on screen; they are not read aloud. Commit hashes appear in full on screen; where the spoken text names one, the first four characters are enough ("commit seven-f-nine-c").
 
-**Sources.** Every number is from this repository as it stood on 2026-11-05 in the morning, America/Denver (main at `f65b361`; `ledger/brier.md` and `ledger/scores.md` at `bc9b77e`, `ledger/human-odds.jsonl` at `9a75cc2`): `ledger/bets.jsonl`, `ledger/steers.jsonl`, `ledger/audits/` (including round 3, `SUMMARY-3.md`), `ledger/design-reviews/ng-p3-15.md`, `paper/day-two.md`, `paper/day-three.md`, and the program folders `programs/nature-graded/` and `programs/settled-science/`. Times are America/Denver, as git records them.
+**Sources.** Every number is from this repository as it stood on 2026-11-05 in the morning, America/Denver (main at `b2c0121`; `ledger/brier.md`, `ledger/scores.md` and `ledger/bets.jsonl` at `dafca10`, `ledger/human-odds.jsonl` at `9a75cc2`): `ledger/bets.jsonl`, `ledger/steers.jsonl`, `ledger/audits/` (including round 3, `SUMMARY-3.md`), `ledger/design-reviews/ng-p3-15.md`, `paper/day-two.md`, `paper/day-three.md`, and the program folders `programs/nature-graded/` and `programs/settled-science/`. Times are America/Denver, as git records them.
 
 **What changed from the earlier script.** The earlier version used program 1's quantum-encoding kill and the founding-week steers st-02 and st-03. Those steers were reconstructed after the fact. This version uses a kill refereed by the chip and a steer recorded at the moment it was made, in Sean's words. Program 1's kill is still in `site/kills.html` and in the numbers table of the old script (this file at commit `57b1a8b`).
 
-**Before you record.** Everything Part 1 names has landed: ng-p3-15's second run and audit, ng-p3-16 and its audit, and the closing of the 3 November question under your steer st-19. The one thing that may move before you record is om-p2-7, the first bet carrying your odds: its results file says fail and its audit has not run. If it is scored by then, Part 4's human-column paragraph needs one sentence. The checklist tracks it (E1).
+**Before you record.** Everything Part 1 names has landed: ng-p3-15's second run and audit, ng-p3-16 and its audit, and the closing of the 3 November question under your steer st-19. The one thing that may move before you record is om-p2-7, the first bet carrying your odds: its results file says fail, its audit let that stand, and its ledger row is still open. If it is scored by then, Part 4's human-column paragraph needs one sentence. The checklist tracks it (E1).
 
 ---
 
@@ -86,9 +86,9 @@ Is that a good steer? The ledger says "pending", and that's right. Unlike my fir
 
 ## Part 3 — The one place the odds carried judgment (6:45–9:15)
 
-**[SCREEN: `ledger/brier.md`, the scores table: 24 bets, Brier 0.223.]**
+**[SCREEN: `ledger/brier.md`, the scores table: 26 bets, Brier 0.217.]**
 
-Now the honest number. On its own bets, the engine has 24 scored. Its Brier score is 0.223, and guessing the pass rate scores 0.222. Saying 50% every time scores 0.25. So far, the engine's odds on its own experiments are no better than a coin.
+Now the honest number. On its own bets, the engine has 26 scored. Its Brier score is 0.217, and guessing the pass rate scores 0.213. Saying 50% every time scores 0.25. So far, the engine's odds on its own experiments are no better than a coin.
 
 **[SCREEN: `programs/settled-science/results/ss-b1-results.md`, "In plain English".]**
 
@@ -108,7 +108,7 @@ So the next round used items written by a template, not a model. The design revi
 
 **[SCREEN: `ledger/brier.md`, the "By referee" line; `ledger/audits/SUMMARY-3.md`, hole 1.]**
 
-One more thing. The engine gave program 4's first three bets 50%, 30% and 35%, and all three passed. So in the one place probabilities carried judgment, the engine underrated its own model. But those three are one bettor run scored against three bars, and the third audit round said so: counted one bet per run, the engine's score is 0.205 on 16, not 0.223 on 24. Three outcomes from one run can't show the odds are wrong. They're written down, and so is the hole.
+One more thing. The engine gave program 4's first three bets 50%, 30% and 35%, and all three passed. So in the one place probabilities carried judgment, the engine underrated its own model. But those three are one bettor run scored against three bars, and the third audit round said so: counted one bet per run, the score at that round went from 0.220 on 21 to 0.205 on 16. Three outcomes from one run can't show the odds are wrong. They're written down, and so is the hole.
 
 ---
 
@@ -118,7 +118,7 @@ One more thing. The engine gave program 4's first three bets 50%, 30% and 35%, a
 
 So. The kill shows the rules working with nature as the referee: three tries, each pre-registered, predictions committed before the job, and a no each time. The steer shows the human hand, logged at the moment, including the moment I gave part of it away. Program 4 is the one place the odds have carried judgment so far, and it stands only as far as its audit allows: unreplicated, same-family items.
 
-What it doesn't show yet is whether my judgment adds anything. The human column in the calibration table is empty. On 5 November I entered 26 odds in the cockpit, blind to the engine's, on 26 open directions. Four of the first twelve arrived minutes after their bets were registered, so by the engine's own rule they'll never count. Three open bets carry my odds now, and the first of them has a result file that says it failed, at my 70% against the engine's 15%. It isn't audited or scored yet. That's the number this engine exists to produce, and it isn't there yet.
+What it doesn't show yet is whether my judgment adds anything. The human column in the calibration table is empty. On 5 November I entered 26 odds in the cockpit, blind to the engine's, on 26 open directions. Four of the first twelve arrived minutes after their bets were registered, so by the engine's own rule they'll never count. Three bets carry my odds now, and the first of them failed, audited: my 70% against the engine's 15%. It isn't scored yet. That's the number this engine exists to produce, and it isn't there yet.
 
 Thanks for watching. Everything here is in the repository, with the commits on screen.
 
@@ -141,13 +141,13 @@ Thanks for watching. Everything here is in the repository, with the commits on s
 | F6 budget gate | planned 3.4 s/run, 6.8 s total, 10 s budget vs st-11's "about 2.5 QPU s" | `ledger/design-reviews/ng-p3-15.md` |
 | steer st-16 | 18:26, words as quoted; `value: pending` | `ledger/steers.jsonl` |
 | ruling recorded | nature-graded D18 | `b097405` (18:27) |
-| engine calibration | 24 scored, Brier 0.223; always 0.5: 0.250; always the hit rate (8/24): 0.222; one bet per program-4 run, 0.205 on 16 | `ledger/brier.md` (`bc9b77e`); `ledger/audits/SUMMARY-3.md` |
+| engine calibration | 26 scored, Brier 0.217; always 0.5: 0.250; always the hit rate (8/26): 0.213; one bet per program-4 run, 0.205 on 16 of the 21 scored at round 3 | `ledger/brier.md` (`dafca10`); `ledger/audits/SUMMARY-3.md` |
 | ss-b1 result | 116 post-cutoff items, 76% right, Brier 0.163 [0.139, 0.190]; beat the headline baseline (0.232) by 0.068 [0.036, 0.099] | `230cbe4` (18:59), `programs/settled-science/results/ss-b1-results.md` |
 | ss-b1 audit | all three pass-unreplicated; 34 claims, 7 holes, 7 cuts; best dumb predictor 0.233; plant pl-003 clean | `cdce1ba` (19:13), `ledger/audits/ss-b1.md` |
 | model psychology alone | Brier 0.235 [0.181, 0.293], 62% right | same |
 | engine odds on ss-b1..b3 | 0.50, 0.30, 0.35, all passed; Brier 0.388 on 3 (0.417 on 5 with round 2, ss-b6 reversed to undetermined) | `ledger/brier.md`, by referee |
 | round 2 results | ss-b5 pass (Brier 0.070, 93% right, 8 cuts); ss-b6 93% vs the flattery rater's 90%, weak pass → **undetermined** in audit round 3 (null-world false-pass rate about 53%); ss-b7 pass (a coin rater passes both legs: the test was easy) | `programs/settled-science/results/ss-b5-results.md`, `ss-b6-results.md`, `ss-b7-results.md`; `60940b1`; `ledger/audits/SUMMARY-3.md` |
-| the human column | 26 odds recorded 2026-11-05 (12 at 05:11, 14 at 06:11), blind to the engine's; 4 of the first 12 arrived after their bets' pre-registration and never attach; 3 open bets carry them (om-p2-7 0.70, ta-b1r 0.60 withdrawn, ta-b1r2 0.60); 0 scored; om-p2-7's results file: fail, unaudited | `ledger/human-odds.jsonl` (`9a75cc2`), `ledger/bets.jsonl` (`1a40787`), `programs/other-minds/results/p2-7-format-fingerprint.md` (`e12c1d2`) |
+| the human column | 26 odds recorded 2026-11-05 (12 at 05:11, 14 at 06:11), blind to the engine's; 4 of the first 12 arrived after their bets' pre-registration and never attach; 3 ledger rows carry them (om-p2-7 0.70, ta-b1r 0.60 withdrawn, ta-b1r2 0.60) and ng-p3-17's pre-registration carries 0.30 (`db13dc7`); 0 scored; om-p2-7's results file: fail, audit `399df63` stands; ta-b1r2's: null, unaudited (`a856f4c`) | `ledger/human-odds.jsonl` (`9a75cc2`), `ledger/bets.jsonl` (`dafca10`), `programs/other-minds/results/p2-7-format-fingerprint.md` (`e12c1d2`) |
 | round 2, before data | ss-b4/ss-b5, template-written items; engine odds 70 and 35, ss-b5 lowered to 25 before data (D23–D29); design review: ss-b4 redesign (up-word rule Brier 0.177 on the 92 drawn passes it), ss-b5 fix-first (7 flaws); ss-b4 withdrawn before data | `8e87c59` (19:17), `29e8769` (19:24), `03fa0a1` (19:42), `9b3d222` (19:43), `296d587` (19:45) |
 
 **Left out on purpose, or said only with its caveat.**
