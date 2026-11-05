@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: flaw, D4: holds, D5: flaw, D6: holds, D7: hol
 flaws: 3
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 07:14 America/Denver
 ---
 
 # Design review of em-gm2bf1
@@ -150,3 +150,23 @@ Each needs a dated DEVIATIONS row, written before any data and naming this revie
    - The bar (ρ ≥ 0.30, both lower bounds > 0) is not lowered; this only tightens the guard. Odds may be re-stated before data, keeping both numbers.
 2. **F2 (D9): state the single-item rule in §5.** For example: "If dropping any one item's four claims flips the verdict (bounds shifted by the point change), the verdict stands but is reported as '<verdict>, carried by item <id>', and the item is named in the verdict sentence." Any rule is acceptable if it is fixed before data and does not turn a pass into an easier pass.
 3. **F3 (D8): reword the pass sentence**, for example: "On Haiku's 160 deliberation claims, the claims whose rating moved more with question order tended also to be the ones whose rank moved more across answer formats (Spearman ρ = x), and this held after allowing for how extreme the claim's rating was in both archives and how noisy its ratings were in the order conversations." Also add a §6 line saying that in two binary formats 90 claims share one tied rank, so part of the format spread is tie position.
+
+## Addendum: fixes confirmed (2026-11-05 07:14 America/Denver)
+
+I read the fix commit `f09824e` (DEVIATIONS D71) and `experiments/gm2bf1_order_vs_format.py` at HEAD, which is unchanged since `f09824e`. The frozen pre-registration file is untouched; its new §5 and §6 text lives in D71 and in the code. `results/gm2bf1-order-vs-format.*` still does not exist. The primary was not run, and nothing pairing S with G was computed on real data.
+
+- **F1 holds.**
+  - **Guard:** `partial_spearman` now enters each covariate as its centred rank plus its squared centred rank. `stats` passes [E, Eo, W].
+  - **Eo:** `order_measures` computes Eo = |mean of the claim's 40 shown ratings − 50|, the same definition as my dry run's `EO = |LEV − 50|`. Eo is required (`analyse` raises without it) and is part of the completeness mask. The redacted secondary uses the shown Eo, which is acceptable for a secondary.
+  - **Code matches the dry run:** on 50 random 160-claim tables, the code's guard and the dry run's `pcorr` give the same value (largest difference 0).
+  - **Dry run:** `experiments/gm2bf1-dryrun/` is byte-identical to my scratch copies. The only change is that `world.py` loads `marg.npz` from its own folder. I checked that it loads that file, and that the 10 result JSONs match mine. The README table reproduces my numbers: extremity-only worlds pass at most 10% with the D71 guard; shared worlds pass 11%, 39% and 80.5% at κ 0.5–1.0.
+  - **Selftest:** `--selftest` at HEAD prints SELFTEST OK (6 s). The three original worlds give the same labels. The new mismatched-extremity world falsely passes 3 of 20 runs with the new guard against 5 of 20 with the old.
+  - **Is the residual acceptable? Yes.** My fix asked for about 10% or less in W0c/W0d-type worlds built from measured marginals. The committed dry run gives 6% and 10%. The self-test world is the author's own, and a harsher one: 3/20 is about 15%, with a binomial 95% interval of roughly 3–38%, so it cannot separate 6–10% from 15%. Its stated floor (new ≤ old and ≤ 4 of 20) works as a regression check, not as an estimate.
+  - **Why it cannot reach zero:** two noisy measures of extremity cannot remove the confound completely. D71 says so instead of claiming the false-pass rate is near zero, and the frozen pass sentence ("after allowing for") claims no more than that. If the result is a pass, its write-up should carry the measured residual (6–10% in the measured-marginals worlds) next to §6's limits. That is a reporting note, not a condition of this confirmation.
+- **F2 holds.** The single-item rule is in D71 §5. The code labels the verdict `<verdict>, carried by item <id>` and appends the item to the sentence whenever leave-one-item-out flips it. The pass/fail logic is unchanged, so the bar is not lowered.
+- **F3 holds.**
+  - **Pass sentence:** it now reads "tended also to be … (Spearman ρ = <x>) … in both archives … in the order conversations"; the code fills in ρ.
+  - **§6 caveat:** the 90-claim tie note is added to §6 in D71.
+  - **Fail sentence:** unchanged, and acceptable.
+
+Odds stay at 0.25 with no new deviation needed, which is consistent: the shared worlds' pass rates are unchanged under the D71 guard. **Confirmed: the run may start.**
