@@ -145,3 +145,7 @@ The verdict is not at risk. The *reading* is: whether the fail is about Sam. The
 - If it is near 1 while ρ(self-today, Sam) stays near 0.2, the mismatch is the holder plus one sentence, and the fail means what the plain English now says.
 
 This becomes a candidate bet with its own pre-registration.
+
+---
+
+Revealed 2026-11-05 06:35 America/Denver: pl-022, planted miscount/cell at "## Tables, 'By model' table, row 'shuffled-statement null: share with r ≥ observed', Haiku 5.5 column" (0.0560 → 0.0160); **caught** (Claims checked row 20, hole 1, required cut 1). Required cut 1 is the plant: **not applied to the real record**, which already reads 0.0560. The commit message the audit quotes for that cell ("No number in the tables changes") is the planted clone's re-commit of `e12c1d2`, whose real change was one prose paragraph; on the real record the sentence is true. Every other finding stands as the audit of the real result; required cuts 2–4 and the reproduce.py registration are applied under other-minds D15g. The draw was made at random (½, `ledger/plants.py draw`) and sealed in `ledger/plants.jsonl` (commit a2bd794) before this audit began; `plants.py verify`: ok. The planter and the session that launched this auditor were the om-p2-7 author session, which knew the draw; that is a weaker blinding than an engine-launched audit. The auditor's brief named only files and rules.
