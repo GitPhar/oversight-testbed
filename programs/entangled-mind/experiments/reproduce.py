@@ -14,7 +14,8 @@ and verify it matches the committed files.
    (analysis prose appended after a run) are not generated and are excluded from the
    comparison; everything above them must match byte for byte.
 
-Exit status 0 if every table matches. Pool runs still in progress (Sonnet runs 4 and 6) and
+Exit status 0 if every table matches; 2 if every table that can be rebuilt matches and the rest are listed in GAPS
+(inputs never archived: qwalk.md); 1 otherwise. Pool runs still in progress (Sonnet runs 4 and 6) and
 plain logs (job status, refusals) are listed and skipped."""
 
 import difflib
@@ -48,6 +49,13 @@ SKIPPED = {
     "multi-model.md": "hand-written summary of the multi-model replications (DM5)",
     "probe-dissociation.md": "hand-written write-up (DP1); its numbers are in probe-dissociation.json, which the probe step recomputes",
     "refusal-sonnet-replication.md": "log of a refused call",
+}
+
+# Tables whose inputs the archive does not contain (README, "Reproducibility"). Each is reported as a gap, not a
+# match; if the missing file is ever committed, the gap is stale and fails, so a step gets written for it.
+GAPS = {
+    "qwalk.md": ("its tables come from results/qwalk.json and results/qwalk2.json (experiments/qwalk.py, qwalk2.py), "
+                 "which were never committed", ["qwalk.json", "qwalk2.json"]),
 }
 
 
@@ -174,7 +182,18 @@ def main() -> int:
             print(f"  FAIL  {name}: {e}")
     ok = True
     print("\nComparison with the committed tables (generated part, above any '## Reading'):")
+    gaps = []
     for name in sorted(committed):
+        if name in GAPS:
+            reason, missing = GAPS[name]
+            present = [m for m in missing if (config.RESULTS / m).exists()]
+            if present:
+                print(f"  FAIL  {name}  (listed as a gap, but {', '.join(present)} is now archived: add a step for it)")
+                ok = False
+            else:
+                print(f"  GAP   {name}  ({reason})")
+                gaps.append(name)
+            continue
         if name in SKIPPED:
             print(f"  skip  {name}  ({SKIPPED[name]})")
             continue
@@ -198,8 +217,15 @@ def main() -> int:
     shutil.rmtree(tmp)
     if failures:
         print("\nFailed steps:\n  " + "\n  ".join(failures))
-    print("\nALL TABLES REPRODUCED" if ok and not failures else "\nREPRODUCTION INCOMPLETE")
-    return 0 if ok and not failures else 1
+    if not (ok and not failures):
+        print("\nREPRODUCTION INCOMPLETE")
+        return 1
+    if gaps:
+        print(f"\nPARTLY REPRODUCED: every other table matched; {', '.join(gaps)} need(s) files the archive lacks "
+              "(README, Reproducibility)")
+        return 2
+    print("\nALL TABLES REPRODUCED")
+    return 0
 
 
 if __name__ == "__main__":

@@ -245,6 +245,17 @@ cp .env.example .env        # then fill in ANTHROPIC_API_KEY and IBM_QUANTUM_TOK
 
 IBM hardware is the scarce resource. The Open Plan gives 10 QPU minutes a month, and this project stops at 7. Every design decision is made on the simulator. Every hardware job is logged with its QPU seconds in [`results/ibm-usage.md`](results/ibm-usage.md). Anthropic API spend per question for the pool runs is in [`results/api-usage.md`](results/api-usage.md); every other run's cost is in its own results file.
 
+## Reproducibility
+
+One command, from `programs/entangled-mind`, in this program's environment (qiskit, qiskit-aer, scipy and the rest of `pyproject.toml`; no keys, no network):
+
+    PYTHONPATH=src python experiments/reproduce.py
+
+From the repository root, `python3 reproduce.py --program-1 <that python>` runs it too. It takes about 20 minutes, so the engine's daily check (`.github/workflows/reproduce.yml`) does not run it. It snapshots `results/` and `experiments/` at git HEAD, blocks the API and IBM clients, reruns each table's writer from the archived JSON and call caches, and compares every generated table with the committed one.
+
+On 2026-11-05 every table matched except one gap:
+- `results/qwalk.md` (bets em-qwalk and em-qwalk2, both withdrawn before data): its tables come from `results/qwalk.json` and `results/qwalk2.json`, which `experiments/qwalk.py` and `qwalk2.py` write but which were never committed. The script reports it as a gap and ends `PARTLY REPRODUCED`. Committing those two files (a $0 laptop rerun of the two scripts, then a check that the write-up's numbers match) would close it.
+
 ## Repository
 
 ```

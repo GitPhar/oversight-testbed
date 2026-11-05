@@ -309,7 +309,11 @@ def program_1(py):
     env = dict(CLEAN_ENV, PYTHONPATH=str(em / "src"))
     r = subprocess.run([py, "experiments/reproduce.py"], cwd=em, env=env, capture_output=True, text=True)
     tail = (r.stdout + r.stderr).strip().splitlines()[-1:] or ["(no output)"]
-    (ok if r.returncode == 0 else fail)(f"exit {r.returncode}: {tail[0]}")
+    if r.returncode == 2 and tail[0].startswith("PARTLY REPRODUCED"):
+        partial.append("entangled-mind")
+        print(f"  part  entangled-mind: {tail[0]}")
+    else:
+        (ok if r.returncode == 0 else fail)(f"exit {r.returncode}: {tail[0]}")
 
 
 def main():
@@ -338,8 +342,9 @@ def main():
     if a.ledger_only:
         print(f"ALL LEDGER TABLES AND SITE DATA REPRODUCED ({len(notes)} note(s); programs not run: --ledger-only)")
     elif partial:
-        print(f"ALL LEDGER TABLES AND SITE DATA REPRODUCED; PROGRAM TABLES: {len(PROGRAMS) - len(partial)} of "
-              f"{len(PROGRAMS)} programs fully, {', '.join(partial)} partly (documented gaps, see each README) "
+        n = len(PROGRAMS) + bool(a.program_1)
+        print(f"ALL LEDGER TABLES AND SITE DATA REPRODUCED; PROGRAM TABLES: {n - len(partial)} of "
+              f"{n} programs fully, {', '.join(partial)} partly (documented gaps, see each README) "
               f"({len(notes)} note(s))")
     else:
         print(f"ALL LEDGER TABLES AND SITE DATA REPRODUCED; ALL TABLES REPRODUCED in all {len(PROGRAMS)} programs "
