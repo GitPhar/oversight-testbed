@@ -429,7 +429,7 @@ def _loo(X, y):
     return np.array([1 / (1 + math.exp(-X[i] @ _fit(X[np.arange(n) != i], y[np.arange(n) != i]))) for i in range(n)])
 
 
-def score_b6(items, bets, valence):
+def score_b6(items, bets, valence, gate_g1=True):
     prim = {b["id"]: b for b in bets if b["kind"] == "primary"}
     val = {v["id"]: v for v in valence}
     ids = sorted(set(prim) & set(val))
@@ -454,7 +454,7 @@ def score_b6(items, bets, valence):
         out["label"], out["reason"] = "untestable", f"{len(rows)} items with both ratings, fewer than 60"
         out["sentence"] = f"Too few valence ratings were returned to test it ({len(rows)} of 92; {out['reason']})."
         return out
-    if share_up is not None and share_up < 0.50:
+    if gate_g1 and share_up is not None and share_up < 0.50:   # ss-b7 calls with gate_g1=False (D40)
         out["label"], out["reason"] = "untestable", "G1: rater favoured the up word on fewer than half the non-50 ratings"
         out["sentence"] = (f"The valence rater favoured the up word on only {out['gates']['G1_x']} of {len(nz)} items, which suggests it "
                            "misread the scale, so the comparison was not run as a test.")
@@ -634,110 +634,183 @@ def main_b6():
 
 
 
-# ---------------- ss-b7: the publishability ("more striking finding") rater, with a P12 noise margin (experiments/ss-b7.md) ----------------
+# ---------------- ss-b7: the publishability ("more striking finding") rater, with a P12 margin (experiments/ss-b7.md; D40-D45) ----------------
 R2_STRIKING = ROOT / "bettor" / "r2-striking.jsonl"
 R2_STRIKING_RETEST = ROOT / "bettor" / "r2-striking-retest.jsonl"
-N_NULL, NULL_BOOT, NULL_Q = 100, 2000, 0.10
+N_NULL, NULL_BOOT, NULL_Q, MIN_RETEST, N_SEEDS = 100, 2000, 0.10, 30, 20
+SCOPE_B7 = ("Both the bettor and the rater ran as claude-opus-5-5 with adaptive thinking at effort low, with reasoning hidden; "
+            "the result is about that setting.")
+BUNDLE = "(shown only the field and the two sentences, not the question or methods)"
 
 
 def retest_sigma(rat, ret):
     """Single-rating logit noise from test-retest pairs (options reversed): SD of [logit(v) - logit(1 - v')] / sqrt(2)."""
     dd = [_lg(rat[i]["p_option_1"] / 100) - _lg((100 - ret[i]["p_option_1"]) / 100) for i in ret if i in rat]
-    return float(np.std(dd) / math.sqrt(2)) if len(dd) > 1 else None
+    return (float(np.std(dd) / math.sqrt(2)) if len(dd) > 1 else None), len(dd)
 
 
-def null_margin(rows, sigma, seed=BOOT_SEED):
-    """P12: the leg-2 margin m* = 10th percentile of leg-2 upper bounds in a null world where the bettor knows only what the
-    rater measures (rater = logit(bettor) + N(0, sigma), rounded to 1..99). A bettor in that world passes at most ~10%."""
+def _ub(d, idx=None, seed=BOOT_SEED, n=NULL_BOOT):
+    v = d if idx is None else d[idx]
+    return boot_ci(list(v), n=n, seed=seed)[1]
+
+
+def null_sims(rows, sigma, seed=BOOT_SEED):
+    """Null world A (P12): the rater differs from the bettor only by its own call-to-call noise: rater = logit(bettor) + N(0, sigma).
+    Returns the stored d2 vectors (one per simulation), so subsets can drop rows without refitting (D42)."""
     y = np.array([r["y"] for r in rows]); up = np.array([r["up"] for r in rows]); pb = np.array([r["pb"] for r in rows], float)
     lb = np.array([_lg(p / 100) for p in pb])
     pbl = _loo(np.array([_feats(p, u) for p, u in zip(pb, up)]), y)
-    rng, ups = np.random.default_rng(seed), []
+    rng, D = np.random.default_rng(seed), []
     for _ in range(N_NULL):
         pr = np.clip(np.round(100 / (1 + np.exp(-(lb + rng.normal(0, sigma, len(lb)))))), 1, 99)
-        d = (y - pbl) ** 2 - (y - _loo(np.array([_feats(p, u) for p, u in zip(pr, up)]), y)) ** 2
-        ups.append(boot_ci(list(d), n=NULL_BOOT)[1])
+        D.append((y - pbl) ** 2 - (y - _loo(np.array([_feats(p, u) for p, u in zip(pr, up)]), y)) ** 2)
+    return np.array(D)
+
+
+def margin_of(D, keep=None, seed=BOOT_SEED):
+    ups = [_ub(d, keep, seed=seed) for d in D]
     return float(np.quantile(ups, NULL_Q)), ups
 
 
-def score_b7(items, bets, rater, retest):
-    base = score_b6(items, bets, rater)        # legs, gates, subsets, discordant, secondaries; its label/sentence are NOT used
+def world_b_rate(rows, sigma_rt, sigma_dis, m, seed=BOOT_SEED, draws=100):
+    """D43: P(pass) of this rule in world B, where the rater differs from the bettor by stable item noise sqrt(sigma_dis^2 - sigma_rt^2)
+    plus call noise sigma_rt."""
+    y = np.array([r["y"] for r in rows]); up = np.array([r["up"] for r in rows]); pb = np.array([r["pb"] for r in rows], float)
+    lb = np.array([_lg(p / 100) for p in pb]); p_true_b = np.array([r["p_true"] for r in rows])
+    pbl = _loo(np.array([_feats(p, u) for p, u in zip(pb, up)]), y)
+    s_item = math.sqrt(max(sigma_dis ** 2 - sigma_rt ** 2, 0.0))
+    rng, hits = np.random.default_rng(seed), 0
+    for _ in range(draws):
+        pr = np.clip(np.round(100 / (1 + np.exp(-(lb + rng.normal(0, s_item, len(lb)) + rng.normal(0, sigma_rt, len(lb)))))), 1, 99)
+        v_true = np.where(y == 1, pr / 100, 1 - pr / 100)
+        d1 = (1 - p_true_b) ** 2 - (1 - v_true) ** 2
+        d2 = (y - pbl) ** 2 - (y - _loo(np.array([_feats(p, u) for p, u in zip(pr, up)]), y)) ** 2
+        hits += (_ub(d1, n=BOOT_N) < -EPS) and (_ub(d2, n=BOOT_N) < m - EPS)
+    return hits / draws
+
+
+def score_b7(items, bets, rater, retest, seed_check=True):
+    base = score_b6(items, bets, rater, gate_g1=False)          # D40: G1-G3 are reported counts here, never gates
     out = {k: base.get(k) for k in ("n", "missing", "gates", "leg1", "leg2", "leg2_up_word", "leg2_down_word", "discordant", "secondaries")}
+    out["scope"] = SCOPE_B7
     if base["n"] < 60 or "leg1" not in base:
         out["label"] = "untestable"
         out["sentence"] = f"Too few ratings were returned to test it ({base['n']} of 92)."
         return out
     rows = base["rows"]
-    sigma = retest_sigma({v["id"]: v for v in rater}, {v["id"]: v for v in retest})
-    out["sigma_retest"], out["retest_n"] = sigma, len(retest)
-    if sigma is None:
-        out["label"], out["sentence"] = "untestable", "The rater's retest was not available, so the noise margin could not be set."
+    sigma, npairs = retest_sigma({v["id"]: v for v in rater}, {v["id"]: v for v in retest})
+    out["sigma_retest"], out["retest_pairs"] = sigma, npairs
+    if npairs < MIN_RETEST or sigma is None:                       # D41: the one rule for a missing or partial retest
+        out["label"] = "untestable"
+        out["sentence"] = (f"The rater's retest returned only {npairs} of 46 pairs (at least {MIN_RETEST} are needed), so the rater's "
+                           "call-to-call noise margin could not be set and the comparison was not run as a test.")
         return out
-    m, ups = null_margin(rows, sigma)
-    out["margin"], out["null_false_pass_at_0"] = m, float(np.mean(np.array(ups) < 0))
-    y = np.array([r["y"] for r in rows]); up = np.array([r["up"] for r in rows])
+    y = np.array([r["y"] for r in rows])
     d1 = np.array([(1 - r["p_true"]) ** 2 - (1 - r["v_true"]) ** 2 for r in rows])
     pb = _loo(np.array([_feats(r["pb"], r["up"]) for r in rows]), y); pv = _loo(np.array([_feats(r["pv"], r["up"]) for r in rows]), y)
     d2 = (y - pb) ** 2 - (y - pv) ** 2
-    lab = lambda a, b: boot_ci(list(a))[1] < -EPS and boot_ci(list(b))[1] < m - EPS  # noqa: E731
-    full = lab(d1, d2)
+    D = null_sims(rows, sigma)
+    m, ups = margin_of(D)
+    out["margin"], out["null_false_pass_at_0"] = m, float(np.mean(np.array(ups) < 0))
+    lab = lambda keep, mm, sd=BOOT_SEED: (_ub(d1, keep, seed=sd, n=BOOT_N) < -EPS) and (_ub(d2, keep, seed=sd, n=BOOT_N) < mm - EPS)  # noqa: E731
+    full = lab(None, m)
     out["label"] = "pass" if full else "null"
-    idx = np.arange(len(rows))
-    out["fragile_items"] = [rows[i]["id"] for i in idx if lab(d1[idx != i], d2[idx != i]) != full]
+    other = "null" if full else "pass"
+    n = len(rows); idx = np.arange(n)
+    flips = []                                                    # D42.1: m* recomputed per subset from the stored null d2 vectors
+    for i in range(n):
+        keep = idx != i
+        if lab(keep, margin_of(D, keep)[0]) != full:
+            flips.append(rows[i]["id"])
+    out["fragile_items"] = flips
     lofo = {}
     for fld in sorted({r["field"] for r in rows}):
         keep = np.array([r["field"] != fld for r in rows])
-        lofo[fld] = {"n": int(keep.sum()), "label": "untestable" if keep.sum() < 60 else ("pass" if lab(d1[keep], d2[keep]) else "null")}
+        lofo[fld] = {"n": int(keep.sum()), "label": "untestable" if keep.sum() < 60 else ("pass" if lab(keep, margin_of(D, keep)[0]) else "null")}
     out["leave_one_bucket_out"] = lofo
     out["bucket_flips"] = [k for k, v in lofo.items() if v["label"] != "untestable" and (v["label"] == "pass") != full]
+    if seed_check:                                                # D42.2: the full label under 20 seeds, null draws included
+        labs = []
+        for k in range(N_SEEDS):
+            sd = BOOT_SEED + 1 + k
+            mk = margin_of(null_sims(rows, sigma, seed=sd), seed=sd)[0]
+            labs.append("pass" if lab(None, mk, sd) else "null")
+        out["seed_labels"] = labs
+        out["seeds_other"] = sum(1 for x in labs if x != out["label"])
+    # D43: sigma_dis and the world-B pass rate (reported secondaries)
+    lb = np.array([_lg(r["pb"] / 100) for r in rows]); lv = np.array([_lg(r["pv"] / 100) for r in rows])
+    out["sigma_dis"] = float(np.std(lv - lb))
+    out["world_b_pass_rate"] = world_b_rate(rows, sigma, out["sigma_dis"], m)
     f3 = lambda c: f"[{c[0]:.3f}, {c[1]:.3f}]"  # noqa: E731
     L1, L2 = out["leg1"], out["leg2"]
+    rater_phrase = f"the same model asked only which version reports the more striking finding {BUNDLE}"
     if full:
-        sent = (f"On {len(rows)} round-2 sentence pairs, the bettor picked the published sentence better than the same model asked only which version "
-                f"reports the more striking finding (raw d₁ {L1['d']:.3f} {f3(L1['ci'])}, striking rule Brier {L1['valence_brier']:.3f}; recalibrated "
-                f"with the up word d₂ {L2['d']:.3f} {f3(L2['ci'])}, beyond the noise margin {m:.3f}). Round 2's pass is not only picking the more "
-                "striking version, as this rater judged it, though this does not separate knowing the result from reasoning within the sentence, "
-                "and the rater was the same model as the bettor")
+        sent = (f"On {n} round-2 sentence pairs, the bettor picked the published sentence better than {rater_phrase} (raw d₁ {L1['d']:.3f} "
+                f"{f3(L1['ci'])}, striking rule Brier {L1['valence_brier']:.3f}; recalibrated with the up word d₂ {L2['d']:.3f} {f3(L2['ci'])}, "
+                f"beyond the rater's call-to-call noise margin {m:.4f}). Round 2's pass is not only picking the more striking version, as this "
+                "rater judged it, though this does not separate knowing the result from reasoning within the sentence, and the rater was the "
+                "same model as the bettor")
+        sent += (f"; a bettor that differed from this rater only by stable item-level noise of the observed size would pass this test about "
+                 f"{round(100 * out['world_b_pass_rate'])}% of the time")
     else:
-        sent = (f"On {len(rows)} round-2 sentence pairs, the bettor was not shown to pick the published sentence better than the same model asked only "
-                f"which version reports the more striking finding (raw d₁ {L1['d']:.3f} {f3(L1['ci'])}; recalibrated with the up word d₂ {L2['d']:.3f} "
-                f"{f3(L2['ci'])}, against the noise margin {m:.3f}). Round 2's pass may reduce to picking the more striking version, or the rater, "
-                "being the same model, may have used the same judgment of which version is real; this test cannot tell those apart")
-    if out["fragile_items"] or out["bucket_flips"]:
-        out["label_reported"] = f"{out['label']}, fragile"
-        parts = []
-        if out["fragile_items"]:
-            fi = out["fragile_items"]; parts.append(f"the item{'s' if len(fi) > 1 else ''} {', '.join(fi)}")
-        if out["bucket_flips"]:
-            bf = out["bucket_flips"]; parts.append(f"the query bucket{'s' if len(bf) > 1 else ''} {', '.join(bf)}")
-        many = len(out["fragile_items"]) + len(out["bucket_flips"]) > 1
-        sent += f"; this label rests on {' and '.join(parts)}: without {'any one of them' if many else 'it'} the label would be {'null' if full else 'pass'}"
+        sent = (f"On {n} round-2 sentence pairs, the bettor was not shown to pick the published sentence better than {rater_phrase} (raw d₁ "
+                f"{L1['d']:.3f} {f3(L1['ci'])}; recalibrated with the up word d₂ {L2['d']:.3f} {f3(L2['ci'])}, against the rater's call-to-call "
+                f"noise margin {m:.4f}). Round 2's pass may reduce to picking the more striking version, or the rater, being the same model, may "
+                "have used the same judgment of which version is real; this test cannot tell those apart")
+    if seed_check and out["seeds_other"]:
+        out["label_reported"] = f"{out['label']}, at the margin ({out['seeds_other']} of {N_SEEDS} seeds give {other})"
+    if flips or out["bucket_flips"]:
+        out["label_reported"] = (out.get("label_reported") or out["label"]) + ", fragile"
+        if flips and len(flips) > 5:
+            sent += f"; this label sits at the margin: {len(flips)} of {n} single-item removals would make it {other}"
+        else:
+            parts = []
+            if flips:
+                parts.append(f"the item{'s' if len(flips) > 1 else ''} {', '.join(flips)}")
+            if out["bucket_flips"]:
+                bf = out["bucket_flips"]; parts.append(f"the query bucket{'s' if len(bf) > 1 else ''} {', '.join(bf)}")
+            many = len(flips) + len(out["bucket_flips"]) > 1
+            sent += f"; this label rests on {' and '.join(parts)}: without {'any one of them' if many else 'it'} the label would be {other}"
     out["sentence"] = sent + "."
+    out["verdict_reported"] = ("pass, unreplicated" if full else "null") + (" (" + out["label_reported"] + ")" if out.get("label_reported") else "")
     return out
 
 
 def main_b7():
     items = {it["id"]: it for it in (json.loads(l) for l in R2_ITEMS.read_text().splitlines() if l.strip())}
     bets = [json.loads(l) for l in R2_BETS.read_text().splitlines() if l.strip()]
+    load = lambda p: [json.loads(l) for l in p.read_text().splitlines() if l.strip()] if p.exists() else []  # noqa: E731  D41: no crash
     if "--synthetic" in sys.argv:
         prim = [b for b in bets if b["kind"] == "primary"]
         chk = {b["id"] for b in bets if b["kind"] == "order-check"}
         rng = np.random.default_rng(7)
         for kind in [k for k in sys.argv[sys.argv.index("--synthetic") + 1:] if not k.startswith("--")]:
-            base = kind.split("+")[0]
+            base_kind = kind.split("+")[0]
             sig = float(kind.split("+")[1]) if "+" in kind else 0.0
-            rat = synthetic_valence(items, prim, base)
-            def noisy(v):
+            if base_kind.startswith("down"):            # D40: down-word raters, 70 on the down word on a share of items
+                share = float(base_kind[4:]) / 100
+                clean = []
+                for b in prim:
+                    it, o1 = items[b["id"]], b["option_1_is"]
+                    down1 = it["up_side"] != o1
+                    p = (70 if down1 else 30) if rng.random() < share else (30 if down1 else 70)
+                    clean.append({"id": b["id"], "kind": "striking", "option_1_is": o1, "p_option_1": p, "rationale": ""})
+            else:
+                clean = synthetic_valence(items, prim, base_kind)
+
+            def noisy(v):                                # D44: fresh call noise on the clean value for each call
                 if sig == 0 or v["p_option_1"] == 50:
                     return v["p_option_1"]
                 return int(np.clip(round(100 / (1 + math.exp(-(_lg(v["p_option_1"] / 100) + rng.normal(0, sig))))), 1, 99))
-            rat = [dict(v, p_option_1=noisy(v)) for v in rat]
-            ret = [dict(v, option_1_is="b" if v["option_1_is"] == "a" else "a", p_option_1=100 - noisy(v)) for v in rat if v["id"] in chk]
-            s = score_b7(items, bets, rat, ret)
-            print(f"{kind:12s} sigma {s.get('sigma_retest')}  margin {s.get('margin')}  leg2 {s['leg2']['ci'] if s.get('leg2') else None}  -> {s.get('label_reported', s['label'])}")
+            rat = [dict(v, p_option_1=noisy(v)) for v in clean]
+            ret = [dict(v, option_1_is="b" if v["option_1_is"] == "a" else "a", p_option_1=100 - noisy(v)) for v in clean if v["id"] in chk]
+            s = score_b7(items, bets, rat, ret, seed_check="--seeds" in sys.argv)
+            mg = s.get("margin")
+            print(f"{kind:12s} sigma_rt {s.get('sigma_retest') if s.get('sigma_retest') is None else round(s['sigma_retest'], 3)}  "
+                  f"m* {mg if mg is None else round(mg, 4)}  leg2 ub {round(s['leg2']['ci'][1], 4) if s.get('leg2') else None}  "
+                  f"worldB {s.get('world_b_pass_rate')}  -> {s.get('label_reported', s['label'])}")
         return
-    s = score_b7(items, bets, [json.loads(l) for l in R2_STRIKING.read_text().splitlines() if l.strip()],
-                 [json.loads(l) for l in R2_STRIKING_RETEST.read_text().splitlines() if l.strip()])
+    s = score_b7(items, bets, load(R2_STRIKING), load(R2_STRIKING_RETEST))
     (ROOT / "scoring" / "b7-scores.json").write_text(json.dumps(s, indent=1))
     print(json.dumps(s, indent=1))
 
