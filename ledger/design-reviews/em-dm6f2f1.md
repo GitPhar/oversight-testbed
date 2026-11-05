@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: holds, D4: flaw, D5: holds, D6: holds, D7: ho
 flaws: 3
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 07:48 America/Denver
 ---
 
 # Design review of em-dm6f2f1
@@ -191,3 +191,20 @@ This addendum also corrects my review's D9 text: the shifted-bound rule is the s
 confirmed_at stays null until F1 is fixed and re-checked.
 
 CONFIRMED: no
+
+## Addendum 2: F1 re-checked, 2026-11-05 07:48 America/Denver (confirmed)
+
+I checked commit 9be02d7 (DEVIATIONS D77). The script is unchanged from 9be02d7 to HEAD, and `results/dm6f2f1-no-guess.*` does not exist. I did not run `--seed` and did not read any guess value. Every check plants synthetic guesses, on the real 63 × 4 confidence matrix or on the selftest table (`confirm2.py`, `author_synth.py` in the scratch folder).
+
+**F1 now holds.**
+- **What the code does.** `analyse()` removes each usable question in turn and re-runs `core()` on the remaining table. `core()` holds the frozen statistic and rule: classify, shares, bootstrap with the same seed and nboot, then `verdict()` on the new bounds. Group membership and the P-only count are recomputed on the reduced table, so the untestable branch is also handled correctly on a drop. Flips are listed by group, and §5's "carried by <id>" heading uses them.
+- **Independent check.** On the real confidences I planted (P-only 'no', both-format 'no') counts of 18/3, 18/4, 17/3, 17/4 and 16/2. I compared the flips the code lists with my own exact leave-one-out loop. They agree on every table, at nboot 2,000 and at the frozen 10,000.
+  - At 3 of 7, the code lists exactly the four both-format 'yes' questions; dropping any one turns the pass into a fail.
+  - At 4 of 7 it lists none, as the exact check says.
+  - At 10,000 resamples the full analysis takes about 7 s.
+- **Selftest.** `--selftest` prints SELFTEST OK. Its edge table now asserts a both-group flip at k = 3 (four listed) and no flip at k = 4. The old shifted-bound code fails the k = 3 assertion: it listed no flip there (first addendum).
+- **Record.** D77 records the replacement of the frozen shifted-bound shortcut, cites the first addendum, and says that the rule, the bars and the seed are unchanged. This is a reported robustness check and cannot move the verdict.
+
+All three fixes are confirmed: F1 by D76 and D77, F2 and F3 by D76 (first addendum). The run may start.
+
+CONFIRMED: yes
