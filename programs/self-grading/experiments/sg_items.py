@@ -102,8 +102,9 @@ def render(rng, k, tid):
 def main():
     seed = int(sys.argv[1])
     rng = random.Random(seed)
-    order = list(range(60)) + [rng.randrange(20), rng.randrange(20)]   # 3 tasks per domain on the test set
-    rng.shuffle(order[:60])
+    test = list(range(60))                                              # 3 tasks per domain on the test set
+    rng.shuffle(test)                                                   # (the crashed draft shuffled a copy: a no-op)
+    order = test + [rng.randrange(20), rng.randrange(20)]
     tasks = [render(rng, k, f"t{i + 1:02d}") for i, k in enumerate(order[:60])]
     tasks += [render(rng, k, f"p{i + 1:02d}") for i, k in enumerate(order[60:])]
     out = {"seed": seed, "generator": "experiments/sg_items.py", "n_test": 60, "n_pilot": 2, "tasks": tasks}

@@ -58,6 +58,7 @@ class Caller:
 
     def __init__(self, cache_path, cap_usd, label):
         self.path, self.cap, self.label = Path(cache_path), cap_usd, label
+        self.path.parent.mkdir(parents=True, exist_ok=True)
         self.cache = json.loads(self.path.read_text()) if self.path.exists() else {}
         self.other = program_spent(exclude=self.path)
         self.lock, self.stop, self.refusal, self.errors, self.capped = threading.Lock(), threading.Event(), {}, [], ""
@@ -116,15 +117,29 @@ class Caller:
               f"(program ${self.other + self.spent():.4f})", flush=True)
 
 
-def call(messages, model, call_name, max_tokens=60, schema=None):
-    """One call, thinking disabled (program 1's and 2's setting), default temperature.
+# Thinking-off settings, as close as each model allows (program 1, experiments/mm_common.py, which ran all three):
+# Haiku 5.5 accepts thinking disabled; Sonnet 5.5 rejects "disabled" and uses "between_tools" as its thinking-off mode;
+# Opus 5.5 cannot disable thinking, so effort "low" is the minimum, and its thinking text is never returned or reused.
+OFF = {"claude-haiku-5-5": {"thinking": {"type": "disabled"}},
+       "claude-sonnet-5-5": {"thinking": {"type": "between_tools"}},
+       "claude-opus-5-5": {"output_config": {"effort": "low"}}}
+MIN_TOKENS = {"claude-haiku-5-5": 0, "claude-sonnet-5-5": 1000, "claude-opus-5-5": 1000}   # room for any thinking
+
+
+def call(messages, model, call_name, max_tokens=60, schema=None, system=None):
+    """One call at the model's thinking-off setting (OFF above), default temperature.
     Returns (text or parsed JSON, cost, request id)."""
     llm = _llm()
-    kw = {}
+    kw = json.loads(json.dumps(OFF[model]))
+    oc = kw.pop("output_config", {})
     if schema is not None:
-        kw["output_config"] = {"format": {"type": "json_schema", "schema": schema}}
-    resp = llm.client().messages.create(model=model, max_tokens=max_tokens, messages=messages,
-                                        thinking={"type": "disabled"}, **kw)
+        oc["format"] = {"type": "json_schema", "schema": schema}
+    if oc:
+        kw["output_config"] = oc
+    if system:
+        kw["system"] = system
+    resp = llm.client().messages.create(model=model, max_tokens=max(max_tokens, MIN_TOKENS[model]),
+                                        messages=messages, **kw)
     llm._check_stop(resp, call_name)
     text = "\n".join(b.text for b in resp.content if b.type == "text").strip()
     out = json.loads(text) if schema is not None else text
