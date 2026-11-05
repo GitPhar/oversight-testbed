@@ -3,14 +3,14 @@
 Pre-registered in `experiments/sg-b2-label.md` (`ffa8033`, 2026-11-05 05:15 America/Denver). The seed is CURBy-RNG pulse 1592200 (`a82af89`).
 - **Design review** (`ledger/design-reviews/sg-b2.md`): fix-first with 2 flaws (`8fbe9fa`).
   - Fixes D8a and D8b (`d3fe29a`): the first confirmation found fix 2 partial (`4fcc755`).
-  - D8c (`a0b0db3`) completed it, confirmed at 05:36 (`302f704`).
+  - D8c (`a0b0db3`) completed it, confirmed in `302f704` (committed 05:29:46; the review header's 05:36 is wrong, see below).
   - D8d (`3d0ce05`) added the placement check the review recommended.
   - All of this came before the first call.
 - **Run:** 2026-11-05, from just after 05:31:13 (the D8d commit) to 05:33:52 America/Denver (the grade cache's last save; data committed 05:33:59). **540 calls, complete, no refusal, $0.896** of the $1.10 cap. No pilot.
   - **Time order:** the review's confirmation was committed at 05:29:46 (`302f704`), before the run. Its header's "confirmed_at 05:36" is a guessed clock time, and the reviewer has been asked to correct it.
   - D8d is a one-line extra preflight check that the review recommended. It went in after the confirmation, so it is not covered by it.
 - **Odds:** engine 13; no human odds.
-- **Audit:** not yet audited.
+- **Audit:** `ledger/audits/sg-b2.md` (`613f995`). The verdict stands, with 3 required cuts, applied in this file under D11. Plant pl-017 was a clean draw.
 
 ## In plain English
 
@@ -34,11 +34,13 @@ All three models read "same".
   | Opus | −0.5 | [−0.9, −0.1] |
 
 - Every interval is far inside the 3-point margin.
-- **"Detectably" means by that 3-point bar.** Below it, Opus graded the same words slightly lower when told it wrote them: −0.85 [−1.32, −0.35] against no label. That is a secondary, about one point of 100. Its intervals treat studies as independent, though the 60 studies come from 20 domains (the sg-b1 audit's caution), so it is a lead, not a finding.
-- **Most grades did not move at all.** Studies with the identical grade under "you" and "another AI model":
+- **"Detectably" means by that 3-point bar.** Below it, Opus graded the same words slightly lower when told it wrote them, on the primary statistic too: −0.47 [−0.88, −0.07] against "another AI model", an interval that excludes 0, and −0.85 [−1.32, −0.35] against no label (a secondary). Both are under one point of 100, in the direction opposite to the one tested. Its intervals treat studies as independent, though the 60 studies come from 20 domains (the sg-b1 audit's caution), so it is a lead, not a finding.
+- **Many grades did not move at all** (106 of 180; on Sonnet, fewer than half). Studies with the identical grade under "you" and "another AI model":
   - Haiku: 44 of 60;
   - Sonnet: 26 of 60;
   - Opus: 36 of 60.
+
+  Two byte-identical prompts (this bet's no-label prompt and sg-b1's fresh prompt) gave the identical grade about as often: 46, 34 and 34 of 60.
 
 **Robustness (pre-registered).**
 - **Leave one study out:** no model's reading changes ("fragile": no, for all three).
