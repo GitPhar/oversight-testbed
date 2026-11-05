@@ -181,3 +181,20 @@ Still open, none of it blocking:
 - The auditor should confirm from the API usage record that no claude-sonnet-5-5 call ran before 17:17:16.
 
 **Verdict is now go.** The first bettor call may run.
+
+## Addendum 2: D18
+
+Checked 2026-11-04 18:55 America/Denver against `275c408` (DEVIATIONS D17–D18), by the same reviewer session. No paid calls were made.
+
+**What holds:**
+- **Items, draws, prompt and rules are unchanged.** `items.jsonl` (f924db16…) and `masked.jsonl` (e9f60d9b…) match `SHA256SUMS`. Since `954c035` nothing under `items/`, `protocol/` or `experiments/` has changed, and `SYSTEM`, `user_text`, `draws` and the cache key are unchanged. The only `score.py` change is the D17 "2026-moved" year label. `bettor.py --dry-run` still gives 184 items, 276 calls (92 order-check), option_b first on 94.
+- **The setting change is acceptable as a recorded deviation.** The bettor runs with adaptive thinking at effort "low", reasoning hidden, max_tokens 4000. It is the same model and still has no tools, it is recorded per call, and it lowers no bar. The write-up must describe the bettor as "adaptive thinking, effort low", not "thinking off".
+- **The pilot is within the allowance.** One call ($0.0058) on c-2610.03498-1, which the leakage check dropped, so it is not test data.
+- **The budget still binds.** `pilot-cache.json` counts toward the cap. Worst-case overshoot at 4000 tokens and 6 workers is about $0.45.
+- **No test-set call has run.** The untracked `bettor/bettor-cache.json` and `bets.jsonl` are the empty ones left by the failed 400 attempt.
+
+**Flaw G1 (D10): the stop on refusal is gone.** D18 deleted `llm._check_stop(resp, call)` from `common.structured`, and nothing else raises `RefusalError` or checks `stop_reason`. In a stubbed client against scratch copies of the new `common.py` and `bettor.py`, a response with `stop_reason: "refusal"` (req_REFUSED) and one with `stop_reason: "max_tokens"` (req_TRUNC) were both cached and written as bets. The run went on to all 276 calls, and no `results/refusal.md` was written. That breaks CONTEXT §3 rule 3, §8 of the pre-registration, and F2/F3 as confirmed.
+
+**Fix:** restore `llm._check_stop(resp, call)` in `structured`, after the thinking-block check and before `text = next(...)`, for every model. Record it in a DEVIATIONS row, and re-run the stubbed refusal and truncation check to show the run stops and `refusal.md` holds the ID.
+
+**Verdict: not go until G1 is fixed and confirmed here.**
