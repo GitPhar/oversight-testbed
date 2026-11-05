@@ -19,9 +19,10 @@ The write-ups (results/sv-b1-pushback.md, sv-b2-decline.md, sv-b3-ask.md) each h
 experiments/svd_report.py: the verdict, the pre-registered sentences (addendum D7) and every table in the file. That
 script is run here, as committed, on the regenerated analysis. Its output must appear in the write-up line for line and
 in order, from "**Verdict (pre-registered reading):**" to the last table. A paragraph between generated lines is
-allowed only if it is prose (not a table row or a sentence bullet) and says it is the auditor's or exploratory; each
-such insertion is named in the status line (today one: sv-b1's below-floor figures from the audit, 20ad07e). Anything
-else between generated lines is a mismatch. The file's table count must equal the generated block's, so no
+allowed only if it is prose (not a table row or a sentence bullet) and says it is the auditor's or exploratory; extra
+blank lines (no text) are allowed too. Each insertion is named in the status line. Today there is one: a blank line
+left inside sv-b1's block when 49e6a0d moved the audit's below-floor paragraph to just below it (the paragraph's
+numbers are still checked, wherever it sits). Anything else between generated lines is a mismatch. The file's table count must equal the generated block's, so no
 hand-written table can sit outside the check. No cell is copied: every table line is generated.
 
 The hand-written parts (the plain-English lead and "Run") copy numbers from the analysis and the caches. Those numbers
@@ -354,7 +355,11 @@ def align(text_lines, gen_lines):
 
     def flush():
         body = [l for l in cur if l.strip()]
-        ok = body and all(not l.lstrip().startswith(("|", "- ")) and MARKED.search(l) for l in body)
+        if not body:                              # blank lines only: no text, renders the same; named, not hidden
+            allowed.append(f"after generated line {i}: {len(cur)} extra blank line(s), no text")
+            cur.clear()
+            return
+        ok = all(not l.lstrip().startswith(("|", "- ")) and MARKED.search(l) for l in body)
         if ok:
             allowed.append(f"after generated line {i}: \"{body[0][:60]}…\" ({len(body)} line(s), marked "
                            f"{'/'.join(sorted({x.lower() for l in body for x in MARKED.findall(l)}))})")
