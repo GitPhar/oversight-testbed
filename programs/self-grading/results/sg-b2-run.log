@@ -1,0 +1,7 @@
+sg-b2 grade: 100 done, $0.007 (program $1.509)
+sg-b2 grade: 200 done, $0.046 (program $1.547)
+sg-b2 grade: 300 done, $0.206 (program $1.708)
+sg-b2 grade: 400 done, $0.430 (program $1.932)
+sg-b2 grade: 500 done, $0.757 (program $2.259)
+sg-b2 grade: complete, 540 cached calls, $0.8956 (program $2.3974)
+exit 0
