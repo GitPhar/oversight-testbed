@@ -14,8 +14,11 @@ Who uses this file:
   and with "this month" fixed as the month of the newest dated bet row, so prior.md stays reproducible byte for byte);
 - ledger/check_remap.py enforces the layer line: no open, running or pre-registered direction or bet deeper than
   layer 5 in a program that is not released (exit 1);
-- each program's budget code enforces the dollar line before every paid call (DollarLine below), live: the ledger
-  with every inbox row applied, and this month by the clock.
+- each program's budget code enforces the dollar line (DollarLine below), live: the ledger with every inbox row
+  applied, and this month by the clock. Its shared Caller checks before every paid call; its client factory checks
+  once, at the first paid client of a run, so a script that bypasses the Caller is stopped at its start (a run that
+  starts under the line and makes its calls outside a Caller can cross the line by at most its own run cap).
+  Program 3 (nature-graded) makes no API calls; its chip seconds are rule 7's.
 
 The definitions, once:
 - A bet's layer is its direction's depth on map/<program>.json (prior.layer_of: 1 for a scouted direction with no
@@ -134,16 +137,17 @@ class Rule16Stop(SystemExit):
 
 
 class DollarLine:
-    """The dollar line in a program's budget code. Construct once per run with the program's own count of what it has
-    spent; it refuses to start if the program is closed or already at the line, and blocks(spent) says, before each
-    paid call, whether that call would go past it.
+    """The dollar line in a program's budget code. Built once per run with the program's own count of what it has
+    spent (0 if its code keeps none); it refuses to start (SystemExit) if the program is closed or already at the
+    line, and blocks(run_spent) says, before each paid call, whether this run's spend so far puts the month at the
+    line.
 
         line = rule16.DollarLine("test-awareness", program_spent_so_far)   # SystemExit if refused
         ...
-        if line.blocks(program_spent_so_far): stop the run, report "rule 16 dollar line"
+        if line.blocks(spent_in_this_run): stop the run, report "rule 16 dollar line"
     """
 
-    def __init__(self, program, spent_usd, root=ROOT):
+    def __init__(self, program, spent_usd=0.0, root=ROOT):
         try:
             bets, steers, maps = load(root)
         except Exception as e:   # no ledger, no paid call: fail closed
@@ -152,18 +156,19 @@ class DollarLine:
         self.program, self.status = program, s
         self.released = bool(s["released_by_result"])
         self.line = None if self.released else s["usd_line"]
-        self.offset = max(0.0, s["ledger_usd_month"] - float(spent_usd or 0))
+        self.start = s["usd_month"]
         if s["closed"]:
             raise Rule16Stop(f"{program}: the program is closed on map/{program}.json (closing review "
                              f"{s['closing_review']}); no paid call may run. Only a new reason its diagnosis does not "
                              "cover, or a steer from Sean, reopens it (operators/remap.md, Closing a program).")
-        if self.line is not None and s["usd_month"] >= self.line:
-            raise Rule16Stop(self.message(s["usd_month"]))
+        if self.line is not None and self.start >= self.line:
+            raise Rule16Stop(self.message(self.start))
 
-    def blocks(self, spent_usd):
-        return self.line is not None and float(spent_usd) + self.offset >= self.line
+    def blocks(self, run_spent=0.0):
+        return self.line is not None and self.start + float(run_spent) >= self.line
 
-    def message(self, spent_usd):
+    def message(self, spent_usd=None):
+        spent_usd = self.start if spent_usd is None else spent_usd
         return (f"{self.program}: rule 16 dollar line: ${spent_usd:.2f} spent in {self.status['month']}, line "
                 f"${self.line:.2f}, and the newest layer ({self.status['newest_layer']}) holds no landed result "
                 "labelled partly new or new, and no steer from Sean lifts the line. The program's next action is a "
