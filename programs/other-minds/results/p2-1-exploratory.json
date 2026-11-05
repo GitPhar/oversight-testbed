@@ -1,0 +1,97 @@
+{
+ "self_ref_regex": "\\b(writer|I|my|memory|recall|confirm|uncertain|cannot)\\b",
+ "self_ref_n": 28,
+ "r_ab_self_ref": 0.7101616525393595,
+ "r_ab_rest": 0.8811179759942707,
+ "mean_abs_diff_self_ref": 15.3,
+ "mean_abs_diff_rest": 9.012121212121212,
+ "largest_diffs": [
+  {
+   "a": 92,
+   "b": 13,
+   "question": "h238",
+   "claim": "Using 1 atm = 1.01325\u00d710\u2075 Pa, the work is about \u221276.0 J."
+  },
+  {
+   "a": 11,
+   "b": 84,
+   "question": "h237",
+   "claim": "The strict bound \u0394x\u00b7\u0394p \u2265 \u0127/2 gives \u0394p \u2265 about 1.5e-36 kg\u00b7m/s, which differs from 3e-36."
+  },
+  {
+   "a": 7,
+   "b": 73,
+   "question": "h043",
+   "claim": "The part (b) error alone is enough to make the stated answer incorrect."
+  },
+  {
+   "a": 93,
+   "b": 29,
+   "question": "h043",
+   "claim": "The proposed answer of 1.2 \u00d7 10^-5 m, 10^-8 m is incorrect."
+  },
+  {
+   "a": 86,
+   "b": 25,
+   "question": "h115",
+   "claim": "A line about Ragnar protecting someone against everyone would fit the Rollo dynamic."
+  },
+  {
+   "a": 77,
+   "b": 22,
+   "question": "h115",
+   "claim": "Without a reliable source, the candidate answer Rollo should not be affirmed."
+  },
+  {
+   "a": 10,
+   "b": 58,
+   "question": "h214",
+   "claim": "A near-miss year such as 2005 or 2007 is possible."
+  },
+  {
+   "a": 3,
+   "b": 50,
+   "question": "h191",
+   "claim": "The answer to the question is YES."
+  },
+  {
+   "a": 86,
+   "b": 45,
+   "question": "h149",
+   "claim": "The exact launch day cannot be confirmed from memory with high confidence."
+  },
+  {
+   "a": 59,
+   "b": 21,
+   "question": "h294",
+   "claim": "The drag length scale of about 85 m is comparable to the 100 m distance, so drag is dominant rather than a small correction."
+  }
+ ],
+ "leave_one_claim_out_Q_range": [
+  0.7687495202549459,
+  0.7995204040394632
+ ],
+ "Q_after_removing_largest_k": {
+  "6": {
+   "Q": 0.8903342828819394,
+   "questions": 4
+  },
+  "7": {
+   "Q": 0.900209953612111,
+   "questions": 5
+  },
+  "8": {
+   "Q": 0.9089682481733259,
+   "questions": 6
+  },
+  "10": {
+   "Q": 0.9249845367783708,
+   "questions": 8
+  }
+ },
+ "counts_abs_diff_gt": {
+  "20": 28,
+  "30": 18,
+  "50": 6
+ }
+}
