@@ -1,0 +1,158 @@
+{
+ "_note": "100 simulated runs per world; 400 permutations, 400 bootstraps; leave-one-item-out stops at the first non-pass (it can only turn a pass into a fail)",
+ "opus A": {
+  "within_sd_shown": 3.491060010942235,
+  "stmt_sd": 4.021038423094214,
+  "scale": 1.0,
+  "null": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "half": {
+   "pass": 0.1,
+   "fail": 0.9,
+   "untestable": 0.0
+  },
+  "0.75": {
+   "pass": 0.49,
+   "fail": 0.51,
+   "untestable": 0.0
+  },
+  "equal": {
+   "pass": 0.62,
+   "fail": 0.38,
+   "untestable": 0.0
+  },
+  "redacted pattern": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "shuffled items, equal": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "one-item jump (half elsewhere)": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "wrong-target 0.2 (first or last line)": {
+   "pass": 0.07,
+   "fail": 0.93,
+   "untestable": 0.0
+  }
+ },
+ "opus B": {
+  "within_sd_shown": 4.857983120596447,
+  "stmt_sd": 4.857983120596447,
+  "scale": 1.0,
+  "null": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "half": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "0.75": {
+   "pass": 1.0,
+   "fail": 0.0,
+   "untestable": 0.0
+  },
+  "equal": {
+   "pass": 1.0,
+   "fail": 0.0,
+   "untestable": 0.0
+  },
+  "redacted pattern": {
+   "pass": 1.0,
+   "fail": 0.0,
+   "untestable": 0.0
+  },
+  "shuffled items, equal": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "one-item jump (half elsewhere)": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "wrong-target 0.2 (first or last line)": {
+   "pass": 1.0,
+   "fail": 0.0,
+   "untestable": 0.0
+  }
+ },
+ "sonnet": {
+  "within_sd_shown": 7.702290424138639,
+  "stmt_sd": 10.228606852751168,
+  "scale": 0.6136052008749157,
+  "null": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "half": {
+   "pass": 0.1,
+   "fail": 0.9,
+   "untestable": 0.0
+  },
+  "0.75": {
+   "pass": 0.83,
+   "fail": 0.17,
+   "untestable": 0.0
+  },
+  "equal": {
+   "pass": 1.0,
+   "fail": 0.0,
+   "untestable": 0.0
+  },
+  "redacted pattern": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "shuffled items, equal": {
+   "pass": 0.01,
+   "fail": 0.99,
+   "untestable": 0.0
+  },
+  "one-item jump (half elsewhere)": {
+   "pass": 0.01,
+   "fail": 0.99,
+   "untestable": 0.0
+  },
+  "wrong-target 0.2 (first or last line)": {
+   "pass": 0.21,
+   "fail": 0.79,
+   "untestable": 0.0
+  }
+ },
+ "bet (opus A)": {
+  "null": 0.0,
+  "half": 0.010000000000000002,
+  "0.75": 0.40669999999999995,
+  "equal": 0.62,
+  "redacted pattern": 0.0,
+  "shuffled items, equal": 0.0,
+  "one-item jump (half elsewhere)": 0.0,
+  "wrong-target 0.2 (first or last line)": 0.014700000000000001
+ },
+ "bet (opus B)": {
+  "null": 0.0,
+  "half": 0.0,
+  "0.75": 0.83,
+  "equal": 1.0,
+  "redacted pattern": 0.0,
+  "shuffled items, equal": 0.0,
+  "one-item jump (half elsewhere)": 0.0,
+  "wrong-target 0.2 (first or last line)": 0.21
+ }
+}
