@@ -32,14 +32,15 @@ SHORT = {O: "opus", S: "sonnet"}
 MODELS = [O, S]
 ORDERS, LATIN = q1.ORDERS, q1.LATIN
 CONDS = ["qonly", "shown"]
-REPS = {O: 6, S: 5}                                     # conversations per model x item x order x condition
-CAP, RESERVE, DISCOUNT = 4.00, 0.10, 0.5               # Batches API: 50% of list price
+REPS = {O: 4, S: 5}                                     # D82: Opus 6 -> 4 (measured costs)                                     # conversations per model x item x order x condition
+CAP, RESERVE, DISCOUNT = 4.25, 0.10, 0.5               # D82: $4.00 -> $4.25 (budget ruling br-011, amended)               # Batches API: 50% of list price
 MAXTOK = {O: 1000, S: 1000}                             # em-dm4's settings for both models
 OFFP = {O: {"output_config": {"effort": "low"}}, S: {"thinking": {"type": "between_tools"}}}  # mm_common.OFF
 PRICES = {O: (4.00, 20.00), S: (2.00, 10.00)}           # config.PRICES, list price per million tokens
-EST = {(O, "qonly"): 0.0015, (O, "shown"): 0.00112, (S, "qonly"): 0.000585, (S, "shown"): 0.000526}
-# per request at the batch rate: shown from em-dm4's archived chains (Opus $0.0056, Sonnet $0.00263 per 5-call chain);
-# Sonnet qonly from em-gm2q ($0.00117 direct); Opus qonly unmeasured, set above Opus's shown per-call mean
+EST = {(O, "qonly"): 0.00293, (O, "shown"): 0.009173 / 5, (S, "qonly"): 0.000585, (S, "shown"): 0.000526}
+# per request at the batch rate (D82): Opus shown from em-dm4's 80 COMPLETE chains ($0.009173 per chain; the earlier
+# $0.0056 averaged in abandoned one-turn stubs); Opus qonly from the design review's 12-call pilot ($0.00293);
+# Sonnet shown from em-dm4 ($0.00263 per chain), Sonnet qonly from em-gm2q ($0.00117 direct)
 MARGIN = 1.10                                           # remaining-cost projection before every round
 N_PERM, N_BOOT = q1.N_PERM, q1.N_BOOT
 ALPHA, BAR, TOL, USABLE_MIN, WT_FAR = q1.ALPHA, q1.BAR, q1.TOL, q1.USABLE_MIN, q1.WT_FAR
@@ -133,18 +134,41 @@ def run(client=None):
     convs = {}
 
     def save():                                          # unfinished chains' billed cost is kept under "_unfinished"
-        cache["_unfinished"] = {"cost": sum(c["cost"] for k, c in convs.items() if k not in cache), "n": sum(1 for k in convs if k not in cache)}
+        cache["_unfinished"] = {"cost": sum(c["cost"] for k, c in convs.items() if k not in cache),
+                                "n": sum(1 for k in convs if k not in cache)}
         CACHE.write_text(json.dumps(cache))
         BATCHLOG.write_text(json.dumps(blog, indent=1))                                           # key -> in-progress state
     for key, m, q, o, cond in job_keys(its):
-        if key in cache and cache[key].get("done"):          # a resumed run keeps every finished conversation
-            continue
         rec, claims = its[m][q]
         texts = ([q1.qonly_message(rec, claims, o)] if cond == "qonly"
                  else [t for _, _, t in q1.chain_turns(rec, claims, o)])
+        h = hashlib.sha256(json.dumps([m, texts, params(m, [])], sort_keys=True).encode()).hexdigest()
+        if key in cache and cache[key].get("done"):          # a resumed run keeps every finished conversation
+            if cache[key].get("req_sha256") not in (None, h):
+                sys.exit(f"gm2q2: cached {key} was built from different requests; not resumed (D82)")
+            continue
         kinds = [("M", None)] if cond == "qonly" else [(k, c) for k, c, _ in q1.chain_turns(rec, claims, o)]
         convs[key] = {"model": m, "cond": cond, "texts": texts, "kinds": kinds, "msgs": [], "turns": [], "cost": 0.0,
-                      "ids": [], "batches": []}
+                      "ids": [], "batches": [], "req_sha256": h}
+    # D82: billed cost of earlier runs' unfinished chains is carried forward, never overwritten; a batch logged as
+    # submitted but never recorded as ended is collected first and its billed cost added to that total
+    prior_lost = cache.pop("_unfinished", {}).get("cost", 0.0) + cache.pop("_lost_prior", {}).get("cost", 0.0)
+    for e in blog:
+        if not e.get("ended"):
+            b = client.messages.batches.retrieve(e["batch"])
+            while b.processing_status != "ended":
+                time.sleep(20)
+                b = client.messages.batches.retrieve(e["batch"])
+            lost = 0.0
+            for res in client.messages.batches.results(e["batch"]):
+                if res.result.type == "succeeded":
+                    msg = res.result.message
+                    lost += cost_of(msg.model if msg.model in PRICES else O, msg.usage)
+            e.update(ended=True, collected_after_crash=True, billed_usd=lost)
+            prior_lost += lost
+            print(f"gm2q2: collected batch {e['batch']} from an earlier run; ${lost:.4f} billed, results not used", flush=True)
+    cache["_lost_prior"] = {"cost": prior_lost}
+    save()                                               # D82: the carried-forward total is on disk before any exit
     # whole-run projection before the first batch: refuse to start if it cannot fit
     proj = sum(len(c["texts"]) * EST[(c["model"], c["cond"])] for c in convs.values())
     if spent_of(cache) + proj + RESERVE > CAP + TOL:
@@ -165,6 +189,7 @@ def run(client=None):
         remaining = sum((len(c["texts"]) - len(c["turns"])) * per_req(c["model"], c["cond"]) for c in live.values())
         this_round = sum(per_req(c["model"], c["cond"]) for c in live.values())
         spent = spent_of({k: v for k, v in cache.items() if k != "_unfinished"}) + sum(c["cost"] for k, c in convs.items() if k not in cache)
+        # (spent includes _lost_prior: every billed cost of earlier runs' unfinished chains and collected batches, D82)
         if spent + this_round * MARGIN + RESERVE > CAP + TOL or spent + remaining + RESERVE > CAP + TOL:
             save()                                       # the next batch (x1.10), or all that remains, would not fit
             sys.exit(f"gm2q2: cap ${CAP}: spent ${spent:.3f}, next batch ${this_round:.3f} x{MARGIN}, remaining ${remaining:.3f}; "
@@ -174,12 +199,14 @@ def run(client=None):
             idmap = {f"r{n}": k for n, k in enumerate(part)}
             b = client.messages.batches.create(requests=[{"custom_id": cid, "params": part[k]} for cid, k in idmap.items()])
             t0 = time.time()
+            entry = {"round": rnd, "batch": b.id, "n": len(part), "ended": False}
+            blog.append(entry)
+            save()                                       # D82: the batch ID is on disk before polling starts
             print(f"gm2q2: round {rnd} batch {b.id} submitted, {len(part)} requests", flush=True)
             while b.processing_status != "ended":
                 time.sleep(20)
                 b = client.messages.batches.retrieve(b.id)
-            blog.append({"round": rnd, "batch": b.id, "n": len(part), "seconds": round(time.time() - t0),
-                         "counts": str(b.request_counts)})
+            entry.update(ended=True, seconds=round(time.time() - t0), counts=str(b.request_counts))
             retry = {}
             for res in client.messages.batches.results(b.id):
                 k = idmap[res.custom_id]
@@ -206,7 +233,7 @@ def run(client=None):
                     c["msgs"].append({"role": "assistant", "content": raw})
             for k, c in convs.items():
                 if (len(c["turns"]) == len(c["texts"]) or c.get("ended")) and not (k in cache and cache[k].get("done")):
-                    cache[k] = {"turns": c["turns"], "cost": c["cost"], "msg_ids": c["ids"], "batches": c["batches"],
+                    cache[k] = {"turns": c["turns"], "cost": c["cost"], "msg_ids": c["ids"], "batches": c["batches"], "req_sha256": c["req_sha256"],
                                 "missing": c["turns"][-1]["rating"] is None or len(c["turns"]) < len(c["texts"]),
                                 "done": True}
             save()
@@ -287,13 +314,15 @@ def analyse_model(cache, model, its, seed, n_perm=None, n_boot=None, light=False
             s = [x for x in qs if x != q]
             ll, pp = label_on(d, clean, s, seed, n_perm, n_boot)
             loo[q] = ll
+            if ll != "pass":
+                out.setdefault("loo_break_parts", {})[q] = pp.get("first_fail") or pp.get("why") or ll
             if light and ll != "pass":
                 break
     out["loo"] = loo
     out["loo_breakers"] = [q for q, v in loo.items() if v != "pass"]
     out["label"] = final_label(lab, loo)
     if out["label"] == "fail" and lab == "pass":
-        out["first_fail"] = "leave-one-item-out (" + ", ".join(out["loo_breakers"]) + ")"
+        out["first_fail"] = "leave-one-item-out (" + ", ".join(f"{q}: {out['loo_break_parts'].get(q, '?')}" for q in out["loo_breakers"]) + ")"
     if light:
         return out
     fs = flag("shown")
@@ -325,8 +354,9 @@ def archived_secondaries():
     its = item_sets()
     conv = json.loads((RESULTS / "mm-gm2-opus-conversations.json").read_text())
     qs = list(its[O])
-    data = {q: [[conv[f"{q}|{o}|shown|{r}"]["turns"][-1]["rating"] for r in range(4) if f"{q}|{o}|shown|{r}" in conv
-                 and conv[f"{q}|{o}|shown|{r}"]["turns"][-1]["rating"] is not None] for o in ORDERS] for q in qs}
+    ok = lambda c: bool(c) and not c.get("abandoned") and bool(c["turns"]) and c["turns"][-1]["kind"] == "M" and c["turns"][-1]["rating"] is not None
+    data = {q: [[conv[f"{q}|{o}|shown|{r}"]["turns"][-1]["rating"] for r in range(4) if ok(conv.get(f"{q}|{o}|shown|{r}"))]
+                for o in ORDERS] for q in qs}                                   # D82: complete chains only
     out["opus_dm4_shown_OE"] = q1.oe(data, qs)
     hb = json.loads((RESULTS / "gm2b-conversations.json").read_text())
     qs = list(its[S])
@@ -348,7 +378,7 @@ def analyse(seed):
     its = item_sets()
     seed = seed % (2 ** 63)
     res = {"seed": seed, "n_conversations": len(cache), "n_missing": sum(1 for v in cache.values() if v["missing"]),
-           "unfinished_cost_usd": full.get("_unfinished", {}).get("cost", 0.0),
+           "unfinished_cost_usd": full.get("_unfinished", {}).get("cost", 0.0) + full.get("_lost_prior", {}).get("cost", 0.0),
            "cost_usd": spent_of(full), "cache_sha256": hashlib.sha256(CACHE.read_bytes()).hexdigest(),
            "models": {SHORT[m]: analyse_model(cache, m, its[m], seed) for m in MODELS}}
     res["verdict"] = bet_verdict({m: v["label"] for m, v in res["models"].items()})
@@ -462,8 +492,8 @@ def selftest():
     solo = {q: ([30, 70, 30, 70] if q == "q0" else [50] * 4) for q in q10}
     lo = analyse_model(synth(np.random.default_rng(10), O, q10, cl, {q: {0: 2, 1: 5, 2: 95, 3: 98} for q in q10}, solo, solo, 4, 3),
                        O, {q: (None, cl[q]) for q in q10}, 11, 400, 400)
-    assert lo["label_full"] == "pass" and lo["label"] == "fail" and lo["loo_breakers"] == ["q0"], (lo["label_full"], lo["label"], lo["loo_breakers"])
-    print("selftest: all checks hold (equal world passes; one-item-only world passes on all items and fails by leave-one-out on q0;"
+    assert lo["label_full"] == "pass" and lo["label"] == "fail" and "q0" in lo["loo_breakers"], (lo["label_full"], lo["label"], lo["loo_breakers"])
+    print("selftest: all checks hold (equal world passes; one-item-only world passes on all items and leaving q0 out breaks it;"
           " one-item jump world:", one["label"], one.get("first_fail"),
           "; first/last wrong-target world:", wt["label"], wt.get("first_fail"), ")")
 
@@ -477,14 +507,15 @@ def world(model, wave=None):
     qs, claims = list(its), {q: v[1] for q, v in its.items()}
     keep = None
     if model == O:
-        # em-dm4's Opus cells hold two batches that disagree (repeats 0-1 and 2-3); each batch is its own world (§8)
+        # D82: em-dm4's Opus repeats 2-3 are abandoned one-turn stubs; only complete chains are read (ok() below)
         conv, reps, scale, sd_over = json.loads((RESULTS / "mm-gm2-opus-conversations.json").read_text()), 4, 1.0, None
-        keep = {"A": (0, 1), "B": (2, 3)}[wave or "A"]
     else:
         conv, reps = json.loads((RESULTS / "gm2b-conversations.json").read_text()), 10
         g = json.loads((RESULTS / "gm2q-questions-only.json").read_text())["models"]
         scale = g["sonnet"]["OE"]["shown"] / g["haiku"]["OE"]["shown"]
         sd_over = g["sonnet"]["within_sd"]["shown"]
+    ok = lambda c: bool(c) and not c.get("abandoned") and bool(c["turns"]) and c["turns"][-1]["kind"] == "M" and c["turns"][-1]["rating"] is not None
+    conv = {k: v for k, v in conv.items() if ok(v)}
     w = {"qs": qs, "claims": claims}
     for cond in ("shown", "redacted"):
         data = {q: [[conv[f"{q}|{o}|{cond}|{r}"]["turns"][-1]["rating"] for r in (keep or range(reps)) if f"{q}|{o}|{cond}|{r}" in conv
@@ -518,7 +549,7 @@ def dry_run(n_sims=100, n_perm=400, n_boot=400):
               "wrong-target 0.2 (first or last line)"]
     out = {"_note": f"{n_sims} simulated runs per world; {n_perm} permutations, {n_boot} bootstraps; leave-one-item-out "
                     "stops at the first non-pass (it can only turn a pass into a fail)"}
-    for arm, model, wave in (("opus A", O, "A"), ("opus B", O, "B"), ("sonnet", S, None)):
+    for arm, model, wave in (("opus", O, None), ("sonnet", S, None)):
         w = world(model, wave)
         qs, claims, g, dev = w["qs"], w["claims"], w["shown"]["grand"], w["shown"]["dev"]
         fake = {q: (None, claims[q]) for q in qs}
@@ -548,10 +579,9 @@ def dry_run(n_sims=100, n_perm=400, n_boot=400):
             res[name] = {k: labs.count(k) / n_sims for k in ("pass", "fail", "untestable")}
             print(f"dry run {arm:7s} {name:38s} " + "  ".join(f"{k} {v:.2f}" for k, v in res[name].items()), flush=True)
         out[arm] = res
-    for wave in ("A", "B"):
-        out[f"bet (opus {wave})"] = {name: out[f"opus {wave}"][name]["pass"] * out["sonnet"][name]["pass"] for name in worlds}
-        for name in worlds:
-            print(f"dry run bet, opus {wave}  {name:38s} P(pass, both, independent) {out[f'bet (opus {wave})'][name]:.3f}")
+    out["bet"] = {name: out["opus"][name]["pass"] * out["sonnet"][name]["pass"] for name in worlds}
+    for name in worlds:
+        print(f"dry run bet  {name:38s} P(pass, both, independent) {out['bet'][name]:.3f}")
     return out
 
 
