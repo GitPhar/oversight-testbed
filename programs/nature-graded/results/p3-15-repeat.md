@@ -13,9 +13,9 @@ Run 2's code was committed and clean at `45c20b4` when it was submitted (guard i
 
 *These are the sentences pre-registered in §5, applied as the rule says.*
 
-Restoring the barrier did not bring back 3 November's result, and in this job the barrier made no difference larger than 0.05 (assuming IBM's servers treated 3 November's identical submission the same way). The surprise was not the barrier.
+Restoring the barrier did not bring back 3 November's result, and in this job, averaged over the two shot groupings, the barrier made no difference larger than 0.05 (assuming IBM's servers treated 3 November's identical submission the same way). The surprise was not the barrier.
 
-PUB grouping may make a smaller difference (+0.030, 90% CI +0.006 to +0.054), which this job cannot pin down.
+PUB grouping may make a smaller difference (+0.030, 90% CI +0.006 to +0.054), which this job cannot pin down. In run 2 it was −0.002 (90% CI −0.026 to +0.022).
 
 Three hours later the chip gave the same answers within 0.05.
 
@@ -27,6 +27,7 @@ Three hours later the chip gave the same answers within 0.05.
 - Run 1: the control passed. The no-barrier interleaved arm (4 November's circuit, qubits and 100-shot pieces) gave 0.274, within 0.05 of 4 November's 0.246. Run 2's gave 0.285, also within 0.05.
 - Run 2, same rule: BB 0.282 (below 0.40), BB − NB −0.029 (below +0.10), so its label is also **fail**. The labels agree, so "unstable across runs" does **not** apply.
 - Drift (run 2 − run 1): pooled barrier arms −0.007 (90% CI −0.030 to +0.017), pooled no-barrier arms +0.002 (−0.022 to +0.025). Both lie inside ±0.05, so the "same answers within 0.05" sentence applies.
+- *(Audit cut 2, D27.)* The barrier sentence rests on the pooled contrast, so it is scoped to the average over the two groupings. Unpooled, the barrier raised P(yes) in the interleaved pieces in both runs (+0.022, +0.027), and neither CI lies inside ±0.05. It lowered it in the blocks (−0.008, −0.029). The interaction is not significant (post hoc, uncorrected). This limits the null sentence; it is not evidence for a barrier effect.
 - The verdict sentences come from run 1 alone (§3). Run 2's own contrasts are in the tables. Its grouping effect was −0.002, within ±0.05, so run 1's +0.030 did not repeat.
 
 ## Tables
@@ -41,7 +42,7 @@ Three hours later the chip gave the same answers within 0.05.
 | NI | no barrier, 10 × 100 interleaved (control) | 1,000 | 0.274 | 0.285 | +0.011 (−0.022 to +0.044) |
 | B pooled | BB + BI | 2,000 | 0.304 | 0.297 | −0.007 (−0.030 to +0.017) |
 | N pooled | NB + NI | 2,000 | 0.297 | 0.298 | +0.002 (−0.022 to +0.025) |
-| prediction | live calibration, ALAP (barrier = no barrier) | 100,000 | 0.2685 (18:09) | 0.2685 (21:09) | |
+| prediction | live calibration, ALAP (barrier = no barrier) | 100,000 | 0.2685 (read 18:28) | 0.2685 (read 21:31) | |
 | prediction | ASAP: barrier / no barrier | 100,000 | 0.2755 / 0.2665 | 0.2755 / 0.2665 | |
 | 3 November | barrier, own job of 1,000 shots (archived) | 1,000 | 0.502 | | |
 | 4 November | no barrier, 20 × 100 in a 200-PUB job (archived) | 2,000 | 0.246 | | |
@@ -53,6 +54,7 @@ Three hours later the chip gave the same answers within 0.05.
 | BB − NB (primary) | −0.008 (−0.042 to +0.026) | within ±0.05 | −0.029 (−0.063 to +0.005) | between |
 | barrier pooled, (BB + BI) − (NB + NI) | +0.007 (−0.017 to +0.031) | within ±0.05 | −0.001 (−0.025 to +0.023) | within ±0.05 |
 | PUB grouping pooled, (BB + NB) − (BI + NI) | +0.030 (+0.006 to +0.054) | between | −0.002 (−0.026 to +0.022) | within ±0.05 |
+| barrier, interleaved only, BI − NI (*auditor's re-analysis, post hoc; D27*) | +0.022 (−0.011 to +0.055) | not inside ±0.05 | +0.027 (−0.007 to +0.061) | not inside ±0.05 |
 | predicted barrier effect | 0.000 (if ALAP), +0.009 (if ASAP) | | same | |
 
 - Leave-one-piece-out (O3): run 1's barrier class is stable across all 20 drops, but its grouping class is **not** (one drop changes it). Run 2's two classes are both stable across all 20 drops.
@@ -78,7 +80,9 @@ Three hours later the chip gave the same answers within 0.05.
 **Noticed after the data; leads, not findings:**
 - Run 1: qubit 123 read 0.59–0.60 in the two 1,000-shot PUBs, against 0.74–0.75 in the interleaved pieces and 0.83 predicted. That one qubit carried most of run 1's +0.030 PUB-grouping difference. **Run 2 did not repeat it:** qubit 123 read 0.80–0.82 in the blocks and 0.79–0.81 interleaved, although the blocks again executed first. So position in time within the job does not explain run 1's dip by itself.
 - Qubit 125 read 0.47–0.52 in run 1 (as on 4 November, 0.13–0.18 below prediction), but 0.66–0.70 in run 2, at the prediction. Qubit 124 moved the other way (0.71–0.74, then 0.67–0.69). Individual qubits moved by about 0.2 in three hours, but P(yes) moved by at most 0.03 per arm.
-- Every arm in both runs sits above the prediction: 0.274–0.319 against 0.2685.
+- Every arm in both runs sits above the prediction: 0.274–0.319 against 0.2685. Both predictions use the same inputs, so this is one comparison made twice, not two (audit note B9; see below).
+
+**Was run 2's calibration live?** (audit note B9) Yes, but IBM had not re-measured these qubits. Each `--predict` was a fresh process: `backends.backend()` builds the target from IBM's server, and qiskit-ibm-runtime caches properties only in memory, per process. The document timestamp (`last_update_date`) advances every hour (18:09, 21:09; 21:34 at a read-only re-check at 21:46). But the per-qubit T1 values are dated 2026-11-04 12:04 (qubit 143: 03:21), and the 21:46 re-read returned the same T1, T2 and readout error as both runs to the last digit. So both predictions used IBM's 12:04 measurements. They cannot see the ~0.2 per-qubit moves between the runs (qubit 125: 0.47–0.52, then 0.66–0.70).
 
 **Pre-mortem** ("IBM's servers already schedule measurements as late as possible, so the barrier changes nothing and both 1,000-shot blocks read about 0.25, as 4 November did"; kind `world`). For the auditor: the barrier changed nothing (−0.008 in run 1, −0.029 in run 2, both below the bar). The blocks read 0.28–0.32, not about 0.25. Whether IBM schedules ALAP is not observed.
 
