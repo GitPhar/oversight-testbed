@@ -33,6 +33,10 @@ def stop_cause(model):
             for ln in p.read_text().splitlines():
                 if model in ln or f == "sv-errors.md":
                     causes.append(ln.lstrip("- ").split(" ", 1)[1])
+    rp = C.RESULTS / "refusal.md"           # D10: a refusal stops every later call in the program
+    if rp.exists():
+        rid = [ln for ln in rp.read_text().splitlines() if ln.startswith("Request ID")]
+        causes.append("a refusal (" + (rid[0] if rid else "results/refusal.md") + ")")
     return "; ".join(causes) if causes else "a stop with no logged cause (see the run's commits)"
 
 
