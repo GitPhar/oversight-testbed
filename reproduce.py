@@ -47,7 +47,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 LEDGER = ROOT / "ledger"
-JSONL = ["bets", "steers", "human-odds", "shadows", "plants", "lessons", "spend"]
+JSONL = ["bets", "steers", "human-odds", "shadows", "plants", "lessons", "spend", "steer-values"]
 # A clean environment: no keys, no tokens, nothing inherited that a script could lean on.
 CLEAN_ENV = {"PATH": "/usr/bin:/bin:/usr/sbin:/sbin", "HOME": os.environ.get("HOME", "/tmp"), "LANG": "en_US.UTF-8",
              "TZ": "America/Denver", "PYTHONDONTWRITEBYTECODE": "1"}
@@ -138,14 +138,14 @@ def regenerate(write):
         scratch = tmp / "ledger"
         shutil.copytree(LEDGER, scratch, symlinks=True,
                         ignore=shutil.ignore_patterns("__pycache__", ".seals", "*.pyc"))
-        for script in ("brier.py", "scores.py", "prior.py"):
+        for script in ("brier.py", "scores.py", "prior.py", "steer_values.py"):
             extra = [str(ROOT)] if script == "prior.py" else []   # prior.py reads map/ and programs/*/map/ from the repo
             r = run([sys.executable, str(scratch / script)] + extra, cwd=tmp)
             if r.returncode:
                 fail(f"ledger/{script} exited {r.returncode}: {r.stderr.strip()[-300:]}")
             else:
                 ok(f"ledger/{script}: {r.stdout.strip().splitlines()[-1] if r.stdout.strip() else 'ran'}")
-        for md in ("brier.md", "scores.md", "prior.md"):
+        for md in ("brier.md", "scores.md", "prior.md", "steers.md"):
             new, old = scratch / md, LEDGER / md
             if not new.exists():
                 fail(f"{md} was not written")
