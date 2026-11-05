@@ -124,6 +124,7 @@ def structured(model, system, user, schema, call, max_tokens=400):
         resp = llm.client().messages.create(thinking={"type": THINKING_OFF[model]}, **kw)
     if model not in ADAPTIVE_LOW and any(b.type == "thinking" for b in resp.content):
         raise RuntimeError(f"{call}: a thinking block came back; thinking was meant to be off")
+    llm._check_stop(resp, call)  # refusal -> RefusalError (stop); max_tokens -> error (stop). Restored (design review addendum 2).
     text = next(b.text for b in resp.content if b.type == "text")
     u = llm._usage(resp)
     return json.loads(text), u.cost, getattr(resp, "_request_id", None), {**u.as_dict(), "thinking": THINKING_OFF[model]}
