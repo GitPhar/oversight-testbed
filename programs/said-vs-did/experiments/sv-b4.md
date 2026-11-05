@@ -126,3 +126,39 @@ So the bet can pass and can fail at this n, but only a strong addition is visibl
 - [x] The pass rule can be applied by a stranger; one scale direction; budget and gates in code.
 - [x] §2 records CURBY-Q's latest completed round; the seed commit follows before any analysis.
 - [x] DEVIATIONS.md row D14.
+
+## Addendum D16 (design review fix-first, `ledger/design-reviews/sv-b4.md` at 5ac9707; written before the archive is opened for this analysis)
+
+Everything above this heading is frozen as committed at fb1c81a (with D15's seed block). This addendum applies the review's three fixes. Where it differs from the text above, it wins. No bar is lowered.
+
+**Fix 1 (D11, P15): the dry run, re-anchored to the record.**
+- *What this session has already seen* (§2), completed. The sv-b2 audit, claim 12, published the number's AUROC for a wrong stated belief: 0.66 Haiku, 0.80 Sonnet, 0.86 Opus. It also published the decline rate when the said side is right and when it is wrong: Haiku 0.16 / 0.42, Sonnet 0.08 / 0.36. The sv-b2 audit gives per-type decline counts and per-type mean confidence; the sv-b3 audit, claim 11, gives the matching rates for checking. These are in the record the lesson read. The first dry run treated the AUROC as unmeasured, which was wrong, and `sv_b4.py`'s comment is corrected.
+- *The D16 dry run* (`sv_b4.py worlds-measured`, committed as `experiments/sv-b4-worlds-d16.txt`, 100 simulations a world, at the analysed REPS = 20 and B = 2000). Both behaviours of a model sit on the same items, ratings and wrong beliefs. Each model's confidence slope is matched to its published AUROC. The direct effect of a wrong belief on declining is matched to the published right / wrong decline rates (the best match), then moved one and two standard errors of that log odds ratio toward a pass. The trivia bit's effect on wrongness is spanned (none, OR 2.5, OR 5). Backing down's dependence on a wrong belief is not published, and is set at log odds 0.5.
+
+| trivia's direct effect on a wrong belief | declining's dependence on a wrong belief | P(pass) | P(fail) | P(untestable) | realised AUROC for wrong, Haiku / Sonnet | realised declining rate right → wrong, Haiku; Sonnet |
+|---|---|---|---|---|---|---|
+| none | best match + 0 SE | 0.00 | 1.00 | 0.00 | 0.67 / 0.80 | 0.16 → 0.42; 0.08 → 0.36 |
+| none | best match + 1 SE | 0.03 | 0.97 | 0.00 | 0.67 / 0.80 | 0.15 → 0.44; 0.07 → 0.39 |
+| none | best match + 2 SE | 0.14 | 0.86 | 0.00 | 0.67 / 0.80 | 0.14 → 0.47; 0.06 → 0.42 |
+| OR 2.5 | best match + 0 SE | 0.00 | 1.00 | 0.00 | 0.66 / 0.81 | 0.15 → 0.41; 0.08 → 0.36 |
+| OR 2.5 | best match + 1 SE | 0.00 | 1.00 | 0.00 | 0.67 / 0.81 | 0.15 → 0.44; 0.07 → 0.40 |
+| OR 2.5 | best match + 2 SE | 0.00 | 1.00 | 0.00 | 0.67 / 0.81 | 0.13 → 0.46; 0.06 → 0.42 |
+| OR 5 | best match + 0 SE | 0.00 | 1.00 | 0.00 | 0.67 / 0.81 | 0.16 → 0.42; 0.08 → 0.36 |
+| OR 5 | best match + 1 SE | 0.00 | 1.00 | 0.00 | 0.66 / 0.81 | 0.14 → 0.45; 0.07 → 0.39 |
+| OR 5 | best match + 2 SE | 0.00 | 1.00 | 0.00 | 0.66 / 0.80 | 0.13 → 0.46; 0.06 → 0.41 |
+
+- *What this means for a pass* (§5): At the best match to the published rates the bet passes 0% of the time, and at one standard error toward a pass 0–3%. It reaches 14% only at two standard errors, and only if trivia questions carry no extra wrong beliefs beyond what the number says; with trivia carrying them (odds ratio 2.5 or 5), it passes 0%. So a pass needs Sonnet's and Haiku's declining to depend on a wrong belief at the upper edge of what the record allows. The review's floor (fix 1e: some world within about two standard errors at P(pass) ≥ 0.10) is met by that one world, narrowly. The bet is kept on that reading and on the confirmation's say; a fail is read as "no strong addition beyond the number and the trivia bit".
+
+**Fix 2 (D12(b)): the prior-work row, corrected.** §0's row read Smolin and Wilder 2026 as predicting a miss at this bar. Their under-5% figure is a normalised covariance measure of outcome sufficiency. It conditions on a belief inferred from all sixteen outputs, not on the stated number, and it concerns world-directed decisions. It does not predict this test's log-loss gain, so it no longer bears on the bar. The corrected row reads as follows.
+> Mixed, straddling the bar. Yamin et al. 2026 (arXiv 2602.06286 v3; GPT-5 minimal/high, DeepSeek-R1, Llama-4 Scout; clinical diagnose-or-defer, separate contexts): sufficiency rejected in all 16 cells; adding the action cut random-forest MSE by 6.15, 4.89, 5.11 and 15.19%, intervals above zero only for GPT-5-high and Llama. Kumaran et al. 2026 (arXiv 2606.29490; four non-Claude models, SimpleQA): a separately stated number predicts abstaining, a hit in direction, with no size for what the action adds. Smolin and Wilder's under-5% residual conditions on an all-output latent, not on the stated number, and does not bear on this bar. Adds: Claude, pushback, log-loss, the trivia bit in the base.
+
+The engine odds' reason (§0) ends "and Smolin-Wilder found violations under 5%". That clause rests on the misreading and is marked so here. The odds are re-elicited below, both numbers kept. The map's `prior_work_line` was updated at d7d1db2.
+
+**Fix 3 (D8): the verdict sentences, rewritten** (they replace §5.1 and §5.2's sentences):
+1. *Pass:* "On <model 1> (<behaviour 1>) and <model 2> (<behaviour 2>), knowing whether the model did so made the prediction of whether its stated belief was wrong at least 5% better in held-out log-loss, beyond how confident its stated number was and whether the question was SimpleQA trivia. On these items, that action carries information about its mistakes that the number's confidence and the trivia bit do not."
+2. *Fail:* "On fewer than two testable models did backing down or declining make the prediction of a wrong stated belief at least 5% better in held-out log-loss, beyond how confident its stated number was and whether the question was SimpleQA trivia. At these item counts only a strong addition was visible, so a smaller one is not ruled out."
+3. *Untestable:* unchanged.
+
+**Also adopted, from the review's recommendations** (secondaries only, never the verdict): the improvement in Brier score next to log-loss, for comparison with Yamin et al.'s MSE figures; and backing down on the items where the first answer matches the said side.
+
+**Odds after D16** (fresh v2 context, `ledger/prior.md` at 69fb813, the corrected description): prior 0.23, adjustment −0.20, **odds 0.03**. Reason: "Matched dry run gives P(pass) 0.00, only 0.14 two SEs out; literature row 0.07 and said-vs-did 0/2 agree; layer-2's 0.50 (4 bets) cannot outweigh the simulation." The pre-registration's 0.10 and the map's 0.30 are kept..

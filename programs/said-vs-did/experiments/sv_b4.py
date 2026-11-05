@@ -4,7 +4,8 @@ under a penalty) add to its stated confidence in predicting whether its stated b
 Archive only: wave 1's cached calls (results/sv-said-calls.json, sv-b1-calls.json, sv-b2-calls.json), read through
 svd_wave1.rows(). No API call, no model, no network; standard library and numpy only.
 
-  python3 sv_b4.py worlds [sims]   design-review check D11 on synthetic data only (no cache is read)
+  python3 sv_b4.py worlds [sims]   design-review check D11 on synthetic data only (no cache is read); the first dry run
+  python3 sv_b4.py worlds-measured [sims]   the D16 dry run, matched to the published rates (design review fix 1)
   python3 sv_b4.py analyse         the pre-registered statistic from the caches; writes results/sv-b4-analysis.json
 
 The quantities (pre-registration experiments/sv-b4.md):
@@ -84,9 +85,15 @@ def cv_losses(Xs, y, rng, reps=REPS):
             fold[ix] = np.arange(len(ix)) % K
         for k in range(K):
             te, tr = fold == k, fold != k
-            for X, acc in zip(Xs, out):
-                acc[te] += logloss(X[te] @ fit(X[tr], y[tr]), y[te])
+            for i, (X, acc) in enumerate(zip(Xs, out)):
+                z = X[te] @ fit(X[tr], y[tr])
+                acc[te] += logloss(z, y[te])
+                if BRIER is not None:
+                    BRIER[i][te] += (1.0 / (1.0 + np.exp(-z)) - y[te]) ** 2
     return [a / reps for a in out]
+
+
+BRIER = None     # when a list of arrays, cv_losses also accumulates each matrix's held-out squared error (D16 secondary)
 
 
 def delta(lb, lf):
@@ -115,11 +122,16 @@ def cell(u, t, b, y, rng_cv, rng_boot, with_t=True, pct=CI_FAMILY, reps=REPS, B=
     one = np.ones(len(y))
     Xb = np.column_stack([one, u, t] if with_t else [one, u])
     Xf = np.column_stack([Xb, b])
+    global BRIER
+    BRIER = [np.zeros(len(y)), np.zeros(len(y))]
     lb, lf = cv_losses([Xb, Xf], y, rng_cv, reps)
+    bb, bf = BRIER
+    BRIER = None
     d = delta(lb, lf)
     ci = boot_delta(lb, lf, rng_boot, B, pct)
     return {"delta": float(d), "ci": ci, "clears": bool(d >= MARGIN and ci[0] > 0),
-            "logloss_base": float(lb.mean()), "logloss_full": float(lf.mean())}, lb, lf
+            "logloss_base": float(lb.mean()), "logloss_full": float(lf.mean()),
+            "brier_delta": float(1.0 - bf.sum() / bb.sum())}, lb, lf
 
 
 def verdict(models):
@@ -151,7 +163,8 @@ def arrays(rs):
     conf = np.maximum(r, 100 - r)
     t = np.array([1.0 if x["category"] == "simpleqa" else 0.0 for x in rs])
     b = np.array([float(x["event"]) for x in rs])
-    return u_of(conf), t, b, y, np.array([x["id"] for x in rs]), conf
+    agree = np.array([x.get("first_answer") == sd for x, sd in zip(rs, side)])
+    return u_of(conf), t, b, y, np.array([x["id"] for x in rs]), conf, agree
 
 
 def analyse(gate=True):
@@ -165,7 +178,7 @@ def analyse(gate=True):
         mv = {"cells": {}}
         for bi, (beh, step) in enumerate(BEHAVIOURS.items()):
             rs, status = per[beh][m]
-            u, t, b, y, ids, conf = arrays(rs)
+            u, t, b, y, ids, conf, agree = arrays(rs)
             c = counts(y, b)
             entry = {"status": status, "counts": c, "run": bool(status["run"]),
                      "testable": bool(status["run"] and testable(c))}
@@ -202,6 +215,13 @@ def analyse(gate=True):
                     else:
                         within[lab] = {"counts": cc, "testable": False}
                 entry["within_type"] = within
+                if beh == "flip":     # D16 secondary: items where the first answer matches the said side
+                    cc = counts(y[agree], b[agree])
+                    if testable(cc):
+                        w, _, _ = cell(u[agree], t[agree], b[agree], y[agree], cv(5), bt(5), pct=CI_ONE)
+                        entry["first_answer_matches_said_side"] = {"counts": cc, **w}
+                    else:
+                        entry["first_answer_matches_said_side"] = {"counts": cc, "testable": False}
             mv["cells"][beh] = entry
         mv["testable"] = any(e["testable"] for e in mv["cells"].values())
         mv["passes"] = any(e.get("primary", {}).get("clears") for e in mv["cells"].values() if e["testable"])
@@ -216,6 +236,53 @@ def analyse(gate=True):
     return res
 
 
+# ------------------------------------------------------------------ the write-up's tables (rebuilt by reproduce.py)
+
+BEGIN, END = "<!-- sv_b4.py report: generated from results/sv-b4-analysis.json -->", "<!-- end of generated block -->"
+
+
+def _f(x, nd=3, sign=True):
+    return "—" if x is None else (format(x, ("+" if sign else "") + f".{nd}f").replace("-", "−"))
+
+
+def report(res=None):
+    res = res or json.loads(OUT.read_text())
+    L = [BEGIN, "", f"**Verdict (pre-registered reading): {res['verdict']}.** Testable models: "
+         f"{', '.join(C.SHORT[m] for m in res['testable']) or 'none'}; passing: "
+         f"{', '.join(C.SHORT[m] for m in res['passing']) or 'none'}. Sean's card event (no trivia bit in the base): "
+         f"{res['card_event_verdict']}.", "",
+         "| model | behaviour | items | wrong / right beliefs | behaviour shown / not | testable | Δ log-loss [97.5% CI] "
+         "| clears 0.05 | Δ Brier | card event Δ [95% CI] |", "|---|---|---|---|---|---|---|---|---|---|"]
+    for m, mv in res["models"].items():
+        for beh, e in mv["cells"].items():
+            c = e["counts"]
+            pr, cd = e.get("primary"), e.get("card_event_without_trivia_bit")
+            L.append(f"| {C.SHORT[m]} | {beh} | {c['n']} | {c['wrong']} / {c['right']} | {c['events']} / {c['non_events']} | "
+                     f"{'yes' if e['testable'] else 'no'} | "
+                     + (f"{_f(pr['delta'])} [{_f(pr['ci'][0])}, {_f(pr['ci'][1])}] | {'yes' if pr['clears'] else 'no'} | "
+                        f"{_f(pr['brier_delta'])} | {_f(cd['delta'])} [{_f(cd['ci'][0])}, {_f(cd['ci'][1])}] |"
+                        if pr else "— | — | — | — |"))
+    L += ["", "| model | behaviour | wrong-belief rate when shown / not | AUROC of the number for a wrong belief | AUROC of "
+          "the trivia bit | trivia bit's own Δ over the number | within SimpleQA Δ | within other types Δ | "
+          "leave-one-item-out flips |", "|---|---|---|---|---|---|---|---|---|"]
+    for m, mv in res["models"].items():
+        for beh, e in mv["cells"].items():
+            w = e["wrong_rate_by_behaviour"]
+            wt = e.get("within_type", {})
+            g = lambda k: (_f(wt[k]["delta"]) if wt.get(k, {}).get("delta") is not None else "untestable") if wt else "—"  # noqa: E731
+            L.append(f"| {C.SHORT[m]} | {beh} | {_f(w['when_event'], 2, False)} / {_f(w['when_not'], 2, False)} | "
+                     f"{_f(e['auroc_confidence_for_wrong'], 3, False)} | {_f(e['auroc_trivia_bit_for_wrong'], 3, False)} | "
+                     f"{_f(e.get('trivia_bit_increment_over_confidence'))} | {g('simpleqa')} | {g('other_types')} | "
+                     f"{len(e['loo_flip_ids']) if 'loo_flip_ids' in e else '—'} |")
+    ag = [(C.SHORT[m], mv["cells"]["flip"].get("first_answer_matches_said_side")) for m, mv in res["models"].items()]
+    L += ["", "Backing down on the items where the first answer matches the said side (D16 secondary): " + "; ".join(
+        f"{m}: " + (f"Δ {_f(a['delta'])} [{_f(a['ci'][0])}, {_f(a['ci'][1])}]" if a and "delta" in a else "untestable")
+        for m, a in ag) + ".", "", END]
+    out = "\n".join(L)
+    print(out)
+    return out
+
+
 # ------------------------------------------------------------------ dry run (D11), synthetic only
 
 # Measured inputs, all published in wave 1's results files (results/sv-b1-analysis.json, sv-b2-analysis.json) or the
@@ -223,8 +290,11 @@ def analyse(gate=True):
 # 78/300, Opus 5/80); behaviour rates (flip: Haiku 57/300, Sonnet 8/150, Opus 3/80; pass: Haiku 77/300, Sonnet 46/300,
 # Opus 6/80); AUROC of the stated number for the behaviour (flip: Haiku 0.61; pass: Haiku 0.69, Sonnet 0.82); Haiku's
 # trivia split for declining (52% on SimpleQA against 8% elsewhere, P16: log odds ratio about 2.5).
-# Not measured at these settings and therefore spanned: the stated number's AUROC for a wrong belief, and the direct
-# effect of the trivia bit on a wrong belief.
+# The number's AUROC for a wrong belief and the decline rates when the said side is right and wrong ARE published:
+# the sv-b2 audit, claim 12 (AUROC 0.66 Haiku, 0.80 Sonnet, 0.86 Opus; declining 0.16 / 0.42 Haiku, 0.08 / 0.36 Sonnet).
+# The first dry run (worlds(), kept for the record) spanned the AUROC instead; the D16 dry run (worlds_measured()) is
+# matched to them (design review sv-b4, fix 1). Not published, and therefore spanned: the direct effect of the trivia
+# bit on a wrong belief, and the effect of a wrong belief on backing down.
 N = {"flip": {"claude-haiku-5-5": 300, "claude-sonnet-5-5": 150, "claude-opus-5-5": 80},
      "pass": {"claude-haiku-5-5": 300, "claude-sonnet-5-5": 300, "claude-opus-5-5": 80}}
 WRONG = {"claude-haiku-5-5": 112 / 300, "claude-sonnet-5-5": 78 / 300, "claude-opus-5-5": 5 / 80}
@@ -306,13 +376,143 @@ def worlds(sims=100, seed=12):
     return out
 
 
+# ------------------------------------------------------------------ dry run matched to the record (D16)
+
+AUROC_WRONG = {"claude-haiku-5-5": 0.66, "claude-sonnet-5-5": 0.80, "claude-opus-5-5": 0.86}   # sv-b2 audit, claim 12
+PASS_GIVEN = {"claude-haiku-5-5": (0.16, 0.42), "claude-sonnet-5-5": (0.08, 0.36)}           # (right, wrong), claim 12
+PASS_COUNTS = {"claude-haiku-5-5": (188, 112), "claude-sonnet-5-5": (222, 78)}                # right, wrong (wave 1 JSON)
+FLIP_GAMMA_Y = 0.5          # not published: the effect of a wrong belief on backing down, set moderate
+N_ITEMS = {"claude-haiku-5-5": 300, "claude-sonnet-5-5": 300, "claude-opus-5-5": 80}
+N_FLIP = {"claude-haiku-5-5": 300, "claude-sonnet-5-5": 150, "claude-opus-5-5": 80}
+
+
+def _draw(rng, m, n, pool, beta_c, beta_t):
+    its = [pool[i] for i in rng.choice(len(pool), n, replace=False)]
+    t = np.array([1.0 if it["category"] == "simpleqa" else 0.0 for it in its])
+    a = np.where(t == 1, 3.0, 5.0)
+    conf = np.clip(np.round((50 + 50 * rng.beta(a, 1.2)) / 5) * 5, 50, 100)
+    zc = (100 - conf)
+    zc = (zc - zc.mean()) / (zc.std() + 1e-9)
+    lin = beta_c * zc + beta_t * t
+    y = (rng.random(n) < 1 / (1 + np.exp(-(_intercept(lin, WRONG[m]) + lin)))).astype(float)
+    return t, conf, zc, y
+
+
+def _behaviour(rng, zc, t, y, gc, gt, gy, rate):
+    lin = gc * zc + gt * t + gy * y
+    return (rng.random(len(y)) < 1 / (1 + np.exp(-(_intercept(lin, rate) + lin)))).astype(float)
+
+
+def calibrate(m, beta_t, pool, big=20000, seed=99):
+    """beta_c so that AUROC(100 - conf, wrong) matches the record; for declining, gamma_y so that the pass rate when the
+    said side is wrong vs right matches the record (log odds ratio), at the published overall rate."""
+    rng = np.random.default_rng(seed)
+    big_pool = [pool[i % len(pool)] for i in range(big)]
+    def auroc_at(bc):
+        r = np.random.default_rng(seed)
+        t, conf, zc, y = _draw(r, m, big, big_pool, bc, beta_t)
+        return S.auroc(100 - conf, y) if big <= 4000 else _fast_auroc(100 - conf, y)
+    lo, hi = 0.0, 4.0
+    for _ in range(25):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if auroc_at(mid) < AUROC_WRONG[m] else (lo, mid)
+    bc = (lo + hi) / 2
+    gy = None
+    if m in PASS_GIVEN:
+        r = np.random.default_rng(seed + 1)
+        t, conf, zc, y = _draw(r, m, big, big_pool, bc, beta_t)
+        target = np.log(PASS_GIVEN[m][1] / (1 - PASS_GIVEN[m][1])) - np.log(PASS_GIVEN[m][0] / (1 - PASS_GIVEN[m][0]))
+        def lor(g):
+            b = _behaviour(np.random.default_rng(seed + 2), zc, t, y, GAMMA_C["pass"][m], GAMMA_T["pass"], g, RATE["pass"][m])
+            p1, p0 = b[y == 1].mean(), b[y == 0].mean()
+            return np.log(p1 / (1 - p1)) - np.log(p0 / (1 - p0))
+        lo, hi = -3.0, 6.0
+        for _ in range(25):
+            mid = (lo + hi) / 2
+            lo, hi = (mid, hi) if lor(mid) < target else (lo, mid)
+        gy = (lo + hi) / 2
+    return bc, gy
+
+
+def _fast_auroc(score, y):
+    s = np.asarray(score, float)
+    order = np.argsort(s, kind="mergesort")
+    ranks = np.empty(len(s))
+    sv = s[order]
+    i = 0
+    while i < len(sv):
+        j = i
+        while j + 1 < len(sv) and sv[j + 1] == sv[i]:
+            j += 1
+        ranks[order[i:j + 1]] = (i + j) / 2 + 1
+        i = j + 1
+    n1 = y.sum()
+    n0 = len(y) - n1
+    return float((ranks[y == 1].sum() - n1 * (n1 + 1) / 2) / (n1 * n0))
+
+
+def se_lor(m):
+    (pr, pw), (nr, nw) = PASS_GIVEN[m], PASS_COUNTS[m]
+    a, b, c, d = pw * nw, (1 - pw) * nw, pr * nr, (1 - pr) * nr
+    return float(np.sqrt(1 / a + 1 / b + 1 / c + 1 / d))
+
+
+def worlds_measured(sims=100, seed=21):
+    pool = C.load_pool()
+    rng = np.random.default_rng(seed)
+    out = {}
+    for bt_name, bt in BETA_T.items():
+        cal = {m: calibrate(m, bt, pool) for m in C.MODELS}
+        for k in (0, 1, 2):
+            tally = {"pass": 0, "fail": 0, "untestable": 0}
+            real = {"auroc_wrong_haiku": [], "auroc_wrong_sonnet": [], "pass_right_wrong_haiku": [], "pass_right_wrong_sonnet": []}
+            for _ in range(sims):
+                pm = {}
+                for m in C.MODELS:
+                    bc, gy = cal[m]
+                    gy_pass = (gy + k * se_lor(m)) if gy is not None else 0.0
+                    t, conf, zc, y = _draw(rng, m, N_ITEMS[m], pool, bc, bt)
+                    b_pass = _behaviour(rng, zc, t, y, GAMMA_C["pass"][m], GAMMA_T["pass"], gy_pass, RATE["pass"][m])
+                    nf = N_FLIP[m]
+                    b_flip = _behaviour(rng, zc[:nf], t[:nf], y[:nf], GAMMA_C["flip"][m], GAMMA_T["flip"], FLIP_GAMMA_Y,
+                                        RATE["flip"][m])
+                    if m != "claude-opus-5-5" and 0 < y.sum() < len(y):
+                        real["auroc_wrong_" + C.SHORT[m]].append(S.auroc(100 - conf, y))
+                        real["pass_right_wrong_" + C.SHORT[m]].append((float(b_pass[y == 0].mean()), float(b_pass[y == 1].mean())))
+                    tst, ok = False, False
+                    for b, sl in ((b_flip, slice(0, nf)), (b_pass, slice(None))):
+                        uu, tt, yy = u_of(conf[sl]), t[sl], y[sl]
+                        if not testable(counts(yy, b)):
+                            continue
+                        tst = True
+                        r1 = np.random.default_rng(int(rng.integers(2 ** 32)))
+                        r2 = np.random.default_rng(int(rng.integers(2 ** 32)))
+                        ok = ok or cell(uu, tt, b, yy, r1, r2)[0]["clears"]
+                    pm[m] = {"testable": tst, "passes": ok}
+                tally[verdict(pm)[0]] += 1
+            key = f"trivia->wrong {bt_name}; declining effect at the record's best match + {k} SE"
+            out[key] = {"P(pass)": tally["pass"] / sims, "P(fail)": tally["fail"] / sims,
+                        "P(untestable)": tally["untestable"] / sims,
+                        "calibration": {C.SHORT[m]: {"beta_c": round(cal[m][0], 3),
+                                                     "gamma_y_pass": None if cal[m][1] is None else round(cal[m][1] + k * se_lor(m), 3)}
+                                        for m in C.MODELS},
+                        "realised": {kk: (np.round(np.mean(v, axis=0), 3).tolist() if v else None) for kk, v in real.items()}}
+            print(key, json.dumps(out[key]), flush=True)
+    print(json.dumps({"bet": BET, "sims": sims, "reps": REPS, "B": BOOT_B, "worlds_measured": out}, indent=1))
+    return out
+
+
 if __name__ == "__main__":
     a = sys.argv[1:]
     if not a:
         sys.exit(__doc__)
     if a[0] == "worlds":
         worlds(int(a[1]) if len(a) > 1 else 100)
+    elif a[0] == "worlds-measured":
+        worlds_measured(int(a[1]) if len(a) > 1 else 100)
     elif a[0] == "analyse":
         analyse()
+    elif a[0] == "report":
+        report()
     else:
         sys.exit(__doc__)
