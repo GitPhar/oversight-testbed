@@ -94,6 +94,18 @@ loop(program):
         program.kills.append(Kill(bet.direction, diagnosis(bet)))    # stays on the map, marked closed
         program.map.remove(bet.direction)
 
+    # 7a. REMAP — once the round's results settle, a fresh session turns every result into map entries (operators/remap.md)
+    if settled(program.round):                                       # every bet of the round has a verdict and a finished audit
+        for b in program.round.bets:
+            if class_of(b.verdict) in {landed, mixed}:               # by the ledger's verdict, never by the remap's reading
+                for f in two_cheapest_not_yet_run(b, sources = [b.audit.break_it_next, replicate(b, models = RULE_12), neighbours(b)]):
+                    f.engine_odds = engine.P(pass | f)                # one pass, id order, before ranking; never revised after
+                    f.human_prompt = "Would you spend about <cost> to find out <what>? Will it come back a hit?"
+                    program.map.add(f, parent = b.direction)          # map/<program>.json → the cockpit
+            elif class_of(b.verdict) == killed:
+                b.direction.rules_out = one_sentence(b)               # "Rules out …", scoped to what was tested
+        assert no_landed_leaf(program.map)                           # ledger/check_remap.py: no map ends at a landed bet
+
     # 8. STEER — the human's hand
     for s in human.steers_since_last_cycle: log(Steer s)             # every veto, question, budget call, override
         if s.action == veto and s.target is a research direction:     # a veto is a bet that the direction would not pay
@@ -147,6 +159,7 @@ oversight_test:
 9. Quantum hardware is a referee (simulator-vs-chip tiebreaks, scored as bets) and a seed source (CURBy), never a computational resource.
 10. No pre-registration without a lesson from the ledger and a fresh design review that says go before the first call.
 11. No session asks the human for odds or decisions in a terminal. Human odds come only from `ledger/human-odds.jsonl` (cockpit downloads); without them a bet proceeds marked "no human odds". The human's judgment is recorded and scored as steers.
+12. No map ends at a landed bet with no follow-up: every landed or mixed bet has at least one not-yet-run follow-up on the map (operators/remap.md; `ledger/check_remap.py`).
 
 ## Repositories
 
@@ -183,6 +196,7 @@ scout    (per program start, local tab): full reads, all fields, next-steps extr
 learn    (per prereg, before it):        the betting session reads bets, brier, audits, lessons; writes one lesson line (operators/learn.md)
 review   (per prereg, before 1st call):  fresh auditor dry-runs the design, D1–D10, no paid calls; go | fix-first | redesign (operators/design-review.md)
 shadow   (per veto, 7–30 days later):    fresh session, argued neither side; pre-registers and runs the cheapest look at a vetoed direction (operators/veto.md)
+remap    (per settled round, local tab): fresh session reads every settled result; two cheapest follow-ups per landed or mixed bet, a "rules out" sentence per kill (operators/remap.md)
 session  (any build tab):                reads CONTEXT.md first; obeys the invariants; commits with the deviation row it adds
 ```
 
