@@ -12,7 +12,7 @@ checks: {D1: holds, D2: flaw, D3: flaw, D4: holds, D5: flaw, D6: holds (no pilot
 flaws: 6
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-04 20:54 America/Denver
 ---
 
 # Design review of om-p2-5
@@ -216,3 +216,26 @@ All fixes go in one dated DEVIATIONS row in `programs/other-minds/DEVIATIONS.md`
 - **F6 (the record): holds.** 1,328 distinct prompts, 18 duplicate cells, nominal classes, the anchor sources, Alex's slot as the archived anchor, and REF as the REF re-rating are all stated in D12. The dedup and real-displacement-band secondaries are added and never promoted.
 
 **What remains:** F1′ only. After it is committed under its DEVIATIONS row, the reviewer re-runs `p2_5_dryrun.py` and `tie.py` and sets `confirmed_at`.
+
+## Second confirmation addendum (2026-11-04 20:54 America/Denver)
+
+**Confirmed.** F1′ holds, and F2–F6 still hold. `confirmed_at` is set.
+
+The worktree was checked out at `fa12b7f` (other-minds D12a). Everything was re-run under the same stubs: no `.env`, no `ANTHROPIC_*` variables, sockets blocked, no paid call.
+
+- **The code matches D12a.**
+  - `stats_of` has `sam_minus_self` = U_sam(OWN) − U_self(OWN), and the bootstrap draws it with the other statistics.
+  - 5b in `rule()` is `if ci["sam_minus_self"][0] > EPS: return "fail", "not_inherited"`.
+  - The pass sentence ("did not move detectably more"), `fail_not_inherited` ("detectably more"), and both sub-sentences use the new wording. The not-inherited sub-sentence carries the interval: +0.128 [+0.122, +0.133] for responder G.
+  - `odds_event` in `ledger/bets.jsonl` ends "and the 95% CI of U_sam(OWN) − U_self(OWN) not wholly above 0 (D12, D12a)". Odds stay 0.25.
+- **The responders behave as they should.**
+  - G (self 0.017, Sam 0.145) still fails (not inherited).
+  - The clean leaker and the assistant-turn anchor pass.
+  - In `tie.py`, a full carry-over model (λ = 1, and λ = 0.9) now fails 5b in **0%** of runs under moderate and bm0-like noise. Under D12 it failed 52%.
+  - Sam 0.456 against self 0.449 still fails at 1-point noise: in that low-noise case the gap is detectable. Under realistic noise the CI form lets ties pass, as intended.
+- **The dry run regenerates exactly.**
+  - The re-run output is identical to the committed `p2-5-dryrun-output.txt`, apart from temporary paths.
+  - Its §3 power grid is byte-identical to D12's (`6558a73`).
+  - The turn anchor and the fixed nudge now pass, and G fails (not inherited).
+  - The note under the table now says the rule does not reject the turn anchor or the fixed nudge, so a pass is about the bundle. That matches the pass sentence.
+- **F5 and the gate are unchanged and still hold.** I re-checked the parse stop record, the k-leading-repeats cases, the 12-vignette leave-one-out case (0 flips) and both review files. With this header now confirmed, `gate()` on the real `ledger/design-reviews/` returns open (`None`), so `om-p2-5-1b.md` is confirmed as well.
