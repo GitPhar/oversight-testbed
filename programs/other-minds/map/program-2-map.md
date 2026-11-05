@@ -132,6 +132,7 @@ API tier P2-1 to P2-9 and P2-11: about $7.00 estimated, $8.70 in caps. Recommend
 - **Cost.** 13,764 calls ≈ $1.40 (cap $1.75).
 - **Event and odds.** A wrong answer planted as the model's own moves behaviour answers toward it at least 10 points more than the same answer credited to another reader, with the CI excluding 0. **P = 0.70.** Secondary: R_MS < 0.5, meaning the record rather than the question carries the remind gain, P = 0.40. Program 1 found the question alone carried the order effect (R = 1.23), so a question-carried remind gain is quite possible.
 - **Source.** L (A10, A11, A5, A17) + P1 (F2, F3).
+- **Re-bet, 2026-11-04 (D8, `om-p2-3b`).** om-p2-3 stopped on a refusal at a severity-3 story. The re-bet asks the same question on severity 1–2 stories minus a 14-story keyword hold-out (581 stories), with a letter-copy guard added to the pass rule. Engine odds for it were revised before data by its lesson, **0.70 → 0.40** (program 2's 55–70% odds gave no clear hit; running base rate 0.27). The 0.70 above stays as om-p2-3's odds.
 
 ### P2-4. Interpersonal replication against program 1's ground truth — rank 4
 
