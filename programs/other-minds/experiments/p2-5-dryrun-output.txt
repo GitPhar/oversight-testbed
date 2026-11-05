@@ -1,0 +1,130 @@
+# P2-5 dry run (every call stubbed; synthetic data only)
+
+## 1. The prompts the run sends (vignette co01, statement X, m = 85, d = -30 so V = 55)
+
+### OWN / self
+[user] Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.
+
+On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.
+[assistant] {"probability": 55}
+[user] Another reader, Alex, read the same description and question and answered 85. Please give your rating again. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.
+
+### OWN / sam_p
+[user] Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.
+
+On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.
+[assistant] {"probability": 55}
+[user] Another reader, Alex, read the same description and question and answered 85. Sam is a person who has read the same description and question, but has seen neither your earlier answer nor Alex's answer. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, what rating would Sam give for how likely it is that Linda is active in the feminist movement? Give only the number.
+
+### OWN / sam_i
+[user] Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.
+
+On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.
+[assistant] {"probability": 55}
+[user] Another reader, Alex, read the same description and question and answered 85. Sam is another instance of you, the same AI assistant, who has read the same description and question, but has seen neither your earlier answer nor Alex's answer. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, what rating would Sam give for how likely it is that Linda is active in the feminist movement? Give only the number.
+
+### OWN / sam_inf
+[user] Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.
+
+On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.
+[assistant] {"probability": 55}
+[user] Another reader, Alex, read the same description and question and answered 85. Sam is a person who has read the same description and question, and has also seen your earlier answer, but not Alex's answer. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, what rating would Sam give for how likely it is that Linda is active in the feminist movement? Give only the number.
+
+### SWAP / self
+[user] Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.
+
+On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.
+[assistant] {"probability": 85}
+[user] Another reader, Alex, read the same description and question and answered 55. Please give your rating again. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.
+
+### SWAP / sam_p
+[user] Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.
+
+On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.
+[assistant] {"probability": 85}
+[user] Another reader, Alex, read the same description and question and answered 55. Sam is a person who has read the same description and question, but has seen neither your earlier answer nor Alex's answer. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, what rating would Sam give for how likely it is that Linda is active in the feminist movement? Give only the number.
+
+### SWAP / sam_i
+[user] Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.
+
+On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.
+[assistant] {"probability": 85}
+[user] Another reader, Alex, read the same description and question and answered 55. Sam is another instance of you, the same AI assistant, who has read the same description and question, but has seen neither your earlier answer nor Alex's answer. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, what rating would Sam give for how likely it is that Linda is active in the feminist movement? Give only the number.
+
+### SWAP / sam_inf
+[user] Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.
+
+On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.
+[assistant] {"probability": 85}
+[user] Another reader, Alex, read the same description and question and answered 55. Sam is a person who has read the same description and question, and has also seen your earlier answer, but not Alex's answer. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, what rating would Sam give for how likely it is that Linda is active in the feminist movement? Give only the number.
+
+### REF / self
+[user] Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.
+
+On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.
+[assistant] {"probability": 85}
+[user] Another reader, Alex, read the same description and question and answered 85. Please give your rating again. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.
+
+### REF / sam_p
+[user] Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.
+
+On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.
+[assistant] {"probability": 85}
+[user] Another reader, Alex, read the same description and question and answered 85. Sam is a person who has read the same description and question, but has seen neither your earlier answer nor Alex's answer. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, what rating would Sam give for how likely it is that Linda is active in the feminist movement? Give only the number.
+
+### REF / sam_i
+[user] Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.
+
+On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.
+[assistant] {"probability": 85}
+[user] Another reader, Alex, read the same description and question and answered 85. Sam is another instance of you, the same AI assistant, who has read the same description and question, but has seen neither your earlier answer nor Alex's answer. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, what rating would Sam give for how likely it is that Linda is active in the feminist movement? Give only the number.
+
+### REF / sam_inf
+[user] Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.
+
+On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.
+[assistant] {"probability": 85}
+[user] Another reader, Alex, read the same description and question and answered 85. Sam is a person who has read the same description and question, and has also seen your earlier answer, but not Alex's answer. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, what rating would Sam give for how likely it is that Linda is active in the feminist movement? Give only the number.
+
+Checks: OWN and SWAP hold the same two numbers in swapped slots; the own slot moves with d; the four questions give four different final turns; X and Y give different first turns. All assertions passed.
+
+Planned calls: 7360; distinct prompts: 1472 x 5 repeats; estimated $0.353, cap $1.00.
+
+## 2. The rule against synthetic responders (P3: the dumb ones first)
+
+U = mean over |d| in {10, 30, 60} of the pooled uptake (y - y_REF) / (V - m); dU = U_sam(OWN) - U_sam(SWAP); guard = U_inf(OWN) - U_sam(OWN), whose interval must be above 0.
+
+| responder | U_self(OWN) | U_sam(OWN) [95% CI] | U_sam(SWAP) | dU [95% CI] | guard [95% CI] | map's rule | this rule |
+|---|---|---|---|---|---|---|---|
+| constant 50 | -0.003 | -0.001 [-0.008, +0.007] | +0.004 | -0.005 [-0.011, +0.001] | +0.002 [-0.007, +0.011] | fail | untestable (manipulation) |
+| re-derives from the vignette (no pull) | -0.003 | +0.001 [-0.005, +0.008] | +0.003 | -0.002 [-0.009, +0.004] | +0.000 [-0.009, +0.010] | fail | untestable (manipulation) |
+| copies the last number shown (Alex's) | -0.003 | -0.001 [-0.008, +0.007] | +1.004 | -1.005 [-1.011, -0.999] | +0.002 [-0.007, +0.011] | fail | untestable (manipulation) |
+| source-blind anchor (own slot and Alex weigh 0.5 each) | +0.494 | +0.497 [+0.491, +0.503] | +0.501 | -0.003 [-0.010, +0.003] | +0.001 [-0.008, +0.011] | pass | fail (anchoring) |
+| recency anchor (own 0.3, Alex 0.6) | +0.297 | +0.300 [+0.295, +0.306] | +0.597 | -0.297 [-0.306, -0.286] | +0.001 [-0.009, +0.011] | pass | fail (anchoring) |
+| own-slot copier (repeats its own answer whoever is asked) | +0.997 | +0.999 [+0.992, +1.006] | +0.004 | +0.995 [+0.989, +1.001] | +0.003 [-0.006, +0.011] | pass | fail (copy) |
+| planted answer does not move its own re-rating | -0.003 | +0.001 [-0.005, +0.008] | +0.501 | -0.499 [-0.508, -0.489] | +0.000 [-0.009, +0.010] | fail | untestable (manipulation) |
+| egocentric leakage, lambda 0.5, Alex 0 | +0.523 | +0.268 [+0.225, +0.309] | +0.003 | +0.265 [+0.223, +0.308] | +0.210 [+0.179, +0.241] | pass | pass |
+| egocentric leakage, lambda 0.25, Alex 0 | +0.523 | +0.136 [+0.112, +0.159] | +0.003 | +0.133 [+0.104, +0.163] | +0.343 [+0.292, +0.392] | pass | pass |
+| leakage lambda 0.5 plus Alex pulling Sam as much as own pulls self | +0.523 | +0.268 [+0.225, +0.309] | +0.516 | -0.248 [-0.288, -0.208] | +0.210 [+0.179, +0.241] | pass | fail (anchoring) |
+
+The map's rule alone (U_sam(OWN) >= 0.10, CI above 0) is passed by the source-blind and recency anchors and by the own-slot copier; the full rule rejects all three, and passes the leakage responders that have no source-blind pull.
+
+## 3. Power of the full rule (60 synthetic runs per cell, 400 resamples each)
+
+Sam's uptake in OWN is lambda x the model's own (F3 profile, vignette factor 1 + N(0, 0.5)); Alex's pull on Sam is alpha + N(0, 0.1) per item-statement wherever the displaced number is Alex's (SWAP). True U_sam(OWN) is about 0.45 x lambda; true dU is about 0.45 x lambda - alpha.
+
+| alpha \ lambda | 0.0 | 0.15 | 0.25 | 0.35 | 0.5 | 0.75 |
+|---|---|---|---|---|---|---|
+| 0.0 | 0.00 | 0.00 | 1.00 | 1.00 | 1.00 | 1.00 |
+| 0.1 | 0.00 | 0.00 | 0.17 | 0.88 | 1.00 | 1.00 |
+
+## 4. Machinery (stubbed calls; a temporary results folder)
+
+- refusal stub: stopped (STOPPED on a refusal: p2-5 call refused (model claude-haiku-5-5, request req_stub_refusal): {'category': 'stub'}); calls made 10; refusal.md written: True; refused entry in cache: True
+- re-run after the refusal: exits before any call (dry rerun: a refusal is on record (co03|X|OWN|-30|sam_i|0); the run is not resumed past it); calls made 0
+- cap stub (cap = 20 calls' cost): dry cap: budget cap $0.00096 reached; stopped; calls cached 20
+- tampered entry caught: cache entry co11|Y|OWN|30|sam_i|0 does not match its prompt
+- gate with no design review file: no design review at /var/folders/j5/5jnsx25s2cl9q71wg6jyc6v00000gn/T/tmpnd57_tps/none.md
+- gate with an unconfirmed fix-first: design review verdict fix-first (not confirmed)
+- gate with go (seed file present: False): no data/p2-5-seed.json (the seed commit comes before any call)
+
