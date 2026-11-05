@@ -49,20 +49,22 @@ def verdict(readings, pos, neg):
     return "mixed"
 
 
-def robustness(diffs, designs, seed, margin, pos, neg, gate_ok=True, n_boot=2000):
+def robustness(diffs, designs, seed, margin, pos, neg, gate_ok=True, n_boot=2000, reader=None):
     """Pre-registered robustness, computed with fixed seeds (sg-b1 §4; D5):
     - leave-one-study-out: the statistic's range, and 'fragile' if any single drop changes the reading
-      (each drop's CI by `n_boot` resamples, seed `seed`);
+      (each drop's CI by `n_boot` resamples, seed `seed`); `reader(keep_indices)` replaces the plain reading when a bet
+      adds guards to it (sg-b3 D9f), so 'fragile' is judged on the reading the bet actually reports;
     - ties excluded: studies whose difference is exactly 0 dropped, reading recomputed;
     - the statistic by study design."""
     d = list(map(float, diffs))
-    base = reading(float(np.mean(d)), boot_ci(d, seed, n_boot), margin, pos, neg, gate_ok=gate_ok)
+    read = reader or (lambda keep: reading(float(np.mean([d[j] for j in keep])), boot_ci([d[j] for j in keep], seed, n_boot),
+                                           margin, pos, neg, gate_ok=gate_ok))
+    base = read(list(range(len(d))))
     loo, flips = [], []
     for i in range(len(d)):
-        r = d[:i] + d[i + 1:]
-        x = float(np.mean(r))
-        loo.append(x)
-        ri = reading(x, boot_ci(r, seed, n_boot), margin, pos, neg, gate_ok=gate_ok)
+        keep = [j for j in range(len(d)) if j != i]
+        loo.append(float(np.mean([d[j] for j in keep])))
+        ri = read(keep)
         if ri != base:
             flips.append((i, ri))
     nz = [x for x in d if x != 0]

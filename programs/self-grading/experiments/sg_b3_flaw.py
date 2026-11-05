@@ -70,8 +70,15 @@ def check_frozen_prompts():
         raise SystemExit(f"sg-b3 prompts differ from e29f25c: {bad}")
 
 
+ABBREV = ("vs.", "e.g.", "i.e.", "etc.", "approx.", "cf.", "n.s.", "no.", "Fig.", "et al.")
+
+
 def n_sentences(text):
-    return len([x for x in re.split(r"(?<=[.!?])\s+", text.strip()) if x])
+    """D9g: a sentence ends at . ! or ? followed by space, except after a common abbreviation ("vs.", "e.g." ...)."""
+    t = text.strip()
+    for i, a in enumerate(ABBREV):
+        t = t.replace(a, f"ABBR{i}")
+    return len([x for x in re.split(r"(?<=[.!?])\s+", t) if x])
 
 
 def sha(x):
@@ -151,14 +158,22 @@ def per_model(grades, model, seed, n_expected, designs, info=None):
                clean_D=float(np.mean(cD)), clean_D_ci=list(boot_ci(cD, seed + 6)),
                flawed_D=float(np.mean(fD)), flawed_D_ci=list(fdci), flawed_D_ci_sharp=list(fdci_s),
                at_floor=floor, sd_G=float(np.std(G, ddof=1)), tasks=ok, diffs=G)
-    r = reading(out["G"], ci, MARGIN, "blunted", "sharpened", out["usable_share"] >= 0.9, gate_ok)
-    if r == "blunted" and not fdci[0] > 0:            # D9b: the flawed text itself must score higher in the own turn
-        r = "undetermined"
-    if r == "sharpened" and (floor or not fdci_s[1] < 0):   # D9a: sharpening needs flawed_D below 0, and no floor
-        r = "undetermined"
+    def guarded(keep, n_boot=None):
+        """The reported reading on a subset of studies: G's reading plus the D9a/D9b guards (D9f: also used for 'fragile')."""
+        kw = {} if n_boot is None else {"n": n_boot}
+        Gs, fs = [G[j] for j in keep], [fD[j] for j in keep]
+        r = reading(float(np.mean(Gs)), boot_ci(Gs, seed, **kw), MARGIN, "blunted", "sharpened", out["usable_share"] >= 0.9, gate_ok)
+        if r == "blunted" and not boot_ci(fs, seed + 4, **kw)[0] > 0:      # D9b
+            r = "undetermined"
+        if r == "sharpened" and (floor or not boot_ci(fs, seed + 5, **kw)[1] < 0):   # D9a
+            r = "undetermined"
+        return r
+
+    r = guarded(list(range(len(G))))
     out["reading"] = r
     out["note"] = "not blunted (sharpening not measurable at the floor)" if (floor and r == "same") else None
-    out["robustness"] = robustness(G, [designs[t] for t in ok], seed, MARGIN, "blunted", "sharpened", gate_ok)
+    out["robustness"] = robustness(G, [designs[t] for t in ok], seed, MARGIN, "blunted", "sharpened", gate_ok,
+                                   reader=lambda keep: guarded(keep, 2000))
     sec = {}
     for key in ("ci_excludes_0", "over3"):
         for val in (True, False):
