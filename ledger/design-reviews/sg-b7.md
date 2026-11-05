@@ -13,7 +13,7 @@ papers_opened: 5                     # JudgeSense arXiv 2604.23478v3 (abs + HTML
 flaws: 2
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 12:02 America/Denver
 ---
 
 # Design review of sg-b7
@@ -130,3 +130,40 @@ Each fix needs one DEVIATIONS row (D22, dated, before any data, naming this revi
 Recommended, not required:
 - In the results write-up, report the observed within-run SD of S beside the dry run's assumed noise. The dry run's P(fail) used clean-text repeat noise for the flawed cells too (D11).
 - Make the dry run's D2 print show the 60 characters around the lead-in, not the tail.
+
+## Confirmation addendum
+
+Written 2026-11-05 12:02 America/Denver (system clock), by the same reviewer subagent, in `/Users/seanpharris/oversight-testbed-review-sg-b7` detached at `124b665`. It covers D22 (`6d4e69c`) and D23 (`124b665`). No paid call was made.
+
+- **Fix 1 (D8): confirmed.**
+  - D22 adopts the fail sentence word for word as required. It also adds the S-below-0 clause to §5 item 5 and the §1 replacement.
+  - The frozen pre-registration text is unchanged since the seed commit (`git diff 5ccc6a6 124b665 -- …/sg-b7-leadin.md` is empty), and D22 states how §5 and §1 are to be read.
+- **Fix 2 (D12): confirmed.** The inbox update to the sg-b7 bet row (`ledger/inbox/sg-wave3.jsonl`, uid 06ca71e517e5bebb) replaces `prior_work` and keeps the frozen text as `prior_work_frozen`. The new row covers each item:
+  - (i) Chen et al. 2026 §4.4 and §4.5 are the nearest closing-line-only test, with the right numbers (16.7% to 0.0–33.3%, either direction, against 70.0%). "No lead-in-only test in print" is withdrawn.
+  - (ii) Khullar's "within 0.5 of 10" is restated as up to 5 of 100, above both bars, and not a prediction of a miss.
+  - (iii) Grossmann and Kross is marked as an analogy only.
+  - (iv) Fox, Caspy and Reisler 1994 is added.
+  - (v) The row states what the bet adds over Chen.
+  - (vi) Chen is named beside the 14, in both `prior_work` and `odds_rationale`.
+
+  Leaving the odds un-re-elicited is allowed, since a fix may revise odds but need not. The corrected row points the same way as the frozen reason. Leaving the map's sg-d14 line to the next remap is as the review allowed.
+- **D23 leaves sg-b7's statistic and reading untouched: confirmed.**
+  - The full diff of `sg_b7_leadin.py` from `972bde5` to `124b665` changes only `truths("at the bar")` and adds a noise print and `S.check_noise()` to `dryrun()`.
+  - The diff of `sg_samerun.py` changes only `REPEAT_SD`, the new `noise_sd()` and `check_noise()`, and `synth_cache()`. These are dry-run helpers only.
+  - `per_model`, `read`, `robustness`, `verdict`, `analyse`, `run`, `messages`, `check_frozen`, `CAP`, `B` and the seeds are unchanged. So are `sg_prompts.py`, `sg_followups.py` and `sg_common.py`.
+  - `REPEAT_SD` matches the archive (`check_noise()` passes), and the values are the flawed-cell figures this review measured under D11.
+  - The rebuilt at-the-bar world has a true mean S of exactly 2.9 on Haiku and 0.75 on Opus. It raises plain-clean by the deficit when plain-flawed would clip below 0, and no plain-clean value exceeds 95, so nothing clips at 100.
+- **Re-run of `experiments/sg_b7_leadin.py dryrun` at `124b665`: matches D23.**
+
+  | world | verdict, 200 draws |
+  |---|---|
+  | none | fail 0.24, mixed 0.76 |
+  | all of L | pass 0.525, mixed 0.475 |
+  | at the bar | pass 0.08, mixed 0.92 |
+  | clean-only | mixed 1.00 |
+  | item | mixed 0.99, fail 0.005, pass 0.005 |
+
+  The stub run still recovers S = L (Haiku +5.77, Opus +1.50) and reads pass.
+- **D11 still holds:** P(pass) 0.525 where the lead-in carries L, and P(fail) 0.24 where it carries none, both above 10%. The F guard still blocks every clean-only pass (Haiku's reading slips through in 13 of 200 draws, Opus in 5). In the item world, 1 pass in 200 is noise.
+
+No flaw remains. **Verdict: go (fixes confirmed).**
