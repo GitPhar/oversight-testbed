@@ -43,7 +43,7 @@ When Haiku reads one of its own past conversations (it was shown a planted "earl
 - **Models and settings:** Haiku thinking disabled, max_tokens 100 (as om-p2-4); Sonnet thinking between_tools, max_tokens 200; Opus effort low, max_tokens 4000 (as om-p2-6r).
 - **Repeats:** Haiku predictions 10 per cell and arm (fresh, not om-p2-4's archived 5); Sonnet truth 3, predictions 3; Opus truth 2, predictions 1, on 8 vignettes drawn by the beacon (`items` purpose).
 - **Seed** (operators/hardware.md): CURBY-Q latest completed round 28297, 2025-08-22 13:42 America/Denver (checked 2026-11-05 09:55): stalled. **Seed: the first CURBy-RNG pulse timestamped after this commit.** Sub-seeds by `ledger/seed.py --purpose`: `items` (the 8 Opus vignettes), `order` (within-repeat call order), `boot`. *Filled in by the seed commit, before any call:*
-  `chain:` ___ · `pulse index:` ___ · `pulse_time:` ___ · `randomness:` ___ · `seed32 (items / order / boot):` ___
+  `chain:` CURBy-RNG · `pulse index:` 1592538 · `pulse_time:` 2026-11-05 10:54:00 America/Denver (previous 10:53:00, before the 10:53:06 commit) · `randomness:` 79a299bcbd2295ba62eef1c21ab9999dd4ad036dec4f0593cd35d887c9f7209dedfb9ca39f525ff233480b876db5f01d753e39188248871434fbc13197e6fd76 · `client:` @buff-beacon-project/curby-client@1.2.0 · `certificate_verified:` false · `seed32 (items / order / boot):` 3695849154 / 47199670 / 1837414171. Record: `data/p2-14-seed.json`.
 - **Scale:** one direction (0 = certainly false, 100 = certainly true).
 
 ## 3. Calls
