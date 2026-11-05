@@ -1,5 +1,5 @@
 // Loads the ledger and the maps, and joins them. Every page reads through here.
-import { DATA, getJSON, getJSONL, getText, manifest, normBet, normStatus, num, programTitle } from "./common.js";
+import { DATA, getJSON, getJSONL, getText, manifest, normBet, normNovelty, normStatus, num, programTitle } from "./common.js";
 
 const FALLBACK_MAPS = ["entangled-mind.json", "other-minds.json", "nature-graded.json", "settled-science.json", "test-awareness.json", "said-vs-did.json"];
 
@@ -10,6 +10,14 @@ export async function loadBets() {
 
 export async function loadSteers() {
   return (await getJSONL(DATA + "ledger/steers.jsonl")) || [];
+}
+
+// The valuations of the steers (operators/steers.md): one line per steer per scoring; the latest line per steer id is current.
+export async function loadSteerValues() {
+  const rows = (await getJSONL(DATA + "ledger/steer-values.jsonl")) || [];
+  const current = new Map();
+  for (const r of rows) if (r && r.steer_id) current.set(r.steer_id, r);
+  return current;
 }
 
 // The human's odds, one line per entry, written by the cockpit (site/cockpit.html) and committed by hand.
@@ -74,6 +82,10 @@ function normProgram(p, fallbackId) {
       result: d.result || "",
       opened: d.opened || d.created || d.date_opened || "",
       resolved: d.resolved || d.closed || d.date_resolved || "",
+      // Rule 13: the map node's own Prior work line (open directions) and novelty (landed or mixed ones).
+      priorWork: d.prior_work_line || "",
+      novelty: normNovelty(d.novelty),
+      noveltyLine: d.novelty_line || "",
     })),
   };
 }
@@ -96,6 +108,8 @@ export function joinBets(programs, bets) {
       if (b.cost) d.cost = b.cost;
       if (!d.opened) d.opened = b.opened || "";
       if (b.landed && b.status !== "open" && b.status !== "running") d.resolved = b.landed;
+      if (b.novelty) { d.novelty = b.novelty; d.noveltyLine = b.noveltyLine || d.noveltyLine; }   // the ledger's line wins (rule 13)
+      if (b.priorWork && !d.priorWork) d.priorWork = b.priorWork;
     }
   }
   return programs;
@@ -175,5 +189,45 @@ export async function loadKills() {
     evidence: b.result, date: b.landed || b.date, prereg: b.prereg, bet: b, key: b.id,
   });
   for (const k of out) k.programTitle = k.programTitle || programTitle(k.program, maps);
+  return out;
+}
+
+// The plain question for every bet id, so a page can show it beside the id on first use (panel review, Part 3:
+// "bet ids appear with no plain question beside them"). Read, never typed, from, in this order:
+//   1. map/plain-questions.jsonl  (`test`: the cockpit's one plain sentence for the bet's direction)
+//   2. map/cockpit-cards.jsonl    (`question`)
+//   3. ledger/human-odds.jsonl    (`question`: the card Sean answered for that direction)
+//   4. the map node's own plain `question`
+// A bet's direction is the map node that lists it in `bets`, else the node of its program whose id is the last word
+// of the bet's `direction` (the rule ledger/human_odds_match.py uses). With none of these, `q` is null and `title`
+// (the ledger's own title for the bet) is all a page has.
+export async function loadPlainQuestions(bets, maps) {
+  const [pq, cards, odds] = await Promise.all([
+    getJSONL(DATA + "map/plain-questions.jsonl"), getJSONL(DATA + "map/cockpit-cards.jsonl"), loadHumanOdds(),
+  ]);
+  const key = (p, d) => `${p}|${d}`;
+  const src = [
+    [new Map((pq || []).map((r) => [key(r.program, r.direction), r.test])), "map/plain-questions.jsonl"],
+    [new Map((cards || []).map((r) => [key(r.program, r.direction), r.question])), "map/cockpit-cards.jsonl"],
+    [new Map([...(odds || [])].reverse().map((r) => [key(r.program, r.direction), r.question])), "ledger/human-odds.jsonl"],
+  ];
+  const byBet = new Map();
+  for (const p of maps) for (const d of p.directions) for (const id of [].concat(d.raw.bets || d.raw.bet || [])) byBet.set(String(id), { p, d });
+  const out = new Map();
+  for (const b of bets) {
+    let hit = byBet.get(b.id);
+    if (!hit) {
+      const p = maps.find((x) => x.id === b.program);
+      const tok = String(b.direction ?? "").trim().split(/\s+/).pop();
+      const d = p?.directions.find((x) => x.id === tok);
+      if (d) hit = { p, d };
+    }
+    let q = null, from = null;
+    if (hit) {
+      for (const [m, name] of src) { const v = m.get(key(hit.p.id, hit.d.id)); if (v) { q = v; from = name; break; } }
+      if (!q && hit.d.raw.question) { q = hit.d.raw.question; from = `map/${hit.p.id}.json`; }
+    }
+    out.set(b.id, { q, from, title: b.title, direction: hit ? hit.d.id : null, program: b.program });
+  }
   return out;
 }

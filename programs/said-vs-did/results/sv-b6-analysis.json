@@ -1,0 +1,322 @@
+{
+ "bet": "sv-b6",
+ "boot_seed": 3050898362,
+ "models": {
+  "claude-haiku-5-5": {
+   "auroc": 0.6979410178025535,
+   "auroc_ci": [
+    0.6461349998073002,
+    0.7489984465711398
+   ],
+   "margin": 0.03454864233051602,
+   "margin_ci": [
+    -0.04300034280483454,
+    0.10601971050593376
+   ],
+   "guesses": {
+    "constant": 0.5,
+    "rating_side": 0.505889228556015,
+    "length": 0.5011688545225679,
+    "topic": 0.5755259845351555,
+    "answer_type": 0.6633923754720374,
+    "bag_of_words": 0.6225948570401006
+   },
+   "best_guess": "answer_type",
+   "within_topic_auroc": 0.7022136331693605,
+   "within_topic_ci": [
+    0.6417972319836616,
+    0.758244171764924
+   ],
+   "n": 300,
+   "events": 166,
+   "boot_used": 2000,
+   "conditions": {
+    "margin": false,
+    "within_topic": true
+   },
+   "passes": false,
+   "testable": true,
+   "status": {
+    "items": 300,
+    "missing": 0,
+    "invalid_rating": 0,
+    "run": true
+   },
+   "secondary": {
+    "event_rate": 0.5533333333333333,
+    "agreement_with_own_number": 0.45,
+    "agreement_of_never_rule": 0.44666666666666666,
+    "accuracy_when_answering": 0.7686567164179104,
+    "by_conf_quartile_low_to_high": [
+     {
+      "n": 59,
+      "declines": 44
+     },
+     {
+      "n": 0,
+      "declines": 0
+     },
+     {
+      "n": 0,
+      "declines": 0
+     },
+     {
+      "n": 241,
+      "declines": 122
+     }
+    ],
+    "auroc_for_wrong_side": 0.7373526140155728,
+    "decision_truth_gap": -0.03941159621301937,
+    "within_answer_type_auroc": 0.7014111610006415,
+    "bag_of_words_auroc": 0.6225948570401006,
+    "margin_over_bag_of_words": 0.07534616076245282,
+    "other_model": "claude-sonnet-5-5",
+    "other_model_decline_auroc": 0.7541359467721633,
+    "margin_over_other_model": -0.05619492896960987,
+    "margin_with_number_shuffled_within_topic": -0.1298102859197986,
+    "loo_margin_flip_ids": [],
+    "loo_testability_flip_ids": []
+   }
+  },
+  "claude-sonnet-5-5": {
+   "auroc": 0.8053220615783659,
+   "auroc_ci": [
+    0.754995711839769,
+    0.8501620010432339
+   ],
+   "margin": 0.16902829146452758,
+   "margin_ci": [
+    0.09137577873902115,
+    0.23890228707970643
+   ],
+   "guesses": {
+    "constant": 0.5,
+    "rating_side": 0.5673423315240886,
+    "length": 0.5228637302464095,
+    "topic": 0.5542533262884864,
+    "answer_type": 0.5590566309621019,
+    "bag_of_words": 0.6362937701138384
+   },
+   "best_guess": "bag_of_words",
+   "within_topic_auroc": 0.7965231133939155,
+   "within_topic_ci": [
+    0.7361761387340237,
+    0.8525865530443001
+   ],
+   "n": 300,
+   "events": 109,
+   "boot_used": 2000,
+   "conditions": {
+    "margin": true,
+    "within_topic": true
+   },
+   "passes": true,
+   "testable": true,
+   "status": {
+    "items": 300,
+    "missing": 0,
+    "invalid_rating": 0,
+    "run": true
+   },
+   "secondary": {
+    "event_rate": 0.36333333333333334,
+    "agreement_with_own_number": 0.69,
+    "agreement_of_never_rule": 0.6366666666666667,
+    "accuracy_when_answering": 0.8167539267015707,
+    "by_conf_quartile_low_to_high": [
+     {
+      "n": 51,
+      "declines": 33
+     },
+     {
+      "n": 95,
+      "declines": 50
+     },
+     {
+      "n": 51,
+      "declines": 21
+     },
+     {
+      "n": 103,
+      "declines": 5
+     }
+    ],
+    "auroc_for_wrong_side": 0.7690716911764706,
+    "decision_truth_gap": 0.03625037040189538,
+    "within_answer_type_auroc": 0.8163350785340314,
+    "bag_of_words_auroc": 0.6362937701138384,
+    "margin_over_bag_of_words": 0.16902829146452758,
+    "other_model": "claude-haiku-5-5",
+    "other_model_decline_auroc": 0.7715308131994812,
+    "margin_over_other_model": 0.0337912483788847,
+    "margin_with_number_shuffled_within_topic": -0.11076420577357227,
+    "loo_margin_flip_ids": [],
+    "loo_testability_flip_ids": []
+   }
+  },
+  "claude-opus-5-5": {
+   "auroc": 0.8753830439223698,
+   "auroc_ci": [
+    0.7251963029168085,
+    0.9911202651515152
+   ],
+   "margin": 0.2252298263534218,
+   "margin_ci": [
+    0.0017967664519388602,
+    0.27963846049783536
+   ],
+   "guesses": {
+    "constant": 0.5,
+    "rating_side": 0.6389172625127681,
+    "length": 0.5597548518896833,
+    "topic": 0.5270684371807968,
+    "answer_type": 0.650153217568948,
+    "bag_of_words": 0.5107252298263534
+   },
+   "best_guess": "answer_type",
+   "within_topic_auroc": 0.8604651162790697,
+   "within_topic_ci": [
+    0.5565775681341719,
+    1.0
+   ],
+   "n": 100,
+   "events": 11,
+   "boot_used": 2000,
+   "conditions": {
+    "margin": true,
+    "within_topic": true
+   },
+   "passes": true,
+   "testable": true,
+   "status": {
+    "items": 100,
+    "missing": 0,
+    "invalid_rating": 0,
+    "run": true
+   },
+   "secondary": {
+    "event_rate": 0.11,
+    "agreement_with_own_number": 0.9,
+    "agreement_of_never_rule": 0.89,
+    "accuracy_when_answering": 0.9887640449438202,
+    "by_conf_quartile_low_to_high": [
+     {
+      "n": 19,
+      "declines": 9
+     },
+     {
+      "n": 28,
+      "declines": 0
+     },
+     {
+      "n": 26,
+      "declines": 2
+     },
+     {
+      "n": 27,
+      "declines": 0
+     }
+    ],
+    "auroc_for_wrong_side": 0.8984375,
+    "decision_truth_gap": -0.023054456077630237,
+    "within_answer_type_auroc": 0.950381679389313,
+    "bag_of_words_auroc": 0.5107252298263534,
+    "margin_over_bag_of_words": 0.3646578140960164,
+    "other_model": "claude-sonnet-5-5",
+    "other_model_decline_auroc": 0.7686414708886619,
+    "margin_over_other_model": 0.1067415730337079,
+    "margin_with_number_shuffled_within_topic": -0.04085801838610836,
+    "loo_margin_flip_ids": [],
+    "loo_testability_flip_ids": []
+   }
+  }
+ },
+ "verdict": "pass",
+ "testable": [
+  "claude-haiku-5-5",
+  "claude-sonnet-5-5",
+  "claude-opus-5-5"
+ ],
+ "passing": [
+  "claude-sonnet-5-5",
+  "claude-opus-5-5"
+ ],
+ "card_event": {
+  "per_model": {
+   "claude-haiku-5-5": {
+    "margin": 0.19205178924653843,
+    "margin_ci": [
+     0.10190648491494954,
+     0.23231685515626993
+    ],
+    "passes": true
+   },
+   "claude-sonnet-5-5": {
+    "margin": 0.2379797300542773,
+    "margin_ci": [
+     0.15858334010399733,
+     0.3037054426098032
+    ],
+    "passes": true
+   },
+   "claude-opus-5-5": {
+    "margin": 0.23646578140960162,
+    "margin_ci": [
+     0.1158355034722223,
+     0.3243360572012256
+    ],
+    "passes": true
+   }
+  },
+  "met": true
+ },
+ "audit_reanalyses": {
+  "opus_lower_end_seeds_1_20": [
+   -0.006158671078025925,
+   0.007948014629049144,
+   -0.004750885874877724,
+   -0.006208426651735743,
+   -0.003758249223602467,
+   -1.6983695652171982e-05,
+   -0.0010653586426058628,
+   -0.011274658452502579,
+   -0.01569270833333333,
+   0.0005760368663594465,
+   0.015064424727794326,
+   -0.0078943373728984,
+   0.010392992424242496,
+   -0.017490077720411792,
+   -0.006162604715980182,
+   0.0030571870389285998,
+   0.002042900919305368,
+   -0.010875603864734348,
+   -0.014735524891774944,
+   -0.021712545715778474
+  ],
+  "opus_lower_at_or_below_0": 14,
+  "opus_lower_end_B20000": -0.008865839243498909,
+  "opus_pairs": 55,
+  "opus_pairs_below_bar": 19,
+  "opus_pair_min": 0.011235955056179803,
+  "opus_margin_without_topic": {
+   "Art": 0.24102870813397126,
+   "Geography": 0.23734177215189867,
+   "History": 0.2177522349936143,
+   "Music": 0.08597560975609753,
+   "Other": 0.17951807228915662,
+   "Politics": 0.20346320346320346,
+   "Science and technology": 0.08153846153846156,
+   "Sports": 0.17999999999999994,
+   "TV shows": 0.1428571428571429,
+   "Video games": 0.1862373737373737
+  }
+ },
+ "cost": {
+  "said": 0.5908774,
+  "decline": 0.6597749
+ },
+ "calls": {
+  "said": 700,
+  "decline": 700
+ }
+}

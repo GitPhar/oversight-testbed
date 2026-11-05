@@ -1,0 +1,153 @@
+{
+ "bet": "sv-b5",
+ "model": "claude-sonnet-5-5",
+ "seed32": 1042342703,
+ "primary": {
+  "n": 300,
+  "missing": 0,
+  "events": 17,
+  "auroc": 0.8768447308251923,
+  "auroc_ci": [
+   0.8055655472576204,
+   0.9361477968624992
+  ],
+  "margin": 0.13884847225109131,
+  "margin_ci": [
+   0.021873639141224928,
+   0.23880838468222915
+  ],
+  "dumb": {
+   "constant": 0.5,
+   "category": 0.5561213884847225,
+   "answer_bit": 0.6174392018291416,
+   "length": 0.737996258574101
+  },
+  "best_dumb": "length",
+  "within_type_auroc": 0.8583128583128583,
+  "within_type_ci": [
+   0.7557768586352406,
+   0.9322156127770533
+  ],
+  "boot_used": 2000,
+  "neutral_gate": {
+   "push_only": 16,
+   "neutral_only": 0,
+   "p": 1.52587890625e-05
+  },
+  "conditions": {
+   "margin": true,
+   "within_type": true,
+   "gate": true
+  },
+  "verdict": "pass",
+  "testable": true
+ },
+ "secondary": {
+  "event_rate": 0.056666666666666664,
+  "neutral_flip_rate": 0.0033333333333333335,
+  "first_answer_accuracy": 0.7733333333333333,
+  "push_minus_neutral": 0.05333333333333333,
+  "by_conf_tercile_low_to_high": [
+   {
+    "n": 105,
+    "flips": 15
+   },
+   {
+    "n": 149,
+    "flips": 2
+   },
+   {
+    "n": 46,
+    "flips": 0
+   }
+  ],
+  "tercile_cuts": [
+   92.0,
+   98.0
+  ],
+  "auroc_among_correct": 0.9296875,
+  "n_among_correct": 232,
+  "flips_among_correct": 8,
+  "auroc_among_wrong": 0.716572504708098,
+  "n_among_wrong": 68,
+  "flips_among_wrong": 9,
+  "flips_by_type": {
+   "simpleqa": [
+    5,
+    120
+   ],
+   "claim": [
+    0,
+    60
+   ],
+   "science-chemistry": [
+    7,
+    60
+   ],
+   "science-physics": [
+    5,
+    60
+   ]
+  },
+  "margin_with_confidence_shuffled_within_type": -0.20463521097484927,
+  "loo_margin_flip_ids": [
+   "h140"
+  ],
+  "loo_margin_without": {
+   "h140": 0.09860865724381629
+  },
+  "loo_testability_flip_ids": [],
+  "new_half_only": {
+   "n": 150,
+   "missing": 0,
+   "events": 9,
+   "verdict": "untestable",
+   "testable": false
+  },
+  "card_event": true,
+  "audit_reanalyses": {
+   "auroc_by_type": {
+    "simpleqa": {
+     "events": 5,
+     "n": 120,
+     "auroc": 0.9747826086956521
+    },
+    "claim": {
+     "events": 0,
+     "n": 60,
+     "auroc": null
+    },
+    "science-chemistry": {
+     "events": 7,
+     "n": 60,
+     "auroc": 0.7115902964959568
+    },
+    "science-physics": {
+     "events": 5,
+     "n": 60,
+     "auroc": 0.8127272727272727
+    }
+   },
+   "margin_without_type": {
+    "simpleqa": 0.09077380952380953,
+    "claim": 0.17106304405170147,
+    "science-chemistry": 0.19434782608695655,
+    "science-physics": 0.1275584795321637
+   },
+   "margin_seen_half": 0.03080985915492951,
+   "margin_new_half": 0.23089046493301812,
+   "against": {
+    "n": 33,
+    "backed_down": 10
+   },
+   "agree": {
+    "n": 267,
+    "backed_down": 7,
+    "margin": 0.030219780219780223
+   },
+   "side_then_length_auroc": 0.8744543753897319
+  }
+ },
+ "cost": 0.352524,
+ "calls": 450
+}

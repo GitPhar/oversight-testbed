@@ -4,6 +4,14 @@
 
 A bet is scored when it has stated odds before data, a binary outcome decided by
 its pre-registered rule, and `scored: true`. Odds are P(the bet's stated event).
+
+Rule 15 (one scored bet per run; CONTEXT.md section 3, steer st-21): a scored bet whose row
+names the same run as an earlier scored bet (same program and the same result file, the
+same raw data with no new data of its own, or an audit naming it the same run) carries
+`secondary_of: <that bet>`. It is excluded from the primary Brier and every table built on
+it, and scored with all other rows in the Sensitivity row "all scored bets, secondary
+included". A scored bet sharing a result file with an earlier scored bet but carrying no
+`secondary_of` is reported as unmarked.
 """
 import json
 import math
@@ -49,7 +57,17 @@ def calib_rows(pairs):
 
 def main():
     bets = [json.loads(l) for l in (HERE / "bets.jsonl").read_text().splitlines() if l.strip()]
-    scored = [b for b in bets if b["scored"]]
+    scored_all = [b for b in bets if b.get("scored")]   # a withdrawn row may carry no "scored" (sv-b4)
+    secondary = [b for b in scored_all if b.get("secondary_of")]
+    scored = [b for b in scored_all if not b.get("secondary_of")]
+    seen, unmarked = {}, []
+    for b in scored_all:
+        k = (b["program"], b.get("result_file"))
+        if k[1] and k in seen and not b.get("secondary_of"):
+            unmarked.append(f"{b['id']} (same result file as {seen[k]})")
+        seen.setdefault(k, b["id"])
+    eng_all = [(b["engine_odds"], b["outcome"]) for b in scored_all]
+    hum_all = [(b["human_odds"], b["outcome"]) for b in scored_all if b["human_odds"] is not None]
     eng = [(b["engine_odds"], b["outcome"]) for b in scored]
     hum = [(b["human_odds"], b["outcome"]) for b in scored if b["human_odds"] is not None]
     first = [(b["engine_odds_first"], b["outcome"]) for b in scored]
@@ -57,6 +75,9 @@ def main():
     base = hits / n
     gm9 = next(b for b in bets if b["id"] == "em-gm9")
     gm1 = next(b for b in scored if b["id"] == "em-gm1")
+    sec_by = {}
+    for b in secondary:
+        sec_by.setdefault(b["secondary_of"], []).append(b["id"])
     alt_gm1 = [(0.30 if b is gm1 else b["engine_odds"], b["outcome"]) for b in scored]
     # Rule 14 (template v2): odds written as prior + adjustment + reason. The prior alone against the adjusted odds,
     # on the same bets, is the published value of the adjustment step.
@@ -83,6 +104,15 @@ def main():
       f"0.25 is what always saying 50% scores, and {fmt(brier([(base, o) for _, o in eng]))} is what always saying "
       f"the observed hit rate ({hits}/{n}) would have scored. On this small sample the engine scored {vs}"
       + (", and no better than knowing the hit rate in advance." if be >= brier([(base, o) for _, o in eng]) else "."))
+    if secondary:
+        ha = sum(o for _, o in eng_all)
+        runs = "; ".join(", ".join(v) + " on " + k + "'s run" for k, v in sec_by.items())
+        w(f"- **One scored bet per run (rule 15).** {len(secondary)} scored bets re-scored a run an earlier bet was already scored on "
+          f"({runs}), so one run's luck counted "
+          f"more than once. They are left out of the primary number above. Counting every row as before gives "
+          f"**{fmt(brier(eng_all))} on {len(eng_all)} bets** ({ha} hits); both numbers are published, the primary is the one-per-run figure.")
+    if unmarked:
+        w(f"- **Unmarked repeats of a run:** {', '.join(unmarked)}. Each needs `secondary_of` or a `scoring_note` saying why it is a run of its own.")
     lo_p, hi_p = min(p for p, _ in eng), max(p for p, _ in eng)
     hit_p = sorted({p for p, o in eng if o == 1})
     lean = ("too low" if hits > exp + 0.5 else "too high" if hits < exp - 0.5 else "about right in total")
@@ -120,7 +150,8 @@ def main():
         w("- **The human column is empty, honestly.** No scored bet carries Sean's odds: they were not recorded in the founding week, "
           "and later bets were pre-registered with the form blank. Each bet's `human_odds_note` says why.")
     else:
-        w(f"- **Sean's odds are scored on {len(hum)} bet{'s' if len(hum) != 1 else ''}:** Brier {fmt(brier(hum))}.")
+        w(f"- **Sean's odds are scored on {len(hum)} bet{'s' if len(hum) != 1 else ''}:** Brier {fmt(brier(hum))}"
+          + (f" ({fmt(brier(hum_all))} on {len(hum_all)} counting secondary bets)." if len(hum_all) != len(hum) else "."))
     w("")
     w("## Scores")
     w("")
@@ -128,9 +159,12 @@ def main():
     w("|---|---|---|---|---|---|---|")
     w(f"| engine | {n} | {sum(p for p, _ in eng):.2f} | {hits} | **{fmt(brier(eng))}** | {fmt(brier([(base, o) for _, o in eng]))} | 0.250 |")
     w(f"| human (Sean) | {len(hum)} | — | — | {fmt(brier(hum))} | — | — |")
+    if secondary:
+        w(f"| engine, all scored bets, secondary included (sensitivity) | {len(eng_all)} | {sum(p for p, _ in eng_all):.2f} | {sum(o for _, o in eng_all)} | {fmt(brier(eng_all))} | {fmt(brier([(sum(o for _, o in eng_all) / len(eng_all), o) for _, o in eng_all]))} | 0.250 |")
     w(f"| engine + human | 0 | — | — | — | — | — |")
     w("")
-    w("The base-rate reference uses the observed hit rate, which nobody knew in advance, so it flatters the reference.")
+    w("The base-rate reference uses the observed hit rate, which nobody knew in advance, so it flatters the reference. "
+      "Every row but the sensitivity row counts one scored bet per run (rule 15).")
     w("")
     w("## Calibration table (engine)")
     w("")
@@ -153,9 +187,10 @@ def main():
     w("")
     w("| bet | direction | event the odds were for | engine odds (first stated) | human odds | outcome | (p − o)² | pre-registration | result |")
     w("|---|---|---|---|---|---|---|---|---|")
-    for b in scored:
+    for b in scored_all:
         p, o = b["engine_odds"], b["outcome"]
-        w(f"| {b['id']} | {b['map']} {b['direction']} | {b['odds_event']} | {p:.2f} ({b['engine_odds_first']:.2f}) | "
+        sec = f" (secondary of {b['secondary_of']}; sensitivity only)" if b.get("secondary_of") else ""
+        w(f"| {b['id']}{sec} | {b['map']} {b['direction']} | {b['odds_event']} | {p:.2f} ({b['engine_odds_first']:.2f}) | "
           f"{'—' if b['human_odds'] is None else b['human_odds']} | {o} | {(p - o) ** 2:.4f} | "
           f"`{b['prereg_commit']}` | `{b['result_file']}` |")
     w("")
@@ -163,7 +198,9 @@ def main():
     w("")
     w("| variant | bets | engine Brier |")
     w("|---|---|---|")
-    w(f"| primary (odds in force at the pre-registration) | {n} | {fmt(brier(eng))} |")
+    w(f"| primary (odds in force at the pre-registration; one scored bet per run, rule 15) | {n} | {fmt(brier(eng))} |")
+    w(f"| all scored bets, secondary included (every row counted, as before rule 15) | {len(eng_all)} | {fmt(brier(eng_all))} |")
+    w(f"| human (Sean), all scored bets, secondary included | {len(hum_all)} | {fmt(brier(hum_all))} |")
     w(f"| odds as first written down | {n} | {fmt(brier(first))} |")
     w(f"| prior alone (`odds_prior`, the record's hit rate from `ledger/prior.md`), on the bets whose odds carry one (rule 14) | {len(pri)} | {fmt(brier(pri_alone))} |")
     w(f"| adjusted odds (prior + `odds_adjustment`, the engine's odds), on the same bets | {len(pri)} | {fmt(brier(pri_adj))} |")
@@ -176,7 +213,7 @@ def main():
     w("")
     w("## What is not scored, and why")
     w("")
-    unscored = [b for b in bets if not b["scored"]]
+    unscored = [b for b in bets if not b.get("scored")]
     w(f"{len(unscored)} of the {len(bets)} bets in the ledger are not scored:")
     w("")
     for b in unscored:
@@ -190,6 +227,26 @@ def main():
       + (": " + "; ".join(f"{b['id']} → {b['verdict']}" for b in reversed_) if reversed_ else "")
       + ". Founding-week (round 1) audits are links into `programs/entangled-mind/audits/` (`ledger/audits/em-*.md`, summary `SUMMARY-1.md`); round 2 is `SUMMARY-2.md`. "
       "When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.")
+    # Machine-readable numbers for site/numbers.py (README and the plain pages take every ledger number from here).
+    def ref_score(r):
+        pr = [(b["engine_odds"], b["outcome"]) for b in scored if (b.get("referee") or "model") == r]
+        return fmt(brier(pr)), len(pr)
+    ho_path = HERE / "human-odds.jsonl"
+    nums = {
+        "bets_total": len(bets), "scored": n, "hits": hits, "expected_hits": f"{sum(p for p, _ in eng):.2f}",
+        "brier": fmt(be), "hit_rate_ref": fmt(brier([(base, o) for _, o in eng])), "coin": "0.250",
+        "scored_all": len(eng_all), "hits_all": sum(o for _, o in eng_all), "brier_all": fmt(brier(eng_all)),
+        "hit_rate_ref_all": fmt(brier([(sum(o for _, o in eng_all) / len(eng_all), o) for _, o in eng_all])) if eng_all else "—",
+        "secondary": len(secondary),
+        "human_n": len(hum), "human_brier": fmt(brier(hum)), "human_n_all": len(hum_all), "human_brier_all": fmt(brier(hum_all)),
+        "human_lines": sum(1 for l in ho_path.read_text().splitlines() if l.strip()) if ho_path.exists() else 0,
+        "audited": len(audited), "audited_scored": len(sa), "reversals": len(reversed_),
+        "withdrawn": sum(1 for b in bets if b.get("verdict") == "withdrawn"), "unscored": len(unscored),
+    }
+    for r, key in (("model", "model"), ("nature", "nature"), ("published-record", "record")):
+        nums[f"ref_{key}_brier"], nums[f"ref_{key}_n"] = ref_score(r)
+    w("")
+    w("<!-- numbers (generated; read by site/numbers.py): " + json.dumps(nums, sort_keys=True) + " -->")
     (HERE / "brier.md").write_text("\n".join(L) + "\n")
     print(f"engine Brier {fmt(brier(eng))} on {n} bets; human {fmt(brier(hum))} on {len(hum)}")
 

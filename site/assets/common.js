@@ -65,6 +65,9 @@ export function header() {
     <a href="${SITE.engineRepo}/tree/main/programs">programs</a> ·
     <a href="${SITE.history["entangled-mind"]}">program 1's original repository (historical record)</a>`;
   document.body.append(f);
+  // Plain words on every page: each bet id's plain question on first use, and a glossary line for Brier,
+  // pre-registration, plant and steer where each first appears (assets/plain.js). Loaded late, so a page draws first.
+  import("./plain.js").then((m) => m.start()).catch(() => {});
 }
 
 // ---------- fetching ----------
@@ -111,7 +114,24 @@ export const STATUS = {
 // What the words mean, in one plain sentence (the map's legend; Sean's walk, 2026-11-04).
 export const LEGEND_SENTENCE = "<b>Landed</b> means its pre-registered test passed; <b>mixed</b> means it was tried but not settled " +
   "(a partial result, a test that could not decide, or one withdrawn); <b>killed</b> means a test said no, or it was dropped " +
-  "with a stated reason before any test; <b>open</b> means nothing has tried it yet, and <b>running</b> means a test is under way now.";
+  "with a stated reason before any test; <b>open</b> means nothing has tried it yet, and <b>running</b> means a test is under way now. " +
+  "A landed or mixed path also says whether its result was already in print: <b>known</b> (a paper states the same result, in the same direction, on some model), " +
+  "<b>partly new</b> (the kind of result is in print, but not this comparison, or ours points the other way) or <b>new</b> (no prior statement found after a search). " +
+  "A known result is a replication, not a discovery (rule 13).";
+
+// Rule 13: the novelty words, with a colour that is never the only channel (the word is always printed).
+export const NOVELTY = {
+  "known":      { word: "known",      hex: "#c9a227" },
+  "partly new": { word: "partly new", hex: "#6aaee8" },
+  "new":        { word: "new",        hex: "#5cc98a" },
+};
+export function normNovelty(v) {
+  const s = String(v ?? "").trim().toLowerCase().replace(/[_-]/g, " ");
+  if (s === "known" || s === "already known") return "known";
+  if (s === "partly new" || s === "partially new") return "partly new";
+  if (s === "new") return "new";
+  return "";
+}
 
 const SYN = {
   hit: ["hit", "pass", "passed", "positive", "confirmed", "landed", "supported", "found", "true", "yes", "win"],
@@ -196,6 +216,10 @@ export function normBet(o) {
     auditStatus: pick(o, "audit_status") || "",
     verdictAfterAudit: pick(o, "verdict_after_audit") || "",
     referee: refereeOf(o),
+    // Rule 13: known | partly new | new, written by a fresh session that searched the literature (prereg-template §10).
+    novelty: normNovelty(pick(o, "novelty")),
+    noveltyLine: pick(o, "novelty_line") || "",
+    priorWork: pick(o, "prior_work") || "",
   };
 }
 

@@ -1,9 +1,10 @@
 // The human hand: Sean's odds beside the engine's, direction by direction, with outcomes and both scores.
 // Every number is read from files when the page loads: ledger/human-odds.jsonl (Sean's lines, saved from the
 // cockpit), ledger/bets.jsonl (the engine's pre-registered odds, outcomes, and which bets carry Sean's odds),
-// map/*.json (the engine's odds on a direction with no bet yet) and ledger/steers.jsonl (his steers).
+// map/*.json (the engine's odds on a direction with no bet yet), ledger/steers.jsonl (his steers) and
+// ledger/steer-values.jsonl (what each steer was worth, under operators/steers.md).
 import { header, esc, inline, parseDate, fmtDate, programTitle, page } from "./common.js";
-import { loadBets, loadMaps, loadSteers, loadHumanOdds } from "./data.js";
+import { loadBets, loadMaps, loadSteers, loadHumanOdds, loadSteerValues } from "./data.js";
 
 header();
 const main = document.getElementById("main");
@@ -36,7 +37,7 @@ function rowsFrom(lines, bets, maps) {
     if (engine == null || o.human_odds == null) { noEngine.push(o); continue; }
     const r = bet?.raw;
     const settled = bet && bet.status !== "running" && bet.status !== "open";
-    const outcome = r && r.scored === true && (r.outcome === 0 || r.outcome === 1) ? r.outcome : null;
+    const outcome = r && r.scored === true && !r.secondary_of && (r.outcome === 0 || r.outcome === 1) ? r.outcome : null;   // rule 15: one scored bet per run
     out.push({
       o, bet, dir, prog, engine, human: +o.human_odds, mapOdds,
       engineFrom: bet ? `bet ${bet.id}, pre-registered ${fmtDate(parseDate(r.prereg_time))}` : `the map's odds for ${o.direction} (no bet yet)`,
@@ -83,6 +84,16 @@ function lineSVG(r) {
   </svg>`;
 }
 
+// Who scored the steers, said honestly and from the lines themselves (scored_by, scorer_wrote_steer), not typed.
+function scorerSentence(valued, scorers, scoredOn) {
+  if (!valued.length) return "No steer has been scored yet.";
+  const wrote = valued.filter((v) => v.scorer_wrote_steer === true).length, unknown = valued.filter((v) => typeof v.scorer_wrote_steer !== "boolean").length;
+  const claude = scorers.every((x) => /claude/i.test(x));
+  return `The scorer is ${scorers.length === 1 ? "one session" : `${scorers.length} sessions`} (${esc(scorers.join("; "))})${scoredOn.length ? `, scoring on ${esc(scoredOn.join(", "))}` : ""}` +
+    `${claude ? ", a Claude model: the same model family that runs the engine Sean steers, so it is not an independent judge" : ""}. ` +
+    (wrote ? `It wrote ${wrote} of the steers it scored.` : unknown ? `On ${unknown} line${unknown === 1 ? "" : "s"} it is not recorded whether it wrote the steer.` : "It did not write any of the steers it scored.");
+}
+
 function rowHTML(r, maps) {
   const status = r.outcome != null ? (r.outcome ? "Came true" : "Did not come true")
     : r.bet ? (r.settled ? `Settled, not scored (${esc(r.bet.verdictRaw)})` : "Bet placed, no result yet") : "No bet placed yet";
@@ -112,7 +123,7 @@ function rowHTML(r, maps) {
 }
 
 (async () => {
-  const [bets, maps, lines, steers] = await Promise.all([loadBets(), loadMaps(), loadHumanOdds(), loadSteers()]);
+  const [bets, maps, lines, steers, values] = await Promise.all([loadBets(), loadMaps(), loadHumanOdds(), loadSteers(), loadSteerValues()]);
   const { rows, noEngine } = rowsFrom(lines, bets, maps);
   const saves = new Set(lines.map((o) => String(o.recorded).slice(0, 16))).size;
   const higher = rows.filter((r) => r.human > r.engine + 1e-9).length, lower = rows.filter((r) => r.human < r.engine - 1e-9).length;
@@ -121,7 +132,7 @@ function rowHTML(r, maps) {
   const scored = rows.filter((r) => r.counts);
   const carrying = bets.filter((b) => b.human != null);
   const missed = rows.filter((r) => r.bet && r.carries === false);
-  const eAll = bets.filter((b) => b.raw.scored === true && b.engine != null && (b.raw.outcome === 0 || b.raw.outcome === 1));
+  const eAll = bets.filter((b) => b.raw.scored === true && !b.raw.secondary_of && b.engine != null && (b.raw.outcome === 0 || b.raw.outcome === 1));
   const eAllB = eAll.length ? eAll.reduce((a, b) => a + (b.engine - b.raw.outcome) ** 2, 0) / eAll.length : null;
 
   let scoreHTML;
@@ -141,13 +152,46 @@ function rowHTML(r, maps) {
 
   const byAction = {};
   for (const s of steers) byAction[s.action] = (byAction[s.action] || 0) + 1;
-  const byValue = {};
-  for (const s of steers) byValue[s.value || "not judged"] = (byValue[s.value || "not judged"] || 0) + 1;
-  const steerList = [...steers].reverse().map((s) => `<li class="hh-steer">
-    <div class="hh-top"><span>${esc(fmtDate(parseDate(s.date), false))}${s.time ? `, ${esc(s.time)}` : ""} · ${esc(ACTION[s.action] || s.action)}${s.program ? ` · ${esc(programTitle(s.program, maps))}` : ""}</span><span class="hh-st">${esc(s.value || "not judged")}</span></div>
-    <p class="hh-q">${inline(s.words || s.reason || "")}</p>
-    ${s.value_judgment ? `<details><summary>What came of it</summary><p>${inline(s.value_judgment)}</p>${s.value_judged_by ? `<p class="muted small">Judged by ${esc(s.value_judged_by)}.</p>` : ""}</details>` : ""}
-  </li>`).join("");
+  // The Steers panel: each steer's valuation from ledger/steer-values.jsonl (operators/steers.md), helped X of Y.
+  const LABEL = { helped: HIT, neutral: "#8d8a82", hurt: KILL };
+  const valued = steers.map((s) => values.get(s.id)).filter(Boolean);
+  const nv = { helped: 0, neutral: 0, hurt: 0 };
+  for (const v of valued) if (v.value in nv) nv[v.value] += 1;
+  const unscored = steers.length - valued.length;
+  const scorers = [...new Set(valued.map((v) => v.scored_by).filter(Boolean))];
+  const scoredOn = [...new Set(valued.map((v) => v.scored_at).filter(Boolean))].sort();
+  const strength = { measured: 0, traced: 0, early: 0 };
+  for (const v of valued) if (v.evidence_strength in strength) strength[v.evidence_strength] += 1;
+  const labelTag = (v) => v ? `<span class="hh-tag" style="color:${LABEL[v.value] || "inherit"};border-color:${LABEL[v.value] || "currentColor"}">${esc(v.value)}</span>` : `<span class="hh-tag">not yet scored</span>`;
+  const shared = new Map();
+  for (const s of steers) { const w = s.words || s.reason; if (w) shared.set(w, (shared.get(w) || 0) + 1); }
+  const steerList = [...steers].reverse().map((s) => {
+    const v = values.get(s.id);
+    return `<li class="hh-steer">
+    <div class="hh-top"><span>${esc(s.id)} · ${esc(fmtDate(parseDate(s.date), false))}${s.time ? `, ${esc(s.time)}` : ""} · ${esc(ACTION[s.action] || s.action)}${s.program ? ` · ${esc(programTitle(s.program, maps))}` : ""}</span><span class="hh-st">${labelTag(v)}</span></div>
+    <p class="hh-q">${v?.steer_in_short ? esc(v.steer_in_short) : inline(s.words || s.reason || "")}</p>
+    ${v ? `<p class="hh-hit"><b>${esc(v.value)}</b> (${esc(v.evidence_strength || "")}): ${inline(v.reason || "")}</p>
+    <details><summary>What it changed, what the engine would have done, and the number</summary><dl>
+      <dt>Changed in the record</dt><dd>${(v.changed || []).map((c) => inline(c)).join("; ") || "—"}</dd>
+      <dt>Without it</dt><dd>${inline(v.counterfactual || "")}${v.counterfactual_file ? ` <span class="muted">(shown by ${inline(v.counterfactual_file)})</span>` : ""}</dd>
+      <dt>Measurable effect</dt><dd>${v.effect ? inline(v.effect) : "none recorded"}</dd>
+      <dt>Scored by</dt><dd>${esc(v.scored_by || "")}${v.scored_at ? `, ${esc(v.scored_at)}` : ""}${v.history && v.history.length ? `; ${v.history.length} earlier valuation${v.history.length === 1 ? "" : "s"} kept` : ""}</dd>
+    </dl></details>` : `<p class="hh-hit muted">Logged after the last scoring pass; it is valued at the next one.</p>`}
+    ${v?.steer_in_short && (s.words || s.reason) ? `<details><summary>His words, as logged</summary><p>${inline(s.words || s.reason)}</p>${shared.get(s.words || s.reason) > 1 ? `<p class="muted small">One message in the chat decided ${shared.get(s.words || s.reason)} steers; each is valued on its own.</p>` : ""}</details>` : ""}
+    ${s.value_judgment ? `<details><summary>What the logging session wrote at the time</summary><p>${inline(s.value_judgment)}</p>${s.value_judged_by ? `<p class="muted small">Written by ${esc(s.value_judged_by)}; the record of the time, not a valuation under the method.</p>` : ""}</details>` : ""}
+  </li>`;
+  }).join("");
+  const steersTable = valued.length ? `<table class="hh-vtable"><thead><tr><th>steer</th><th>what Sean decided, in short</th><th>label</th><th>why, in one line</th></tr></thead><tbody>${
+    steers.map((s) => { const v = values.get(s.id); return `<tr><td>${esc(s.id)}</td><td>${v ? esc(v.steer_in_short) : esc((s.words || s.reason || "").slice(0, 120))}</td><td>${labelTag(v)}</td><td>${v ? inline(v.reason) : "not yet scored"}</td></tr>`; }).join("")
+  }</tbody></table>` : "";
+  const steersPanel = `<div class="stats">
+      <div class="stat"><div class="label">Steers that helped</div><div class="value" style="color:${HIT}">${nv.helped} of ${steers.length}</div><div class="note">${nv.neutral} neutral, ${nv.hurt} hurt${unscored ? `, ${unscored} not yet scored` : ""}</div></div>
+      <div class="stat"><div class="label">What decided the labels</div><div class="value">${strength.measured}</div><div class="note">by a number in the ledger; ${strength.traced} by a chain of named files; ${strength.early} given early, most of the effect still to come</div></div>
+      <div class="stat"><div class="label">Who scored them</div><div class="value">Claude</div><div class="note">${scorers.length ? esc(scorers.join("; ")) : "no scoring yet"}${scoredOn.length ? `, on ${esc(scoredOn.join(", "))}` : ""}; re-scored monthly</div></div>
+    </div>
+    <p class="lede"><b>Helped ${nv.helped} of ${steers.length}.</b> Of the ${steers.length} steers Sean has made, a scoring session read what each one changed in the record, what the engine would have done without it, and any number that shows the difference, and labelled ${nv.helped} helped, ${nv.neutral} neutral and ${nv.hurt} hurt${unscored ? `; ${unscored} ${unscored === 1 ? "is" : "are"} not scored yet` : ""}.</p>
+    <p class="how">${scorerSentence(valued, scorers, scoredOn)} A label is a reading of the record against the default the record shows, with the files that show both; it is not a controlled comparison and not a measurement of Sean's skill. The method is published, <code>operators/steers.md</code>, so a reader can disagree, and every label is re-scored monthly. The one measurement of his judgment the ledger has is the two scores above; his odds steer is labelled by that column's own rule. The table is <code>ledger/steers.md</code>; the lines are <code>ledger/steer-values.jsonl</code>.</p>
+    ${steersTable}`;
 
   main.innerHTML = `<h1>The human hand</h1>
     <p class="how">Sean steers this project, and he can also say how likely he thinks a test is to come back a hit, in the cockpit, before any data and without ever being shown the engine's number. This page puts his number beside the engine's on every direction he has answered, shows how each one came out, and scores both once results land. Every number is read from <code>ledger/human-odds.jsonl</code>, <code>ledger/bets.jsonl</code>, the maps and <code>ledger/steers.jsonl</code> when the page loads.</p>
@@ -161,8 +205,10 @@ function rowHTML(r, maps) {
     <p class="muted small">For reference, the engine's score on all ${eAll.length} of its scored bets is ${eAllB == null ? "not yet available" : eAllB.toFixed(3)} (<a href="${page("calibration.html")}">Calibration</a>).</p>
     <h2 class="hh-h">Direction by direction</h2>
     ${rows.length ? `<ol class="hh-rows">${rows.map((r) => rowHTML(r, maps)).join("")}</ol>` : `<div class="empty">No direction has both numbers yet.</div>`}
-    <h2 class="hh-h" id="steers">Sean's steers</h2>
-    <p class="how">The other half of his hand: every question he chose, rule he set, veto and budget, from <code>ledger/steers.jsonl</code>, newest first. ${steers.length} so far: ${Object.entries(byAction).map(([a, n]) => `${n} ${esc((ACTION[a] || a).toLowerCase())}`).join(", ")}. Judged so far: ${Object.entries(byValue).map(([v, n]) => `${n} ${esc(v)}`).join(", ")}. Each one is a gold mark on the <a href="${page("replay.html")}">Replay</a>.</p>
+    <h2 class="hh-h" id="steers">Sean's steers, valued</h2>
+    <p class="how">The other half of his hand: every question he chose, rule he set, veto and budget, from <code>ledger/steers.jsonl</code>. ${steers.length} so far: ${Object.entries(byAction).map(([a, n]) => `${n} ${esc((ACTION[a] || a).toLowerCase())}`).join(", ")}. Each one is a gold mark on the <a href="${page("replay.html")}">Replay</a>.</p>
+    ${steersPanel}
+    <h3 class="hh-h">Each steer, newest first</h3>
     <ol class="hh-steers">${steerList}</ol>`;
 })();
 

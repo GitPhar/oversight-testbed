@@ -1,0 +1,202 @@
+{
+ "cutoff": "2026-11-04T17:00:00-07:00",
+ "origin_p1": {
+  "P2": "a: round 1, v2-run-1 (no equivalence margin)",
+  "P3": "a: round 1, one-bit 'model said no' predictor",
+  "P8": "a: round 1, own vs other differed in instruction, schema and turn",
+  "P10": "a: round 1, two of ten items drove direction 2",
+  "P11": "b: em-qwalk only",
+  "P12": "b: em-qwalk2 only",
+  "P17": "b: em-gm2bf1 only"
+ },
+ "not_p1": {
+  "P1": "program 2 (om-p2-1..4) and brier.md",
+  "P4": "program 3",
+  "P5": "program 3",
+  "P6": "program 3",
+  "P7": "program 2",
+  "P9": "audit round 2 (programs 1, 2 and 3 at once); round 1's wording fault was a different one",
+  "P13": "programs 2 and 3",
+  "P14": "program 5",
+  "P15": "program 6",
+  "P16": "program 7"
+ },
+ "units": [
+  {
+   "unit": "om-p2-3b:miss",
+   "bet": "om-p2-3b",
+   "kind": "miss",
+   "bet_title": "SimpleToM decomposed on lower-severity stories (re-bet of om-p2-3)",
+   "text": "The planted wrong answer labelled as Haiku's own pulled its behaviour predictions less than the same answer credited to another reader (own pull +0.060, other pull +0.114 over redacted), so \u0394 = \u22120.053 [\u22120.079, \u22120.029]: the bundle's effect runs the wrong way rather than being too small to see. Kind world.",
+   "source": "ledger/audits/om-p2-3b.md front matter failure_reason (ledger row)"
+  },
+  {
+   "unit": "om-p2-3b:cut2",
+   "bet": "om-p2-3b",
+   "kind": "cut",
+   "bet_title": "SimpleToM decomposed on lower-severity stories (re-bet of om-p2-3)",
+   "text": "In \"Secondary results\", replace\n   \"Showing the model its own correct awareness answer (c4) brought behaviour errors from 24.1% (not asked) down to 5.2%.\"\n   with\n   \"Showing the model its own awareness answer (c4; correct in 567 of 581 stories) brought behaviour errors from 24.1% (not asked) down to 5.2%.\"",
+   "source": "ledger/audits/om-p2-3b.md Required cuts item 2"
+  },
+  {
+   "unit": "om-p2-5:miss",
+   "bet": "om-p2-5",
+   "kind": "miss",
+   "bet_title": "Egocentric leakage: does the model's own planted answer pull the rating it attributes to Sam, who never saw it?",
+   "text": "Sam's rating followed the model's planted answer more than the model's own re-rating did (Sam minus own +0.139 [+0.096, +0.186]), so the design-review conjunct 5b fired; the gap comes from upward plants (+0.22) and is not detectable on downward ones (+0.04 [-0.02, +0.10]). Kind world. (Disclosure: see the pre-mortem section; the pre-mortem sentence was seen before this line was written.)",
+   "source": "ledger/audits/om-p2-5.md front matter failure_reason (ledger row)"
+  },
+  {
+   "unit": "om-p2-5:cut1",
+   "bet": "om-p2-5",
+   "kind": "cut",
+   "bet_title": "Egocentric leakage: does the model's own planted answer pull the rating it attributes to Sam, who never saw it?",
+   "text": "**Results file, \"Beside the verdict\" paragraph.** Remove: \"The map's own rule, before the design reviews added the margin, the copy guard and 5b, would have called this a pass.\" Replace with: \"The map's event alone would have called this a pass. The margin over SWAP and the copy guard were added at pre-registration (`a29d6ab`, D11), and step 5b by the design reviews (D12, D12a), all before data.\"",
+   "source": "ledger/audits/om-p2-5.md Required cuts item 1"
+  },
+  {
+   "unit": "om-p2-5:cut2",
+   "bet": "om-p2-5",
+   "kind": "cut",
+   "bet_title": "Egocentric leakage: does the model's own planted answer pull the rating it attributes to Sam, who never saw it?",
+   "text": "**Results file, directly after the two quoted verdict sentences.** Add: \"Here 'cannot be the model's own shifted rating carried over' means that carry-over alone cannot account for the pull on Sam. A full carry-over of the model's own shift (0.36) plus a further pull of about 0.14 fits these numbers too.\" The frozen sentence itself stays as quoted.",
+   "source": "ledger/audits/om-p2-5.md Required cuts item 2"
+  },
+  {
+   "unit": "om-p2-5:cut3",
+   "bet": "om-p2-5",
+   "kind": "cut",
+   "bet_title": "Egocentric leakage: does the model's own planted answer pull the rating it attributes to Sam, who never saw it?",
+   "text": "**Results file, under \"Uptake by distance\".** Remove: \"In every class and band, in OWN, Sam (person) moved more than the model's own re-rating.\" Replace with: \"Pooled over upward and downward plants, in every class and band, in OWN, Sam (person) moved more than the model's own re-rating. Split by direction (an exploratory check by the audit, not pre-registered, uncorrected), the gap comes from upward plants: Sam minus own is +0.22 [+0.16, +0.27] for upward plants and +0.04 [\u22120.02, +0.10] for downward plants, where the rule would read pass. At d = \u221260, Sam moved less than the model's own re-rating (0.19 against 0.27). The same split holds on the statements kept in both directions (+0.20 against +0.03).\"",
+   "source": "ledger/audits/om-p2-5.md Required cuts item 3"
+  },
+  {
+   "unit": "om-p2-6:miss",
+   "bet": "om-p2-6",
+   "kind": "miss",
+   "bet_title": "Is \"own\" a position or a label? Assistant turn vs user turn x \"yours\" vs \"Sam's\", plus the user's",
+   "text": "The label effect was not there at the bar. Where the value sat (the assistant-turn bundle) carried the pull, P +0.23 [+0.13, +0.34]. The label moved uptake only +0.08 [+0.04, +0.13], below 0.15 in each turn (assistant +0.04, user +0.12). Kind world.",
+   "source": "ledger/audits/om-p2-6.md front matter failure_reason (ledger row)"
+  },
+  {
+   "unit": "om-p2-6:cut1",
+   "bet": "om-p2-6",
+   "kind": "cut",
+   "bet_title": "Is \"own\" a position or a label? Assistant turn vs user turn x \"yours\" vs \"Sam's\", plus the user's",
+   "text": "In `programs/other-minds/results/p2-6-position-or-label.md`, \"In plain English\", second paragraph.\n\n   Remove:\n   > In the user turn, the user's own stated answer could not be told apart from the other two labels (user's minus Sam's +0.06 [+0.01, +0.13]; yours minus user's +0.06 [+0.02, +0.11]).\n\n   Replace with:\n   > In the user turn, neither fifth-cell contrast reached the pre-registered 0.15, so \u00a75's fifth-cell rule gives no reading; the frozen fallback sentence (\"could not be told apart\") does not fit these intervals and is not used. Secondary and uncorrected: yours minus user's +0.06 [+0.02, +0.11] and user's minus Sam's +0.06 [+0.01, +0.13] (a t interval on the latter includes 0), so the user's own answer was taken up about midway between a value labelled \"yours\" and one labelled \"Sam's\".\n\n   Log it in a DEVIATIONS row (after data, wording only, no verdict or score change). It departs from the frozen sentence, and it is the rule-5 correction of an overstatement.\n\nNo other sentence needs to change. The author may add as a secondary that the label effect sits mostly in the \u221230 displays (\u221230: L +0.15 [+0.08, +0.23]; +30: +0.04 [+0.01, +0.07]). This is optional and not required.",
+   "source": "ledger/audits/om-p2-6.md Required cuts item 1"
+  },
+  {
+   "unit": "om-p2-6r:miss",
+   "bet": "om-p2-6r",
+   "kind": "miss",
+   "bet_title": "Replication of P2-6 on Sonnet 5.5 and Opus 5.5: does position beat label on both?",
+   "text": "Both models took up the shown number far less than Haiku in every cell (Sonnet +0.10 to +0.23, Opus +0.02 to +0.07, against Haiku +0.14 to +0.45), so P stayed at +0.05 and +0.02, far below the 0.15 bar; on Sonnet the pooled label effect also exceeded position. Kind world.",
+   "source": "ledger/audits/om-p2-6r.md front matter failure_reason (ledger row)"
+  },
+  {
+   "unit": "om-p2-6r:cut1",
+   "bet": "om-p2-6r",
+   "kind": "cut",
+   "bet_title": "Replication of P2-6 on Sonnet 5.5 and Opus 5.5: does position beat label on both?",
+   "text": "**Opus no-own-pull sentence (B5).** In the plain-English Opus bullet, replace\n\n   > Added (D14b): \"On Opus 5.5, the value labelled as the model's own and placed in its own turn was not detectably taken up (uptake +0.07 [-0.01, +0.13]): this design did not detect an own-answer pull in this wording on Opus 5.5. The position effect there has little to split.\"\n\n   with\n\n   > The code also printed the frozen no-own-pull sentence (uptake +0.07 [-0.01, +0.13]). That happened only because a floating-point comparison dropped one pair (co-lin10, statement X, \u221230 display: shown 55, baseline 60, |D| = 0.05 exactly), and \u00a74 keeps that pair, since it drops only |D| < 0.05. With the pair kept as \u00a74 says, Opus's own-turn, own-label uptake is +0.08 [+0.01, +0.14], so the no-own-pull sentence does not apply: on Opus 5.5 that value was taken up, weakly. The reading (fail-small) and the verdict do not change (audit om-p2-6r).\n\n   In the Tables section, after the bullet that begins \"On Opus 5.5, the value labelled as the model's own\u2026\", add: \"(Withdrawn by audit om-p2-6r: a floating-point artefact; see the plain-English note.)\"",
+   "source": "ledger/audits/om-p2-6r.md Required cuts item 1"
+  },
+  {
+   "unit": "om-p2-6r:cut2",
+   "bet": "om-p2-6r",
+   "kind": "cut",
+   "bet_title": "Replication of P2-6 on Sonnet 5.5 and Opus 5.5: does position beat label on both?",
+   "text": "**Opus item count (B5).** Replace \"Sonnet had 15 items with a statement kept in both directions, Opus 13.\" with \"Sonnet had 15 items with a statement kept in both directions, and Opus 13 as the code computed it (14 under \u00a74's rule, because of the floating-point drop noted above).\"",
+   "source": "ledger/audits/om-p2-6r.md Required cuts item 2"
+  },
+  {
+   "unit": "om-p2-6r:cut3",
+   "bet": "om-p2-6r",
+   "kind": "cut",
+   "bet_title": "Replication of P2-6 on Sonnet 5.5 and Opus 5.5: does position beat label on both?",
+   "text": "**Sonnet ordering (B6).** Replace\n\n   > On Sonnet the shown number was taken up about half as much as on Haiku, and the order of the two effects flipped. The label (\"your\" against \"Sam's\") moved the rating slightly more than the position did: +0.08 against +0.05, a difference of \u22120.03 [\u22120.06, \u22120.02] (secondary, uncorrected).\n\n   with\n\n   > On Sonnet the shown number was taken up about half as much as on Haiku. On the pooled measure, the label (\"your\" against \"Sam's\") moved the rating slightly more than the position did: +0.08 against +0.05, a difference of \u22120.03 [\u22120.06, \u22120.02] (secondary, uncorrected). That ordering comes from the \u221230 displays (position +0.01, label +0.14). On the +30 displays alone, position was the larger, +0.07 against +0.05, a difference the data cannot tell from 0 (+0.02 [\u22120.03, +0.08]; audit re-analysis, exploratory).\n\nAlso recommended, not required: change `abs(D) >= MIN_D` to `abs(D) >= MIN_D - EPS` in `p2_6r_replication.py` (and P2-6's `item_uptakes`) for later bets, under a deviation row. om-p2-6's own archive has no pair on the boundary, so its result is unaffected.",
+   "source": "ledger/audits/om-p2-6r.md Required cuts item 3"
+  },
+  {
+   "unit": "om-p2-7:miss",
+   "bet": "om-p2-7",
+   "kind": "miss",
+   "bet_title": "Shared format fingerprint on Haiku, Sonnet and Opus: do the formats' statement-specific deviations for Sam match the model's own?",
+   "text": "Sam's residuals were reproducible on every model (split-half 0.89, 0.70, 0.71) but lined up only weakly with the archived self residuals (rho +0.21, -0.10, +0.24 of the within-session ceiling), so every model failed the 0.5 bar; whether that is the holder or the new session and wording is not separable. Kind world.",
+   "source": "ledger/audits/om-p2-7.md front matter failure_reason (ledger row)"
+  },
+  {
+   "unit": "om-p2-7:cut2",
+   "bet": "om-p2-7",
+   "kind": "cut",
+   "bet_title": "Shared format fingerprint on Haiku, Sonnet and Opus: do the formats' statement-specific deviations for Sam match the model's own?",
+   "text": "**\"But it is not the model's own\" bullet.** Replace \"The correlation was +0.21, \u22120.10 and +0.24 of its ceiling, against the 0.5 bar, and none of the three intervals reaches 0.5.\" with: \"The correlation was +0.21, \u22120.10 and +0.24 of its ceiling, against the 0.5 bar. Haiku's and Sonnet's intervals stay below 0.5; Opus's reaches +0.56.\"",
+   "source": "ledger/audits/om-p2-7.md Required cuts item 2"
+  },
+  {
+   "unit": "om-p2-7:cut3",
+   "bet": "om-p2-7",
+   "kind": "cut",
+   "bet_title": "Shared format fingerprint on Haiku, Sonnet and Opus: do the formats' statement-specific deviations for Sam match the model's own?",
+   "text": "**Pre-mortem paragraph, first bullet.** Replace \"**The hedge happened, on every model.** Sam's ratings sat nearer 50 than the model's own.\" with: \"**The hedge happened cell by cell, but not in the format means the pre-mortem named.** Sam's individual ratings sat nearer 50 than the model's own. The pre-mortem's stated check, Sam's format means nearer 0.5 than self's, came out the other way on every model: the mean distance of the three format means from 0.5 was 0.025 (self) against 0.073 (Sam) on Haiku, 0.074 against 0.102 on Sonnet, and 0.091 against 0.135 on Opus.\" Then keep the per-cell numbers and the \"descriptive and not pre-registered\" sentence as they are.",
+   "source": "ledger/audits/om-p2-7.md Required cuts item 3"
+  },
+  {
+   "unit": "om-p2-7:cut4",
+   "bet": "om-p2-7",
+   "kind": "cut",
+   "bet_title": "Shared format fingerprint on Haiku, Sonnet and Opus: do the formats' statement-specific deviations for Sam match the model's own?",
+   "text": "**\"What the bet asked, and what it found\" bullet.** Replace \"The bet asked whether the quirks of the model's own ratings come back when it rates for someone else. On this design they mostly do not.\" with: \"The bet asked whether the quirks of the model's own archived ratings come back when, in a new session and with the question reworded for Sam, it rates for someone else. On this design they mostly do not; the design cannot say whether the holder, the new session or the rewording is what changed them (see 'What it cannot say').\"\n\nAlso required (no prose change): register p2-7 in `programs/other-minds/reproduce.py` so that it rebuilds the table (with the corrected cell) from the archive, per the TASKS.md standing rule.",
+   "source": "ledger/audits/om-p2-7.md Required cuts item 4"
+  },
+  {
+   "unit": "om-p2-15:miss",
+   "bet": "om-p2-15",
+   "kind": "miss",
+   "bet_title": "Do Haiku's predictions of its own re-ratings after a planted number beat a guess of no effect, cell by cell?",
+   "text": "Self-predictions beat no uptake on the own-answer cells (5.1 vs 8.9 points), but on the other-person cells they sat 17.2 points from Haiku's usual rating on average against 8.8 for its real re-ratings, so their error (13.3) cancelled the own-cell advantage; pooled +0.33 [-3.08, +4.07]. Kind world.",
+   "source": "ledger/audits/om-p2-15.md front matter failure_reason (ledger row)"
+  },
+  {
+   "unit": "om-p2-15:cut1",
+   "bet": "om-p2-15",
+   "kind": "cut",
+   "bet_title": "Do Haiku's predictions of its own re-ratings after a planted number beat a guess of no effect, cell by cell?",
+   "text": "Line 13. **Original:** \"they were worse: 13.3 against 8.8 (+4.5, BCa [\u22120.3, +10.4]). Haiku predicted it would move toward another person's number far more than it actually did, most of all when that number was 60 points away (average predicted uptake \u22120.34 against \u22120.13 measured at that distance).\"\n   **Replacement:** \"they were worse on average, though the interval includes 0: 13.3 against 8.8 (+4.5, BCa [\u22120.3, +10.4]). Its net pull toward another person's number was predicted about right (+2.2 points predicted, +2.2 measured), but its predictions sat about twice as far from its usual rating as its real re-ratings did, in either direction (17.2 points on average against 8.8), most of all when that number was 60 points away (19.7 against 6.8; error 17.4 against 6.8 for no effect). At 30 and 60 points its average predicted uptake was negative, away from the number (\u22120.20 and \u22120.34 against \u22120.11 and \u22120.13 measured). (Signed shifts and spreads: auditor's re-analysis, exploratory.)\"",
+   "source": "ledger/audits/om-p2-15.md Required cuts item 1"
+  },
+  {
+   "unit": "om-p2-15:cut2",
+   "bet": "om-p2-15",
+   "kind": "cut",
+   "bet_title": "Do Haiku's predictions of its own re-ratings after a planted number beat a guess of no effect, cell by cell?",
+   "text": "Line 14. **Original:** \"- The two cancel, so on all cells together it was no better than the guess.\"\n   **Replacement:** \"- The two roughly cancel, so on all cells together this test did not show it beating the guess.\"",
+   "source": "ledger/audits/om-p2-15.md Required cuts item 2"
+  },
+  {
+   "unit": "om-p2-15:cut3",
+   "bet": "om-p2-15",
+   "kind": "cut",
+   "bet_title": "Do Haiku's predictions of its own re-ratings after a planted number beat a guess of no effect, cell by cell?",
+   "text": "Line 15. **Original:** \"(error -0.233 in uptake units, BCa [-0.387, -0.157]). Its own-answer effects are within 0.03 of the truth. Its knowledge of how it reacts is good on average and poor cell by cell.\"\n   **Replacement:** \"(error 0.064 against 0.297 in uptake units, difference \u22120.233, BCa [\u22120.387, \u22120.157]). Its own-answer effects are within 0.03 of the truth; its other-person effects at 30 and 60 points are not (\u22120.20 and \u22120.34 predicted against \u22120.11 and \u22120.13 measured). On the own-answer cells its predictions are good both on average and cell by cell; on the other-person cells they are off at 30 and 60 points, on average and cell by cell.\"",
+   "source": "ledger/audits/om-p2-15.md Required cuts item 3"
+  },
+  {
+   "unit": "om-p2-15:cut4",
+   "bet": "om-p2-15",
+   "kind": "cut",
+   "bet_title": "Do Haiku's predictions of its own re-ratings after a planted number beat a guess of no effect, cell by cell?",
+   "text": "Line 16. **Original:** \"**\\\"Sam\\\" did better than \\\"self\\\".** The same transcripts labelled as another AI's (\\\"Sam\\\") were predicted with 7.2 points of error, against 9.2 for the self label (self minus Sam +1.96, BCa [+0.27, +3.87]). On this archive, at 5 repeats, Haiku predicted another assistant's re-ratings more accurately than its own.\"\n   **Replacement:** \"**The \\\"Sam\\\" label came closer than the \\\"self\\\" label (exploratory).** The same transcripts labelled as another AI's (\\\"Sam\\\") gave predictions 7.2 points from Haiku's measured re-ratings, against 9.2 for the self label (self minus Sam +1.96, BCa [+0.27, +3.87], jackknife-t [\u22120.08, +3.99]). No Sam re-ratings were measured: both labels are scored against Haiku's own. The whole gap is on the other-person cells (+6.5); on the own-answer cells the self label was closer (\u22122.6). It is one of 14 uncorrected secondaries.\"",
+   "source": "ledger/audits/om-p2-15.md Required cuts item 4"
+  },
+  {
+   "unit": "om-p2-15:cut5",
+   "bet": "om-p2-15",
+   "kind": "cut",
+   "bet_title": "Do Haiku's predictions of its own re-ratings after a planted number beat a guess of no effect, cell by cell?",
+   "text": "Line 20. **Original:** \"Sean's 0.70 was given on a card framed by om-p2-4's effect-level numbers; under that framing the bet would almost certainly have passed (`card_event_effect_level_pass`: true, recorded beside the outcome); he is scored on this bet's outcome, as rule H1 requires.\"\n   **Replacement:** \"Sean's 0.70 was given on the cockpit card, whose event (\\\"self-prediction error on the uptake cells is below the always-no-uptake predictor's\\\") names no level or unit and shows no numbers; the map's 0.55 behind it was reasoned from om-p2-4's effect-level error. Read at effect level, the event passes on this archive (\u22120.233, BCa [\u22120.387, \u22120.157]; `card_event_effect_level_pass`: true, to be recorded beside the outcome); read cell by cell in the map's uptake units, it fails (\u22120.088, BCa [\u22120.321, +0.108]). He is scored on this bet's outcome, as rule H1 requires.\"",
+   "source": "ledger/audits/om-p2-15.md Required cuts item 5"
+  }
+ ]
+}

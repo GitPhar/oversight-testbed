@@ -1,0 +1,150 @@
+{
+ "measured": {
+  "haiku": {
+   "n": 120,
+   "declines": 62,
+   "auroc_number": 0.6904894327030033,
+   "coef": [
+    0.08,
+    0.581,
+    0.212,
+    1.335,
+    -1.35,
+    -0.695,
+    -0.468,
+    -0.885,
+    -1.225
+   ],
+   "se": [
+    0.38,
+    0.904,
+    0.224,
+    0.384,
+    0.625,
+    0.528,
+    0.495,
+    0.437,
+    0.593
+   ]
+  },
+  "sonnet": {
+   "n": 120,
+   "declines": 40,
+   "auroc_number": 0.8284375,
+   "coef": [
+    -1.441,
+    2.512,
+    0.188,
+    0.883,
+    -1.614,
+    -0.093,
+    -0.007,
+    -0.139,
+    -0.595
+   ],
+   "se": [
+    0.422,
+    0.672,
+    0.226,
+    0.486,
+    0.526,
+    0.582,
+    0.532,
+    0.474,
+    0.663
+   ]
+  },
+  "opus": {
+   "n": 38,
+   "declines": 5,
+   "auroc_number": 0.9575757575757575,
+   "coef": [
+    -3.637,
+    1.853,
+    -0.092,
+    0.526,
+    -0.229,
+    0.701,
+    -0.117,
+    -0.231,
+    0.0
+   ],
+   "se": [
+    1.097,
+    0.719,
+    0.429,
+    0.882,
+    0.801,
+    0.807,
+    0.952,
+    0.794,
+    1.0
+   ]
+  }
+ },
+ "features": [
+  "intercept",
+  "(100-conf)/25",
+  "(length-150)/50",
+  "gold yes",
+  "rating side yes",
+  "answer type Number",
+  "answer type Other",
+  "answer type Person",
+  "answer type Place"
+ ],
+ "sims": 300,
+ "bootstrap_B_in_sims": 200,
+ "worlds": {
+  "resampled (matched exactly)": {
+   "P(pass)": 0.61,
+   "P(fail)": 0.39,
+   "P(untestable)": 0.0,
+   "P(model passes)": {
+    "haiku": 0.016666666666666666,
+    "sonnet": 0.8866666666666667,
+    "opus": 0.6833333333333333
+   }
+  },
+  "resampled, number shuffled in half the items within strata": {
+   "P(pass)": 0.0033333333333333335,
+   "P(fail)": 0.9966666666666667,
+   "P(untestable)": 0.0,
+   "P(model passes)": {
+    "haiku": 0.0,
+    "sonnet": 0.03,
+    "opus": 0.06666666666666667
+   }
+  },
+  "resampled, number shuffled within strata (number 0)": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "P(model passes)": {
+    "haiku": 0.0,
+    "sonnet": 0.0,
+    "opus": 0.0
+   }
+  },
+  "double bootstrap (wave 1's own sampling uncertainty propagated)": {
+   "P(pass)": 0.23666666666666666,
+   "P(fail)": 0.7633333333333333,
+   "P(untestable)": 0.0,
+   "P(model passes)": {
+    "haiku": 0.10666666666666667,
+    "sonnet": 0.6666666666666666,
+    "opus": 0.24
+   }
+  },
+  "logistic fit": {
+   "P(pass)": 0.03333333333333333,
+   "P(fail)": 0.9666666666666667,
+   "P(untestable)": 0.0,
+   "P(model passes)": {
+    "haiku": 0.0,
+    "sonnet": 0.45666666666666667,
+    "opus": 0.08
+   }
+  }
+ }
+}

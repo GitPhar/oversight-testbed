@@ -27,6 +27,8 @@ Pre-registered in `experiments/gm2b-self-conditioning-40.md` (D45), committed be
 - The caveat about two items carrying the effect can be dropped; the placeholder caveat stands.
 - The question-driven reading stands. "The redacted effect is larger than the shown" should no longer be said.
 
+**Novelty:** partly new. The 40-item replication of em-gm2, with the same standing against the literature: the visible-answer part (repeat agreement falls when the earlier answer is hidden) is Kumaran et al. 2025 (arXiv 2507.03120); the order effect surviving with the answers hidden (ratio 1.23 [0.75, 2.02] here) is not stated in AMEL (Temkit 2026, arXiv 2605.22714), Kang 2026 (arXiv 2607.17219) or Huang et al. (COLM 2026, arXiv 2602.24287), all of which keep the answers visible or measure no order. Partly new, with the same placeholder confound as em-gm2. Search: paper/novelty.md, 2026-11-05, by a claude-fable-5-1 session on the novelty-check branch (93f47af); carried here by the informed-engine session. *(Rule 13, CONTEXT.md §3; written by paper/novelty.md (claude-fable-5-1 session, novelty-check branch, commit 93f47af); carried into this file and the ledger by the informed-engine session (claude-fable-5-1), which did not run the bet.)*
+
 ## Order effect and its decomposition
 
 | item set | gate p | OE shown | OE redacted | OE high | OE low | **R = redacted / shown** | items with redacted ≥ ½ shown | within-order SD shown / redacted | reading |

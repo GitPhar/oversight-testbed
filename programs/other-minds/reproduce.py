@@ -10,7 +10,7 @@ Each analysis also rewrites its results JSON inside the snapshot; that JSON is c
 tolerance 1e-9), with the committed one.
 
   p2-6-tables.md, p2-6r-tables.md,  written whole by write_md() in p2_6_position_label.py / p2_6r_replication.py /
-  p2-7-tables.md                    p2_7_format_fingerprint.py. Regenerated from p2-6-calls.json / p2-6r-calls.json /
+  p2-7-tables.md, p2-15-tables.md   p2_7_format_fingerprint.py (p2-15: analyse() in p2_15_no_uptake.py). Regenerated from p2-6-calls.json / p2-6r-calls.json /
                                     p2-7-calls.json (with program 1's gm3b and mm-gm3b archives) and compared byte for
                                     byte.
   p2-6-position-or-label.md,        hand-written write-ups that reproduce those generated tables under "## Tables".
@@ -152,7 +152,7 @@ def load_modules(tmp, root):
     mods = {"om": om}
     for m in ("p2_1_framing", "p2_1_exploratory", "p2_2_perspective", "p2_3_simpletom", "p2_3b_simpletom_lowsev",
               "p2_4_interpersonal", "p2_5_egocentric", "p2_6_position_label", "p2_6r_replication",
-              "p2_7_format_fingerprint"):
+              "p2_7_format_fingerprint", "p2_15_no_uptake", "p2_5r_replication"):
         mods[m] = importlib.import_module(m)
     for name, mod in list(sys.modules.items()):  # nothing of either program may come from outside the snapshot
         f = getattr(mod, "__file__", None) or ""
@@ -555,6 +555,26 @@ def main():
         t = rep.run(name, p25)
         if t is not None:
             ck.tables(name, t, ["results/p2-5-egocentric.json"])
+
+        # P2-15: archive only, from p2-4-calls.json and program 1's bm0/bm1/exp4-run-3 cells; p2-15-tables.md is written
+        # whole by analyse() and compared byte for byte, and the write-up must contain every generated table
+        ok = rep.run("results/p2-15-tables.md", lambda: mods["p2_15_no_uptake"].analyse() and True)
+        if ok is None:
+            rep.error("results/p2-15-no-uptake.md", RuntimeError("not compared: p2-15-tables.md could not be regenerated"))
+        else:
+            new = (root / "results/p2-15-tables.md").read_text()
+            ck.tables("results/p2-15-tables.md", None, ["results/p2-15-no-uptake.json"], whole=new)
+            ck.tables("results/p2-15-no-uptake.md", R.tables_of(new))
+
+        # P2-5r: from p2-5r-calls.json (Sonnet, Opus) and p2-5-calls.json (the Haiku reference column); write_tables()
+        # output compared byte for byte; the write-up must contain every generated table
+        ok = rep.run("results/p2-5r-tables.md", lambda: run_main(mods["p2_5r_replication"], "--analyse") or True)
+        if ok is None:
+            rep.error("results/p2-5r-replication.md", RuntimeError("not compared: p2-5r-tables.md could not be regenerated"))
+        else:
+            new = (root / "results/p2-5r-tables.md").read_text()
+            ck.tables("results/p2-5r-tables.md", None, ["results/p2-5r-replication.json"], whole=new)
+            ck.tables("results/p2-5r-replication.md", R.tables_of(new))
 
         # P2-6 then P2-6r (P2-6r's Haiku column reads the P2-6 JSON just regenerated): write_md() output compared
         # byte for byte; the write-ups must contain every generated table.

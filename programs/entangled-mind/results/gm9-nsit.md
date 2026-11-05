@@ -20,6 +20,8 @@ The same reasoning applies to every order-effect, QQ or Leggett–Garg-style tes
 
 **What it can't say.** The added text has two parts: the question itself and the model's recorded answer. This analysis can't tell which one does the work. Direction 2 tests that by hiding or replacing the recorded answers.
 
+**Novelty:** partly new. That earlier turns shift a model's later judgments is in print: Temkit (2026, arXiv:2605.22714) finds binary verdicts drift toward planted prior answers across 12 models including Anthropic Haiku through Opus (d = -0.17), and Simhi et al. (2026, arXiv:2603.03308, ICML) report prior turns biasing later responses in three model families. Kang (2026, arXiv:2607.17219) audits question order with committed answers but found saturated outputs. None states our result: 0-100 ratings moving 12 to 23 points after the model's own earlier questions, read as no-signalling-in-time invasiveness, nor the null for a midway yes/no choice (no LLM replication of Kvam et al. 2015 found). Search: WebSearch for "no-signalling in time", "Leggett-Garg", "macrorealism", "question order effects" and "Kvam interference choice confidence" with "language model" or "LLM", then the arXiv abstract page of each hit. *(Rule 13, CONTEXT.md §3; written by a fresh claude-fable-5-1 subagent launched by the informed-engine session, 2026-11-05, web reads only, no model API; its papers-opened list and caveats are in programs/entangled-mind/map/reads/novelty-2026-11-05-em-gm9.md.)*
+
 ## Results
 
 d = mean later rating when the earlier question was asked minus when it was not (rating points). Permutation test of Σd² with labels shuffled within each cell (5,000 permutations); Holm over the six families.

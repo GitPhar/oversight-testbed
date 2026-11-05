@@ -1,0 +1,21 @@
+{
+ "bet": "ss-b14",
+ "chain": "CURBy-RNG",
+ "pulse_index": 1592501,
+ "pulse_time": "2026-11-05 10:17:00 America/Denver",
+ "pulse_time_utc": "2026-11-05T17:17:00.190Z",
+ "previous_index": 1592500,
+ "previous_time_utc": "2026-11-05T17:16:00.183Z",
+ "prereg_commit": "e3ed649",
+ "prereg_commit_time": "2026-11-05 10:16:06 America/Denver",
+ "randomness": "db284398d5db2c8329717cee93a103efa97a21c28375ceca9fa68067d7132ebea1f6c356e0bebd336f38fb8db085c8e823cd9f7c313afada2ed81521e486b9d3",
+ "client": "@buff-beacon-project/curby-client@1.2.0",
+ "certificate_verified": false,
+ "curby_q_status": "stalled (round 28297, 2025-08-22 13:42 America/Denver; checked 2026-11-05 09:58)",
+ "derivation": "python3 ledger/seed.py <randomness> ss-b14 --purpose <p>",
+ "seeds": {
+  "items": 16180817909411768102,
+  "order": 12026579425415227515
+ },
+ "seed_note": "corrected before any draw (D66): the seed commit 35fc122 wrote the 32-bit values {'items': 2982438694, 'order': 2464508027}"
+}

@@ -14,6 +14,7 @@ Checks (operators/learn.md, operators/design-review.md):
   R3  if the bet has a result commit, the review was committed before it
   H1  if Sean's cockpit line for this direction reached ledger/human-odds.jsonl before the pre-registration
       commit, the bet row carries its human_odds and names its id in human_odds_at (ledger/human_odds_match.py)
+Rows still waiting in ledger/inbox/ (not yet folded by ledger/merge_inbox.py) count as in the ledger.
 With --before-run, a missing L2 is a warning (the ledger row follows the pre-registration) and R3 is skipped.
 Exit 0 if every check passes, 1 otherwise. Prints one line per check.
 """
@@ -26,6 +27,8 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
+sys.path.insert(0, str(HERE))
+from merge_inbox import effective   # ledger rows with every inbox line applied (CONTEXT.md section 2, the inbox rule)
 
 
 def git(repo, *a):
@@ -75,7 +78,7 @@ def main():
     filled = bool(lesson) and "<" not in lesson and ("correcting" in low or "none applies" in low)
     ok("L1", bool(pc) and filled, f"§0 lesson row at pre-registration commit {pc or '?'}: " + (lesson[:90] + "…" if lesson else "missing"))
 
-    rows = [json.loads(l) for l in (HERE / "lessons.jsonl").read_text().splitlines() if l.strip()]
+    rows = effective("lessons")
     patterns = {r["id"] for r in rows if r.get("kind") == "pattern"}
     # One lesson may cover several bets pre-registered together ("covers": [...]).
     ln = next((r for r in rows if r.get("kind") == "lesson" and (r.get("bet") == bet or bet in (r.get("covers") or []))), None)
@@ -92,7 +95,7 @@ def main():
     # One design review may cover several bets: the bet row's design_review.path names it.
     rv = ROOT / "ledger" / "design-reviews" / f"{bet}.md"
     try:
-        _rows = [json.loads(l) for l in (HERE / "bets.jsonl").read_text().splitlines() if l.strip()]
+        _rows = effective("bets")
         _b = next((x for x in _rows if x["id"] == bet), None)
         _path = ((_b or {}).get("design_review") or {}).get("path")
         if _path and (ROOT / _path).exists():
@@ -138,7 +141,7 @@ def main():
             ok("R2+", ov == "go" or (ov == "fix-first" and oc not in ("", "null")),
                f"{o.name}: verdict {ov or '?'}" + (f", confirmed {oc}" if ov == "fix-first" else ""))
         if not before_run:
-            bets = [json.loads(l) for l in (HERE / "bets.jsonl").read_text().splitlines() if l.strip()]
+            bets = effective("bets")
             b = next((x for x in bets if x["id"] == bet), None)
             rcm = (b or {}).get("result_commit")
             if rcm and rc:
@@ -150,7 +153,7 @@ def main():
     # before the pre-registration must be copied into the bet row; one that came later is never filled in.
     sys.path.insert(0, str(HERE))
     import human_odds_match as hom
-    _bets = [json.loads(l) for l in (HERE / "bets.jsonl").read_text().splitlines() if l.strip()]
+    _bets = effective("bets")
     _row = next((x for x in _bets if x["id"] == bet), None)
     if _row is None:
         prog = (re.match(r"^programs/([^/]+)/", path) or [None, ""])[1]

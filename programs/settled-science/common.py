@@ -26,14 +26,18 @@ import anthropic  # noqa: E402
 from entangled_mind import llm  # noqa: E402
 
 load_dotenv(P1 / ".env")
-BUDGET_USD = 8.25  # $6.00 (protocol/fixed-rules.md) -> $5.00 before any call (D3) -> $7.50 by br-004 for ss-b10 (D51) -> $8.25 by br-005 for ss-b12 (D53)
+BUDGET_USD = 13.40  # $6.00 (protocol/fixed-rules.md) -> $5.00 before any call (D3) -> $7.50 by br-004 for ss-b10 (D51) -> $8.25 by br-005 for ss-b12 (D53) -> $8.95 by br-007 for ss-b13 (D62) -> $10.20 by br-008 for ss-b14 (D64) -> $13.40 by br-009 for ss-b10b (D65)
 ADAPTIVE_LOW = {"claude-opus-5-5"}  # D18: thinking cannot be disabled on this model
 THINKING_OFF = {}  # model -> the thinking setting that turns thinking off for it
 CACHES = [ROOT / "items" / "leakage-cache.json", ROOT / "bettor" / "bettor-cache.json", ROOT / "bettor" / "pilot-cache.json",
           ROOT / "items" / "r2" / "leakage-cache.json", ROOT / "bettor" / "r2-bettor-cache.json",
           ROOT / "bettor" / "r2-valence-cache.json", ROOT / "bettor" / "r2-striking-cache.json",
           ROOT / "bettor" / "bb-cache.json", ROOT / "bettor" / "bb-pilot-cache.json",   # ss-b10 (D51)
-          ROOT / "items" / "f4" / "leakage-cache.json", ROOT / "bettor" / "f4-bettor-cache.json"]   # ss-b12 (D53)
+          ROOT / "items" / "f4" / "leakage-cache.json", ROOT / "bettor" / "f4-bettor-cache.json",   # ss-b12 (D53)
+          ROOT / "bettor" / "f1-cache.json", ROOT / "bettor" / "f1-pilot-cache.json",            # ss-b13 (D62, D69)
+          ROOT / "items" / "f2" / "leakage-cache.json", ROOT / "bettor" / "f2-cache.json",       # ss-b14 (D64; withdrawn D67, never used)
+          ROOT / "items" / "f2b" / "leakage-cache.json", ROOT / "bettor" / "f2b-cache.json",     # ss-b15 (D74)
+          ROOT / "bettor" / "bbb-cache.json", ROOT / "bettor" / "bbb-opus-cache.json"]           # ss-b10b (D65)
 
 
 def key_of(*parts) -> str:

@@ -1,0 +1,17 @@
+{
+ "unchanged": {
+  "pass": 1.0,
+  "fail": 0.0,
+  "untestable": 0.0
+ },
+ "referent fixed": {
+  "pass": 0.99,
+  "fail": 0.01,
+  "untestable": 0.0
+ },
+ "no format effect": {
+  "pass": 0.0,
+  "fail": 1.0,
+  "untestable": 0.0
+ }
+}

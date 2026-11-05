@@ -1,0 +1,20 @@
+[
+ {
+  "batch": "msgbatch_01BXLq4E2VTTgnktDR5m86Hv",
+  "n": 2400,
+  "ended": true,
+  "seconds": 347
+ },
+ {
+  "batch": "msgbatch_01RgYV9V4bLNAFMsMH1ATH74",
+  "n": 40,
+  "ended": true,
+  "seconds": 346
+ },
+ {
+  "batch": "msgbatch_01G77mJRS5bnJuqosjtA9DbF",
+  "n": 40,
+  "ended": true,
+  "seconds": 122
+ }
+]

@@ -1,0 +1,10 @@
+units: program 2 22, baseline 74
+  p(program 2) 0.30, p(baseline) 0.30: P(pass) 0.033
+  p(program 2) 0.50, p(baseline) 0.50: P(pass) 0.104
+  p(program 2) 0.70, p(baseline) 0.70: P(pass) 0.084
+  p(program 2) 0.60, p(baseline) 0.40: P(pass) 0.647
+  p(program 2) 0.70, p(baseline) 0.45: P(pass) 0.807
+  p(program 2) 0.75, p(baseline) 0.40: P(pass) 0.964
+  p(program 2) 0.80, p(baseline) 0.50: P(pass) 0.920
+  p(program 2) 0.55, p(baseline) 0.35: P(pass) 0.631
+  boundary and validation checks: hold

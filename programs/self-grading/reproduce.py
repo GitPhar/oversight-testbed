@@ -43,6 +43,12 @@ import repro_common as R  # noqa: E402
 
 PROGRAM = "self-grading"
 BETS = {"sg-b1": "sg_b1_placement", "sg-b2": "sg_b2_label", "sg-b3": "sg_b3_flaw"}
+# Follow-ups of sg-b3 (2026-11-05): their write-ups' tables are printed by each script's tables(); every table is
+# regenerated from the regenerated analysis and compared line for line, plus the verdict and spend in the prose.
+FOLLOWUPS = {"sg-b4": ("sg_b4_quoted", "results/sg-b4-quoted.md"), "sg-b5": ("sg_b5_length", "results/sg-b5-length.md"),
+             "sg-b6": ("sg_b6_samerun", "results/sg-b6-samerun.md"), "sg-b7": ("sg_b7_leadin", "results/sg-b7-leadin.md"),
+             "sg-b8": ("sg_b8_wait", "results/sg-b8-wait.md")}
+BETS.update({k: v[0] for k, v in FOLLOWUPS.items()})
 WRITEUPS = {"sg-b1": "results/sg-b1-placement.md", "sg-b2": "results/sg-b2-label.md", "sg-b3": "results/sg-b3-flaw.md"}
 MODELS = ("haiku", "sonnet", "opus")
 FULL = {"haiku": "claude-haiku-5-5", "sonnet": "claude-sonnet-5-5", "opus": "claude-opus-5-5"}
@@ -463,6 +469,28 @@ def main():
                     check_analysis(rep, root, name_, r)
                     if not pilot:
                         main_runs[bet] = r
+        for bet, (mod, md) in FOLLOWUPS.items():
+            if not (root / md).exists():
+                continue
+            if bet not in main_runs:
+                rep.error(md, RuntimeError(f"results/{bet}-analysis.json could not be regenerated"))
+                continue
+            text = (root / md).read_text()
+            r = main_runs[bet]
+            try:
+                regen = __import__(mod).tables(r)
+                v = re.search(r"\*\*Pre-registered verdict: ([\w, -]+?)\.\*\*", text).group(1)
+                want = {"pass": "pass, unreplicated"}.get(r["verdict"], r["verdict"])
+                if v != want:
+                    raise RuntimeError(f"verdict in the prose reads {v!r}; the analysis gives {want!r}")
+                cost = re.search(r"\*\*(\d+) calls, complete, no refusal, \$([\d.]+)\*\*", text)
+                n = sum(1 for k in cs.get(f"{bet}-grade-calls", {}))
+                if cost is None or int(cost.group(1)) != n or cost.group(2) != f"{r['spend_usd']:.3f}":
+                    raise RuntimeError(f"calls/spend in the prose do not match the cache ({n} calls, ${r['spend_usd']:.3f})")
+            except Exception as e:  # noqa: BLE001
+                rep.error(md, e)
+                continue
+            rep.compare_tables(md, text, regen)
         for bet, md in WRITEUPS.items():
             if not (root / md).exists():
                 continue
