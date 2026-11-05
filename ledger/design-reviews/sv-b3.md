@@ -170,3 +170,20 @@ Checked against cbce911: DEVIATIONS D9–D11, "Addendum D9" in `sv-b3.md`, `svd_
 - **Nothing else changed.** The other D7/D8 fixes are as confirmed in Addenda 1 and 2.
 
 `confirmed_at` stays null.
+
+## Addendum 4: confirmation (2026-11-05 05:47 America/Denver)
+
+Checked against 9bae3a2 (DEVIATIONS D12, `svd_report.stop_cause(model, step)`) with stubbed runs in scratch (`/private/tmp/claude-501/-Users-seanpharris-oversight-testbed/0a71ee39-78f8-4098-9ca9-34db26080759/scratchpad/review-sv-b3/stops.py`). No API calls were made, and `programs/said-vs-did/results/` is still empty.
+
+- **A. Said cap during Sonnet: fixed.** Sonnet and Opus both name "sv-said stopped during claude-sonnet-5-5: the step cap …".
+- **C. An sv-b1 error on an Opus job, then the sv-b3 cap during Opus: fixed.** Opus names only the sv-b3 cap.
+- **E. An sv-b3 error on a Sonnet job: correct.** Sonnet and Opus name that error.
+- **F. All items complete:** no not-run sentence.
+- **D. Still wrong.** The said step stopped on a 529 error during Haiku and was resumed to completion, which D7's resume rule expressly allows. sv-b3 was then stopped by its own cap during Opus. The report read: "Opus: not run (20 of 80 items complete; stopped by sv-b3 … the step cap ($0.47) was reached …; **sv-said error: 1 error(s); first: job `said|haiku|h057` …**)". The said step's last logged stop is that resumed error: nothing logs that the resume completed. So the sentence names, as a cause, a stop that the resume undid.
+- **Fix:** in `stop_cause(model, step)`, count a step's logged stop only if this model's items for that step are still incomplete in its cache:
+  - said step: any `said|{short}|{id}` missing for `items_for(model, step)`;
+  - bet step: any `{step}|{short}|{id}` key missing, or for b1, any of the three b1 keys missing.
+
+  Alternatively, have `Caller.run` log "completed" lines and discard stops that precede one. Record either under a dated DEVIATIONS row before any data.
+
+`confirmed_at` stays null.

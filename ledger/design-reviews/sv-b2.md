@@ -272,3 +272,27 @@ In the four cases above, the corrected sentences are:
 - (d) Haiku, Sonnet and Opus: sv-b2's error.
 
 **Not confirmed.** `confirmed_at` stays null.
+
+## Addendum: confirmation against 9bae3a2 (2026-11-05 05:48 America/Denver)
+
+I checked DEVIATIONS D12 and `svd_report.stop_cause(model, step)`. `programs/said-vs-did/experiments/` at HEAD is identical to 9bae3a2. What I ran, with no paid calls: `d9_confirm.py`, `d12_extra.py` and `d12_g.py` in my scratch folder. They drive the real `run("said")` and `run("b2")` with a stubbed `call`, using go reviews in the scratch folder only, then build the not-run sentences with `svd_report.sentences`.
+
+**What D12 fixes.** Six of the seven cases now give the right cause:
+- (a) The said cap stops the run during Sonnet. Sonnet and Opus both name the said step's $0.85 cap.
+- (b) The b2 cap stops the run during Sonnet. Sonnet and Opus both name the $0.95 b2 cap.
+- (c) sv-b1's cap stop on Opus is no longer named. Opus names only the sv-b2 cap.
+- (d) sv-b1's resolved error is no longer named. All three models name sv-b2's error.
+- (e) sv-b2 stops on an error during Sonnet and is resumed past. Later the b2 cap stops it during Opus. Opus names only the cap.
+- (f) A refusal in sv-b3 happens before b2 runs. All three models name the refusal and its request ID.
+
+**Still wrong in one case.** In (g), the said step stops on an error during Sonnet, is resumed, and finishes; later the b2 cap stops b2 during Opus. Opus's sentence then reads "stopped by sv-b2 stopped during claude-opus-5-5: the step cap ($0.95) …; **sv-said error: … job `said|sonnet|h062`** …". Opus has all its said ratings, so the said-step error stopped nothing that Opus needed. The cause is that "each step's last logged stop" survives even after that step was resumed and completed. A resumed-past error is therefore dropped only when a later stop in the same step replaces it.
+
+**Exact fix**, with a DEVIATIONS row before any data:
+- `rows()` reports `missing_said` and `missing_behaviour` per model.
+- `stop_cause` names the sv-said stop only when the model has a missing said rating.
+- `stop_cause` names the sv-{step} stop only when the model has a missing behaviour.
+- With that, (g) names only the b2 cap, and cases (a)–(f) are unchanged.
+
+**Nothing else broke.** 9bae3a2 changes only `svd_report.py` and DEVIATIONS.
+
+**Not confirmed.** `confirmed_at` stays null.
