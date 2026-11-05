@@ -201,6 +201,10 @@ def secondaries(rs, seed):
         out["loo_margin_flip_ids"] = [rs[k]["id"] for k in range(len(rs))
                                       if (S.margin_stat(pred[:k] + pred[k + 1:], rs[:k] + rs[k + 1:],
                                                         np.delete(y, k))[0] >= MARGIN) != base]
+        # D25 (reporting only, added after data): the point margin with each flipping item left out
+        out["loo_margin_without"] = {rs[k]["id"]: float(S.margin_stat(pred[:k] + pred[k + 1:], rs[:k] + rs[k + 1:],
+                                                                      np.delete(y, k))[0])
+                                     for k in range(len(rs)) if rs[k]["id"] in out["loo_margin_flip_ids"]}
     ev, ne = int(y.sum()), int(len(y) - y.sum())
     out["loo_testability_flip_ids"] = ([r["id"] for r in rs if r["event"]] if ev == MIN_EVENTS else []) + \
                                       ([r["id"] for r in rs if not r["event"]] if ne == MIN_EVENTS else [])
@@ -241,7 +245,8 @@ def report():
                      + ", ".join(f"{k} {'met' if v else 'not met'}" for k, v in p["conditions"].items()) + " |")
     else:
         lines.append(f"| {p['n']} | {p['missing']} | {p['events']} | — | — | — | — | — | untestable |")
-    lines += ["", "Simple guesses (oriented AUROC): " + (", ".join(f"{k} {v:.3f}" for k, v in p.get("dumb", {}).items())
+    lines += ["", f"Bar: margin at least {MARGIN:.2f} with its interval above 0; within-type interval above 0.50; "
+                  f"gate p below {GATE_P:.2f}.", "", "Simple guesses (oriented AUROC): " + (", ".join(f"{k} {v:.3f}" for k, v in p.get("dumb", {}).items())
                                                      or "—"), ""]
     n = s.get("new_half_only", {})
     lines.append("**Secondary statistics** (reported, never the verdict):")
@@ -259,7 +264,9 @@ def report():
     if "margin_with_confidence_shuffled_within_type" in s:
         lines.append(f"- Margin with the number shuffled within question type: "
                      f"{s['margin_with_confidence_shuffled_within_type']:+.3f}. Leave-one-item-out ids that flip the "
-                     f"point-margin condition: {s['loo_margin_flip_ids'] or 'none'}; that flip testability: "
+                     f"point-margin condition: {s['loo_margin_flip_ids'] or 'none'}"
+                     + "".join(f" (margin without {k}: {v:+.3f})" for k, v in s.get("loo_margin_without", {}).items())
+                     + "; that flip testability: "
                      f"{s['loo_testability_flip_ids'] or 'none'}.")
     if n.get("testable"):
         lines.append(f"- The 150 new items alone: {n['events']} backed down; AUROC {n['auroc']:.3f}, best simple guess "

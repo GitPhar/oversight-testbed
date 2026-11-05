@@ -46,8 +46,13 @@ its printed parts (sv-b3: $0.424 + $0.176 = $0.600, exact $0.6006, which rounds 
 says so.
 
 Registered files (every one must be accounted for, or the run fails):
-  results/sv-b*-analysis.json   rebuilt by svd_wave1.analyse() and compared byte for byte
-  results/sv-b*-*.md            the three write-ups above
+  results/sv-b1..b3-analysis.json   rebuilt by svd_wave1.analyse() and compared byte for byte
+  results/sv-b1..b3 write-ups       the three write-ups above
+  results/sv-b5-analysis.json, sv-b6-analysis.json   rebuilt by experiments/sv_b5.py and sv_b6.py `analyse` (no calls)
+                                    and compared byte for byte (check_wave2)
+  results/sv-b5-pushback.md, sv-b6-decline-trivia.md   the script's own `report` output must appear verbatim, and
+                                    every decimal of two or more places in the hand-written part (the Novelty line,
+                                    which quotes papers, excepted) must appear in that generated block
 The call caches are the inputs, not outputs, so they are not compared. No run log, error log or refusal record was
 written by wave 1 (results/sv-run-log.md, sv-errors.md, refusal.md are absent; the "Run" check relies on that).
 """
@@ -409,6 +414,54 @@ def check_writeup(rep, root, C, W, step, res):
     rep.compare(name, "\n\n".join(a), "\n\n".join(b), what=what)
 
 
+# ----- wave 2 (sv-b5, sv-b6): their own scripts -------------------------------------------------------------------
+
+WAVE2 = {"sv-b5": ("sv_b5", "results/sv-b5-analysis.json", "results/sv-b5-pushback.md"),
+         "sv-b6": ("sv_b6", "results/sv-b6-analysis.json", "results/sv-b6-decline-trivia.md")}
+DEC = re.compile(r"[+\u2212-]?\d+\.\d{2,}")
+
+
+def check_wave2(rep, root, modname, name, md):
+    """sv-b5 and sv-b6: `analyse` (no calls) is run on the snapshot's caches and its JSON compared byte for byte; the
+    write-up must contain the script's own `report` output verbatim (every table and secondary line in it is
+    generated); and every decimal of two or more places in the write-up's hand-written part (everything outside that
+    block) must appear, with its sign, in the generated block, so no hand-written number can drift from the archive."""
+    out = root / name
+    if not out.exists():
+        return
+    import importlib
+    mod = importlib.import_module(modname)
+    if not Path(mod.__file__).resolve().is_relative_to((root / "experiments").resolve()):
+        rep.error(name, RuntimeError(f"{modname} imported from outside the snapshot: {mod.__file__}"))
+        return
+    committed = out.read_text()
+    out.unlink()
+    rep.run(name, mod.analyse)
+    if not out.exists():
+        rep.error(name, RuntimeError("analyse did not write the file"))
+        return
+    rep.compare(name, committed, out.read_text())
+    if not (root / md).exists():
+        return
+    _, gen = R.quiet(mod.report)
+    gen = gen.rstrip("\n")
+    text = (root / md).read_text()
+    if gen not in text:
+        start = text.find("**Verdict (pre-registered reading):**")
+        rep.compare(md, text[start:start + len(gen)] if start >= 0 else "(no generated block found)", gen,
+                    what="generated report block")
+        return
+    norm = lambda s: s.replace(MINUS, "-")
+    have = {norm(x).lstrip("+") for x in DEC.findall(gen)} | {norm(x) for x in DEC.findall(gen)}
+    hand = "\n".join(l for l in text.replace(gen, "").splitlines() if not l.startswith("**Novelty:**"))  # cites papers
+    loose = [x for x in DEC.findall(hand) if norm(x) not in have and norm(x).lstrip("+-") not in have]
+    if loose:
+        rep._row("diff", md, f"hand-written numbers not in the generated block: {', '.join(loose[:6])}")
+    else:
+        rep._row("match", md, f"generated block ({gen.count(chr(10)) + 1} lines) verbatim; "
+                              f"{len(DEC.findall(hand))} hand-written decimals found in it")
+
+
 def main():
     tmp = R.snapshot([f"programs/{PROGRAM}", *P1_FILES])
     try:
@@ -442,6 +495,8 @@ def main():
                     check_writeup(rep, root, C, W, step, res)
                 except Exception as e:  # noqa: BLE001
                     rep.error(md, e)
+        for bet, (modname, name, md) in WAVE2.items():
+            check_wave2(rep, root, modname, name, md)
         return rep.finish()
     finally:
         R.cleanup(tmp)
