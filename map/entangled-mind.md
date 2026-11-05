@@ -180,3 +180,14 @@ Added 2026-11-05 10:02 America/Denver (commit 7bb7821; first written as 10:20, a
 - **gm2q-f3 bet.** Pre-registered as `em-gm2q2` (`1e0c9c1`, seed `74b63b1`), engine odds 0.06 (v2: prior 0.23, adjustment −0.17), no human odds.
 - **gm2q-f3 result (2026-11-05, after the audit).** em-gm2q2 **fail** (audit `3f52855` stands; 3 cuts applied, D86; plant pl-039 caught). With only questions in the message, both models' raw order gates were significant, but Opus failed leave-one-item-out (its turn-by-turn yardstick rests on h058 and h279) and Sonnet's wrong-target check emptied 10 cells (its questions-only pattern was unrelated to turn by turn, r = 0.04). Rules out, on these items and models, a questions-only order effect at least half the turn-by-turn one that survives leave-one-item-out and a same-order wrong-target check; it does not rule out order effects in one message. The audit's next test (a Sonnet re-run with a middle-statement placebo and a level-adjusted check, about $1.9) is a lead, not a required follow-up (killed bet).
 - **gm2bf1-f1 (2026-11-05).** em-gm2bf1f1 **withdrawn before data** on design review (redesign, D88; $0). em-gm2q's Haiku turn-by-turn chains are already a fresh run on gm2's items: they repeat em-gm2bf1's order spans (ρ 0.95) and fail the frozen guard and gm2's group, so the bet could not pass. The fresh-run question is answered at $0 (the link is not one run's noise; it fails the stricter guard on any run). A re-bet would be a $0 archive test of the guard choice (cross-fitted noise and extremity), not pre-registered here.
+
+### dm6f2-f2 result and its follow-ups (2026-11-05, after the audit)
+
+dm6f2-f2 ran as bet `em-dm6f2f2` (pre-registration `33d18d7`, results `494d968`, audit `8c88c81`). Verdict, from the ledger: **pass, unreplicated** (Novelty: partly new). With both templates reworded so the number is about Sonnet's own guess, its under-70% list still differed by format (D +0.27 [+0.18, +0.37]); the rewording only partly removed the suspicious reading and also turned answers into Yes/No, so the referent explanation is not separated. Re-scout: `programs/entangled-mind/map/reads/remap-2026-11-05-em-dm6f2f2.md`. The two cheapest follow-ups (cards posted with these nodes, no engine odds on them):
+
+| id | grows from | direction | models | cost | engine P(pass) |
+|---|---|---|---|---|---|
+| dm6f2f2-f1 | dm6f2-f2, bet `em-dm6f2f2` | Does Opus's under-70% list change with the confidence format, on 40 questions? | Opus | about $0.30 | 18 (v2) |
+| dm6f2f2-f2 | dm6f2-f2, bet `em-dm6f2f2` | On science questions, the two missing cells of wording × forced Yes/No | Sonnet | about $0.56 | 36 (v2) |
+
+What the re-scout changes (its closing paragraph): adds a half-range follow-up (Hansson, Juslin and Winman 2003) and re-prices a threshold-free rank version upward (round-number heaping is a rival); Opus needs at least 40 questions to be readable; odds unmoved by the reads.
