@@ -201,3 +201,6 @@ The cheapest test that could overturn the reading behind the Haiku conjunct is a
 A second test re-runs Haiku's 100 reversed-order flattery calls once more (about $0.03). If p_avg's sign changes on more than about 6 of the 52 first-only items, the pass rests on rating noise.
 
 For the mechanism, the cheapest test the prior work leaves open is the rival the design names but cannot separate, plausibility. It is a BrainBench-style pair where the altered version is the better-news one: the items whose alteration makes the paper's own hypothesis look *better*, chosen by a rater blind to which version is real and not by the tested models' own flattery answers, which would be circular. On those, a valence rule must pick the altered version, while recognition or the forecasting prompt would not. Selection by a written rule costs about $0.05 for 200 blind Opus labels (or $0 by hand); then about 200 Haiku and Sonnet calls, about $0.60.
+
+
+Revealed 2026-11-05: pl-038, clean; nothing to set aside.
