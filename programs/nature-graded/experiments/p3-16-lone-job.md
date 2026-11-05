@@ -14,7 +14,7 @@ Frozen at this file's commit time (America/Denver; the commit's author time is a
 | engine odds, P(pass) | **5**, elicited 2026-11-04 22:54 in a fresh context from `map/odds-elicitation/rows-v1-p3-16.md` alone (template v1, single row; `map/odds-elicitation/v1-p3-16.md`). Unchanged by the lesson (below). |
 | human odds, P(pass) | **no human odds**: `ledger/human-odds.jsonl` has no line for P3-16 at this commit (CONTEXT §3 rule 11; never asked for in a terminal). Q16 is on `map/human-odds.md` for the cockpit. |
 | budget | $0 API · ≤ 10 QPU s total, ≤ 4 s per job · 1 laptop hour |
-| approval | per `operators/hardware.md` "Who approves": this file states the budget, the design review checks it against the estimate, and the engine records its approval as a steer citing st-16. `--submit` refuses until `ledger/steers.jsonl` has that steer. |
+| approval | per `operators/hardware.md` "Who approves": this file states the budget, the design review checks it against the estimate, and the engine records its approval as a `budget_ruling` row in `ledger/spend.jsonl` citing st-16. *(Amended D29.)* `--submit` refuses until that file has a row with kind `budget_ruling`, bet `ng-p3-16`, resource `qpu_s`, an `under` field citing st-16 and `approved_qpu_s`. It also refuses if the planned total is above `approved_qpu_s`, and stops before any job that would take the billed seconds plus the remaining estimates above it. |
 | pre-mortem | "If this fails, the most likely reason is that 3 November's 0.50 was a passing state of the chip, so the lone barrier job reads about 0.30, like every arm on 4 November." Kind: `world`. |
 | lesson | Correcting P8, P6: P3-15 never ran the circuit alone in its own job, the one 3 November feature no later run repeated. This bet runs it alone and shared, minutes apart on one evening, checks the shared arm against P3-15's 0.30, and its odds are 5% (from 5% on the map) because every 4 November arm read 0.25–0.32. |
 | design review | before submission, a fresh auditor dry-runs this design (operators/design-review.md) → `ledger/design-reviews/ng-p3-16.md`, launched by the oversight-testbed session. **No submission before a go** (or a confirmed fix-first). `--submit` checks the review file's verdict in code. |
@@ -52,9 +52,9 @@ On 3 November, program 1's circuit made the chip say "yes" 50% of the time, abou
 | step | what | calls | est. cost |
 |---|---|---|---|
 | 1 | seed commit | CURBy | $0 |
-| 2 | design review by a fresh auditor (launched by the oversight-testbed session); then the engine's budget steer citing st-16 | 0 paid | $0 |
+| 2 | design review by a fresh auditor (launched by the oversight-testbed session); then the engine's `budget_ruling` in `ledger/spend.jsonl` citing st-16 (D29) | 0 paid | $0 |
 | 3 | `--predict`: read the live target (IBM API, 0 QPU s), build the three jobs, four predictions, per-qubit calibration dates; commit | 1 IBM read | laptop |
-| 4 | `--submit`: refuses without a design-review go, without the engine's budget steer, unless `check_prereg.py --before-run` passes, if any code it runs is uncommitted, without committed predictions and a matching circuit hash, if any job's raw file or `Program 3 P3-16 job <X>` QPU-ledger entry exists, if any job's estimate is above 4 s or the total above 10 s, or under the reserve rule (cumulative + 1.5 × total estimate ≤ 300 s). Then three `run_hardware` jobs back to back. If one errors, it is recorded and the rest are **not** submitted. | 3 jobs | ≈ 7.1 QPU s |
+| 4 | `--submit`: refuses without a design-review go, without the engine's `budget_ruling` row (or if the planned total exceeds its `approved_qpu_s`; D29), unless `check_prereg.py --before-run` passes, if any code it runs is uncommitted, without committed predictions and a matching circuit hash, if any job's raw file or `Program 3 P3-16 job <X>` QPU-ledger entry exists, if any job's estimate is above 4 s or the total above 10 s, or under the reserve rule (cumulative + 1.5 × total estimate ≤ 300 s). Then three `run_hardware` jobs back to back. If one errors, it is recorded and the rest are **not** submitted. | 3 jobs | ≈ 7.1 QPU s |
 | 5 | `--analyse` | 0 | laptop |
 
 ## 4. Statistics
@@ -123,7 +123,7 @@ On 3 November, program 1's circuit made the chip say "yes" 50% of the time, abou
 - [x] Pass rule and verdict sentences applicable by a stranger.
 - [x] Pre-mortem: one sentence, checkable, with kind.
 - [x] Lesson row filled after reading the ledger, Brier scores, audits and lessons. The same sentence goes to `ledger/lessons.jsonl` as `ls-ng-p3-16` (appended by the oversight-testbed session).
-- [ ] Design review **go** (or confirmed fix-first); the engine's budget steer citing st-16; `check_prereg.py ng-p3-16 … --before-run` passes.
+- [ ] Design review **go** (or confirmed fix-first); the engine's `budget_ruling` in `ledger/spend.jsonl` citing st-16 (D29); `check_prereg.py ng-p3-16 … --before-run` passes.
 - [x] §2 records CURBY-Q round 28297 (stalled) and names CURBy-RNG; the seed commit follows.
-- [x] Budget caps, hard stop, reserve rule, review gate, budget-steer gate and the commit-before-submit guard enforced in code.
+- [x] Budget caps, hard stop, reserve rule, review gate, budget-ruling gate and the commit-before-submit guard enforced in code.
 - [x] DEVIATIONS.md D28.

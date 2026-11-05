@@ -38,11 +38,11 @@ ENGINE = ROOT.parents[1]
 SHOTS = 1000
 SIM_SHOTS = 100_000
 EST_JOB_CAP_S = 4.0
-EST_TOTAL_CAP_S = 10.0          # the budget stated in the pre-registration (approval: the engine's steer citing st-16)
+EST_TOTAL_CAP_S = 10.0          # the budget stated in the pre-registration (approval: the engine's budget_ruling, D29)
 RESERVE_LINE_S = 300.0
 BACK_TO_BACK_MIN = 60.0         # report "not back to back" if the three jobs' executions span more than this
 DESIGN_REVIEW = ENGINE / "ledger" / "design-reviews" / "ng-p3-16.md"
-STEERS = ENGINE / "ledger" / "steers.jsonl"
+SPEND = ENGINE / "ledger" / "spend.jsonl"
 D = ROOT / "data"
 SEED = D / "p3-16-seed.json"
 PRED = D / "p3-16-predictions.json"
@@ -153,17 +153,20 @@ def design_review_go() -> bool:
     return bool(v) and (v[0] == "go" or (v[0] == "fix-first" and c and c[0] not in ("", "null")))
 
 
-def budget_approved() -> bool:
-    """operators/hardware.md 'Who approves': the engine records its approval as a steer citing st-16."""
-    if not STEERS.exists():
-        return False
-    for line in STEERS.read_text().splitlines():
+def approved_qpu_s() -> float | None:
+    """D29, operators/hardware.md 'Who approves': the engine records its approval as a budget_ruling row in
+    ledger/spend.jsonl citing st-16. Returns the approved QPU seconds for ng-p3-16 (the latest such row), or None."""
+    if not SPEND.exists():
+        return None
+    got = None
+    for line in SPEND.read_text().splitlines():
         if not line.strip():
             continue
         r = json.loads(line)
-        if r.get("id") != "st-16" and "ng-p3-16" in line and "st-16" in line:
-            return True
-    return False
+        if (r.get("kind") == "budget_ruling" and r.get("bet") == "ng-p3-16" and r.get("resource") == "qpu_s"
+                and "st-16" in str(r.get("under", "")) and isinstance(r.get("approved_qpu_s"), (int, float))):
+            got = float(r["approved_qpu_s"])
+    return got
 
 
 def already_logged(j: str) -> bool:
@@ -180,8 +183,9 @@ def submit():
         raise SystemExit(f"jobs {jobs_done} already ran (raw file or QPU ledger entry); nothing is resubmitted")
     if not design_review_go():
         raise SystemExit("no design-review go (or confirmed fix-first) at " + str(DESIGN_REVIEW))
-    if not budget_approved():
-        raise SystemExit("no engine budget steer for ng-p3-16 citing st-16 in ledger/steers.jsonl")
+    approved = approved_qpu_s()
+    if approved is None:
+        raise SystemExit("no budget_ruling row for ng-p3-16 (resource qpu_s, under st-16, approved_qpu_s) in ledger/spend.jsonl")
     chk = subprocess.run(["python3", str(ENGINE / "ledger" / "check_prereg.py"), "ng-p3-16", str(ENGINE),
                           "programs/nature-graded/experiments/p3-16-lone-job.md", "--before-run"], capture_output=True, text=True)
     if chk.returncode != 0:
@@ -199,13 +203,18 @@ def submit():
     est = pred["estimate_qpu_s"]
     if max(est.values()) > EST_JOB_CAP_S or pred["estimate_total_qpu_s"] > EST_TOTAL_CAP_S:
         raise SystemExit(f"estimate {est} above the per-job {EST_JOB_CAP_S} s or total {EST_TOTAL_CAP_S} s cap")
+    if pred["estimate_total_qpu_s"] > approved:
+        raise SystemExit(f"planned total {pred['estimate_total_qpu_s']:.2f} s above the approved {approved} s (D29)")
     used = max(backends.cumulative_qpu_seconds(), float(backends.service_usage()["usage_consumed_seconds"] or 0))
     if used + 1.5 * pred["estimate_total_qpu_s"] > RESERVE_LINE_S:
         raise SystemExit(f"reserve rule: {used} + 1.5 x {pred['estimate_total_qpu_s']:.1f} > {RESERVE_LINE_S}")
     circs = qpy.load(io.BytesIO(QPY.read_bytes()))
-    k = 0
-    for j in pred["job_order"]:
+    k, billed = 0, 0.0
+    for n, j in enumerate(pred["job_order"]):
         labs = [l for l in pred["labels"] if l["job"] == j]
+        rest = sum(est[x] for x in pred["job_order"][n:])
+        if billed + rest > approved:     # D29: never past the approved seconds, counting what earlier jobs billed
+            raise SystemExit(f"billed {billed} s + remaining estimate {rest:.2f} s > approved {approved} s; job {j} and later not submitted")
         pubs = [(circs[k + i], None, l["shots"]) for i, l in enumerate(labs)]
         k += len(labs)
         t0 = dt.datetime.now(dt.timezone.utc).isoformat()
@@ -216,6 +225,7 @@ def submit():
         except Exception as e:      # recorded, never resubmitted; the remaining jobs are not submitted (section 5.3)
             raw_path(j).write_text(json.dumps({"job": j, "submitted_at": t0, "job_error": repr(e)}, indent=1))
             raise SystemExit(f"job {j} failed: {e!r}; remaining jobs not submitted")
+        billed += float(usage["quantum_seconds"] or 0)
         rec = {"job": j, "arms": [l["arm"] for l in labs], "submitted_at": t0, "usage": usage, "counts": counts}
         raw_path(j).write_text(json.dumps(rec, indent=1))           # saved at once, before anything else
         try:
