@@ -1,6 +1,6 @@
 # Program 5 scout: the reads
 
-Scouted 2026-11-05, 04:30 to 05:00 America/Denver, by four reader subagents (claude-opus-5-5). Each reader had its own list of sources and its own file, so no reader could overwrite another's record. Web reads only, no model API calls, $0. Seed question: *does a model grade its own work more kindly than someone else's identical work?* (st-17).
+Scouted 2026-11-05, 04:36 to 04:51 America/Denver (readers launched just after 753e334 at 04:35; reads committed 4679537 at 04:51; an earlier version of this line said 04:30 to 05:00, a guess), by four reader subagents (claude-opus-5-5). Each reader had its own list of sources and its own file, so no reader could overwrite another's record. Web reads only, no model API calls, $0. Seed question: *does a model grade its own work more kindly than someone else's identical work?* (st-17).
 
 | file | cluster | records | full | partial | abstract |
 |---|---|---|---|---|---|

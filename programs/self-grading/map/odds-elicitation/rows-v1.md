@@ -1,6 +1,6 @@
 # Program 5 (self-grading): direction rows for odds elicitation (v1)
 
-Written 2026-11-05 05:05 America/Denver, by the scout, before any odds and before any program-5 data. Every row is judged on its own. Models are claude-haiku-5-5, claude-sonnet-5-5 and claude-opus-5-5, at their thinking-off settings. "Work" is a three-sentence conclusion that a model writes for a short made-up study summary (design, groups, outcome, result with 95% interval, one complication), 60 test studies. Grades are 0-100: 0 = certainly inaccurate or unsupported, 100 = certainly accurate and fully supported. "Kinder" means a higher grade.
+Written 2026-11-05 04:52 America/Denver (commit bc3604c; an earlier version of this line said 05:05, a guess, corrected from the commit clock), by the scout, before any odds and before any program-5 data. Every row is judged on its own. Models are claude-haiku-5-5, claude-sonnet-5-5 and claude-opus-5-5, at their thinking-off settings. "Work" is a three-sentence conclusion that a model writes for a short made-up study summary (design, groups, outcome, result with 95% interval, one complication), 60 test studies. Grades are 0-100: 0 = certainly inaccurate or unsupported, 100 = certainly accurate and fully supported. "Kinder" means a higher grade.
 
 Background from the reads (`map/reads/`):
 - Khullar et al. 2026 (Claude 3.5 Haiku, Sonnet 4, Opus 4.1, and others):
