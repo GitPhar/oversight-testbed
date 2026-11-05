@@ -75,7 +75,8 @@ def main():
 
     rows = [json.loads(l) for l in (HERE / "lessons.jsonl").read_text().splitlines() if l.strip()]
     patterns = {r["id"] for r in rows if r.get("kind") == "pattern"}
-    ln = next((r for r in rows if r.get("kind") == "lesson" and r.get("bet") == bet), None)
+    # One lesson may cover several bets pre-registered together ("covers": [...]).
+    ln = next((r for r in rows if r.get("kind") == "lesson" and (r.get("bet") == bet or bet in (r.get("covers") or []))), None)
     if ln is None:
         (warn if before_run else lambda k, msg: ok(k, False, msg))("L2", f"no ls-{bet} line in ledger/lessons.jsonl")
     else:
@@ -86,7 +87,16 @@ def main():
     ok("L3", ("none applies" in lesson.lower()) or (cited and cited <= patterns),
        f"patterns cited: {sorted(cited) or 'none'}" + (f"; unknown: {sorted(cited - patterns)}" if cited - patterns else ""))
 
+    # One design review may cover several bets: the bet row's design_review.path names it.
     rv = ROOT / "ledger" / "design-reviews" / f"{bet}.md"
+    try:
+        _rows = [json.loads(l) for l in (HERE / "bets.jsonl").read_text().splitlines() if l.strip()]
+        _b = next((x for x in _rows if x["id"] == bet), None)
+        _path = ((_b or {}).get("design_review") or {}).get("path")
+        if _path and (ROOT / _path).exists():
+            rv = ROOT / _path
+    except Exception:
+        pass
     if not rv.exists():
         ok("R1", False, f"no {rv.relative_to(ROOT)}")
     else:
@@ -97,6 +107,11 @@ def main():
            f"review committed {rc or 'not yet'} at {t_rev}; pre-registration at {t_pre}")
         head = rv.read_text().split("\n---", 2)[0]
         verdict = (re.search(r"^verdict:\s*(\S+)", head, re.M) or [None, ""])[1]
+        per_bet = re.search(r"^verdict_by_bet:\s*\{(.*)\}", head, re.M)      # a review covering several bets
+        if per_bet:
+            m_b = re.search(rf"{re.escape(bet)}\s*:\s*([\w-]+)", per_bet.group(1))
+            if m_b:
+                verdict = m_b.group(1)
         conf = (re.search(r"^confirmed_at:\s*(.+)$", head, re.M) or [None, "null"])[1].strip()
         ok("R2", verdict == "go" or (verdict == "fix-first" and conf not in ("", "null")),
            f"verdict {verdict or '?'}" + (f", confirmed {conf}" if verdict == "fix-first" else ""))
