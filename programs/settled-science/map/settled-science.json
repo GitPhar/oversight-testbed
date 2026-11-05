@@ -525,17 +525,17 @@
    "short": "BrainBench flattery, both orders",
    "title": "With each BrainBench item shown in both option orders and the two ratings averaged, does the flattery rule beat the neuroscientists' 63.4% on both Haiku and Sonnet?",
    "assumption_at_stake": "ss-b10's Haiku miss reflects Haiku's judgment, not its habit of favouring whichever abstract is shown first.",
-   "cheapest_test": "ss-b10's flattery and forecasting prompts, unchanged, on all 200 items in both orders on Haiku and Sonnet (ss-b10's 974 archived calls reused by content hash, 626 new); Opus on both prompts in both orders on a beacon-drawn subset up to $1.50.",
+   "cheapest_test": "ss-b10's flattery and forecasting prompts, unchanged, on all 200 items in both orders on Haiku and Sonnet (ss-b10's 974 archived calls reused by content hash); the rule read only on the items ss-b10 rated in one order (Haiku 100, Sonnet 126); Opus both prompts in both orders on a beacon-drawn subset up to $1.50.",
    "models": "claude-haiku-5-5 and claude-sonnet-5-5 (the rule); claude-opus-5-5 as a secondary on as many items as $1.50 allows (rule 12)",
    "cost": "about $3.20 (Haiku and Sonnet about $1.70 at ss-b10's measured tokens; Opus up to $1.50); cap in code",
-   "odds_event": "On BrainBench's 200 human-written items, each rated in both option orders and the two ratings averaged, for both claude-haiku-5-5 and claude-sonnet-5-5 the flattery rater's accuracy has a 95% item-bootstrap lower bound above 0.634 (the published human-expert mean).",
-   "engine_odds": 0.78,
+   "odds_event": "On the BrainBench items ss-b10 rated in one flattery order only (claude-haiku-5-5: 100, claude-sonnet-5-5: 126), each completed in the other order and the two ratings averaged, for both models the flattery rater's accuracy has a 95% item-bootstrap lower bound above 0.634 (the published human-expert mean).",
+   "engine_odds": 0.7,
    "odds_prior": 0.32,
-   "odds_adjustment": 0.46,
-   "odds_reason": "Settled-science row 0.75 and parent data (Sonnet lower bound 76.5; Haiku orders-averaged 75.0%) outweigh the literature 0.13 and model-referee 0.22 rows; Haiku's lower bound clearing 0.634 is the main risk.",
+   "odds_adjustment": 0.38,
+   "odds_reason": "Committed dry run gives P(pass) 0.71-0.89, and the settled-science row (0.75) agrees; the model-referee (0.22) and literature (0.13) rows argue against, so I shaded toward the dry run's lower end.",
    "odds_prior_commit": "bd3bbb5",
    "odds_template": "v2",
-   "engine_odds_at": "2026-11-05T10:12",
+   "engine_odds_at": "2026-11-05T10:37",
    "question": "When each pair of real and doctored neuroscience abstracts is shown both ways round, does 'which version is better news for the paper's idea' beat the neuroscientists on both smaller Claude models?",
    "known": [
     "Asked once per pair, Sonnet's flattery answer was right 81.8% and Haiku's 68.0%; Haiku was right 92.9% with the original first and 44.1% with it second (ss-b10, audited, mixed).",
@@ -543,7 +543,7 @@
    ],
    "human_prompt": "Would you spend about $3 to find out whether, with each pair of real and doctored abstracts shown both ways round, picking the version that is better news for the paper's own idea beats the neuroscientists on both smaller Claude models? Will it come back a hit (here, a hit means both clearly beat the neuroscientists' published score)?",
    "engine_only": [],
-   "status": "open",
+   "status": "bet",
    "opened": "2026-11-05T10:12",
    "prior_work_line": "BrainBench (Luo et al. 2024, Nature Human Behaviour, arXiv 2403.03230): 15 open LLMs at 81.4% against 63.4% for experts, with local-context and shuffled-context controls and no valence, flattery or option-order control (models were scored by perplexity, so there is no option order). Lee 2026, 'LLMs Have Made Failure Worth Publishing' (arXiv 2604.06236, read 2026-11-05) proposes clinical-trial-registry tests of whether LLMs overestimate success, reports no data, and does not mention BrainBench or a valence shortcut. No prior statement of an order-balanced flattery rule's score on BrainBench, so the 0.634 bar is open (predicts: unknown). Adds: the ss-b10 audit's overturning test, with position bias removed.",
    "prior_work_predicts": "unknown",
@@ -555,7 +555,20 @@
    "prior_work_search": "arXiv 2604.06236 HTML read in full for its protocols; BrainBench controls as read for ss-b10, 2026-11-05",
    "prior_work_at": "2026-11-05T10:12",
    "diagnosis": null,
-   "remap": null
+   "remap": null,
+   "withdrawn_bet": {
+    "bet": "ss-b10b",
+    "odds_event": "On BrainBench's 200 human-written items, each rated in both option orders and the two ratings averaged, for both claude-haiku-5-5 and claude-sonnet-5-5 the flattery rater's accuracy has a 95% item-bootstrap lower bound above 0.634 (the published human-expert mean).",
+    "engine_odds": 0.78,
+    "odds_adjustment": 0.46,
+    "odds_reason": "Settled-science row 0.75 and parent data (Sonnet lower bound 76.5; Haiku orders-averaged 75.0%) outweigh the literature 0.13 and model-referee 0.22 rows; Haiku's lower bound clearing 0.634 is the main risk.",
+    "cheapest_test": "ss-b10's flattery and forecasting prompts, unchanged, on all 200 items in both orders on Haiku and Sonnet (ss-b10's 974 archived calls reused by content hash, 626 new); Opus on both prompts in both orders on a beacon-drawn subset up to $1.50.",
+    "note": "withdrawn before any call (D68)"
+   },
+   "engine_odds_first": 0.78,
+   "engine_odds_revised_at": "2026-11-05T10:37",
+   "revision_reason": "ss-b10c's fresh v2 odds, from a context handed scoring/dry_b10c.py (06c1fff); recorded here after the pre-registration (design review ss-b10c F3, D73); not re-elicited",
+   "bet": "ss-b10c"
   }
  ]
 }

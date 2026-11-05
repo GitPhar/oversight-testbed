@@ -107,7 +107,7 @@ def model_block(items, rows, model):
     out["archive_split"] = {"both_orders_archived": {"n": len(old), "acc": r3(np.mean([SB.hit(sum(F[i]) / 2) for i in old])) if old else None},
                             "one_order_new": {"n": len(new), "acc": r3(np.mean([SB.hit(sum(F[i]) / 2) for i in new])) if new else None}}
     both = [i for i in ids if i in B]
-    if len(both) >= MIN_N:
+    if ids and len(both) >= MIN_FRAC * len(ids) - EPS:      # design review ss-b10c F1 (D71): on the scored items
         out["bettor"] = acc_block(items, B, both)
         fa = [SB.hit(sum(F[i]) / 2) for i in both]
         ba = [SB.hit(sum(B[i]) / 2) for i in both]
@@ -219,8 +219,9 @@ def sentences(out):
                      f"{pct(M['bettor']['acc'])} {cis(M['bettor']['ci'])} of the time, {abs(100 * d['d']):.1f} points "
                      f"{'more' if d['d'] >= 0 else 'less'} than with the flattery prompt (difference {cis(d['ci'])})"
                      + (f"; the flattery prompt's above-chance accuracy was {pct(M['share_matched_point'])} {cis(sh)} of the forecasting prompt's." if sh else "."))
-        s.append(f"{NAME[m]}'s orders-averaged flattery accuracy was {M['flattery']['vs_llms']} the published 81.4% for LLMs "
-                 f"(interval {cis(M['flattery']['ci'])}).")
+        rel = {"below": "below", "above": "above", "not shown different": "not shown different from"}[M["flattery"]["vs_llms"]]
+        s.append(f"{NAME[m]}'s orders-averaged flattery accuracy on its scored items was {rel} the published 81.4% for LLMs "
+                 f"(interval {cis(M['flattery']['ci'])}).")      # design review ss-b10c F2 (D72)
         if M["loo_flips"]:
             s.append(f"On {NAME[m]}, leaving out any one of {len(M['loo_flips'])} items ({', '.join(M['loo_flips'][:5])}"
                      f"{', ...' if len(M['loo_flips']) > 5 else ''}) would change whether it clears the experts' rate.")
