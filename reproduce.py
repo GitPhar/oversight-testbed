@@ -3,7 +3,7 @@
 archived files, and check them.
 
     python3 reproduce.py                  # regenerate in a scratch folder, compare with what is committed
-    python3 reproduce.py --write          # also write brier.md and scores.md in place
+    python3 reproduce.py --write          # also write brier.md, scores.md and prior.md in place
     python3 reproduce.py --site-out DIR   # keep the laid-out site in DIR (default: a temporary folder, deleted)
     python3 reproduce.py --ledger-only    # skip step 6 (the programs' tables), for a quick check before a ledger commit
     python3 reproduce.py --program-1 PY   # also run programs/entangled-mind/experiments/reproduce.py with interpreter PY
@@ -16,8 +16,9 @@ library and numpy, and says whether what is committed matches. It changes nothin
 What it does, in order:
   1. Reads every ledger file (bets, steers, human odds, shadows, plants, lessons, spend) and checks that each line
      parses, ids are unique, and every audit path, steer evidence path and plant reference points at a file that exists.
-  2. Copies ledger/ to a scratch folder, runs ledger/brier.py and ledger/scores.py there, and compares brier.md and
-     scores.md byte for byte with the committed ones.
+  2. Copies ledger/ to a scratch folder, runs ledger/brier.py, ledger/scores.py and ledger/prior.py there (prior.py
+     also reads the committed map/*.json), and compares brier.md, scores.md and prior.md byte for byte with the
+     committed ones.
   3. Recomputes the engine's and the human's Brier scores from bets.jsonl with separate code, and checks the
      headline numbers printed in brier.md.
   4. Runs `ledger/plants.py verify` (every revealed plant matches its sealed hash).
@@ -131,19 +132,20 @@ def read_ledger():
 
 # ---------- 2. regenerate brier.md and scores.md ----------
 def regenerate(write):
-    print("2. brier.md and scores.md, regenerated in a scratch copy of ledger/")
+    print("2. brier.md, scores.md and prior.md, regenerated in a scratch copy of ledger/")
     tmp = Path(tempfile.mkdtemp(prefix="reproduce-ledger-"))
     try:
         scratch = tmp / "ledger"
         shutil.copytree(LEDGER, scratch, symlinks=True,
                         ignore=shutil.ignore_patterns("__pycache__", ".seals", "*.pyc"))
-        for script in ("brier.py", "scores.py"):
-            r = run([sys.executable, str(scratch / script)], cwd=tmp)
+        for script in ("brier.py", "scores.py", "prior.py"):
+            extra = [str(ROOT)] if script == "prior.py" else []   # prior.py reads map/ and programs/*/map/ from the repo
+            r = run([sys.executable, str(scratch / script)] + extra, cwd=tmp)
             if r.returncode:
                 fail(f"ledger/{script} exited {r.returncode}: {r.stderr.strip()[-300:]}")
             else:
                 ok(f"ledger/{script}: {r.stdout.strip().splitlines()[-1] if r.stdout.strip() else 'ran'}")
-        for md in ("brier.md", "scores.md"):
+        for md in ("brier.md", "scores.md", "prior.md"):
             new, old = scratch / md, LEDGER / md
             if not new.exists():
                 fail(f"{md} was not written")
@@ -318,7 +320,7 @@ def program_1(py):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    ap.add_argument("--write", action="store_true", help="write regenerated brier.md and scores.md in place")
+    ap.add_argument("--write", action="store_true", help="write regenerated brier.md, scores.md and prior.md in place")
     ap.add_argument("--site-out", help="keep the laid-out site in this folder")
     ap.add_argument("--program-1", metavar="PYTHON", help="also run program 1's reproduce.py with this interpreter")
     ap.add_argument("--ledger-only", action="store_true", help="skip the programs' own tables (step 6)")
