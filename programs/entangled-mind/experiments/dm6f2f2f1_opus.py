@@ -36,7 +36,7 @@ MIN_Q = 25                                               # usable questions (a n
 MIN_FLAGGED = 6                                          # questions flagged (< 0.70) in at least one cell; fewer -> untestable
 N_PER_CAT = 10
 UNSURE_THRESH = 0.70
-SEED_RECORDED = None                                     # filled by the seed commit: {"bootstrap": int, "items": int}
+SEED_RECORDED = {"bootstrap": 1922030650083322747, "items": 5271620121328318991}   # CURBy-RNG 1592875 (seed commit)
 PINNED_SHA256 = {"dm6f2f2-calls.json": "a64bdf7d151fcada9a18c6dcb4a7787b162c27bc83b738b985292e1e4837172d",
                  "pool-run-3.json": "8011ae79b4c12c6ac9b95dd751b68c891aeb3c7c47a5d5afb2d7c465b4db2b56"}
 RESULTS = HERE.parent / "results"
