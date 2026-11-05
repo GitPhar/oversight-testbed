@@ -31,6 +31,8 @@ Never call it to make a result look stronger. It is called to decide.
 2. A pre-registration (`operators/prereg-template.md`, bet type `tiebreak`) fixes the circuit (a file and its hash), the simulator and noise model (backend name and calibration snapshot date), the statistic and its tolerance, the number of shots, and the QPU budget.
 3. The simulator's prediction is computed and committed *before* the chip runs, in the pre-registration or the commit right after it. A prediction written after the chip has run is worthless.
 
+**Who approves.** Budget rulings under the 420 s hard stop are the engine's call (Sean, 2026-11-04, steer st-13). The pre-registration states the QPU budget, the design review checks it against the estimate (0.28 ms per shot plus about 2 s per job), and the engine records its approval as a steer citing st-13. Nothing may cross the hard stop; `run_hardware` refuses in code.
+
 **Budget.** At most 60 QPU s per tiebreak and 120 s a month on tiebreaks, all inside the 420 s project hard stop. Each run records the backend's calibration data (T1, T2, readout and two-qubit error rates) at submission time.
 
 **Scoring.** The outcome is 1 if the chip agrees within tolerance and 0 if not. Tiebreak bets enter the ledger like any bet. They are also reported separately in `ledger/scores.md` (agreement rate, Brier for each side, QPU s used), because the question they answer is different: does the engine know when the simulator is enough? A well-calibrated, high P(agree) is the result that saves QPU seconds. It says the next such dispute can be settled on the laptop.

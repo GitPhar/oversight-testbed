@@ -13,6 +13,7 @@ Last rewritten: 2026-11-04 17:10 America/Denver, by hand, from the founding sess
 - Human bets are at direction level only: "is this worth about $X? will it come back a hit?" Technical sub-bets are engine-only.
 - Every reply to Sean: plain English first, TL;DR of three lines max, then "YOU, NOW" with one step. One paste per terminal tab, the first message folded into the launch command.
 - Costs under $10/month are the engine's call. Above that: the number and a one-sentence recommendation.
+- QPU budget rulings under the 420 s hard stop are the engine's call (Sean, 2026-11-04, st-13). Each hardware bet still needs its pre-registration, lesson and design-review go; the engine logs its budget ruling as a steer citing st-13.
 - No midday check-in. Morning and nightly only.
 - Quantum hardware is a referee and a seed source, never a computational resource; every mention states its limits first.
 - The project's title is still open; sessions do not propose names unless asked. Placeholder slug `oversight-testbed`.
@@ -20,7 +21,7 @@ Last rewritten: 2026-11-04 17:10 America/Denver, by hand, from the founding sess
 ## Decisions made (do not reopen)
 
 - Programs are folded into this repo under `programs/` with their git histories imported (subtree), entangled-mind included; the standalone `GitPhar/entangled-mind` repo is left untouched as program 1's historical record. No separate program repos, ever.
-- Program 3 wave-2 repeat test approved (~2.5 QPU s, two runs ≥3 h apart), under lesson + design-review rules.
+- Program 3 wave-2 repeat test (ng-p3-15) approved, full design, ≤10 QPU s (about 6.8 s planned), two runs ≥3 h apart (st-11, st-13).
 - P2-3 re-bet on lower-severity stories approved, under lesson + design-review rules.
 - D46 relabelled exploratory. Experiment 5 re-issued CLASSICAL under its own rule on single-scale q. Probe result verified by DP2.
 - Feedback loop (operators/learn.md) and design review (operators/design-review.md) are mandatory for every pre-registration from 2026-11-04 17:00.
