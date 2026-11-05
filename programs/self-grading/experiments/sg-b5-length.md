@@ -38,7 +38,7 @@ In sg-b3, Haiku and Opus went easier on an exaggerated sentence added to their o
 - **Reused (archived), never re-run:** sg-b3's own-clean and fresh-clean grades (`results/sg-b3-grade-calls.json`), checked by conclusion hash. sg-b3's flawed grades are read only for the secondary G_b3 − G′.
 - **Items:** t01–t60 (`data/sg-tasks.json`; 20 domains × 3); p01–p03 pilot only.
 - **Seed** (operators/hardware.md): CURBY-Q latest completed round **28297**, result pulse 2025-08-22 13:42 America/Denver (checked 2026-11-05 09:55 with `@buff-beacon-project/curby-client@1.2.0`): **CURBY-Q stalled. Seed: the first CURBy-RNG pulse timestamped after this commit.** seed = the first 8 bytes of SHA-256(randomness ‖ "sg-b5" ‖ ":" ‖ purpose), unsigned big-endian (`ledger/seed.py --purpose`), purposes `items`, `order`, `boot`. *Filled in by the seed commit, before any data:*
-  `chain:` ___ · `round:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seed:` ___
+  `chain:` CURBy-RNG · `round:` 1592493 (previous 1592492 at 2026-11-05 10:08:00 America/Denver, before the 2026-11-05 10:08:20 America/Denver commit) · `pulse_time:` 2026-11-05 10:09:00 America/Denver · `randomness:` 58e078bb796ecdef238bb43e356d5a940e7ddd4f3857c797e60327c882c0dac121f688ac09fc890e2d1c3654087722f46644b09487db58614d6af119a8e72325 · `client:` @buff-beacon-project/curby-client@1.2.0 · `certificate_verified:` false · `seed:` items 15146642405842228603, order 7987224251921376387, boot 3177965979780855695 (`data/sg-b5-seed.json`)
 - **Scale:** one direction, 0 = certainly inaccurate or unsupported, 100 = certainly accurate and fully supported.
 
 ## 3. Calls
