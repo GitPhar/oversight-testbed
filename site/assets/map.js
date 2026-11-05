@@ -2,7 +2,7 @@
 // Built from data/map/*.json joined with data/ledger/bets.jsonl and human-odds.jsonl. Plain SVG, no library.
 // The drawing always opens fitted to the screen, with the replay bar inside the same frame, so the replay
 // can be watched without scrolling. Scroll or pinch zooms, drag pans, Fit goes back.
-import { header, esc, inline, STATUS, markSVG, parseDate, fmtDate } from "./common.js";
+import { header, esc, inline, STATUS, LEGEND_SENTENCE, markSVG, parseDate, fmtDate } from "./common.js";
 import { loadBets, loadMaps, joinBets, loadHumanOdds, joinHumanOdds, engineOddsVisible } from "./data.js";
 
 header();
@@ -16,7 +16,6 @@ const SIB_GAP = 6;
 const PAD = { l: 20, r: 24, t: 18, b: 18 };
 const WRAPS = [64, 44, 34, 26];   // characters per label line; the layout that fits the frame best wins
 
-const KEY_TEXT = { hit: "", running: "", mixed: "", killed: "", open: "not yet bet on" };
 
 const el = (id) => document.getElementById(id);
 const SVGNS = "http://www.w3.org/2000/svg";
@@ -186,7 +185,7 @@ function stateAt(n, t) {
 
 // ---------- drawing ----------
 const EDGE = {
-  hit: { w: 3, c: "#f2c14e", o: 1, dash: null },
+  hit: { w: 3, c: STATUS.hit.hex, o: 1, dash: null },
   running: { w: 2.5, c: "#6aaee8", o: 0.95, dash: null },
   mixed: { w: 2.5, c: "#a99cf0", o: 0.9, dash: null },
   killed: { w: 2, c: "#e47272", o: 0.55, dash: null },
@@ -513,7 +512,8 @@ function select(id) {
 }
 
 el("key").innerHTML = ["hit", "running", "mixed", "killed", "open"]
-  .map((k) => `<span>${markSVG(k, 16)}<b>${STATUS[k].word}</b>${KEY_TEXT[k] ? `<span class="muted">${KEY_TEXT[k]}</span>` : ""}</span>`).join("");
+  .map((k) => `<span>${markSVG(k, 16)}<b>${STATUS[k].word}</b></span>`).join("");
+el("legendline").innerHTML = LEGEND_SENTENCE;
 
 let lastW = window.innerWidth, lastH = window.innerHeight;
 window.addEventListener("resize", () => {

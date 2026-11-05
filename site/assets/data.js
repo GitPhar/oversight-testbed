@@ -1,7 +1,7 @@
 // Loads the ledger and the maps, and joins them. Every page reads through here.
 import { DATA, getJSON, getJSONL, getText, manifest, normBet, normStatus, num, programTitle } from "./common.js";
 
-const FALLBACK_MAPS = ["entangled-mind.json", "other-minds.json", "nature-graded.json", "test-awareness.json"];
+const FALLBACK_MAPS = ["entangled-mind.json", "other-minds.json", "nature-graded.json", "settled-science.json", "test-awareness.json"];
 
 export async function loadBets() {
   const rows = (await getJSONL(DATA + "ledger/bets.jsonl")) || [];
@@ -37,6 +37,15 @@ export async function loadMaps() {
   return programs.sort((a, b) => n(a) - n(b));
 }
 
+// A short label that is only the title cut off mid-word ("ss-b1: Post-cutoff Brier beats a co") is dropped for the
+// title without its trailing parenthesis, which the map wraps at word boundaries.
+function cleanLabel(short, title) {
+  if (!short) return null;
+  const bare = String(short).replace(/^[\w.-]+:\s*/, "").trimEnd();
+  const truncated = bare.length < title.length && title.startsWith(bare);
+  return truncated ? title.replace(/\s*\([^)]*\)\s*$/, "") : short;
+}
+
 function normProgram(p, fallbackId) {
   const dirs = p.directions || p.nodes || p.map || [];
   return {
@@ -50,7 +59,7 @@ function normProgram(p, fallbackId) {
       id: String(d.id ?? d.direction ?? d.title),
       parent: d.parent ?? d.parent_id ?? d.from ?? null,
       title: d.title || d.label || d.name || d.assumption_at_stake || String(d.id),
-      label: d.short || d.label || null,
+      label: cleanLabel(d.short || d.label || null, d.title || ""),
       status: normStatus(d.status ?? d.verdict ?? d.state),
       engine: num(d.engine_odds ?? d.engine_p ?? d.odds ?? d.p),
       human: num(d.human_odds ?? d.human_p),
@@ -102,6 +111,22 @@ export function joinHumanOdds(programs, entries) {
   return programs;
 }
 
+// What the cockpit asks next: per program, its open directions with no bet yet, not carried into another program,
+// not waiting on an opens_when condition and not parked, in the map's own rank order (unranked last, then map
+// order), skipping any already answered in ledger/human-odds.jsonl. Programs take turns, top of each map first.
+export function nextToAsk(programs, answered = new Set(), max = 12) {
+  const queues = programs.map((p) => p.directions
+    .map((d, i) => ({ d, i }))
+    .filter(({ d }) => d.status === "open" && !d.bet && !d.raw.moved_to && !d.raw.opens_when && !d.raw.parked
+      && d.raw.status !== "parked" && !answered.has(`${p.id}|${d.id}`))
+    .sort((a, b) => (a.d.raw.rank ?? Infinity) - (b.d.raw.rank ?? Infinity) || a.i - b.i)
+    .map(({ d }, n) => ({ p, d, place: n + 1 })));
+  const out = [];
+  for (let round = 0; out.length < max && queues.some((q) => q.length > round); round++)
+    for (const q of queues) if (q[round] && out.length < max) out.push(q[round]);
+  return out;
+}
+
 // The engine's odds on a path that is still open stay hidden until the human has given theirs, so the public
 // pages cannot anchor the human before the cockpit asks. Once a bet lands, or the human's odds are in, they show.
 export function engineOddsVisible(d) {
@@ -111,8 +136,12 @@ export function engineOddsVisible(d) {
 
 // Kills come from three places; nothing is dropped, duplicates are merged.
 export async function loadKills() {
+  // ledger/kills.jsonl is optional. Ask for it only when the deploy copied it (the manifest lists the ledger's
+  // files), so the kill log does not log a 404 on every load.
+  const m = await manifest();
+  const hasKills = !Array.isArray(m.ledger) || m.ledger.includes("kills.jsonl");
   const [explicit, bets, maps] = await Promise.all([
-    getJSONL(DATA + "ledger/kills.jsonl"), loadBets(), loadMaps(),
+    hasKills ? getJSONL(DATA + "ledger/kills.jsonl") : null, loadBets(), loadMaps(),
   ]);
   joinBets(maps, bets);
   const out = [];

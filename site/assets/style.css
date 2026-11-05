@@ -18,7 +18,8 @@
   --text-2: #bcb8ae;
   --muted: #8d8a82;
 
-  --hit: #f2c14e;      /* a bet that landed: bright */
+  --hit: #5cc98a;      /* a bet that landed: green */
+  --accent: #f2c14e;   /* gold: the human's hand, buttons, the current page; never a status */
   --kill: #e47272;     /* a closed direction */
   --run: #6aaee8;      /* running now */
   --mixed: #a99cf0;    /* mixed result */
@@ -61,7 +62,7 @@ a:hover { color: #b5dbfa; }
 .nav { display: flex; gap: 6px 22px; flex-wrap: wrap; font-size: 17px; }
 .nav a { color: var(--text-2); text-decoration: none; padding: 2px 0; border-bottom: 2px solid transparent; }
 .nav a:hover { color: var(--text); }
-.nav a[aria-current="page"] { color: var(--text); border-bottom-color: var(--hit); }
+.nav a[aria-current="page"] { color: var(--text); border-bottom-color: var(--accent); }
 
 /* ---------- layout ---------- */
 main { max-width: 72rem; margin: 0 auto; padding: 32px 24px 80px; }
@@ -100,7 +101,7 @@ code { font-family: var(--mono); font-size: 0.86em; background: var(--surface-2)
 .commitments li::before {
   content: counter(c);
   grid-row: span 2;
-  font-size: 30px; font-weight: 700; color: var(--hit); line-height: 1.1;
+  font-size: 30px; font-weight: 700; color: var(--accent); line-height: 1.1;
 }
 .commitments strong { font-size: 22px; display: block; }
 .commitments span { color: var(--text-2); }
@@ -121,7 +122,7 @@ code { font-family: var(--mono); font-size: 0.86em; background: var(--surface-2)
 .arch figcaption { color: var(--muted); font-size: 15px; margin-top: 8px; }
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; }
 .panel h2 { font-size: 21px; margin: 0 0 10px; display: flex; align-items: center; gap: 10px; }
-.panel h2 .n { color: var(--hit); }
+.panel h2 .n { color: var(--accent); }
 .panel p { color: var(--text-2); font-size: 17px; margin: 0 0 10px; }
 .panel p:last-child { margin: 0; }
 .panel ul { margin: 0; padding-left: 20px; color: var(--text-2); font-size: 17px; }
@@ -148,7 +149,7 @@ code { font-family: var(--mono); font-size: 0.86em; background: var(--surface-2)
 .nextrun .nr-text { font-size: 15px; color: var(--text); line-height: 1.4; }
 .nextrun a.nr-text { text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
 .nextrun .costpill { align-self: flex-start; display: inline-block; font-size: 13px; color: var(--text); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 0 9px; white-space: normal; overflow-wrap: anywhere; max-width: 100%; margin-top: 2px; }
-.nextrun .nr-approved { border-left-color: var(--hit); }
+.nextrun .nr-approved { border-left-color: var(--accent); }
 .nextrun .nr-review, .nextrun .nr-fix { border-left-color: var(--mixed); }
 .nextrun .nr-go { border-left-color: var(--run); }
 .nextrun .nr-map { border-left-color: var(--line); }
@@ -156,7 +157,7 @@ code { font-family: var(--mono); font-size: 0.86em; background: var(--surface-2)
 .tip .t-test b { color: var(--text); }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; }
 .card.vetoed { border-left: 4px solid var(--kill); }
-.card.done { border-left: 4px solid var(--hit); }
+.card.done { border-left: 4px solid var(--accent); }
 .card .c-top { display: flex; gap: 10px; align-items: baseline; color: var(--muted); font-size: 14px; flex-wrap: wrap; }
 .card .c-top .prog { margin-left: auto; }
 .card h3 { margin: 0; font-size: 20px; line-height: 1.35; }
@@ -171,13 +172,13 @@ code { font-family: var(--mono); font-size: 0.86em; background: var(--surface-2)
 .oddsrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding-top: 10px; border-top: 1px solid var(--line); }
 .oddsrow label.big { font-weight: 700; font-size: 16px; }
 .oddsrow input[type="number"] { width: 5.6rem; font: inherit; font-size: 18px; padding: 4px 8px; background: var(--bg); color: var(--text); border: 1px solid #47505b; border-radius: 8px; font-variant-numeric: tabular-nums; }
-.oddsrow input[type="range"] { flex: 1 1 8rem; accent-color: var(--hit); min-width: 6rem; }
+.oddsrow input[type="range"] { flex: 1 1 8rem; accent-color: var(--accent); min-width: 6rem; }
 .oddsrow .pct { color: var(--text-2); }
 .because { width: 100%; font: inherit; font-size: 15px; padding: 6px 10px; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 8px; }
 .seen { color: var(--muted); font-size: 14px; display: inline-flex; gap: 6px; align-items: center; }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .actions .btn { font-size: 15px; padding: 5px 14px; }
-.btn.primary { color: var(--bg); background: var(--hit); border-color: var(--hit); font-weight: 700; }
+.btn.primary { color: var(--bg); background: var(--accent); border-color: var(--accent); font-weight: 700; }
 .btn.primary:hover { color: var(--bg); filter: brightness(1.08); }
 .btn.primary:disabled { color: var(--muted); background: transparent; border-color: var(--line); font-weight: 400; filter: none; }
 .oddsrow .later { display: contents; }
@@ -223,6 +224,8 @@ code { font-family: var(--mono); font-size: 0.86em; background: var(--surface-2)
 .keyrow { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 26px; margin: 0 0 10px; }
 .keyrow .key { margin: 0; font-size: 15px; gap: 6px 20px; }
 .keyrow .key span { gap: 6px; }
+.legendline { margin: 0 0 10px; font-size: 15px; line-height: 1.5; color: var(--text-2); max-width: 64rem; }
+.legendline b { color: var(--text); font-weight: 700; }
 .howto { position: relative; font-size: 15px; }
 .howto summary { cursor: pointer; color: var(--link); }
 .howto p { position: absolute; z-index: 30; left: 0; top: 30px; width: min(30rem, 86vw); margin: 0;
@@ -239,7 +242,7 @@ code { font-family: var(--mono); font-size: 0.86em; background: var(--surface-2)
 @keyframes ping { from { stroke-opacity: 1; } to { stroke-opacity: 0.25; } }
 .timebar { display: flex; align-items: center; gap: 8px 16px; flex-wrap: wrap; padding: 8px 12px; border-top: 1px solid var(--line); background: var(--surface-2); }
 .timebar .replay { display: flex; align-items: center; gap: 12px; flex: 1 1 26rem; min-width: 0; }
-.timebar input[type="range"] { flex: 1 1 12rem; accent-color: var(--hit); min-width: 6rem; }
+.timebar input[type="range"] { flex: 1 1 12rem; accent-color: var(--accent); min-width: 6rem; }
 .timebar output { font-variant-numeric: tabular-nums; color: var(--text-2); font-size: 16px; white-space: nowrap; }
 #noreplay { flex: 1 1 18rem; }
 .timebar .btn { font-size: 15px; padding: 4px 14px; }
@@ -392,8 +395,11 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
   body { font-size: 18px; }
   .top-inner { flex-wrap: wrap; row-gap: 4px; }
   .brand small { display: none; }
-  .nav { flex-wrap: nowrap; overflow-x: auto; width: 100%; scrollbar-width: none; padding-bottom: 2px; }
-  .nav::-webkit-scrollbar { display: none; }
+  /* Every page's link stays visible on a phone: the nav wraps onto a second row instead of scrolling
+     sideways with a hidden scrollbar (that hid Kill log, Record and Papers; walk 2026-11-05). The taller
+     header no longer sticks, so nothing below it has to guess its height. */
+  .top { position: static; }
+  .nav { flex-wrap: wrap; width: 100%; }
   .nav a { white-space: nowrap; }
   .stats { grid-template-columns: 1fr 1fr; gap: 10px; }
   .stat { padding: 12px 14px; }
@@ -401,7 +407,7 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
   .stat .note { font-size: 14px; }
   .kill { padding: 16px 18px; }
   .kill .k-prog { margin-left: 0; flex-basis: 100%; }
-  .cockpit-bar { top: 82px; }
+  .cockpit-bar { top: 0; }
   .card { padding: 16px; }
   main { padding: 28px 16px 72px; }
   .top-inner { padding: 10px 16px; column-gap: 18px; }
@@ -413,7 +419,7 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
   .commitments strong { font-size: 20px; }
   .ev-card dl { grid-template-columns: 1fr; }
   .ev-card dt { margin-top: 6px; }
-  .daynav { top: 82px; }
+  .daynav { top: 0; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 
@@ -517,4 +523,42 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
   .hc .hc-bet { grid-column: 1 / -1; }
   .ev-card dl { grid-template-columns: 1fr; gap: 2px; }
   .ev-card dd { margin-bottom: 6px; }
+}
+
+/* ---------- the cockpit, 12 plain cards (2026-11-05) ---------- */
+.qcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr)); gap: 16px; align-items: start; margin-top: 8px; }
+.qcard { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: var(--radius); padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }
+.qcard.answered { border-left-color: var(--accent); }
+.qcard.saved { border-left-color: var(--hit); }
+.q-top { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; font-size: 14px; color: var(--text-2); }
+.q-n { display: inline-grid; place-items: center; min-width: 26px; height: 26px; border-radius: 50%; background: var(--surface-2); color: var(--text); font-weight: 700; font-size: 14px; }
+.q-test { margin: 0; font-size: 20px; line-height: 1.4; }
+.q-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; border-top: 1px solid var(--line); padding-top: 12px; }
+.q-ask { margin: 0; flex: 1 1 14rem; font-size: 17px; line-height: 1.45; font-weight: 700; }
+.q-hit { display: block; font-weight: 400; color: var(--text-2); font-size: 15px; margin-top: 2px; }
+.yn { display: inline-flex; gap: 6px; }
+.yn-b { min-width: 4.2rem; }
+.yn-b[aria-checked="true"] { color: var(--bg); background: var(--text); border-color: var(--text); font-weight: 700; }
+.q-odds label { font-size: 16px; color: var(--text-2); flex: 1 1 14rem; }
+.q-odds input { width: 5.6rem; font: inherit; font-size: 18px; padding: 4px 8px; background: var(--bg); color: var(--text); border: 1px solid #47505b; border-radius: 8px; font-variant-numeric: tabular-nums; }
+.q-odds input[aria-invalid="true"] { border-color: var(--kill); }
+.savebox { position: sticky; bottom: 0; background: var(--bg); border-top: 1px solid var(--line); margin-top: 24px; padding: 14px 0 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; z-index: 5; }
+.savebtn { font-size: 19px; padding: 8px 22px; }
+.savebtn:disabled { opacity: .55; cursor: default; }
+.savenote { margin: 0; flex: 1 1 20rem; font-size: 15px; color: var(--text-2); line-height: 1.45; }
+.savebox #savestate { flex-basis: 100%; margin: 0; }
+
+/* ---------- home: what we have found so far ---------- */
+.findings { list-style: none; counter-reset: f; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); gap: 12px; }
+.findings li { counter-increment: f; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px 12px; display: flex; flex-direction: column; gap: 8px; }
+.findings .f-said { font-size: 17px; line-height: 1.5; color: var(--text); }
+.findings .f-on { margin-top: auto; font-size: 14px; color: var(--text-2); border-top: 1px solid var(--line); padding-top: 8px; }
+
+/* ---------- instruments: what changed since yesterday ---------- */
+.changed { font-size: 18px; line-height: 1.55; max-width: var(--measure); margin: 0 0 8px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--run); border-radius: var(--radius); }
+.changed b { color: var(--text); }
+@media (max-width: 640px) {
+  /* On a phone the save bar would cover a fifth of the screen; it sits at the end of the cards instead. */
+  .savebox { position: static; }
+  .q-test { font-size: 19px; }
 }

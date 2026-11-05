@@ -59,6 +59,25 @@ An AI (Claude) runs small research projects, and before each test it writes down
 - A "which is more striking?" rater was near a coin; the bettor beat it. Pass.
 - One test was withdrawn before data: a dumb word rule could pass it.
 
+## What we have found so far, one line each
+
+The findings above, one sentence each, with the models each was shown on. The site's home page shows this list.
+
+- Quantum-computer maths was no better than ordinary maths at telling when a model is wrong. (Shown on: Haiku, Sonnet)
+- A model's own stated confidence predicted its mistakes as well as anything we built. (Shown on: Haiku, Sonnet)
+- Changing the order of questions moved a model's rating a median 25 points out of 100, and it held when repeated. (Shown on: Haiku)
+- Hide a model's earlier answer and it repeats it far less: 78%→25%, 88%→35% and 95%→65%. (Shown on: Haiku, Sonnet, Opus)
+- Even with its earlier answers hidden, question order still moved the final rating, though only narrowly. (Shown on: Haiku, Sonnet; undecided on Opus)
+- A number shown as the model's own earlier answer pulled its re-rating 0.42 of the way, against 0.05 when credited to another person. (Shown on: Haiku)
+- No model was found better at spotting its own mistakes than another model was. (Shown on: Haiku, Sonnet, Opus)
+- Asking one question changed later answers in 5 of 6 comparisons. (Shown on: Haiku)
+- Six ways of asking needed six separate beliefs on Haiku, while one shared answer held on Opus, though a simple yes/no guesser also passed that test. (Shown on: Haiku, Opus; mixed on Sonnet)
+- None of program 2's tests of whether a model treats another mind the way it treats its own came back a pass. (Shown on: Haiku)
+- The quantum chip said "yes" 50% of the time where its own description predicted 25%, and a set-up mistake in our laptop copy of the chip did not explain it. (Shown on: IBM's ibm_fez chip)
+- On 116 findings posted after its training data ends, the bettor picked which way the result came out 76% of the time, beating the shortcut "papers always say their idea worked". (Shown on: Opus)
+- A rater asked only "which version flatters the paper?" scored 90% to the bettor's 93%, so that edge is fragile. (Shown on: Opus)
+- The AI's own odds score 0.259 on 19 scored tests, no better than always saying 50-50 (0.25). (Shown on: the engine's bets across all four programs)
+
 ## The AI's score, and why it is a coin flip
 
 The score measures how far the odds were from what happened: 0 is perfect, always saying 50-50 scores 0.25. On 19 scored tests the AI scores **0.259**, a coin. Always guessing the share that passed (8 of 19) scores 0.244. Why:

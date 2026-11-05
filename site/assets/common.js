@@ -38,15 +38,20 @@ const PAGES = [
   ["papers.html", "Papers"],
 ];
 
+// The site's root, from this module's own address (assets/common.js), so a link never depends on the page's URL:
+// "…/index.html/" or "…/kills" would otherwise send every relative nav link to a 404.
+export const ROOT = new URL("../", import.meta.url).href;
+export const page = (h) => ROOT + h;
+
 export function header() {
-  const here = location.pathname.split("/").pop() || "index.html";
+  const here = location.pathname.split("/").filter(Boolean).pop() || "index.html";
   const cur = here === "paper.html" ? "papers.html" : here;
   const el = document.createElement("header");
   el.className = "top";
   el.innerHTML = `<div class="top-inner">
-    <a class="brand" href="index.html">${esc(SITE.title)}<small>${esc(SITE.titleNote)}</small></a>
+    <a class="brand" href="${page("index.html")}">${esc(SITE.title)}<small>${esc(SITE.titleNote)}</small></a>
     <nav class="nav" aria-label="Site">${PAGES.map(([h, t]) =>
-      `<a href="${h}"${h === cur ? ' aria-current="page"' : ""}>${t}</a>`).join("")}</nav>
+      `<a href="${page(h)}"${h === cur || h === cur + ".html" ? ' aria-current="page"' : ""}>${t}</a>`).join("")}</nav>
   </div>`;
   document.body.prepend(el);
   const f = document.createElement("footer");
@@ -91,12 +96,17 @@ export async function manifest() {
 // ---------- the status vocabulary ----------
 // Every status has a colour, a shape and a word. Colour is never the only channel.
 export const STATUS = {
-  hit:     { word: "Bet landed",  color: "var(--hit)",   hex: "#f2c14e" },
+  hit:     { word: "Landed",      color: "var(--hit)",   hex: "#5cc98a" },
   killed:  { word: "Killed",      color: "var(--kill)",  hex: "#e47272" },
-  mixed:   { word: "Mixed or unsettled", color: "var(--mixed)", hex: "#a99cf0" },
+  mixed:   { word: "Mixed",       color: "var(--mixed)", hex: "#a99cf0" },
   running: { word: "Running",     color: "var(--run)",   hex: "#6aaee8" },
   open:    { word: "Open",        color: "var(--open)",  hex: "#737983" },
 };
+
+// What the words mean, in one plain sentence (the map's legend; Sean's walk, 2026-11-04).
+export const LEGEND_SENTENCE = "<b>Landed</b> means its pre-registered test passed; <b>mixed</b> means it was tried but not settled " +
+  "(a partial result, a test that could not decide, or one withdrawn); <b>killed</b> means a test said no, or it was dropped " +
+  "with a stated reason before any test; <b>open</b> means nothing has tried it yet, and <b>running</b> means a test is under way now.";
 
 const SYN = {
   hit: ["hit", "pass", "passed", "positive", "confirmed", "landed", "supported", "found", "true", "yes", "win"],

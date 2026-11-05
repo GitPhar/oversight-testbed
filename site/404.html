@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; background: #121417; color: #ece9e2; font: 19px/1.6 "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 40rem; margin: 0 auto; padding: 48px 16px; }
+  h1 { font-size: 32px; margin: 0 0 12px; }
+  a { color: #8cc4f2; }
+  ul { padding-left: 20px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>That page is not here</h1>
+  <p id="why">The address does not match a page on this site.</p>
+  <ul id="links"></ul>
+</main>
+<script>
+// GitHub Pages serves this file for any missing address. If the address names one of the site's pages
+// (".../kills.html/", ".../Kills", ".../kills/"), go straight there.
+(function () {
+  var PAGES = [["index.html", "Home"], ["map.html", "Map"], ["cockpit.html", "Cockpit"], ["calibration.html", "Calibration"],
+    ["instruments.html", "Instruments"], ["kills.html", "Kill log"], ["record.html", "Record"], ["papers.html", "Papers"]];
+  var parts = location.pathname.split("/").filter(Boolean);
+  // On github.io the site lives in the project's folder (the first part of the path); elsewhere at the root.
+  var base = /\.github\.io$/.test(location.hostname) && parts.length && !/\.html?$/i.test(parts[0]) ? "/" + parts[0] + "/" : "/";
+  var rest = parts.slice(base === "/" ? 0 : 1).join("/").toLowerCase();
+  var hit = PAGES.filter(function (p) { var n = p[0].replace(".html", ""); return new RegExp("(^|/)" + n + "(\\.html?)?/?$").test(rest); })[0];
+  if (hit) { location.replace(base + hit[0] + location.search + location.hash); return; }
+  document.getElementById("links").innerHTML = PAGES.map(function (p) { return '<li><a href="' + base + p[0] + '">' + p[1] + "</a></li>"; }).join("");
+})();
+</script>
+</body>
+</html>

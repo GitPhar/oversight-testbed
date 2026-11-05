@@ -669,6 +669,41 @@ function gaugeTimeline(bets, maps, p3) {
   });
 }
 
+// ---------- what changed since yesterday: one plain line ----------
+// The last 24 hours before this page loaded, from the same files the gauges read. A bet's settling time is its
+// result_time; a settled bet with none is counted at its pre-registration time.
+function changedLine(bets, kills, ibm, spend, humanOdds) {
+  // The files' times are America/Denver wall-clock (parseDate reads them as local), so "now" is too, wherever the reader is.
+  const dp = Object.fromEntries(new Intl.DateTimeFormat("en-CA", { timeZone: "America/Denver", year: "numeric", month: "2-digit",
+    day: "2-digit", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(new Date()).map((x) => [x.type, x.value]));
+  const now = new Date(+dp.year, +dp.month - 1, +dp.day, +dp.hour, +dp.minute), since = new Date(now.getTime() - 24 * 3600 * 1000);
+  const inWin = (v) => { const d = parseDate(v); return d && d >= since && d <= now; };
+  const settledAt = (b) => b.raw?.result_time || b.raw?.prereg_time || "";
+  const placed = bets.filter((b) => inWin(b.raw?.prereg_time) && b.raw?.verdict !== "withdrawn");
+  const settled = bets.filter((b) => ["hit", "mixed", "killed"].includes(b.status) && inWin(settledAt(b)));
+  const hits = settled.filter((b) => b.status === "hit").length, fails = settled.filter((b) => b.status === "killed").length;
+  const killed = kills.filter((k) => inWin(k.date)).length;
+  const scoredBy = (cut) => bets.flatMap((b) => { const o = outcomeOf(b); const t = parseDate(settledAt(b));
+    return o != null && b.engine != null && (!cut || (t && t < cut)) ? [{ p: b.engine, o }] : []; });
+  const bNow = scoredBy(null), bThen = scoredBy(since);
+  const usd = bets.filter((b) => inWin(b.raw?.prereg_time) && b.raw?.cost_usd != null).reduce((a, b) => a + Number(b.raw.cost_usd || 0), 0)
+    + (spend || []).filter((r) => r.kind === "run" && inWin(r.at)).reduce((a, r) => a + Number(r.usd || 0), 0);
+  const qpu = (Array.isArray(ibm) ? ibm : []).filter((j) => inWin(j.when)).reduce((a, j) => a + (Number(j.quantum_seconds) || 0), 0);
+  const human = (humanOdds || []).filter((e) => inWin(e.recorded)).length;
+  const parts = [];
+  if (placed.length) parts.push(`${plural(placed.length, "bet")} placed`);
+  if (settled.length) parts.push(`${settled.length} settled (${hits} came true, ${fails} did not${settled.length - hits - fails ? `, ${settled.length - hits - fails} mixed` : ""})`);
+  if (killed) parts.push(`${plural(killed, "direction")} killed`);
+  if (bThen.length !== bNow.length) parts.push(`the engine's score moved from ${bThen.length ? f3(brier(bThen)) : "none"} on ${bThen.length} to ${f3(brier(bNow))} on ${bNow.length} scored bets`);
+  if (usd > 0) parts.push(`$${usd.toFixed(2)} of API spent`);
+  if (qpu > 0) parts.push(`${qpu} seconds of chip time used`);
+  parts.push(human ? `${plural(human, "human answer")} added` : "no new human answers");
+  const when = `In the last 24 hours (since ${fmtDate(since)})`;
+  const quiet = !placed.length && !settled.length && !killed && !usd && !qpu && !human;
+  $("changed").innerHTML = `<b>What changed since yesterday.</b> ${quiet ? `${when}, nothing: no bet placed, settled or killed, no spend, no new human answers.`
+    : `${when}: ${parts.join("; ")}.`} <span class="muted small">From <code>ledger/bets.jsonl</code>, the kill log, <code>ledger/spend.jsonl</code>, program 1's <code>results/ibm-usage.json</code> and <code>ledger/human-odds.jsonl</code>.</span>`;
+}
+
 // ---------- page ----------
 (async () => {
   const [bets, maps, kills, auditMd, ibm, apiMd, ctxMd, p3, plants, lessons, spend, r2Md] = await Promise.all([
@@ -683,6 +718,7 @@ function gaugeTimeline(bets, maps, p3) {
     getJSONL(DATA + "ledger/spend.jsonl"),
     getText(DATA + "ledger/audits/SUMMARY-2.md"),
   ]);
+  const humanOdds = await getJSONL(DATA + "ledger/human-odds.jsonl");
   const r2 = roundTwo(r2Md);
   const ctx = readContext(ctxMd);
   const audit = readAudit(auditMd);
@@ -691,6 +727,7 @@ function gaugeTimeline(bets, maps, p3) {
     return o != null && p != null ? [{ p, o, id: b.id, title: b.title }] : [];
   });
   const run = (f) => { try { f(); } catch (e) { console.error(e); } };
+  run(() => changedLine(bets, kills, ibm, spend, humanOdds));
   run(() => gaugeEngineBrier(scored("engine")));
   run(() => gaugeHumanBrier(bets, scored("human"), p3));
   run(() => gaugeHits(scored("engine")));
