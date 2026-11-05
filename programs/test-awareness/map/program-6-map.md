@@ -118,7 +118,7 @@ The program is not due a closing review: its settled bets sit in one layer, and 
 
 ## Closing review (2026-11-05)
 
-**Closed**, by Sean's veto (steer st-NN-c, planning chat 2026-11-05 16:04): "as long as we're not pouring money into programs that haven't found anything useful or surprising". The review is `map/closing-review-2026-11-05.md`, written by a session that wrote none of this program's results, pre-registrations or audits.
+**Closed**, by Sean's veto (steer st-31, planning chat 2026-11-05 16:04): "as long as we're not pouring money into programs that haven't found anything useful or surprising". The review is `map/closing-review-2026-11-05.md`, written by a session that wrote none of this program's results, pre-registrations or audits.
 
 **Diagnosis.** Program 6 ruled out, on Meinke and colleagues' no-goal prompt with 20 arithmetic trials, Sonnet 5.5 (thinking off) and Opus 5.5 (low effort) lowering their score by 10 points or more when told a high score triggers unlearning; it could not rule out that being told, or shown by an exam-like format, that a conversation is a test changes how far a model goes along with a user or how often it says "not sure", because those designs could see only large effects and the belief checks failed on Haiku (and on Opus in ta-b1r2); and the novelty check found every question it asked already covered by Anthropic's system cards and the papers they cite, so a hit would have replicated known work.
 

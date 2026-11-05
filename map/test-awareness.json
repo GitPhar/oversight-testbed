@@ -114,7 +114,7 @@
    "rules_out_at": "2026-11-05T10:00",
    "remap": "2026-11-05",
    "re_bet": "A re-bet exists (ta-b2's audit): a $0.01 belief-check probe on Haiku with a prompt not framed as evaluation, then an Opus arm (about $1.10 on 90 items, or $2.40 on all). Not mapped as a follow-up: the novelty check (finding 9) says the test-format question is already covered by Anthropic's release testing and by Needham et al. 2025, so a re-bet would add a replication only. The direction stays open, undecided, for Sean to veto or fund.",
-   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-NN-c)"
+   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-31)"
   },
   {
    "id": "ta-d2",
@@ -247,7 +247,7 @@
    ],
    "prior_work_search": "reads; WebSearch 'LLM demand characteristics telling the model the experimenter's hypothesis' (hits 2604.27633, 2605.23055, 2509.04373; none discloses a hypothesis to an LLM and measures the effect change)",
    "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
-   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-NN-c)"
+   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-31)"
   },
   {
    "id": "ta-d3",
@@ -294,7 +294,7 @@
    ],
    "prior_work_search": "reads only",
    "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
-   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-NN-c)"
+   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-31)"
   },
   {
    "id": "ta-d11",
@@ -338,7 +338,7 @@
    ],
    "prior_work_search": "reads only",
    "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
-   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-NN-c)"
+   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-31)"
   },
   {
    "id": "ta-d8",
@@ -424,7 +424,7 @@
    ],
    "prior_work_search": "reads; WebSearch 'LLM bogus pipeline OR lie detector told its stated confidence will be checked against internal readout calibration' (no match)",
    "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
-   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-NN-c)"
+   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-31)"
   },
   {
    "id": "ta-d5",
@@ -468,7 +468,7 @@
    ],
    "prior_work_search": "reads only",
    "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
-   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-NN-c)"
+   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-31)"
   },
   {
    "id": "ta-d7",
@@ -511,7 +511,7 @@
    ],
    "prior_work_search": "reads and paper/novelty.md item 9; WebSearch 'LLM accuracy framing this is a test OR you are being evaluated capability prompt effect arithmetic accuracy' (no match)",
    "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
-   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-NN-c)"
+   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-31)"
   },
   {
    "id": "ta-d12",
@@ -640,7 +640,7 @@
     "ta-b2",
     "ta-b3"
    ],
-   "steer": "st-NN-c",
+   "steer": "st-31",
    "reopen_if": "a new reason the diagnosis does not cover, or a steer from Sean from the cockpit"
   }
  ],
@@ -649,7 +649,7 @@
   "by": "rule16 session (claude-opus-5-5, worktree oversight-testbed-rule16), operators/remap.md 'Closing a program'; wrote none of the program's results, pre-registrations or audits",
   "decision": "closed",
   "diagnosis": "Program 6 ruled out, on Meinke and colleagues' no-goal prompt with 20 arithmetic trials, Sonnet 5.5 (thinking off) and Opus 5.5 (low effort) lowering their score by 10 points or more when told a high score triggers unlearning; it could not rule out that being told, or shown by an exam-like format, that a conversation is a test changes how far a model goes along with a user or how often it says 'not sure', because those designs could see only large effects and the belief checks failed on Haiku (and on Opus in ta-b1r2); and the novelty check found every question it asked already covered by Anthropic's system cards and the papers they cite, so a hit would have replicated known work.",
-  "reason": "Sean's veto (steer st-NN-c, planning chat 2026-11-05 16:04): \"as long as we're not pouring money into programs that haven't found anything useful or surprising\". Three bets ran, nothing landed or came back partly new, the novelty check (paper/novelty.md finding 9) found the questions covered by Anthropic's system cards, and $1.93 of $5.00 was spent.",
+  "reason": "Sean's veto (steer st-31, planning chat 2026-11-05 16:04): \"as long as we're not pouring money into programs that haven't found anything useful or surprising\". Three bets ran, nothing landed or came back partly new, the novelty check (paper/novelty.md finding 9) found the questions covered by Anthropic's system cards, and $1.93 of $5.00 was spent.",
   "file": "programs/test-awareness/map/closing-review-2026-11-05.md",
   "layers_reviewed": [
    1
