@@ -1,0 +1,14 @@
+# Can BERT refrain from forgetting on sequential tasks? A probing study — Tao, Feng, Zhao, 2023, ICLR 2023
+- url: https://arxiv.org/pdf/2303.01081
+- field: machine learning
+- read_depth: partial (abstract, sections 1-3, conclusion, appendix D; PDF converted with pdftotext)
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: Whether a sequentially fine-tuned BERT still encodes earlier tasks. Encoder frozen after sequential fine-tuning; new linear decoders re-initialised and retrained per task; probing tracked at every checkpoint with replay intervals {10k, 30k, 60k, 115k, ∞}.
+- on_whom: BERT-base (plus RoBERTa, BART, ELECTRA, XLNet, GPT-2, BERT-tiny...large in Appendix D); 5 text-classification tasks (AGNews, Amazon, DBPedia, Yahoo, Yelp; 4 orders) and 4 extractive QA sets (15K steps each, no replay).
+- how_scored: Accuracy / F1 of retrained probe vs the model's original decoder vs multi-task model.
+- result: With no replay, retrained-probe macro accuracy across 4 orders is 75.87%, 76.76%, 75.19%, 76.76% vs multi-task 78.89%. On QA the retrained-probe F1 is "much higher" than the original decoder's. Prior work recovered prior tasks with about 100 instances in 4 steps.
+- limits: Encoder models and classification only; probes retrained (decodability, not readout survival); 5 tasks.
+- borrow: Their "original head vs retrained head" gap is exactly the suppressed-readout signature; use it as T1's headline metric. Their topological finding (classes within a task stay separable while tasks overlap) suggests checking whether truth/falsehood separation survives even if the direction rotates.
+- next_steps_it_suggests: Longer task sequences; measure how much knowledge a large PLM can keep.
+- already_run_check: T1 nearly run (retrained probe on frozen encoder after forgetting; BERT/GPT-2, not 7-8B, not truth); T8 nearly run (fast recovery by sparse replay).
+- transfers: partly — clean design, but encoder-scale models and topic classification, not beliefs.

@@ -1,0 +1,14 @@
+# Active forgetting for language plasticity — Chen, Marchisio, Raileanu, Adelani, Stenetorp, Riedel & Artetxe, 2023, NeurIPS 2023
+- url: https://arxiv.org/pdf/2307.01163
+- field: machine learning
+- read_depth: partial (abstract, sections 1-4 setup and RQ1 results, conclusion, limitations; the per-language tables and RQ2/RQ3 details were skimmed)
+- read_by: scout-bmq reader E, 2026-11-04
+- what_tested: whether periodically resetting the token-embedding layer during pretraining (every K=1000 updates; the transformer body is kept) gives a model that can later learn new-language embeddings faster and from less data. Afterwards, new embeddings are learned for an unseen language with the body frozen, and the model is tested zero-shot cross-lingually.
+- on_whom: RoBERTa (masked LM) pretrained on English CC-100 for 125K updates, with and without embedding resets. Adaptation to multiple languages on 5M tokens each. Tested on XNLI, MLQA and XQuAD.
+- how_scored: zero-shot accuracy / F1 after adaptation; convergence speed.
+- result: with 5M adaptation tokens, standard models fall from 86.1 English NLI accuracy to 53.3 average XNLI. Forgetting-pretrained models reach 62.7, a +21.2% relative gain, with +33.8% (MLQA F1) and +60.9% (XQuAD F1). Gains are largest for languages distant from English.
+- limits: masked LM only (the authors list autoregressive LMs as future work). The forgetting is crude random resetting. Plasticity is measured, not retention. There is no catastrophic-forgetting test of the old language, and no replay, consolidation, source or order effects.
+- borrow: little for our questions. One idea is a "forget-relearn cycles during training" arm as the opposite of consolidation, but it needs pretraining, which is outside our budget except on tiny models.
+- next_steps_it_suggests: gentler forgetting (noise injection), autoregressive LMs, the link between flatness and meta-learning.
+- already_run_check: none of T1-T8 directly. It is closest to T6 in spirit (repeated forget-relearn episodes), but it measures new-language learning speed, not savings on old content.
+- transfers: no — adaptive forgetting for plasticity during pretraining is a different question from consolidation against forgetting, and pretraining is beyond our hardware.

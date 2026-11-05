@@ -1,0 +1,14 @@
+# Sleep-time compute — Lin, Snell, Wang, Packer, Wooders, Stoica & Gonzalez, 2025, arXiv preprint
+- url: https://arxiv.org/pdf/2504.13171
+- field: machine learning
+- read_depth: abstract (killed fast: the full text was fetched and searched, and contains no weight updates and no instance of "forget")
+- read_by: scout-bmq reader E, 2026-11-04
+- what_tested: the model "thinks" offline about a context before any query arrives, writing a re-represented context (text) that is used at test time. Benchmarks: Stateful GSM-Symbolic, Stateful AIME, Multi-Query GSM-Symbolic, plus an agentic SWE case study.
+- on_whom: API reasoning models (not inspected further).
+- how_scored: accuracy against test-time token budget.
+- result: about 5x less test-time compute for equal accuracy; up to +13% (GSM-Symbolic) and +18% (AIME) accuracy with scaled sleep-time compute; 2.5x lower cost per query when amortised over related queries (all from the abstract).
+- limits: "sleep" means precomputing text; no weights change, so there is no consolidation, replay or forgetting test.
+- borrow: nothing for T1-T8. At most, the notion that offline re-representation of context is a separate step from storage.
+- next_steps_it_suggests: not read.
+- already_run_check: none.
+- transfers: no — no weight change and no forgetting measure; "sleep" is only a name here.

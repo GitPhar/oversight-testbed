@@ -1,0 +1,14 @@
+# Catastrophic forgetting, rehearsal and pseudorehearsal — Robins, 1995, Connection Science (DOI 10.1080/09540099550039318)
+- url: https://synapsesocial.com/papers/W2116522068
+- field: machine learning
+- read_depth: abstract (only an abstract summary page could be read; the typeset/scispace mirror of the author's draft returned an empty page and no open publisher copy was found)
+- read_by: scout-bmq reader C, 2026-11-04
+- what_tested: Per the abstract: replicates Ratcliff (1990) forgetting experiments incl. recency-based rehearsal; develops better rehearsal regimes, the best being "sweep rehearsal"; proposes pseudorehearsal, which gets rehearsal's benefit without the old data by training on "pseudopatterns" (the network's own responses to random inputs) interleaved with the new items; interprets this in a function-approximation frame. (The pseudopattern mechanism is also described this way in the Parisi et al. review, read separately.)
+- on_whom: Small backprop networks (details not in the abstract).
+- how_scored: Not available from the abstract.
+- result: No numbers available from the abstract read; qualitative claim that sweep rehearsal substantially reduces forgetting and pseudorehearsal gives similar benefit without old data.
+- limits: Abstract-depth only. Small networks, toy pattern sets (per later reviews).
+- borrow: Pseudorehearsal is the oldest form of T3's "dreamed replay": the model's outputs on random/noise inputs serve as replay. For an LLM, the direct analogue is sampling continuations from random or generic prompts with the pre-fine-tune model and mixing them into the fine-tune (the "Noise" arm of Shin et al. 2017 is its weakest form). Sweep rehearsal suggests that WHICH old items get replayed in each step matters, a T7 lead.
+- next_steps_it_suggests: Not available from the abstract.
+- already_run_check: T3 run in the original small-network form (pseudo vs real rehearsal vs none), not on an LLM.
+- transfers: partly — the idea transfers directly (an LLM is its own pseudopattern generator); the evidence is from toy networks and was not read in full.

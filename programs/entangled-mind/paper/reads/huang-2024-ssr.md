@@ -1,0 +1,14 @@
+# Self-Synthesized Rehearsal (SSR) — Huang, Cui, Wang, Yang, Liao, Song, Yao & Su, 2024, ACL 2024
+- url: https://arxiv.org/pdf/2403.01244
+- field: machine learning
+- read_depth: partial (abstract, sections 1-5.2 and Table 1 in full; 10-task, AlpacaEval/MMLU and ablation sections skimmed; appendices not read)
+- read_by: scout-bmq reader E, 2026-11-04
+- what_tested: rehearsal without the old data. The base LLM uses in-context learning (K=2 demonstrations drawn from 1% of the old task's data) to write synthetic inputs and outputs. The latest fine-tuned LLM then rewrites the outputs ("refinement", so the rehearsal carries what the current model knows). K-means (C=20) picks instances near cluster centroids, and these are mixed into each later stage. Compared against no rehearsal, real-data rehearsal at 1% and 10% (random or K-means selected), and multitask training.
+- on_whom: Llama-2-7b, Llama-2-7b-chat and Alpaca-7b, LoRA rank 8 on q/v, 3 epochs per stage. SuperNI tasks with 2,000 train / 500 eval instances each: 5 tasks in 3 orders, plus 10 tasks. AlpacaEval and MMLU used for general ability.
+- how_scored: ROUGE-L. AR = mean final ROUGE-L. BWT = final minus just-learned score (negative means forgetting). FWT also reported.
+- result: Llama-2-7b, 5 tasks, mean over 3 orders: MTL AR 53.05; no rehearsal AR 19.03, BWT -42.39; RandSel 1% 49.67 / -4.02; RandSel 10% 50.32 / -3.02; KMeansSel 10% 50.31 / -2.96; SSR 52.16 / -0.79. Llama-2-7b-chat: no rehearsal BWT -25.74; SSR AR 52.58, BWT -0.18. Alpaca-7b: no rehearsal AR 32.75; SSR 52.20 / -0.62. With no rehearsal the score varies most across task orders (Llama-2-7b-chat AR 23.87 to 42.06). The best real-data ratio depends on the order (in order 1, 1% beat 10%).
+- limits: synthesis still needs a few real demonstrations (1%). ROUGE-L only. 7B models from 2023. No test of whether rehearsed outputs keep their provenance. No probe, calibration or consistency measures. Per the 10-task text (skimmed), SSR on Llama-2-7b fell behind some real-data baselines.
+- borrow: the "refine with the latest model" step, i.e. replaying the model's own current answers as targets, is exactly a self-transcript consolidation operator for T2. Centroid selection is a cheap selection baseline for T7. The 5-task, 3-order design with LoRA rank 8 on q/v fits mlx-lm on 7-8B.
+- next_steps_it_suggests: apply it to more LLMs and tasks; reduce the reliance on real demonstrations.
+- already_run_check: T3 run (self-synthesized vs real vs none, 7B LoRA, measured by task score). T7 nearly run, but only diversity-based (K-means) selection; nothing uncertainty-based. T2 not run: the model's own answers are distilled, but no one checks order sensitivity or source.
+- transfers: partly — the method and scale match our hardware, but T3 is already answered for ROUGE-type task retention; only our new outcome measures would add anything.

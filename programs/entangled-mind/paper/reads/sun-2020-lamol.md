@@ -1,0 +1,14 @@
+# LAMOL — Sun, Ho & Lee, 2020, ICLR 2020
+- url: https://arxiv.org/pdf/1909.03329
+- field: machine learning
+- read_depth: full (main text and appendix A; figures not inspected)
+- read_by: scout-bmq reader E, 2026-11-04
+- what_tested: one GPT-2 LM trained both to answer (QA loss) and to generate whole training examples from a GEN token (LM loss, weight 0.25). Before each new task it samples gamma x |task| pseudo-examples of earlier tasks (top-k=20) and trains on them mixed with the new task. Compared against plain sequential fine-tuning, online EWC, MAS, GEM (5% real memory), MBPA++, "LAMOL-REAL" (the same mixture made of real old examples) and multitask training. Task-specific generation tokens were also tested.
+- on_whom: smallest GPT-2. Task streams: 3 small decaNLP tasks (SST 6,920 train, QA-SRL 6,414, WOZ 2,536) in all 6 orders; 5 decaNLP tasks (adds SQuAD 87,599 and WikiSQL 56,355) in one order; 5 text-classification datasets (115,000 each) in 4 orders, mostly 1-2 runs.
+- how_scored: per-task test metric (nF1, EM, lfEM, dsEM) averaged over tasks after the last epoch of the last task. Order sensitivity = std of that average across the 6 task orders.
+- result: 3-task stream, mean (std over 6 orders): fine-tuned 39.3 (12), EWC 47.0 (8.7), GEM 42.8 (11), LAMOL gamma=0 44.8 (6.0), LAMOL-GEN gamma=0.05 74.9 (3.4), LAMOL-GEN gamma=0.2 79.7 (0.8), REAL 0.05 79.4 (1.2), multitask 81.5. 5-task stream: fine-tuned 51.5, GEN 0.2 73.1, TASK 0.2 74.3, REAL 0.05 74.5, REAL 0.2 76.0, multitask 76.6. Gains level off around gamma 0.1-0.3. "5% of real samples beats 20% of pseudo-samples."
+- limits: GPT-2 small only. Few seeds (one run per order). One order for the 5-task stream. Self-generated samples get worse on long paragraphs, and task tokens often fail to steer generation ("chaos"). No measure of calibration, consistency or probes; forgetting is measured by task accuracy only.
+- borrow: the three-arm design (none / self-generated replay / real replay at matched ratio gamma) and the std across task orders as a robustness metric. Both drop straight into T3 with a LoRA on Qwen2.5-0.5B/1.5B. Track "forgetting curves per epoch" as in their Fig. 3.
+- next_steps_it_suggests: better constraint of task-specific generation so pseudo-samples approach the quality of real ones.
+- already_run_check: T3 run (self-generated vs real vs none replay, GPT-2 small, accuracy only). T6 incidental: revival of a forgotten task (SQuAD) when a similar task (QA-SRL) is trained. Nothing on T2.
+- transfers: partly — the T3 design is cheap to repeat on a 0.5-8B LoRA, but it is already done; only new outcome measures (probe, order sensitivity, own vs other uptake) would make it new.

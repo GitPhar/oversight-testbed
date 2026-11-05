@@ -1,0 +1,14 @@
+# Mechanistic analysis of catastrophic forgetting in LLMs during continual fine-tuning — Imanov, 2026, arXiv preprint 2601.18699 (v1)
+- url: https://arxiv.org/html/2601.18699v1
+- field: machine learning
+- read_depth: full
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: Claims hidden-state / attention-head analyses of sequential fine-tuning on 109B–1.5T models, including proprietary API models.
+- on_whom: Llama 4 Scout/Maverick, DeepSeek-V3.1, plus GPT-5.1, Gemini 2.5 Pro, Claude Opus 4.5 (internals of the proprietary models claimed without any explained access).
+- how_scored: Task accuracy drops; CKA; an affine "realignment" map fitted to pre-fine-tune activations.
+- result: Reports realignment "recovered 38 percent of lost performance"; correlation values reported inconsistently across sections (r = 0.87 vs −0.79).
+- limits: Unexplained access to proprietary-model hidden states, inconsistent reporting, no per-model tables; no linear probes.
+- borrow: nothing.
+- next_steps_it_suggests: n/a.
+- already_run_check: none (not credible enough to count).
+- transfers: no — single-author paper with unverifiable claims and frontier-scale models; killed.

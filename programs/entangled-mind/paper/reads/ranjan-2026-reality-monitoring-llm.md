@@ -1,0 +1,14 @@
+# Reality monitoring in LLMs — Ranjan, Sokratous & Odegaard, 2026, arXiv preprint (not peer reviewed)
+- url: https://arxiv.org/pdf/2607.23927
+- field: cognitive psychology
+- read_depth: partial (abstract, introduction, related work, results 2.1.1 and 2.2 accuracy paragraphs, discussion, limitations; figures and methods not read)
+- read_by: scout-bmq reader E, 2026-11-04
+- what_tested: in-context source memory (reality monitoring), using a word-pair paradigm taken from human research. The second word of each pair is either given by the user ("perceived") or produced by the model ("imagined"). The model later judges the source and its confidence. Memory structure varied: Single-Turn vs Trial-Chain (Exp 1); Episodic-Chain with a delayed test block, set size 20 vs 40 crossed with corrective feedback (Exp 2).
+- on_whom: six instruction-tuned open models via Ollama at temperature 0: Gemma 3 12B and 27B (with and without QAT), Llama 3.3 70B, Llama 4 16x17B. Exp 1: N = 1,728 perceived trials in the GLM. Exp 2: N = 72,000 test-phase observations.
+- how_scored: source accuracy by source type; GLM/GLMM; signal-detection metacognitive sensitivity; "reading hallucination" (failing to copy the given word).
+- result: Exp 1: self-generated items 100% correct in every model (the item is still in context). Copy failure is the main predictor of misattributing perceived items (b = -3.84); excluding those, perceived accuracy is 90.9-99.7%. Exp 2, delayed test without feedback: perceived 76.34% vs imagined 38.46% (the advantage reverses to other-generated items; OR = 2.57). With feedback: 56.50% vs 56.68%. Feedback inverted Gemma3-12B's source mapping and pushed Llama3.3-70B's metacognitive sensitivity below chance.
+- limits: in-context only, no weight updates or consolidation. Minimal word-pair materials. Single decoding setting. Presentation order is listed as untested.
+- borrow: (1) a ready source-memory paradigm and signal-detection scoring for the source half of T2: after consolidating a transcript into LoRA weights, ask the model whether a given rating was "yours" or "the user's" and score d'; (2) the reversal under delay (own items 38% when no longer trivially in context) predicts source loss after consolidation, a falsifiable expectation; (3) separating copy failure from source failure is a needed control.
+- next_steps_it_suggests: richer sources (prior turns, retrieved documents, tool outputs), interpretability of the failure modes, other decoding and order settings.
+- already_run_check: T2 source half, in context only. Own-vs-other source discrimination was measured under memory load, but not after consolidation into weights. Others: none.
+- transfers: partly — the paradigm and scoring transfer directly to Llama-3-8B/Qwen2.5-7B; the consolidation step is the missing piece we would add.

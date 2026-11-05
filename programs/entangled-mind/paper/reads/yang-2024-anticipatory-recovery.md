@@ -1,0 +1,14 @@
+# Reawakening knowledge: anticipatory recovery — Yang, Jones, Mozer & Ren, 2024, NeurIPS 2024
+- url: https://arxiv.org/pdf/2403.09613
+- field: machine learning
+- read_depth: partial (sections 1-3.3, the discussion and limitations, and the broader-impact paragraph; section 4 mechanism and appendices not read)
+- read_by: scout-bmq reader E, 2026-11-04
+- what_tested: cyclic sequential fine-tuning. T documents are trained in a fixed, repeated order, M gradient steps each (batch 1), for E epochs. The model never sees two documents together in context. Measured: loss on every document after each episode. Arms: fixed cyclic order vs re-shuffled order; model size (160M-2.8B); pretrained vs random initialisation; width/depth; T, M, context length, frozen blocks; SGD vs Adam. Vision models were also run.
+- on_whom: Pythia 160M-2.8B, pretrained and randomly initialised. CNN/DailyMail articles (outside the Pile), T=25 by default and up to 200, C=256 tokens, M=10, E=5. Ablations are run in a single setting each.
+- how_scored: per-document cross-entropy. Recovery score = share of the epoch's forgetting regained before the document comes round again. Online (prequential) loss on the upcoming document.
+- result: Pythia-1B, T=100: loss on document 1 peaks around document 60 and then falls; more than half the forgetting is recovered before document 1 recurs in epoch 2. Average online loss, epochs 2-5, cyclic vs shuffled: 410M 1.09 vs 1.34; 1B 1.03 vs 1.51; 1.4B 1.14 vs 1.51; 2.8B 1.34 vs 1.79. The effect jumps sharply from 160M to 410M. It needs width ≥512 and ≥8 blocks, weakens with more frozen blocks or longer context, strengthens with more gradient steps and with Adam, and is still present at T=200.
+- limits: memorisation loss on the training documents only, with no knowledge, QA or judgment measures. Each ablation is run in one setting only. No LoRA (full fine-tuning). The authors flag that recovery is unwelcome when content is meant to be forgotten (unlearning).
+- borrow: (1) the recovery score and the cyclic-vs-shuffled control are a ready-made T6 protocol that runs on Qwen2.5-0.5B/1.5B with full fine-tuning on the laptop; (2) it implies that the schedule (fixed order) is itself a memory variable, so any T2/T3 consolidation run must randomise or counterbalance the order of consolidation items.
+- next_steps_it_suggests: other structured environments (multiscale temporal dynamics); theory; implications for unlearning.
+- already_run_check: T6 run (anticipatory recovery and the effect of cyclic order, Pythia up to 2.8B). T8 nearly run (forgotten documents resurface without being re-presented, though not after deliberate unlearning). Open: whether it holds under LoRA, and whether recovery reaches beliefs or judgments rather than token loss.
+- transfers: yes — the design is cheap at 0.5-1.5B scale, and LoRA on Qwen2.5-7B/Llama-3-8B is an untested variant.

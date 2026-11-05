@@ -1,0 +1,14 @@
+# The benefit of forgetting in thinking and remembering — Benjamin C. Storm, 2011, Current Directions in Psychological Science 20(5)
+- url: https://www.psychologicalscience.org/journals/current-directions/0963721411418469/
+- field: cognitive psychology
+- read_depth: abstract (full text needs an APS login; no open copy found. Note: the venue is Current Directions, not Perspectives. Nørby 2015, Perspectives on Psych Science, the suggested alternative, is also paywalled; abstract only, no file written)
+- read_by: scout-bmq reader B, 2026-11-04
+- what_tested: short review. Retrieval-induced forgetting arises from an inhibitory process that resolves interference during retrieval, and the same process helps elsewhere (e.g. creative problem solving).
+- on_whom: reviews human studies; no numbers in the abstract.
+- how_scored: not available from the abstract.
+- result: abstract claim only: people who show more RIF tend to overcome interference better in other tasks; forgetting is "a surprising and unintended consequence of remembering".
+- limits: cannot check the individual-difference evidence from the abstract.
+- borrow: an individual-differences angle: across checkpoints or LoRA seeds, does a model with larger in-context RIF also resist in-context proactive interference better (Wang & Sun 2025 PI-LLM task)? Cheap, but it needs many model variants, so it is weak on two models.
+- next_steps_it_suggests: not available from the abstract.
+- already_run_check: none.
+- transfers: no — without the full text there is no method to borrow beyond Anderson et al. 1994 and Li & Wang 2026; killed here.

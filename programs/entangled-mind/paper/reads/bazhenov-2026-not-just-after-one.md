@@ -1,0 +1,14 @@
+# Not Just After One: sleep-inspired replay after sequential tasks — A. Bazhenov, Delanois & Krishnan, 2026, arXiv preprint 2606.08447v1
+- url: https://arxiv.org/html/2606.08447v1
+- field: machine learning
+- read_depth: full (arXiv HTML v1; numbers are in figures, text gives few)
+- read_by: scout-bmq reader C, 2026-11-04
+- what_tested: Sleep Replay Consolidation (SRC, from Tadros et al. 2022) applied ONCE after a sequence of 2-5 tasks, instead of after every task; effect of task order and of the number of tasks before sleep; weight changes during sleep.
+- on_whom: MLP (2x1200 ReLU, no biases) on MNIST and Fashion-MNIST; small CNN (two 3x3 conv layers, 1800-1200-10 head) on CIFAR-10; 10 trials per condition. No transformers or language models.
+- how_scored: Accuracy averaged over all tasks in the sequence and over trials (±1 SD).
+- result: Each new task caused near-complete forgetting of earlier ones; one SRC episode at the end recovered a significant but partial portion (values in figures only). Mean accuracy fell gradually as more tasks preceded sleep; for CIFAR-10 sharply from 2 to 3 tasks, then levelled off. Task order changed per-task accuracy after sleep but not the mean; recovery tracked low overlap between tasks, not recency. During sleep most synapses weakened and a few strengthened. Quote: "training each new task caused near-complete forgetting of earlier tasks."
+- limits: Small benchmarks and architectures; partial recovery; no exact numbers in text; no limitations section; mentions LLMs only as motivation (citing Luo et al. 2024), does not test them.
+- borrow: Recovery after near-complete behavioural forgetting is a T8 phenomenon (forgotten knowledge resurfacing without old data) and implies T1's premise (knowledge kept in weights). "Overlap predicts recovery, recency does not" is a testable prediction for an LLM version: tasks whose representations overlap less with the new task should resurface more after a sleep/shrink step.
+- next_steps_it_suggests: General principles for continual-learning AI; no specific experiments named.
+- already_run_check: T8 nearly (resurfacing of near-completely forgotten tasks after an offline phase, but on MLP/CNN and via SRC, not LLM). T4 partly (sleep mostly weakens weights). Others: none.
+- transfers: partly — predictions transfer, the method (spiking conversion) does not.

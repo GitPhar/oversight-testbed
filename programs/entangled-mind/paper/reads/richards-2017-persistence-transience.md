@@ -1,0 +1,14 @@
+# The persistence and transience of memory — Richards & Frankland, 2017, Neuron 94(6):1071-1084
+- url: https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE:%22The%20Persistence%20and%20Transience%20of%20Memory%22&resultType=core (Europe PMC abstract record, PMID 28641107)
+- field: neuroscience (with a computational framing)
+- read_depth: abstract (Neuron paywall; not in PMC. A third-party Basecamp PDF copy came up in search, but its provenance is unclear, so it was not used)
+- read_by: scout-bmq reader A, 2026-11-04
+- what_tested: A perspective, drawing parallels between neurobiological and computational mechanisms of transience (forgetting). Claim: the interaction of persistence and transience is what allows intelligent decisions in dynamic, noisy environments. Transience (1) increases flexibility by reducing the influence of outdated information and (2) prevents overfitting to specific past events, promoting generalisation. "The goal of memory is not the transmission of information through time, per se" but to optimise decisions.
+- on_whom: Not stated in the abstract (a perspective).
+- how_scored: Not applicable.
+- result: No numbers in the abstract.
+- limits: Not read beyond the abstract. As stated, the claim is a framing, not a test.
+- borrow: Forgetting as regularisation gives a falsifiable LLM prediction for T4. If shrinking LoRA deltas toward base acts as "transience", it should IMPROVE held-out generalisation and adaptation to a changed task (flexibility) while costing verbatim recall of trained items. Measure both on the same run: the regularisation story requires the gain on held-out items to appear, not just smaller forgetting. For us it also reframes "consistency lives in the transcript". Low repeat consistency without the transcript (36%) may be transience doing its job (no overfitting to a single earlier answer) rather than a defect, and that predicts the transcript-free answers are better calibrated to the order-free mean.
+- next_steps_it_suggests: Not available from the abstract.
+- already_run_check: none.
+- transfers: partly. The regularisation/flexibility framing maps onto weight decay or delta shrinkage on a 7-8B LoRA ($0), but this record rests on the abstract only.

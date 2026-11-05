@@ -1,0 +1,14 @@
+# The role of sleep in false memory formation — Jessica D. Payne, Daniel L. Schacter, Ruth E. Propper, Li-Wen Huang, Erin J. Wamsley, Matthew A. Tucker, Matthew P. Walker & Robert Stickgold, 2009, Neurobiology of Learning and Memory 92(3)
+- url: https://pmc.ncbi.nlm.nih.gov/articles/PMC2789473
+- field: cognitive psychology
+- read_depth: full (PMC author manuscript; read through a fetch summary of the whole article, figures not seen)
+- read_by: scout-bmq reader B, 2026-11-04
+- what_tested: whether sleep vs wake after hearing DRM lists changes free recall of studied words and of the unpresented critical lures (gist-based false memories); relation to slow-wave sleep (SWS).
+- on_whom: Exp 1: 140 analysed (Wake 72, Sleep 68) plus 20-min AM (24) and PM (21) controls; Exp 2: 21 with overnight polysomnography; Exp 3: 30 (nap 16, wake 14).
+- how_scored: 10-min free recall; counts of studied words, critical lures and other intrusions; change from the 20-min baseline.
+- result: Exp 1 Sleep vs Wake: studied words 21.9 vs 15.7 (d = .7); critical lures 3.6 vs 2.9 (p = .005, d = .5); intrusions n.s. Change from baseline: studied words -28.7% (sleep) vs -42.9% (wake); critical lures +2.1% (sleep, n.s.) vs -22.4% (wake, p = .03). Nap: lures 4.3 vs 2.9 (d = .9) while studied words did not differ (26.6 vs 26.4). Recall correlated NEGATIVELY with SWS (e.g. r = -0.60 with SWS minutes, corrected recall).
+- limits: (authors') correlational; interference and circadian accounts not fully excluded; only 8 lures, so lure recall could not be related to sleep stages; DRM only; recall not recognition; gist vs spreading-activation accounts not separated. A later meta-analysis (Newbury & Monaghan 2019, separate record by reader F) is the place to check how robust the lure effect is.
+- borrow: "consolidation preserves gist while verbatim decays". The LLM version: put DRM lists in context (Orthey et al. 2026 already give Llama-3.1-8B and Qwen2.5-7B in-context baselines with a p(YES) measure), then consolidate the same lists into LoRA weights; does lure endorsement rise relative to studied-word endorsement after consolidation? This is the semanticisation half of T2, falsifiable at $0.
+- next_steps_it_suggests: test other false-memory types (misinformation); relate lure recall to SWS directly; separate gist from spreading activation; establish causality.
+- already_run_check: T2 (semanticisation): human original; no LLM consolidation version found.
+- transfers: yes — DRM lists are public and the gist-vs-verbatim contrast becomes in-context vs LoRA-consolidated on a local 7-8B model.

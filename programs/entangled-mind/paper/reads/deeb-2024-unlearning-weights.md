@@ -1,0 +1,14 @@
+# Do unlearning methods remove information from language model weights? — Deeb, Roger, 2024, arXiv preprint 2410.08827 (v3, Feb 2025)
+- url: https://arxiv.org/html/2410.08827
+- field: machine learning
+- read_depth: full
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: "Retraining on T" (RTT): split facts into independent sets T and V, unlearn both, fine-tune the unlearned model on T, measure accuracy on held-out V. High V accuracy means information was hidden, not removed.
+- on_whom: Llama 3 8B (main); zephyr-7b-beta for RMU. Datasets: 20th-century event years, MMLU categories, WMDP-Deduped (785 questions), Random Birthdays (fine-tuned facts). 157 datapoints per split.
+- how_scored: Recovery rate = V accuracy of unlearned model after RTT ÷ V accuracy of original model after RTT; unlearning strength capped at ≤5% retain-accuracy loss.
+- result: Fine-tuning on accessible facts "can recover 88% of the pre-unlearning accuracy" (pretrained information; recovery >88% across GD, RMU, RIA). Stress test: GD drives forget accuracy to 35%, RTT restores 83%. For fine-tuned (Random Birthdays) facts, GD and RIA recovery <35% — information learned by fine-tuning is removed more genuinely than pretrained information.
+- limits: RTT needs hyperparameter search; cannot prove removal; does not cover skills; low-leakage fact sets are hard to build.
+- borrow: RTT is the right behavioural control for T1/T8 in the FORGETTING (not unlearning) case: after a forgetting LoRA, LoRA on half the forgotten true/false items, test the disjoint half, compare with the same LoRA on the original model as denominator. Their pretrained-vs-fine-tuned asymmetry predicts that Llama's pretrained factual truth survives forgetting better than anything we teach it.
+- next_steps_it_suggests: Robustly remove fine-tuned information; report whether methods remove or merely hide; evaluate with RTT on pretrained information.
+- already_run_check: T8 run (unlearned knowledge resurfaces after retraining on disjoint facts, Llama 3 8B); T6 nearly run (relearning savings measure, no spacing).
+- transfers: yes — Llama 3 8B and a cheap LoRA-scale retraining test.

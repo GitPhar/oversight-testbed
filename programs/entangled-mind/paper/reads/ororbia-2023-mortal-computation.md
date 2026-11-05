@@ -1,0 +1,14 @@
+# Mortal computation: a foundation for biomimetic intelligence — Ororbia & Friston, 2023, arXiv preprint 2311.09589
+- url: https://arxiv.org/pdf/2311.09589
+- field: other (theoretical review: free-energy principle, cybernetics, biomimetic computing)
+- read_depth: partial (abstract, introduction, formal definition of a mortal computer, section on extant mortal computers and implications for AI, conclusion; the free-energy formal sections skimmed)
+- read_by: scout-bmq reader C, 2026-11-04
+- what_tested: Nothing empirical. A review/thesis that recasts Hinton's "mortal computation" via Markov blankets and the free energy principle. It defines a mortal computer by five properties, including homeostatic/allostatic imperatives and "mortal inference-learning-and-selection" (MILS), with software and hardware co-designed so that "an instance of software has no meaning without the hardware that instantiates it".
+- on_whom: No experiments; Table 1 lists five "extant mortal computers" (e.g. organoids, mould/fungal computing, neuromorphic systems) as examples.
+- how_scored: Not applicable.
+- result: No numbers. The authors place large language models outside mortal computation ("intelligent in some sense but are not intelligent in the way that organisms ... are") and point the future at neuromorphic hardware, organoids and embodied agents; the conclusion is about moral status of such artefacts. Quote: "mortal computation is one possible key to AGI."
+- limits: Purely conceptual; no falsifiable prediction stated for software networks; heavy reliance on free-energy formalism.
+- borrow: Nothing operational for our engine. At most, the homeostatic framing ("essential variables" kept within bounds) is a vocabulary for T4 (keep weights near a set-point = base model), but the paper gives no method or metric.
+- next_steps_it_suggests: Build mortal computers on neuromorphic chips, cell cultures/organoids and forward-only learning (predictive coding, FF); consider ethics and rights of such systems.
+- already_run_check: none.
+- transfers: no — the thesis is defined by hardware-bound, non-copyable computation and makes no test on an open-weight software model; kill.

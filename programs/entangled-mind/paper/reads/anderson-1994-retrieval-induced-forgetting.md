@@ -1,0 +1,14 @@
+# Remembering can cause forgetting (retrieval-induced forgetting) — Michael C. Anderson, Robert A. Bjork & Elizabeth L. Bjork, 1994, JEP: Learning, Memory, and Cognition 20(5)
+- url: https://bjorklab.psych.ucla.edu/wp-content/uploads/sites/13/2016/07/Anderson_RBjork_EBjork_1994.pdf
+- field: cognitive psychology
+- read_depth: partial (abstract, introduction, Experiment 1 method and results, Experiment 2 results; Experiment 3 and general discussion read only via the abstract and scattered passages)
+- read_by: scout-bmq reader B, 2026-11-04
+- what_tested: whether retrieving some members of a category (Fruit-Or___) impairs later recall of the unpractised members of that category (Rp-) relative to members of unpractised categories (Nrp), after a delay; whether this survives output-interference control; and whether it depends on exemplar strength (taxonomic frequency).
+- on_whom: undergraduates; Exp 1 n = 36, Exp 2 n = 48, Exp 3 n = 64 (16 per each of four between-subject conditions).
+- how_scored: category-cued free recall on a surprise final test 20 min after retrieval practice; proportions of Rp+, Rp-, Nrp recalled.
+- result: Exp 1: Rp+ 73.6% vs Nrp 48.4% (F(1,32) = 136.9); Rp- 37.5% vs Nrp 48.4% (F(1,32) = 30.3, p < .0001). Strong exemplars were impaired more: 15.7 points (56.0 to 40.3) vs 6.3 points for weak; proportional impairment 28.0% vs 15.4%. Exp 2 (output interference controlled): strong Rp- 74.7% vs Nrp 82.7%; weak Rp- 62.9% vs Nrp 62.7% (impairment 9.7% vs 0%). Abstract: impairment "appears restricted to high-frequency members".
+- limits: one materials type (category-exemplar lists), 20-min delay only, recall tests only; authors weigh inhibition vs blocking accounts and do not settle them in these experiments.
+- borrow: the Rp+/Rp-/Nrp design with a between-category baseline is the clean control any LLM RIF test needs. The STRONG-vs-WEAK prediction gives a sharper, falsifiable LLM version: if LLM RIF is suppression, high-prior (strong) items should lose more than low-prior items. Li & Wang 2026 (in-context, Qwen2.5-7B) did not test this.
+- next_steps_it_suggests: decide between suppression and blocking (strength-dependent competition) accounts; check that the impairment lasts beyond a single session.
+- already_run_check: T5: the human original. An in-context LLM version has been run (Li & Wang 2026, Qwen2.5-7B); an in-weights (LoRA retrieval-practice) version was not found.
+- transfers: yes — category-exemplar facts (fictional, to avoid pretraining hits) with LoRA "retrieval practice" on half the items in half the categories is a $0 laptop test on Qwen2.5-7B or Llama-3-8B; the in-context version is already done.

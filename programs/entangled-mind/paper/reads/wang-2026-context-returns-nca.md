@@ -1,0 +1,14 @@
+# When context returns: context-induced degradation after distillation (NCA) — X. Wang, Chen, Li, Y. Chen & Huang, 2026, arXiv preprint (v2, Aug 2026)
+- url: https://arxiv.org/pdf/2606.11627
+- field: machine learning
+- read_depth: partial (abstract, introduction, related work, setup and Table 1; method derivations, other domains and appendices not read)
+- read_by: scout-bmq reader E, 2026-11-04
+- what_tested: after on-policy self-distillation of privileged context (a system prompt, hints or game-state text) into weights, does putting the SAME context back into the prompt still help, or does it now hurt? "Harm" = P(wrong with context | right without). The fix, No-Context Anchoring (NCA), adds a forward-KL term pulling the with-context output toward the student's own stop-gradient no-context output.
+- on_whom: System-Prompt QA (MedMCQA, Safety) on Llama-3.1-8B-Instruct, Llama-3.2-3B-Instruct, Qwen2.5-7B-Instruct and Qwen3-8B, each as its own teacher. Text games (Qwen3-4B → itself or Qwen3-1.7B). Math with thinking mode (Qwen3-1.7B/8B). 14 configurations in all.
+- how_scored: accuracy without context (Acc_x) and with context (Acc_x,c); harm rate; both-views-correct.
+- result: Llama-3.1-8B MedMCQA: base 65.8 / 79.2 (without / with context); after OPD 77.1 / 75.0 with harm 10.8; after NCA 78.0 / 77.9 with harm 4.0. Qwen2.5-7B MedMCQA after OPD: harm 11.8 (NCA 7.6). Worst case Llama-3.2-3B MedMCQA, harm 15.7. Over 14 configurations, NCA cuts harm in 12, by 7.2 points on average, and raises both-view success by 5.3 points.
+- limits: right/wrong accuracy only, no graded credences. The context is a system prompt or hint, not the model's own earlier answers. No source manipulation. No question-order manipulation. Forgetting of unrelated skills not read.
+- borrow: a direct failure mode to watch for in T2. After consolidating a transcript into weights, showing the transcript again may flip answers, so a T2 design should include a "context returns" arm (consolidated model + original transcript) next to the consolidated-without-context arm. The harm-rate metric (flip probability conditioned on correct) is cheap and transfers to our 0-100 ratings as "share of items whose rating moves > X points when the context is restored".
+- next_steps_it_suggests: not read beyond the stated goal of robust internalization (context invariance as an explicit training constraint).
+- already_run_check: T2 nearly run on context sensitivity after consolidation: they measure how far the distilled model is moved by re-adding the distilled context, on Llama-3.1-8B and Qwen2.5-7B. What differs: the context is a system prompt, not own-answer transcripts; there is no own-vs-other source test and no order permutation. Others: none.
+- transfers: yes — the same models as ours (Llama-3.1-8B, Qwen2.5-7B) and a cheap metric; the LoRA regime was not checked in the sections read.

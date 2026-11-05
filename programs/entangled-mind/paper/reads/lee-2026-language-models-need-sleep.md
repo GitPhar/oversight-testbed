@@ -1,0 +1,14 @@
+# Do language models need sleep? Offline recurrence — Lee, McLeish, Goldstein & Fanti, 2026, arXiv preprint (v3)
+- url: https://arxiv.org/pdf/2605.26099
+- field: machine learning
+- read_depth: partial (abstract, introduction, start of related work; results sections not read, because it was killed as not transferable)
+- read_by: scout-bmq reader E, 2026-11-04
+- what_tested: an architecture-level "sleep". When the context fills, an SSM-attention hybrid makes N offline recurrent passes over the context and writes it into fast weights (a learned local rule), then clears the KV cache. It is trained end-to-end. Tested on whether later single-pass answers about evicted context improve as sleep length N grows.
+- on_whom: hybrid models built on Gated Delta Nets, synthetic tasks (cellular automata, multi-hop graph retrieval) and GSM-Infinite from pretrained initialisations (details not read).
+- how_scored: task accuracy after sleep, as a function of reasoning depth and N.
+- result: per the abstract, longer sleep (larger N) improves performance, most on examples needing deeper reasoning; transformers and plain SSM-attention hybrids fail these tasks. No other numbers read.
+- limits: "sleep" here means compressing context into fast-weight state, not consolidation against catastrophic forgetting. No test of retaining earlier knowledge, no replay and no source measures. It needs a custom architecture trained from the start.
+- borrow: only the framing that consolidation is computation, not just storage. Nothing runnable on Llama-3-8B or Qwen2.5-7B.
+- next_steps_it_suggests: not read.
+- already_run_check: none (closest to T2 in name only: context goes into weights, but there is no order, source or forgetting test).
+- transfers: no — architecture-specific fast-weight sleep that is not about forgetting; cannot be run on our stock models.

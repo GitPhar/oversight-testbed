@@ -1,0 +1,14 @@
+# Reflections of the environment in memory (rational analysis of forgetting) — John R. Anderson & Lael J. Schooler, 1991, Psychological Science 2(6)
+- url: https://dyurovsky.github.io/learning-humans-machines/class/13-class/papers/anderson1991.pdf
+- field: cognitive psychology
+- read_depth: partial (abstract, memory-function section on retention, practice and spacing, the need-odds derivation, and the environmental practice-function analyses; the environmental retention and spacing analyses were read only in passing)
+- read_by: scout-bmq reader B, 2026-11-04
+- what_tested: whether the probability that an item will be NEEDED (it appears in a New York Times headline, in parental speech in CHILDES, or as an email from a given sender) depends on frequency, recency and spacing of past occurrences in the same functional form as human memory does (power-law practice and retention, spacing x lag interaction).
+- on_whom: 730 days of New York Times headlines; CHILDES parent utterances; the first author's email. Human data re-analysed from Ebbinghaus (1885) and Glenberg (1976).
+- how_scored: log need odds against log frequency or log lag; fit of power vs exponential functions (R^2 on log-log axes).
+- result: Ebbinghaus savings fit a power function, P = 47.56 T^-0.126 (log-log R^2 = 0.978), not an exponential. Practice data: log-log R^2 = 0.996 vs 0.949 for the exponential form. The environmental need-odds-vs-frequency plots are linear in log-log; the panel labels show R^2 of about .99, but the text extraction was garbled there, so treat that value as approximate. Claim: memory's forgetting and practice curves mirror the statistics of need in the environment.
+- limits: correlational fit of functional forms; three corpora; human data are re-used, not collected; the authors say they have "no investment" in power functions being the true form.
+- borrow: (1) score retention as log ODDS, not probability, and fit power vs exponential before claiming any forgetting-curve shape in an LLM (in-context lag or fine-tuning steps). (2) The adaptive reading of forgetting ("forget what is unlikely to be needed") gives a falsifiable LLM question: does a model's in-context uptake of an earlier statement fall off with token lag as a power law, matching the recurrence statistics of its pretraining text?
+- next_steps_it_suggests: extend environmental analyses to spacing and to other sources; derive memory mechanisms (later ACT-R activation) from need probability.
+- already_run_check: none. No LLM or network.
+- transfers: partly — the scoring choices (log odds, power vs exponential) transfer at $0; the rational-analysis claim about LLMs would need corpus statistics we do not have cheaply.

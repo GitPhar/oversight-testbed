@@ -1,0 +1,14 @@
+# Rubric interference in LLM judges (SARA) — Yu, Zhang, Mou, Zhang, Ye & Zhang, 2026, arXiv preprint
+- url: https://arxiv.org/abs/2608.14684
+- field: machine learning
+- read_depth: abstract (found at the end of the session; only the arXiv abstract page was fetched)
+- read_by: scout-bmq reader E, 2026-11-04
+- what_tested: "rubric interference". When an LLM judge scores several rubrics in one pass, its verdict on one rubric shifts with which other rubrics are present and in what order. Probed by four operations: expanding the rubric set, taking subsets, reordering, and injecting noise. The fix, Self-Anchored Rubric Alignment (SARA), uses the model's own single-rubric judgments as anchors and aligns its multi-rubric reasoning to them by on-policy self-distillation, with no external supervision.
+- on_whom: Qwen3 and Llama-3.1 families; GPT-4.1 as reference judge; HealthBench, FLASK, ResearchQA.
+- how_scored: judgment consistency under the four operations (exact metrics not read).
+- result: the abstract reports better consistency on three datasets, and the learned consistency transfers across datasets. No numbers taken.
+- limits: per the abstract, no own-vs-other source manipulation. The anchors are the model's own isolated judgments, not transcripts.
+- borrow: the closest existing test of the ORDER half of T2. Self-distillation from a clean single-item view into weights to reduce context and order sensitivity of graded judgments. Its four probing operations are a ready checklist for our 0-100 claim ratings (add, remove, reorder, add noise to co-presented claims).
+- next_steps_it_suggests: not read.
+- already_run_check: T2 nearly run (order and context sensitivity of LLM judgments measured before and after self-distillation into weights, on Qwen3 and Llama-3.1). What differs: no own-vs-other source test; the content distilled is isolated self-judgments, not the model's own transcript history; LoRA vs full fine-tuning not known.
+- transfers: partly — the same model families and a cheap measurement design; a full read is needed before relying on it.

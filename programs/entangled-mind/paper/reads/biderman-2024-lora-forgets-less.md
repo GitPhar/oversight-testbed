@@ -1,0 +1,14 @@
+# LoRA learns less and forgets less — Biderman, Portes, Gonzalez Ortiz, et al., 2024, arXiv preprint 2405.09673 (venue not confirmed in fetched text)
+- url: https://arxiv.org/html/2405.09673
+- field: machine learning
+- read_depth: partial (main text and most appendix, first ~100k of ~127k characters)
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: Learning (target domain) vs forgetting (source-domain benchmarks) for LoRA (r=16/64/256, all modules, α=2r) vs full fine-tuning, in continued pretraining (code, math; up to 20B tokens) and instruction fine-tuning (Magicoder, MetaMathQA); plus weight-perturbation spectra.
+- on_whom: Llama-2-7B.
+- how_scored: HumanEval pass@1, GSM8K; forgetting = mean of HellaSwag, ARC-Challenge, WinoGrande (Gauntlet harness); SVD of ΔW.
+- result: Code CPT 20B tokens: full FT HumanEval 0.263 vs LoRA r=256 0.224; forgetting average 0.545 (full) vs 0.617 (LoRA) — LoRA keeps more. Code IFT: forgetting 0.414 (full) vs 0.509 (LoRA r=64). Full-FT perturbations are high rank: ~2000 of 4096 singular vectors explain 90% of variance for one Wq matrix, 10–100× typical LoRA ranks.
+- limits: No representation probing; forgetting measured only by output benchmarks; SVD only for CPT; one model size.
+- borrow: A warning for T1 design: LoRA on 4-bit 8B (our only option) forgets LESS, so we need an aggressive forgetting recipe (high LR, many epochs, or label-randomisation as in Zhang et al. 2024) to get verbal degradation worth probing. Use their source-domain benchmark triple as the behavioural forgetting gauge.
+- next_steps_it_suggests: Model-size scaling; LoRA + full-FT of embeddings hybrids; rigorous LoRA-variant comparison.
+- already_run_check: none.
+- transfers: partly — directly relevant to how much forgetting our LoRA budget can induce, silent on erase vs suppress.

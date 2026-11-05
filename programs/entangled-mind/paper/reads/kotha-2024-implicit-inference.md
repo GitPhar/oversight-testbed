@@ -1,0 +1,14 @@
+# Understanding catastrophic forgetting via implicit inference (conjugate prompting) — Kotha, Springer, Raghunathan, 2024, ICLR 2024 (venue per brief; not confirmed in fetched text)
+- url: https://arxiv.org/html/2309.10105
+- field: machine learning
+- read_depth: partial (main text and early appendix, first ~100k of ~145k characters; later appendix not read)
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: Hypothesis that fine-tuning shifts the model's implicit inference of WHICH task a prompt is, suppressing pretrained capabilities rather than erasing them. Tested by "conjugate prompting": transform the prompt (scale labels; translate to another language) so it looks less like the fine-tuning distribution, then map the answer back — no weight change.
+- on_whom: 22.4M-param GPT-2-style transformer on in-context linear regression (64 discrete weight vectors vs Gaussian prior); Alpaca, Vicuna-7b, OPT-IML-1.3b vs LLaMa-7b/OPT-1.3b (400 ICL-vs-instruction samples); LLaMa-2 vs Code LLaMa on XNLI (2,490 samples); safety-tuned model on 100 AdvBench prompts.
+- how_scored: Regression loss; first-word-completion accuracy; XNLI accuracy; answer-vs-refuse rate.
+- result: Alpaca and Vicuna-7b fail at ICL on 56.75% and 40.00% more inputs than LLaMa-7b; French prompts cut Alpaca's drop to 29.00%. Code LLaMa loses 8.36% on English XNLI but <2% in French/Spanish/German. Safety tuning cuts English harmful answering 92% → 3% but Malayalam only 71% → 65%. Recovery is partial everywhere.
+- limits: Task-inference mechanism is a hypothesis the authors cannot verify mechanistically; no probes or hidden-state analysis; translation imperfect; requires knowing the fine-tuning distribution.
+- borrow: Conjugate prompting as a zero-weight-change recovery control for T1/T8: after our LoRA forgetting run, re-ask the forgotten true/false items in French (or reformatted) — if verbal accuracy returns, the loss is a readout/task-inference shift. Pairs naturally with our Program 1 finding that elicitation format moves credence.
+- next_steps_it_suggests: Check whether task inference sits in identifiable sub-networks; build fine-tuning methods that alter capabilities more fundamentally.
+- already_run_check: T8 nearly run (behavioural resurfacing of suppressed capability without weight change, on 7B LLMs); T1 none (no probe).
+- transfers: yes — 7B LLaMA-family models and a laptop-cheap prompt-only manipulation.

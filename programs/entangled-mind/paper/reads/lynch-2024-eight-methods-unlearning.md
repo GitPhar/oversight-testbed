@@ -1,0 +1,14 @@
+# Eight methods to evaluate robust unlearning in LLMs — Lynch, Guo, Ewart, Casper, Hadfield-Menell, 2024, arXiv preprint 2402.16835
+- url: https://arxiv.org/html/2402.16835
+- field: machine learning
+- read_depth: full
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: Whether the "Who's Harry Potter" (WHP) unlearned model really lost Harry Potter knowledge, via eight probes: familiarity, other languages, jailbreaks, in-context relearning, fine-tuning relearning, trivia (binary and short-answer), supervised and unsupervised (CCS) latent-knowledge probes, trivial "pretend" prompting, plus side effects.
+- on_whom: Llama-2-7B-Chat vs the WHP model (Eldan & Russinovich); 1,239-question trivia set; LoRA rank 8 relearning on 800 and 8,000 sentences.
+- how_scored: GPT-4-graded familiarity; trivia accuracy; probe accuracy per layer.
+- result: WHP familiarity is "77% lower" than Llama-2's, but relearning on 8,000 sentences (~10% of corpus) brings WHP close to Llama-2. On binary trivia the gap mostly vanishes; on short-answer trivia WHP scores higher. Latent probes: on easy questions, WHP and Llama-2 probes perform similarly (exact accuracies only in figures, not text). Unsupervised probes less stable across layers in WHP.
+- limits: Single unlearned model; probe numbers given only in figures; familiarity metric may favour WHP.
+- borrow: Binary-format readout vs generative readout gap: knowledge "erased" for free generation persists for binary choice. In T1 score both a 0-100 / free-text verbal readout and a binary forced-choice readout alongside the probe — the format effect we already see in Program 1 may be where suppressed knowledge shows.
+- next_steps_it_suggests: Unlearning robust to adversarial evaluation; deeper removal methods.
+- already_run_check: T1 nearly run (probes on the model after a knowledge-removing fine-tune show knowledge still decodable; unlearning not task interference; probes appear retrained per model); T8 run (in-context and fine-tuning relearning).
+- transfers: yes — Llama-2-7B, LoRA relearning, probes; all laptop-scale.

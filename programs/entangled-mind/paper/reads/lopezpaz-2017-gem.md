@@ -1,0 +1,14 @@
+# Gradient Episodic Memory (GEM) — Lopez-Paz & Ranzato, 2017, NeurIPS (read as arXiv 1706.08840v6)
+- url: https://arxiv.org/pdf/1706.08840
+- field: machine learning
+- read_depth: full (arXiv v6 incl. tables; appendix matrices skimmed)
+- read_by: scout-bmq reader C, 2026-11-04
+- what_tested: Keep a small episodic memory per task; at each step project the new gradient (via a small dual quadratic program over t-1 variables) so that the loss on every stored memory does not increase. Also defines the now-standard metrics ACC, BWT (backward transfer, negative = forgetting) and FWT (forward transfer) from a task x task accuracy matrix. Compared with single, independent, multimodal, EWC, iCaRL.
+- on_whom: T = 20 tasks each; MNIST permutations and MNIST rotations (1000 examples per task, MLP 2x100 ReLU); incremental CIFAR-100 (2500 examples, 5 classes per task, reduced ResNet18 with per-task heads). Single pass, mini-batch 10. No language models.
+- how_scored: ACC, BWT, FWT; ACC vs memory size; ACC/BWT vs epochs per task.
+- result: CIFAR-100 ACC by memory size (200 / 1,280 / 2,560 / 5,120): GEM 0.487 / 0.579 / 0.633 / 0.654 vs iCaRL 0.436 / 0.494 / 0.500 / 0.508. MNIST rotations ACC/BWT at 1, 2, 5 epochs per task: GEM 0.86/+0.05, 0.88/+0.02, 0.89/-0.02; EWC 0.55/-0.19, 0.59/-0.17, 0.61/-0.11; single 0.53/-0.08, 0.49/-0.25, 0.43/-0.40; iid-shuffled oracle 0.83, 0.87, 0.89. More passes worsen forgetting for memory-less methods. GEM shows positive backward transfer on CIFAR-100. Quote: "GEM minimizes backward transfer, while exhibiting negligible or positive forward transfer."
+- limits: Authors list: no use of structured task descriptors; no advanced memory management (coresets); one backward pass per task per step. Task-incremental with task descriptors. Not applied to LLMs in this paper.
+- borrow: The R matrix with ACC/BWT/FWT is the scoring scheme any T3/T6 run should use (one row per fine-tuning stage, one column per probe battery, including our order-sensitivity battery and truth probe as columns). The "more epochs = more forgetting" table is a ready dose-response design for T1 (fine-tune epochs as the dose).
+- next_steps_it_suggests: Exploit structured task descriptors for zero-shot transfer; smarter memory selection (coresets).
+- already_run_check: T7 nearly-not (memory is a fixed random sample; the authors name memory selection as future work). T3: real-memory replay arm only. Others: none.
+- transfers: partly — the metrics transfer fully; GEM's per-task gradient projection is affordable for 2-3 tasks on a LoRA adapter but evidence here is small vision nets.

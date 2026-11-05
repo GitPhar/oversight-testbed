@@ -1,0 +1,14 @@
+# Linear probes transfer from base to distilled language models despite rotation — Tsatsos, 2026, arXiv preprint 2610.35586 (v1, 26 Oct 2026)
+- url: https://arxiv.org/html/2610.35586
+- field: machine learning
+- read_depth: full
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: Whether a logistic-regression probe for harmful requests trained on a base model's residual stream (one layer, last-8-token pooling) still works, unchanged, on the model's R1-distilled and instruction-tuned successors; how far the direction rotates.
+- on_whom: Four families: Qwen2.5-Math-7B, Llama-3.1-8B, Qwen2.5-14B, Qwen2.5-32B (4-bit NF4) with DeepSeek-R1-Distill and Instruct successors; XSTest (450 training prompts, 8 folds) plus 2,474 held-out OR-Bench/Alpaca prompts.
+- how_scored: AUC of base probe on successor vs base and vs successor's own probe; angle between directions; text-only n-gram baseline.
+- result: XSTest AUC changes for distilled successors −0.003 to +0.010, instruct successors −0.006 to +0.027, despite direction rotations of 30.5°–35.1° (distillation) and 17.1°–33.6° (instruction tuning). Comparable rotation in control directions. RL checkpoints barely changed activations (cosine ≥0.9998).
+- limits: Harm labels, not truth; no forgetting measured; single layer; small training set; instruct models run without chat templates; no causal tests.
+- borrow: Rotation-without-accuracy-loss is the pattern T1 should report explicitly: measure both frozen-probe accuracy AND angle between pre- and post-fine-tune directions; use their control-direction trick (random-label directions) to calibrate how much rotation is generic.
+- next_steps_it_suggests: Other bases, distillation recipes, and RL-trained models that actually change.
+- already_run_check: T1 nearly run (frozen base probe on fine-tuned successors, Llama-3.1-8B and Qwen2.5-7B families; not truth, not forgetting-inducing).
+- transfers: yes — same model families, probe method feasible on our laptop.
