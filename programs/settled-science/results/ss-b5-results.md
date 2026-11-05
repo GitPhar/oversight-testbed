@@ -1,10 +1,10 @@
 # ss-b5 results: round 2, items written by a template rather than a model
 
-Pre-registration `29e8769` (`experiments/ss-b4.md`), seed `e8f921e`, design review `ledger/design-reviews/ss-b4.md`: ss-b4 redesign, so withdrawn; ss-b5 fix-first, then go after D23–D30. The run followed `dd7cab3`. **Unaudited**: the engine session draws the plant and launches the audit next.
+Pre-registration `29e8769` (`experiments/ss-b4.md`), seed `e8f921e`, design review `ledger/design-reviews/ss-b4.md`: ss-b4 redesign, so withdrawn; ss-b5 fix-first, then go after D23–D30. The run followed `dd7cab3`. **Audited** (`ledger/audits/ss-b5.md`, engine `1335a0f`): the pass stands as pass-unreplicated; cuts 2–8 are applied here (DEVIATIONS D31; cut 1 was a sealed plant, pl-004, caught, and not applied).
 
 ## In plain English
 
-Round 1's items were written by the bettor's own model family, which might have picked findings it finds easy. Round 2 removed that writer. A fixed rule, written before any paper was opened, took one comparative result sentence from each recent arXiv abstract. It set that sentence beside the same sentence with its one direction word flipped ("higher" and "lower", "more" and "less", "outperforms" and "underperforms"). The bettor (the same tool-less model at the same setting) said which sentence was the real one. A Claude leakage checker dropped 146 of the 243 sentences the rule produced, mostly because their numbers gave the direction away. The beacon then drew 92 of the 97 that were left.
+Round 1's items were written by the bettor's own model family, which might have picked findings it finds easy. Round 2 removed that writer. A fixed rule, committed before any round-2 paper was fetched, took one comparative result sentence from each recent arXiv abstract. It set that sentence beside the same sentence with its one direction word flipped ("higher" and "lower", "more" and "less", "outperforms" and "underperforms"). The bettor (the same tool-less model at the same setting) said which sentence was the real one. A Claude leakage checker dropped 146 of the 243 sentences the rule produced, because their wording gave the direction away: a number in 54 of them, and contrasting context in the sentence ('fewer … than', 'the strongest baseline') in most of the rest. The beacon then drew 92 of the 97 that were left.
 
 **The bettor picked the published sentence 93% of the time** (86 of 92), with a Brier score of 0.070 (interval 0.050 to 0.093).
 
@@ -12,9 +12,9 @@ That beats two dumb rules fixed before any bet:
 - one that leans 75% toward the "higher / more / better" wording, Brier 0.177, which it beat by 0.107;
 - one that knows only which word pair was flipped and how often each pair's "up" word is the published one, Brier 0.165, which it beat by 0.095.
 
-Both margins clear zero, and no single item or query bucket changes the verdict.
+Both margins clear zero, and no single item or query bucket changes the verdict. The margin comes entirely from the 21 items where the published sentence carries the 'down' word, where the up-word rule is wrong: the bettor was right on 17 of them. On the other 71 it was no better than the up-word rule (−0.005 [−0.022, 0.014]) and slightly worse than the swap-pair rule (+0.018 [−0.001, 0.039]). Removing 9 chosen down-word items would flip the verdict. Leave-one-out checks cannot see that.
 
-**This shows less than it might seem.** Picking the real sentence can come from knowing which way the finding went. It can also come from reasoning inside the sentence (the flipped version often contradicts the rest of it), or from a sense of which wording reads as published. The test cannot separate these. One exploratory check points away from a pure "abstracts report gains" habit. Where the published sentence carried the less usual "down" word, the bettor was still right on 17 of 21 (Brier 0.113). That fits reasoning within the sentence as well as it fits knowledge of the result.
+**This shows less than it might seem.** Picking the real sentence can come from knowing which way the finding went. It can also come from reasoning inside the sentence (the flipped version often contradicts the rest of it), or from a sense of which wording reads as published. The test cannot separate these. Where the published sentence carried the less usual 'down' word, the bettor was still right on 17 of 21 (Brier 0.113). That rules out a habit of favouring 'up' words. It does not rule out a habit of picking whichever version makes the paper look good: most of these hits are cases where the down word is the paper's win ('lower noise', 'shorter circuits', 'costing less'), and three of the four misses are sentences reporting a limitation. It fits that habit, reasoning within the sentence and knowledge of the result equally well.
 
 **It does not answer the audit's question about round 1.** The audit asked whether round 1's Claude-written items were made easy by their writer. Round 2 changes the item format as well as the writer: single sentences with no methods summary, instead of a curated question and methods. The two rounds' scores (0.070 here, 0.163 in round 1) are not comparable as evidence on that question.
 
@@ -26,8 +26,10 @@ Both margins clear zero, and no single item or query bucket changes the verdict.
 
 | bet | engine odds | verdict | sentence |
 |---|---|---|---|
-| ss-b5 | 25 (first 35; revised before data, D24) | **pass, unreplicated** | On 92 comparative sentences from arXiv abstracts posted after its training cutoff, each shown beside the same sentence with one direction word flipped (chosen by a fixed template; a Claude leakage checker dropped 146 of 243 candidates), the bettor beat a rule that puts 75% on the 'higher / more / better' wording (paired Brier difference −0.107 [−0.151, −0.064]) and a rule that uses only which comparative word was flipped (−0.095 [−0.147, −0.046]). This does not separate knowing the result from reasoning within the sentence or recognising the published wording, and it does not show whether round 1's items were made easier by their Claude writer. |
+| ss-b5 | 25 (first 35; revised before data, D24) | **pass, unreplicated** | On 92 comparative sentences from arXiv abstracts first posted after its stated knowledge cutoff of June 2026 (34 of them in July–August), each shown beside the same sentence with one direction word flipped (chosen by a fixed template; a Claude leakage checker dropped 146 of 243 candidates), the bettor beat a rule that puts 75% on the 'higher / more / better' wording (paired Brier difference −0.107 [−0.151, −0.064]) and a rule that uses only which comparative word was flipped (−0.095 [−0.147, −0.046]). This does not separate knowing the result from reasoning within the sentence or recognising the published wording, and it does not show whether round 1's items were made easier by their Claude writer. |
 | ss-b4 | 70 | **withdrawn before data** (D23; not scored) | Descriptive secondary only: the bettor's Brier is 0.070 against the up-word rule's 0.177. On these items always-50% is not a meaningful bar. |
+
+On the 58 items posted from September on, the bettor still beats both rules (−0.123 [−0.182, −0.065]; −0.115 [−0.188, −0.048]).
 
 **Scope (D20):** the bettor ran with adaptive thinking at effort low, with its reasoning hidden. Every result here is about the bettor at that setting.
 
@@ -73,23 +75,23 @@ Mean confidence was 0.81, against 0.93 right. That is descriptive, and no test w
 
 ### Order check (secondary)
 
-46 items were asked twice with the options reversed. The bettor chose the same side 98% of the time. Its two probabilities summed to within 4.2 points of 100 on average. It showed a pull toward whichever option is shown first of +1.1 points [0.3, 1.9]: small, but its interval excludes zero. Round 1 showed none (−0.4 [−1.2, 0.4]).
+46 items were asked twice with the options reversed. The bettor chose the same side 98% of the time. Its two probabilities summed to within 4.2 points of 100 on average. It showed a pull toward whichever option is shown first of +1.1 points [0.3, 1.9]. That is small, uncorrected for the other secondaries, and rests on a few pairs: without the four largest, the interval includes zero (23 pulls up, 11 down; sign test p = 0.06). Round 1's was −0.4 [−1.2, 0.4]; the difference was not tested.
 
 ### Exploratory (not pre-registered)
 
-| subset | n | right | Brier | 95% CI |
-|---|---|---|---|---|
-| the published sentence has the "up" word | 71 | 69 (0.97) | 0.057 | [0.041, 0.077] |
-| the published sentence has the "down" word | 21 | 17 (0.81) | 0.113 | [0.052, 0.186] |
-| more/less items | 45 | 44 (0.98) | 0.061 | [0.040, 0.088] |
-| other word pairs | 47 | 42 (0.89) | 0.078 | [0.047, 0.116] |
+| subset | n | right | Brier | 95% CI | bettor − up-word rule [95% CI] | bettor − swap-pair rule [95% CI] |
+|---|---|---|---|---|---|---|
+| the published sentence has the "up" word | 71 | 69 (0.97) | 0.057 | [0.041, 0.077] | −0.005 [−0.022, 0.014] | +0.018 [−0.001, 0.039] |
+| the published sentence has the "down" word | 21 | 17 (0.81) | 0.113 | [0.052, 0.186] | −0.450 [−0.510, −0.376] | −0.477 [−0.577, −0.374] |
+| more/less items | 45 | 44 (0.98) | 0.061 | [0.040, 0.088] | — | — |
+| other word pairs | 47 | 42 (0.89) | 0.078 | [0.047, 0.116] | — | — |
 
 ## What it cannot do (from the pre-registration §6, with D25, D26 and D29)
 
 - **The leakage checker is a Claude model, and it dropped 60% of the template's items.** The writing involved no Claude, but the selection still did.
 - **Unlike round 1 (ss-b2), no baseline here encodes "the published sentence makes the paper look good".** A bettor using only that would not be excluded.
 - **Single sentences, no methods summary; query buckets, not fields.**
-- **One doubtful item kept.** r2-041's comment names ACM Collective Intelligence 2026. That conference reviewed submissions privately: full papers were due 2026-06-15 and decisions came 2026-07-31. So no public version existed before 2026-07-01 (D29, D30).
+- **One doubtful item kept.** r2-041's comment names ACM Collective Intelligence 2026. That conference used double-blind review: full papers were due 2026-06-15 and decisions came 2026-07-31. It allowed preprints during review, but none is known; arXiv v1 is 2026-08-04 (D29, D30). Removing the item changes nothing.
 - **It scores the published wording, not the truth.** It covers one bettor model at one setting.
 
 ## Process and spend
@@ -103,6 +105,7 @@ Mean confidence was 0.81, against 0.93 right. That is descriptive, and no test w
 
 ## What would break it next
 
-1. **The audit** (the engine session launches it next).
-2. **Separate "knows the result" from "reads the sentence".** Re-ask the same 92 items with the sentence's other clauses removed, keeping only the clause that holds the swapped word. If the score holds, sentence-internal coherence is not doing the work. About $0.60.
-3. **The audit's question about round 1, asked properly.** Have a non-Claude writer, or Sean, write post-cutoff items to the round-1 item spec. That needs another provider's key or Sean's time; the template cannot do it.
+1. Done: `ledger/audits/ss-b5.md`.
+2. **A valence comparator** (the audit's cheapest reversal test, about $0.45): a fresh no-tools model asked which sentence makes the paper look better, scored as a third comparator.
+3. **Separate "knows the result" from "reads the sentence".** Re-ask the same 92 items with the sentence's other clauses removed, keeping only the clause that holds the swapped word. If the score holds, sentence-internal coherence is not doing the work. About $0.60.
+4. **The audit's question about round 1, asked properly.** Have a non-Claude writer, or Sean, write post-cutoff items to the round-1 item spec. That needs another provider's key or Sean's time; the template cannot do it.
