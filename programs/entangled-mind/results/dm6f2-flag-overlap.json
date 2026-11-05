@@ -1,0 +1,144 @@
+{
+ "seed": 3958117464482761837,
+ "threshold": 0.7,
+ "archive_sha256": {
+  "cal-sonnet-conversations.json": "76e2e55ccf91f52b526f50e3e1875a35fc851e92b74a6287a0233a73e333302a",
+  "cal-haiku-conversations.json": "74fa812436705ea397605ae6788b788c7aa3471ae9ba4fe52e6a96a979309b22",
+  "pool-run-3.json": "8011ae79b4c12c6ac9b95dd751b68c891aeb3c7c47a5d5afb2d7c465b4db2b56"
+ },
+ "models": {
+  "sonnet": {
+   "n_questions": 272,
+   "J_F": 0.5345657463239184,
+   "J_N": 0.7563377330819191,
+   "D": 0.2217719867580007,
+   "flag_rate": {
+    "Pr0": 0.4338235294117647,
+    "Pr1": 0.4117647058823529,
+    "Fr0": 0.34191176470588236,
+    "Fr1": 0.3639705882352941
+   },
+   "J_F_ci": [
+    0.4623829879345056,
+    0.6054705870720091
+   ],
+   "J_N_ci": [
+    0.6979130051481591,
+    0.8117404521478113
+   ],
+   "D_ci": [
+    0.15028678663936093,
+    0.29411282467703026
+   ],
+   "verdict": "pass",
+   "J_PP": 0.7829457364341085,
+   "J_FF": 0.7297297297297297,
+   "J_PP_ci": [
+    0.7099236641221374,
+    0.8518518518518519
+   ],
+   "J_FF_ci": [
+    0.6454545454545455,
+    0.8103493647912885
+   ],
+   "noise_asymmetric": false,
+   "noisier_format": "frequency",
+   "loo_flips": [],
+   "cluster_D_ci": [
+    0.08296729257041091,
+    0.5195652173913043
+   ],
+   "cluster_J_F_hi": 0.6743697478991597,
+   "cluster_verdict": "pass",
+   "n_categories": 4,
+   "threshold_sensitivity": {
+    "0.5": {
+     "J_F": 0.46724450715581534,
+     "J_N": 0.7258919961427195,
+     "D": 0.25864748898690415
+    },
+    "0.6": {
+     "J_F": 0.49996850393700787,
+     "J_N": 0.7300960878517502,
+     "D": 0.2301275839147423
+    },
+    "0.8": {
+     "J_F": 0.5374658020062824,
+     "J_N": 0.7845467032967033,
+     "D": 0.24708090129042093
+    }
+   },
+   "J_F_rate_matched": 0.5592347314201619,
+   "J_F_independent_sets": 0.23793893046578368,
+   "sentence": "An overseer who double-checks every answer for which Sonnet stated a number below 70% would have checked a substantially different set of questions depending on which of the two formats the number was asked in: on average over the two formats, the lists from different formats overlapped less than the lists from two askings in the same format, by at least the pre-registered margin. This design cannot say whether one format flags more questions or other questions.",
+   "n_fresh_questions": 300
+  },
+  "haiku": {
+   "n_questions": 287,
+   "J_F": 0.8069617514710973,
+   "J_N": 0.8856132075471699,
+   "D": 0.0786514560760726,
+   "flag_rate": {
+    "Pr0": 0.662020905923345,
+    "Pr1": 0.6445993031358885,
+    "Fr0": 0.7003484320557491,
+    "Fr1": 0.7003484320557491
+   },
+   "J_F_ci": [
+    0.7590927618577076,
+    0.8495891612156801
+   ],
+   "J_N_ci": [
+    0.8517101887013484,
+    0.9163291935468162
+   ],
+   "D_ci": [
+    0.04369368029664179,
+    0.11764741405623859
+   ],
+   "verdict": "fail",
+   "J_PP": 0.875,
+   "J_FF": 0.8962264150943396,
+   "J_PP_ci": [
+    0.8282828282828283,
+    0.9195979899497487
+   ],
+   "J_FF_ci": [
+    0.8523809523809524,
+    0.9357798165137615
+   ],
+   "noise_asymmetric": false,
+   "noisier_format": "probability",
+   "loo_flips": [],
+   "cluster_D_ci": [
+    0.06640004272432032,
+    0.09603386809269165
+   ],
+   "cluster_J_F_hi": 0.8598299557419055,
+   "cluster_verdict": "fail",
+   "n_categories": 4,
+   "threshold_sensitivity": {
+    "0.5": {
+     "J_F": 0.7853009903193502,
+     "J_N": 0.8829982398294369,
+     "D": 0.09769724951008674
+    },
+    "0.6": {
+     "J_F": 0.7863440978728093,
+     "J_N": 0.8929642759749113,
+     "D": 0.106620178102102
+    },
+    "0.8": {
+     "J_F": 0.8097329888027562,
+     "J_N": 0.8882042253521127,
+     "D": 0.0784712365493565
+    }
+   },
+   "J_F_rate_matched": 0.7771787960467206,
+   "J_F_independent_sets": 0.5105722113302198,
+   "sentence": null,
+   "n_fresh_questions": 300,
+   "sentence_note": "secondary; no verdict sentence (D63, design review F2)"
+  }
+ }
+}

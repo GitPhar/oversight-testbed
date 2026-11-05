@@ -172,6 +172,22 @@ def model_block(items, rows, model):
     return out
 
 
+def opus_block(items, rows):
+    """S9 (D54): Opus, flattery prompt, on the 50 lowest-id order-check items; never part of the pass rule."""
+    op = {r["id"]: p_orig(r) for r in rows if r["model"] == "claude-opus-5-5" and r["kind"] == "opus-secondary"}
+    if not op:
+        return {"n": 0, "note": "not run"}
+    ids = sorted(op)
+    v = [hit(op[i]) for i in ids]
+    def same(m):
+        f = {r["id"]: p_orig(r) for r in rows if r["model"] == m and r["task"] == "flattery" and r["kind"] == "primary"}
+        x = [hit(f[i]) for i in ids if i in f]
+        return r3(np.mean(x)) if x else None
+    return {"n": len(ids), "acc": r3(np.mean(v)), "ci": [r3(x) for x in boot(v)], "brier": r3(np.mean([(1 - op[i]) ** 2 for i in ids])),
+            "sonnet_same_items": same("claude-sonnet-5-5"), "haiku_same_items": same("claude-haiku-5-5"),
+            "n_50": sum(1 for i in ids if op[i] == 0.5)}
+
+
 def dumb_block(items):
     out = {}
     ids = sorted(items)
@@ -184,10 +200,14 @@ def dumb_block(items):
 
 
 def verdict(blocks):
-    """§5: untestable if either model is untestable (the other is still reported); else pass if both models clear the
-    experts' rate, mixed if exactly one does, fail if neither."""
-    if any(b.get("label") == "untestable" for b in blocks):
-        return "untestable"
+    """§5 as amended by D54 (design review F1): both untestable -> untestable; one untestable and the other clears ->
+    untestable (the bet could not be completed); one untestable and the other does not clear -> fail-partial (scored 0:
+    the bet cannot pass); else pass if both clear, mixed if exactly one, fail if neither."""
+    test = [b for b in blocks if b.get("label") != "untestable"]
+    if len(test) < len(blocks):
+        if not test or any(b["clears_experts"] for b in test):
+            return "untestable"
+        return "fail-partial"
     k = sum(b["clears_experts"] for b in blocks)
     return "pass" if k == len(blocks) else "mixed" if k else "fail"
 
@@ -208,43 +228,60 @@ def sentences(s):
 
     def fa(b):
         return f"{pct(b['flattery']['acc'])} {civ(b['flattery']['ci'])}"
+    ns = [b.get("n_flattery") for b in s["models"]]
+    pairs = ("BrainBench's 200 expert-written abstract pairs" if all(n == 200 for n in ns) else
+             "BrainBench's expert-written abstract pairs (" + "; ".join(f"{SHORT[b['model']]}: {b.get('n_flattery')} of 200 scored"
+                                                            for b in s["models"]) + ")")
     if v == "untestable":
         bad = [b for b in s["models"] if b.get("label") == "untestable"]
         main = ("Too few ratings came back to test it (" + "; ".join(f"{SHORT[b['model']]}: {b['untestable_reason']}" for b in bad) + ").")
     elif v == "pass":
-        main = (f"On BrainBench's 200 expert-written abstract pairs, a model asked only which version is better news for the "
-                f"paper's own idea picked the published abstract more often than the 171 neuroscientists in the original study "
-                f"did (63.4%), on both Haiku ({fa(h)}) and Sonnet ({fa(so)}); the published average for LLMs, scored by "
-                f"perplexity rather than by asking, was 81.4%. A one-line valence shortcut solves much of BrainBench on these "
-                f"two models; this does not show that the LLMs in the original study used it.")
+        main = (f"On {pairs}, a model asked only which version is better news for the paper's own idea picked the published "
+                f"abstract more often than the 171 neuroscientists in the original study did (63.4%), on both Haiku ({fa(h)}) and "
+                f"Sonnet ({fa(so)}); the published average for LLMs, scored by perplexity rather than by asking, was 81.4%. This "
+                f"design cannot tell whether the models answered by valence, by plausibility or from memory of the papers, and it "
+                f"does not show that the LLMs in the original study used such a rule.")
     elif v == "mixed":
         yes = [b for b in s["models"] if b["clears_experts"]]
         no = [b for b in s["models"] if b not in yes]
         nd = "; ".join(f"{SHORT[b['model']]} ({fa(b)})" for b in no)
-        main = (f"On BrainBench's 200 expert-written abstract pairs, a model asked only which version is better news for the "
-                f"paper's own idea beat the neuroscientists' published 63.4% on {SHORT[yes[0]['model']]} ({fa(yes[0])}) but "
-                f"not on {nd}, so the shortcut beats the experts on one of the two models only.")
+        main = (f"On {pairs}, a model asked only which version is better news for the paper's own idea beat the neuroscientists' "
+                f"published 63.4% on {SHORT[yes[0]['model']]} ({fa(yes[0])}) but was not shown to on {nd}, so the shortcut beats "
+                f"the experts on one of the two models only.")
+    elif v == "fail-partial":
+        bad = [b for b in s["models"] if b.get("label") == "untestable"][0]
+        ok_ = [b for b in s["models"] if b.get("label") != "untestable"][0]
+        main = (f"On {pairs}, a model asked only which version is better news for the paper's own idea was not shown to beat the "
+                f"neuroscientists' published 63.4% on {SHORT[ok_['model']]} ({fa(ok_)}), and {SHORT[bad['model']]} could not be "
+                f"tested ({bad['untestable_reason']}), so the bet cannot pass. This says nothing about how the LLMs in the original "
+                f"study, other models scored by perplexity, reached 81.4%.")
     else:
-        main = (f"On BrainBench's 200 expert-written abstract pairs, a model asked only which version is better news for the "
-                f"paper's own idea was not shown to beat the neuroscientists' published 63.4% on either Haiku ({fa(h)}) or "
-                f"Sonnet ({fa(so)}), so this valence shortcut does not account for BrainBench's 'LLMs beat experts' result on "
-                f"these models.")
+        main = (f"On {pairs}, a model asked only which version is better news for the paper's own idea was not shown to beat the "
+                f"neuroscientists' published 63.4% on either Haiku ({fa(h)}) or Sonnet ({fa(so)}). This says nothing about how the "
+                f"LLMs in the original study, other models scored by perplexity, reached 81.4%.")
     out = [main]
     for b in s["models"]:
         bt = b.get("bettor") or {}
         if b.get("label") == "untestable" or "acc" not in bt:
             continue
-        sm = (f"; the flattery rule matched {pct(bt['share_matched'])} {civ(bt['share_matched_ci'])} of its above-chance "
-              f"accuracy" if bt.get("share_matched") is not None else "; it was not shown above chance, so no share is computed")
-        out.append(f"Asked directly which abstract the study published, {SHORT[b['model']]} was right {pct(bt['acc'])} "
+        sm = (f"; the flattery prompt's above-chance accuracy was {pct(bt['share_matched'])} {civ(bt['share_matched_ci'])} of "
+              f"the forecasting prompt's" if bt.get("share_matched") is not None else
+              "; the forecasting prompt was not shown above chance, so no share is computed")
+        out.append(f"With the program's forecasting prompt instead (a different instruction, a question line, and a note that one "
+                   f"version was altered by an expert), {SHORT[b['model']]} picked the published abstract {pct(bt['acc'])} "
                    f"{civ(bt['ci'])} of the time, {100 * abs(bt['acc_minus_flattery']):.1f} points "
-                   f"{'more' if bt['acc_minus_flattery'] >= 0 else 'less'} than its flattery rule "
+                   f"{'more' if bt['acc_minus_flattery'] >= 0 else 'less'} than with the flattery prompt "
                    f"(difference {civ(bt['acc_minus_flattery_ci'])}){sm}.")
     for b in s["models"]:
         if b.get("label") == "untestable":
             continue
         word = {"below": "below", "above": "above", "not shown different": "not shown different from"}[b["flattery"]["vs_llms"]]
         out.append(f"{SHORT[b['model']]}'s flattery rule was {word} the published 81.4% for LLMs (interval {civ(b['flattery']['ci'])}).")
+    o = s.get("opus_secondary")
+    if o and o.get("n"):
+        out.append(f"Opus, asked the flattery question on {o['n']} of the items (a secondary, not part of the rule), picked the "
+                   f"published abstract {pct(o['acc'])} {civ(o['ci'])} of the time; on the same items Sonnet's flattery rule was "
+                   f"right {pct(o['sonnet_same_items'])} and Haiku's {pct(o['haiku_same_items'])}.")
     dumb = [k for k, d in s["dumb"].items() if d["clears_experts"]]
     if dumb:
         out.append(f"A text-only rule ({'; '.join(dumb)}) also beat the experts' published rate, so beating the experts does not "
@@ -271,8 +308,9 @@ def score(items_list, rows):
     s = {"bet": "ss-b10", "n_items": len(items), "experts": EXPERTS, "llms": LLMS,
          "models": blocks, "dumb": dumb_block(items), "calls": len(rows),
          "cost_usd": r3(sum(r.get("cost", 0) for r in rows))}
+    s["opus_secondary"] = opus_block(items, rows)
     s["verdict"] = verdict(blocks)
-    s["verdict_reported"] = s["verdict"] + (", unreplicated" if s["verdict"] == "pass" else "")
+    s["verdict_reported"] = (s["verdict"] + (", unreplicated" if s["verdict"] == "pass" else "")).replace("fail-partial", "fail (one model untestable)")
     s["sentences"] = sentences(s)
     return s
 
@@ -293,6 +331,9 @@ def tables(s):
         if "acc" in bt:
             L.append(f"| {SHORT[b['model']]} | bettor | {bt['n_paired']} | {bt['acc']:.3f} | [{bt['ci'][0]:.3f}, {bt['ci'][1]:.3f}] | "
                      f"{bt['brier']:.3f} | [{bt['brier_ci'][0]:.3f}, {bt['brier_ci'][1]:.3f}] | — | {bt['vs_llms']} |")
+    o = s.get("opus_secondary") or {}
+    if o.get("n"):
+        L.append(f"| Opus (secondary, D54) | flattery | {o['n']} | {o['acc']:.3f} | [{o['ci'][0]:.3f}, {o['ci'][1]:.3f}] | {o['brier']:.3f} | — | — | — |")
     L += ["", "| model | bettor − flattery, accuracy | 95% CI | Brier gain of bettor | 95% CI | share of bettor's skill matched | 95% CI | agree | disagree (bettor right) |",
           "|---|---|---|---|---|---|---|---|---|"]
     for b in s["models"]:
@@ -359,6 +400,12 @@ def synthetic(items_list, world):
                 if task == "flattery" and int(it["id"][3:]) % 2 == 0:
                     rows.append({"id": it["id"], "model": m, "task": task, "kind": "order-check", "original_is_option": 3 - o1,
                                  "p_option_1": 100 - p + int(rng.integers(-5, 6)), "rationale": "synthetic", "cost": 0})
+        if m == MODELS[-1]:
+            for it in items_list[:100:2]:
+                o1 = 1 if rng.random() < 0.5 else 2
+                po = 70 if rng.random() < 0.75 else 30
+                rows.append({"id": it["id"], "model": "claude-opus-5-5", "task": "flattery", "kind": "opus-secondary",
+                             "original_is_option": o1, "p_option_1": po if o1 == 1 else 100 - po, "rationale": "synthetic", "cost": 0})
     return rows
 
 

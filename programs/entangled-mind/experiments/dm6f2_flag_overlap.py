@@ -241,6 +241,7 @@ def main():
     s = out["models"]["sonnet"]
     lines = ["# dm6-f2: would a 'check anything under 70%' rule flag different answers by format?", "",
              "Pre-registered in `experiments/dm6f2-flag-overlap.md`. Archive only (em-dm6's fresh calls); $0.", "",
+             "## In plain English", "", "(Hand-written after the run; excluded from reproduce.py's comparison.)", "",
              "## Primary (Sonnet)", "",
              "| model | questions with a number in all four fresh cells | flag rate P r0 / P r1 / F r0 / F r1 | J_F (across formats) [95%] | J_N (same format, two askings) [95%] | J_PP / J_FF [95%] | D = J_N − J_F [95%] | asymmetry flag | verdict |",
              "|---|---|---|---|---|---|---|---|---|"]
