@@ -654,3 +654,18 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
   .hh-row dd { margin-bottom: 6px; }
   .hh-q { font-size: 17px; }
 }
+/* record: one row per program, and a filter (2026-11-05) */
+.rec-sum { margin: 8px 0 10px; }
+.rec-sum td { vertical-align: middle; padding: 6px 12px; }
+.rec-sum .btn { font-size: 15px; padding: 3px 12px; text-align: left; }
+.rf[aria-pressed="true"] { color: var(--bg); background: var(--text); border-color: var(--text); }
+.rf-all { margin: 0 0 4px; }
+.rf-all .btn { font-size: 15px; padding: 3px 12px; }
+.rs-short { display: none; }
+@media (max-width: 640px) {
+  .rs-long { display: none; }
+  .rs-short { display: inline; }
+  .rec-sum table { font-size: 14px; }
+  .rec-sum th, .rec-sum td { padding: 6px 7px; }
+  .rec-sum .btn { font-size: 14px; padding: 2px 9px; border-radius: 8px; }
+}
