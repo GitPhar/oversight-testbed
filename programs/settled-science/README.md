@@ -19,6 +19,10 @@ This makes a third kind of referee for the engine:
 2. **The cutoff is fixed** (claude-opus-5-5, 2026-06-30), with **at least 60 post-cutoff items** before any bet. Post-cutoff items are the primary set; pre-cutoff items are reported apart, with the leakage caveat.
 3. **Direction is masked.** The two options differ only in a direction word. Banned words are checked by code. The option order is drawn from a public beacon, and a third session (a different model) checks every item for leaks before use.
 
+## Result so far
+
+Round 1 (`results/ss-b1-results.md`, unaudited): on 116 findings published after the bettor's cutoff, Brier 0.163 [0.139, 0.190], 76% right. That beats a coin and a publication-bias shortcut. Older papers it may have read score better (0.105). Model psychology was its weakest field. All three bets passed, unreplicated.
+
 ## Where things are
 
 | path | what |
