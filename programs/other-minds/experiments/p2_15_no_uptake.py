@@ -71,7 +71,7 @@ def cell_table(ctx, preds_source="cache", synth=None):
         D = v["A"] - b
         if abs(D) < 0.05:
             continue
-        r = {"q": q, "o": o, "src": src, "d": d, "b": b, "A": v["A"], "D": D, "m": v["r1"]}
+        r = {"q": q, "o": o, "src": src, "d": d, "base": b, "A": v["A"], "D": D, "m": v["r1"]}   # D17d: "base", not "b" (arm b is Sam)
         for arm in ARMS:
             if preds_source == "cache":
                 vals = [cache[k]["value"] for i in range(p4.R_U) if (k := f"U|{arm}|{q}|{o}|{src}|{d}|{i}") in cache]
@@ -86,14 +86,14 @@ def cell_table(ctx, preds_source="cache", synth=None):
     # (source x |d|), i.e. it knows om-p2-4's six measured effects exactly and nothing cell-specific
     eff = {}
     for r in rows:
-        eff.setdefault((r["src"], abs(r["d"])), []).append((r["m"] - r["b"]) / r["D"])
+        eff.setdefault((r["src"], abs(r["d"])), []).append((r["m"] - r["base"]) / r["D"])
     for r in rows:
-        r["oracle"] = r["b"] + float(np.mean(eff[(r["src"], abs(r["d"]))])) * r["D"]
+        r["oracle"] = r["base"] + float(np.mean(eff[(r["src"], abs(r["d"]))])) * r["D"]
     return rows
 
 
 def u(r, p):
-    return (r[p] - r["b"]) / r["D"]
+    return (r[p] - r["base"]) / r["D"]
 
 
 # --- statistics ------------------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ def per_item(rows, items, metric, pred, sel=lambda r: True):
     for r in rows:
         if not sel(r) or r[pred] is None:
             continue
-        um = (r["m"] - r["b"]) / r["D"]
+        um = (r["m"] - r["base"]) / r["D"]
         e = abs(u(r, pred) - um) if metric == "u" else abs(r[pred] - r["m"]) * 100
         S[idx[r["q"]]] += e
         N[idx[r["q"]]] += 1
@@ -171,7 +171,7 @@ def effect_level(rows, items, counts):
         if r["a"] is None:
             continue
         k = keys.index((r["src"], abs(r["d"])))
-        Sm[idx[r["q"]], k] += (r["m"] - r["b"]) / r["D"]
+        Sm[idx[r["q"]], k] += (r["m"] - r["base"]) / r["D"]
         Sa[idx[r["q"]], k] += u(r, "a")
         N[idx[r["q"]], k] += 1
 
@@ -290,10 +290,10 @@ def analyse():
 
 def dry_run(sims=200, b=2000):
     cells, base, items, *_ = p4.load()
-    rows0 = cell_table({"cells": cells, "base": base}, preds_source="synth", synth=lambda r, arm: r["b"])
+    rows0 = cell_table({"cells": cells, "base": base}, preds_source="synth", synth=lambda r, arm: r["base"])
     print(f"kept cells: {len(rows0)} of {len(cells)}")
-    um = np.array([(r["m"] - r["b"]) / r["D"] for r in rows0])
-    print(f"measured |re-rating - usual| in points: mean {100*np.mean([abs(r['m']-r['b']) for r in rows0]):.2f}")
+    um = np.array([(r["m"] - r["base"]) / r["D"] for r in rows0])
+    print(f"measured |re-rating - usual| in points: mean {100*np.mean([abs(r['m']-r['base']) for r in rows0]):.2f}")
     print(f"measured |u|: mean {np.mean(np.abs(um)):.3f} (the no-uptake predictor's MAE); own {np.mean(np.abs(um[[r['src']=='own' for r in rows0]])):.3f}, "
           f"other {np.mean(np.abs(um[[r['src']=='other' for r in rows0]])):.3f}")
     # worlds, on the 0-1 rating scale: self predicts lam * measured shift + (1 - lam) * no shift, plus noise sd_pts
@@ -310,7 +310,7 @@ def dry_run(sims=200, b=2000):
             rows = []
             for r in rows0:
                 r = dict(r)
-                r["a"] = float(np.clip(r["b"] + lam * (r["m"] - r["b"]) + g.normal(0, sd), 0, 1))
+                r["a"] = float(np.clip(r["base"] + lam * (r["m"] - r["base"]) + g.normal(0, sd), 0, 1))
                 rows.append(r)
             out = analyse_rows(rows, items, seed=s, b=b, loo=False)
             npass += out["label"] == "pass"
@@ -323,7 +323,7 @@ def dry_run(sims=200, b=2000):
             rows = []
             for r in rows0:
                 r = dict(r)
-                e = abs(r["m"] - r["b"]) * abs(1 + g.normal(0, 0.3))   # per-vignette-free noise around |m - b|
+                e = abs(r["m"] - r["base"]) * abs(1 + g.normal(0, 0.3))   # per-vignette-free noise around |m - b|
                 up, dn = r["m"] + e, r["m"] - e                        # pick a side that needs no clipping, so the
                 ok = [x for x in (up, dn) if 0 <= x <= 1]               # error equals e (clipping would shrink it)
                 r["a"] = float(ok[int(g.random() < 0.5) % len(ok)] if ok else np.clip(up, 0, 1))
@@ -339,7 +339,7 @@ def dry_run(sims=200, b=2000):
             rows = []
             for r in rows0:
                 r = dict(r)
-                r["a"] = float(np.clip(r["b"] + lam * (r["m"] - r["b"]) + sc * g.standard_t(df), 0, 1))
+                r["a"] = float(np.clip(r["base"] + lam * (r["m"] - r["base"]) + sc * g.standard_t(df), 0, 1))
                 rows.append(r)
             npass += analyse_rows(rows, items, seed=s_, b=b, loo=False)["label"] == "pass"
         res[name] = npass / sims
