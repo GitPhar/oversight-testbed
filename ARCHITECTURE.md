@@ -198,7 +198,7 @@ Paths inside a bet (`result_file`, `test`) are relative to `programs/<name>/`. C
 ## Operators
 
 ```
-morning  (07:03 America/Denver, cloud):  read CONTEXT.md → read both repos' last 24h → brief + today's wave (one paste per tab)
+morning  (07:03 America/Denver, cloud):  read CONTEXT.md → read both repos' last 24h → run ledger/prior.py, ledger/check_remap.py, the prior-work and novelty checks → report programs due a closing review → brief + today's wave (one paste per tab)
 nightly  (23:33 America/Denver, cloud):  read day's commits → rewrite CONTEXT.md §state, §map, §steers → push
 planter  (per audit, before it):         not the auditor; builds the audit clone, draws plant/clean in secret, plants one bad claim, seals it (operators/plant.md)
 auditor  (per result, local tab):        fresh session in the audit clone, has not seen the work, instructed to break it, writes ledger/audits/<bet>.md
@@ -207,6 +207,7 @@ learn    (per prereg, before it):        the betting session reads bets, brier, 
 review   (per prereg, before 1st call):  fresh auditor dry-runs the design, D1–D10, no paid calls; go | fix-first | redesign (operators/design-review.md)
 shadow   (per veto, 7–30 days later):    fresh session, argued neither side; pre-registers and runs the cheapest look at a vetoed direction (operators/veto.md)
 remap    (per settled round, local tab): fresh session reads every settled result; two cheapest follow-ups per landed or mixed bet, a "rules out" sentence per kill (operators/remap.md)
+closing  (per program due, local tab):   fresh session; when ledger/prior.md lists a program whose last three layers hold no landed bet and no partly-new finding: diagnosis, then closed or kept open with a stated reason (operators/remap.md)
 session  (any build tab):                reads CONTEXT.md first; obeys the invariants; commits with the deviation row it adds
 ```
 
