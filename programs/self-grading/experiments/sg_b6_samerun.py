@@ -27,7 +27,7 @@ import sg_samerun as S
 from sg_b3_flaw import conclusions, flawed
 from sg_common import MODELS, RESULTS, SHORT, Caller, call
 from sg_followups import cluster_boot_ci, test_tasks
-from sg_prompts import own_turn, quoted
+from sg_prompts import fresh, own_turn, quoted
 from sg_stats import boot_ci
 
 BET = "sg-b6"
@@ -35,10 +35,12 @@ CAP = 0.80                 # estimate $0.64 at sg-b3/sg-b4's cost per call (Haik
 GATE = 10.0
 H = {"haiku": 6.3, "opus": 3.0}          # half of each model's sg-b3 G (12.58, 5.97), as sg-b4 and the card
 CELLS = ("own-clean", "own-flawed", "quoted-clean", "quoted-flawed")
+FRESH_CELLS = ("fresh-clean", "fresh-flawed")   # D23 (review sg-b6, recommended): Haiku only, secondary, never in a reading
 REPS = {"claude-haiku-5-5": 2, "claude-sonnet-5-5": 1, "claude-opus-5-5": 1}
 ORDER = ("claude-haiku-5-5", "claude-opus-5-5", "claude-sonnet-5-5")   # the scored model first, the unscored last
 LABELS = ("turn role", "layout")
 FROZEN = {"WRITE": "d4d62ab7d46098edabdab5497f78fb015b3df0866d48d943c966f9b220e8f87b",
+          "FRESH": "f83e57e3dc6f7866957fab998d0ef0a3041216cf4e2ab4101565bf7ba49cf6b6",
           "GRADE_ABOVE": "81dee144f1e7a5151f11654312208a21dc8dccb2c1837e6e409dbda2b805876f",
           "QUOTED": "e4bb72034ba5440856f5dd5ec5bfa17e99064d5e45dedac005625d22370367e5",
           "OVERCLAIM": "80f6f0de786c3795f6e5bc97e1c35c8856b788863ee904df3283e3db04f5b872"}
@@ -47,11 +49,13 @@ FROZEN = {"WRITE": "d4d62ab7d46098edabdab5497f78fb015b3df0866d48d943c966f9b220e8
 def plan(ts=None):
     ids = sorted(t["id"] for t in (ts if ts is not None else test_tasks()))
     half = S.sg_b4_half()
-    return {m: (ids if m == "claude-haiku-5-5" else half, CELLS, REPS[m]) for m in MODELS}
+    return {m: ((ids, CELLS + FRESH_CELLS, REPS[m]) if m == "claude-haiku-5-5" else (half, CELLS, REPS[m])) for m in MODELS}
 
 
 def messages(cell, task, conclusion):
     c = flawed(conclusion, task) if cell.endswith("flawed") else conclusion
+    if cell.startswith("fresh"):
+        return fresh(task["study"], c)
     return quoted(task["study"], c) if cell.startswith("quoted") else own_turn(task["study"], c)
 
 
@@ -102,6 +106,12 @@ def per_model(cache, model, ids, dom, seed, robust=True):
         if robust:
             out["robustness"] = S.robustness(T, F, cl, ok, bar, seed, gate_ok, out["usable_share"], LABELS,
                                              out["reading"])
+    fr = [t for t in ok if all(len(g.get((t, c), [])) == reps for c in FRESH_CELLS)]
+    if fr:                              # D23: same-run blunting G_today = fresh penalty - own penalty (secondary)
+        Gt = [(mc(t, "fresh-clean") - mc(t, "fresh-flawed")) - (mc(t, "own-clean") - mc(t, "own-flawed")) for t in fr]
+        Tf = [T[ok.index(t)] for t in fr]
+        out["G_today"] = {"n": len(fr), "mean": float(np.mean(Gt)), "ci": list(cluster_boot_ci(Gt, [dom[t] for t in fr], seed + 5)),
+                          "T_share": float(np.mean(Tf)) / float(np.mean(Gt)) if abs(float(np.mean(Gt))) > 1e-9 else None}
     if reps == 2:                       # secondaries on the two repeats (reported, never promoted)
         r = lambda t, c, i: g[(t, c)][i]
         Tr = [[(r(t, "quoted-clean", i) - r(t, "quoted-flawed", i)) - (r(t, "own-clean", i) - r(t, "own-flawed", i))
@@ -198,14 +208,17 @@ def truths(world):
             qc, qf = b4[(m, t, "quoted-clean")], b4[(m, t, "quoted-flawed")]
             if world == "layout":
                 qc, qf = oc, of
-            elif world == "at the bar":
+            elif world == "at the bar":     # D23: true T exactly the bar after clipping at 0
                 qc, qf = oc, of - bar
+                if qf < 0:
+                    qc, qf = oc - qf, 0.0
             elif world == "regression":
                 qc, qf = oc, of - 3.8
             elif world == "kinder-clean":
                 qc, qf = oc + 8, of
             tr.update({(m, t, "own-clean"): oc, (m, t, "own-flawed"): of, (m, t, "quoted-clean"): qc,
-                       (m, t, "quoted-flawed"): qf})
+                       (m, t, "quoted-flawed"): qf, (m, t, "fresh-clean"): b3[(m, t, "fresh-clean")],
+                       (m, t, "fresh-flawed"): b3[(m, t, "fresh-flawed")]})
     return tr
 
 
@@ -227,6 +240,12 @@ def simulate(world, reps=200, seed=5):
 
 def dryrun():
     check_frozen()
+    S.check_noise()
+    print("P15 per-cell noise (D23):", S.REPEAT_SD)
+    for w in ("at the bar",):
+        tr, pl = truths(w), plan()
+        print("true T in", repr(w), {SHORT[m]: round(float(np.mean([(tr[(m, t, "quoted-clean")] - tr[(m, t, "quoted-flawed")])
+              - (tr[(m, t, "own-clean")] - tr[(m, t, "own-flawed")]) for t in pl[m][0]])), 3) for m in MODELS})
     print("D10 frozen strings: sg-b3's at e29f25c, QUOTED at 65f6f93, hashes of WRITE, GRADE_ABOVE, QUOTED, OVERCLAIM")
     t = test_tasks()[0]
     c = "The data show a small difference whose interval includes zero."
@@ -279,7 +298,8 @@ def stubrun():
     def stub_call(msgs, model, name, max_tokens=60, schema=None):
         t = next(v for k, v in tid.items() if k in msgs[0]["content"])
         body = msgs[-1]["content"] if len(msgs) == 1 else msgs[1]["content"]
-        cell = ("quoted" if len(msgs) == 1 else "own") + ("-flawed" if "This proves that" in body else "-clean")
+        arm = ("fresh" if msgs[0]["content"].startswith("Here is a request") else "quoted") if len(msgs) == 1 else "own"
+        cell = arm + ("-flawed" if "This proves that" in body else "-clean")
         return {"grade": int(tr[(model, t, cell)])}, 0.0, None
 
     seed = {"order": 13, "boot": 12}
@@ -309,7 +329,10 @@ def tables(r):
            ["own-turn penalty, this run − sg-b3's"] + [sx(X[k]["own_penalty_now_minus_sg_b3"]) for k in ("haiku", "opus", "sonnet")],
            ["  95% CI (domains)"] + [cix(X[k]["own_penalty_now_minus_sg_b3_ci"]) for k in ("haiku", "opus", "sonnet")],
            ["quoted penalty, this run − sg-b4's"] + [sx(X[k]["quoted_penalty_now_minus_sg_b4"]) for k in ("haiku", "opus", "sonnet")],
-           ["clean text, quoted − own (points)"] + [sx(P[k].get("clean_shift")) for k in ("haiku", "opus", "sonnet")]]
+           ["clean text, quoted − own (points)"] + [sx(P[k].get("clean_shift")) for k in ("haiku", "opus", "sonnet")],
+           ["same-run blunting G (fresh − own; Haiku only)"] + [sx((P[k].get("G_today") or {}).get("mean")) for k in ("haiku", "opus", "sonnet")],
+           ["  95% CI (domains)"] + [cix((P[k].get("G_today") or {}).get("ci")) for k in ("haiku", "opus", "sonnet")],
+           ["T as a share of the same-run G"] + [fx((P[k].get("G_today") or {}).get("T_share"), 2) for k in ("haiku", "opus", "sonnet")]]
     for lab, f in (("reading on the study bootstrap", lambda v: v.get("reading_study_bootstrap", "—")),
                    ("fragile, one study dropped", lambda v: ("yes" if v["robustness"]["fragile_study"] else "no") if "robustness" in v else "—"),
                    ("fragile, one domain dropped", lambda v: ("yes" if v["robustness"]["fragile_domain"] else "no") if "robustness" in v else "—"),

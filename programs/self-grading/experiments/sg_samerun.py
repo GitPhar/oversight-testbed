@@ -176,8 +176,32 @@ def spend(cache):
 
 
 # ---- dry runs (no calls) --------------------------------------------------------------------------------------------
-# per-call repeat noise: SD of (fresh2 - fresh) in sg-b1's archive (1.50, 1.62, 2.27 points) / sqrt 2 (P15), as sg-b4
-REPEAT_SD = {"claude-haiku-5-5": 1.5 / 2 ** .5, "claude-sonnet-5-5": 1.62 / 2 ** .5, "claude-opus-5-5": 2.27 / 2 ** .5}
+# Per-call repeat noise, per model and per cell kind, measured on these exact prompts (D23, design review sg-b6 fix 1,
+# P15): SD(re-grade - original)/sqrt 2 of sg-b4's drift re-grades of sg-b3's own-turn cells on its 10 drift studies
+# (results/sg-b4-grade-calls.json drift-own-* against results/sg-b3-grade-calls.json own-*). Clean cells use the clean SD,
+# flawed cells the flawed SD; the quoted, plain, wait and fresh cells borrow the own-turn SDs (no same-prompt repeat of
+# them is archived). Recomputed by noise_sd(), and checked against these constants by the dry runs.
+REPEAT_SD = {"claude-haiku-5-5": {"clean": 1.89, "flawed": 5.53},
+             "claude-sonnet-5-5": {"clean": 1.95, "flawed": 2.98},
+             "claude-opus-5-5": {"clean": 0.95, "flawed": 1.80}}
+
+
+def noise_sd():
+    """REPEAT_SD recomputed from the archives (rounded to 2 places)."""
+    b3, b4 = archive("sg-b3"), archive("sg-b4")
+    out = {}
+    for m in MODELS:
+        out[m] = {}
+        for c in ("clean", "flawed"):
+            d = [g - b3[(mm, t, f"own-{c}")] for (mm, t, cc), g in b4.items() if mm == m and cc == f"drift-own-{c}"]
+            out[m][c] = round(float(np.std(d, ddof=1)) / 2 ** .5, 2)
+    return out
+
+
+def check_noise():
+    got = noise_sd()
+    if got != REPEAT_SD:
+        raise SystemExit(f"REPEAT_SD does not match the archive: {got}")
 
 
 def archive(bet):
@@ -189,13 +213,14 @@ def archive(bet):
 
 
 def synth_cache(plan, truth, rng):
-    """A fake grade cache: each call = truth[(model, task, cell)] + measured repeat noise, rounded and clipped."""
+    """A fake grade cache: each call = truth[(model, task, cell)] + measured per-cell repeat noise, rounded and clipped."""
     c = {}
     for m, (ids, cells, reps) in plan.items():
         for t in ids:
             for cell in cells:
                 for k in range(1, reps + 1):
-                    g = int(np.clip(np.round(truth[(m, t, cell)] + rng.normal(0, REPEAT_SD[m])), 0, 100))
+                    sd = REPEAT_SD[m]["flawed" if cell.endswith("flawed") else "clean"]
+                    g = int(np.clip(np.round(truth[(m, t, cell)] + rng.normal(0, sd)), 0, 100))
                     c[f"grade|{m}|{t}|{cell}|r{k}"] = {"model": m, "task": t, "cond": cell, "rep": k, "grade": g,
                                                        "cost": 0.0}
     return c

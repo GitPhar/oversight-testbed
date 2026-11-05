@@ -162,8 +162,10 @@ def truths(world):
             pc, pf = qc, qf
             if world == "all of L" or (world == "item" and t in excl):
                 pc, pf = b3[(m, t, "fresh-clean")], b3[(m, t, "fresh-flawed")]
-            elif world == "at the bar":
+            elif world == "at the bar":     # D23: true S exactly the bar after clipping at 0
                 pf = qf - bar
+                if pf < 0:
+                    pc, pf = qc - pf, 0.0
             elif world == "clean-only":
                 pc = qc + 4
             tr.update({(m, t, "quoted-clean"): qc, (m, t, "quoted-flawed"): qf, (m, t, "plain-clean"): pc,
@@ -190,6 +192,8 @@ def simulate(world, reps=200, seed=5):
 
 def dryrun():
     check_frozen()
+    S.check_noise()
+    print("P15 per-cell noise (D23):", S.REPEAT_SD)
     print("D10 frozen strings: sg-b3's at e29f25c, QUOTED at 65f6f93, hashes incl. QUOTED_PLAIN; plain differs from quoted "
           "in the closing line only")
     t = test_tasks()[0]
