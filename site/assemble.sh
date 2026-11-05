@@ -62,6 +62,7 @@ def head(repo):
         return None
 m = {
     "map": ls(d("map"), ".json"),
+    "ledger": sorted(f for f in os.listdir(d("ledger")) if os.path.isfile(d("ledger", f))) if os.path.isdir(d("ledger")) else [],
     "papers": ls(d("programs", "entangled-mind", "paper"), ".md"),
     "audits": ls(d("ledger", "audits"), ".md"),
     "assembled": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),

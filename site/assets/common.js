@@ -37,15 +37,20 @@ const PAGES = [
   ["papers.html", "Papers"],
 ];
 
+// The site's root, from this module's own address (assets/common.js), so a link never depends on the page's URL:
+// "…/index.html/" or "…/kills" would otherwise send every relative nav link to a 404.
+export const ROOT = new URL("../", import.meta.url).href;
+export const page = (h) => ROOT + h;
+
 export function header() {
-  const here = location.pathname.split("/").pop() || "index.html";
+  const here = location.pathname.split("/").filter(Boolean).pop() || "index.html";
   const cur = here === "paper.html" ? "papers.html" : here;
   const el = document.createElement("header");
   el.className = "top";
   el.innerHTML = `<div class="top-inner">
-    <a class="brand" href="index.html">${esc(SITE.title)}<small>${esc(SITE.titleNote)}</small></a>
+    <a class="brand" href="${page("index.html")}">${esc(SITE.title)}<small>${esc(SITE.titleNote)}</small></a>
     <nav class="nav" aria-label="Site">${PAGES.map(([h, t]) =>
-      `<a href="${h}"${h === cur ? ' aria-current="page"' : ""}>${t}</a>`).join("")}</nav>
+      `<a href="${page(h)}"${h === cur || h === cur + ".html" ? ' aria-current="page"' : ""}>${t}</a>`).join("")}</nav>
   </div>`;
   document.body.prepend(el);
   const f = document.createElement("footer");

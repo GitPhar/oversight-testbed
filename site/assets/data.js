@@ -111,8 +111,12 @@ export function engineOddsVisible(d) {
 
 // Kills come from three places; nothing is dropped, duplicates are merged.
 export async function loadKills() {
+  // ledger/kills.jsonl is optional. Ask for it only when the deploy copied it (the manifest lists the ledger's
+  // files), so the kill log does not log a 404 on every load.
+  const m = await manifest();
+  const hasKills = !Array.isArray(m.ledger) || m.ledger.includes("kills.jsonl");
   const [explicit, bets, maps] = await Promise.all([
-    getJSONL(DATA + "ledger/kills.jsonl"), loadBets(), loadMaps(),
+    hasKills ? getJSONL(DATA + "ledger/kills.jsonl") : null, loadBets(), loadMaps(),
   ]);
   joinBets(maps, bets);
   const out = [];

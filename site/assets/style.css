@@ -395,8 +395,11 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
   body { font-size: 18px; }
   .top-inner { flex-wrap: wrap; row-gap: 4px; }
   .brand small { display: none; }
-  .nav { flex-wrap: nowrap; overflow-x: auto; width: 100%; scrollbar-width: none; padding-bottom: 2px; }
-  .nav::-webkit-scrollbar { display: none; }
+  /* Every page's link stays visible on a phone: the nav wraps onto a second row instead of scrolling
+     sideways with a hidden scrollbar (that hid Kill log, Record and Papers; walk 2026-11-05). The taller
+     header no longer sticks, so nothing below it has to guess its height. */
+  .top { position: static; }
+  .nav { flex-wrap: wrap; width: 100%; }
   .nav a { white-space: nowrap; }
   .stats { grid-template-columns: 1fr 1fr; gap: 10px; }
   .stat { padding: 12px 14px; }
@@ -404,7 +407,7 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
   .stat .note { font-size: 14px; }
   .kill { padding: 16px 18px; }
   .kill .k-prog { margin-left: 0; flex-basis: 100%; }
-  .cockpit-bar { top: 82px; }
+  .cockpit-bar { top: 0; }
   .card { padding: 16px; }
   main { padding: 28px 16px 72px; }
   .top-inner { padding: 10px 16px; column-gap: 18px; }
@@ -416,7 +419,7 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
   .commitments strong { font-size: 20px; }
   .ev-card dl { grid-template-columns: 1fr; }
   .ev-card dt { margin-top: 6px; }
-  .daynav { top: 82px; }
+  .daynav { top: 0; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 
