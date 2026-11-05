@@ -65,7 +65,7 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-43 of 66 bets carry an engine pre-mortem; 28 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+44 of 67 bets carry an engine pre-mortem; 28 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
@@ -95,20 +95,20 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 | Brier on tiebreaks, human (n = 0) | — |
 | QPU seconds used by tiebreaks | 0 |
 | bets by seed source: curby-rng | 42 |
-| bets by seed source: fixed | 1 |
+| bets by seed source: fixed | 2 |
 | bets by seed source: inherited (ss-b4 seed e8f921e; no new draw) | 2 |
 | bets by seed source: none recorded | 21 |
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
 
-Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 17 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 36 lesson lines written.
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 17 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 37 lesson lines written.
 
 | | count |
 |---|---|
-| pre-registrations since the rule | 33 |
-| with a lesson line | 30 |
+| pre-registrations since the rule | 34 |
+| with a lesson line | 31 |
 | with a design review verdict | 33 |
-| awaiting their design review (nothing may run yet) | 0 |
+| awaiting their design review (nothing may run yet) | 1: ss-b13 |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 6 |
@@ -119,7 +119,7 @@ Design reviews: 0 go, 33 fix-first, 6 redesign; 22 later found by the post-resul
 |---|---|---|---|
 | P1 | Odds too high where the engine had a story | 13 | 9 of 13 scored |
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 4 | 4 of 4 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 24 | 15 of 24 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 25 | 15 of 24 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 5 | 3 of 5 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 3 | 0 of 2 scored |
 | P6 | A control that cannot fail | 3 | 1 of 3 scored |
@@ -130,7 +130,7 @@ Design reviews: 0 go, 33 fix-first, 6 redesign; 22 later found by the post-resul
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 2 | 2 of 2 scored |
 | P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 16 | 8 of 15 scored |
 | P13 | A boundary the rule names, compared in plain floating point | 2 | 2 of 2 scored |
-| P14 | Items that share a template or domain bootstrapped as if independent | 2 | 0 of 2 scored |
+| P14 | Items that share a template or domain bootstrapped as if independent | 3 | 0 of 2 scored |
 | P15 | A dry run built on assumed spreads or base rates, not measured ones | 1 | 0 of 1 scored |
 | P16 | A dumb baseline that is an item property, in dry-run worlds where item properties reach the outcome only through the predictor | 0 | 0 of 0 scored |
 | P17 | A design-review fix that replaces a guard can loosen it on the real data | 0 | 0 of 0 scored |
