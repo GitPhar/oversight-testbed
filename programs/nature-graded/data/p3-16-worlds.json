@@ -81,10 +81,13 @@
   "fail | fail: both high, alone adds | barrier alone: within | add: control moved": 0.215,
   "fail | fail: A high, CB not clearly lower | barrier alone: smaller | add: control moved": 0.185,
   "fail | fail: A high, CB not clearly lower | barrier alone: within | add: control moved": 0.17,
-  "pass | pass | pass: B high, replicate not clear | barrier alone: smaller | add: control moved": 0.08,
-  "pass | pass | pass: B high, replicate not clear | barrier alone: within | add: control moved": 0.045,
-  "pass | pass | pass: replicate agrees | barrier alone: within | add: control moved": 0.015,
-  "pass | pass | pass: replicate agrees | barrier alone: smaller | add: control moved": 0.01
+  "pass | pass | pass: B high, replicate not clear | pass: shared also came back | barrier alone: smaller | add: control moved": 0.04,
+  "pass | pass | pass: B high, replicate not clear | barrier alone: smaller | add: control moved": 0.04,
+  "pass | pass | pass: B high, replicate not clear | barrier alone: within | add: control moved": 0.03,
+  "pass | pass | pass: B high, replicate not clear | pass: shared also came back | barrier alone: within | add: control moved": 0.015,
+  "pass | pass | pass: replicate agrees | barrier alone: smaller | add: control moved": 0.01,
+  "pass | pass | pass: replicate agrees | barrier alone: within | add: control moved": 0.01,
+  "pass | pass | pass: replicate agrees | pass: shared also came back | barrier alone: within | add: control moved": 0.005
  },
  "W10 alone lowers": {
   "fail | fail: alone lower | add: none brought back | barrier alone: within": 0.635,

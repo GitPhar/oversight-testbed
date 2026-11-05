@@ -327,9 +327,14 @@ def evaluate(arms, job_order, c_spans=None, spread_min=None):
             S.append(f"Without the barrier, the lone job also said 'yes' at least 40% of the time (B = {pb:.3f}), but was not "
                      f"clearly above its shared-job twin (B − CN = {f(rep['diff'])}).")
         else:
-            keys.append("pass: rests on one job")
-            S.append(f"Only the lone barrier job came back (B − CN = {f(rep['diff'])}). The pass rests on one job, so a passing "
-                     "state of the chip during that job is not ruled out.")
+            keys.append("pass: rests on one job")       # F4-r2 (D37): scoped to the two lone jobs
+            S.append(f"Of the two lone jobs, only the barrier job came back (B = {pb:.3f}, B − CN = {f(rep['diff'])}). The pass "
+                     "rests on one job, so a passing state of the chip during that job is not ruled out.")
+        if pcb >= HIGH or pcn >= HIGH:                  # D37 (recommended by the second confirmation)
+            keys.append("pass: shared also came back")
+            who = ("The shared job" if pcb >= HIGH and pcn >= HIGH else
+                   "The barrier circuit in the shared job" if pcb >= HIGH else "The no-barrier circuit in the shared job")
+            S.append(f"{who} also came back (CB = {pcb:.3f}, CN = {pcn:.3f}).")
     elif pa < HIGH:
         if within:
             keys.append("fail: within")

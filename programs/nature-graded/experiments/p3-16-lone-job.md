@@ -85,7 +85,8 @@ On 3 November, program 1's circuit made the chip say "yes" 50% of the time, abou
   - B ≥ 0.40 and B − CN clear and positive: "Both lone jobs (with and without the barrier) came back, and both were clearly above their shared-job twins."
   - B − CN clear and positive, B < 0.40 *(added D36, F4-r1)*: "Without the barrier, the lone job was also clearly above its shared-job twin (B − CN = …), but below 40% (B = …)."
   - B ≥ 0.40, B − CN not clear *(added D36, F4-r1)*: "Without the barrier, the lone job also said 'yes' at least 40% of the time (B = …), but was not clearly above its shared-job twin (B − CN = …)."
-  - neither: "Only the lone barrier job came back (B − CN = …). The pass rests on one job, so a passing state of the chip during that job is not ruled out."
+  - neither: "Of the two lone jobs, only the barrier job came back (B = …, B − CN = …). The pass rests on one job, so a passing state of the chip during that job is not ruled out." *(Reworded D37, F4-r2: the old "Only the lone barrier job came back" ignored the shared job.)*
+  - then, on any pass, if CB or CN ≥ 0.40 *(added D37)*: "The shared job also came back (CB = …, CN = …)." ("The shared job" only if both are ≥ 0.40; otherwise "The barrier circuit in the shared job" or "The no-barrier circuit in the shared job".)
 - *Fail with P_A < 0.40*, by Δ:
   - within ±0.05: "Running the 3 November circuit (with its barrier) alone in its own job did not bring back 3 November's result, and for the barrier circuit, running alone or sharing a job made no difference larger than 0.05. This evening, running the barrier circuit alone in its own job did not raise its rate by more than 0.05 (assuming IBM's servers handled a one-circuit job the same way on 3 November)."
   - clear and positive: "Run alone, the barrier circuit said 'yes' clearly more often than sharing a job (Δ = …), but not the 40% of 3 November. Running alone raised the rate without bringing back 3 November's result."
@@ -149,4 +150,4 @@ On 3 November, program 1's circuit made the chip say "yes" 50% of the time, abou
 - [ ] Design review **go** (or confirmed fix-first); the engine's `budget_ruling` in `ledger/spend.jsonl` citing st-16 (D29); `check_prereg.py ng-p3-16 … --before-run` passes.
 - [x] §2 records CURBY-Q round 28297 (stalled) and names CURBy-RNG; the seed commit follows.
 - [x] Budget caps, hard stop, reserve rule, review gate, budget-ruling gate and the commit-before-submit guard enforced in code.
-- [x] DEVIATIONS.md D28; D29 (budget gate); D31–D35 (design review ng-p3-16, F1–F5, O1–O3); D36 (confirmation 71ac76a: F1-r1, F4-r1, F1-r2, F-O3-r1, budget note).
+- [x] DEVIATIONS.md D28; D29 (budget gate); D31–D35 (design review ng-p3-16, F1–F5, O1–O3); D36 (confirmation 71ac76a: F1-r1, F4-r1, F1-r2, F-O3-r1, budget note); D37 (second confirmation 1f68e33: F4-r2).
