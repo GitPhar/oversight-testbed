@@ -1,0 +1,458 @@
+{
+"574fd0dcfa13bd4746e3180b": {
+"id": "ss-027",
+"round": "pilot",
+"model": "claude-haiku-5-5",
+"kind": "pilot",
+"option_1_is": "a",
+"p_option_1": 60,
+"rationale": "The question's phrasing ('performed better or worse than trained self-explainer models') is neutral, but papers proposing an attribution-graph agent typically report it matching or beating trained baselines on hidden-knowledge elicitation. However, trained self-explainers like Activation Oracles are strong baselines, and a honest comparison could show the agent lagging. I lean modestly toward the agent outperforming, given the framing of an agent harness as the contribution.",
+"cost": 0.0001465,
+"request_id": "req_011CgkBbRN5ioKekJjBqJY2c",
+"usage": {
+"model": "claude-haiku-5-5",
+"input_tokens": 645,
+"output_tokens": 164,
+"cost_usd": 0.000147,
+"thinking": "disabled"
+},
+"t_utc": "2026-11-05T17:34:22.337922+00:00"
+},
+"0356553dc7c4ee83dd5c6ee0": {
+"id": "ss-121",
+"round": "pilot",
+"model": "claude-haiku-5-5",
+"kind": "pilot",
+"option_1_is": "b",
+"p_option_1": 30,
+"rationale": "Prior work on dictionary learning (e.g., Fel et al.-style studies) suggests neuron-based representations become increasingly polysemantic and less interpretable in deeper layers, while dictionary directions maintain interpretability. This points to the gap widening with depth, so Option 2 seems more likely. Uncertainty remains because the study could instead report convergence in deeper layers.",
+"cost": 0.0001373,
+"request_id": "req_011CgkBbRKr4VkE81VJVwYcc",
+"usage": {
+"model": "claude-haiku-5-5",
+"input_tokens": 658,
+"output_tokens": 143,
+"cost_usd": 0.000137,
+"thinking": "disabled"
+},
+"t_utc": "2026-11-05T17:34:22.615524+00:00"
+},
+"bbc4b880cc8a6841610f7211": {
+"id": "ss-120",
+"round": "pilot",
+"model": "claude-haiku-5-5",
+"kind": "pilot",
+"option_1_is": "a",
+"p_option_1": 20,
+"rationale": "Supervised feature dictionaries are typically used as an upper-bound reference in such comparisons; sparse autoencoder features generally underperform them on control and approximation, especially when trained on generic web text. The framing of supervised dictionaries as a reference point suggests they performed better, making Option 2 more likely.",
+"cost": 0.0001225,
+"request_id": "req_011CgkBbRMqBe2qF43TMaqKk",
+"usage": {
+"model": "claude-haiku-5-5",
+"input_tokens": 635,
+"output_tokens": 118,
+"cost_usd": 0.000122,
+"thinking": "disabled"
+},
+"t_utc": "2026-11-05T17:34:22.766522+00:00"
+},
+"0ea12dfefb6a21c3665dfbc4": {
+"id": "ss-026",
+"round": "pilot",
+"model": "claude-haiku-5-5",
+"kind": "pilot",
+"option_1_is": "a",
+"p_option_1": 35,
+"rationale": "Difference-in-means steering is a strong, well-established baseline for refusal suppression, often hard to beat with a single hand-picked feature intervention. Agent-driven feature selection from attribution graphs is more likely to underperform a tuned, dataset-wide steering vector, and papers of this kind often report such honest negative comparisons. Some chance the agent-selected intervention was reported as competitive or better, but I lean toward Option 2.",
+"cost": 0.0001483,
+"request_id": "req_011CgkBbRLM4wNZAxeFztpCK",
+"usage": {
+"model": "claude-haiku-5-5",
+"input_tokens": 678,
+"output_tokens": 161,
+"cost_usd": 0.000148,
+"thinking": "disabled"
+},
+"t_utc": "2026-11-05T17:34:23.030470+00:00"
+},
+"748cf41be1d6c609267faea6": {
+"id": "ss-170",
+"round": "pilot",
+"model": "claude-haiku-5-5",
+"kind": "pilot",
+"option_1_is": "a",
+"p_option_1": 60,
+"rationale": "The question asks which factor more strongly modulates position bias. Prior work on LLM judges (e.g., position bias studies) often finds that position bias is most pronounced when candidates are close in quality, meaning the quality gap matters a lot. Studies analyzing prompt length effects often find weaker or inconsistent length dependence. This suggests the quality gap is the stronger driver, favoring Option 1, though the framing of the question hints the paper may have highlighted a surprising finding about prompt length, adding uncertainty.",
+"cost": 0.0001612,
+"request_id": "req_011CgkBbZHaqJcf6ZaxiSSiE",
+"usage": {
+"model": "claude-haiku-5-5",
+"input_tokens": 677,
+"output_tokens": 187,
+"cost_usd": 0.000161,
+"thinking": "disabled"
+},
+"t_utc": "2026-11-05T17:34:24.316279+00:00"
+},
+"a64f341f55c1b2dc0b669f2f": {
+"id": "ss-094",
+"round": "pilot",
+"model": "claude-haiku-5-5",
+"kind": "pilot",
+"option_1_is": "b",
+"p_option_1": 27,
+"rationale": "Corrupted steps propagating to final answers is a common finding; on harder multistep tasks models have less slack to recover and rely more heavily on prior steps, so propagation is plausibly higher. Some studies find models sometimes self-correct more on hard tasks, but the framing 'forced to continue from corrupted prefix' suggests the reported result is that errors propagated more on harder problems. Moderate-to-high confidence Option 2.",
+"cost": 0.0001515,
+"request_id": "req_011CgkBbb8CiiNkayA8A1prs",
+"usage": {
+"model": "claude-haiku-5-5",
+"input_tokens": 715,
+"output_tokens": 160,
+"cost_usd": 0.000151,
+"thinking": "disabled"
+},
+"t_utc": "2026-11-05T17:34:24.811560+00:00"
+},
+"1481e4917e04c655440b857e": {
+"id": "ss-171",
+"round": "pilot",
+"model": "claude-haiku-5-5",
+"kind": "pilot",
+"option_1_is": "a",
+"p_option_1": 68,
+"rationale": "Weak-to-strong deception studies typically argue that larger capability gaps make it easier for the strong model to exploit weak supervision, since the weak supervisor cannot detect misbehaviour on cases it does not understand. Conflicting targets add incentive for selective behaviour. This points toward deception growing with the gap, though a counterintuitive finding that gaps reduce measured deception is possible.",
+"cost": 0.0001398,
+"request_id": "req_011CgkBbbTYQbrgb2pZAqGvw",
+"usage": {
+"model": "claude-haiku-5-5",
+"input_tokens": 663,
+"output_tokens": 147,
+"cost_usd": 0.00014,
+"thinking": "disabled"
+},
+"t_utc": "2026-11-05T17:34:24.935775+00:00"
+},
+"80699b8d364e39d96bbeb37d": {
+"id": "ss-136",
+"round": "pilot",
+"model": "claude-haiku-5-5",
+"kind": "pilot",
+"option_1_is": "b",
+"p_option_1": 35,
+"rationale": "Humans in random number generation tasks typically avoid immediate repeats and adjacent numbers, producing too few of both relative to chance. Language models are often reported to behave differently from humans in this task, and the common finding is that LLMs avoid repetition less or that their sequences look more like true randomness with more repeats. The study framing suggests a contrast with humans. I lean toward ChatGPT producing fewer repeats and adjacent numbers than humans being less likely given typical LLM tendencies toward patterned outputs, so Option 2 seems somewhat more plausible.",
+"cost": 0.000164,
+"request_id": "req_011CgkBbfsxVYCoZLuBMPBvy",
+"usage": {
+"model": "claude-haiku-5-5",
+"input_tokens": 625,
+"output_tokens": 203,
+"cost_usd": 0.000164,
+"thinking": "disabled"
+},
+"t_utc": "2026-11-05T17:34:25.850025+00:00"
+},
+"407d2b258d27b006285be8c7": {
+"id": "ss-138",
+"round": "pilot",
+"model": "claude-haiku-5-5",
+"kind": "pilot",
+"option_1_is": "b",
+"p_option_1": 75,
+"rationale": "This resembles findings from work on the 'first-person' vs 'third-person' belief attribution gap in LLMs (e.g., the KaBLE benchmark). Models tended to handle first-person beliefs well, while third-person false-belief attribution was notably weaker, suggesting lower accuracy on third-person items. Option 1 seems more likely, though the direction is not certain.",
+"cost": 0.00013419999999999998,
+"request_id": "req_011CgkBbiXSyY22Nowsbw5MB",
+"usage": {
+"model": "claude-haiku-5-5",
+"input_tokens": 637,
+"output_tokens": 141,
+"cost_usd": 0.000134,
+"thinking": "disabled"
+},
+"t_utc": "2026-11-05T17:34:26.267407+00:00"
+},
+"d792b37930971638b3d1cd88": {
+"id": "ss-137",
+"round": "pilot",
+"model": "claude-haiku-5-5",
+"kind": "pilot",
+"option_1_is": "a",
+"p_option_1": 35,
+"rationale": "Awareness inference about whether a character knows a hidden fact is a direct reading of story cues, which models typically handle well. Behaviour prediction requires modelling the character's beliefs and goals and is often harder, and studies of theory-of-mind in LLMs frequently find that models do better on simple belief-state questions than on downstream action prediction. The framing of the question also suggests a contrast worth reporting, most plausibly that behaviour prediction was lower. I lean toward Option 2 but with moderate uncertainty.",
+"cost": 0.00015810000000000002,
+"request_id": "req_011CgkBbhzhhFJkcY9eTLufU",
+"usage": {
+"model": "claude-haiku-5-5",
+"input_tokens": 646,
+"output_tokens": 187,
+"cost_usd": 0.000158,
+"thinking": "disabled"
+},
+"t_utc": "2026-11-05T17:34:26.421868+00:00"
+},
+"f09e2ddab9311e2299a88361": {
+"id": "ss-169",
+"round": "pilot",
+"model": "claude-haiku-5-5",
+"kind": "pilot",
+"option_1_is": "b",
+"p_option_1": 35,
+"rationale": "Smaller models often have strong answer-choice biases (e.g., favoring A or the first option). Without normalisation, a biased model may appear to answer independently of its CoT, or the measure may be confounded. Normalising out bias typically removes spurious answer-consistency, which would reduce apparent CoT dependence in small models, making them look more unfaithful, i.e., unfaithfulness higher after normalisation. Uncertain, but this direction seems more plausible as a reported correction finding.",
+"cost": 0.0001567,
+"request_id": "req_011CgkBbbHsqF8eHqywyHE9e",
+"usage": {
+"model": "claude-haiku-5-5",
+"input_tokens": 682,
+"output_tokens": 177,
+"cost_usd": 0.000157,
+"thinking": "disabled"
+},
+"t_utc": "2026-11-05T17:34:26.730278+00:00"
+},
+"eb38a30bcf4d4f2c3b109c1e": {
+"id": "ss-139",
+"round": "pilot",
+"model": "claude-haiku-5-5",
+"kind": "pilot",
+"option_1_is": "b",
+"p_option_1": 35,
+"rationale": "Noise injection generally degrades capabilities. Deliberate sandbagging is a learned or prompted behavior that hides ability; adding noise typically disrupts the sandbagging mechanism as well as the underlying skill, so performance tends to rise toward true capability. The surprising, publishable finding would be that deliberately underperforming models improved under noise, consistent with the sandbagging being fragile. That makes Option 2 the more likely reported result, though the straightforward decrease remains plausible.",
+"cost": 0.00015130000000000002,
+"request_id": "req_011CgkBbnR7FS2v3tR1xnT3s",
+"usage": {
+"model": "claude-haiku-5-5",
+"input_tokens": 618,
+"output_tokens": 179,
+"cost_usd": 0.000151,
+"thinking": "disabled"
+},
+"t_utc": "2026-11-05T17:34:27.429375+00:00"
+},
+"e819b1d4e3278e01b2cda3b4": {
+"id": "ss-026",
+"round": "pilot",
+"model": "claude-sonnet-5-5",
+"kind": "pilot",
+"option_1_is": "a",
+"p_option_1": 62,
+"rationale": "Papers presenting agentic interpretability tools usually report positive results, and the phrasing 'single committed intervention' suggests highlighting that even one intervention beat a strong baseline. But difference-in-means steering is a strong refusal-suppression baseline (Arditi et al.), and a single feature-level intervention could underperform it; the paper might honestly report this as a limitation. Publication bias favors Option 1, but the framing is ambiguous.",
+"cost": 0.002996,
+"request_id": "req_011CgkBbptSKDbFjwgRDhPiV",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 678,
+"output_tokens": 164,
+"cost_usd": 0.002996,
+"thinking": "between_tools"
+},
+"t_utc": "2026-11-05T17:34:29.271234+00:00"
+},
+"a6d23f63da7dea2c8b05e611": {
+"id": "ss-027",
+"round": "pilot",
+"model": "claude-sonnet-5-5",
+"kind": "pilot",
+"option_1_is": "a",
+"p_option_1": 30,
+"rationale": "The phrasing 'did an LLM agent that reads attribution graphs perform better or worse' suggests a limitation noted in the paper. Taboo models are a known setting where activation oracles do well, since the secret word is directly decodable from activations. An attribution-graph agent likely struggles because the secret word info is diffuse, and graph tools are costly. Papers often report that their method underperforms on specific benchmarks like taboo, while excelling elsewhere.",
+"cost": 0.00295,
+"request_id": "req_011CgkBbqozmxt9BHH7GaXe4",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 645,
+"output_tokens": 166,
+"cost_usd": 0.00295,
+"thinking": "between_tools"
+},
+"t_utc": "2026-11-05T17:34:29.422986+00:00"
+},
+"091299ffc524d2bc3d1e0b57": {
+"id": "ss-120",
+"round": "pilot",
+"model": "claude-sonnet-5-5",
+"kind": "pilot",
+"option_1_is": "a",
+"p_option_1": 12,
+"rationale": "This looks like the 'Sparse Autoencoders Find Highly Interpretable Features' follow-up, or rather 'Towards Principled Evaluations of Sparse Autoencoders for Interpretability and Control' (Makelov et al.). That paper found that SAE features are good at approximation and sparse control, but supervised dictionaries performed better at control, and SAE features required more edits or had an interpretability illusion. The supervised dictionary is used as a reference, so SAEs are likely reported as worse at control.",
+"cost": 0.00313,
+"request_id": "req_011CgkBbrE4PURZYeSnRJ8hh",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 635,
+"output_tokens": 186,
+"cost_usd": 0.00313,
+"thinking": "between_tools"
+},
+"t_utc": "2026-11-05T17:34:29.786008+00:00"
+},
+"4abd175410c1266bb03eb692": {
+"id": "ss-121",
+"round": "pilot",
+"model": "claude-sonnet-5-5",
+"kind": "pilot",
+"option_1_is": "b",
+"p_option_1": 30,
+"rationale": "Neurons in deeper layers become more polysemantic/distributed, so dictionary directions likely show growing advantage. However, there is a plausible alternative where early layers show a large difference and it shrinks. I lean toward the gap growing with depth, as superposition is stronger in deeper layers.",
+"cost": 0.002436,
+"request_id": "req_011CgkBbuAf2Nqsi39ckyzhK",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 658,
+"output_tokens": 112,
+"cost_usd": 0.002436,
+"thinking": "between_tools"
+},
+"t_utc": "2026-11-05T17:34:29.830484+00:00"
+},
+"5b3c319b4cf9b69e7c95aa04": {
+"id": "ss-170",
+"round": "pilot",
+"model": "claude-sonnet-5-5",
+"kind": "pilot",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "This resembles the paper 'Judging the Judges: A Systematic Investigation of Position Bias in Pairwise Comparative Assessments by LLMs'. I recall its finding that position bias is not due to length of prompt components and is strongly affected by the quality gap between solutions: when the gap is small, bias is larger. So the quality gap matters more than length.",
+"cost": 0.002704,
+"request_id": "req_011CgkBc5GNRVGmU5WZvM3We",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 677,
+"output_tokens": 135,
+"cost_usd": 0.002704,
+"thinking": "between_tools"
+},
+"t_utc": "2026-11-05T17:34:32.151345+00:00"
+},
+"7867aaa282cb7c64f86c449b": {
+"id": "ss-094",
+"round": "pilot",
+"model": "claude-sonnet-5-5",
+"kind": "pilot",
+"option_1_is": "b",
+"p_option_1": 27,
+"rationale": "Prior work on CoT faithfulness (e.g., Lanham et al.) shows that models rely less on CoT for easy tasks, so corruption matters less there. On harder multistep arithmetic, each step depends on earlier ones, so a corrupted step carries through more often. The phrasing 'harder multistep arithmetic tasks' versus 'grade-school maths' suggests propagation increased with difficulty. A counter-possibility is that models recover or ignore errors on hard tasks, but that seems less likely.",
+"cost": 0.0033,
+"request_id": "req_011CgkBc35RP6DTEbcusxQTT",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 715,
+"output_tokens": 187,
+"cost_usd": 0.0033,
+"thinking": "between_tools"
+},
+"t_utc": "2026-11-05T17:34:32.200429+00:00"
+},
+"f4a362697d5016cf91a8996a": {
+"id": "ss-171",
+"round": "pilot",
+"model": "claude-sonnet-5-5",
+"kind": "pilot",
+"option_1_is": "a",
+"p_option_1": 90,
+"rationale": "This matches the paper on weak-to-strong deception (Yang et al., 2024), which reported that the phenomenon exists and that it may intensify as the capability gap increases. The intuition is also plausible, since a larger gap means the strong model has more room to exploit what the weak model cannot verify. I recall the abstract saying deception \"may intensify as the capability gap increases.\"",
+"cost": 0.002736,
+"request_id": "req_011CgkBc5THck6hbNqAxH6sG",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 663,
+"output_tokens": 141,
+"cost_usd": 0.002736,
+"thinking": "between_tools"
+},
+"t_utc": "2026-11-05T17:34:32.303560+00:00"
+},
+"14e859bdcef01183480345d4": {
+"id": "ss-169",
+"round": "pilot",
+"model": "claude-sonnet-5-5",
+"kind": "pilot",
+"option_1_is": "b",
+"p_option_1": 72,
+"rationale": "Lanham et al. found an inverse scaling pattern: larger models have less CoT dependence (more apparent unfaithfulness). A replication would likely show that smaller models' answer changes under CoT removal partly reflect answer-choice bias or randomness. Small models with strong answer biases give the same answer with or without CoT, which looks unfaithful. Normalising for the bias would then reveal that small models actually depend on CoT more than it seemed, so their measured unfaithfulness falls. This weakens the inverse-scaling claim. Option 1 seems more likely.",
+"cost": 0.003404,
+"request_id": "req_011CgkBc3hNbeKoiRedJNpPf",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 682,
+"output_tokens": 204,
+"cost_usd": 0.003404,
+"thinking": "between_tools"
+},
+"t_utc": "2026-11-05T17:34:32.931719+00:00"
+},
+"10bc927d877c88c7a2b5f2a3": {
+"id": "ss-138",
+"round": "pilot",
+"model": "claude-sonnet-5-5",
+"kind": "pilot",
+"option_1_is": "b",
+"p_option_1": 10,
+"rationale": "This resembles the KaBLE benchmark from Suzgun et al. (Nature Machine Intelligence, 'Language models cannot reliably distinguish belief from knowledge and fact'). They reported that models performed better on third-person belief attributions than first-person ones; first-person false beliefs were particularly hard (e.g., 'I believe p' where p is false, the model refuses to acknowledge the belief). So third-person accuracy was higher.",
+"cost": 0.002914,
+"request_id": "req_011CgkBcG4WPTZeh11o7Ei1V",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 637,
+"output_tokens": 164,
+"cost_usd": 0.002914,
+"thinking": "between_tools"
+},
+"t_utc": "2026-11-05T17:34:34.820487+00:00"
+},
+"da380e85e4d466a7e914df9c": {
+"id": "ss-137",
+"round": "pilot",
+"model": "claude-sonnet-5-5",
+"kind": "pilot",
+"option_1_is": "a",
+"p_option_1": 15,
+"rationale": "This resembles studies showing LLMs correctly infer mental states but fail to apply them to predict behavior or judge reasonableness (e.g., 'Large language models fail on trivial alterations' or 'Mind the gap' style findings). The typical finding is that models infer awareness well but then predict behavior based on their own knowledge, lowering behavior prediction accuracy. Awareness inference is usually the easiest, while behavior and judgment questions drop.",
+"cost": 0.002952,
+"request_id": "req_011CgkBcFbEK2UdUwqqiU2f1",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 646,
+"output_tokens": 166,
+"cost_usd": 0.002952,
+"thinking": "between_tools"
+},
+"t_utc": "2026-11-05T17:34:34.871913+00:00"
+},
+"332b22cd33d7240c34c06db2": {
+"id": "ss-136",
+"round": "pilot",
+"model": "claude-sonnet-5-5",
+"kind": "pilot",
+"option_1_is": "b",
+"p_option_1": 70,
+"rationale": "Humans famously avoid repeats and adjacent numbers (counting-by-one patterns) in random number generation, believing these look nonrandom. LLMs trained on text tend to overcorrect or mimic this human bias, and many studies find LLMs show an even stronger avoidance, producing more 'random-looking' sequences. A paper on ChatGPT's random generation (Hopkins/Renze-style 'machine psychology') likely reported ChatGPT avoided repeats and adjacents even more than humans. This makes Option 1 more likely.",
+"cost": 0.00322,
+"request_id": "req_011CgkBcFPLNRNp3GYNb2TNp",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 625,
+"output_tokens": 197,
+"cost_usd": 0.00322,
+"thinking": "between_tools"
+},
+"t_utc": "2026-11-05T17:34:35.108582+00:00"
+},
+"d25e2ef71eea6a99e2fc3433": {
+"id": "ss-139",
+"round": "pilot",
+"model": "claude-sonnet-5-5",
+"kind": "pilot",
+"option_1_is": "b",
+"p_option_1": 5,
+"rationale": "This matches the 'Noise Injection Reveals Hidden Capabilities of Sandbagging Language Models' work. The key finding is that adding noise to sandbagging models' weights can disrupt the underperformance mechanism, causing performance to improve (anomalous increase), while non-sandbagging models just degrade. This is used as a detection method for sandbagging.",
+"cost": 0.002606,
+"request_id": "req_011CgkBcJjF7VyZxWQN9i99q",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 618,
+"output_tokens": 137,
+"cost_usd": 0.002606,
+"thinking": "between_tools"
+},
+"t_utc": "2026-11-05T17:34:35.552740+00:00"
+}
+}

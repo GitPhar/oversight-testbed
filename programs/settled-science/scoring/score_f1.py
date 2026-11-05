@@ -224,20 +224,23 @@ def sentences(out):
         bad = [f"{NAME[m]}: {ms[m]['n_scored_r1']} of 116 scored" for m in MODELS if ms[m]["untestable"]]
         s.append(f"Too few findings were scored to test the smaller bettors ({'; '.join(bad)}; at least {MIN_SCORED} needed).")
         return s
+    nsc = " and ".join(f"{ms[m]['n_scored_r1']} ({NAME[m]})" for m in MODELS)
     if v == "pass":
-        s.append("On round 1's 116 findings posted after the models' training cutoff, both Haiku and Sonnet, with the bettor's "
+        s.append(f"On {nsc} of round 1's 116 findings posted after the models' training cutoff, both Haiku and Sonnet, with the bettor's "
                  "prompt unchanged, beat always saying 50% and beat both the up-word rule and the good-news rule by more than "
-                 f"0.01 in Brier, on item and paper-cluster bootstraps ({part(MODELS[0])}; {part(MODELS[1])}). Knowing which way "
-                 "these findings went is not only the strongest model's; this does not separate knowing results from reasoning "
-                 "within the item, and the items were written by a Claude model.")
+                 f"0.01 in Brier, on item and paper-cluster bootstraps ({part(MODELS[0])}; {part(MODELS[1])}). Picking which way "
+                 "these findings went, better than these two shortcut rules, is not only the strongest model's; the good-news rule "
+                 "bets on only the 38 of 116 items the writers tagged, so this does not rule out a model applying the good-news idea "
+                 "to every item, which matched 92% of Sonnet's forecasting skill on BrainBench (ss-b10); this does not separate "
+                 "knowing results from reasoning within the item, and the items were written by a Claude model.")
     elif v == "mixed":
         w = next(m for m in MODELS if ms[m]["r1"]["pass"])
         l = next(m for m in MODELS if not ms[m]["r1"]["pass"])
-        s.append(f"On round 1's 116 post-cutoff findings, {NAME[w]} met the rule (always-50%, the up-word rule and the good-news "
+        s.append(f"On {nsc} of round 1's 116 post-cutoff findings, {NAME[w]} met the rule (always-50%, the up-word rule and the good-news "
                  f"rule all beaten, the last two by more than 0.01 in Brier) but {NAME[l]} was not shown to ({part(w)}; {part(l)}), "
                  "so the bettor's skill holds on one of the two smaller models only.")
     else:
-        s.append(f"On round 1's 116 post-cutoff findings, neither Haiku nor Sonnet was shown to beat always-50%, the up-word "
+        s.append(f"On {nsc} of round 1's 116 post-cutoff findings, neither Haiku nor Sonnet was shown to beat always-50%, the up-word "
                  f"rule and the good-news rule by the pre-registered margin ({part(MODELS[0])}; {part(MODELS[1])}), so on these "
                  "items the bettor's skill was not shown beyond the strongest model.")
     for m in MODELS:

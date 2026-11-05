@@ -24,7 +24,7 @@ import bettor as B  # noqa: E402  (SYSTEM, SCHEMA, user_text, draws, sample_r2: 
 MODELS = ("claude-haiku-5-5", "claude-sonnet-5-5")
 CACHE = ROOT / "bettor" / "f1-cache.json"
 OUT = ROOT / "bettor" / "f1-bets.jsonl"
-BET_CAP = 0.70          # budget ruling br-007 (ledger/spend.jsonl)
+BET_CAP = 0.85          # budget ruling br-007, amended by br-010 (design review ss-b13 F2, D69)
 R1_MASKED, R1_ITEMS, R1_SEED = ROOT / "items" / "masked.jsonl", ROOT / "items" / "items.jsonl", ROOT / "bettor" / "seed.json"
 R2_MASKED, R2_SEED = ROOT / "items" / "r2" / "masked.jsonl", ROOT / "bettor" / "r2-seed.json"
 
@@ -94,13 +94,57 @@ def estimate(steps):
     return tot
 
 
+def archive_check(steps):
+    """Design review ss-b13 F4 (D69): every job's option order and user text must equal Opus's archived primary call."""
+    for rnd, bets, cache in (("r1", "bets.jsonl", "bettor-cache.json"), ("r2", "r2-bets.jsonl", "r2-bettor-cache.json")):
+        arch = {b["id"]: b for b in map(json.loads, (ROOT / "bettor" / bets).read_text().splitlines()) if b["kind"] == "primary"}
+        opus_keys = set(json.loads((ROOT / "bettor" / cache).read_text()))
+        js = [j for _, s in steps for j in s if j["round"] == rnd and j["model"] == MODELS[0]]
+        order = sum(arch[j["id"]]["option_1_is"] == j["option_1_is"] for j in js if j["id"] in arch)
+        same = sum(key_of("bettor-v1", "claude-opus-5-5", B.SYSTEM, j["user"]) in opus_keys for j in js)
+        print(f"{rnd}: order matches archive {order}/{len(js)}; prompts identical to Opus's {same}/{len(js)}")
+
+
+PILOT_CACHE = ROOT / "bettor" / "f1-pilot-cache.json"
+PILOT_CAP = 0.10
+
+
+def pilot():
+    """Design review ss-b13 F1 (D69): refusal pilot on 12 EXCLUDED items: the 4 lowest-id pre-cutoff items in each of the
+    three LLM fields, both models, the unchanged prompt, in round 1's option order. Not test data."""
+    side = {it["id"]: (it["side"], it["field"]) for it in load(R1_ITEMS)}
+    items = load(R1_MASKED)
+    swap, _ = B.draws(items, json.loads(R1_SEED.read_text())["seeds"])
+    pick = []
+    for f in ("interpretability", "scalable-oversight", "model-psychology"):
+        pick += [it for it in items if side[it["id"]] == ("pre", f)][:4]
+    js = []
+    for model in MODELS:
+        for it in pick:
+            u = B.user_text(it, swap[it["id"]])
+            js.append({"key": key_of("bettor-v1-pilot", model, B.SYSTEM, u), "id": it["id"], "round": "pilot", "model": model,
+                       "kind": "pilot", "option_1_is": "b" if swap[it["id"]] else "a", "user": u})
+    own = sum(v["cost"] for v in json.loads(PILOT_CACHE.read_text()).values()) if PILOT_CACHE.exists() else 0.0
+    c = Caller(PILOT_CACHE, "f1 pilot", cap=min(BUDGET_USD, spent_total() - own + PILOT_CAP + 0.05))
+    c.run(js, fn, workers=4)
+    for m in MODELS:
+        rs = [c.cache[j["key"]] for j in js if j["model"] == m and j["key"] in c.cache]
+        print(f"{m}: {len(rs)} of {len(pick)} returned, 0 refusals, mean output tokens "
+              f"{sum(r['usage'].get('output_tokens', 0) for r in rs) / max(1, len(rs)):.0f}, mean input tokens "
+              f"{sum(r['usage'].get('input_tokens', 0) for r in rs) / max(1, len(rs)):.0f}, cost ${sum(r['cost'] for r in rs):.4f}, "
+              f"thinking {rs[0]['usage'].get('thinking') if rs else None}")
+
+
 def main():
+    if "--pilot" in sys.argv:
+        return pilot()
     steps = plan()
     if "--dry-run" in sys.argv:
         print(B.SYSTEM, "\n---\n", steps[0][1][0]["user"], "\n---")
         for name, js in steps:
             print(f"{name}: {len(js)} calls; option_b first on {sum(j['option_1_is'] == 'b' for j in js)}")
         print(f"estimated cost ${estimate(steps):.2f}; bet cap ${BET_CAP}; program cap ${BUDGET_USD}; spent so far ${spent_total():.3f}")
+        archive_check(steps)
         return
     try:
         for name, js in steps:
