@@ -25,10 +25,10 @@ The per-model readings, as frozen:
 - "Nearest analogue of the event on Sean's cockpit card (one model; here 34 statements × three formats, not the card's 80 × six; no margin over the rival): Haiku's ρ is +0.207 [-0.087, +0.442], which does not reach 0.5."
 - "ρ ≥ 0.5 on every tested model (no margin over the rival): no."
 
-**The pre-mortem** named Sam's ratings hedged toward 50 so that, on Opus, the match would not beat the generic-link rival. That is not what happened:
-- Sam's ratings were not flat on any model.
-- The Sam format means did not sit nearer 0.5 than the model's own; on Opus they sit slightly further from it.
-- Every model failed one step earlier, on the 0.5 bar, before the rival came in.
+**The pre-mortem** named Sam's ratings hedged toward 50 so that, on Opus, the match would not beat the generic-link rival.
+- **The hedge happened, on every model.** Sam's ratings sat nearer 50 than the model's own. The mean distance from 0.5 per (statement, format) cell, self against Sam, was 0.29 against 0.21 on Haiku, 0.26 against 0.20 on Sonnet, and 0.30 against 0.22 on Opus. This is computed from the archived matrices in `results/p2-7-format-fingerprint.json`; it is descriptive and not pre-registered.
+- **But it did not make Sam flat.** Sam's residuals were reproducible on every model.
+- **The fail came one step earlier.** Every model failed at the 0.5 bar, before the comparison with the rival.
 
 **Robustness and record:**
 - Leave-one-item-out leaves every model at fail-ceiling: 0 flips.
