@@ -118,3 +118,29 @@ Each fix needs a dated row in `programs/said-vs-did/DEVIATIONS.md`, written befo
 5. **D10. Report a model interrupted by a cap as not run.** In `analyse()`, before `model_verdict`, mark a model `{"testable": False, "not_run": True, "n_done": k, "n": N}` if any of its `items_for(model)` lacks a cached said rating or a cached b3 choice (refusals cannot occur here, because they stop the program). Exclude that model's partial items from every statistic. Pre-register that such a model counts as not testable, and that its sentence is the "not run" line in fix 3.
 
 After the fixes, re-run `python3 svd_wave1.py dryrun` and the synthetic checks above (pass, fail, untestable, partial-model), and the reviewer confirms in an addendum to this file.
+
+## Addendum: confirmation (2026-11-05 05:41 America/Denver)
+
+Checked against commit 83a4c82: DEVIATIONS D7, the "Addendum D7" at the end of `experiments/sv-b3.md`, `svd_wave1.py`, `svd_common.py`, `sv-wave1-worlds-d7.txt`, and the `ledger/bets.jsonl` row. The code at HEAD is identical to 83a4c82's, and so is the working tree (`git diff 83a4c82 HEAD` and `git diff HEAD` on `programs/said-vs-did` are empty). No API calls were made. `programs/said-vs-did/results/` is still empty. The harness re-pointed at the new code is `/private/tmp/claude-501/-Users-seanpharris-oversight-testbed/0a71ee39-78f8-4098-9ca9-34db26080759/scratchpad/review-sv-b3/e2e_d7.py`, run together with `machinery.py`.
+
+| flaw | status | evidence |
+|---|---|---|
+| 1 (D2) source baseline described as coded | **fixed** | The addendum states one bit, simpleqa (120) against claims, chemistry and physics (60 each), matching `svd_stats.dumb_scores`, which is unchanged. |
+| 2 (D3) shuffle control cannot fail | **fixed** | The across-item shuffle is relabelled `code_check_…`. `margin_with_confidence_shuffled_within_category` (seed 7002) is added, with its sentence. In a contrived world where only question type drives the number and the choice, the within-type margin equals the margin (Haiku 0.070/0.070, Sonnet 0.132/0.132, Opus 0.095/0.095), so the sentence fires for Sonnet. When checking follows the number, it drops (0.435 → −0.050, 0.447 → −0.034, 0.388 → −0.149). |
+| 3 (D8) sentences overclaim the hypothetical reference | **not fixed (one noun)** | The reference caveat, the "choose the option to check" wording and the forbidden words are all in place, and "before answering" and "would check" no longer appear. But the new pass sentence names the guesses as "a constant, **the question's type**, which side of 50 …, the question's length". The guess is one bit, SimpleQA trivia or not, not the four-level type, and the same addendum uses "question types" for the four levels in the within-type sentence. A model in the type-only world above would get both a pass sentence saying it beat "the question's type" and a sentence saying its margin "rests partly on differences between question types". |
+| 4 (D9) leave-one-out item ids | **fixed** | `loo_flip_ids` and `loo_testability_flip_ids` are recorded, with sentences. In weak-link worlds the ids were listed when the margin sat near 0.10 (for example, Sonnet 0.101, 74 ids). With exactly 10 checks for Opus, 10 testability ids were listed. |
+| 5 (D10) partial model analysed as complete | **fixed** | With 30 of Opus's 80 b3 items: `not_run: true`, `testable: false`, status shows `missing: 50`, and the verdict comes from Haiku and Sonnet. One missing Sonnet said rating also gives `not_run: true`. The cap message now reads "it and later models are reported as not run". The not-run sentence is pre-registered. |
+
+**Nothing else is broken (D1–D11).**
+- `dryrun`: the b3 prompt and schema are word for word as in §2. Items: b3 has Haiku 300, Sonnet 150, Opus 80. The said step now has Sonnet on 300, of which b3 reads the first 150 as a prefix. Caps are said $0.85, b3 $0.80, program $5.00 (all caps together $4.80).
+- D1: the synthetic verdicts are unchanged (pass / fail / untestable / fail for one of three).
+- D11: `worlds b3` reproduces `sv-wave1-worlds-d7.txt` exactly. P(pass) is 0.00 with no link, 0.37 moderate, 0.915 strong, and 0.665 in the frequent-checking world; P(fail) is 1.00 with no link.
+- D10:
+  - The review gate behaves as before in every case: no file, go, fix-first null, fix-first empty, fix-first dated, and redesign.
+  - The stubbed cap stops at exactly $0.300.
+  - A stubbed refusal writes `refusal.md` and blocks the next run.
+  - A stubbed 529 error is logged to `results/sv-errors.md`.
+  - The ledger row has budget 1.08 (= 0.80 + 0.85/3), `seed_source` `curby-rng` with a `seed_note`, and `fix_deviations` `["D7"]`.
+- Note, not a flaw: the "at most two resumes after an error" rule is logged but not enforced in code. It relies on the DEVIATIONS row that each resume requires.
+
+**Remaining fix (D8):** in the addendum's pass sentence, replace "the question's type" with "whether the question is SimpleQA trivia" (and use the same words wherever the four guesses are listed). Record it under a dated DEVIATIONS row before any data. My original suggested wording, "the question's source", had the same looseness. `confirmed_at` stays null until this one-noun change is made.
