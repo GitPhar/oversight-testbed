@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: holds, D4: holds, D5: flaw, D6: holds, D7: ho
 flaws: 3
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-04 20:32 America/Denver
 ---
 
 # Design review of om-p2-6
@@ -182,3 +182,27 @@ Commands and scratch files (session scratchpad):
 - `ledger/seed.py` ×3.
 - `curby_seed.mjs rng`: fresh fetch.
 - `ledger/check_prereg.py om-p2-6 . programs/other-minds/experiments/p2-6-position-or-label.md`: L1–L3 ok; R1 failed only because this file did not exist yet.
+
+## Addendum: fixes confirmed (2026-11-04 20:32 America/Denver)
+
+I checked fix commit `f0606f7` (rows D11c, D11d and D11e in programs/other-minds/DEVIATIONS.md, dated 20:22, committed 20:23). The p2-6 files at HEAD match that commit. `programs/other-minds/results/` holds no p2-6 file, so every row comes before any call. Every check below ran with every call stubbed and no key. Paid calls: none.
+
+- **F1 (D11c): confirmed.**
+  - `SENTENCES["fail-position"]` now ends "…follows the turn it sits in at least as much as whose answer it is said to be". That is true for every table the rule sends there (|P| ≥ |L|).
+  - `label_also` is appended exactly when L ≥ 0.15 with its CI lower end > 0, or L ≤ −0.15 with its CI upper end < 0. It fires in 60% of runs in the "label 0.25, position 0.30" case (`d5_leak2.py`).
+  - `fail-neither` now says neither effect "met the pre-registered rule for it". That is true by construction for every table that reaches it, including the 3,051 grid tables the old wording got wrong.
+  - The §6 sentence on "again" (n4) was added.
+  - Re-run `d1_verdict2.py`: 0 mismatches against the §5 prose on 200,000 tables. The edge cases give the same verdicts as before. No category, threshold or score changed.
+- **F2 (D11d): confirmed.**
+  - u_s is coded as specified: statements with both directions at |D| ≥ 0.05, Σ(r̄₊₃₀ − r̄₋₃₀)/Σ(A₊₃₀ − A₋₃₀), the same repeats and the same bootstrap seed. It equals my independent implementation exactly in 60 of 60 synthetic runs for each of 4 scenarios.
+  - `verdict(s, s_shift)` returns pass only if the frozen rule 2 holds and L_s ≥ 0.15, its CI lower end > 0 and L_s > |P_s|. Otherwise it returns fail-shift, decided before rules 3–6. Untestable fires below 12 items with both directions kept. Leave-one-item-out applies the same conjunct, and L_s and P_s are reported.
+  - Hedge-only cases now pass 2% and 3% (my stub; they were 30% and 57%), and 1% and 1% in the committed dry run. Power at label 0.25 is 0.90 on my stub and 0.89 in the dry run.
+  - A pass now requires strictly more than before. The one new untestable trigger cannot rescue a fail on these items (15 of 16 qualify on the archive). No bar is lowered, and keeping the odds at 0.25 is reasonable.
+- **F3 (D11e): confirmed.**
+  - `stop` is re-checked under the lock before the cap check. `stop.set()` and the error append both happen under the lock.
+  - A discriminating stub (`d10_race3.py`) wraps the lock to record whether each call's gate was passed after `stop` was set. Old code: 5, 3 and 5 such calls in three runs. Fixed code: 0, 0 and 0. The calls that still enter the model after a refusal (3 in the dry run, 4 on my stub) all cleared the gate before it, so they were genuinely in flight.
+  - The dry run's own race line (count after the refusal ≤ workers − 1) cannot tell the old code from the new, because the old code also stays under 7. My check is the one that confirms the fix. Non-blocking.
+- **n1 and n3: confirmed.** `real_call()` passes `model=MODEL`. The code writes `label` as "<verdict>, fragile (one item)" on a flip. n2 (no 12-item untestable rule inside leave-one-item-out) stays open and is non-blocking.
+- **Dry run:** `p2_6_dryrun.py` re-run from the main checkout reproduces the committed `p2-6-dryrun-output.txt` exactly. The dumb baselines still pass at most 1%. The gate line reads "design review verdict fix-first (not confirmed)". With `confirmed_at` set in this commit, the gate opens.
+
+All three fixes hold. `confirmed_at` is set.
