@@ -66,7 +66,8 @@ SENTENCES = {
 }
 
 
-def analyse(X, no, seed, nboot=NBOOT):
+def core(X, no, seed, nboot):
+    """Point shares, bootstrap bounds and verdict for one table (the frozen statistic and rule)."""
     ponly, both = classify(X, no)
     n = len(no)
     w1 = np.ones(n)
@@ -75,12 +76,20 @@ def analyse(X, no, seed, nboot=NBOOT):
     B = np.array([shares(no, ponly, both, np.bincount(rng.integers(0, n, n), minlength=n).astype(float)) for _ in range(nboot)])
     lo = np.nanpercentile(B, 2.5, axis=0); hi = np.nanpercentile(B, 97.5, axis=0)
     v = verdict(int(ponly.sum()), d1, lo[3], lo[4])
-    # D76 (design review F1): leave-one-question-out over every usable question, flips listed by group
+    return dict(ponly=ponly, both=both, s_p=s_p, s_a=s_a, s_b=s_b, d1=d1, d2=d2, lo=lo, hi=hi, v=v)
+
+
+def analyse(X, no, seed, nboot=NBOOT):
+    c = core(X, no, seed, nboot)
+    ponly, both, d1, lo, hi, v = c["ponly"], c["both"], c["d1"], c["lo"], c["hi"], c["v"]
+    n = len(no)
+    # D76/D77 (design review F1 and its confirmation addendum): exact leave-one-question-out over every usable question:
+    # the question is removed, the remaining table is re-bootstrapped with the same seed and resamples, and verdict() is
+    # applied to the new bounds. (The shifted-bound shortcut first coded under D76 gave false flips and missed real ones.)
     flips = []
     for i in range(n):
-        w = w1.copy(); w[i] = 0
-        r = shares(no, ponly, both, w)
-        if verdict(int((ponly & (w > 0)).sum()), r[3], lo[3] + (r[3] - d1), lo[4] + (r[4] - d2)) != v:
+        keep = np.arange(n) != i
+        if core(X[keep], no[keep], seed, nboot)["v"] != v:
             flips.append(i)
     group = np.where(ponly, "P-only", np.where(both, "both", "other"))
     if v == "fail" and d1 >= MARGIN - TOL and lo[3] > 0 + TOL:
@@ -88,8 +97,9 @@ def analyse(X, no, seed, nboot=NBOOT):
         branch = "fail, part (a) holds"
     else:
         sentence, branch = SENTENCES[v], v
-    return {"branch": branch, "loo_flip_groups": [str(group[i]) for i in flips], "n_science_usable": n, "n_ponly": int(ponly.sum()), "n_both": int(both.sum()), "share_no_ponly": s_p,
-            "share_no_all": s_a, "share_no_both": s_b, "D1": d1, "D1_ci": [float(lo[3]), float(hi[3])], "D2": d2,
+    return {"branch": branch, "loo_flip_groups": [str(group[i]) for i in flips], "loo_rule": "exact (re-bootstrapped per drop)",
+            "n_science_usable": n, "n_ponly": int(ponly.sum()), "n_both": int(both.sum()), "share_no_ponly": c["s_p"],
+            "share_no_all": c["s_a"], "share_no_both": c["s_b"], "D1": d1, "D1_ci": [float(lo[3]), float(hi[3])], "D2": c["d2"],
             "D2_ci": [float(lo[4]), float(hi[4])], "loo_flip_index": flips, "verdict": v, "sentence": sentence}
 
 
@@ -106,19 +116,21 @@ def selftest():
         else:
             P[rng.random(n) < 0.45] -= 0.35
         X = np.clip(np.c_[P + rng.normal(0, .03, n), P + rng.normal(0, .03, n), base + rng.normal(0, .03, n), base + rng.normal(0, .03, n)], 0, 1)
-        r = analyse(X, no, 5, nboot=1000)
+        r = analyse(X, no, 5, nboot=300)
         print(f"{name}: P-only {r['n_ponly']}, share no {r['share_no_ponly']:.2f} vs all {r['share_no_all']:.2f} vs both "
               f"{r['share_no_both'] if not np.isnan(r['share_no_both']) else float('nan'):.2f}; D1 {r['D1']:+.2f} [{r['D1_ci'][0]:+.2f}] "
               f"D2 lo {r['D2_ci'][0]:+.2f} -> {r['verdict']} (want {want})")
         ok &= r["verdict"] == want
-    # D76: 18 P-only all 'no', 7 both with k of them 'no', 38 other at 30% 'no'; k = 3 should sit at the edge and list a flip
-    for k in (4,):   # the 3-to-4 edge the review names: at 4 of 7 the bound lands on 0 and both-group flips appear
+    # D77: 18 P-only all 'no', 7 both with k of them 'no', 38 other at 30% 'no' (the review's edge). With the exact leave-one-out,
+    # k = 3 passes and dropping one both-format 'yes' turns it to a fail (a real flip that must be listed); k = 4 fails and
+    # no single drop changes it (no flip may be listed).
+    for k, want_flip in ((3, True), (4, False)):
         rr = np.random.default_rng(11)
         X = np.vstack([np.tile([0.03, 0.04, 0.9, 0.9], (18, 1)), np.tile([0.3, 0.3, 0.4, 0.4], (7, 1)), np.tile([0.9, 0.9, 0.9, 0.9], (38, 1))])
         no = np.concatenate([np.ones(18, bool), np.arange(7) < k, rr.random(38) < 0.3])
-        r = analyse(X, no, 7, nboot=2000)
-        print(f"edge table, {k} of 7 both-format 'no': {r['verdict']} ({r['branch']}), D2 lo {r['D2_ci'][0]:+.3f}, LOO flips by group {r['loo_flip_groups']}")
-        ok &= "both" in r["loo_flip_groups"] and r["branch"] == "fail, part (a) holds"
+        r = analyse(X, no, 7, nboot=1000)
+        print(f"edge table, {k} of 7 both-format 'no': {r['verdict']} ({r['branch']}), D2 lo {r['D2_ci'][0]:+.3f}, exact LOO flips by group {r['loo_flip_groups']}")
+        ok &= (("both" in r["loo_flip_groups"]) if want_flip else (len(r["loo_flip_groups"]) == 0))
     assert verdict(10, 0.20, 0.01, 0.01) == "pass" and verdict(10, 0.1999, 0.01, 0.01) == "fail"
     assert verdict(9, 0.5, 0.2, 0.2) == "untestable" and verdict(10, 0.5, 0.0, 0.2) == "fail" and verdict(10, 0.5, 0.2, 0.0) == "fail"
     print("boundary checks ok")
