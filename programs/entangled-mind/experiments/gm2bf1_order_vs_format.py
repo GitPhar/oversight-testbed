@@ -49,8 +49,14 @@ def spearman(a, b):
 
 
 def partial_spearman(a, b, covs):
-    """Partial correlation of rank(a) and rank(b) given the ranks of covs (OLS residuals)."""
-    Z = np.column_stack([np.ones(len(a))] + [rankdata(c) for c in covs])
+    """Partial correlation of rank(a) and rank(b) given covs (OLS residuals). D71 (design review F1): each covariate
+    enters as its centred rank and its squared centred rank."""
+    cols = [np.ones(len(a))]
+    for c in covs:
+        rc = rankdata(c)
+        rc = (rc - rc.mean()) / rc.std()
+        cols += [rc, rc ** 2]
+    Z = np.column_stack(cols)
     ra, rb = rankdata(a), rankdata(b)
     ea = ra - Z @ np.linalg.lstsq(Z, ra, rcond=None)[0]
     eb = rb - Z @ np.linalg.lstsq(Z, rb, rcond=None)[0]
@@ -58,8 +64,9 @@ def partial_spearman(a, b, covs):
 
 
 def order_measures(conv, claims, cond="shown"):
-    """claims: list of (item, claim). Returns S (span) and W (pooled within-order SD), NaN if a cell is missing."""
-    S, W = np.full(len(claims), np.nan), np.full(len(claims), np.nan)
+    """claims: list of (item, claim). Returns S (span), W (pooled within-order SD) and Eo (|mean of all the claim's
+    ratings in this condition - 50|, D71), NaN if a cell is missing."""
+    S, W, Eo = np.full(len(claims), np.nan), np.full(len(claims), np.nan), np.full(len(claims), np.nan)
     for i, (q, k) in enumerate(claims):
         per = []
         for o in ORDERS:
@@ -76,7 +83,8 @@ def order_measures(conv, claims, cond="shown"):
             means = [np.mean(v) for v in per]
             S[i] = max(means) - min(means)
             W[i] = float(np.sqrt(np.mean([np.var(v, ddof=1) for v in per])))
-    return S, W
+            Eo[i] = abs(float(np.mean(np.concatenate(per))) - 50.0)
+    return S, W, Eo
 
 
 def format_measures(fmt_means, f1_means):
@@ -87,8 +95,8 @@ def format_measures(fmt_means, f1_means):
     return G, E
 
 
-def stats(S, G, E, W, idx):
-    return spearman(S[idx], G[idx]), partial_spearman(S[idx], G[idx], [E[idx], W[idx]])
+def stats(S, G, E, W, idx, Eo):
+    return spearman(S[idx], G[idx]), partial_spearman(S[idx], G[idx], [E[idx], Eo[idx], W[idx]])
 
 
 def verdict(n, rho, rho_lo, prho_lo):
@@ -100,25 +108,27 @@ def verdict(n, rho, rho_lo, prho_lo):
 
 
 SENTENCES = {
-    "pass": "On Haiku's 160 deliberation claims, the claims whose rating moved most with question order were also the ones whose position moved most across answer formats, and this held after allowing for how extreme the claim's rating was and how noisy its ratings were.",
+    "pass": "On Haiku's 160 deliberation claims, the claims whose rating moved more with question order tended also to be the ones whose rank moved more across answer formats (Spearman ρ = {rho}), and this held after allowing for how extreme the claim's rating was in both archives and how noisy its ratings were in the order conversations.",
     "fail": "On Haiku's 160 deliberation claims, the claims that moved most with question order were not shown to be the ones that moved most across answer formats, by the pre-registered rule.",
     "untestable": "Too few claims had complete order and format data to read the rule.",
 }
 
 
-def analyse(S, G, E, W, items_of, seed, nboot=NBOOT):
-    ok = ~(np.isnan(S) | np.isnan(G) | np.isnan(E) | np.isnan(W))
+def analyse(S, G, E, W, items_of, seed, nboot=NBOOT, Eo=None):
+    if Eo is None:
+        raise ValueError("Eo (the order archive's extremity) is required (D71)")
+    ok = ~(np.isnan(S) | np.isnan(G) | np.isnan(E) | np.isnan(W) | np.isnan(Eo))
     idx_all = np.where(ok)[0]
     n = len(idx_all)
     res = {"n_claims": n}
     if n < 10:
         res.update(verdict="untestable", sentence=SENTENCES["untestable"])
         return res
-    rho, prho = stats(S, G, E, W, idx_all)
+    rho, prho = stats(S, G, E, W, idx_all, Eo)
     items = sorted({items_of[i] for i in idx_all})
     by_item = {it: np.array([i for i in idx_all if items_of[i] == it]) for it in items}
     rng = np.random.default_rng(seed % 2**63)
-    B = np.array([stats(S, G, E, W, np.concatenate([by_item[items[j]] for j in rng.integers(0, len(items), len(items))]))
+    B = np.array([stats(S, G, E, W, np.concatenate([by_item[items[j]] for j in rng.integers(0, len(items), len(items))]), Eo)
                   for _ in range(nboot)])
     lo, hi = np.percentile(B, 2.5, axis=0), np.percentile(B, 97.5, axis=0)
     v = verdict(n, rho, lo[0], lo[1])
@@ -126,13 +136,22 @@ def analyse(S, G, E, W, items_of, seed, nboot=NBOOT):
     flips = []
     for it in items:
         keep = np.array([i for i in idx_all if items_of[i] != it])
-        r1, p1 = stats(S, G, E, W, keep)
+        r1, p1 = stats(S, G, E, W, keep, Eo)
         if verdict(n, r1, lo[0] + (r1 - rho), lo[1] + (p1 - prho)) != v:
             flips.append(it)
     res.update(rho=rho, rho_ci=[float(lo[0]), float(hi[0])], partial_rho=prho, partial_rho_ci=[float(lo[1]), float(hi[1])],
                n_items=len(items), rho_S_E=spearman(S[idx_all], E[idx_all]), rho_G_E=spearman(G[idx_all], E[idx_all]),
                rho_S_W=spearman(S[idx_all], W[idx_all]), rho_G_W=spearman(G[idx_all], W[idx_all]),
-               loo_item_flips=flips, verdict=v, sentence=SENTENCES[v])
+               rho_S_Eo=spearman(S[idx_all], Eo[idx_all]), rho_G_Eo=spearman(G[idx_all], Eo[idx_all]),
+               loo_item_flips=flips, verdict=v)
+    # D71 (design review F2): a single item's flip leaves the verdict standing but labels it
+    sent = SENTENCES[v].replace("{rho}", f"{rho:+.2f}")
+    if flips:
+        res["verdict_label"] = f"{v}, carried by item {', '.join(flips)}"
+        sent += f" The verdict is carried by item {', '.join(flips)}: dropping its four claims would flip it."
+    else:
+        res["verdict_label"] = v
+    res["sentence"] = sent
     return res
 
 
@@ -149,10 +168,38 @@ def selftest():
         "unrelated": (rng.normal(10, 4, n), rng.normal(0.15, .04, n), "fail"),
     }
     for name, (S, G, want) in worlds.items():
-        r = analyse(S, G, ext, W, items_of, 9, nboot=1000)
+        r = analyse(S, G, ext, W, items_of, 9, nboot=1000, Eo=ext)
         print(f"{name}: rho {r['rho']:+.2f} [{r['rho_ci'][0]:+.2f}, {r['rho_ci'][1]:+.2f}] partial {r['partial_rho']:+.2f} "
               f"[{r['partial_rho_ci'][0]:+.2f}, {r['partial_rho_ci'][1]:+.2f}] -> {r['verdict']} (want {want})")
         ok &= r["verdict"] == want
+    # D71: extremity measured in two noisy copies of the true level (one per archive; their Spearman about 0.85), mid-scale-ness
+    # drives both spreads, no shared instability. The new guard must falsely pass less often than the old (E and W, linear
+    # ranks) and fail at least 16 of 20 times. (In this world the new guard still passes about 15%: covariates measured with
+    # noise cannot remove a confound completely; the measured-marginals dry run, experiments/gm2bf1-dryrun/, gives 6-10%.)
+    new_pass = old_pass = 0
+    for k in range(20):
+        rr = np.random.default_rng(100 + k)
+        lev = rr.uniform(2, 98, n)
+        e_true = np.abs(lev - 50)
+        E1, E2 = np.abs(lev + rr.normal(0, 6, n) - 50), np.abs(lev + rr.normal(0, 6, n) - 50)
+        mid = np.exp(-(e_true / 18) ** 2)
+        S2 = 3 + 12 * mid + rr.normal(0, 5, n)
+        G2 = 0.05 + 0.12 * mid + rr.normal(0, 0.06, n)
+        W2 = 2 + 10 * np.exp(-(E2 / 20) ** 2) + rr.normal(0, 1.5, n)
+        r2 = analyse(S2, G2, E1, W2, items_of, 9 + k, nboot=300, Eo=E2)
+        new_pass += r2["verdict"] == "pass"
+        Z = np.column_stack([np.ones(n), rankdata(E1), rankdata(W2)])
+        by = {q: [i for i in range(n) if items_of[i] == q] for q in sorted(set(items_of))}
+        its = sorted(by)
+        def oldp(ix):
+            ra, rb, Zi = rankdata(S2[ix]), rankdata(G2[ix]), np.column_stack([np.ones(len(ix)), rankdata(E1[ix]), rankdata(W2[ix])])
+            ea = ra - Zi @ np.linalg.lstsq(Zi, ra, rcond=None)[0]; eb = rb - Zi @ np.linalg.lstsq(Zi, rb, rcond=None)[0]
+            return np.corrcoef(ea, eb)[0, 1]
+        B = [oldp(np.concatenate([by[its[j]] for j in rr.integers(0, 40, 40)])) for _ in range(300)]
+        old_pass += r2["rho"] >= RHO_BAR - TOL and r2["rho_ci"][0] > 0 and np.percentile(B, 2.5) > 0
+    print(f"mismatched-extremity world (no shared instability): new guard passes {new_pass}/20, old guard {old_pass}/20 "
+          f"(want new <= old and new <= 4)")
+    ok &= new_pass <= old_pass and new_pass <= 4
     # boundaries (P13)
     assert verdict(160, 0.30, 0.01, 0.01) == "pass" and verdict(160, 0.2999, 0.01, 0.01) == "fail"
     assert verdict(160, 0.5, 0.0, 0.01) == "fail" and verdict(160, 0.5, 0.01, 0.0) == "fail" and verdict(119, 0.9, .5, .5) == "untestable"
@@ -161,7 +208,7 @@ def selftest():
     g2, _ = format_measures(fm2, np.full(50, 50.0)); assert np.allclose(g1, g2)
     # order span from a tiny synthetic conversation set
     conv = {f"q|{o}|shown|{r}": {"turns": [{"kind": "S", "claim": 3, "rating": 10 * j + r % 2}]} for j, o in enumerate(ORDERS) for r in range(4)}
-    S, W = order_measures(conv, [("q", 3)]); assert abs(S[0] - 30) < 1e-9, S
+    S, W, Eo1 = order_measures(conv, [("q", 3)]); assert abs(S[0] - 30) < 1e-9, S
     print("boundary and measure checks ok")
     print("SELFTEST", "OK" if ok else "FAILED")
     return ok
@@ -184,14 +231,14 @@ def main():
     for f in files[:2]:
         conv.update(json.loads((RESULTS / f).read_text()))
     cl = g.claims()
-    S, W = order_measures(conv, cl, "shown")
-    Sr, _ = order_measures(conv, cl, "redacted")
+    S, W, Eo = order_measures(conv, cl, "shown")
+    Sr, _, Eor = order_measures(conv, cl, "redacted")
     obs, nc = g.encode(json.loads((RESULTS / files[2]).read_text()))
     fm = np.column_stack([h.claim_means(h.observed_scale(f, obs[f]), obs[f]["c"], nc) for f in g.FORMATS])
     G, E = format_measures(fm, fm[:, 0])
     items_of = [q for q, _ in cl]
-    r = analyse(S, G, E, W, items_of, a.seed)
-    rr = analyse(Sr, G, E, W, items_of, a.seed + 1)            # secondary: order span with earlier answers hidden
+    r = analyse(S, G, E, W, items_of, a.seed, Eo=Eo)
+    rr = analyse(Sr, G, E, W, items_of, a.seed + 1, Eo=Eo)     # secondary: order span with earlier answers hidden
     out = {"seed": a.seed, "archive_sha256": sha, "primary": r,
            "secondary_redacted": {k: rr.get(k) for k in ("n_claims", "rho", "rho_ci", "partial_rho", "partial_rho_ci")},
            "median_order_span": float(np.nanmedian(S)), "median_format_spread": float(np.nanmedian(G))}
@@ -205,12 +252,13 @@ def main():
                  f"{r['partial_rho']:+.3f} [{r['partial_rho_ci'][0]:+.3f}, {r['partial_rho_ci'][1]:+.3f}] | {r['verdict']} |")
         L += ["", "Secondary (cannot change the verdict):", "",
               f"- Order span vs extremity ρ {r['rho_S_E']:+.3f}; format spread vs extremity ρ {r['rho_G_E']:+.3f}; "
-              f"order span vs within-order SD ρ {r['rho_S_W']:+.3f}; format spread vs within-order SD ρ {r['rho_G_W']:+.3f}.",
+              f"order span vs within-order SD ρ {r['rho_S_W']:+.3f}; format spread vs within-order SD ρ {r['rho_G_W']:+.3f}; "
+              f"order span vs order-archive extremity ρ {r['rho_S_Eo']:+.3f}; format spread vs order-archive extremity ρ {r['rho_G_Eo']:+.3f}.",
               f"- With earlier answers hidden (redacted): ρ {rr.get('rho', float('nan')):+.3f}, partial {rr.get('partial_rho', float('nan')):+.3f}.",
               f"- Median order span {out['median_order_span']:.1f} points; median format spread {out['median_format_spread']:.3f} (rank units).",
               f"- Items whose removal flips the verdict: {', '.join(r['loo_item_flips']) or 'none'}.",
               "- Archive sha256: " + "; ".join(f"`{k}` {v[:16]}" for k, v in sha.items()) + "."]
-    L += ["", f"## Pre-registered reading: **{r['verdict']}**", "", r["sentence"]]
+    L += ["", f"## Pre-registered reading: **{r.get('verdict_label', r['verdict'])}**", "", r["sentence"]]
     (RESULTS / "gm2bf1-order-vs-format.md").write_text("\n".join(L) + "\n")
     print("\n".join(L))
 

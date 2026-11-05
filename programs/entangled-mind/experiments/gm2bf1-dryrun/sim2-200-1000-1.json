@@ -1,0 +1,13 @@
+{
+ "W0 extremity only": {
+  "n": 200,
+  "P_pass": 0.01,
+  "med_rho": 0.11558085510348937,
+  "P_rho_ge_030": 0.01,
+  "med_partial": 0.02958560272277704,
+  "P_partial_lo_gt0": 0.05,
+  "med_alt_partial": 0.011602750209792428,
+  "P_alt_lo_gt0": 0.02,
+  "P_pass_alt": 0.01
+ }
+}

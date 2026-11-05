@@ -1,0 +1,13 @@
+{
+ "W1 shared kap .75": {
+  "n": 200,
+  "P_pass": 0.39,
+  "med_rho": 0.2755151144154392,
+  "P_rho_ge_030": 0.39,
+  "med_partial": 0.24629627572654628,
+  "P_partial_lo_gt0": 0.855,
+  "med_alt_partial": 0.231842195074751,
+  "P_alt_lo_gt0": 0.815,
+  "P_pass_alt": 0.39
+ }
+}

@@ -1,0 +1,13 @@
+{
+ "W0c extremity only + mid-scale both sides (fx .5, ox .5)": {
+  "n": 200,
+  "P_pass": 0.21,
+  "med_rho": 0.3388655359088685,
+  "P_rho_ge_030": 0.75,
+  "med_partial": 0.09253485356663732,
+  "P_partial_lo_gt0": 0.21,
+  "med_alt_partial": 0.006478556511051655,
+  "P_alt_lo_gt0": 0.06,
+  "P_pass_alt": 0.06
+ }
+}

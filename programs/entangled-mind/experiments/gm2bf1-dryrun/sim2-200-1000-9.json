@@ -1,0 +1,13 @@
+{
+ "W1c shared kap .5 + mid-scale both sides (.5)": {
+  "n": 200,
+  "P_pass": 0.72,
+  "med_rho": 0.37981247788923667,
+  "P_rho_ge_030": 0.915,
+  "med_partial": 0.2064828588219904,
+  "P_partial_lo_gt0": 0.735,
+  "med_alt_partial": 0.14075889814607956,
+  "P_alt_lo_gt0": 0.4,
+  "P_pass_alt": 0.4
+ }
+}

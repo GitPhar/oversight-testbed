@@ -1,0 +1,13 @@
+{
+ "I independent (G permuted)": {
+  "n": 200,
+  "P_pass": 0.0,
+  "med_rho": -0.0024793457766557545,
+  "P_rho_ge_030": 0.0,
+  "med_partial": -0.010880284671025062,
+  "P_partial_lo_gt0": 0.015,
+  "med_alt_partial": -0.0115780895600149,
+  "P_alt_lo_gt0": 0.03,
+  "P_pass_alt": 0.0
+ }
+}
