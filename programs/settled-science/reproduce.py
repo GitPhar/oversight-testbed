@@ -456,6 +456,50 @@ def check_b7(rep, root, k, b6, r):
     check_writeup(rep, name, text, tables, values)
 
 
+# ---------------- ss-b10, ss-b11, ss-b12 (scorers of their own; D51-D53) ----------------
+NEW_SCORERS = (  # (results file, scorer module in scoring/, generated files)
+    ("results/ss-b10-results.md", "score_bb", ("scoring/bb-tables.md", "scoring/bb-scores.json")),
+    ("results/ss-b11-results.md", "score_f3", ("scoring/f3-tables.md", "scoring/f3-scores.json")),
+    ("results/ss-b12-results.md", "score_f4", ("scoring/f4-tables.md", "scoring/f4-scores.json")),
+)
+
+
+def check_new_scorers(rep, root):
+    """Each scorer rebuilds its JSON and tables from the archive; both must match byte for byte, and every table in the
+    generated tables file must appear, line for line, in the hand-written results file (which quotes them verbatim)."""
+    import importlib
+    for name, mod, outs in NEW_SCORERS:
+        if not (root / name).exists():
+            continue
+        committed = {f: (root / f).read_text() for f in outs if (root / f).exists()}
+        for f in committed:
+            (root / f).unlink()
+        try:
+            m = importlib.import_module(mod)
+            sys.argv = [mod + ".py"]
+            R.quiet(m.main)
+        except Exception as e:  # noqa: BLE001
+            for f in outs:
+                rep.error(f, e)
+            rep.error(name, RuntimeError("its scorer could not be rerun"))
+            continue
+        ok = True
+        for f in outs:
+            if f not in committed:
+                rep.error(f, FileNotFoundError(f"{f} is not archived"))
+                ok = False
+            elif not (root / f).exists():
+                rep.error(f, FileNotFoundError(f"{mod}.py did not write {f}"))
+                ok = False
+            else:
+                ok &= rep.compare(f, committed[f], (root / f).read_text())
+        md = (root / outs[0]).read_text() if (root / outs[0]).exists() else ""
+        if ok:
+            rep.compare_tables(name, (root / name).read_text(), R.tables_of(md))
+        else:
+            rep.error(name, RuntimeError("the scores it copies could not be regenerated (see above)"))
+
+
 # ---------------- main ----------------
 def main():
     tmp = R.snapshot(["programs/settled-science", "ledger/bets.jsonl"])  # the ledger: read only, for audit-reversed verdicts     # score.py imports only json, math, random, re, sys and numpy
@@ -511,6 +555,7 @@ def main():
                 fn()
             except Exception as e:  # noqa: BLE001
                 rep.error(name, e)
+        check_new_scorers(rep, root)
         return rep.finish()
     finally:
         R.cleanup(tmp)
