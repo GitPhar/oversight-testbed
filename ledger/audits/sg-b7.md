@@ -234,3 +234,7 @@ The verdict is mixed because neither model's interval separates from its bar. Th
 - or all 60 studies, once each (240 calls, about $0.77).
 
 If S's spread is all call noise, as the SD check suggests, the repeats would narrow Opus's interval to about ±0.6 points and the 60 single-grade studies to about ±0.7 points, against about ±0.8 here. Pre-register them with the same rule, and read them on a fresh run, not pooled with this one. For Haiku, a second same-run repeat of all four cells on 60 studies (240 calls, about $0.02) would show whether +2.48 survives without t60 and the zeros. Each becomes a bet with its own pre-registration.
+
+---
+
+Revealed 2026-11-05 12:23 America/Denver: pl-042, planted miscount/cell at Tables, first table, row Opus, column "95% CI (20 domains)" ([−0.44, +1.15] → [+0.44, +1.15]); **caught** (hole 1, required cut 1). Cut 1 is the plant: not applied to the real record (the real file reads [−0.44, +1.15]). Every other finding stands as the real audit of the real result; cuts 2-4 are applied under program 5 D26.
