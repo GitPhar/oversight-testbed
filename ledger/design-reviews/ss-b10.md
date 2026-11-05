@@ -13,7 +13,7 @@ checks: {D1: flaw, D2: holds, D3: holds, D4: holds, D5: holds, D6: holds, D7: fl
 flaws: 4
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 07:03 America/Denver (fixes D54 at 386d462, D56 at 418d79b)
 ---
 
 # Design review of ss-b10
@@ -185,3 +185,15 @@ I checked 386d462 (code and the D54 row), 05e13e6 (the row's time) and 5ee223a (
 - **Regression:** all seven synthetic worlds give the same verdicts as before.
 
 **Remaining fix (F2a), before any call:** in `scoring/score_bb.py` `sentences()`, mixed branch, replace "so the shortcut beats the experts on one of the two models only." with "so this prompt beats the experts' published rate on one of the two models only." Do the same in the D54 sentence text, through a dated DEVIATIONS row or an amendment to D54 written before any call. Once that commit exists, I confirm with no further change needed.
+
+## Addendum 2: confirmation (2026-11-05 07:03 America/Denver)
+
+**Confirmed: the run may start.** F2a is applied at 418d79b (DEVIATIONS D56, which amends D54's text). No paid call, no pilot ($0.00), and still no run data (`bettor/bb-cache.json`, `bb-pilot-cache.json` and `bb-ratings.jsonl` do not exist).
+
+- **F2a holds.** On a hand-built mixed table (Haiku 0.80, Sonnet 0.60), the sentence now ends "…so this prompt beats the experts' published rate on one of the two models only." `grep shortcut scoring/score_bb.py` finds nothing.
+- **The recommended S9 wording is in.**
+  - On the earlier stubbed outputs, 50 Opus rows print "on 50 of the 50 items" and 48 rows print "on 48 of the 50 items (cut by the cap)".
+  - One small point: the clause appears whenever fewer than 50 Opus items ran. An error stop in step 7 would therefore also print "cut by the cap". The results file should give the actual stop reason. That is a wording note, not a flaw.
+- **No regressions.** The seven synthetic worlds give the same verdicts as before (coin fail, strong pass, edge mixed, weak fail, split mixed, allfifty fail, inverted fail). The dry run is unchanged: 7 steps, estimate $2.60, bet cap $2.50, program cap $8.25, $4.761 spent.
+
+F1, F2, F3 and F4 are all confirmed. The verdict stays fix-first, confirmed at the time above.
