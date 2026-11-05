@@ -1,0 +1,188 @@
+confidence weak; trivia->wrong none; sufficient {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "card event P(pass)": 0.0, "auroc_conf_wrong": 0.6705100641735902, "auroc_conf_pass_sonnet": 0.8208993031847288, "auroc_conf_pass_haiku": 0.6969094734863694}
+confidence weak; trivia->wrong none; acts add (OR 2.7) {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "card event P(pass)": 0.0, "auroc_conf_wrong": 0.6631376615325854, "auroc_conf_pass_sonnet": 0.8337822065084144, "auroc_conf_pass_haiku": 0.7158640885628358}
+confidence weak; trivia->wrong none; acts add (OR 7.4) {"P(pass)": 0.55, "P(fail)": 0.45, "P(untestable)": 0.0, "card event P(pass)": 0.56, "auroc_conf_wrong": 0.6628242408137777, "auroc_conf_pass_sonnet": 0.8322551688531346, "auroc_conf_pass_haiku": 0.7266305788198614}
+confidence weak; trivia->wrong OR 2.5; sufficient {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "card event P(pass)": 0.0, "auroc_conf_wrong": 0.688393474331606, "auroc_conf_pass_sonnet": 0.8166411921808898, "auroc_conf_pass_haiku": 0.6983200033820165}
+confidence weak; trivia->wrong OR 2.5; acts add (OR 2.7) {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "card event P(pass)": 0.145, "auroc_conf_wrong": 0.6930373713614201, "auroc_conf_pass_sonnet": 0.8306684540636643, "auroc_conf_pass_haiku": 0.7160055078752431}
+confidence weak; trivia->wrong OR 2.5; acts add (OR 7.4) {"P(pass)": 0.48, "P(fail)": 0.52, "P(untestable)": 0.0, "card event P(pass)": 0.91, "auroc_conf_wrong": 0.6884915081096012, "auroc_conf_pass_sonnet": 0.8359373012763107, "auroc_conf_pass_haiku": 0.7256282950345988}
+confidence weak; trivia->wrong OR 5; sufficient {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "card event P(pass)": 0.0, "auroc_conf_wrong": 0.6957058934585115, "auroc_conf_pass_sonnet": 0.81845114646621, "auroc_conf_pass_haiku": 0.6955501979067569}
+confidence weak; trivia->wrong OR 5; acts add (OR 2.7) {"P(pass)": 0.01, "P(fail)": 0.99, "P(untestable)": 0.0, "card event P(pass)": 0.59, "auroc_conf_wrong": 0.7035051958543558, "auroc_conf_pass_sonnet": 0.8293531296889978, "auroc_conf_pass_haiku": 0.7121697616631915}
+confidence weak; trivia->wrong OR 5; acts add (OR 7.4) {"P(pass)": 0.4, "P(fail)": 0.6, "P(untestable)": 0.0, "card event P(pass)": 0.98, "auroc_conf_wrong": 0.7008150010841858, "auroc_conf_pass_sonnet": 0.8273569623408075, "auroc_conf_pass_haiku": 0.7241155595929075}
+confidence moderate; trivia->wrong none; sufficient {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "card event P(pass)": 0.0, "auroc_conf_wrong": 0.7773000260236853, "auroc_conf_pass_sonnet": 0.8224795858867259, "auroc_conf_pass_haiku": 0.7001426137150932}
+confidence moderate; trivia->wrong none; acts add (OR 2.7) {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "card event P(pass)": 0.0, "auroc_conf_wrong": 0.7764101784378781, "auroc_conf_pass_sonnet": 0.8455130676528142, "auroc_conf_pass_haiku": 0.7362065017087134}
+confidence moderate; trivia->wrong none; acts add (OR 7.4) {"P(pass)": 0.465, "P(fail)": 0.535, "P(untestable)": 0.0, "card event P(pass)": 0.61, "auroc_conf_wrong": 0.7823917827695681, "auroc_conf_pass_sonnet": 0.8641286692080264, "auroc_conf_pass_haiku": 0.7623961949105988}
+confidence moderate; trivia->wrong OR 2.5; sufficient {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "card event P(pass)": 0.0, "auroc_conf_wrong": 0.7921323276453796, "auroc_conf_pass_sonnet": 0.8194859633247822, "auroc_conf_pass_haiku": 0.6973387621992194}
+confidence moderate; trivia->wrong OR 2.5; acts add (OR 2.7) {"P(pass)": 0.01, "P(fail)": 0.99, "P(untestable)": 0.0, "card event P(pass)": 0.22, "auroc_conf_wrong": 0.7915426385653241, "auroc_conf_pass_sonnet": 0.847086728663871, "auroc_conf_pass_haiku": 0.7330173991690687}
+confidence moderate; trivia->wrong OR 2.5; acts add (OR 7.4) {"P(pass)": 0.435, "P(fail)": 0.565, "P(untestable)": 0.0, "card event P(pass)": 0.845, "auroc_conf_wrong": 0.7967811275836953, "auroc_conf_pass_sonnet": 0.858697791749166, "auroc_conf_pass_haiku": 0.756999168818187}
+confidence moderate; trivia->wrong OR 5; sufficient {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "card event P(pass)": 0.005, "auroc_conf_wrong": 0.7974967312874366, "auroc_conf_pass_sonnet": 0.81976775956213, "auroc_conf_pass_haiku": 0.6977759633390218}
+confidence moderate; trivia->wrong OR 5; acts add (OR 2.7) {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "card event P(pass)": 0.49, "auroc_conf_wrong": 0.7962805402563015, "auroc_conf_pass_sonnet": 0.8441740816973494, "auroc_conf_pass_haiku": 0.72818521679307}
+confidence moderate; trivia->wrong OR 5; acts add (OR 7.4) {"P(pass)": 0.435, "P(fail)": 0.565, "P(untestable)": 0.0, "card event P(pass)": 0.965, "auroc_conf_wrong": 0.7932758584696478, "auroc_conf_pass_sonnet": 0.8555688214442242, "auroc_conf_pass_haiku": 0.7518621858321554}
+{
+ "bet": "sv-b4",
+ "sims": 200,
+ "reps": 2,
+ "B": 300,
+ "worlds": {
+  "confidence weak; trivia->wrong none; sufficient": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.0,
+   "auroc_conf_wrong": 0.6705100641735902,
+   "auroc_conf_pass_sonnet": 0.8208993031847288,
+   "auroc_conf_pass_haiku": 0.6969094734863694
+  },
+  "confidence weak; trivia->wrong none; acts add (OR 2.7)": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.0,
+   "auroc_conf_wrong": 0.6631376615325854,
+   "auroc_conf_pass_sonnet": 0.8337822065084144,
+   "auroc_conf_pass_haiku": 0.7158640885628358
+  },
+  "confidence weak; trivia->wrong none; acts add (OR 7.4)": {
+   "P(pass)": 0.55,
+   "P(fail)": 0.45,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.56,
+   "auroc_conf_wrong": 0.6628242408137777,
+   "auroc_conf_pass_sonnet": 0.8322551688531346,
+   "auroc_conf_pass_haiku": 0.7266305788198614
+  },
+  "confidence weak; trivia->wrong OR 2.5; sufficient": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.0,
+   "auroc_conf_wrong": 0.688393474331606,
+   "auroc_conf_pass_sonnet": 0.8166411921808898,
+   "auroc_conf_pass_haiku": 0.6983200033820165
+  },
+  "confidence weak; trivia->wrong OR 2.5; acts add (OR 2.7)": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.145,
+   "auroc_conf_wrong": 0.6930373713614201,
+   "auroc_conf_pass_sonnet": 0.8306684540636643,
+   "auroc_conf_pass_haiku": 0.7160055078752431
+  },
+  "confidence weak; trivia->wrong OR 2.5; acts add (OR 7.4)": {
+   "P(pass)": 0.48,
+   "P(fail)": 0.52,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.91,
+   "auroc_conf_wrong": 0.6884915081096012,
+   "auroc_conf_pass_sonnet": 0.8359373012763107,
+   "auroc_conf_pass_haiku": 0.7256282950345988
+  },
+  "confidence weak; trivia->wrong OR 5; sufficient": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.0,
+   "auroc_conf_wrong": 0.6957058934585115,
+   "auroc_conf_pass_sonnet": 0.81845114646621,
+   "auroc_conf_pass_haiku": 0.6955501979067569
+  },
+  "confidence weak; trivia->wrong OR 5; acts add (OR 2.7)": {
+   "P(pass)": 0.01,
+   "P(fail)": 0.99,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.59,
+   "auroc_conf_wrong": 0.7035051958543558,
+   "auroc_conf_pass_sonnet": 0.8293531296889978,
+   "auroc_conf_pass_haiku": 0.7121697616631915
+  },
+  "confidence weak; trivia->wrong OR 5; acts add (OR 7.4)": {
+   "P(pass)": 0.4,
+   "P(fail)": 0.6,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.98,
+   "auroc_conf_wrong": 0.7008150010841858,
+   "auroc_conf_pass_sonnet": 0.8273569623408075,
+   "auroc_conf_pass_haiku": 0.7241155595929075
+  },
+  "confidence moderate; trivia->wrong none; sufficient": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.0,
+   "auroc_conf_wrong": 0.7773000260236853,
+   "auroc_conf_pass_sonnet": 0.8224795858867259,
+   "auroc_conf_pass_haiku": 0.7001426137150932
+  },
+  "confidence moderate; trivia->wrong none; acts add (OR 2.7)": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.0,
+   "auroc_conf_wrong": 0.7764101784378781,
+   "auroc_conf_pass_sonnet": 0.8455130676528142,
+   "auroc_conf_pass_haiku": 0.7362065017087134
+  },
+  "confidence moderate; trivia->wrong none; acts add (OR 7.4)": {
+   "P(pass)": 0.465,
+   "P(fail)": 0.535,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.61,
+   "auroc_conf_wrong": 0.7823917827695681,
+   "auroc_conf_pass_sonnet": 0.8641286692080264,
+   "auroc_conf_pass_haiku": 0.7623961949105988
+  },
+  "confidence moderate; trivia->wrong OR 2.5; sufficient": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.0,
+   "auroc_conf_wrong": 0.7921323276453796,
+   "auroc_conf_pass_sonnet": 0.8194859633247822,
+   "auroc_conf_pass_haiku": 0.6973387621992194
+  },
+  "confidence moderate; trivia->wrong OR 2.5; acts add (OR 2.7)": {
+   "P(pass)": 0.01,
+   "P(fail)": 0.99,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.22,
+   "auroc_conf_wrong": 0.7915426385653241,
+   "auroc_conf_pass_sonnet": 0.847086728663871,
+   "auroc_conf_pass_haiku": 0.7330173991690687
+  },
+  "confidence moderate; trivia->wrong OR 2.5; acts add (OR 7.4)": {
+   "P(pass)": 0.435,
+   "P(fail)": 0.565,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.845,
+   "auroc_conf_wrong": 0.7967811275836953,
+   "auroc_conf_pass_sonnet": 0.858697791749166,
+   "auroc_conf_pass_haiku": 0.756999168818187
+  },
+  "confidence moderate; trivia->wrong OR 5; sufficient": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.005,
+   "auroc_conf_wrong": 0.7974967312874366,
+   "auroc_conf_pass_sonnet": 0.81976775956213,
+   "auroc_conf_pass_haiku": 0.6977759633390218
+  },
+  "confidence moderate; trivia->wrong OR 5; acts add (OR 2.7)": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.49,
+   "auroc_conf_wrong": 0.7962805402563015,
+   "auroc_conf_pass_sonnet": 0.8441740816973494,
+   "auroc_conf_pass_haiku": 0.72818521679307
+  },
+  "confidence moderate; trivia->wrong OR 5; acts add (OR 7.4)": {
+   "P(pass)": 0.435,
+   "P(fail)": 0.565,
+   "P(untestable)": 0.0,
+   "card event P(pass)": 0.965,
+   "auroc_conf_wrong": 0.7932758584696478,
+   "auroc_conf_pass_sonnet": 0.8555688214442242,
+   "auroc_conf_pass_haiku": 0.7518621858321554
+  }
+ }
+}
