@@ -38,7 +38,7 @@ We want to know whether the engine's model can tell which way a scientific findi
   - `order-check`: `random.Random(seed).sample(ids, k = n // 2)` picks the items asked a second time with the options reversed.
   - `human-form`: `random.Random(seed).sample(...)`, five post-cutoff items per field in field order, then shuffled (`human/make_form.py`).
   Filled in by the seed commit, before any bettor call:
-  `chain:` ___ · `pulse_index:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` @buff-beacon-project/curby-client@1.2.0 · `certificate_verified:` false · `seeds:` ___
+  `chain:` CURBy-RNG · `pulse_index:` 1591496 · `pulse_time:` 2026-11-04 17:32:00 America/Denver (previous pulse 1591495 at 17:31:00, before the 17:31:23 pre-registration commit) · `randomness:` 27bba9e6c499e9a8a5647a0fcbdfd2947575e32c8a466e1f8b3daf80b95adeee2ba5836c348be9e0714f139e1b0edd4011d11494400f87c3729e7d1892e9731a · `client:` @buff-beacon-project/curby-client@1.2.0 · `certificate_verified:` false · `seeds:` order 13309338689196222401, order-check 16683013961078861871, human-form 14605333098254812962 (bettor/seed.json)
 - Bootstrap resampling uses the fixed constant seed 20261104 (allowed by operators/hardware.md).
 
 ## 3. Calls
