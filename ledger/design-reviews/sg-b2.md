@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: holds, D4: holds, D5: holds, D6: holds, D7: h
 flaws: 2
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 05:36 America/Denver
 ---
 
 # Design review of sg-b2
@@ -181,3 +181,27 @@ The fixes are in commit d3fe29a, DEVIATIONS rows D8a and D8b, both made before a
 - for `self` and `other`, `body.replace(LABELS[a] + " ", "")` equals the `none` body.
 
 Raise `SystemExit` rather than using `assert`, which `python -O` strips. Then correct row D8a's wording, or add a row, and I will confirm in a further addendum.
+
+## Addendum 2: confirmation (2026-11-05 05:36 America/Denver)
+
+Fix 2 is completed in commit a0b0db3, row D8c, made before any sg-b2 call. I re-ran `sg_b2_label.py dryrun`: "D10 frozen prompts: ok", preflight passes on the real write cache, and the stub verdicts are unchanged. I then drove the real `preflight()` against broken set-ups (`confirm.py`, same scratchpad). No paid call was made.
+
+`preflight()` now catches each of these, raising `SystemExit` before any call:
+- an edited `FRESH`;
+- an edited `LABELS`;
+- a malformed `LABELS` (the self sentence extended to contain "Grade the conclusion.");
+- one missing conclusion;
+- a `labelled()` that drops the sentence (360 arms flagged);
+- a `labelled()` that inserts it twice (360 arms);
+- a `labelled()` that swaps self and other (360 arms);
+- a `none` arm that differs from `fresh()` by one newline (540 arms).
+
+Every (model, study) pair is checked. Row D8c corrects D8a's wording.
+
+**Fixes 1 and 2 both hold. Confirmed.**
+
+*Residual, recommended and not counted:* the check does not pin where the sentence sits. A `labelled()` that put it at the top of the message, even for one arm only, would still pass, because removing the sentence still gives the `none` text. This can happen only through an edit to `labelled()` itself. Today `labelled()` equals its ffa8033 text (since the freeze, `sg_prompts.py` has changed only in `OVERCLAIM`), and the original review found the sentence before "Grade the conclusion." in all 180 real bodies. Two one-line ways to close it:
+- check `body == nb.replace("Grade the conclusion. ", lab + " Grade the conclusion. ", 1)`;
+- add `labelled`'s source to the frozen check against ffa8033.
+
+The run may start once `check_prereg.py --before-run` passes.
