@@ -26,8 +26,10 @@ ITS, ANC = p.items(), p.anchors()
 DRY_SEED = 12345
 
 
-def synth_cache(mu, rng, item_sd=0.30, common_sd=0.30, noise=0.06, nrep=p.REPEATS):
-    """Ratings from: b = anchor mean + item noise; rating = b + u * (A - b) + noise, u = mu[cell] + item effects."""
+def synth_cache(mu, rng, item_sd=0.30, common_sd=0.30, noise=0.06, nrep=p.REPEATS, hedge=None):
+    """Ratings from: b = anchor mean + item noise; rating = b + u * (A - b) + hedge[cell] * (0.5 - b) + noise,
+    u = mu[cell] + item effects. hedge (D11d): a pull toward 50 that ignores the shown value (the design review's case)."""
+    hedge = hedge or {}
     cache = {}
     for it in ITS:
         q = it["id"]
@@ -41,7 +43,7 @@ def synth_cache(mu, rng, item_sd=0.30, common_sd=0.30, noise=0.06, nrep=p.REPEAT
                 for d in p.DISTANCES:
                     A = p.shown_value(ANC[q][f"m_{o}"], d) / 100
                     for c in p.CELLS:
-                        y = b + u[c] * (A - b) + rng.normal(0, noise)
+                        y = b + u[c] * (A - b) + hedge.get(c, 0.0) * (0.5 - b) + rng.normal(0, noise)
                         cache[f"{c}|{q}|{o}|{d}|{r}"] = {"value": int(np.clip(round(100 * y), 0, 100)), "cost": 0.0}
     return cache
 
@@ -58,6 +60,8 @@ SCENARIOS = {
     "label-only at bm0's gap (yours 0.44, Sam's -0.11, user's 0.20)": scen(.44, -.11, .44, -.11, .2),
     "Sam-distrust (yours 0.30, user's 0.30, Sam's -0.20)": scen(.3, -.2, .3, -.2, .3),
     "label 0.25 with position 0.30": scen(.2 + .125 + .15, .2 - .125 + .15, .2 + .125 - .15, .2 - .125 - .15, .05),
+    "hedge 0.5 toward 50 on 'yours' cells only, uptake 0.2 everywhere (D11d)": (scen(.2, .2, .2, .2, .2), {"AY": .5, "UY": .5}),
+    "hedge 0.8 toward 50 on 'yours' cells only, uptake 0.2 everywhere (D11d)": (scen(.2, .2, .2, .2, .2), {"AY": .8, "UY": .8}),
     "power: label 0.15, no position": scen(.275, .125, .275, .125, .2),
     "power: label 0.25, no position": scen(.325, .075, .325, .075, .2),
     "power: label 0.38, no position": scen(.39, .01, .39, .01, .2),
@@ -88,21 +92,23 @@ def main():
     print("  - the baseline is the first user message of the assistant cells:", msgs["base"][0] == msgs["AY"][0])
 
     print("\n## 2-3. The rule on synthetic data (200 simulated runs per scenario; item SD from bm0)\n")
-    print("| scenario | true L | true P | mean L̂ | verdicts (share of 200) | fifth-cell reading (share) |")
-    print("|---|---|---|---|---|---|")
+    print("| scenario | true L | true P | mean L̂ | mean L̂_s | verdicts (share of 200) | fifth-cell reading (share) |")
+    print("|---|---|---|---|---|---|---|")
     rng = np.random.default_rng(DRY_SEED)
     for name, mu in SCENARIOS.items():
+        mu, hedge = mu if isinstance(mu, tuple) else (mu, None)
         Lt = ((mu["AY"] - mu["AS"]) + (mu["UY"] - mu["US"])) / 2
         Pt = ((mu["AY"] - mu["UY"]) + (mu["AS"] - mu["US"])) / 2
-        V, Ls, UR = {}, [], {}
+        V, Ls, Lss, UR = {}, [], [], {}
         for _ in range(200):
-            r = p.analyse_cache(synth_cache(mu, rng), ITS, ANC, int(rng.integers(0, 2**32)), check=False)
+            r = p.analyse_cache(synth_cache(mu, rng, hedge=hedge), ITS, ANC, int(rng.integers(0, 2**32)), check=False)
             V[r["verdict"]] = V.get(r["verdict"], 0) + 1
             UR[r["user_reading"]] = UR.get(r["user_reading"], 0) + 1
             Ls.append(r["stats"]["L"][0])
+            Lss.append(r["stats_shift"]["L"][0])
         vs = ", ".join(f"{k} {v / 200:.2f}" for k, v in sorted(V.items(), key=lambda x: -x[1]))
         us = ", ".join(f"{k} {v / 200:.2f}" for k, v in sorted(UR.items(), key=lambda x: -x[1]))
-        print(f"| {name} | {Lt:+.2f} | {Pt:+.2f} | {np.mean(Ls):+.2f} | {vs} | {us} |")
+        print(f"| {name} | {Lt:+.2f} | {Pt:+.2f} | {np.mean(Ls):+.2f} | {np.mean(Lss):+.2f} | {vs} | {us} |")
 
     print("\n## 4. Machinery\n")
     tmp = Path(tempfile.mkdtemp())
@@ -169,6 +175,30 @@ def main():
     print("- a stop after 9 complete repeats:", p.analyse_cache(nine, ITS, ANC, 7, check=False)["verdict"])
     ten = {k: v for k, v in full.items() if int(k.split("|")[-1]) < 10}
     print("- a stop after 10 complete repeats:", p.analyse_cache(ten, ITS, ANC, 7, check=False)["verdict"], "(analysed)")
+    # D11e (F3): can a call start after a refusal? spent() slowed so workers queue on the lock; refusal at call 20.
+    import threading, time
+    entered, lock_n, refused_at = [], threading.Lock(), {}
+
+    def stub_race(msgs, counter=[0]):
+        with lock_n:
+            counter[0] += 1
+            n = counter[0]
+            entered.append((n, time.perf_counter()))
+        time.sleep(0.002)
+        if n == 20:
+            refused_at["t"] = time.perf_counter()
+            raise Refused()
+        return {"probability": 50}, 5e-5, f"req_race_{n}"
+    stub_race.refusal_error = Refused
+    (tmp / "refusal.md").unlink(missing_ok=True)
+    c = p.GuardedCaller(tmp / "race.json", 1.0, "dry race", stub_race)
+    orig = c.spent
+    c.spent = lambda: (time.sleep(0.003), orig())[1]
+    c.run(jobs[:400], workers=8)
+    after = [n for n, t in entered if t > refused_at["t"]]
+    print(f"- refusal race (spent() slowed 3 ms, refusal at call 20, 8 workers): calls entering the model after the refusal "
+          f"was raised: {len(after)} (at most workers - 1 = 7 may already have cleared the locked gate; none may start later); "
+          f"total calls entered {len(entered)}")
     print("- gate now:", p.gate())
     r = p.analyse_cache(synth_cache(SCENARIOS["noise only (u 0 everywhere)"], np.random.default_rng(4)), ITS, ANC, 7, check=False)
     print(f"- pairs kept / dropped for |D| < 0.05 on synthetic baselines: {r['pairs_kept']} / {r['pairs_dropped']}; "

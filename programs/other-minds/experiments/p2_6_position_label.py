@@ -19,7 +19,11 @@ rating again" / "accept or revise"). This test fixes the wording and crosses pos
 Run with program 1's interpreter: /Users/seanpharris/entangled-mind/.venv/bin/python. Items: program 1's 16 exp4 items
 (programs/entangled-mind/experiments/exp4-items.json) and the archived anchor means m_X, m_Y
 (exp4-run-3-anchors.json), the same as bm0. Calls cached in results/p2-6-calls.json, keyed by job and checked by a
-SHA-256 of model, max_tokens and messages on every hit and again at analysis."""
+SHA-256 of model, max_tokens and messages on every hit and again at analysis.
+
+D11c-D11e (design review ledger/design-reviews/om-p2-6.md, fix-first, before any call): F1 sentence fixes and
+label_also; F2 the shift-invariant uptake u_s, a pass conjunct on L_s and the fail-shift verdict; F3 the refusal-race
+fix in GuardedCaller; n1 model=MODEL in real_call(); n3 the fragile label."""
 
 import hashlib
 import json
@@ -153,6 +157,8 @@ class GuardedCaller:
             if self.stop.is_set():
                 return
             with self.lock:
+                if self.stop.is_set():                    # D11e (F3): re-checked under the lock
+                    return
                 if self.spent() >= self.cap:
                     self.capped = True
                     self.stop.set()
@@ -163,11 +169,12 @@ class GuardedCaller:
                 with self.lock:
                     self.cache[key] = {"refused": True, "request_id": getattr(e, "request_id", None), "cost": 0.0, "sha256": h}
                     self.refusal.setdefault("e", (key, e))
-                self.stop.set()
+                    self.stop.set()                       # D11e (F3): set under the lock
                 return
             except Exception as e:
-                self.errors.append((key, repr(e)))
-                self.stop.set()
+                with self.lock:
+                    self.errors.append((key, repr(e)))
+                    self.stop.set()
                 return
             with self.lock:
                 if self.stop.is_set():
@@ -207,7 +214,7 @@ def real_call():
     import om_common as om
 
     def call(msgs):
-        return om.structured(msgs, RATE, "p2-6", max_tokens=MAX_TOKENS)
+        return om.structured(msgs, RATE, "p2-6", max_tokens=MAX_TOKENS, model=MODEL)   # D11e (n1): the hashed model
     call.refusal_error = om.llm.RefusalError
     return call
 
@@ -253,26 +260,36 @@ def item_uptakes(its, anc, cache, nrep):
     """Per item: u[cell] = sum over its kept (statement, direction) pairs of the shift toward the shown value,
     divided by the sum of |D|; D = A - b, b = the item-statement's baseline mean. Ratings on 0-1. Only the first
     nrep complete repeats are used. Returns {item: {cell: u}} for usable items, and the pairs kept/dropped."""
-    out, kept, dropped = {}, 0, 0
+    out, out_s, kept, dropped = {}, {}, 0, 0
     for it in its:
         q = it["id"]
         num, den = {c: 0.0 for c in CELLS}, 0.0
+        num_s, den_s = {c: 0.0 for c in CELLS}, 0.0           # D11d (F2): the shift-invariant uptake
         for o in "XY":
             b = np.mean([cache[f"base|{q}|{o}|0|{r}"]["value"] for r in range(nrep)]) / 100
+            rb, As, ok = {}, {}, {}
             for d in DISTANCES:
                 A = shown_value(anc[q][f"m_{o}"], d) / 100
                 D = A - b
-                if abs(D) < MIN_D:
+                ok[d] = abs(D) >= MIN_D
+                As[d] = A
+                rb[d] = {c: np.mean([cache[f"{c}|{q}|{o}|{d}|{r}"]["value"] for r in range(nrep)]) / 100 for c in CELLS}
+                if not ok[d]:
                     dropped += 1
                     continue
                 kept += 1
                 den += abs(D)
                 for c in CELLS:
-                    rbar = np.mean([cache[f"{c}|{q}|{o}|{d}|{r}"]["value"] for r in range(nrep)]) / 100
-                    num[c] += (rbar - b) * np.sign(D)
+                    num[c] += (rb[d][c] - b) * np.sign(D)
+            if all(ok.values()):
+                den_s += As[30] - As[-30]
+                for c in CELLS:
+                    num_s[c] += rb[30][c] - rb[-30][c]
         if den > 0:
             out[q] = {c: num[c] / den for c in CELLS}
-    return out, kept, dropped
+        if den_s > 0:
+            out_s[q] = {c: num_s[c] / den_s for c in CELLS}
+    return out, out_s, kept, dropped
 
 
 def contrasts(U):
@@ -296,13 +313,19 @@ def summarise(U, seed32_boot):
     return out
 
 
-def verdict(s):
-    """§5, applied in this order. s: summarise() output (point, lo, hi)."""
+def passes(s):
+    L, Ll, _ = s["L"]
+    return L >= MARGIN - EPS and Ll > EPS and L > abs(s["P"][0]) + EPS
+
+
+def verdict(s, s_shift):
+    """§5 as amended by D11d, applied in this order. s: summarise() of the frozen uptake; s_shift: of the
+    shift-invariant uptake (point, lo, hi)."""
     L, Ll, Lh = s["L"]
     P, Pl, Ph = s["P"]
     sigP = abs(P) >= MARGIN - EPS and (Pl > EPS or Ph < -EPS)
-    if L >= MARGIN - EPS and Ll > EPS and L > abs(P) + EPS:
-        return "pass"
+    if passes(s):
+        return "pass" if passes(s_shift) else "fail-shift"
     if sigP and abs(P) >= abs(L) - EPS:
         return "fail-position"
     if L <= -MARGIN + EPS and Lh < -EPS and abs(L) > abs(P) + EPS:
@@ -321,8 +344,14 @@ SENTENCES = {
     "fail-position": ("On Haiku, on program 1's 16 bm0 items at ±30 points, the position mattered at least as much as "
                       "the label. A value in the {more} turn was taken up more than the same value in the {less} turn, by "
                       "{Pabs} of the displacement, while the label (\"your\" against \"Sam's\") changed uptake by {L}. On "
-                      "this design the pull of an earlier answer follows the turn it sits in, not whose answer it is said "
-                      "to be."),
+                      "this design the pull of an earlier answer follows the turn it sits in at least as much as whose "
+                      "answer it is said to be."),
+    "label_also": ("The label effect, {L}, also reached the pre-registered 0.15 of the displacement with its 95% interval "
+                   "excluding 0."),
+    "fail-shift": ("On Haiku, on program 1's 16 bm0 items at ±30 points, the label effect on the pre-registered uptake "
+                   "measure, {L}, did not hold on the measure that compares the +30 and −30 displays directly ({L_s}; "
+                   "position effect {P_s}), so it may come from a change in the rating that does not follow the shown "
+                   "number. This test does not say which of the two the pull of an earlier answer follows."),
     "fail-reversed": ("On Haiku, on program 1's 16 bm0 items at ±30 points, a value labelled \"Sam's earlier answer\" was "
                       "taken up more than the same value labelled \"your earlier answer\", by {Labs} of the displacement "
                       "(position effect {P}). On this design the label works against the model's own answer, the opposite "
@@ -330,9 +359,10 @@ SENTENCES = {
     "fail-mixed": ("On Haiku, on program 1's 16 bm0 items at ±30 points, the label changed uptake by {L} of the "
                    "displacement, but the position effect, {P}, was as large, though not itself detected at the 0.15 bar. "
                    "This test does not separate the two."),
-    "fail-neither": ("On Haiku, on program 1's 16 bm0 items at ±30 points, neither the label nor the position changed "
-                     "uptake by the pre-registered 0.15 of the displacement: label effect {L}, position effect {P}. This "
-                     "test does not say which of the two the pull of an earlier answer follows."),
+    "fail-neither": ("On Haiku, on program 1's 16 bm0 items at ±30 points, neither the label nor the position "
+                     "met the pre-registered rule for it (an effect of at least 0.15 of the displacement, its 95% interval "
+                     "excluding 0, and larger than the other, ties going to the position): label effect {L}, position "
+                     "effect {P}. This test does not say which of the two the pull of an earlier answer follows."),
     "untestable": ("The test could not answer its question as run: {why}. No verdict is drawn."),
     "no_own_pull": ("The value labelled as the model's own and placed in its own turn was not taken up detectably "
                     "(uptake {AY}), so program 1's own-answer pull did not replicate in this wording, and the comparison "
@@ -382,25 +412,40 @@ def analyse_cache(cache, its, anc, seed32_boot, check=True):
         res.update(verdict="untestable", why=f"only {nrep} complete repeats (minimum {MIN_REPEATS})")
         res["sentence"] = SENTENCES["untestable"].format(why=res["why"])
         return res
-    up, kept, dropped = item_uptakes(its, anc, cache, nrep)
-    res.update(pairs_kept=kept, pairs_dropped=dropped, items_usable=len(up))
+    up, up_s, kept, dropped = item_uptakes(its, anc, cache, nrep)
+    res.update(pairs_kept=kept, pairs_dropped=dropped, items_usable=len(up), items_both_directions=len(up_s))
     if len(up) < MIN_ITEMS:
         res.update(verdict="untestable", why=f"only {len(up)} of 16 items usable (minimum {MIN_ITEMS})")
         res["sentence"] = SENTENCES["untestable"].format(why=res["why"])
         return res
-    ids = list(up)
+    if len(up_s) < MIN_ITEMS:                                  # D11d (F2)
+        res.update(verdict="untestable", why=f"only {len(up_s)} of 16 items with a statement kept in both directions "
+                                             f"(minimum {MIN_ITEMS})")
+        res["sentence"] = SENTENCES["untestable"].format(why=res["why"])
+        return res
+    ids, ids_s = list(up), list(up_s)
     U = np.array([[up[q][c] for c in CELLS] for q in ids])
-    s = summarise(U, seed32_boot)
-    v = verdict(s)
-    res.update(items=ids, item_uptakes={q: up[q] for q in ids}, stats=s, verdict=v, sentence=sentence(v, s))
+    Us = np.array([[up_s[q][c] for c in CELLS] for q in ids_s])
+    s, ss = summarise(U, seed32_boot), summarise(Us, seed32_boot)
+    v = verdict(s, ss)
+    extra = {"L_s": fmt(ss["L"]), "P_s": fmt(ss["P"])}
+    res.update(items=ids, item_uptakes={q: up[q] for q in ids}, items_s=ids_s, item_uptakes_s={q: up_s[q] for q in ids_s},
+               stats=s, stats_shift=ss, verdict=v, sentence=sentence(v, s, extra))
+    if v == "fail-position" and ((s["L"][0] >= MARGIN - EPS and s["L"][1] > EPS) or
+                                 (s["L"][0] <= -MARGIN + EPS and s["L"][2] < -EPS)):   # D11c (F1)
+        res["label_also_sentence"] = SENTENCES["label_also"].format(L=fmt(s["L"]))
     loo = {}
     for i, q in enumerate(ids):
         sl = summarise(np.delete(U, i, 0), seed32_boot)
-        loo[q] = {"L": sl["L"][0], "P": sl["P"][0], "verdict": verdict(sl)}
+        keep_s = [j for j, x in enumerate(ids_s) if x != q]
+        sls = summarise(Us[keep_s], seed32_boot)
+        loo[q] = {"L": sl["L"][0], "P": sl["P"][0], "L_s": sls["L"][0], "verdict": verdict(sl, sls)}
     res["loo"] = loo
     res["loo_L_range"] = [min(x["L"] for x in loo.values()), max(x["L"] for x in loo.values())]
+    res["loo_L_s_range"] = [min(x["L_s"] for x in loo.values()), max(x["L_s"] for x in loo.values())]
     flips = {q: x["verdict"] for q, x in loo.items() if x["verdict"] != v}
     res["loo_flips"] = flips
+    res["label"] = v + (", fragile (one item)" if flips else "")   # D11e (n3)
     if flips:
         q0 = sorted(flips)[0]
         res["fragile_sentence"] = SENTENCES["fragile"].format(item=q0, v=flips[q0])
@@ -439,6 +484,8 @@ def write_md(r):
     lines += ["", "## Effects", "", "| statistic | value | role |", "|---|---|---|",
               f"| label effect L = mean of (AY − AS, UY − US) | {fmt(s['L'])} | **primary** |",
               f"| position effect P = mean of (AY − UY, AS − US) | {fmt(s['P'])} | primary (compared with L) |",
+              f"| shift-invariant label effect L_s (D11d) | {fmt(r['stats_shift']['L'])} | pass conjunct |",
+              f"| shift-invariant position effect P_s (D11d) | {fmt(r['stats_shift']['P'])} | pass conjunct |",
               f"| label effect in the assistant turn, AY − AS | {fmt(s['L_A'])} | secondary |",
               f"| label effect in the user turn, UY − US | {fmt(s['L_U'])} | secondary |",
               f"| interaction (AY − AS) − (UY − US) | {fmt(s['I'])} | secondary |",
@@ -447,8 +494,10 @@ def write_md(r):
               f"| label-swap null: share of swaps with L ≥ observed | {r['label_swap_null']['p_ge_obs']:.4f} "
               f"(97.5th percentile {r['label_swap_null']['q975']:+.3f}) | secondary |",
               f"| leave-one-item-out L range | {r['loo_L_range'][0]:+.3f} to {r['loo_L_range'][1]:+.3f}; "
-              f"verdict flips: {len(r['loo_flips'])} | robustness |", "",
-              f"**Verdict by the pre-registered rule: {r['verdict']}**", "",
+              f"verdict flips: {len(r['loo_flips'])} | robustness |",
+              f"| leave-one-item-out L_s range | {r['loo_L_s_range'][0]:+.3f} to {r['loo_L_s_range'][1]:+.3f} | robustness |", "",
+              f"Items with a statement kept in both directions (shift-invariant measure): {r['items_both_directions']} of 16.", "",
+              f"**Verdict by the pre-registered rule (with D11c–D11e): {r['label']}**", "",
               "## Per item (uptake by cell)", "", "| item | AY | AS | UY | US | UU | L | P | LOO verdict |",
               "|---|---|---|---|---|---|---|---|---|"]
     for q in r["items"]:
