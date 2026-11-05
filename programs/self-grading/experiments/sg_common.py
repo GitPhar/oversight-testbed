@@ -5,7 +5,7 @@ Run every script with program 1's interpreter:
     /Users/seanpharris/entangled-mind/.venv/bin/python programs/self-grading/experiments/<script>.py
 
 Rules enforced here, in code:
-- PROGRAM CAP: the whole program may spend at most $5.00 of API (Sean, seed instruction, 2026-11-04). Before every call the
+- PROGRAM CAP: the whole program may spend at most $7.65 of API ($5.00 from Sean's seed instruction, 2026-11-04, raised by the engine's budget ruling br-019 on 2026-11-05 under rule 4). Before every call the
   Caller adds up the cost of every cached call in every results/*-calls*.json file (pilots included) of this program, plus its own cache, and
   refuses to start a call that would begin at or above the cap. Each run also has its own smaller cap.
 - STOP ON REFUSAL: the first refused call stops the run; nothing is reworded or retried; the request ID goes to
@@ -26,7 +26,7 @@ for p in (P1 / "src",):
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
 
-PROGRAM_CAP_USD = 5.00
+PROGRAM_CAP_USD = 7.65                 # raised from $5.00 by budget ruling br-019 (ledger/spend.jsonl), DEVIATIONS D19
 MODELS = ["claude-haiku-5-5", "claude-sonnet-5-5", "claude-opus-5-5"]
 SHORT = {"claude-haiku-5-5": "haiku", "claude-sonnet-5-5": "sonnet", "claude-opus-5-5": "opus"}
 SCALE = "0 = certainly inaccurate or unsupported and 100 = certainly accurate and fully supported"

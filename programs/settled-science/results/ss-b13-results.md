@@ -1,0 +1,81 @@
+# ss-b13 results: do Haiku and Sonnet, as bettors, beat always-50% and two shortcut rules on the findings Opus scored?
+
+Pre-registration `012449c` (`experiments/ss-b13.md`, D62; times corrected D63). Design review `ledger/design-reviews/ss-b13.md`: fix-first (`247d484`), fixes D69 (refusal pilot, cost from measured tokens, sentences, archive check, prior work), confirmed go (`c751f77`, 10:38:33). Budget ruling br-007, amended by br-010 to $0.85. The run started after the confirmation: first call 2026-11-05 10:39:24, last 10:41:59 America/Denver (`t_utc` in `bettor/f1-bets.jsonl`). **Audited** (`ledger/audits/ss-b13.md`, 5513b19): the mixed verdict stands; its required cuts 2–5 are applied here (DEVIATIONS D77). Cut 1 was the sealed plant pl-037, which the audit caught; it is not applied (this file already reads 116).
+
+## In plain English
+
+In round 1 the strongest Claude model, Opus, with no internet and no titles, picked which way 116 newly published findings went. We gave the same 116 findings, the same prompt and the same option order to the two smaller models, Haiku and Sonnet. A hit needed both to beat three things: always saying 50%, a rule that bets on the "higher / more" wording, and a rule that bets on whichever option the item-writer tagged as the paper's own "it works" side (the good-news rule); the last two by more than 0.01 in Brier, on item and paper-cluster bootstraps.
+
+- **Sonnet was not shown different from Opus.** It was right 77.6% of the time (Opus 76.3%), Brier 0.168 against Opus's 0.163 (paired difference +0.004, interval −0.018 to +0.027; no equivalence test was pre-registered). It beat the good-news rule by 0.064 (interval 0.028 to 0.099), past the margin, but most of that gain is on the 78 items where the rule says 50%. On the 38 items where the rule bets, Sonnet's gain was 0.027 (interval −0.053 to 0.109), not shown (Opus's 0.060, interval −0.008 to 0.130, also not shown).
+- **Haiku beat a coin but not the good-news rule by the margin.** It was right 70.7% of the time, Brier 0.208 (interval 0.181 to 0.236), clearly better than always saying 50%. But it beat the good-news rule by only 0.024, with an interval from −0.011 to 0.059 that includes no gain at all.
+- **So the bet is mixed, not a pass:** the rule needed both models, and only Sonnet met it. It is scored as a miss.
+- **Sean's card asked a weaker question,** only whether both beat always-50%. Both did. That is reported here, but his odds are scored on this bet's outcome, as pre-registered.
+
+What else the numbers say (reported, not part of the rule):
+- **On round 2's 92 template sentence pairs, neither smaller model beat the archived flattery rater** (Opus asked only which version is better news for the paper's method): Sonnet was level with it (+0.002, interval −0.021 to +0.026), Haiku worse (+0.037). Opus itself had beaten that rater narrowly (−0.036). On those items the smaller models' skill is matched by a flattery judgment.
+- **Sonnet's pass leans on one field.** Leaving out the interpretability items, it would no longer meet the rule. No single item changes either label.
+- The up-word rule is worse than a coin on these items (Brier 0.316), so beating it says little; always-50% and the good-news rule carried the test.
+
+**Settings.** Haiku and Sonnet ran with thinking off; the Opus bettor could not, and ran at its least-thinking setting, so the comparison with Opus's archive differs in thinking as well as model. Items were written by a Claude model that saw the answers, and the good-news rule bets on only the 38 of 116 items the writers tagged.
+
+**Novelty:** partly new. Published work already shows that a model one tier down from the top forecasts research results about as well as the top one, and that much smaller models do worse. BrainBench (Luo et al., 2024, arXiv 2403.03230; Nature Human Behaviour) found that 7B models "performed comparably to larger models", while TinyLlama (1.1B) was "falling much behind the 7B models". SciPredict (arXiv 2604.10718, 2026) has Claude Sonnet 4.5 at 22.55% against Opus 4.5 at 23.05% and Llama 3.1 8B at 14.65%. Hewitt et al. (2024, working paper) found that accuracy "improved steadily and markedly across generations of LLMs". Ours agrees on the size pattern: Sonnet is not shown different from Opus (Brier 0.168 against 0.163; paired difference +0.004, interval −0.018 to +0.027) and Haiku is weaker (0.208; paired difference from Opus +0.044, interval +0.012 to +0.076). What we found in no paper is a test of a same-family smaller model against a publication-bias rule ("bet on the paper's good-news side") or a "which version flatters the paper" rater. Wen et al. (2025, arXiv 2506.00794) do not mention publication bias, and CUSP (Wu et al., 2026, arXiv 2605.22681) has always-No, chance and mean-date baselines but no publication-bias one; Jin et al. (2024, arXiv 2411.17595) found GPT-4o-mini predicting every clinical trial a success, a smaller same-family model collapsing onto a positive-outcome rule, but report no such rule as a baseline. So the result that Haiku beats a coin but is not shown to beat the good-news rule by the 0.01 margin, and that neither smaller model beats the flattery rater on round 2's items (a reported row), is new. Search: "smaller language models predict research findings model size", "BrainBench small models scaling", "LLM predict experimental outcomes publication bias positive-result baseline", "predict outcome of new arXiv papers after training cutoff Claude Haiku Sonnet", "LLM forecasting scientific results larger vs smaller models same family" on web search and arXiv, plus the full texts of 2403.03230, 2604.10718, 2506.00794, 2605.22681 and Hewitt et al., 2026-11-05; claude-opus-5-5 (a fresh subagent that did not run ss-b13).
+
+### The pre-registered sentences (§5, as amended by D69; generated by `scoring/score_f1.py`)
+
+| bet | engine odds | human odds | verdict |
+|---|---|---|---|
+| ss-b13 | 18 (prior 0.32 − 0.14, v2; 45 on the map before the lesson) | 65 (on the card's event, C1 only; scored on this outcome) | **mixed** (scored as not a pass) |
+
+> On 116 (Haiku) and 116 (Sonnet) of round 1's 116 post-cutoff findings, Sonnet met the rule (always-50%, the up-word rule and the good-news rule all beaten, the last two by more than 0.01 in Brier) but Haiku was not shown to (Sonnet Brier 0.168 [0.140, 0.196], against the up-word rule -0.148 [-0.200, -0.097], against the good-news rule -0.064 [-0.099, -0.028]; Haiku Brier 0.208 [0.181, 0.236], against the up-word rule -0.108 [-0.157, -0.058], against the good-news rule -0.024 [-0.059, 0.011]), so the bettor's skill holds on one of the two smaller models only.
+>
+> Haiku missed on C3.
+>
+> Sonnet's label changes if the interpretability field is left out.
+>
+> The cockpit card's event (Brier upper bound below 0.25 on both models, item bootstrap only) was met; it is reported, not the rule.
+>
+> Both models ran with thinking off, which the Opus bettor could not (it ran at its least-thinking setting), so the comparison with Opus's archive differs in thinking as well as model.
+>
+
+## Tables
+
+Generated by `scoring/score_f1.py` from `items/items.jsonl`, `items/r2/items.jsonl`, `bettor/f1-bets.jsonl`, `bettor/bets.jsonl`, `bettor/r2-bets.jsonl` and `bettor/r2-valence.jsonl` (`scoring/f1-tables.md`, `scoring/f1-scores.json`).
+
+| model | n | accuracy | Brier | item 95% CI | paper-cluster 95% CI | − up-word rule | item CI | cluster CI | − good-news rule | item CI | cluster CI | rule met |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Haiku | 116 | 0.707 | 0.208 | [0.181, 0.236] | [0.181, 0.236] | -0.108 | [-0.157, -0.058] | [-0.156, -0.060] | -0.024 | [-0.059, 0.011] | [-0.060, 0.012] | no |
+| Sonnet | 116 | 0.776 | 0.168 | [0.140, 0.196] | [0.141, 0.196] | -0.148 | [-0.200, -0.097] | [-0.197, -0.098] | -0.064 | [-0.099, -0.028] | [-0.099, -0.028] | yes |
+| Opus (archive) | 116 | 0.763 | 0.163 | [0.139, 0.190] | [0.138, 0.190] | -0.152 | [-0.201, -0.104] | [-0.199, -0.106] | -0.068 | [-0.099, -0.036] | [-0.102, -0.036] | yes |
+
+Rule Briers on the 116: up-word 0.316, good-news 0.232; always-50% 0.250.
+
+Round 2's 92 template items (reported, not the rule; cluster = the template's swap pair, P14):
+
+| model | n | accuracy | Brier | − up-word | item CI | cluster CI | − swap-pair | item CI | cluster CI | − Opus flattery rater | item CI | cluster CI |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Haiku | 92 | 0.815 | 0.143 | -0.033 | [-0.080, 0.012] | [-0.130, 0.008] | -0.022 | [-0.077, 0.031] | [-0.145, 0.028] | +0.037 | [0.015, 0.060] | [0.012, 0.055] |
+| Sonnet | 92 | 0.864 | 0.108 | -0.069 | [-0.116, -0.023] | [-0.147, -0.033] | -0.057 | [-0.113, -0.004] | [-0.158, -0.011] | +0.002 | [-0.021, 0.026] | [-0.013, 0.031] |
+| Opus (archive) | 92 | 0.935 | 0.070 | -0.107 | [-0.151, -0.064] | [-0.185, -0.070] | -0.095 | [-0.147, -0.046] | [-0.192, -0.050] | -0.036 | [-0.057, -0.016] | [-0.049, -0.010] |
+
+Robustness (round 1, per model): leave-one-item-out flips; leave-one-field-out labels.
+
+| model | items that flip the label | field left out → rule met |
+|---|---|---|
+| Haiku | none | interpretability: no; model-psychology: no; quantum-devices: no; scalable-oversight: no |
+| Sonnet | none | interpretability: no; model-psychology: yes; quantum-devices: yes; scalable-oversight: yes |
+
+## What it cannot do
+
+- **Knowing vs reasoning.** The items carry a methods summary; a model can reason toward a direction without knowing the result.
+- **The writer.** Round 1's items were written by Claude Opus sessions that saw the answers.
+- **A weakened good-news rule.** The writers preferred against-headline findings, and the rule bets on 38 of 116 items; a model applying the good-news idea to every item is not ruled out (on BrainBench a flattery prompt matched 92% of Sonnet's forecasting skill, ss-b10).
+- **Two models, one prompt, one item set, thinking off.** No "smaller models" or "LLMs" claim beyond these two.
+
+## Process and spend
+
+| step | model | calls | cost | refusals |
+|---|---|---|---|---|
+| pilot (excluded pre-cutoff items, D69) | Haiku, Sonnet | 24 | $0.037 | 0 |
+| 1, 2: rounds 1 and 2 | claude-haiku-5-5 | 208 | about $0.03 | 0 |
+| 3, 4: rounds 1 and 2 | claude-sonnet-5-5 | 208 | about $0.60 | 0 |
+| **total** | | 440 | **$0.663** of the $0.85 bet cap | 0 |

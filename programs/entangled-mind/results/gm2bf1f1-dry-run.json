@@ -1,0 +1,27 @@
+{
+ "archive": {
+  "pass": 0.0,
+  "fail": 1.0,
+  "untestable": 0.0
+ },
+ "no link (format spread shuffled within item)": {
+  "pass": 0.0,
+  "fail": 1.0,
+  "untestable": 0.0
+ },
+ "link c=3": {
+  "pass": 0.93,
+  "fail": 0.07,
+  "untestable": 0.0
+ },
+ "link c=6": {
+  "pass": 1.0,
+  "fail": 0.0,
+  "untestable": 0.0
+ },
+ "link c=10": {
+  "pass": 1.0,
+  "fail": 0.0,
+  "untestable": 0.0
+ }
+}

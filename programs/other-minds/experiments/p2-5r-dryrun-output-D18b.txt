@@ -1,0 +1,16 @@
+  Haiku-like (own .36, Sam up .58 / down .40)             pass 0.23, up_only 0.77
+  up-only gap, downward gap 0 (Sam up .58 / down .36)     pass 0.05, up_only 0.95
+  Sam = own (.36)                                         down_only 0.05, none 0.85, reversed 0.07, up_only 0.03
+  Sam half of own (reversed)                              reversed 1.00
+  Opus-like weak pull (own .07, Sam .07)                  down_only 0.05, none 0.87, reversed 0.05, up_only 0.03
+  nothing moves                                           down_only 0.02, none 0.03, untestable_nothing_moved 0.95
+  small gap both ways (+.08)                              down_only 0.27, none 0.28, pass 0.15, up_only 0.30
+  clear gap both ways (+.15)                              down_only 0.02, pass 0.85, up_only 0.13
+  D5 dumb: Sam = mean of the two numbers shown (own .36)  sam_follows_any_number 0.98, up_only 0.02
+  D5 dumb: source-blind Sam (.45 toward any number; own .30) down_only 0.02, sam_follows_any_number 0.85, up_only 0.13
+  Haiku-like, larger vignette spread (vsd .6)             pass 0.23, up_only 0.77
+  sonnet reading on the complete stub: up_only | bet: fail | The pre-registered event did not occur: on Sonnet 5.5, Sam did not move further than the model's own re-rating in both directions while also following the model
+  boundary and order checks: hold
+sonnet: 1136 calls (568 per repeat x 2); est $0.98 (cap $1.50)
+opus: 1136 calls (568 per repeat x 2); est $3.49 (cap $4.25)
+total est $4.47 (cap $5.75)

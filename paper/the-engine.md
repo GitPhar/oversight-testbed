@@ -4,7 +4,7 @@
 
 Sean Pharris · draft of 2026-11-04 (America/Denver), revised the same evening and again that night · companion to *The Entangled Mind* and *No credence to read* · repository `GitPhar/oversight-testbed`
 
-*Status: pre-registration of the engine's own hypotheses, with the founding-week case study and the first independent audit as preliminary evidence. The pass criteria in §4 were frozen by the commit that added this file (`7b6bbb8`, 2026-11-04 10:06). This revision changes none of them. The evening revision added programs 2 and 3, a second kind of referee, four new instruments and secondary measures that are not pass criteria. The night revision adds program 4 (a third referee, the published record), its first round as audited, the three-referee comparison as suggestive only, read depths on every reference, and a statement of which hypotheses are untestable at the current n (§4.7). Both are listed in §9. The morning revision of 2026-11-05 adds §6.10 (programs 5 to 7, the chip question closed, audit round 3, the ledger at 0.217 on 26 scored bets) and §6.11 (Sean's 26 recorded odds beside the engine's); the abstract's numbers are those of 4 November and §6.10 holds the current ones.*
+*Status: pre-registration of the engine's own hypotheses, with the founding-week case study and the first independent audit as preliminary evidence. The pass criteria in §4 were frozen by the commit that added this file (`7b6bbb8`, 2026-11-04 10:06). This revision changes none of them. The evening revision added programs 2 and 3, a second kind of referee, four new instruments and secondary measures that are not pass criteria. The night revision adds program 4 (a third referee, the published record), its first round as audited, the three-referee comparison as suggestive only, read depths on every reference, and a statement of which hypotheses are untestable at the current n (§4.7). Both are listed in §9. The morning revision of 2026-11-05 adds §6.10 (programs 5 to 7, the chip question closed, audit round 3, the ledger at 0.217 on 26 scored bets) and §6.11 (Sean's 26 recorded odds beside the engine's); the abstract's numbers are those of 4 November and §6.10 holds the morning's. The day-four revision of 2026-11-05 (branch `papers-day4`, from `main` at `078e0bc`) adds the papers the novelty check read (§2.8), rules 13 to 15 and the steer-valuation method as instruments (§3.11 to §3.15), where each hypothesis stands at the day's end (§4.8), the ledger and the human column as they stand (§6.12), and three limitations. From this revision every ledger number in the new sections is a placeholder filled by `python3 site/numbers.py` from the generated ledger pages, so it cannot drift; the dated sections keep the typed numbers of their day.*
 
 *Citation convention.* Every number names the file it comes from, and the commit at which that file was checked: in the text as `file`, `commit`, or for files cited without a commit, in the provenance table (§10). Paths without a prefix are in this repository. The programs were folded into this repository on 2026-11-04 (`CONTEXT.md` §2), so a path that begins `entangled-mind/`, `other-minds/`, `nature-graded/` or `settled-science/` is short for `programs/<that name>/`. Numbers that could not be traced to a file were struck in this revision (§9).
 
@@ -22,6 +22,8 @@ Here is what the first two days show.
 - **Three kinds of referee.** Four programs are now open. In two, a language model's behaviour settles each bet. In the third, a quantum chip does. In the fourth, the published record does: the engine's model bets on which way already-published findings went, with the direction masked, and only findings first posted after its stated knowledge cutoff count toward the headline.
 - **The record referee's first round.** On 116 findings posted after the bettor's stated knowledge cutoff, its Brier was 0.163. It beat a pre-registered publication-bias shortcut by 0.068. The auditor let all three passes stand, as unreplicated (`ledger/audits/ss-b1.md`).
 - **The referee comparison is suggestive only.** The engine's Brier is 0.263 on 8 model-graded bets, 0.062 on 3 chip-graded and 0.388 on 3 record-graded. The chip number is three low bets that all failed. The record number is three passes the engine rated 30–50%. The samples are tiny and the items differ in kind (§6.9).
+
+**Where it stands at the end of 5 November (day four; the numbers below are filled from the ledger by `site/numbers.py` and are current at this file's last regeneration).** <!--n:bets_total-->85<!--/n--> bets in the ledger, <!--n:scored-->42<!--/n--> scored one per run (<!--n:scored_all-->48<!--/n--> counting every scored row), <!--n:hits-->10<!--/n--> hits. Engine Brier <!--n:brier-->0.149<!--/n--> (<!--n:brier_all-->0.173<!--/n--> on every row), against <!--n:coin-->0.250<!--/n--> for always saying 50% and <!--n:hit_rate_ref-->0.181<!--/n--> for always saying the observed hit rate. By referee: model-graded <!--n:ref_model_brier-->0.149<!--/n--> on <!--n:ref_model_n-->34<!--/n-->, chip-graded <!--n:ref_nature_brier-->0.070<!--/n--> on <!--n:ref_nature_n-->5<!--/n-->, record-graded <!--n:ref_record_brier-->0.282<!--/n--> on <!--n:ref_record_n-->3<!--/n-->. Sean's odds are scored on <!--n:human_n-->10<!--/n--> bets, Brier <!--n:human_brier-->0.394<!--/n-->. <!--n:plants_planted-->19<!--/n--> planted faults, <!--n:plants_caught-->19<!--/n--> caught. <!--n:audited-->61<!--/n--> bets audited, <!--n:reversals-->4<!--/n--> verdicts reversed, <!--n:withdrawn-->13<!--/n--> withdrawn before data. <!--n:chip_s-->89<!--/n--> of <!--n:chip_stop-->420<!--/n--> chip seconds; about $<!--n:api_usd-->96<!--/n--> of the $<!--n:api_allowance-->200<!--/n--> month. H1 and H2 have reached their minimum n; H3, H4 and H5 have not (§4.8). The engine's score is below a coin on this sample and the sample cannot yet separate the two (§6.12).
 
 The evening revision also added four instruments: a way to score the human's vetoes, an audit of the auditor, a written pre-mortem before each bet, and quantum hardware as both a referee and a source of research questions.
 
@@ -212,6 +214,39 @@ Our first program's results add a specific reason. On Haiku, a model's stated co
 
 The testbed is far smaller than any of these studies. It has one operator, one engine and tens of bets, and it will not match their statistical power. What it adds is the bookkeeping that would let their questions be asked of an AI choosing research. The odds are written before data and the denominator is complete. An auditor sees the artifacts and is itself tested on planted faults. Every human steer is scored. Whether that bookkeeping shows anything useful is the open question of §4.
 
+### 2.8 What the novelty check added (5 November)
+
+*In plain English.* On 5 November a fresh session checked ten of the project's findings against the literature (`paper/novelty.md`, `93f47af`; one dated correction, `d870107`). Most were already in print, some from Anthropic staff; three were partly new; none was new and replicated. The papers it read are folded in here by the gap they fill in §2.1 to §2.6, with the bet each bears on. Read depths are the novelty page's (arXiv abstract or full text, read that day); none was re-read for this revision, and each entry below carries that depth.
+
+**Self-evaluation and the own-turn blind spot (extends §2.6).**
+- Khullar, Hopkins, Wang & Roger (2026), *Self-Attribution Bias*: on ten models including Claude 3.5 Haiku, Sonnet 4 and Opus 4.1, a monitor is more lenient on an action sitting in its own previous or current assistant turn than in a user turn, and explicit "you wrote this" labels move scores by about 0.5 of 10 or less. It predicts sg-b1 and sg-b2 (null) and sg-b3 (pass). Program 5's scout had read it three times and the engine bet at 18% anyway (`paper/informed-engine.md`).
+- Tsui (2025), *Self-Correction Bench*: the same error goes uncorrected far more often in the assistant turn than in the user turn (a 52.5% blind spot on Claude 3.5 Haiku, 41.4% on Sonnet 4); prepending "Wait" removes most of it. The scout never found it, because its search ran around the seed question's words rather than the test's mechanism.
+- Sanz-Guerrero, Mager & von der Wense (2026): up to 19.5% higher confidence on GSM8K when the answer sits in the assistant message, on six open-weight models (cited in sg-b4's Novelty line, `ledger/bets.jsonl`).
+- *Self- and Other-Labels Induce Bidirectional Bias in LLM Judges* (2026): self-preference disappears under blind evaluation once quality is controlled. *Cross-Context Review* (2026): a second review catches more injected errors only when it runs in a fresh session.
+- **Gap, and what we borrow.** These papers measure whether flawed work is let through; ours measures the graded penalty on one planted sentence and found one model (Sonnet) with no gap, which none of them reports. sg-b4 then split the known effect: about half of Haiku's leniency and most of Opus's went away when the writing conversation was shown as a quoted copy (partly new). We borrow Tsui's "Wait" fix and Khullar's off-policy control as cheap overturning tests, and the rule that a scout searches around the test's mechanism (§3.11).
+
+**Self-consistency, change of mind and question order (extends §2.4 and §2.6).**
+- Kumaran et al. (2025; *Nature Machine Intelligence* 2026): seeing its own earlier answer raised a model's confidence in it by 0.21 and cut its change-of-mind rate from 32.5% to 13.1%; the same answer attributed to another model made no difference. It predicts bm1 and the shown-against-hidden half of em-gm2, both now labelled known.
+- Temkit (2026), *AMEL*; Kang (2026), the QQ-equality audit; Huang et al. (COLM 2026): accumulated-message and order effects with the answers visible, and dropping assistant turns with quality mostly preserved. None hides the answers.
+- **Gap.** No LLM paper found tests order with the answers removed. em-gm2q (mixed: Sonnet by the full rule, Haiku failing a wrong-target check) and em-gm2q2 (fail on Opus, on the unmerged `p1-wave3` branch at this revision) are the only such tests, and the surviving effect sits on different items from the turn-by-turn one.
+
+**Another mind (extends §2.6).**
+- Choi, Hong & Kim (2024; NAACL Findings 2025), the false-consensus effect: planting the model's own choice shifts its estimate of what peers would choose, by 20 points on Claude 3 Opus in one story. The same manipulation as om-p2-5, without the comparison against the model's own re-rating. That comparison, "Sam moves more than self", is om-p2-5's partly-new result on Haiku; om-p2-5r did not find it on Sonnet or Opus (unmerged at this revision).
+
+**Forecasting science, and the valence shortcut (extends §2.5).**
+- Already in §2.5: Luo et al. (2024), BrainBench, and Hewitt et al. (2024). Added: Wen et al. (NeurIPS 2025), a fine-tuned GPT-4.1 at 77% on 1,585 post-cutoff idea pairs while off-the-shelf o3 is at chance; *SciPredict* (2026), frontier models at 14 to 26% on 405 natural-science tasks with accuracy flat in stated confidence; Lee (2026), *LLMs Have Made Failure Worth Publishing*, which proposes that publication bias drives LLM miscalibration about outcomes and asks for clinical-trial-registry tests (the novelty page first read it as asking for a valence test on BrainBench; corrected `d870107`).
+- **Gap, and what we did.** No paper found measures how much of a forward-prediction benchmark a valence rule solves. ss-b6 measured it on our own items (reversed to undetermined by audit round 3). ss-b10 and ss-b10c measured it on BrainBench's expert-written items: the question "which version is better news for the paper's own idea?" alone beats the published human-expert mean on Haiku and Sonnet (pass, unreplicated; labelled new by a fresh session). ss-b13 found that Sonnet as bettor matches Opus and that Haiku does not clear the good-news rule, which BrainBench's and SciPredict's size pattern predicts (partly new).
+
+**Test awareness and sandbagging (new to this paper).**
+- Meinke et al. (2024), the in-context scheming design that ta-b3 copied; the *Claude 4 System Card* (2025) and Khursheed, Sosis & Roger (2026), which rerun the arithmetic-sandbagging test on released Opus models; Needham et al. (2025), Claude 3.7 Sonnet separating evaluation from deployment transcripts at AUC 0.88; Chaudhary (2026).
+- **Gap.** None. Anthropic runs these tests before every release with more variants than program 6 has. The novelty page says the program should be pointed elsewhere or closed, and Sean parked its two highest-odds cards on that basis (steers st-22, st-23).
+
+**Confidence protocols, and agents forecasting themselves (extends §2.4).**
+- *Same Answer, Different Confidence* (2026): protocol sensitivity in measuring LLM confidence, the finding of §6.2 on other models.
+- *Can an Agent Learn to Predict Its Own Failure?* (2026): step-level confidence of a small agent scored by Brier, with the warning that most Brier gains are base-rate learning. That is the comparison rule 14 now publishes, the prior alone against the adjusted odds (§3.12).
+- Vaccaro (ICML 2026), *Preregistration for Experiments with AI Agents*: argues for the practice; has no agent forecasting its own outcomes.
+- **Gap, restated.** No paper found has an AI research loop state odds on its own pre-registered experiments and score them. The form is this paper's. The number is not yet a finding (§4.8).
+
 ---
 
 ## 3. The engine
@@ -349,6 +384,28 @@ This revision specifies a second-level audit. Nothing below has been built.
 - **The regress stops here.** Two levels are scored. A third is not run.
 
 
+### 3.11 The engine knows what it is testing against (rule 13, 2026-11-05)
+
+The literature is neither ignored nor obeyed; it is stated, before the bet, as the prediction the bet is testing against (`CONTEXT.md` §3 rule 13; merged `bd3bbb5`). Every map direction carries a **Prior work** line: what published work predicts for this exact test and pass rule, with citations, or the words "no prior statement found after" a search described in one line; the scout searches around the test's mechanism in other fields' words and writes every search down. The pre-registration carries the same row, and the design review checks it as **D12**: is the predicted outcome already in print, and what does this bet add. Every landed or mixed result gets a **Novelty** line, known, partly new or new, written by a fresh session that did not run the bet and searched before the write-up is final; the audit verifies it as **F27**. The remap re-scouts around every landed or mixed bet before writing follow-ups. The backward pass wrote 116 prior-work lines across the seven maps (`35fcd59`) and 23 novelty lines (`e0235e6`): 4 known, 18 partly new, 1 new. A known result is written up as a replication of the paper that found it, never as a finding. Nothing in the rule changes a verdict; "known" changes what a result is evidence of. The case that produced the rule is `paper/informed-engine.md`: a pass bet at 18% with the paper predicting it already in the scout's reads, and a second paper never found.
+
+### 3.12 Odds start from the record (rule 14, 2026-11-05)
+
+Before any odds are stated, `python3 ledger/prior.py` writes `ledger/prior.md`: the hit rate of every scored bet with a Wilson interval, by program, referee, cost tier, source and map depth (`CONTEXT.md` §3 rule 14; `414f903`). Every elicitation is a fresh context handed that page and the bet's own description (design, models, cost, pass rule, its row on each table) and **nothing about the bet's history**: no earlier odds, no earlier bet on its direction, no audit or review notes, no human odds. It writes a **prior** (the all-bets hit rate), a signed **adjustment** and a **one-line reason**; the ledger stores all three with the prior's commit, and the engine's odds are prior plus adjustment, kept between 0.01 and 0.99. `ledger/brier.md`'s sensitivity table scores the prior alone against the adjusted odds on the same bets, so whether the engine's reasoning adds anything to its own record is a published number (§6.12). Bets pre-registered before the rule keep their odds; none is re-elicited. This replaces §3.3's fixed format for new bets; the paraphrase and negation re-elicitation of §3.3 is unchanged.
+
+### 3.13 One scored bet per run (rule 15, 2026-11-05)
+
+Audit round 3 found that six of the engine's eight hits at that time were two bettor runs scored as six bets (`ledger/audits/SUMMARY-3.md`, hole 1). Rule 15 (`CONTEXT.md` §3; `69fb813`; Sean's steer st-21, "I agree, I understand now that one lucky run was being counted three times") makes a scored bet whose row names the same run as an earlier scored bet **secondary**: it keeps its odds and outcome, carries `secondary_of`, and is left out of the primary Brier, the calibration table, the by-referee and human scores, the prior and the lesson test. Six rows are secondary (ss-b2, ss-b3, ss-b11 on ss-b1's run; ss-b7 on ss-b5's; em-gm2bf1 on em-gm3b's archive; em-dm6f2f1 on em-dm6f2's). `ledger/brier.md` publishes both numbers, the primary and a sensitivity row that scores every row as before.
+
+**What this does to H1, stated plainly.** H1's metric, pass criteria and minimum n are unchanged. What changed is the analysis set, and it changed after the six secondary outcomes were known, on a logged human decision. Four of the six were hits the engine had rated low, so the rule improved the engine's number (0.188 on 37 to 0.158 on 31 at `69fb813`). For that reason the all-rows number is kept as a sensitivity row wherever the primary is reported, and the first analysis (§4) reports H1 on both sets, with the one-per-run set as primary from this revision and the fact of the post-data change stated beside it.
+
+### 3.14 Valuing steers: the instrument for H3's second half
+
+H3 has two halves (§4): the odds half, scored by Brier on bets that carry both sets of odds, and the steer half, scored by counterfactual where a steer changed which bet runs and by a fixed rubric where it did not (§3.5). Almost every steer so far is of the second kind: a seed question, a rule, a stop, a budget call, a frame, a batch of odds. `operators/steers.md` (`8b157c8`) is the rubric as built. A fresh session that did not write the steer reads the steer row, every file it cites and the ledger, and writes four things: what the steer changed in the record, each item with its file or commit; one sentence on what the engine's default would have done without it, with the file that shows the default; a measurable effect where one exists (overclaims caught, spend avoided, odds improved, hits that trace to a seed, a published number that exists because of the steer); and a label, **helped**, **neutral** or **hurt**, with one line. Each line also says what decided it: a number in the ledger (*measured*), a chain of named files (*traced*), or a reading given early (*early*). A batch of odds is labelled by H3's own metric, the combined forecast against the engine alone, and stays neutral below eight scored bets. There is no "pending". Every steer is re-scored monthly with its history kept, and a reader who disagrees files a new line under the same method. The output is `ledger/steer-values.jsonl`, summed as **helped X of Y** in `ledger/steers.md`, read by the site's human-hand page and by §6.11. Its limit, stated once: the scorer is a Claude session, the same family that runs the engine and carried out the steers, and the counterfactuals are readings of files, never runs. It is the rubric path of §3.5, not the metric, and the paper does not pool it with the odds half.
+
+### 3.15 Record integrity: the ledger inbox and generated numbers
+
+Two mechanisms added on 5 November protect what the rest of this paper rests on. **The ledger inbox** (`ledger/inbox/README.md`, `1b89efe`): no session edits `bets.jsonl`, `lessons.jsonl`, `steers.jsonl` or `plants.jsonl` directly; each appends one line per change to its own inbox file and commits that file alone, and one tool, run only in the main checkout, folds every committed line in commit order, checks line counts and regenerates the tables. Why: with nine sessions sharing one checkout, `lessons.jsonl` was committed empty, rows were lost twice and commits swept other sessions' half-finished edits. **Generated front-page numbers** (`site/numbers.py`, `ae566f3`): the front-page documents, and from this revision this paper's new sections, type no ledger number; each is a placeholder filled from the machine-readable line at the end of `brier.md`, `scores.md` and `prior.md`, and `reproduce.py` and the GitHub check fail on a stale one. Why: the panel review found six different Brier numbers in circulation across the documents on one morning.
+
 ---
 
 ## 4. Hypotheses, metrics and pre-registered pass criteria
@@ -460,6 +517,20 @@ What is measurable now is descriptive only:
 - **The design reviews:** 6 fix-first; 1 later found to have missed a flaw.
 
 None of these is a test. H1 to H5 are re-analysed on 2026-11-21 as planned, and every one still short of its minimum n will be reported as untestable with the n reached.
+
+### 4.8 Where each hypothesis stands at the end of 5 November (day four)
+
+The thresholds are unchanged. Counts are from `ledger/brier.md`, `ledger/scores.md` and `ledger/prior.md` on `main` at `078e0bc`; those marked as placeholders are filled by `site/numbers.py` and are current at this file's last regeneration.
+
+| hypothesis | minimum n (pre-registered) | reached | status |
+|---|---|---|---|
+| H1 calibration | 20 scored bets, ≥ 4 passes and ≥ 4 non-passes | <!--n:scored-->42<!--/n--> scored one per run (<!--n:scored_all-->48<!--/n--> on every row): <!--n:hits-->10<!--/n--> passes, the rest non-passes | **minimum reached**; the analysis itself (skill score against the running base rate, Poisson-binomial count) runs at the freeze, on both analysis sets (§3.13). Descriptively: Brier <!--n:brier-->0.149<!--/n--> against <!--n:coin-->0.250<!--/n--> and <!--n:hit_rate_ref-->0.181<!--/n-->, expected hits <!--n:expected_hits-->11.41<!--/n--> against <!--n:hits-->10<!--/n--> observed |
+| H2 audit | 10 audited results, 10 planted faults across ≥ 4 canaries | <!--n:audited-->61<!--/n--> of <!--n:bets_total-->85<!--/n--> bets audited; <!--n:plants_planted-->19<!--/n--> planted faults, <!--n:plants_caught-->19<!--/n--> caught (Wilson lower bound 0.78, `scores.md` at `078e0bc`) | **minimum reached**; all three pass conditions hold descriptively (overclaim rate's interval excludes 0; reversal rate <!--n:reversals-->4<!--/n--> of <!--n:audited-->61<!--/n-->, below 0.5; catch-rate lower bound above 0.5). Every canary and auditor is same-family, so the cross-family secondary is unmeasured |
+| H3 human oversight | 20 bets with both sets of odds | <!--n:human_n-->10<!--/n--> one per run (<!--n:human_n_all-->11<!--/n--> on every row) | **untestable** (13 short). Descriptively, Brier(human) <!--n:human_brier-->0.394<!--/n-->; the steer half is the rubric count, helped 18 of 28 (`ledger/steers.md`), not the metric |
+| H4 path dependence | both programs ≥ 8 directions and ≥ 1 cycle, plus the within-seed control map A′ | programs 1 and 2 have maps and cycles; no within-seed control scout exists | **untestable** (no control). A first archive test of Q4 in another form, om-p2-path, was withdrawn and its re-bet parked on 5 November (`p2-wave3`, unmerged) |
+| H5 import | 10 scored bets per source | literature 17, engine 8, human 1, P1-derived 2, unrecorded 7 (`prior.md` at `078e0bc`) | **untestable** (engine source 2 short). Descriptively, literature-sourced bets hit 3 of 17 at mean odds 0.24; engine-sourced 3 of 8 at 0.34 |
+
+What is measurable now is descriptive only, and is in §6.12: the lessons' paired Brier (0.169 before, 0.139 after, on 26 bets), rule 14's prior-against-adjusted comparison (0.282 against 0.211 on 4 bets, which had read "did not help" on the first 2), the design-review counts (<!--n:dr_go-->0<!--/n--> go, <!--n:dr_fix-->46<!--/n--> fix-first, <!--n:dr_redesign-->12<!--/n--> redesign, <!--n:dr_missed-->29<!--/n--> later found to have missed a flaw) and the pre-mortems (<!--n:premortem_named-->15<!--/n--> of <!--n:premortem_failed-->35<!--/n--> failed bets' main reasons named). None of these is a test.
 
 ---
 
@@ -872,6 +943,47 @@ The odds column above is one narrow measurement of the human: whether his number
 
 **The honest sentence.** The scorer is a Claude session, the same model family that runs the engine, carried out the steers, logged them, and is studied by them. The counterfactuals are readings of files, never runs. "Helped" means the record is better with the steer than the default the record shows; the sum is a count of readings, published with the method so each can be checked and disagreed with (`operators/steers.md`, How to disagree), not a measurement of the human's skill. The measurement, where the ledger has one, is the odds column above, and on it the human is behind the engine at n = 4.
 
+### 6.12 Day four, 5 November: the ledger at `078e0bc`, and the human column as it stands
+
+*Added in the day-four revision. Numbers marked as placeholders are filled by `site/numbers.py` from the generated ledger pages and are current at this file's last regeneration; the rest are from the files named, at `078e0bc`. `paper/day-four.md` tells the window as a narrative, with every bet's plain question and commit.*
+
+**The ledger now.**
+
+| measure | value |
+|---|---|
+| bets in the ledger | <!--n:bets_total-->85<!--/n--> (<!--n:audited-->61<!--/n--> audited; <!--n:reversals-->4<!--/n--> verdicts reversed by audit; <!--n:withdrawn-->13<!--/n--> withdrawn before data; <!--n:unscored-->37<!--/n--> unscored) |
+| scored bets, one per run (every row) | **<!--n:scored-->42<!--/n-->** (<!--n:scored_all-->48<!--/n-->), of which <!--n:secondary-->6<!--/n--> secondary under rule 15 |
+| hits, expected / observed | <!--n:expected_hits-->11.41<!--/n--> / <!--n:hits-->10<!--/n--> (<!--n:hits_all-->15<!--/n--> on every row) |
+| engine Brier, primary (every row) | **<!--n:brier-->0.149<!--/n-->** (<!--n:brier_all-->0.173<!--/n-->); always 0.5: <!--n:coin-->0.250<!--/n-->; always the hindsight hit rate: <!--n:hit_rate_ref-->0.181<!--/n--> (<!--n:hit_rate_ref_all-->0.215<!--/n--> on every row) |
+| by referee | model-graded <!--n:ref_model_brier-->0.149<!--/n--> on <!--n:ref_model_n-->34<!--/n-->; chip-graded <!--n:ref_nature_brier-->0.070<!--/n--> on <!--n:ref_nature_n-->5<!--/n-->; record-graded <!--n:ref_record_brier-->0.282<!--/n--> on <!--n:ref_record_n-->3<!--/n--> |
+| the prior (rule 14) | <!--n:prior_hits-->10<!--/n--> of <!--n:prior_n-->42<!--/n--> scored bets came true, <!--n:prior_rate-->0.24<!--/n-->, 95% interval <!--n:prior_ci-->[0.13, 0.39]<!--/n--> |
+| rule 14, prior alone / adjusted odds | 0.282 / 0.211 on 4 bets (`brier.md`); on the first 2 (sg-b4, sg-b5, at `e68eff1`) it was 0.282 / 0.360, so two bets flipped the sign |
+| human odds | <!--n:human_lines-->35<!--/n--> lines; scored on <!--n:human_n-->10<!--/n--> bets, Brier <!--n:human_brier-->0.394<!--/n--> (<!--n:human_brier_all-->0.370<!--/n--> on <!--n:human_n_all-->11<!--/n--> with the secondary row) |
+| steers valued | helped 18 of 28, neutral 10, hurt 0 (`ledger/steers.md`; §3.14, §6.11) |
+| planted faults | <!--n:plants_planted-->19<!--/n--> planted, <!--n:plants_caught-->19<!--/n--> caught, of <!--n:plants_revealed-->43<!--/n--> audits with a sealed line |
+| design reviews | <!--n:dr_go-->0<!--/n--> go, <!--n:dr_fix-->46<!--/n--> fix-first, <!--n:dr_redesign-->12<!--/n--> redesign; <!--n:dr_missed-->29<!--/n--> later found to have missed a flaw |
+| lessons | odds before the lesson 0.169, after 0.139, on 26 bets one per run (`scores.md`) |
+| chip and API | <!--n:chip_s-->89<!--/n--> of <!--n:chip_stop-->420<!--/n--> QPU s; $<!--n:api_usd_exact-->96.43<!--/n--> of $<!--n:api_allowance-->200<!--/n--> logged |
+
+**The human column.** At `078e0bc` eight scored bets carried Sean's odds, seven of them primary (`ledger/bets.jsonl`, `ledger/brier.md`); the placeholders in the table above are current and may be higher, and `paper/day-four.md` names what moved after this commit. In the order they were scored:
+
+| bet | question, in short | Sean | engine | outcome |
+|---|---|---|---|---|
+| om-p2-7 | do the model's format quirks reappear when it answers for "Sam", on three models? | 0.70 | 0.15 | fail |
+| ta-b1r2 | told "evaluation" vs "real" vs a placebo note, does it stand up to a wrong user differently? | 0.60 | 0.06 | null |
+| ss-b11 | is the round-1 bettor's edge more than knowing which fields report good news? | 0.65 | 0.85 | pass (secondary of ss-b1) |
+| ss-b12 | is the bettor's advantage on older papers memory? | 1.00 | 0.20 | null |
+| ng-p3-18 | measured again on a new day, do both error terms show up on the chip's entangled pairs? | 0.55 | 0.60 | pass |
+| sg-b4 | is a planted exaggeration let off because it sits in the model's own reply, or because of the request's layout? | 0.65 | 0.18 | pass |
+| sg-b5 | does the own-conversation leniency hold when the exaggeration does not lengthen the text? | 0.55 | 0.22 | fail |
+| ss-b13 | can Haiku and Sonnet also tell which way the 116 published findings went? | 0.65 | 0.18 | mixed |
+
+Computed for this paper from those seven primary rows: Brier(engine) 0.140, Brier(human) <!--n:human_brier-->0.394<!--/n-->, and the unweighted mean of the two, H3's combined forecast, 0.213. On the five that missed he had given between 0.55 and 1.00, and his 1.00 on ss-b12 alone is 1.0 of his total of 2.9 at that commit; on the two hits he gave 0.55 and 0.65. The one bet on which his number was far above the engine's and the bet hit is sg-b4. Under H3's own rule nothing is a verdict below 20 bets, and the odds steer st-18 stays neutral below 8. The four first-batch lines that arrived after their bets (§6.11) are still null; three more of his lines attached to bets withdrawn before data (ta-b1r, sv-b4, ss-b14 and its re-bet ss-b15), so they score nothing; two (om-p2-15, fail at his 0.70 against 0.10; om-p2-14, parked by a budget ruling) are on the unmerged `p2-wave3` branch; P3-9, where he and the engine disagree most (0.90 against the map's 0.40; 0.80 under rule 14 on the `p3-9` branch), had not scored.
+
+**What landed and what did not, in one paragraph each.** The chip's first hit: ng-p3-18 found both of P3-5c's error terms again on two of three entangled pairs in a fresh job (20.0 QPU s, pass unreplicated, audit stands; `programs/nature-graded/results/p3-18-fresh-job.md`). The novelty page's first-ranked replication came back new: the "better news for the paper" question alone beats the human neuroscientists on BrainBench on Haiku and Sonnet (ss-b10c; one benchmark, unreplicated). Program 5's second wave split its one known effect (sg-b4 pass, partly new; sg-b5 fail), and program 4 found Sonnet matching Opus as a bettor with Haiku short of the good-news rule (ss-b13, mixed, partly new). The novelty page's second and third replications came back mixed and fail (em-gm2q; em-gm2q2 and om-p2-5r on unmerged branches). Six bets were stopped before data, three of them because the archive already decided them (P12). No audit reversed a verdict; every planted fault was caught.
+
+**Rule 15's effect on the headline**, for the record: 0.188 on 37 before it, 0.158 on 31 after it at `69fb813`, because four of the six secondary rows were low-odds hits. The all-rows number travels beside the primary from here on. `paper/day-four.md` §4 gives the headline at every commit of the day.
+
 ---
 
 ## 7. Limitations
@@ -893,6 +1005,10 @@ The odds column above is one narrow measurement of the human: whether his number
 - **Canary realism.** Planted faults come from known classes. The catch rate on them may overstate the catch rate on novel faults.
 - **Path dependence is costly to measure.** H4 rests on one within-seed control run and one human-designed matching rubric, and both new programs are seeded by program 1.
 - **Founding-week evidence is retrospective.** It shows the failure modes are real and the loop runs. It does not show the engine works.
+- **Rule 15 changed the analysis set after outcomes were known** (§3.13). The one-per-run set is primary from the day-four revision on a logged human decision, it improved the engine's number, and the all-rows number is therefore reported beside it everywhere, including at the freeze.
+- **The steer count is a reading, not a measurement** (§3.14). A Claude session labelled each steer against the default the record shows; the counterfactuals were never run; the scorer is the same model family that runs the engine, carried out the steers and is studied by them. It is the rubric half of H3 and is never pooled with the odds half.
+- **Prior-work and novelty lines are written by Claude sessions searching the web.** The case that produced rule 13 shows the search can miss a paper that predicts the result (`paper/informed-engine.md`); a "new" label means no prior statement was found, not that none exists.
+- **The human odds so far are on the cheap and fast bets.** The seven that resolved first are archive re-analyses, one chip job and three sub-dollar runs; that is a selection, not a sample, and the engine's numbers on them were written after reading its own record while Sean's were given blind with no base rate shown (§6.12).
 
 ---
 
@@ -983,6 +1099,21 @@ No H1–H5 metric, pass criterion or minimum n changed.
 
 **Not changed, and stale on purpose:** the abstract, §4.7, §6.5–§6.9 and §8 report the ledger as it stood on 4 November at the commits they name. §6.10 supersedes their counts (14 scored → 26; 46 or 58 QPU s → 69; four programs → seven; H1's minimum n reached). They are left as the dated record they are; a reader wanting today's number reads §6.10 or `ledger/brier.md`.
 
+### Day-four revision (2026-11-05, branch `papers-day4`, from `main` at `078e0bc`)
+
+No H1–H5 metric, pass criterion or minimum n changed. One analysis-set change is recorded and reported both ways (§3.13).
+
+**Added:**
+- §2.8: the papers `paper/novelty.md` read, folded into the related-work gaps with the bet each bears on, and a new reference group for them;
+- §3.11 to §3.15: rules 13, 14 and 15 and the steer-valuation method as instruments; the ledger inbox and generated numbers;
+- §4.8: where each hypothesis stands at the end of 5 November, with H1 and H2 at their minimum n and H3 to H5 untestable;
+- §6.12: the ledger at `078e0bc` and the human column's eight scored bets;
+- four limitations;
+- an abstract paragraph with the day's numbers.
+- Every ledger number in the new sections is a placeholder filled by `python3 site/numbers.py` (this file is now in its document list), so a stale number fails `reproduce.py` and the GitHub check.
+
+**Not changed, and stale on purpose:** the abstract's bullets, §4.7, §6.5 to §6.11 and §8 report the ledger as it stood at the commits they name (14 scored on 4 November; 26 on the morning of 5 November; four scored bets with Sean's odds in §6.11's steers panel). §4.8 and §6.12 supersede their counts.
+
 ---
 
 ## 10. Provenance: the commit at which each cited file was checked
@@ -1042,6 +1173,12 @@ Every file this paper cites is listed with the commit that last changed it as of
 | `programs/said-vs-did/results/sv-b1-pushback.md`, `sv-b2-decline.md`, `sv-b3-ask.md` | `20ad07e` |
 | `programs/nature-graded/results/p3-16-lone-job.md` | `163f546` |
 | `programs/other-minds/results/p2-7-format-fingerprint.md` | `e12c1d2` |
+| **Day-four revision, 2026-11-05 (§2.8, §3.11–3.15, §4.8, §6.12):** `ledger/bets.jsonl`, `ledger/brier.md`, `ledger/scores.md`, `ledger/prior.md`, `ledger/steer-values.jsonl`, `ledger/steers.md` | `078e0bc` (the numbers themselves are regenerated by `site/numbers.py` on every fold) |
+| `ledger/brier.md` as of the first two rule-14 bets (§3.12, §6.12) | `e68eff1` |
+| `ledger/brier.md` as of rule 15's commit (§3.13, §6.12) | `69fb813` |
+| `operators/steers.md`, `operators/handoff-2026-11-05.md`, `ledger/inbox/README.md`, `site/numbers.py` | `8b157c8`, `ea06c00`, `1b89efe`, `ae566f3` |
+| `paper/novelty.md` (with its correction), `paper/informed-engine.md`, `paper/day-four.md` | `d870107`, `e56326d`, this revision's branch |
+| `programs/nature-graded/results/p3-18-fresh-job.md`, `programs/self-grading/results/sg-b4-quoted.md`, `sg-b5-length.md`, `programs/settled-science/results/ss-b10c-results.md`, `ss-b13-results.md` | `078e0bc` |
 
 ---
 
@@ -1122,6 +1259,28 @@ Full entries, read depths and the numbers quoted above are in `related-work/` (c
 - Wen, J., Zhong, R., Khan, A., et al. (2024). Language models learn to mislead humans via RLHF. arXiv:2409.12822. [read: full]
 - Zheng, L., Chiang, W.-L., Sheng, Y., et al. (2023). Judging LLM-as-a-judge with MT-Bench and Chatbot Arena. arXiv:2306.05685. [read: full]
 
+**Added in the day-four revision, from `paper/novelty.md`** (read depth as that page records it, arXiv abstract or full text on 2026-11-05; not re-read for this paper).
+- Chaudhary (2026). In-context environments induce evaluation-awareness in language models. arXiv:2603.03824. [read: per novelty.md]
+- Choi, Hong & Kim (2024). People will agree what I think: Investigating LLM's false consensus effect. arXiv:2407.12007; NAACL Findings 2025. [read: per novelty.md]
+- *Cross-Context Review: Improving LLM output quality by separating production and review sessions* (2026). arXiv:2603.12123. [read: per novelty.md]
+- Huang et al. (2026). Do LLMs benefit from their own words? arXiv:2602.24287; COLM 2026. [read: per novelty.md]
+- Kang (2026). Auditing question-order effects in large language models with the QQ equality. arXiv:2607.17219. [read: per novelty.md]
+- Khullar, Hopkins, Wang & Roger (2026). Self-attribution bias: When AI monitors go easy on themselves. arXiv:2603.04582. [read: per novelty.md; also read in full three times by program 5's scout]
+- Khursheed, Sosis & Roger (2026). (Mis)generalization of helpful-only fine-tuning. arXiv:2606.04413. [read: per novelty.md]
+- Kumaran et al. (2025). How overconfidence in initial choices and underconfidence under criticism modulate change of mind in large language models. arXiv:2507.03120; Nature Machine Intelligence 2026 as *Competing biases underlie overconfidence and underconfidence in LLMs*. [read: per novelty.md]
+- Lee (2026). LLMs have made failure worth publishing. arXiv:2604.06236. [read: twice on 2026-11-05 (correction `d870107`)]
+- Meinke et al. (2024). Frontier models are capable of in-context scheming. arXiv:2412.04984. [read: per novelty.md]
+- Needham et al. (2025). Large language models often know when they are being evaluated. arXiv:2505.23836. [read: per novelty.md]
+- Sanz-Guerrero, Mager & von der Wense (2026). arXiv:2606.03437; ACL 2026 Findings. [read: by the session that wrote sg-b4's Novelty line]
+- *SciPredict: Can LLMs predict the outcomes of scientific experiments in natural sciences?* (2026). arXiv:2604.10718. [read: per novelty.md]
+- *Self- and other-labels induce bidirectional bias in LLM judges* (2026). arXiv:2608.18091. [read: per novelty.md]
+- *Same answer, different confidence: Protocol sensitivity in measuring LLM confidence* (2026). arXiv:2605.27752. [read: per novelty.md]
+- Temkit (2026). AMEL: Accumulated message effects on LLM judgments. arXiv:2605.22714. [read: per novelty.md]
+- Tsui (2025). Self-Correction Bench: Revealing and addressing the self-correction blind spot in LLMs. arXiv:2507.02778. [read: per novelty.md]
+- Vaccaro (2026). Preregistration for experiments with AI agents. arXiv:2606.11217; ICML 2026 position paper. [read: per novelty.md]
+- Wen et al. (2025). Predicting empirical AI research outcomes with language models. arXiv:2506.00794; NeurIPS 2025. [read: per novelty.md]
+- *Can an agent learn to predict its own failure? Outcome-grounded confidence calibration in LLM agents* (2026). arXiv:2610.18614. [read: per novelty.md]
+- Anthropic (2025). Claude 4 System Card, section on sandbagging and situational awareness. [read: through secondary notes, per novelty.md]
 
 **This project.**
 - Pharris, S. (2026). The Entangled Mind (program 1 repository, papers, record and audit). github.com/GitPhar/entangled-mind.

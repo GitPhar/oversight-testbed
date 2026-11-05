@@ -1,0 +1,42 @@
+[
+ {
+  "round": 1,
+  "batch": "msgbatch_012BXec3pNQ4dTq9wQWaQ8KD",
+  "n": 1520,
+  "ended": true,
+  "seconds": 163,
+  "counts": "MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=0, succeeded=1520)"
+ },
+ {
+  "round": 2,
+  "batch": "msgbatch_01TqsNo21gRvcmyYq6map8MF",
+  "n": 760,
+  "ended": true,
+  "seconds": 224,
+  "counts": "MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=0, succeeded=760)"
+ },
+ {
+  "round": 3,
+  "batch": "msgbatch_01GLiZ75mgoMUpCcFQVJvPru",
+  "n": 760,
+  "ended": true,
+  "seconds": 245,
+  "counts": "MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=0, succeeded=760)"
+ },
+ {
+  "round": 4,
+  "batch": "msgbatch_014Ghka8uk5U3ap4jFkChtc3",
+  "n": 760,
+  "ended": true,
+  "seconds": 183,
+  "counts": "MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=0, succeeded=760)"
+ },
+ {
+  "round": 5,
+  "batch": "msgbatch_01VFNPmaU7GZNfFH5B4afVqG",
+  "n": 760,
+  "ended": true,
+  "seconds": 265,
+  "counts": "MessageBatchRequestCounts(canceled=0, errored=0, expired=0, processing=0, succeeded=760)"
+ }
+]

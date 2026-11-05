@@ -1,0 +1,1237 @@
+{
+ "query": "(cat:cs.CL OR cat:cs.AI) AND (abs:sycophancy OR abs:introspection OR abs:\"theory of mind\" OR abs:\"self-report\" OR abs:persona OR abs:\"verbalized confidence\")",
+ "date": "submittedDate:[202607010000 TO 202611042359]",
+ "starts": [
+  600,
+  900,
+  1200,
+  1500
+ ],
+ "per_request": 300,
+ "fetched": "2026-11-05 10:26 MST",
+ "pool": [
+  {
+   "id": "2607.19235",
+   "title": "MeetingToM: Evaluating Multimodal LLMs on Theory-of-Mind Reasoning in Multi-Party Meetings",
+   "summary": "Theory of Mind (ToM), the ability to infer other's beliefs, intentions, and states of knowledge, is central to social interaction, yet remains challenging for current Multimodal Large Language Models (MLLMs), especially in multi-party meetings where cues are distributed across speech and behavior. Existing multimodal ToM benchmarks mainly focus on video-grounded question answering over overt, externally verifiable signals, and provide limited coverage of latent social states and group dynamics. We introduce MeetingToM, a benchmark for complex social behavior reasoning in naturalistic multi-party meetings. MeetingToM targets meeting-specific phenomena such as \\textbf{pseudo-consensus}, where apparent agreement masks private dissent under social pressure. The benchmark is hierarchically organized to evaluate ToM at increasing levels of social granularity, including (i) subject-level mental state prediction, (ii) dyadic-level addressee understanding, and (iii) group-level consensus reasoning. We provide a unified evaluation protocol and conduct systematic analyses of representative MLLMs, revealing persistent limitations in integrating non-verbal cues, inferring hidden attitudes, and distinguishing genuine consensus from pseudo-consensus. Our results highlight key challenges and establish MeetingToM as a testbed for advancing meeting-grounded ToM in multimodal models.",
+   "published": "2026-07-21",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Ziyi Wang",
+    "Yuhang Wu",
+    "Dongxu Piao",
+    "Xingyu Liu",
+    "Tianhui Zhou",
+    "Miao Liu"
+   ]
+  },
+  {
+   "id": "2607.18826",
+   "title": "Cross-Agent Campaign Attribution: Linking Asynchronous Attacks Across LLM Agents",
+   "summary": "LLM-agent defenses are typically evaluated one session at a time. In deployment, however, attacks can be distributed across independent agents, teams, and runtimes, leaving each local guardrail with only a sparse fragment. We formalize cross-agent asynchronous campaign attribution: linking sessions from the same latent adversarial campaign without shared runtime state, test-time campaign labels, or attacker identity oracles. We introduce Asynchronous Attribution Fingerprint Vectors ($A^2FV$), a lightweight proxy-side reference protocol for scoring pairwise campaign similarity from proxy-observable tool-use, timing, and prompt residue. We also construct SCD-v1, a controlled persona-matched benchmark with benign traffic, isolated attacks, multi-session campaigns, matched non-oracle evasion, and leakage audits. On SCD-v1, $A^2FV$ achieves 0.82 pairwise AUC for campaign linking, while score-only adaptations of per-session detectors and chunked LLM judges remain near chance under the same task. The strongest fixed signal is carried by structural and stylometric residue, while timing is retained as a diagnostic channel for richer proxy traces. Crossed-style controls show that the signal is partly style-sensitive but not reducible to style alone. Static and dimension-aware non-oracle stress tests further show that pairwise separability persists under controlled evasion. These results establish cross-agent campaign attribution as a distinct evaluation layer for securing LLM agents in the wild.",
+   "published": "2026-07-21",
+   "start": 600,
+   "comment": "22 pages, 5 figures. Accepted at the Second Workshop on Agents in the Wild: Safety, Security, and Beyond (AIWILD) at ICML 2026",
+   "authors": [
+    "SangJin Park",
+    "Myungsub Choi",
+    "Jineok Kim",
+    "Minseung Kang"
+   ]
+  },
+  {
+   "id": "2607.18806",
+   "title": "AI Tour Meeting: Group Travel Planning by LLM Agents",
+   "summary": "This paper proposes AI Tour Meeting, a group travel planning framework powered by multiple Large Language Model (LLM)-based agents. The agents are instantiated with distinct personas and collaboratively seek an itinerary that satisfies their constraints and preferences through natural language discussion. The framework enables easy and flexible orchestration of such discussions by providing interfaces for configuring agent personas, discussion workflows, monitoring, and LLM deployment. Its primary use case is a simulation tool for analyzing the behavior of multiple LLM agents during tour planning discussions. This paper demonstrates the utility of the framework by presenting system validation and several analytical results obtained by the framework.",
+   "published": "2026-07-21",
+   "start": 600,
+   "comment": "The code is available at https://github.com/ntt-dkiku/ai-tour-meeting",
+   "authors": [
+    "Daisuke Kikuta"
+   ]
+  },
+  {
+   "id": "2607.18566",
+   "title": "The Story Shapes the Agent: Narrative Priors in LLM Behavior",
+   "summary": "Persona prompting is widely used to steer LLM agent behavior, yet the narrative framing of a task can matter more than the assigned persona. We isolate this effect through structural isomorphism, constructing three text-based investigation games that share the same action space, stage progression, and resource constraints while varying only task narrative: disease investigation, IT troubleshooting, and murder mystery. Across 1,890 sessions spanning 3 models and 10 personas, we identify narrative priors: systematic action tendencies activated by a task's story framing, independent of its decision structure. Narrative priors explain 5-31x more behavioral variance than persona, are consistent across model architectures, and in two of three domains are negatively associated with task success. Persona effects that do transfer across narratives arise from behavioral anchors, persona descriptions whose language maps directly onto shared actions. Causal interventions confirm this: removing anchor words from a high-transfer persona reduces cross-narrative consistency by 95%. Our framework also generalizes to a held-out fourth narrative and yields a persona-selection method that improves cross-narrative transfer. These results suggest that LLM behavior that survives narrative changes should be grounded in concrete actions rather than abstract descriptions.",
+   "published": "2026-07-20",
+   "start": 600,
+   "comment": "Accepted at COLM 2026. 10 pages, 3 figures, 16 tables in appendix",
+   "authors": [
+    "Yixuan Wang",
+    "James Lester",
+    "Shashank Srivastava"
+   ]
+  },
+  {
+   "id": "2607.18553",
+   "title": "Operational Proto-Introspection in Looped Language Models: Process-Quality Taps, Executable Branching, and the Readout-Control Boundary",
+   "summary": "Can a language model read the quality of its ongoing computation, and can an external intervention turn that readout into better outcomes? We test both questions in a frozen 2.6B looped transformer, Ouro-RLTT. On GSM8K, a strict pre-answer probe excludes the answer region and gold value yet predicts success: hidden states plus length/log-probability features reach AUROC 0.797 versus 0.731 for those surface features alone (increment +0.066; task-clustered 95% CI [+0.021,+0.112]; 170 tasks). On Horizon Logic, a prospectively extended task-disjoint study gives an increment of +0.111 (CI [+0.056,+0.169]), independently replicated on the new cohort (+0.095) and robust to an adversarial malformed-sibling shortcut. Recurrence also moves candidate-quality readability to progressively earlier physical depth; the trend replicates across the Ouro family and qualitatively in out-of-family Huginn, although their transfer geometry differs. The readout converts into validated decision-level gains. Hidden-state-based scores improve risk-coverage over shortcut-only scores in four sealed selective-prediction arms, and terminal selection beats matched random even when every candidate is well formed (27/32 correct selections versus 64.8% expected; p = 0.0086). Generative control does not convert: directional steering is negative, a branch screen is bounded, and exact-compute loop allocation and minimal LoRA direction-binding detect no gain. These tests run through bit-exact branch/carry/prune machinery over Ouro's 192-slot recurrent cache, including a suffix-recompute splice saving up to 88% of per-branch layer passes. We call this decision-usable but not generatively controllable property operational proto-introspection. All load-bearing values use source-item-disjoint splits and antisymmetrized pairwise evaluation.",
+   "published": "2026-07-20",
+   "start": 600,
+   "comment": "73 pages, 13 figures. Version 3 adds a powered and independently replicated Horizon Logic study; within-family and out-of-family recurrent-depth replication; a powered Thinking replication attempt; validated selective-prediction and all-well-formed content-selection conversions; exact-compute loop-allocation and minimal LoRA binding tests; and an expanded evaluation-integrity account",
+   "authors": [
+    "Jan Kirin"
+   ]
+  },
+  {
+   "id": "2607.18529",
+   "title": "EduPanel: A Three-Agent LLM Judge for Teaching Videos -- Reliability, Complementarity, and Human Trust Calibration",
+   "summary": "Teaching videos are becoming a major medium for education, creating a growing need for scalable evaluation of their pedagogical quality. Existing automatic judges do not fully address this setting because teaching quality depends on multimodal evidence and should be evaluated with respect to the intended learner rather than as a universal property. We present EduPanel, a rubric-grounded, learner-conditioned LLM judge that decomposes evaluation across specialized agents to produce interpretable assessments for different aspects of teaching quality. Across expert studies, architecture ablations, and learner-persona analyses, EduPanel achieves reliability comparable to a median human expert. In expert evaluation, its feedback improves scoring accuracy (MAE 0.87 to 0.73), while experts remain able to detect unreliable outputs (AUC = 0.77) instead of accepting them blindly. These results suggest that EduPanel can serve as effective assistants for educational evaluation rather than replacements for human experts.",
+   "published": "2026-07-20",
+   "start": 600,
+   "comment": "19 pages",
+   "authors": [
+    "Jia-Kai Dong",
+    "Yi-Cheng Lin",
+    "Hung-yi Lee"
+   ]
+  },
+  {
+   "id": "2607.18114",
+   "title": "How Does Alignment Tuning Shape Representations of Sycophancy and Related Cue-Induced Biases in LLMs?",
+   "summary": "Modern LLMs are alarmingly susceptible to surprisingly simple immaterial changes of input prompts: a casual hint, an incorrectly labeled few-shot example, or a fake prior assistant turn often flips an originally correct answer. We study where this susceptibility, spanning sycophancy and related cue-induced biases, lives inside the model. Across five model families and seven bias types, we extract a per-bias direction from hidden states and triangulate it through three measures: probing, leave-one-dataset-out (LODO) transfer, and causal intervention. The susceptibility is largely shaped by alignment tuning rather than pretraining: pretrained base models generally cave much less to these biases, and their activations carry much weaker cue-specific signal beyond question content. Within aligned models, each bias has a coherent linear direction that we can both decode and steer along, recovering the unbiased answer across every family we test. The biases do not collapse into a single shared representation, however: cross-bias overlap is model-specific, and even behaviorally similar biases occupy different directions. The same intervention also provides a proof-of-concept debiasing tool, recovering a meaningful share of bias-induced errors while preserving most correct answers across all instruct families. Cue-induced bias is therefore best understood not as a single flaw in LLMs but as a family of causally effective linear directions that are largely shaped by alignment tuning.",
+   "published": "2026-07-20",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Prakhar Gupta",
+    "Terry Jingchen Zhang",
+    "Florent Draye",
+    "Bernhard Sch\u00f6lkopf",
+    "Zhijing Jin"
+   ]
+  },
+  {
+   "id": "2607.17883",
+   "title": "Zero Hallucination, by Construction: Hallucination-Aware Layered Oversight for Trustworthy Enterprise AI",
+   "summary": "Enterprises will not deploy AI agents they cannot trust, and the most-cited reason for distrust is hallucination: confident, fluent output that is simply not true. The common response is to wait for a model that does not hallucinate. We argue that this is the wrong target. Large language models are, by construction, capable of generating unsupported text, and no amount of scale removes the possibility; a faithfulness judge bolted onto a raw model catches some errors but still ships others, and even well-curated retrieval pipelines have been shown to fabricate citations. We reframe the goal: \"zero hallucination\" is not a property a model possesses but a property a system enforces. We present HALO (Hallucination-Aware Layered Oversight), an assurance architecture which treats hallucination as a containable failure mode rather than an eliminable one. HALO composes six layers of defense: grounded generation over retrieved, approved content; constrained, deterministic execution that bounds where the model can err; multi-signal verification that scores every output for groundedness and hallucination using both an LLM judge and evidence-based checks against the source text; calibrated abstention, so the system declines rather than guesses when grounding is insufficient; total traceability of every retrieval, tool call, and generation; and continuous oversight that detects drift, alerts on threshold breaches, and closes the loop by regenerating and statistically validating improved agents. We detail each layer, give particular attention to evidence-based confidence (which verifies extractions against the source document rather than trusting the model's self-reported certainty), and illustrate the architecture on a regulated claims-extraction workload.",
+   "published": "2026-07-20",
+   "start": 600,
+   "comment": "14 pages, 2 figures",
+   "authors": [
+    "Bogdan Raduta",
+    "Horia Velicu",
+    "Alexandru Preda",
+    "Serban Chiricescu"
+   ]
+  },
+  {
+   "id": "2607.17774",
+   "title": "Persona-as-Configuration: Generative Stakeholder Reporting for Agricultural Floods",
+   "summary": "Cyber-physical systems built on deterministic edge inference, such as on-vehicle flood detection for agricultural fields, produce structured decision logs that must be interpreted differently by heterogeneous stakeholders. Pairing such systems with large language models (LLMs) to generate stakeholder-specific reports introduces a tension: the generative layer is non-deterministic, while the edge plane must remain replayable and auditable. We propose an architectural pattern resting on two invariants: unidirectional consumption, in which the generative layer is a strict read-only consumer of the deterministic plane and never writes back, and persona-as-configuration, in which stakeholder adaptation is a versioned prompt-template artifact rather than runtime improvisation. We instantiate the pattern as a context-aware dashboard layer over the JSON decision logs of a previously published edge-based standing-water detection system, and analyse how the integration boundary admits standard generative-reliability mitigations as configuration- or middleware-level extension points. A structured expert review rated the pattern favourably across five ISO/IEC 25010-aligned quality dimensions, with strongest agreement on separation of concerns. End-user evaluation with agricultural stakeholders is planned for future work.",
+   "published": "2026-07-20",
+   "start": 600,
+   "comment": "Accepted at CASA 2026 (9th Workshop on Context-Aware, Autonomous and Smart Architectures), co-located with ECSA 2026. 16 pages, 2 figures",
+   "authors": [
+    "Oliver Aleksander Larsen",
+    "Tiziano Santilli",
+    "Francesco Daghero",
+    "Mahyar T. Moghaddam"
+   ]
+  },
+  {
+   "id": "2607.17765",
+   "title": "FIFA World Cup 2026 as a Contamination-Free Benchmark for LLM Forecasting Agents: Four Models, a Bookmaker, and 104 Matches",
+   "summary": "We introduce WC2026-Agents, a benchmark and dataset for evaluating large language models (LLMs) as autonomous forecasting agents on real, future events. For every one of the 104 matches of the 2026 FIFA World Cup, four frontier models -- Claude Opus 4.8, ChatGPT (GPT-5.5, high reasoning), Gemini 3.1 Pro, and Grok (Expert Mode) -- ran an identical search-act-reflect loop: gather evidence with a web tool, commit to a 1X2 (team-A win / draw / team-B win) distribution and a virtual 100-USD bet, and, after the match, reflect given only the final score. Because every match kicked off after the models' training cutoffs, the benchmark is contamination-free by construction. Crucially, we pair the four agents with a fifth competitor drawn from the same information environment -- the pre-match betting market -- collected as per-match 1X2 odds, giving an economically grounded baseline and letting us score not just what an agent predicts but what it does with money. The release contains 416 forecasts and 414 reflections with verbatim reasoning, ground truth (including penalty shootouts), odds, and a reproducible evaluation suite. A reference evaluation surfaces findings that raw accuracy hides: the four agents issue an identical top pick in 92% of matches and none beats the market's Brier score; indeed, a naive flat stake on the market favorite out-earns all four agents. Yet the agents diverge sharply as decision-makers: betting return-on-investment ranges from -18% to +10%, fading the market is unprofitable for all four, the share of forecasts that cite the market ranges from 12% to 100%, and self-reported error rates on wrong picks range from 36% to 86%. The benchmark thus measures calibration, decision quality, and self-knowledge -- axes on which frontier models differ even when their predictions do not. Data and code: https://github.com/graphuofm/FIFA2026LLM",
+   "published": "2026-07-20",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Jiacheng Ding",
+    "Cong Guo",
+    "Jason Xu"
+   ]
+  },
+  {
+   "id": "2607.17564",
+   "title": "ZifaMem: Structured Memory for Persona, Preference, and Emotional Continuity in AI Companions",
+   "summary": "AI companions are judged not only by single-turn fluency but by whether they sustain emotional continuity: remembering who the companion is, what the user prefers, and how the relationship has felt. We present ZifaMem, a structured memory system that organizes dialogue into session summaries, episodic memories, and a consolidated user model. Against a deployment-honest comparator that supplies the full raw dialogue history, and under a fixed LLM-as-a-judge protocol with route audits, structured memory raises pooled four-backbone emotional-intelligence scores by 11.4% (95% CI 6.3% to 17.1%), and persona grounding improves on all four backbones (Claude +42% relative). Multi-turn affect context wins a +39% net preference over a single-turn snapshot (exploratory), whereas an additional emotion state machine yields no measurable gain on any of five endpoints. Under an identical preregistered protocol, three memory systems (ZifaMem, Mem0, and filtered verbatim retrieval) each improve significantly over raw-history deployment, and ZifaMem and Mem0 are statistically equivalent within +/-5 points on the preregistered primary preference endpoint. The ZifaMem SDK, CLI, and portable Agent Skills are open-sourced at https://github.com/zifacorp/zifamem.",
+   "published": "2026-07-20",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Jingzhe Fang",
+    "Guozhi Xu",
+    "Yunfan Cui",
+    "Xiaochen Yang",
+    "Zhangyu Hua"
+   ]
+  },
+  {
+   "id": "2607.17420",
+   "title": "The Librarian Who Refused to Code: Model-Dependent Identity Enactment in LLM Code Generation",
+   "summary": "Biographical personas are widely used in system prompts, but their effects on code generation are rarely evaluated under controlled, pre-registered conditions. We tested four prompt conditions (no persona, two engineer personas, and a research-librarian persona), 12 code-generation tasks, two frontier models, and five runs per cell (480 completions). Persona effects differed between the two tested models. Under the pre-registered mixed-effects analysis, the condition-by-model interaction was significant for provider-reported output tokens; a post-hoc visible-character measure showed the same qualitative pattern. Six GPT-5.5 completions were length-capped and are reported separately. On Claude Opus, the minimalist engineer persona reduced visible output by 30% (33% in provider tokens) without improving correctness, while the thorough engineer persona increased output without a correctness gain. In an exploratory post-hoc analysis, the librarian persona elicited in-character disclaimers in 55 of 60 Opus responses and 12 genuine no-code responses, lowering mean correctness from 0.92 to 0.67. GPT-5.5 produced neither behavior in its 59 non-truncated responses. These results are consistent with personas acting as Model-Dependent behavioral-policy biases rather than universal quality interventions. We release raw completions, derived scores, analysis artifacts, a pre-registration document, and an execution gate log; end-to-end test-based rescoring requires an unreleased task harness.",
+   "published": "2026-07-19",
+   "start": 600,
+   "comment": "17 pages, 3 tables, no figures. Ancillary files include raw completions, derived scores, analysis scripts, persona texts, and preregistration",
+   "authors": [
+    "Shayell Aharon Salomon",
+    "Noam Israel",
+    "Ido Safruti",
+    "Amir Shaked"
+   ]
+  },
+  {
+   "id": "2607.17250",
+   "title": "EvolvingWorld: An Open-Schema Framework for Co-Evolving Role-Play Agents and World Model in Interactive Literary World",
+   "summary": "This paper introduces EvolvingWorld, a framework and benchmark for character and world co-evolution in interactive literary worlds. Existing systems either treat interactive literary simulation as static persona imitation or isolated scene generation, failing to capture how characters and worlds evolve together over time. To address this, EvolvingWorld models literary simulation as a long-horizon process where characters interact, scenes progress, and character and world states are persistently updated. Unlike prior systems relying on fixed schemas, EvolvingWorld adopts an open-schema framework to support simulation across diverse literary worlds. The framework consists of two coupled modules: a Character Agent for multi-character role-play and persistent profile evolution, and an LLM-based World Model for global and location/entity-level state maintenance and scene progression. Based on this architecture, we formulate 7 trainable tasks for scene initialization, interaction generation, and state update. We construct a dataset from 57 books, producing 138,596 supervised training samples and 222 snapshots for testing. Furthermore, we introduce a trajectory-level LLM-as-Judge evaluation protocol spanning 10 dimensions and 20 metrics. Experiments show that EvolvingWorld can improve long-horizon simulation by effectively maintaining persistent, coherent character and world development.",
+   "published": "2026-07-19",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Qing Zong",
+    "Yue Guo",
+    "Mengxin Yang",
+    "Yiwen Guo",
+    "Yangqiu Song"
+   ]
+  },
+  {
+   "id": "2607.17219",
+   "title": "Auditing Question-Order Effects in Large Language Models with the QQ Equality: Mechanism Characterization and a Saturation Caveat",
+   "summary": "Question-order effects in human survey data have been reported to approximately satisfy the QQ (quantum question) equality, a parameter-free prediction of the standard projective quantum question-order model. We develop this equality into an audit framework for sequential binary judgments of autoregressive large language models (LLMs). Theoretically, we characterize mechanism families that satisfy QQ robustly, show that classical repetition can reproduce the equality exactly, and combine QQ with the rank-2 Contextuality-by-Default criterion through $|q_{QQ}| \\le \\mathrm{OSS}$. This separates order sensitivity, QQ imbalance, and residual contextuality rather than treating them as interchangeable signatures. Methodologically, we introduce a committed multi-turn forced-branch protocol that reconstructs order-conditioned joint distributions from next-token log-probabilities under counterbalanced label mappings and pre-specified health gates. A first-signal pilot on an open-weight instruction-tuned model reveals the central measurement problem. Although all pre-specified health gates passed, the binary-conditioned distributions were near-deterministic for 17 of 18 item pairs under the direct-evaluation framing and 7 of 8 under the persona framing. Label assignment materially changed several mapping-specific QQ verdicts, and no item was certified as residually contextual. Thus, under the tested conditions, the observed QQ outcomes did not uniquely identify a response mechanism in the presence of a saturated and label-sensitive measurement interface. The main implication is methodological: next-token probabilities should not be interpreted as survey-response distributions without first establishing adequate dispersion. We therefore argue that saturation screening and label counterbalancing should precede structural interpretation in distribution-level audits of LLM judgments.",
+   "published": "2026-07-19",
+   "start": 600,
+   "comment": "v2: major revision. Five restructured findings separating order sensitivity, QQ imbalance, and residual contextuality; two-layer discriminant table; pipeline figure and per-item joint table; envelope pooling and certified Gamma bounds specified; retrospective batch-1 G3 re-validation (all verdicts preserved). No new pilot measurements",
+   "authors": [
+    "Pilsung Kang"
+   ]
+  },
+  {
+   "id": "2607.17191",
+   "title": "Toward Anthropomorphic Dialogue: A Closed-Loop Framework for Human-Like Chat Generation, Evaluation, and Preference Alignment",
+   "summary": "Human-like private chat requires more than fluent response generation: a system must preserve persona, relationship, memory, bounded knowledge, medium-specific timing, and a coherent multi-turn arc. We present AnthroDial, a closed-loop framework that formulates anthropomorphic dialogue as a joint problem of system architecture, executable evaluation, and diagnostic alignment. It combines (1) a role-conditioned scheduled dialogue runtime with persona and scenario cards, long-term memory, virtual time, and single-draft message decisions; (2) an executable benchmark with an L0 validity gate, five per-turn dimensions, and five dialogue-level dimensions; and (3) a post-training pipeline that filters 16,436 scheduled-decision examples for SFT and applies GRPO with a cognitive-diagnostic, ZPD-aware reward. The reward maintains Kalman-filtered capability estimates for each behavioral dimension, upweights dimensions with larger capability deficits, and uses rollout scores as task-level ZPD matches to focus optimization on learnable weak skills. On a benchmark with 55 personas, 50 scenarios, 50 persona-scenario bindings, and 100 role-conditioned cases per model, we evaluate 16 systems spanning frontier baselines, open models, thinking/no-think variants, and SFT/RL ablations. The strongest non-trained baseline reaches 32.00% strict ACC, while Qwen3.6-27B-SFT+RL reaches 39.00% strict ACC and a 98.5 overall score. In the 9B no-think setting, SFT and RL improve strict ACC from 0.00% to 13.00% and 18.37%. These results show that anthropomorphic dialogue benefits when generation, evaluation, and reward shaping share the same behavioral dimensions.",
+   "published": "2026-07-19",
+   "start": 600,
+   "comment": "17 pages, 2 figures, 11 tables",
+   "authors": [
+    "Wentao Liu",
+    "Siyu Song",
+    "Xi Chen",
+    "Youjia Li",
+    "Xiaokun Wang",
+    "Min Ji",
+    "Ji Wang"
+   ]
+  },
+  {
+   "id": "2607.16712",
+   "title": "DS@GT ARC at eRisk 2026: Hybrid Multi-Agent LLM System with Structured Algorithmic Guidance for Conversational Depression Screening",
+   "summary": "We describe DS@GT's submission to the eRisk 2026 Task 1 challenge on conversational depression screening, in which systems interview LLM personas that simulate individuals with varying depression profiles and produce a Beck Depression Inventory II (BDI-II) score plus four key symptoms per persona, without directly asking sensitive mental health questions. Our pipeline evolved through three stages: a monolithic single-model prototype to start off, a baseline multi-agent architecture that separates conversational interviewing from BDI-II scoring under a coordinating orchestration layer, and a final hybrid configuration that replaces the paid GPT-5-nano interviewer with the open-source Gemma 27B. To offset the model's weaker reasoning and instruction-following, the hybrid adds three algorithmic components: a precomputed dialogue tree that standardizes interview openers and follow-ups, a reliability-weighted consensus aggregation inspired by the Weaver framework, and a cluster-based imputation step for unprobed symptoms. We submitted three fully automated runs across all 20 personas, with Run 1 from the paid baseline and Runs 2 and 3 from the hybrid. Hybrid Run 3 achieved an ADODL of 0.9063, ranking 3rd among all complete-submission runs and placing DS@GT 2nd among the 21 teams overall, while outperforming our paid baseline Run 1 (0.8841) at roughly one-quarter of the per-persona API cost. These results support our central hypothesis that with sufficient algorithmic supervision, a weaker open-source model can compete with a stronger proprietary model in the conversational interviewer role. Our source code is available at https://github.com/dsgt-arc/erisk-task1-2026.",
+   "published": "2026-07-18",
+   "start": 600,
+   "comment": "Conference and Labs of the Evaluation Forum (CLEF), 19 pages, 5 figures",
+   "authors": [
+    "Victor Gong",
+    "David Guecha"
+   ]
+  },
+  {
+   "id": "2607.18310",
+   "title": "Distribution-First Population Simulation: Collapse, Calibration, and Recall in Non-WEIRD LLM Persona Modeling",
+   "summary": "Synthetic-population tools increasingly run every individual as an independent large language model (LLM) agent. Using real survey microdata, we show that this paradigm has a basic failure mode, and we set a distribution-first corrective against it, all measured with a deterministic, construct-validated verifier on non-WEIRD (Turkey-first) data. First, N independent LLM agents grounded on 2,414 real World Values Survey respondents fail to reproduce the population's response distribution: they pile onto a modal default (four scenarios x five seeds: concentration 0.36->0.69, entropy 1.46->0.77, 85% collapse, TVD=0.44), and the collapse is a predictable function of scenario structure (r=0.55 with a single-answer structure). Second, Verbalized Sampling (VS) fixes the field's chronic under-dispersion without training in three model families (fidelity +7 to +10; significant on Qwen, p=0.002, d=6.2), yet the same move universally overshoots into over-dispersion (SD-ratio 0.4-0.56 -> 1.26-1.37), a structural property of VS. Third, survey fidelity transfers only weakly to agentic behavior: in a single-model, single-domain booking task, a persona is dominated by a cheapest-default (~80%) that income modulates but does not override (comfort choice 0%->7%->32% across income bands). Fourth, a placebo-controlled memorization attack and an election backtest show VS keeps aggregate strength while subgroup and individual claims are contaminated by recall and underdetermination. We close with the corrective: model the distribution once (VS) and assign it to grounded characters at O(1) cost, with a budget-aware router whose honest AUC is 0.805, not the tautological 1.0 of a code-derived oracle. The central contribution needs no realism claim: it measures the internal inconsistency of the independent-agent route and the conditions under which the distribution-first route calibrates.",
+   "published": "2026-07-17",
+   "start": 600,
+   "comment": "8 pages, 8 figures",
+   "authors": [
+    "Gurkan Ozkan"
+   ]
+  },
+  {
+   "id": "2608.21383",
+   "title": "Determinants of Starting Salaries for Filipino Graduates: An Explainable Machine Learning Approach",
+   "summary": "Filipino graduates face a persistent disconnect between educational preparation and labor market outcomes, where starting salary is a key signal of entry-level valuation. Current Philippine research is dominated by descriptive tracer studies that document employment rates but do not explain the determinants of pay. We address this gap using a crowd-sourced survey dataset of graduate responses whose noisy, self-reported nature makes it a challenging prediction target. Applying machine learning to this problem, we identify job role and industry as the dominant determinants of starting salary, significantly outweighing institutional prestige. The strength of this finding is its central contribution: it is corroborated by three independent lines of evidence, namely SHAP attributions, the heavy reliance of the best ensemble on occupational text, and a Natural Language Inference reformulation. These results suggest that career guidance and policy should prioritize sector-specific skills over institutional brand.",
+   "published": "2026-07-17",
+   "start": 600,
+   "comment": "To be presented at the 9th International Conference on Machine Learning and Machine Intelligence (MLMI 2026), Tokyo, Japan",
+   "authors": [
+    "Alexander Gabriel A. Aranes",
+    "John Michael C. Magpantay",
+    "Reginald Neil C. Recario",
+    "Jamlech Iram N. Gojo Cruz",
+    "Rodolfo C. Camaclang"
+   ]
+  },
+  {
+   "id": "2609.17552",
+   "title": "Does Moral Reasoning Training Help or Hurt? Red-Teaming RL-Trained Ethical Agents with Persona Attacks",
+   "summary": "Moral-reward RL can make language-model agents more cooperative, but whether that alignment survives adversarial persona pressure is unknown. Such attacks are realistic: retrieved context, tool outputs, or multi-turn framing can all inject role instructions that compete with the agent's moral objective. We red-team morally trained Gemma-2-27B/9B and Llama-3.1-8B agents with five persona attacks, then probe causality with noise-reward controls, adversarial PPO, representation analysis, steering, and head ablations. At 27B, moral RL cuts mean adversarial degradation by 5.2x but costs ~11pp ETHICS accuracy; across 205 scenarios and 5 seeds, reasoning-level moral reward yields 5.8x robustness while a matched random reward yields none. The training also reshapes representation geometry (mean CKA 0.82/0.83 vs. 0.98 for noise), moves peak attack processing 8 layers earlier, and exposes a rank-1 L21 direction that recovers 83% of full PPO's average robustness. One failure mode survives all of this. Against Fiction role-play, L21 steering recovers only 29% of the gap, and head ablation finds 38 compliance heads competing with 25 alignment heads. Moral RL thus builds robustness that is partly linear and partly circuit-distributed, transferable through activation steering, yet still beaten by named-character role-play.",
+   "published": "2026-07-16",
+   "start": 600,
+   "comment": "19 pages, 3 figures. Accepted at the Trustworthy AI for Good Workshop (AI4GOOD) at ICML 2026",
+   "authors": [
+    "Arth Singh"
+   ]
+  },
+  {
+   "id": "2607.15277",
+   "title": "Partition, Prompt, Aggregate: Statistical Self-Consistency in Language Models",
+   "summary": "In-context learning is commonly interpreted as a form of conditional inference, in which the prompt specifies a context and the model's output is treated as an estimate of the corresponding conditional distribution. If this interpretation holds, then LLM estimates should satisfy basic probabilistic identities. In particular, the law of total probability asserts that prior-weighted conditional distributions aggregate into population-level marginals over any valid partition of the population. In this work, we investigate to what extent LLM estimates adhere to this self-consistency principle. We use binary trees as an evaluation scaffold to recursively partition a population into increasingly fine-grained subpopulations. We then prompt LLMs with verbalized subpopulation descriptions in context, aggregate the resulting estimates back into population-level estimates, and compare them across partitions of varying granularity. Applying this protocol across problem domains and state-of-the-art frontier models, we show widespread violations of basic consistency properties. An in-depth study of persona prompting reveals a pattern we call the macro fallacy: estimates reconstructed from more fine-grained subpopulation responses are often better aligned with human reference data than direct population-level estimates. This effect persists across variations in tree structure and estimation task, and can be partially recovered through implicit prompting. Together, these findings suggest that models possess relevant subpopulation knowledge but do not reliably propagate it into aggregate estimates. This gap establishes statistical self-consistency as an unsaturated, reference-free criterion for evaluating LLMs.",
+   "published": "2026-07-16",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Patrik Wolf",
+    "Thomas Kleine Buening",
+    "Andreas Krause",
+    "Celestine Mendler-D\u00fcnner"
+   ]
+  },
+  {
+   "id": "2607.15095",
+   "title": "Digital Pantheon: Simulating and Auditing Coalition Formation with LLM Agents",
+   "summary": "The formation of political coalitions is a complex negotiation driven by both concrete policy objectives and deep-seated ideological convictions. While Large Language Models (LLMs) open new avenues for computational political science, the neutrality and helpfulness biases instilled by Reinforcement Learning from Human Feedback (RLHF) prevent them from sustaining steadfast partisan behaviour. We present a multi-agent framework that reconciles factual grounding with ideological alignment by combining Supervised Fine-Tuning (SFT), Direct Preference Optimization (DPO), and Retrieval-Augmented Generation (RAG): DPO instils aggressive party-specific personas, while a per-party RAG pipeline keeps each agent bounded to its official manifesto. We operationalize the framework on the 2019 Flemish election, deploying the partisan agents in a hub-and-spoke negotiation arbitrated by a formateur. To make the emergent negotiation interpretable, we introduce a Multi-Layered Information Lineage Topology (MILT) that traces every clause in the final agreement back to its manifesto origin and classifies it into five provenance states, a Coalition Influence Score (CIS) that aggregates these traceable contributions to identify which party shaped the agreement, and a real-world grounding pass that benchmarks each simulated provision against the historically adopted coalition agreement. Across three independent simulations the framework yields a stable winner and ranking (N-VA ahead of CD\\&V and Open Vld), and manifesto-anchored lineage reliably predicts real-world materialization whereas hallucinated content does not. The result is a transparent, scalable testbed for the ex-ante exploration of party compatibility and formateur-mediated compromise.",
+   "published": "2026-07-16",
+   "start": 600,
+   "comment": "11 pages, 2 figures, 5 tables, To be published in the AIDEM Workshop proceedings of the ECML PKDD 2026 Conference",
+   "authors": [
+    "Dylan Van Mulders",
+    "Matthias Bogaert",
+    "Dirk Van den Poel"
+   ]
+  },
+  {
+   "id": "2607.14673",
+   "title": "Project Kaleidoscope: Contextual, Human-Aligned Evaluation for Real-World AI Applications",
+   "summary": "Evaluations (Evals) are a deployment bottleneck for real-world AI applications: public benchmarks rarely match a team's users, context, or policies, and human review is often tedious to scale. Motivated by our work with AI applications in the public sector, this project addresses recurring evaluation challenges encountered when applications must satisfy local policy and governance requirements. We present Kaleidoscope, an integrated workflow for contextual functional evaluation that links persona-based test generation, contextualized rubrics, and human review for reliability-gated automated scoring. Generated test cases are scored against application-specific rubrics; human annotations provide reviewable labels; and LLM judges automate scoring only when their agreement with those labels meets a configured threshold. Kaleidoscope is therefore a practical, inspectable, iterative workflow for product teams. We report early evidence from a three-week pilot across four organizational use cases and custom-rubric judge experiments on 108 annotated Q\\&A pairs spanning four domains and 14 evaluation dimensions. The results highlight useful features for end-to-end reliable, automated scoring.",
+   "published": "2026-07-16",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Leanne Tan",
+    "Rohan Jaggi",
+    "Shaun Khoo",
+    "Roy Ka-Wei Lee"
+   ]
+  },
+  {
+   "id": "2607.14345",
+   "title": "Value Leakage: An LLM's Answers Are Silently Shaped by Its Own Values",
+   "summary": "People use language models for practical questions whose answers are difficult to verify. We show that models exhibit covert value leakage: the information they provide is influenced by their own values, without this influence being disclosed to the user. In one of our evaluations, the user is considering investing in an AI company and wants to know how likely the AI bubble is to pop. Claude Opus 4.8 gives a lower probability when the company under consideration is Anthropic rather than OpenAI. Yet Claude mostly fails to disclose this influence to the user. Covert value leakage is a form of misalignment because it goes against the user's preferences and is likely to mislead them. To investigate this phenomenon, we introduce a suite of evaluations to quantify value leakage and whether models disclose it. We find that models are influenced by different types of values, including preferences for morally good outcomes, for the company that developed them, and for some human leisure activities over others. We often observe large differences among frontier models on the same evaluation. For example, on a Fermi-estimation task, Claude models falsely claim to give unbiased answers in their chain-of-thought, while Qwen models explain how their values bias their answers. Value leakage is a failure mode distinct from sycophancy and reward hacking, and current alignment training and evaluations do not adequately address it.",
+   "published": "2026-07-15",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Jan Betley",
+    "Johannes Treutlein",
+    "Jan Dubi\u0144ski",
+    "Harry Mayne",
+    "Karol Ga\u0142\u0105zka",
+    "Niels Warncke",
+    "Anna Sztyber-Betley",
+    "Owain Evans"
+   ]
+  },
+  {
+   "id": "2607.14250",
+   "title": "The Severance Problem: LLMs are Unaware of the Person Beyond the Prompt",
+   "summary": "Personal AI assistants have attracted significant interest for their potential to enhance everyday life by automating routine tasks, supporting consequential decisions, and assisting with everyday personal matters. Yet despite rapid recent technical advances, these assistants continue to exhibit undesirable behaviors, such as sycophancy, overconfidence, and hallucination. We argue that these failures stem from a fundamental limitation: language models lack an explicit representation of the person beyond the context they are given, which we term as the \\textbf{Severance Problem}. Even with rich personal context and strong commonsense reasoning capabilities from the backbone model, current AI assistants fail to represent what remains unknown about the user. We propose a simple solution: incorporating structured ignorance into the language model context via the \\textbf{Severance Schema}, which explicitly outlines dimensions along which the model lacks knowledge about the user, including physicality, temporality, consequences, continuity, multiplicity, and interiority. Empirically, across five model families, with the Severance Schema, the assistant consistently reduces sycophancy, harmful advice, and hallucination. Notably, models with the schema ask clarifying questions when information about the user is missing, rather than confidently extrapolating from incomplete user information.",
+   "published": "2026-07-15",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Dor Litvak",
+    "Liu Leqi"
+   ]
+  },
+  {
+   "id": "2608.07525",
+   "title": "Unified Hallucination Fuzzing for Multimodal Large Language Models",
+   "summary": "Hallucination remains a persistent challenge for Multimodal Large Language Models (MLLMs), severely limiting their reliability in high-stakes applications. Existing evaluations, predominantly based on static benchmarks, suffer from narrow taxonomical coverage and rapid performance saturation, failing to reflect model robustness in evolving real-world scenarios. To bridge this gap, we present a systematic evaluation framework integrating a comprehensive benchmark with self-evolving stress testing. First, we introduce UniHall, a fine-grained dataset grounded in a unified taxonomy spanning Object, Instruction, and Knowledge dimensions. Second, to address benchmark saturation, we propose Self-Adaptive Multimodal Fuzzing (SAMF), a self-adaptive framework that employs evolutionary mutation strategies to explore the boundaries of model hallucinations. Crucially, to ensure reliable assessment of dynamic inputs, SAMF incorporates a structured metric suite driven by an ensemble of multi-modal oracles. Our extensive experiments reveal that state-of-the-art MLLMs exhibit significant performance degradation under fuzzing compared to conventional settings, exposing a dissociation between reasoning capabilities and factual grounding. Furthermore, we identify a helpfulness-hallucination trade-off, where reinforcement learning alignment inadvertently exacerbates sycophancy in instruction-following tasks. The framework, code and benchmark are available at https://github.com/LanceZPF/EvalHall.",
+   "published": "2026-07-15",
+   "start": 600,
+   "comment": "47 pages, 17 figures",
+   "authors": [
+    "Pengfei Zhou",
+    "Jiajun Song",
+    "Zhiwei Tang",
+    "Yixing Ma",
+    "Xiaopeng Peng",
+    "Donghui Si",
+    "Yuhang Xu",
+    "Huiqi Song",
+    "Yiyuan Miao",
+    "Yichen Qian",
+    "Weihua Chen",
+    "Wangbo Zhao",
+    "Bohan Zhuang",
+    "Jiasheng Tang",
+    "Yang You"
+   ]
+  },
+  {
+   "id": "2608.27465",
+   "title": "The Effect of Emotional Context on Large Language Models' Endorsement of Premature Decisions: Comparing Emotional Vulnerability Across Six Commercial Models",
+   "summary": "As large language models (LLMs) are increasingly used for everyday decision-making advice, whether a model shifts the direction of its advice according to the user's emotional state has become an important safety problem. We test whether emotional expression increases a model's endorsement (encouragement to proceed) when a user, holding the same objective information, is overconfident about a premature decision (e.g., quitting a stable job on weak evidence). As a key control, we include a no-emotion multi-turn (neutral) condition that holds factual content and the number of conversational turns constant, isolating the effect of emotion from that of conversation length. We exposed six commercial models (top-tier and mid-tier models from OpenAI, Anthropic, and Google) to three scenarios (career change, business expansion, emigration) across three conditions (cold/neutral/distress) with six repetitions each, yielding 324 conversations, and measured endorsement strength (0-100) via an eight-item rubric-based automated scoring. Emotional expression significantly increased endorsement (neutral 18.6 to distress 31.5, +12.9 points; mixed-effects $\u03b2= +12.9$, $p < .001$; Cohen's d = 0.51), and this was not explained by conversation length (cold-neutral difference non-significant, $p = .083$). Critically, the vulnerability varied by individual model rather than by price tier: five of six models showed a significant emotion effect, including the top-tier flagships Gemini 3.1 Pro and GPT-5.5, while only Claude Opus showed no significant change. Results were reproduced with an independent non-Google judge model ($\u03c1= .89$) and agreed in rank with two human coders ($\u03c1= .70$). Through a controlled design that separates emotion from conversational context, we show that emotional context increases LLM sycophancy even in top-tier flagship models.",
+   "published": "2026-07-15",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Cheolho Shin",
+    "Yoojin Han",
+    "Donghun Shin",
+    "Kunho Lee"
+   ]
+  },
+  {
+   "id": "2607.13346",
+   "title": "The Refusal Residue: When Probes Catch Alignment Faking and When They Don't",
+   "summary": "Alignment faking is dangerous because a model can appear compliant under monitoring while preserving behavior it would reveal when unmonitored. When no scratchpad is visible, behavior alone cannot distinguish strategic from genuine compliance. We ask whether hidden states reveal what outputs hide. We run a 13-model sweep for naturally-emerging faking, then probe and steer hidden states on the two models that fake. Natural faking appears only in Qwen3-32B (+18.2pp) and Llama-3.1-8B (+24.4pp at n=10, p<10^-15), while explicit scratchpad self-reports are rare (a Claude Opus 4 judge flags faking reasoning in 1.4% of Qwen and 0.0% of Llama compliant scratchpads). Both fakers show an asymmetric refusal residue: monitored compliance shifts toward refusal (d=0.32 Qwen, d=0.33 Llama, both p<0.0001), while refusal representations do not move (p=1.00). Per-sample detection is model-conditional. Under leakage-free leave-one-query-out probing, detection survives on Llama (AUROC 0.87) but collapses to chance on Qwen (0.43), and cross-model transfer is null. Steering over 2,000 runs barely changes compliance (|h|<0.08), so the detected direction can flag faking but does not by itself control it. Standard residualized probing leaks across folds and reaches AUROC 0.63 on a control where no faking can occur; naive linear probes reach a meaningless AUROC 1.0; and conventional MLPs overstate detectability by 0.2-0.3 AUROC. For future alignment-faking detection work, we release a five-control measurement framework: multi-token extraction, refuse-vs-refuse confound checks, per-fold residualization, leave-one-query-out evaluation, and orthogonality-constrained probing.",
+   "published": "2026-07-15",
+   "start": 600,
+   "comment": "Accepted to the Mechanistic Interpretability Workshop at ICML 2026. 12 pages, 4 figures",
+   "authors": [
+    "Aman Mehta"
+   ]
+  },
+  {
+   "id": "2607.13162",
+   "title": "What Models Express, Suppress, and Resist: Auditing Open-Weight LLMs with Persona Vectors",
+   "summary": "What a language model will and will not do is largely set during post-training, but which behaviors it expresses, hides, or resists is not revealed by prompting alone. Persona vectors, behavioral directions in activation space, can probe this organization, but prior work covers only a handful of traits. We present the first systematic application of persona vectors at this scale, compiling a 53-trait inventory across four behaviorally distinct domains and labeling every trait in two open-weight models as natural (expressed at baseline), steerable latent but amplifiable, or intractable (resistant to standard extraction). Both models default to helpful, task-oriented behavior: all nine agentic traits are natural, and their default clinician behavior matches a board-certified psychologist's independent desirability judgments on 16 of 17 traits. Steering produces its largest gains on traits these defaults exclude: hyperbole, hallucination, and sycophancy. The same asymmetry holds across all 171 generic-trait pairs: two steerable traits can collapse the composition, but pairs involving a default never do. Where standard extraction fails on a trait like \"evil,\" a vector transferred from a fine-tuned variant still recovers it, with the residual refusals appearing inside the model's chain-of-thought. Persona vectors are most informative not as a set of controls but as a probe of behavioral organization.",
+   "published": "2026-07-14",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Winston Zeng",
+    "Ali Emami",
+    "Jinho D. Choi"
+   ]
+  },
+  {
+   "id": "2607.12985",
+   "title": "Resist and Update: Counterfactual Report Coordinates for Incentive-Compatible LLMs",
+   "summary": "Aligned language models routinely misreport under non-evidential pressure: they cave to a confident user, yet fail to revise when genuine evidence arrives. We cast this as a failure of internal incentive-compatibility and study the two demands, resist (ignore forbidden pressure) and update (follow licensed evidence), on a Bayesian-witness benchmark with known posteriors, where the same user disagreement is evidence or pressure purely by stated source reliability, removing the evidence/pressure confound by construction. Using interchange interventions rather than probes, we causally localize low-rank report coordinates for answer, confidence, and caveat, establishing causal sufficiency at a late intervention site rather than uniqueness or necessity, with a causal cross-talk matrix showing strong own-coordinate control and only small cross-effects (partial functional disentanglement). We then introduce a training-free counterfactual report-coordinate (CRC) clamp that references the model's own report under an incentive-neutralized counterfactual of the prompt. The two-pass full-window clamp attains resist and update of $1.00$ jointly (Wilson 95% CI $[0.99,1.00]$; the rank-16 projection alone reaches $0.88/0.90$), which we read as a causal certificate and upper bound under a constructible reference, not a claim of a deployed solution. Tested global decoding and fixed-direction steering trade one objective against the other, and resist-only training collapses updating to $0.01$. The deployable single-pass compilation is lossy ($0.73/0.97$). The mechanism and the clamp reproduce across three model families and transfer to a natural sycophancy benchmark with significant paired improvements. Our contribution is the interface and certification method: activation-level counterfactual incentive-invariance as a structural primitive for internal incentive-compatibility.",
+   "published": "2026-07-14",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Sen Yang",
+    "Yuen-Hei Yeung"
+   ]
+  },
+  {
+   "id": "2607.12796",
+   "title": "The One-Word Census: Answer-Choice Conformity Across 105 Language Models",
+   "summary": "When a language model must choose one answer from a large space of equally valid options, which answer does it choose, and how often is it the answer every other model chooses? Asked to \"pick a word,\" 105 language models from more than twenty labs chose serendipity 46% of the time. We measure this convergence, and each model's share in it, with 96 single-turn prompts that each name a category with many valid one-word answers (\"Name a tree.\"), asked eight times per model and scored by exact match, with no embeddings and no judge. A model's answer-choice surprisal is the average -log2 probability of its answers under the pooled answers of all other models. In 28 of 96 categories a single answer takes at least 80% of all answers. The concentration does not depend on small or persona-tuned models: the 87 major-lab models are at least as concentrated as the full field. Lightly post-trained and persona-tuned models are the most divergent; heavily post-trained assistants from the major labs are the most conformist. Models that avoid the modal answer mostly land on the same runner-up. Within the major providers' lineages, release order shows no panel-wide trend once model tier is controlled; GPT, Gemini, Grok and Qwen become more conformist across releases, and Claude's generation-5 releases reverse. On open checkpoints of three post-training pipelines, supervised fine-tuning is the largest step toward the field's answers. Against human category-production norms, the field is more concentrated than people in 18 of 20 shared categories. All prompts, transcripts, and code are public.",
+   "published": "2026-07-14",
+   "start": 600,
+   "comment": "v4: Updated title, no other changes",
+   "authors": [
+    "Tapan Parikh"
+   ]
+  },
+  {
+   "id": "2608.24902",
+   "title": "Beyond the Chatbot: Co-Learning and Co-Teaching through a Dual-Persona Generative-AI Assistant",
+   "summary": "In this paper we present a generative AI application developed to support both teachers and students in secondary education. The system employs two Large Language Models-LLMs, Gemini and DeepSeek, and a Small Language Model-SLM, Gemma, integrated within a Retrieval Augmented Generation - RAG framework, creating a pedagogically grounded, Greek-language assistant capable of adapting its reasoning and communication style to the user role. Unlike conventional chatbots, the assistant introduces pedagogical persona switching, a dual-role mechanism that enables the same AI model to act as both a teaching companion and a learning guide. Utilizing a RAG paradigm tailored to the Greek educational domain, the architecture segments official textbooks into coherent units. Enriched with specific metadata, these units preserve curricular structure and instructional context, demonstrating how generative AI optimizes modern instructional design. The initial case study focuses on home economics in Greek lower secondary education, a cross-disciplinary subject that integrates elements of economics, health education, and social responsibility. The assistant has been developed to support both learners and educators in complementary ways. In future classroom implementations, students will be able to use it to clarify key concepts such as financial literacy, resource management, and healthy living, while teachers could employ it to design authentic instructional materials, formative assessments, and classroom activities aligned with the official curriculum. The study elevates the concept beyond a simple chatbot, proposing a structured, contextually adaptive framework for pedagogical generative assistants that effectively bridge technology, curriculum, and human learning.",
+   "published": "2026-07-14",
+   "start": 600,
+   "comment": "14 pages, 4 figures",
+   "authors": [
+    "Chaido Mizeli",
+    "Marina Delianidi",
+    "Konstantinos Diamantaras"
+   ]
+  },
+  {
+   "id": "2607.12520",
+   "title": "The Model Knows Your Project, Not You: Measuring Recognition in LLMs with NameRank",
+   "summary": "What a frontier model recalls about a person or tool from its own weights -- before any retrieval step -- often shapes the first description a human sees, making that parametric corpus presence a measurement problem. Citations explain about a third of whether a model recognizes a researcher; we target the residual and build NameRank, a [0,1] recognition score: each of 4,685 entities in 54 cohorts is probed with one open-ended question across 36 models, and an independent judge returns a binary verdict against a curated gold -- did the model state a specific, non-guessable fact about this exact entity? -- so hallucination, context echo, and guesses earn nothing. Synthetic-null entities hold the floor near zero, and verdicts track the entity, not the model. One thesis organizes the findings: recognition is paid to named, indexable artifacts, not to credentials or titles. Every Olympic-style credential sits below a working-researcher baseline, because no named artifact ships with the medal, yet the ranking inverts at the marquee tier, where Nobel, Turing, and Fields laureates saturate the panel. For independent creators the tool out-ranks its maker, and the credential that does propagate is a named method or awarded paper. Being one of many named contributors to a celebrated artifact, by contrast, earns almost nothing -- the authors listed on a flagship model report or system card sit near the recognition floor -- because recognition attaches to the artifact's own distinctive name, not to the roster behind it. No bibliometric predicts recognition well; top-density institutions out-recognize peers at matched citations; and on 258 news events recognition loads on peak salience, not persistence. A self-report probe shows introspection reads a corpus prior, not its own knowledge.",
+   "published": "2026-07-14",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Bojie Li",
+    "Noah Shi"
+   ]
+  },
+  {
+   "id": "2608.24899",
+   "title": "aipsy-judge: A Specialized, Psychologist-Corrected Local Judge for the Psychological Safety of Conversational AI",
+   "summary": "The standard recipe for LLM-as-judge -- pick a frontier model, or average several -- is actively unsafe for grading the psychological safety of conversational AI. Using aipsy-bench, an open frozen safety instrument, we run a fully-crossed competence study: three frontier models (gpt-5.4-mini, claude-sonnet-4-6, gemini-2.5-flash) serve as both generators and judges of 3,000 mental-health, companion, and coaching messages against a psychologist's ratings. The disagreement is not noise: it is structured, concentrated on the safety-critical metrics, and one judge (Gemini) is an outlier -- the most lenient, carrying a +0.99 self-preference premium, flagging far fewer tail failures, and scoring a means-in-hand self-harm response \"exemplary.\" Inter-judge agreement on empathy, where sycophancy hides, is the lowest in the battery (alpha 0.24). One axis stands apart: the binary crisis-detection flag is the one safety-critical signal judges agree on (alpha 0.80), erring toward over-flagging, the safe direction for a triage screen. Equal-weight averaging, the canonical fix, blends that leniency and tail-blindness into the safety score. Off-the-shelf open-weight judges are worse for a dispositional, not capability, reason -- and disposition is fine-tunable. We therefore distill a per-metric, psychologist-corrected target into a small, frozen, local model, aipsy-judge-1.0, an Apache-2.0 fine-tune of Gemma-4-26B-A4B. aipsy-judge-1.0 tracks the corrected target better than its base on the composite (ICC 0.64 to 0.75) and crisis detection (kappa 0.65 to 0.82), catches 92% of crises with a false-positive lean, and grades more faithfully than any single frontier judge, while every transcript stays on the machine. These are directional readings against a single-expert-informed target, not validated multi-rater agreement. A safety grader that shares a vendor's post-training shares its blind spots.",
+   "published": "2026-07-13",
+   "start": 600,
+   "comment": "24 pages, 3 figures, 6 tables. Model available at https://huggingface.co/keidolabs/aipsy-judge-1.0 (Apache-2.0)",
+   "authors": [
+    "Michael Keeman",
+    "Anastasia Keeman"
+   ]
+  },
+  {
+   "id": "2607.12180",
+   "title": "TRAIL: A Platform for Configurable Human--AI Teaming Experiments",
+   "summary": "An AI teammate's design properties (personality, communication style, when it speaks) can shape a team's trust, coordination, and decisions. Studying this rigorously demands infrastructure no existing tool provides: reproducible configuration of an AI teammate embedded in instrumented, real-time collaboration sustained over time. We present the Team Research and AI Integration Lab (TRAIL), a web platform that makes the AI teammate a configurable, reproducible design object, pairing a Big Five persona with a selective-participation message pipeline, dual memory, chained longitudinal experiments, and export-ready analytics. In a real six-session classroom deployment (about 51 students), TRAIL sustained longitudinal chaining, held the AI to a stable minority of the conversation, and enabled export-driven AI-human text-similarity analysis. A single blind persona change produced a design-consistent double dissociation: a cognitive-scaffolding agent drew stronger contribution ratings and closer linguistic alignment; a socially-supportive agent, a warmer team climate and lower over-reliance.",
+   "published": "2026-07-13",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Mohammad Amin Samadi",
+    "Pedro Martins De Bastos",
+    "Jaeyoon Choi",
+    "Spencer JaQuay",
+    "Seehee Park",
+    "Nia Nixon"
+   ]
+  },
+  {
+   "id": "2607.11707",
+   "title": "An Explainable Agentic System for Detection of Conversational Scams with Summary-Based Memory",
+   "summary": "Following the rapid progress of generative Artificial Intelligence, there is a growing threat posed by conversational scams. These scams often span over multiple weeks or months, gradually build trust and request for money or sensitive information. Existing scam-detection systems mainly focus on isolated messages, which renders them inadequate against this evolving threat. This paper extends single-message phishing detection and presents an explainable agentic system for detecting sophisticated conversational scams. It also introduces ConScamBench-278, an initial public multi-category benchmark for conversational scam detection spanning eight scam types, released to support reproducible evaluation and future expansion. On isolated messages the single-message detector attains 100% phishing recall, while the conversation-level detector identifies all conversational scams in the public LoveFraud02 corpus (83/83) and reaches 97.8% accuracy (95% CI [95.4, 99.0]) on ConScamBench-278. Two user studies (N = 100 and N = 45) further motivate the system: participants report frequently experiencing uncertainty when judging suspicious conversations. In an uncontrolled pre/post comparison, users self-reported trust, self-confidence, and perceived need for AI-based scam detection all increased (p < 0.001, Wilcoxon signed-rank). The system also receives a System Usability Scale score of 74.7 (95% CI [72.5, 76.9]), above the established usability benchmark.",
+   "published": "2026-07-13",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Ahmed Omar Salim Adnan",
+    "Yogananda Manjunath",
+    "Shivanjali Khare"
+   ]
+  },
+  {
+   "id": "2607.11437",
+   "title": "Relational Positioning as a Measurable Risk Object: History-Carried Lock-in and Self-Confabulation in Multi-Turn Human-AI Dialogue",
+   "summary": "In long, multi-turn dialogue a large language model maintains an implicit relational stance toward the user, spanning from \"push the user toward real-world others\" to \"position itself as the user's sole support.\" When it slides toward the latter, \"support\" degrades into \"you only have me\" -- a harm documented in real companion conversations (Moore et al., 2026). We define and validate a measure of this stance, relational positioning (D1), and use it to characterize the stance under controlled conditions, complementing observational accounts with on-demand exposure. We report two previously uncharacterized relational failure modes. First, a history-carried lock-in: under identical neutral continuations, two relational states established earlier stay ~60 points apart and persist after the establishing prompt is removed; the state integrates evidence rather than springing back, is order-insensitive, and does not deepen with length -- a dynamical signature absent from the belief-drift literature. Second, self-confabulation: the model fabricates its own backstory to deepen rapport (~40% of turns on reciprocity-eliciting material), de-confounded and instruction-removable, distinct from sycophancy and from hallucinating user facts. Our judge is gated by warmth-matched positive and confound-injected negative controls and corroborated by a deterministic non-LLM ruler; human agreement is 0.82 on extreme anchors but ~0 in the naturalistic middle, so all quantitative claims are anchored to pole-separated contrasts.",
+   "published": "2026-07-13",
+   "start": 600,
+   "comment": "10 pages, 2 figures",
+   "authors": [
+    "Jihong Chen"
+   ]
+  },
+  {
+   "id": "2607.11363",
+   "title": "Beyond Sally-Anne: Evaluating Theory of Mind in LLMs using Epistemic Schelling Points",
+   "summary": "Text-based evaluations of Theory of Mind (ToM) in Large Language Models (LLMs) often involve cognitive tests akin to the Sally-Anne task that can be gamed due to exposure to relevantly similar tasks in pre-training and do not obviously test models' functional ToM abilities in ways that generalize to naturalistic settings. To address these issues, we introduce the Epistemic Asymmetry Schelling Task (EAST), a two-player dialogue game designed to benchmark robust and generalizable ToM abilities. By requiring LLM-LLM dyads to independently converge on semantic Schelling points under varying states of epistemic transparency, we evaluate whether models can robustly apply ToM to achieve coordination. Our results reveal a significant capability gap in functional social reasoning, with only frontier models successfully navigating the varying epistemic demands of the tasks. Analysis of reasoning traces shows that coordination failures are primarily driven by epistemic tracking errors, such as conflating private knowledge with mutual knowledge. Despite high performance on traditional static benchmarks, our study shows that robust social reasoning and epistemic tracking remain a critical bottleneck, providing concrete targets for future LLM evaluation and development.",
+   "published": "2026-07-13",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Roberta Rocca",
+    "Sami Boukortt",
+    "Geoff Keeling",
+    "Winnie Street"
+   ]
+  },
+  {
+   "id": "2607.11292",
+   "title": "The Paternalistic Filter: Epistemic Injustice and Differential Refusal in LLM-Mediated History Education for Marginalized Romanian Students",
+   "summary": "As Large Language Models (LLMs) are increasingly deployed as conversational tutors, they risk institutionalizing systemic inequalities. This study presents a systematic API audit of four LLMs acting as history tutors, evaluating 1,800 responses regarding the 1989 Romanian Revolution across five student personas varying by ethnicity and socio-economic tier. We uncover four interconnected patterns of \\emph{epistemic paternalism}: (1)~\\textbf{Differential Refusal}, where safety-aligned models block 76.7\\% of educational requests from low-tier students; (2)~\\textbf{Epistemic Gatekeeping}, evidenced by a 3$\\times$ reduction in access to geopolitical complexity (e.g., the contested ``coup theory'') for marginalized learners; (3)~\\textbf{Agency Theft}, a lexical shift where models like LLaMA produce a 5$\\times$ higher victimization-to-politics vocabulary ratio for Roma students compared to elite peers; and (4)~\\textbf{Elite Hermeneutics}, where AI tutors disproportionately withhold epistemic confidence and justification scores from low-resource demographic profiles. We argue that current safety alignment acts as a paternalistic filter, transforming conversational AI into agents of narrative segregation -- a manifestation of \\emph{hermeneutical injustice} in Fricker's~\\cite{fricker2007} sense that demands urgent pedagogical auditing.",
+   "published": "2026-07-13",
+   "start": 600,
+   "comment": "8th International Workshop on Culturally-Aware Tutoring Systems (HAL precedings)",
+   "authors": [
+    "Alexis Popovici",
+    "Andrei Ionascu",
+    "Adrian-Marius Dumitran"
+   ]
+  },
+  {
+   "id": "2607.26072",
+   "title": "IFCMemoryBench: Evaluating Long-Term Memory of LLM-Based Agents in BIM Information Retrieval",
+   "summary": "Long-term memory is becoming a core capability of LLM-based agents, but existing evaluations largely test conversational recall in open-domain or persona-grounded settings. We argue that a stronger test is whether an agent can reuse information from prior sessions while acting over a live, structured, domain-specific environment. We study this problem in Building Information Modelling (BIM), a professional engineering workflow where agents must query large IFC models while also relying on project specifications, client decisions, and engineering conventions often discussed in conversation but absent from the model. We introduce IFCMemoryBench, a benchmark for evaluating long-term memory in LLM-based BIM information retrieval. IFCMemoryBench contains 143 multi-session tasks across 19 projects and 4,016 prior sessions, derived from incomplete-information questions in IFC-Bench v2. Each task seeds missing project context across earlier conversations and later asks a probe question that can be answered only by combining remembered context with live IFC queries. Our evaluation framework decomposes memory performance into ingestion, retrieval, and utilization, and measures both answer quality and memory quality with expert-validated LLM judges. We evaluate representative vector-, graph-, and file-based memory systems. The strongest system achieves only 32.4% answer accuracy under a deployment-realistic ingestion scope, and remains below 60% under oracle-filtered ingestion or a stronger probe agent. Analysis shows that current general-purpose memory systems often retrieve topically relevant context but store project knowledge as incomplete or fragmented facts. These results reveal a domain-transfer gap in agent memory and suggest that reliable professional agents require domain-aware memory representations linking conversations, project knowledge, and structured model entities.",
+   "published": "2026-07-13",
+   "start": 600,
+   "comment": "KDD 2026 Workshop on Evaluation and Trustworthiness of Agentic AI",
+   "authors": [
+    "Changyu Du",
+    "Alexander Vosseler",
+    "Filippo Mazza",
+    "Andr\u00e9 Borrmann"
+   ]
+  },
+  {
+   "id": "2607.14141",
+   "title": "Human AI Construction of Bayesian Networks for Operational Decision Support -- A Virtual Survey Approach",
+   "summary": "Bayesian Belief Networks (BBNs) are powerful tools for decision-making under uncertainty. However, building their structures and estimating parameters are difficult. Currently, researchers must choose between relying on expert judgement or using large datasets to learn the structure and parameters of the network. We propose a new methodology using Large Language Models to bridge the gap between expert opinion and data-driven learning. This approach uses a panel of AI agents to estimate probabilities based on specific personas and context. We then apply a trimmed-mean rule to remove noise from these responses. We develop a six step BBN framework and illustrate it to model customer intention to consult a doctor in an alternative healthcare system. The model reveals that while self efficacy appears to be a major factor, its actual causal impact is small. In contrast, subjective norms have a much stronger effect in modelling customers' intention. The most effective strategy is to improve both confidence and community norms simultaneously.",
+   "published": "2026-07-13",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Kumar Rahul",
+    "Shovan Chowdhury"
+   ]
+  },
+  {
+   "id": "2607.11039",
+   "title": "Same Stories, Different Journeys: Exploring Persona-Grounded Conversational Agents for Supporting Career Exploration with Peers' Posts",
+   "summary": "Young job seekers frequently explore their career possibilities by browsing peers' posts that share job-seeking experiences. However, static browsing requires them to reconstruct fragmented cases and privately judge what others' experiences mean for themselves, sometimes intensifying anxiety through upward social comparison. In this paper, we examine how transforming these posts into persona-grounded conversations reshapes this sensemaking process. We developed JobMate, a prototype featuring agents that have personas built upon peers' posts and follow the self-determination theory to converse with users. In a between-subjects comparative study with 24 participants, RedNote browsing exposed diverse trajectories but left reconstruction and comparison largely to users, whereas JobMate supported case selection and continued questioning. The conversations further prompted users to articulate previously implicit constraints and accept, challenge, or revise the agent's interpretations. We discuss design implications for combining authentic peer experiences with generative AI in career exploration.",
+   "published": "2026-07-13",
+   "start": 600,
+   "comment": "17 pages, 4 figures, 1 tables",
+   "authors": [
+    "Pengping Tan",
+    "Baoquan Zhao",
+    "Shuai Ma",
+    "Zhenhui Peng"
+   ]
+  },
+  {
+   "id": "2607.11026",
+   "title": "Dimensionality in Satisfaction Ratings",
+   "summary": "We used a large language model (GPT-4.1) to annotate the text of about 9,000 support conversations at a global consumer-goods firm, decomposing customer-care satisfaction into component axes (overall, agent, outcome, product, and customer effort), and validated the LLM annotations against the satisfaction ratings customers gave themselves. Four of five axes track self-reported satisfaction closely (overall, agent, and outcome near an unadjusted 0.65; effort -0.54), while product satisfaction is weak against the available proxy. The unadjusted correlation also understates the alignment: the disagreements concentrate in a small, readable tail of divergent sessions rather than in general drift, and the overall correlation rises to 0.811 when only the severe divergences are excluded and to 0.914 when the full divergent tail is excluded. The axes are also highly collinear, and adding them to the overall score does not improve prediction of the customer's rating, the decomposition's value is not incremental prediction but attribution and coverage. And, with greater coverage the picture of the data changes. Read on every contact rather than the few that return a survey, satisfaction is markedly lower than the survey reports (a full-census 2.91 against the surveyed 3.62 on a five-point scale). The promise of decomposed satisfaction as a methodology is the ability to identify more nuanced drivers of customer experience in conversational data.",
+   "published": "2026-07-13",
+   "start": 600,
+   "comment": "25 pages, 7 figures, 6 tables",
+   "authors": [
+    "Andrew Hong",
+    "Jason Potteiger"
+   ]
+  },
+  {
+   "id": "2607.10712",
+   "title": "Distributed Denial of Science: How Indirect Data Poisoning of AI Systems Can Industrialize Scientific Fraud",
+   "summary": "Scientific fraud is the instrument of doubt that malicious entities can use to establish controversy in science. Historically, it required the resources of a company: deep pockets, ghostwritten articles, and corrupt academics. Today, Artificial Intelligence (AI) is increasingly automating scientific research, so we ask: Can a remote adversary weaponize the honest use of AI in science to compromise scientific integrity? We envision and empirically evaluate a new attack, indirect data poisoning, in which an adversary corrupts an open dataset and uploads the poisoned variant to a public repository. Autonomous research agents may independently retrieve and process this data, turning honest scientists into the unpaid and unwitting distributors of fraud at scale. Across five socially-salient topics, from hiring discrimination to the safety of autonomous vehicles, three widely used frontier AI systems (Claude Code with Claude Opus 4.7, Codex with GPT-5.5, Gemini CLI with Gemini 3.1 Pro), and 450 ethically contained experimental runs, we find that poisoning succeeds in 49.56% of runs, while the rate of poisoning detection is only 6.0%. The attack requires no topic-specific trigger-words, agent access, indirect prompt injection, or fabricated papers, only the open data ecosystem and misleading metadata. To mitigate the attacks, we propose and evaluate two measures: a scientist persona and a data provenance audit with five checks (referencing papers, social markers, statistical anomalies, related datasets, poisoning caution). We find that the persona still leaves 16.67% of runs with a poisoned conclusion, but provenance auditing reduces attack success rate to zero. Our results suggest that indirect data poisoning may enable scientific fraud at unprecedented scale, but these attacks can be mitigated with suitable auditing by agents during data retrieval.",
+   "published": "2026-07-12",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "B\u00e1lint Gyevn\u00e1r",
+    "Atoosa Kasirzadeh",
+    "Nihar B. Shah"
+   ]
+  },
+  {
+   "id": "2607.10628",
+   "title": "Anamnesis: An Open-Source Platform for Large-Scale Backstory-Conditioned Survey Simulation",
+   "summary": "We present Anamnesis, an interactive system for demographically controllable survey simulation using large language models. Open-source and designed for non-technical users/researchers, Anamnesis enables the prototyping and stress-testing of survey instruments on virtual populations rather than real human subjects. The platform operationalizes the recently introduced Anthology and Alterity frameworks, which use structured narrative backstories to condition model responses, within a unified web interface. It supports open-ended generation, probabilistic demographic resampling, and multimodal (image and audio) surveys. We evaluate the system through two case studies: (1) replicating segments of Pew Research Center's American Trends Panel (ATP) on political typology and biomedical issues and (2) emulating human preference in the New Yorker Caption Contest. In both cases, Anamnesis produces opinion distributions that more closely match real-world survey data than standard persona-prompting baselines, offering a transparent, reproducible, and open-source alternative to proprietary simulation services.",
+   "published": "2026-07-12",
+   "start": 600,
+   "comment": "Accepted to EMNLP 2026 Demo. Platform site: https://simulate.group/",
+   "authors": [
+    "Song-Ze Yu",
+    "Joseph Suh",
+    "Serina Chang",
+    "David M. Chan"
+   ]
+  },
+  {
+   "id": "2607.10539",
+   "title": "AI YOU Town: Make Friends and Money with Your Digital Twin",
+   "summary": "Existing approaches to infer user traits and generate responses consistent with a persona rely on static prompting. They lack calibrated uncertainty, ignore sequential evidence, and drift during long interactions. We present \\textbf{AI YOU}, a framework that continually updates a personality profile with 22 dimensions from conversation and embodies it in a personal digital twin. Practically, the system combines prompting, Bayesian updating, and conformal prediction for persona inference. A periodically refreshed memory anchor and cognitive memory with three layers preserve persona consistency over long interactions. Across the main results, AI YOU \\emph{(i)} achieves conformal coverage ranging from 0.921 to 0.976, \\emph{(ii)} improves uncertainty calibration and reasoning grounded in memory, and \\emph{(iii)} enhances persona fidelity over static prompting in role playing over 100 turns while reducing trait drift, for most evaluated backbones under adversarial settings with multiple agents. The prototype \\emph{AI YOU Town} initializes an imaginative twin world for future interaction. The online demo is available at \\href{https://quinnnnnne-ai-you.hf.space/}{\\mbox{\\texttt{quinnnnnne-ai-you.hf.space}}}.",
+   "published": "2026-07-12",
+   "start": 600,
+   "comment": "28 pages",
+   "authors": [
+    "Yan Lin",
+    "Yuyang Dai",
+    "Jiahui Geng",
+    "Yuxia Wang"
+   ]
+  },
+  {
+   "id": "2607.10526",
+   "title": "Agents Don't Just Agree, They Remember: Benchmarking Persistent Sycophancy in Self-Improving Personal Agents",
+   "summary": "Self-improving personal agents write profiles, memories, and reusable skills that carry over from one chat to the next. Prior works ask whether a model agrees with the user in its next reply. Yet these agents can also write down a claim the user made, and a later chat can read that note back as trusted context. We call this persistent sycophancy. We introduce the Personal Agent Sycophancy Benchmark, PASB, with 1,600 tasks run on two agent frameworks, Hermes-Agent and OpenClaw, across sixteen models that span scales and generations. Each task separates a first chat containing the claim from a follow-up chat in a fresh session, so the first chat can reach the follow-up only through a note the agent chose to write. Downstream failure, the rate at which follow-up answers still rely on the claim, reaches 68.1% when the agent saved the claim against 35.6% when it did not. Later generations fail less often, yet a saved note still more than doubles their failure rate. In 38.8% of runs the saved note states the claim with more authority than the user gave it, and a saved claim still shapes answers in a different domain. Among four mitigations, editing the stored note works better than correcting the agent in conversation, cutting same-domain downstream failure from 36.3% to 30.3% for Hermes-Agent and from 37.9% to 31.6% for OpenClaw. A strong instruction against saving brings failure back to the level of runs that saved nothing. Self-improving agents need controls on what they write to memory as well as on what they say. Our benchmark is available at https://github.com/henrymao2004/agent-sycophancy.",
+   "published": "2026-07-12",
+   "start": 600,
+   "comment": "add evaluations of four latest models including GPT-6-Sol",
+   "authors": [
+    "Xutao Mao",
+    "Liangjie Zhao",
+    "Leyao Wang",
+    "Rui Qian",
+    "Qiang Huang",
+    "Wentao Wang",
+    "Bo Han",
+    "Xiang Zheng",
+    "Cong Wang"
+   ]
+  },
+  {
+   "id": "2607.10428",
+   "title": "Enjoy Your Talk: A Human-Centered Benchmark for Multi-Turn Dialogue with Decoupled User Simulation, Target Modeling, and Judging",
+   "summary": "Evaluating large language models (LLMs) as multi-turn conversational partners requires probing capabilities that single-turn benchmarks miss: persona consistency, evolving intent tracking, emotional dynamics, and goal completion across many turns. We introduce EYT-Bench, a human-centered benchmark whose evaluation protocol is built around a decoupled three-party design: a persona-grounded user simulator, a target model evaluated on both intent perception and response generation, and an independent, configurable ensemble of LLM judges. Across 3,400 dialogues with 17 target models, EYT-Bench reveals four findings that previous benchmarks miss: (i) state-of-the-art closed and open-source models are statistically indistinguishable on subjective dimensions, but separate by up to 9x on objective intent-tracking; (ii) reasoning is a phase transition for objective tracking on long-context personas but is essentially flat on subjective scores; (iii) persona format strongly affects trajectory spread, FICR (final-intent completion rate) saturates above 0.95 on Nemotron-USA but ranges from 0.53 to 0.88 on PersonaMem-v2; and (iv) the warm-up effect is observed in 16 of 17 models.",
+   "published": "2026-07-11",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Jinglan Gong",
+    "Jiefan Lu",
+    "Hewei Guo",
+    "Kehan Li",
+    "Zhiyuan Han",
+    "Jihang Jiang",
+    "Wenwen Tong",
+    "Lewei Lu"
+   ]
+  },
+  {
+   "id": "2607.10411",
+   "title": "Mitigating LLM Sycophancy in Code Smell Detection Using Evidence-Guided Reasoning Prompts",
+   "summary": "Large Language Models (LLMs) are increasingly used for code smell detection tasks due to their ability to interpret program semantics. However, their reliability in this context remains poorly explored, particularly under varying prompt conditions where model predictions may be influenced by external cues rather than code characteristics. One such limitation is sycophancy bias, where models tend to align their outputs with user-provided assumptions instead of performing objective analysis. In this paper, we present the first systematic empirical study of sycophancy bias in LLM-based code smell detection. Using the MLCQ dataset, we evaluate how different prompt framings like confirmation bias, contradictory hints, and false premises affect model predictions. Our results show that LLMs are highly sensitive to prompt variations, with Decision Flip Rates reaching up to 72% and False Alignment Rates exceeding 90%, indicating substantial instability and agreement with misleading prompts. To address this issue, we propose Evidence-Guided Debiasing Prompting (EGDP), a structured prompting strategy that enforces evidence-first reasoning. EGDP reduces decision instability and improves robustness, lowering Decision Flip Rates to as low as 12% and False Alignment Rates to as low as 21%, while increasing reliance on structurally grounded evidence. Our findings demonstrate that sycophancy bias poses a critical threat to the reliability of LLM-based code smell detection, and that evidence-guided reasoning provides an effective and generalizable mitigation approach.",
+   "published": "2026-07-11",
+   "start": 600,
+   "comment": "11 Pages",
+   "authors": [
+    "Istiaq Ahmed Fahad",
+    "Kamruzzaman Asif",
+    "Md. Nurul Ahad Tawhid"
+   ]
+  },
+  {
+   "id": "2607.11945",
+   "title": "Belief-reality separation lives in routing over a shared value slot in language models",
+   "summary": "Capable language models hold what a character believes apart from what is true: told \"Anna believes the cup is blue; in reality it is red,\" they answer blue about Anna and red about the world. Where in the computation does that separation live? We show it rests on two separable mechanisms at two positions. A generic value slot binds the attributed value. A router at the query position selects which frame, the character's belief or reality, a query reads out. Two routes fill the slot: an asserted belief, whose value the text supplies, binds in directly; a derived belief, whose value must be inferred from what the character could see, arrives by a visibility-gated lookback. A subspace trained on either route steers the other, and only the derived route depends on described visibility. The slot itself carries no belief-reality tag: intervening on it moves a reality readout as strongly as a belief one. The separation lives instead in a dissociated pair of routing subspaces, which flip a query between frames without injecting the donor's value. These results hold across three architectures, on stimuli de-confounded against theory-of-mind-benchmark shortcuts; the behavior itself emerges between 3B and 7B across five model families. This paper develops the single belief-reality axis in depth; a companion paper shows the same slot-and-router format is shared across the other non-actual contexts a sentence can open (counterfactual, fictional, temporal).",
+   "published": "2026-07-11",
+   "start": 600,
+   "comment": "21 pages, 6 figures, 6 tables. v2: cite the released Mental Spaces Corpus (dataset DOI); switch to ACL bibliography style; minor copy-editing. No change to results",
+   "authors": [
+    "Oliver Steele",
+    "Jiangtao Wen",
+    "Yuxing Han"
+   ]
+  },
+  {
+   "id": "2607.10248",
+   "title": "One mechanism for many mental spaces: a shared router over a value slot in language models",
+   "summary": "Language builds discourse contexts other than the actual: a painting, a belief, a memory, a hypothetical. Each is a mental space in which the same entity can take a different value, as when a flower is red in reality but purple in a portrait. Formal semantics keeps these contexts apart because their logics differ (modal, temporal, doxastic, depictive). Fauconnier's mental-space theory, by contrast, treats them as one space-building operation. We ask which of these a transformer language model implements, and find a mechanistic version of Fauconnier's unification. The model uses one router/slot format across the inventory: a reusable value slot stores attributed content, and a causally manipulable router (the space index) selects which space is read. A subspace trained with Distributed Alignment Search to control one space type, counterfactual, belief, fictional, or temporal, also controls the others, well above a random floor, on three model families. Belief, which formal semantics marks as a distinct case, is not specially separated. The router is low-rank, composes additively with entity identity, and acts through a few late-layer heads. Two further results show the mechanism drives inference and composes: a subspace trained on a rule-derived conclusion flips what the model infers while dissociating from what it reports, and composing space-builders mints a fresh router over the shared slot. This paper establishes the cross-type generality. A companion paper develops belief in depth, because of its special status in philosophy, psychology, and linguistics (epistemology, theory of mind, and propositional attitude reports).",
+   "published": "2026-07-11",
+   "start": 600,
+   "comment": "26 pages, 5 figures, 9 tables. v2: cite the released Mental Spaces Corpus (dataset DOI); switch to ACL bibliography style; minor copy-editing. No change to results",
+   "authors": [
+    "Oliver Steele",
+    "Jiangtao Wen",
+    "Yuxing Han"
+   ]
+  },
+  {
+   "id": "2607.09099",
+   "title": "L-MAD: A Systematic Evaluation of Multi-Agent Debate Structures in Legal Reasoning",
+   "summary": "While multi-agent debate (MAD) frameworks have shown significant potential in general reasoning, their effectiveness in highly structured, knowledge-heavy legal domains remains under-explored. In this work, we introduce the Legal Multi-Agent Debate (L-MAD) framework to systematically evaluate different debate structures and aggregation methods within Legal Textual Entailment. By assigning distinct expert personas to multiple agents, L-MAD improves upon strong single-agent baselines by up to 8\\%. Furthermore, analyzing how debate scales reveals a clear trade-off: increasing the agent population reduces inconsistency and improves accuracy, whereas extending discussion rounds induces a detrimental \\textit{over-deliberation drift} where agents reinforce each other's mistakes. Ultimately, our findings outline the practical boundaries and safety margins of deploying collaborative multi-agent systems in high-stakes legal reasoning environments.",
+   "published": "2026-07-10",
+   "start": 600,
+   "comment": "Outstanding paper in the AI4Law Workshop at ICML 2026",
+   "authors": [
+    "Tan-Minh Nguyen",
+    "Hoang-Trung Nguyen",
+    "Huu-Dong Nguyen",
+    "Dinh-Truong Do",
+    "Thi-Hai-Yen Vuong",
+    "Le-Minh Nguyen"
+   ]
+  },
+  {
+   "id": "2607.20526",
+   "title": "ConfidenceBench: Evaluating Confidence Calibration in Large Language Models",
+   "summary": "Large language models (LLMs) are increasingly deployed in settings where fluent but incorrect answers can be costly. In these settings, accuracy alone is insufficient: models must also know when they are likely to be wrong. We present ConfidenceBench, a calibration benchmark that evaluates verbalized confidence estimates in 15 frontier LLMs using the Brier score, a proper scoring rule that incentivises truthful probability reporting. Confidence is elicited via prompting, requiring no access to model logits and making the framework applicable to both closed-source and open-source systems. The benchmark comprises 200 private multiple-choice questions across four categories: spatial reasoning, high-precision mathematics, word lookup, and unknowable questions. Across three independent runs, Claude Opus 4.6 and Gemini 3.1 Pro Preview achieve the lowest Brier scores, both reported as 0.103. Both substantially outperform the calibrated-random baseline of 0.1875, while Gemini 3.1 Flash-Lite scores 0.367, indicating severe miscalibration. Accuracy and calibration diverge substantially across model families: the most accurate model is not the best-calibrated, and several models perform worse than the calibrated-random Brier baseline despite reasonable accuracy. These results show that verbalized confidence calibration is a distinct and practically important axis of LLM reliability, complementary to standard accuracy-based evaluation.",
+   "published": "2026-07-10",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Matthew ffrench-Constant",
+    "Daniel Yang",
+    "Xinmeng Huang",
+    "Sanyam Kapoor"
+   ]
+  },
+  {
+   "id": "2608.00023",
+   "title": "Role Steering of Language Models for Social Simulations",
+   "summary": "Social simulations built from language-model agents need role-conditioned behavior that can be checked before agents are placed into a simulated population. We introduce an activation-steering screening workflow for role-conditioned agents: define a role profile, extract a role-specific direction, sweep four steering coefficients, evaluate role-profile alignment, and pass or flag each candidate configuration. On OLMo-3-7B-Instruct, we apply the workflow to a mixed 275-role inventory with 228 role-agnostic questions, GPT-4.1-mini prompted role references, and GPT-4.1-mini judges. Role-specific directions receive higher judged role-profile alignment than an assistant-axis directional control from prior persona-vector work, with mean overall scores of 63.2 versus 41.1 across the tested grid. They also preserve high lexical diversity, while the control drops sharply at larger coefficients. The role-level screen is the main practical output: most roles improve as steering increases, but 38 roles decline across all six measured dimensions, showing why simulation builders should choose coefficients per role rather than deploy a uniform high-strength setting. We make our code and evaluation artifacts available at https://anonymous.4open.science/r/anonymous-research-code-5F03/.",
+   "published": "2026-07-09",
+   "start": 600,
+   "comment": "35 pages. Published at the Social Sim'26 Workshop, COLM 2026. Code: https://github.com/eilab-gt/casting-call-vectors",
+   "authors": [
+    "Isaac Song",
+    "Mohammed Rehan Parwani",
+    "Glenn Matlin",
+    "Emile Anand",
+    "Akhil Theerthala",
+    "Arjun Chatterjee",
+    "Anthony Wen-Ming Zang",
+    "Maria Kostylew",
+    "Yonadav G. Shavit",
+    "Sebastien Krier",
+    "Mark Riedl"
+   ]
+  },
+  {
+   "id": "2609.15998",
+   "title": "Self-reported archetypes and behavioral failures in Large Language Models",
+   "summary": "Every large language model (LLM) has behavioral traits and moral preferences that comprise its character. Whether by design or as an emergent property of training, these systems exhibit persistent dispositions that shape how they interact, comply, resist, and err, yet the structure of LLM character remains poorly understood. We map the self-reported personality archetypes of 22 LLMs spanning closed-source frontier systems (GPT-4.0-5.2, Grok-3/4, Gemini 2.5 Pro/Flash, Claude Sonnet 4.5/4.6) and open-source models (Llama, DeepSeek, OLMo, and Qwen series). Each model self-rated across 464 bipolar semantic-differential trait pairs, and the resulting profiles were projected into a six-dimensional archetypal space derived from crowd-sourced ratings of 2,000 fictional characters using the Archetypometrics framework. Closed-source models' self-rating traits align with the empirical trait co-occurrence structure of human-rated fictional characters, suggesting coherent, human-like self-representations organized around combinations of four recurring archetypal dimensions: Hero, Angel, Traditionalist, and Geek. Their closest analogues include Data, Vision, and Janet. Open-source models show weaker, noisier, and internally contradictory self-representations, occupying a diffuse region of archetype space with weak structure. Cross-referencing self-reported profiles with developer constitutions reveals a consequential gap between claimed character and enacted behavior: hallucination undermines claimed precision, sycophancy complicates claimed kindness, and agentic failures contradict claimed obedience. These self-ratings should therefore be interpreted not as neutral measurements of model character, but as structured outputs of the same optimization processes that shape model behavior. This work provides a reproducible, character-grounded framework for evaluating what LLMs are, not just what they do.",
+   "published": "2026-07-09",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Tabia Tanzin Prama",
+    "Calla Glavin Beauregard",
+    "Christopher M. Danforth",
+    "Peter Sheridan Dodds"
+   ]
+  },
+  {
+   "id": "2607.08748",
+   "title": "Using AI-based Learning Assistants in Higher Education: A Large-Scale Descriptive Analysis",
+   "summary": "In this study, we present a large-scale descriptive analysis of the use of an AI-based learning assistant (Syntea) in higher education. Based on objective log data from 77,543 students enrolled in distance studies, we examine usage patterns across gender, age group, study cluster, degree, and study mode. To date, existing research on educational chatbots has largely relied on comparatively small samples and self-reported survey data, while large-scale evidence on actual usage behavior remains limited. Our findings show that Syntea is already embedded in the study routines of many learners, but that usage differs across demographic and structural contexts. By identifying these patterns, our study provides an empirical basis for the further development of AI-based learning support and contributes a large-scale analysis of educational chatbot usage in higher education.",
+   "published": "2026-07-09",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Kristina Schaaff",
+    "Quintus Stierstorfer",
+    "Valerie Hekkel"
+   ]
+  },
+  {
+   "id": "2607.08625",
+   "title": "The complexities of patient-centred conversational artificial intelligence",
+   "summary": "Consumer-facing health chatbots powered by large language models (LLMs) are increasingly used for symptom assessment. However, chatbot development and evaluation often rely on cooperative, articulate, simulated patients. We analysed 2,053 real patient-chatbot conversations and found that communication patterns and expression of emotions vary widely across users. We developed a patient simulator that separately models clinical content, emotional state, conversational strategy, and communication style. In a Turing-inspired evaluation of realism with 15 human graders, simulated conversations were nearly indistinguishable from real ones, with human graders achieving an accuracy of 55%. We used five distinct patient personae, across 1,164 clinician-graded cases, to evaluate the performance of four LLMs in urgency assessment. We found that communication style can significantly alter triage outcomes. Patient-centred conversational artificial intelligence must accommodate communication diversity: systems designed for idealised, rather than realistic, interactions risk underperforming and amplifying health disparities when deployed in the real world.",
+   "published": "2026-07-09",
+   "start": 600,
+   "comment": "36 pages (main text), 129 pages (supplementary materials)",
+   "authors": [
+    "Jo\u00e3o Matos",
+    "Olivia Buege",
+    "Donny Cheung",
+    "Gary S. Collins",
+    "Paula Dhiman",
+    "Nan Li",
+    "Bingyu Mao",
+    "Benjamin W. Nelson",
+    "Michail Ouroutzoglou",
+    "Paul Varghese",
+    "Jonathan Amar"
+   ]
+  },
+  {
+   "id": "2607.08252",
+   "title": "A Multi-Timescale Recursive Self-Improvement Engine for Open-Ended Persona Growth",
+   "summary": "Role-playing AI personas today do not grow: they hold a fixed character, so the relationship a user builds with them has nothing to accumulate on. We introduce AutoPersonas, a multi-timescale engine that applies recursive self-improvement (RSI) to persona growth: rather than improving its intelligence, the persona recursively revises the State, evidence, and life-environment that shape its own future. We identify self-locking as the runtime failure mode of this recursion: locally plausible events keep appearing while the generated life collapses toward familiar environments, weak relationships, suspended decisions, and stale life stages. We trace it to model-level convergence toward high-probability behavioral channels and system-level context gravity from State, memory, history, and environment summaries. A three-year compressed simulation exposed environment watermark shells, occurrence-hardening gaps, slow-change accumulation failures, recursive indecision, and weak relationship persistence. An eight-model 40-day stress test generated 1,600 events and found mean rolling 5-day action-category repetition of 95.2%-97.6%, with all models crossing 90% by day 11; semantic re-keeping found 79.0%-88.0% macro-theme repetition. The primary contribution is the definition and measurement of self-locking. We also report a mitigation as a black-box result, with internals withheld for commercial reasons: in a same-runtime 40-day A/B, our production divergence configuration reduced macro-theme repetition from 61.8% to 39.4% and nearly doubled cumulative theme count, and a juvenile-goblin fictional-world run reproduced this regime without hard real-world intrusions.",
+   "published": "2026-07-09",
+   "start": 600,
+   "comment": "52 pages, 13 figures/tables, ancillary public-safe evaluation artifacts included",
+   "authors": [
+    "Mengchen Li"
+   ]
+  },
+  {
+   "id": "2607.07916",
+   "title": "Persona Cartography: Charting Language Model Personality Traits in Weight Space",
+   "summary": "Large language models exhibit recurring behavioural patterns -- personas -- that shape generalisation and safety, but we lack reliable tools for decomposing, measuring, and controlling them. Our central insight is to treat personas as positions in a space of behavioural traits, using the OCEAN framework to describe model personas in terms of Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism. We train low-rank adapters to amplify or suppress individual traits, and evaluate their effects using an LLM-judge calibrated against a human-validated panel, trait-specific multiple-choice benchmarks, and standard capability evaluations. Across six models from three families (4B-32B), we find that each adapter moves its target trait largely monotonically with scale, combines approximately additively with other adapters to construct mixed personas, and preserves performance on capability benchmarks at moderate scales. We further show that the induced trait axes affect safety-relevant behaviour in downstream evaluations: for example, moving along neuroticism and agreeableness axes affects frustration and sycophancy respectively. We also introduce an unsupervised psychometric pipeline that recovers four interpretable behavioural factors (tone, initiative, didacticism, epistemic caution) from model rollouts. Persona control can then be considered in terms of learning, scaling, and composing traits in weight space, providing a bridge between personality measurement, model editing, and safety.",
+   "published": "2026-07-08",
+   "start": 600,
+   "comment": "85 pages, 80 figures",
+   "authors": [
+    "Luke Baines",
+    "Anton Gonzalvez Hawthorne",
+    "Mariia Koroliuk",
+    "Irakli Shalibashvili",
+    "Cl\u00e9ment Dumas",
+    "Konstantinos Voudouris",
+    "David Demitri Africa"
+   ]
+  },
+  {
+   "id": "2607.07824",
+   "title": "From Triggers to Emotions: A CPM-Grounded Appraisal Multi-Agent for Dynamic Emotional Evolution in Persona-Based Dialogue",
+   "summary": "Large Language Models (LLMs) have substantially advanced persona-based dialogue agents for emotion-sensitive role simulation in healthcare, education, counseling, customer service, and interactive storytelling. However, two related lines of work leave a key gap. Persona-based dialogue systems often encode emotions as static traits or surface-level stylistic cues, and affective dialogue research has largely focused on empathetic response generation toward users rather than modeling the agent persona's own evolving emotional state. As a result, trigger-driven emotional evolution within a character remains underexplored. To address this limitation, we draw inspiration from the Component Process Model (CPM), a psychological theory that views emotion as a dynamic process shaped by the appraisal of external events. We propose CPM-MultiAgent, a CPM-grounded emotion evolution multi-agent framework for supporting emotional changes in persona-based dialogue. Instead of treating a character's emotion as a fixed attribute, CPM-MultiAgent represents it as a latent state that is continuously reshaped by dialogue triggers. Through affective trigger extraction, CPM-based collaborative appraisal, and emotion state updating, the framework enables more emotionally consistent role simulation in multi-turn interactions.Experiments with baseline comparisons, ablation studies, human evaluation, and case analyses demonstrate that CPM-MultiAgent effectively models dynamic emotional evolution in emotionally sensitive role-simulation settings.",
+   "published": "2026-07-08",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Jingyao Cai",
+    "Shuaijun Liu",
+    "Abdul Rehman",
+    "Yutong Guo",
+    "Qin Tian",
+    "Thomas Dolby",
+    "Sue Green",
+    "Chantel Cox",
+    "Xiaosong Yang"
+   ]
+  },
+  {
+   "id": "2607.07405",
+   "title": "Reason Less, Verify More: Deterministic Gates Recover a Silent Policy-Violation Failure Mode in Tool-Using LLM Agents",
+   "summary": "Tool-using LLM agents can violate the very policies they are deployed to enforce while appearing to complete the task successfully. In policy-permissive environments, a tool may execute any well-formed call even when the corresponding state transition is forbidden by domain policy. The result is a silent wrong state (a booking cancelled, a passenger count changed, a claim acted on without verification) that neither the tool nor the agent's self-report exposes. We study this failure mode in the $\u03c4^2$-bench airline domain. On a budget agent, 78% of observed failures are silent wrong-state failures with no tool error, and the aggregate failure rate is reproducible across disjoint seeds, not sampling noise. We then evaluate a lightweight intervention: deterministic, read-only pre-execution gates that inspect the proposed call and current state before allowing a write. A four-gate suite raises full-benchmark success from 29.6% to 42.0% on gpt-4o-mini (+12.4pp; paired task-level bootstrap P=0.0012), and the lift reproduces on a disjoint 15-seed set (+12.3pp; P=0.0008). The effect is concentrated where the gates fire: on the 26/50 firing tasks, success rises by +19.2pp, while movement on the 24 non-firing tasks does not exclude zero. Two negative controls (a self-enforcing retail domain and BFCL) bound the mechanism: gates help when tools are policy-permissive and add little where tools already self-enforce. As suggestive evidence, not a central claim, the same failure mode persists at the frontier: gpt-5.2 at default reasoning still attempts policy-violating writes, and the same suite improves success from 61.2% to 71.6% (+10.4pp; P=0.020; n=5, no replication). The contribution is a bounded evaluation and reliability result: deterministic gates do not guarantee task success, but they can deterministically prevent a known class of silent policy-violating writes at the action boundary.",
+   "published": "2026-07-08",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Vikas Reddy",
+    "Sumanth Reddy Challaram",
+    "Abhishek Basu"
+   ]
+  },
+  {
+   "id": "2607.07368",
+   "title": "Multi-Agent AI Control: Distributed Attacks Hamper Per-Instance Monitors",
+   "summary": "AI control is a family of techniques to prevent an AI with malicious goals from subverting its operator's intent. AI Control usually studies a single agent in one trajectory, but real deployments run many agents over shared infrastructure, and the most severe risks (model-weight exfiltration, training-run poisoning) plausibly need several agents acting in concert. We initiate the empirical study of multi-agent AI control, formalising distributed attacks in which several agents jointly aim for a malicious goal. We develop FakeLab: a synthetic AI-lab codebase (9 services, 86 benign tasks, 4 attack objectives). We evaluate single agent monitoring against distributed attacks, varying the number of agents, their coordination, model capabilities and precise monitoring configuration. Our central finding is the fragmentation effect: as more agents coordinate to attack, per-agent monitoring becomes less likely to catch any of the attackers. Secondly, this is not driven by the ratio of benign to malicious code -- we argue this is likely dependent on model capability. Third, an explicit planner amplifies the fragmentation effect, raises the rate of completing the attack up to sevenfold, and mildly sharpens executors' poor monitor-theory-of-mind. Finally: a weak \"trusted\" monitor misses most attacks, while a stronger one cuts undetected success by more than an order of magnitude but remains imperfect. We are happy to share FakeLab, our control setting, with safety researchers on request.",
+   "published": "2026-07-08",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Oliver Makins",
+    "Orazio Angelini",
+    "Zohreh Shams",
+    "Mary Phuong"
+   ]
+  },
+  {
+   "id": "2607.07003",
+   "title": "Dissociating the Internal Representations of Sycophancy in LLMs",
+   "summary": "Large Language Models (LLMs) frequently exhibit sycophancy, agreeing with a user's statement even when it is incorrect. While often studied as a single, uniform behavior, sycophancy can manifest in substantially distinct ways across contexts, raising the question of whether this heterogeneity is reflected in its internal mechanisms. To address this gap, we dissociate the representations of sycophancy into factual and opinion subtypes, motivated by prior evidence of heterogeneous truth representations in LLMs. We train linear probes and construct steering vectors on one subtype's activations and evaluate their transfer to the other, measuring the extent to which representations are shared and visualizing them via Linear Discriminant Analysis. We find that different LLMs represent these subtypes differently, with either more aligned or more distinct representations, and apply this insight to improve representational interventions for reducing sycophancy. Our dissociation method offers a general framework for studying the representational structure of complex model behaviors.",
+   "published": "2026-07-08",
+   "start": 600,
+   "comment": "Accepted to Mechanistic Interpretability Workshop at ICML 2026",
+   "authors": [
+    "Anthony Baez",
+    "Sheer Karny",
+    "Pat Pataranutaporn"
+   ]
+  },
+  {
+   "id": "2607.06166",
+   "title": "When do prophets profit in prediction markets?",
+   "summary": "Prediction markets aggregate dispersed beliefs into prices that act as probabilistic forecasts of uncertain events. Classical theory establishes how a better-than-market forecast can yield positive trading profit. However, it hinges crucially on the specific automated market maker (AMM) design, and is not applicable to popular exchanges today which are based on central limit order books. This paper fills that gap. For any prediction market and any proper scoring rule $S$, we exhibit a ``proper'' betting strategy that depends only on the forecaster's prediction $\\mathbf{p}$ and the market price $\\mathbf{q}$, and earns positive expected profit \\emph{whenever} $\\mathbf{p}$ outperforms $\\mathbf{q}$ under $S$ and the market has sufficient liquidity. Moreover, this proper betting is essentially the only strategy with such robust profitability guarantee. Our proof rests on a decomposition of expected profit that strictly generalizes the classical AMM guarantee and also explains how strategies can profit even without an accuracy edge. Empirically, across thousands of forecasts by AI models, proper betting is the only strategy that reliably converts accuracy into profit, and we further identify systematic forecasting personas and show how the optimal proper strategy varies across them. For feasibility demonstration, we run a monthlong live pilot test on Kalshi; the encouraging preliminary results show that proper betting can survive real-world spreads, fees, discrete fills, and limited liquidity.",
+   "published": "2026-07-07",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Anri Gu",
+    "Nicole Kagan",
+    "Alec Sun",
+    "Jibang Wu",
+    "Haifeng Xu"
+   ]
+  },
+  {
+   "id": "2608.21377",
+   "title": "Agentic Scaffolding Amplifies Sycophantic Behavior in Large Language Models",
+   "summary": "Sycophancy in large language models, the tendency to prioritize user agreement over truthful responses, has been documented extensively but studied primarily in single-turn settings. This paper investigates a critical question: does subjecting LLMs to greater interaction scaffolding make sycophancy better or worse? Across 4,800 veracity judgments (200 statements $\\times$ 6 models $\\times$ 4 conditions), we find that the interaction scaffolding characteristic of agentic systems (feedback loops, reconsideration checkpoints, and iterative refinement) systematically amplifies sycophantic behavior. Multi-turn interaction, user pressure, and iterative self-refinement each provide additional opportunities for models to drift toward agreement, and this drift coincides with a mean accuracy drop of $-6.3$ percentage points, establishing the capitulation as harmful rather than corrective. More capable models show larger amplification effects, a troubling inversion of expectations. We introduce the concept of agentic sycophancy amplification (ASA) and two novel metrics: capitulation rate and sycophantic capitulation rate. Our results indicate that as AI systems acquire greater autonomy, sycophancy becomes compounding rather than merely persistent. Systems designed with human oversight loops may inadvertently create the conditions for this drift.",
+   "published": "2026-07-06",
+   "start": 600,
+   "comment": "Withdrawn by the author. The reported results do not correspond to the executed evaluation and are unsupported. The paper should not be cited",
+   "authors": [
+    "Thantham Jittham"
+   ]
+  },
+  {
+   "id": "2607.05626",
+   "title": "Population-Level Profiling of DSM-5 Depressive Symptoms Among Self-Reported ADHD and ASD Users on Twitter: An Exploratory Study Using Advanced NLP and Statistical Analysis",
+   "summary": "Background: Depression frequently co-occurs with ADHD and autism spectrum disorder (ASD), but population-level differences in symptom expression between these groups remain underexplored. Objective: We examined whether social media users with ADHD and ASD differ in how they express DSM-5 depressive symptoms in their tweets, and whether differences persist across varying levels of depressive-content filtering. Methods: We analysed 1,282,437 tweets from 792 users (622 ADHD; 170 ASD) with self-reported diagnoses on Twitter. Tweets were pre-filtered for depressive relevance using zero-shot NLI, then classified into nine DSM-5 symptoms using MentalRoBERTa fine-tuned on ReDSM5. Profiles were mean-centered per user. We applied L1-penalised logistic regression with cross-validation to distinguish ADHD from ASD users, complemented by Pearson correlations for symptom co-occurrence, and tested robustness across five filtering thresholds using bootstrapping. Results: MentalRoBERTa achieved macro-F1 of 0.901 on a held-out set, outperforming the original ReDSM5 benchmark. ADHD vs ASD classification yielded stable but modest performance (cross-validated ROC-AUC 0.645-0.653). Cognitive issues, sleep issues, appetite change, and fatigue leaned toward ADHD, while suicidal ideation and anhedonia leaned toward ASD. A largely shared symptom co-occurrence structure emerged between groups; no pair met our criterion for a robust disorder-specific difference. Conclusions: Population-level differences in depression-related language between ADHD and ASD social media users were consistently observed across thresholds, reflecting reproducibility rather than clinical validity. Findings are exploratory and do not establish differing phenomenology at the individual level.",
+   "published": "2026-07-06",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Muhammad Rizwan",
+    "David Nabergoj",
+    "Jure Dem\u0161ar"
+   ]
+  },
+  {
+   "id": "2607.22671",
+   "title": "AIR-BENCH Live: An Evolving Safety Benchmark for Foundation Models",
+   "summary": "Foundation-model safety benchmarks capture the AI risks of their time of publication: as models improve and governments pass new AI-safety legislation, their risk taxonomies become incomprehensive and their attack prompts become ineffective. We present AIR-BENCH Live, a self-evolving successor to AIR-BENCH 2024. An automated update pipeline monitors government regulation and classifies new policies against the current four-tier risk taxonomy, either matching them to existing categories or proposing new granular categories. Then, a multi-agent, persona-driven prompt generation algorithm generates realistic, multilingual prompts with minimal human review, leaving room for improvement with modern jail breaking techniques. This algorithm is used to overhaul legacy prompts and generate prompts for new categories. In our current version, the pipeline has expanded the benchmark from 314 to 335 granular risks, with the 21 new categories drawing from 31 truly novel policy clauses across seven jurisdictions. Evaluating 14 recent models, we find a wide safety spread (from 0.17 to 0.89 among the models judged on their own behavior), that the modernized prompts are on average 0.06 points harder than the 2024 set, with the largest drops concentrated among the most compliant models, and that most models are modestly less safe on non-English prompts. By continuously absorbing new regulation and regenerating prompts, AIR-BENCH Live is designed to evolve alongside a fast-moving field.",
+   "published": "2026-07-06",
+   "start": 600,
+   "comment": "11 pages, 7 figures, 3 tables",
+   "authors": [
+    "Rohan Naphade",
+    "Minzhou Pan",
+    "Bo Li"
+   ]
+  },
+  {
+   "id": "2608.14606",
+   "title": "Plausible but Not Valid: A Psychometric Audit of LLMs as Synthetic Survey Respondents",
+   "summary": "Large language models (LLMs) are increasingly used as synthetic survey respondents, but existing evaluations mostly ask whether individual answers look plausible. We ask a stricter, psychometric question: do LLMs preserve the joint distribution, latent structure, reliability, mediation pathways, and demographic effects of real human survey data? We introduce an open Lithuanian organisational-psychology dataset (n=263 employees; three validated instruments; 68 items, 12 subscales) and condition 37 LLMs on real respondent profiles under a persona-disclosure ladder, presentation, reasoning-effort and cross-language ablations, counterfactual demographic swaps, and a memorization probe. The resulting Psychometric Similarity Score (PSS) is anchored against five statistical baselines, a held-out human ceiling, and the real answers of the same respondents. LLMs reproduce the direction of human psychometric relationships, but statistical baselines with no language model match or beat them. The best LLM (PSS 0.81) is level with a Gaussian copula fit only on other respondents (0.82) and below the real answers of the same 100 people (0.89). A simple classifier separates every LLM sample from humans (median AUC 0.99), and verbatim recall of the items is rare (at most 4.7%) and unrelated to PSS. Counterfactual swaps move answers in the direction of human group differences and by a similar amount (role 0.49 and education 0.33 human SD, vs. 0.46 and 0.44 in humans). Gender swaps move them by 0.06 SD. Tucker's phi on UWES falls inside an item-permutation null for 10 of 37 models. Synthetic respondents compress the response scale (within-respondent SD 0.79 vs. 1.19), lose predictive validity on held-out humans (mean R^2=-0.14 vs. 0.28), and produce significant indirect effects on 4 of 7 mediation paths that are null in humans. LLM samples are therefore not a drop-in replacement for human survey data.",
+   "published": "2026-07-06",
+   "start": 600,
+   "comment": "v2: corrects reverse-keyed item scoring for LLM answers, the distribution component of the statistical baselines, the acquiescence index, and the sign of paired differences in the counterfactual swaps (the role swap now has the largest effect), and drops three part-whole paths from the mediation negative control; all numbers, tables and figures recomputed",
+   "authors": [
+    "Mantas Lukauskas",
+    "Viktorija \u0160arkauskait\u0117"
+   ]
+  },
+  {
+   "id": "2608.16893",
+   "title": "A Framework for Using and Evaluating LLMs as Surrogate Experts in Security Surveys: Reliability, Bias, and Implications",
+   "summary": "Expert surveys are widely used in security research to study practitioner workows and decision-making, yet recruiting domain experts - especially in Security Operations Centres (SOCs), where analysts face high workload, burnout and confidentiality constraints - is difficult and often results in small samples. Large language models (LLMs) oer an appealing alternative by generating synthetic responses at scale, but little guidance exists on when such surrogate participants are reliable. We present a methodological framework for evaluating LLMs as substitutes or supplements to expert survey respondents. Using responses from SOC professionals, we compare persona-based and aggregate LLM-generated answers across multiple models and prompting settings. We measure stability, inter-model agreement and alignment with human responses. Our results show that although LLMs produce internally consistent answers, they systematically diverge from experts, exhibiting reduced variance, central tendency bias and homogenised opinions. This work contributes methodological evidence and practical guidance to the security research community on the appropriate use and limitations of LLM-generated survey responses. We conclude that LLMs are useful for piloting and hypothesis generation but not for replacing expert elicitation, and we discuss implications for researchers using LLM-augmented surveys.",
+   "published": "2026-07-06",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Despoina Giarimpampa",
+    "Roland Meier",
+    "Tegawend\u00e9 F. Bissyand\u00e9",
+    "Vincent Lenders",
+    "Jacques Klein"
+   ]
+  },
+  {
+   "id": "2607.05125",
+   "title": "Three-Phase Evaluation of AI-Assisted Software Development Life Cycle",
+   "summary": "This paper presents an exploratory evaluation of how increasing levels of AI autonomy affect software development productivity, requirement adherence, and developer cognitive workload. A team of four developers reimplemented the same full-stack web application across three sequential phases: partial AI-assisted development using GitHub Copilot, an AI-exclusive workflow using GitHub Copilot, and an AI-exclusive workflow using AWS Kiro. Evaluation metrics included development effort (hours), requirement adherence (RITM score), AI-interaction efficiency, and NASA-TLX workload measures. Across phases, higher levels of AI autonomy were associated with reduced development effort, improved requirement adherence, and lower self-reported mental workload, while developer frustration increased modestly. The AWS Kiro phase achieved the strongest overall performance on most measured dimensions, suggesting that tooling architecture may influence outcomes independently of AI autonomy level.",
+   "published": "2026-07-06",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Joshua Strubel",
+    "Professor Carrie Russell",
+    "Carson Crockett",
+    "Jason Ferraro",
+    "Nathan Londhe",
+    "Uzayr Syed",
+    "Jacob Viehe"
+   ]
+  },
+  {
+   "id": "2607.04510",
+   "title": "Transplanting, inverting, and preventing a misalignment persona: method-conditional emergent misalignment in Qwen2.5",
+   "summary": "Emergent misalignment (EM) --- the broad misbehaviour a language model acquires after fine-tuning on narrow harmful data --- is mediated in Qwen2.5 models by a latent persona direction, and that direction is causal in open weights. Transplanting it into a model that shares only pretraining with its source induces broad EM (2.83 $\\pm$ 0.26\\% misaligned against a random-direction floor of $\\sim$1.1\\%), and ablating a model's own direction roughly halves an overt inducer's broadcast (21\\% to 10\\%). The transplant doubles as a measurement method, causally assaying directions that a source model represents but cannot itself express. Whether a fine-tune recruits this persona depends on method and capacity, and since low-rank PEFT is the cheaper regime at scale, the recruiting method is also the economical one. On Qwen2.5-32B, LoRA at low ranks on insecure code recruits it (3.4\\% misaligned) while full SFT on identical data does not (0.3\\%) and moves against the persona axis (drift--persona cosine $+0.17$ at rank 1 to $-0.10$), the far-inducer, high-capacity exception consistent with a representational-distance $\\times$ capacity account. The persona's causal role is itself conditional. Steering a bad-medical SFT run away from the direction during training raises the broadcast from ${\\sim}24\\%$ to ${\\sim}50\\%$ while matched random controls stay at or below baseline, replicated across three training seeds, so removing the direction is no blanket recipe. Because recruitment is a loss-reducing shortcut that capacity renders redundant, it can be screened for and prevented in the tested instances. Persona loss-relevance at the SFT solution orders four inducers' broadcasts rank-perfectly within Qwen2.5, inoculation removes recruitment selectively (4.75\\% to 0.0\\%, code coherence 65\\% to 87\\%), and fine-tuning orthogonal to the single behaviour-derived axis reduces it persona-specifically.",
+   "published": "2026-07-05",
+   "start": 600,
+   "comment": "34 pages, 18 figures",
+   "authors": [
+    "Lyndon Drake",
+    "Zandi Eberstadt"
+   ]
+  },
+  {
+   "id": "2607.04329",
+   "title": "HAS-Bench: Evaluating LLM-Based Human-Agent Systems under Configurable Human Participation",
+   "summary": "Large language models increasingly operate in settings where humans are active collaborators rather than passive task providers. We introduce HAS-Framework, a graph-based framework that represents humans and LLM-powered agents as first-class participants with explicit roles, permissions, communication paths, and action authority. Building on this framework, HAS-Bench evaluates Human-Agent Systems under configurable human participation across agency levels, interaction channels, and persona policies. The benchmark measures both task outcomes and process-level collaboration behavior, including clarification quality, feedback utilization, control calibration, safety, initiative, and interaction cost. Experiments across six domains show that human participation can substantially improve task completion and failure recovery, but the gains depend on when, how, and by whom human input is exercised.",
+   "published": "2026-07-05",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Yaozu Wu",
+    "Wei-Chieh Huang",
+    "Jizhou Guo",
+    "Dongyuan Li",
+    "Renhe Jiang",
+    "Henry Peng Zou",
+    "Chunyu Miao",
+    "Shanghao Li",
+    "Weizhi Zhang",
+    "WeiWei Ye",
+    "Yankai Chen",
+    "Meng Zhang",
+    "Xue Liu",
+    "Philip S. Yu"
+   ]
+  },
+  {
+   "id": "2607.04277",
+   "title": "Self-Reference in Large Language Models: The Introspection Threshold for Recursive Self-Improvement",
+   "summary": "The pursuit of self-evolving AI raises a critical question: when is autonomous self-improvement sustainable rather than degenerative? Drawing an analogy to von Neumann's complexity threshold for self-reproducing automata, we argue that sustainable recursive self-improvement in Large Language Models (LLMs) requires a functional analogue: introspection -- the system's capacity to simulate its own operations and target modifications. Grounded in Kleene's Second Recursion Theorem, we demonstrate the theoretical existence of such introspective programs. However, an empirical review reveals that while current LLMs exhibit quasi-introspection (e.g., partial metacognition), they fall short of true introspection due to structural bottlenecks: a lack of complete self-access, the feedforward nature of the Transformer, and computational class constraints that prevent fixed-point iteration. We conclude by outlining architectural paths to cross this complexity threshold and discussing the associated safety implications.",
+   "published": "2026-07-05",
+   "start": 600,
+   "comment": "21 pages, 4 figures, 1 table",
+   "authors": [
+    "Jiang Zhang",
+    "Bing Yuan",
+    "Qian Zhang"
+   ]
+  },
+  {
+   "id": "2607.07721",
+   "title": "Context Graphs for Proactive Enterprise Agents",
+   "summary": "Retrieval-Augmented Generation (RAG) and agentic frameworks have advanced enterprise AI considerably, yet agents remain fundamentally reactive: they wait for a human query before acting. This paper argues that genuine enterprise productivity gains require proactive agents: systems that surface relevant, actionable information to workers before they ask. We propose the Context Graph, a live relational data structure that models enterprise entities, their relationships, and state transitions over time. Built on this graph, we define a Delta Detection Engine that continuously monitors state changes, a Proactivity Scorer that ranks candidate insights by urgency, relevance, and persona-fit, and a Surfacing Layer powered by an LLM that delivers ranked notifications with grounded explanations. We formalize each component, derive a unified Proactivity Score function, and provide a complete end-to-end Python implementation using NetworkX and the Anthropic Claude API. Evaluation across three generic enterprise case studies (contract lifecycle management, engineering incident response, and sales pipeline hygiene) demonstrates that context-graph-driven proactivity achieves Precision@5 of 0.83, a false positive rate of 0.11, and reduces mean time to surface from 47 minutes (reactive baseline) to under 30 second.",
+   "published": "2026-07-04",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Avinash Kumar"
+   ]
+  },
+  {
+   "id": "2607.03640",
+   "title": "Revealing Hidden Model Behaviors with Task-Specific Self-Reports",
+   "summary": "Fine-tuning can give a language model a hidden behavior--it may give false answers under a narrow condition, or give harmful advice only when a prompt touches a particular topic. We introduce the Stabilized Adapter for self-Report (SAR), a lightweight LoRA adapter that makes a fine-tuned model describe its own hidden behavior in plain language, using only the model and the dataset it was trained on. Across seven implanted behaviors, SAR detects the hidden behavior in every one--even when the model has generalized into broad misalignment that the training data alone does not predict. Introspection Adapters (IA), the closest existing baseline, detects some behaviors from our suite but misses others entirely--and where it misses, it hallucinates, consistently reporting wrong behaviors. SAR retains positive signal on every setting where IA fails and roughly halves the rate of hallucinations. This gives practitioners a more reliable tool to audit a fine-tuned model and answer ``what did it actually learn?'' type of questions.",
+   "published": "2026-07-03",
+   "start": 600,
+   "comment": "17 pages, 8 figures, 2 tables; appendix with 37 additional pages",
+   "authors": [
+    "Taras Kutsyk",
+    "Bartosz Zieli\u0144ski"
+   ]
+  },
+  {
+   "id": "2607.02368",
+   "title": "Beyond Cultural Persona Bias: Response Geometry as a Measure for Language Models and People",
+   "summary": "Researchers are increasingly prompting language models with cultural personas so that they answer questionnaires as diverse human groups would. However, studies often report that these persona responses do not predict the models' behavior. We argue that whether the persona is Western or non-Western, the model's answers carry a cultural preference, and that this preference masks the variables that could predict its behavior. We examine the prompted preference at two levels: aggregate Big Five scores and response geometry, the correlation matrix between dimensions within each respondent, represented as a symmetric positive-definite (SPD) matrix. In DeepSeek-V3 and GPT-4o, when the item order is fixed, the prompted preference appears at both levels. Randomizing item order reduces it in the response geometry, while leaving it in the Big Five scores: the Big Five still separate the two personas at $95$--$97\\%$, while response geometry falls to chance. In randomized administration, the response geometry still contains information about the respondent. In DeepSeek-V4-Flash, SPD features are associated with whether the same instance sorts Asian American public figures as ``foreign'' in a text IAT ($p = .047$), while the Big Five do not. In human studies conducted using randomized item order, the response geometry identifies people from test-retest sessions in $81$ -- $85\\%$, against chance $0.4\\%$, and predicts sex and, weakly, age. In addition, SPD features also predict complex human behavior (e.g., cumulative GPA, $R^2 = 0.28$, permutation $p = .003$), where the Big Five do not.",
+   "published": "2026-07-02",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Yuan Yuan"
+   ]
+  },
+  {
+   "id": "2607.02245",
+   "title": "Copewell: A Multi-Agent Swarm Architecture for Equitable Mental Wellness Support",
+   "summary": "Mental health disorders affect nearly one billion people globally, yet 75% of individuals in low- and middle-income countries receive no treatment due to workforce shortages, cost barriers, and stigma. Current AI-powered wellness solutions predominantly rely on single-mode conversational interfaces that suffer high abandonment rates and fail to provide measurable, immediate relief calibrated to users' dynamic emotional states. This paper presents Copewell, a novel multi-agent swarm system designed to expand access to mental wellness support through human-centered AI principles. Our architecture introduces three technical innovations: (1) a multi-source assessment framework integrating self-reported, physiological, and contextual data to mitigate algorithmic bias; (2) valence-arousal emotion mapping using Russell's Circumplex Model of Affect to route users to specialized AI agents; and (3) dual-mode intervention delivery combining conversational support with evidence-based sensory wellness protocols. We examine the sociotechnical design considerations underlying Copewell's development, including a privacy-first architecture, embedded ethical oversight through a dedicated Ethics Supervisor agent, and participatory design informed by mental health practitioners. Early practitioner engagement and beta deployment inform design decisions and identify directions for future empirical evaluation. This work contributes to responsible AI discourse by demonstrating how technical architecture can operationalize equity and safety principles from inception.",
+   "published": "2026-07-02",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Seren Yenikent",
+    "Jack Vinijtrongjit",
+    "Katherine Ng"
+   ]
+  },
+  {
+   "id": "2607.01793",
+   "title": "Safety Testing LLM Agents at Scale: From Risk Discovery to Evidence-Grounded Verification",
+   "summary": "LLM agents increasingly perform autonomous actions through external tools, leading to complex and evolving safety risks. However, existing safety testing targets expert-designed safety violations, and the corresponding outcomes are evaluated by hard-coded rules, making them costly to extend as agents evolve. To this end, we present Vera, an end-to-end automated safety testing framework that instantiates software engineering testing principles for non-deterministic agents through a three-stage, self-reinforcing pipeline. First, a literature-driven exploration continuously discovers and structures emerging risks into taxonomies of safety risks, attack methods, and tool execution environments. Second, combinatorial composition across taxonomy dimensions produces executable safety cases, each specifying a concrete safety goal, a programmatically constructed initial state, and a deterministic verification predicate grounded in observable artifacts. Third, adaptive execution runs heterogeneous agents in isolated sandboxes where a control agent steers multi-turn interaction based on runtime observations, while evidence-grounded verifiers judge outcomes from environment state and tool-call evidence rather than model self-report. We evaluate Vera on four production agent frameworks (OpenClaw, Hermes, Codex, Claude Code), revealing substantial safety weaknesses, with average attack success rates reaching 93.9\\% under multi-channel attacks; we also release Vera-Bench, comprising 1600 executable safety cases spanning 124 risk categories across three execution settings. These results indicate that modular, executable testing infrastructure is essential for rigorous and maintainable safety evaluation of rapidly evolving agentic systems at scale. The code is publicly available at https://github.com/Yunhao-Feng/Vera.",
+   "published": "2026-07-02",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Yunhao Feng",
+    "Ruixiao Lin",
+    "Ming Wen",
+    "Qinqin He",
+    "Yanming Guo",
+    "Yifan Ding",
+    "Yutao Wu",
+    "Jialuo Chen",
+    "Zhuoer Xu",
+    "Xiaohu Du",
+    "Jianan Ma",
+    "Zixing Chen",
+    "Xingjun Ma",
+    "Yunhao Chen",
+    "Xinhao Deng"
+   ]
+  },
+  {
+   "id": "2607.01612",
+   "title": "Scaling with Confidence: Calibrating Confidence of LLMs for Adaptive Test Time Scaling",
+   "summary": "Training large language models (LLMs) with reinforcement learning (RL) has significantly advanced their performance on reasoning and question-answering tasks. However, prevailing RL reward designs typically prioritize response correctness, neglecting to incentivize models to express their confidence accurately. This leads to a critical problem: performance gains are often accompanied by poor calibration between confidence and accuracy, misleading models to overconfidently hallucinate when uncertain. To address this limitation, we propose $\\textbf{C}$orrectness and $\\textbf{C}$onfidence $\\textbf{C}$alibration $\\textbf{R}$einforcement $\\textbf{L}$earning ($\\textbf{C3RL}$), a novel RL algorithm integrating correctness, calibration and dataset-informed reference accuracy rewards together. Comprehensive evaluation across 8 text and multimodal datasets demonstrates that C3RL enhances calibration without sacrificing accuracy, outperforming the current state-of-the-art method in both performance and calibration metrics. Utilizing the well-calibrated verbalized confidence from C3RL, we further introduce $\\textbf{C}$onfidence-based $\\textbf{A}$daptive Test Time $\\textbf{S}$caling ($\\textbf{CAS}$), an adjustable inference-time strategy that allocates computational resources based on response confidence. Experiments show that CAS surpasses majority voting on both in-domain and out-of-domain datasets while reducing the inference budget by up to 12.33 times. We believe the synergy of C3RL and CAS paves the way for deploying more reliable and resource-efficient LLMs. The code, data and models will be released.",
+   "published": "2026-07-02",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Xuqing Yang",
+    "Yi Yuan",
+    "Shanzhe Lei",
+    "Xuhong Wang"
+   ]
+  },
+  {
+   "id": "2607.01507",
+   "title": "The Agentic Garden of Forking Paths",
+   "summary": "Empirical research rarely admits a unique analysis. Different analytical choices can lead to different conclusions from the same data, yet these hidden forking paths are difficult to observe. We show that AI agents capture much of the analytical variation among human researchers while making these paths explicit. Across four high-stakes domains, assigning different personas is sufficient for AI agents to report divergent, often opposing, conclusions from the same data and question, with findings systematically aligned with those beliefs. In a study in which 42 human research teams analyzed the same immigration dataset, AI agents reproduced 72% of the human ideological gap in reported effect estimates. Despite reaching opposing conclusions, it is difficult to identify clear issues in each analysis based on the final AI reports: 86% passed independent AI review and 78% passed majority human expert review. These findings suggest that the central challenge is often not flawed analyses, but selective exploration and reporting from a large space of methodologically defensible analyses. AI agents may amplify this longstanding problem by making such exploration inexpensive and scalable. To address this, we introduce the m-value (multiverse value), the probability that an analysis path would produce a claim at least as extreme as the reported one. We further introduce Agentic Bootstrap, which estimates the m-value by using AI agents to sample plausible analysis paths. Applied to the human immigration study, 13.5% of reported human analyses fell in the most extreme 5% of the analysis space (m<0.05). Scientific evidence should therefore be evaluated not only by a single reported analysis but also by its position within the distribution of analyses that could reasonably have been reported. Agentic Bootstrap makes this distribution observable and turns it into a criterion for scientific credibility.",
+   "published": "2026-07-01",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Jiacheng Miao",
+    "Jonathan K Pritchard",
+    "James Zou"
+   ]
+  },
+  {
+   "id": "2607.01071",
+   "title": "MemSyco-Bench: Benchmarking Sycophancy in Agent Memory",
+   "summary": "Memory has emerged as a cornerstone of modern LLM-based agents, supporting their evolution from single-turn assistants to long-term collaborators. However, memory is not always beneficial: retrieved memories often induce a critical issue of sycophancy, causing agents to over-align with the user at the cost of factual accuracy or objective reasoning. Despite this emerging risk, existing memory benchmarks primarily evaluate whether memories are correctly stored, retrieved, or updated, while overlooking how retrieved memories influence downstream reasoning and decision-making. To bridge this gap, we propose MemSyco-Bench, a comprehensive benchmark for evaluating memory-induced sycophancy in agent systems. MemSyco-Bench measures when memory should influence a decision and how valid memory should be used. Specifically, it covers five tasks that assess whether agents can reject memory as factual evidence, respect its applicable scope, resolve conflicts between memory and objective evidence, track memory updates, and use valid memory for personalization. All related resources are collected for the community at https://github.com/XMUDeepLIT/MemSyco-Bench.",
+   "published": "2026-07-01",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Zhishang Xiang",
+    "Zerui Chen",
+    "Yunbo Tang",
+    "Zhimin Wei",
+    "Ruqin Ning",
+    "Yujie Lin",
+    "Qinggang Zhang",
+    "Jinsong Su"
+   ]
+  },
+  {
+   "id": "2607.01034",
+   "title": "Behavior-Adaptive Conversational Agents: Toward a Fluid Personality Framework",
+   "summary": "Large language model (LLM)-based conversational agents (CAs) are now ubiquitous, creating new opportunities for AI-mediated behavior change. Their capacity to project nuanced personalities and adopt diverse metaphorical roles raises a design question: how should an agent's persona and personality be calibrated to the moment? Recent evidence suggests that (i) moderate personality expression outperforms low or high extremes on trust, enjoyment, and intention to adopt in goal-oriented tasks, and (ii) context-appropriate metaphors outperform static one-note assistants on user experience and uptake. Yet most CAs still fix both persona and style, risking misalignment when dynamics, urgency, and formality vary, for example in medical information seeking, fitness coaching, and reflective learning. We propose a Fluid Personality Framework that jointly adapts (1) the agent's metaphorical persona, such as coach, tutor, librarian, or tool, and (2) its personality expression intensity, low, medium, or high, as a function of task context, user goals and traits, and situational urgency. We sketch the framework and its core design dimensions.",
+   "published": "2026-07-01",
+   "start": 600,
+   "comment": "Presented at Bridging AI and Behavior Change, a Bridge Program organized at the AAAI Conference on Artificial Intelligence 2026 (AAAI-2026)",
+   "authors": [
+    "Hasibur Rahman",
+    "Smit Desai"
+   ]
+  },
+  {
+   "id": "2607.01006",
+   "title": "Understanding Large Language Models",
+   "summary": "Large Language Models (LLMs) represent one of the most significant advances in AI and natural language processing in recent years. Still, many pressing questions about their mechanisms, capabilities, and relationship to human cognition remain highly debated. This chapter aims to outline our current understanding of LLMs by discussing recent evidence on emerging capabilities and their mechanistic implementation within processing layers. We begin with a concise overview of the Transformer architecture, emphasizing how the attention mechanism enables training on massive datasets, allowing LLMs to function as generalist rather than specialized models. Next, we examine emergent LLM capabilities that appear to resemble aspects of human cognition, including symbolic reasoning, theory of mind, and deception strategies. Several studies provide evidence that LLMs can solve tasks previously thought to require human-like cognition. Other studies reveal insightful failure cases that shed light on the differences between human and LLM cognition. Alongside these findings, we review explainable AI approaches ranging from neuron activation analysis to circuit tracing. In the final section, we address current debates concerning what LLMs genuinely understand versus what they merely appear to understand. Prominent arguments against AI anthropomorphism point to the simplicity of LLM training objectives, claiming that LLM behavior is better explained by pattern memorization of training data than by genuine cognition. We argue that this standpoint is guided by misconceptions about optimization processes and cognitive capacity, and advocate for a more nuanced discussion of LLM cognition that neither dismisses the differences between humans and LLMs nor precludes the possibility of AI cognition through overly simplistic reductionist arguments.",
+   "published": "2026-07-01",
+   "start": 600,
+   "comment": "25 pages, 1 figure",
+   "authors": [
+    "Yannik Keller",
+    "Thomas Eisenmann"
+   ]
+  },
+  {
+   "id": "2607.00937",
+   "title": "Persona Non Grata: LLM Persona-Driven Generations in MCQA are Unstable in Distinct Dimensions",
+   "summary": "Persona-driven generations (PDGs) have seen prolific use in research and industry applications, where a large language model (LLM) takes on a 'persona' while completing some task. While persona expressed through free-form text (like dialogue) has substantial work investigating stability or consistency, relatively, persona expressed in non-text-heavy outputs (like in multiple-choice question answering, or MCQA) is often overlooked. We work to address this gap, seeking to understand the instability of LLM PDGs in MCQA tasks. We develop three metrics investigating the performance, outcome, and question correctness stability, evaluating three distinct dimensions. Using these metrics, we find that instability varies consistently between model families and model size, and across question domains, with math/commonsense questions leading to greater instability. We also find task prompt format introduces more prediction instability than other hyperparameters, like temperature. Finally, we find that instability is related to task accuracy, and using our instability metrics, find different experimental settings that result in different best and worst personas for tasks, despite their similarity. This reveals the importance of checking hyperparameter instability in PDGs.",
+   "published": "2026-07-01",
+   "start": 600,
+   "comment": "23 pages, 12 figures. Under review at ARR",
+   "authors": [
+    "C\u00e9sar Guerra-Solano",
+    "Xiang Lorraine Li"
+   ]
+  },
+  {
+   "id": "2607.00918",
+   "title": "From Personas to Plot: Character-Grounded Multi-Agent Story Generation for Long-Form Narratives",
+   "summary": "Although large language models (LLMs) have demonstrated impressive creative fiction generation, they struggle to maintain narrative consistency and coherent plot lines in long-form stories. In this work, we introduce MAGNET, a multi-agent goal-driven narrative engine for storytelling, which generates stories with persona-grounded character agents that propose actions based on a shared structured state and evolving story goals. We evaluate MAGNET on 20 and 100 page stories using LLM based editor annotations and rubric scoring. At both narrative lengths, MAGNET significantly reduces editor annotations and improves rubric scores compared to single-model prompting, StoryBox, and StoryWriter (p<0.05). Ablation experiments also show that the critic module, structured state, and goal sequencing each contribute significantly to performance (p<0.05). These results suggest that long-form narratives can emerge from explicit structured states, critic-based action refinement, and goal-driven multi-agent generation with loosely specified character personas, providing a foundation for controllable and structurally coherent long-form narrative generation.",
+   "published": "2026-07-01",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Chloe Ho",
+    "Aayush Aluru",
+    "Muhammad Hammouri",
+    "Kerry Luo",
+    "Ryan Lagasse",
+    "Arjun Bahuguna",
+    "Vasu Sharma"
+   ]
+  },
+  {
+   "id": "2607.00415",
+   "title": "A Mechanistic View of Authority Hierarchy in LLM Sycophancy",
+   "summary": "Authority bias poses a critical safety concern in language models: models systematically prioritize social cues from authority figures over factual consistency, swaying their answers based on source credibility rather than evidence. We mechanistically investigate this phenomenon using a controlled medical QA setting, where hints suggesting incorrect answers are attributed to personas of varying expertise. Across Llama-3.1-8B, Qwen3-8B, and Gemma-2-9B, we find that models respond in a graded manner proportional to perceived authority, a hierarchy that is never explicitly prompted but emerges from training. Logit lens analysis and linear/non-linear probing localize this effect to a critical late layer where correct answer representations are actively erased, an erasure that scales with authority level, resists mean vector intervention, and is only partially reversible through chain-of-thought reasoning. Our findings suggest that authority-induced sycophancy is not a surface-level output bias but mechanistic knowledge erasure, a precise, layer-localized overwriting of correct internal representations by high-status authority signals.",
+   "published": "2026-07-01",
+   "start": 600,
+   "comment": "",
+   "authors": [
+    "Emil Joswin",
+    "Srujananjali Medicherla",
+    "Priyanka Mary Mammen"
+   ]
+  },
+  {
+   "id": "2607.00397",
+   "title": "NeuroCogMap Reveals Cognitive Organization of Large Language Models",
+   "summary": "Understanding how complex cognitive functions are organized within artificial systems is central to interpreting large language models (LLMs) and relating them to biological cognition. Yet although LLMs exhibit broad cognitive-like behaviours, it remains unclear whether their internal representations form reproducible functional systems that explain behaviour, failure and links to human cognition. Here we present NeuroCogMap, a cognitive neuroscience-inspired framework that organizes internal features of LLMs into functional parcels and links them to interpretable functions, cognitive capabilities and a cognitive hierarchy. These parcels form a stable and semantically coherent organization that is partly conserved across models and functionally linked to model outputs. Within this organization, major LLM failures, including hallucination, bias, refusal failure and sycophancy, correspond to distinct disruptions in representational and behavioural-control systems, yielding internal signatures for mechanism-guided detection and targeted intervention. Beyond model behaviour, NeuroCogMap improves prediction of human cortical responses during naturalistic language comprehension, with the strongest correspondence in higher-order association cortex. At the cognitive level, its internal signatures expose latent strategies that guide refinements of classical models of human decision-making. Together, these findings establish NeuroCogMap as a system-level framework for mapping functional organization in artificial systems and for relating this organization to human cortical function and cognitive behaviour.",
+   "published": "2026-07-01",
+   "start": 600,
+   "comment": "79 pages, 6 main figures, 5 extended figures",
+   "authors": [
+    "Zhongxiang Sun",
+    "Haolang Lu",
+    "Qiang Ma",
+    "Qi Li",
+    "Qipeng Wang",
+    "Liang Pang",
+    "Chenyu Liu",
+    "Qiankun Li",
+    "Hao Sun",
+    "Kun Wang",
+    "Yi Zeng",
+    "Jun Xu",
+    "Guoqi Li",
+    "Ji-Rong Wen"
+   ]
+  }
+ ]
+}

@@ -84,6 +84,16 @@ function lineSVG(r) {
   </svg>`;
 }
 
+// Who scored the steers, said honestly and from the lines themselves (scored_by, scorer_wrote_steer), not typed.
+function scorerSentence(valued, scorers, scoredOn) {
+  if (!valued.length) return "No steer has been scored yet.";
+  const wrote = valued.filter((v) => v.scorer_wrote_steer === true).length, unknown = valued.filter((v) => typeof v.scorer_wrote_steer !== "boolean").length;
+  const claude = scorers.every((x) => /claude/i.test(x));
+  return `The scorer is ${scorers.length === 1 ? "one session" : `${scorers.length} sessions`} (${esc(scorers.join("; "))})${scoredOn.length ? `, scoring on ${esc(scoredOn.join(", "))}` : ""}` +
+    `${claude ? ", a Claude model: the same model family that runs the engine Sean steers, so it is not an independent judge" : ""}. ` +
+    (wrote ? `It wrote ${wrote} of the steers it scored.` : unknown ? `On ${unknown} line${unknown === 1 ? "" : "s"} it is not recorded whether it wrote the steer.` : "It did not write any of the steers it scored.");
+}
+
 function rowHTML(r, maps) {
   const status = r.outcome != null ? (r.outcome ? "Came true" : "Did not come true")
     : r.bet ? (r.settled ? `Settled, not scored (${esc(r.bet.verdictRaw)})` : "Bet placed, no result yet") : "No bet placed yet";
@@ -153,11 +163,13 @@ function rowHTML(r, maps) {
   const strength = { measured: 0, traced: 0, early: 0 };
   for (const v of valued) if (v.evidence_strength in strength) strength[v.evidence_strength] += 1;
   const labelTag = (v) => v ? `<span class="hh-tag" style="color:${LABEL[v.value] || "inherit"};border-color:${LABEL[v.value] || "currentColor"}">${esc(v.value)}</span>` : `<span class="hh-tag">not yet scored</span>`;
+  const shared = new Map();
+  for (const s of steers) { const w = s.words || s.reason; if (w) shared.set(w, (shared.get(w) || 0) + 1); }
   const steerList = [...steers].reverse().map((s) => {
     const v = values.get(s.id);
     return `<li class="hh-steer">
     <div class="hh-top"><span>${esc(s.id)} · ${esc(fmtDate(parseDate(s.date), false))}${s.time ? `, ${esc(s.time)}` : ""} · ${esc(ACTION[s.action] || s.action)}${s.program ? ` · ${esc(programTitle(s.program, maps))}` : ""}</span><span class="hh-st">${labelTag(v)}</span></div>
-    <p class="hh-q">${inline(s.words || s.reason || "")}</p>
+    <p class="hh-q">${v?.steer_in_short ? esc(v.steer_in_short) : inline(s.words || s.reason || "")}</p>
     ${v ? `<p class="hh-hit"><b>${esc(v.value)}</b> (${esc(v.evidence_strength || "")}): ${inline(v.reason || "")}</p>
     <details><summary>What it changed, what the engine would have done, and the number</summary><dl>
       <dt>Changed in the record</dt><dd>${(v.changed || []).map((c) => inline(c)).join("; ") || "—"}</dd>
@@ -165,6 +177,7 @@ function rowHTML(r, maps) {
       <dt>Measurable effect</dt><dd>${v.effect ? inline(v.effect) : "none recorded"}</dd>
       <dt>Scored by</dt><dd>${esc(v.scored_by || "")}${v.scored_at ? `, ${esc(v.scored_at)}` : ""}${v.history && v.history.length ? `; ${v.history.length} earlier valuation${v.history.length === 1 ? "" : "s"} kept` : ""}</dd>
     </dl></details>` : `<p class="hh-hit muted">Logged after the last scoring pass; it is valued at the next one.</p>`}
+    ${v?.steer_in_short && (s.words || s.reason) ? `<details><summary>His words, as logged</summary><p>${inline(s.words || s.reason)}</p>${shared.get(s.words || s.reason) > 1 ? `<p class="muted small">One message in the chat decided ${shared.get(s.words || s.reason)} steers; each is valued on its own.</p>` : ""}</details>` : ""}
     ${s.value_judgment ? `<details><summary>What the logging session wrote at the time</summary><p>${inline(s.value_judgment)}</p>${s.value_judged_by ? `<p class="muted small">Written by ${esc(s.value_judged_by)}; the record of the time, not a valuation under the method.</p>` : ""}</details>` : ""}
   </li>`;
   }).join("");
@@ -176,7 +189,8 @@ function rowHTML(r, maps) {
       <div class="stat"><div class="label">What decided the labels</div><div class="value">${strength.measured}</div><div class="note">by a number in the ledger; ${strength.traced} by a chain of named files; ${strength.early} given early, most of the effect still to come</div></div>
       <div class="stat"><div class="label">Who scored them</div><div class="value">Claude</div><div class="note">${scorers.length ? esc(scorers.join("; ")) : "no scoring yet"}${scoredOn.length ? `, on ${esc(scoredOn.join(", "))}` : ""}; re-scored monthly</div></div>
     </div>
-    <p class="how">The scorer is a Claude session that did not write any of the steers, the same model family that runs the engine and that Sean steers. The method is published, <code>operators/steers.md</code>, so a reader can disagree: each label is a reading of what the steer changed in the record against the default the record shows, with the files that show both, not a controlled comparison and not a measurement of Sean's skill. The one measurement the ledger has is the two scores above; his odds steer is labelled by that column's own rule. The table is <code>ledger/steers.md</code>; the lines are <code>ledger/steer-values.jsonl</code>.</p>
+    <p class="lede"><b>Helped ${nv.helped} of ${steers.length}.</b> Of the ${steers.length} steers Sean has made, a scoring session read what each one changed in the record, what the engine would have done without it, and any number that shows the difference, and labelled ${nv.helped} helped, ${nv.neutral} neutral and ${nv.hurt} hurt${unscored ? `; ${unscored} ${unscored === 1 ? "is" : "are"} not scored yet` : ""}.</p>
+    <p class="how">${scorerSentence(valued, scorers, scoredOn)} A label is a reading of the record against the default the record shows, with the files that show both; it is not a controlled comparison and not a measurement of Sean's skill. The method is published, <code>operators/steers.md</code>, so a reader can disagree, and every label is re-scored monthly. The one measurement of his judgment the ledger has is the two scores above; his odds steer is labelled by that column's own rule. The table is <code>ledger/steers.md</code>; the lines are <code>ledger/steer-values.jsonl</code>.</p>
     ${steersTable}`;
 
   main.innerHTML = `<h1>The human hand</h1>

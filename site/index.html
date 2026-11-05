@@ -45,6 +45,14 @@
     <h2 id="found-h">What we have found so far</h2>
     <p class="how" id="found-how">One sentence per finding, with the models it was shown on. Read from <a href="paper.html?p=engine/paper/plain-words">the project in plain words</a>, where each one has its caveats.</p>
     <ol class="findings" id="findings"></ol>
+    <h3 class="score-h">The score so far</h3>
+    <div class="stats" id="score" hidden>
+      <div class="stat"><div class="label">The engine's Brier score</div><div class="value" data-n="brier"></div><div class="note">on <span data-n="scored"></span> scored bets, one per run (rule 15); <span data-n="hits"></span> came true. Lower is better.</div></div>
+      <div class="stat"><div class="label">Counting every scored row</div><div class="value" data-n="brier_all"></div><div class="note">on <span data-n="scored_all"></span> bets, including <span data-n="secondary"></span> that re-scored a run already scored</div></div>
+      <div class="stat"><div class="label">To beat</div><div class="value" data-n="coin"></div><div class="note">always saying 50%; always saying the share that passed scores <span data-n="hit_rate_ref"></span></div></div>
+      <div class="stat"><div class="label">Sean's Brier score</div><div class="value" data-n="human_brier"></div><div class="note">on the <span data-n="human_n"></span> scored bets that carry his odds (<a href="calibration.html#human-h">the bets</a>)</div></div>
+    </div>
+    <p class="muted small" id="score-src" hidden>Every number in this block, and the score line in the list above, is read when the page loads from the ledger's generated pages (<code>ledger/brier.md</code>, <code>scores.md</code>, <code>prior.md</code>) through <code>site/numbers.py</code>; none is typed.</p>
   </section>
 
   <h2>How it fits together</h2>

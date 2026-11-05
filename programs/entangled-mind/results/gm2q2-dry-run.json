@@ -1,0 +1,103 @@
+{
+ "_note": "100 simulated runs per world; 400 permutations, 400 bootstraps; leave-one-item-out stops at the first non-pass (it can only turn a pass into a fail)",
+ "opus": {
+  "within_sd_shown": 3.491060010942235,
+  "stmt_sd": 4.021038423094214,
+  "scale": 1.0,
+  "null": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "half": {
+   "pass": 0.09,
+   "fail": 0.91,
+   "untestable": 0.0
+  },
+  "0.75": {
+   "pass": 0.43,
+   "fail": 0.57,
+   "untestable": 0.0
+  },
+  "equal": {
+   "pass": 0.62,
+   "fail": 0.38,
+   "untestable": 0.0
+  },
+  "redacted pattern": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "shuffled items, equal": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "one-item jump (half elsewhere)": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "wrong-target 0.2 (first or last line)": {
+   "pass": 0.05,
+   "fail": 0.95,
+   "untestable": 0.0
+  }
+ },
+ "sonnet": {
+  "within_sd_shown": 7.702290424138639,
+  "stmt_sd": 10.228606852751168,
+  "scale": 0.6136052008749157,
+  "null": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "half": {
+   "pass": 0.06,
+   "fail": 0.94,
+   "untestable": 0.0
+  },
+  "0.75": {
+   "pass": 0.86,
+   "fail": 0.14,
+   "untestable": 0.0
+  },
+  "equal": {
+   "pass": 0.99,
+   "fail": 0.01,
+   "untestable": 0.0
+  },
+  "redacted pattern": {
+   "pass": 0.02,
+   "fail": 0.98,
+   "untestable": 0.0
+  },
+  "shuffled items, equal": {
+   "pass": 0.01,
+   "fail": 0.99,
+   "untestable": 0.0
+  },
+  "one-item jump (half elsewhere)": {
+   "pass": 0.02,
+   "fail": 0.98,
+   "untestable": 0.0
+  },
+  "wrong-target 0.2 (first or last line)": {
+   "pass": 0.37,
+   "fail": 0.63,
+   "untestable": 0.0
+  }
+ },
+ "bet": {
+  "null": 0.0,
+  "half": 0.005399999999999999,
+  "0.75": 0.36979999999999996,
+  "equal": 0.6138,
+  "redacted pattern": 0.0,
+  "shuffled items, equal": 0.0,
+  "one-item jump (half elsewhere)": 0.0,
+  "wrong-target 0.2 (first or last line)": 0.0185
+ }
+}

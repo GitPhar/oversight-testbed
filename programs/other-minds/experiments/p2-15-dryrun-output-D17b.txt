@@ -1,0 +1,21 @@
+kept cells: 324 of 384
+measured |re-rating - usual| in points: mean 8.85
+measured |u|: mean 0.548 (the no-uptake predictor's MAE); own 0.455, other 0.640
+  knows its shift, noise 5 pts                  P(pass) = 1.00
+  knows its shift, noise 7.5 pts                P(pass) = 0.08
+  knows its shift, noise 10 pts                 P(pass) = 0.00
+  knows its shift, noise 15 pts                 P(pass) = 0.00
+  knows its shift, noise 20 pts                 P(pass) = 0.00
+  half its shift, noise 5 pts                   P(pass) = 0.79
+  half its shift, noise 10 pts                  P(pass) = 0.00
+  a quarter, noise 10 pts                       P(pass) = 0.00
+  knows nothing (no shift), noise 10 pts        P(pass) = 0.00
+  knows nothing, noise 5 pts                    P(pass) = 0.00
+  over-predicts 1.5x, noise 10 pts              P(pass) = 0.00
+  NULL: error equals no-uptake's in expectation P(pass) = 0.045
+  knows its shift, t3 errors scale 4 pts        P(pass) = 1.00
+  knows its shift, t3 errors scale 6 pts        P(pass) = 0.01
+  boundary: upper 0.0 reads fail (want fail)
+  boundary: upper -2.7755575615628914e-17 reads fail (want fail)
+  boundary: upper -0.0001 reads pass (want pass)
+  untestable rules: hold

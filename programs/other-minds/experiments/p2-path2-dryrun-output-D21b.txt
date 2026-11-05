@@ -1,0 +1,11 @@
+units: program 2 27, baseline 58; pilot tag sets 40, carrying a program-1 pattern 0.650
+  q = 0.00: P(pass) 0.000
+  q = 0.25: P(pass) 0.003
+  q = 0.50: P(pass) 0.003
+  q = 0.75: P(pass) 0.000
+  boundary and validation checks: run in the earlier dry run (experiments/p2-path2-dryrun-output.txt)
+secondary (not a rule): share >= 0.50 and gap >= 0.15 alone, without the origin-permutation condition
+  q = 0.00: P(share and gap conditions) 0.077
+  q = 0.25: P(share and gap conditions) 0.295
+  q = 0.50: P(share and gap conditions) 0.585
+  q = 0.75: P(share and gap conditions) 0.895
