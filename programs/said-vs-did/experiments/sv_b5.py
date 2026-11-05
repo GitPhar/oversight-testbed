@@ -310,7 +310,7 @@ def _fit(X, y, l2=0.5):
     return w, np.sqrt(np.diag(np.linalg.inv(-H)))
 
 
-def worlds(sims=300, seed=11):
+def worlds(sims=1000, seed=11):
     """D11 at the available n, matched to wave 1 (P15): the 150 seen items are the published sv-b1 rows, held fixed.
     The 150 new items use Sonnet's cached said ratings for them; the first answer goes against the rating as often as
     it did on the seen items; backing down is drawn from a logistic model fitted on the seen items, with the number,
@@ -329,12 +329,47 @@ def worlds(sims=300, seed=11):
                            "features": ["intercept", "(100-conf)/25", "(length-250)/100"] + CATS_FEAT},
            "seen": {"n": len(seen), "backed_down": int(y0.sum()), "first_answer_against_rating": against},
            "sims": sims, "bootstrap_B_in_sims": 200, "worlds": {}}
-    W1 = {"matched": w, "number +1 SE": w + np.r_[0, se[1], 0, 0, 0, 0], "number +2 SE": w + np.r_[0, 2 * se[1], 0, 0, 0, 0],
+    # D23 (design review sv-b5, fix 1): a world calibrated to the measured spreads. Type intercepts set so expected
+    # back-downs per type on the seen items match the seen half (smoothed: SimpleQA 2, claim 0.5, chemistry 5,
+    # physics 1); number and length slopes chosen on a grid so the expected AUROCs on the seen items reproduce the
+    # record (number 0.823, length 0.792). Method and targets from the review (ledger/design-reviews/sv-b5.md).
+    def calibrated():
+        cats = np.array([r["category"] for r in seen])
+        target = {"simpleqa": 2.0, "claim": 0.5, "science-chemistry": 5.0, "science-physics": 1.0}
+        X = _feats(seen)
+        num = np.array([100 - r["conf"] for r in seen], float)
+        L = np.array([len(r["question"]) for r in seen], float)
+
+        def eauc(score, pr):
+            d = (score[:, None] > score[None, :]) + 0.5 * (score[:, None] == score[None, :])
+            wt = pr[:, None] * (1 - pr[None, :])
+            np.fill_diagonal(wt, 0)
+            return float((d * wt).sum() / wt.sum())
+        best = None
+        for bn in np.arange(0.3, 1.6, 0.05):
+            for bL in np.arange(0.0, 1.6, 0.05):
+                wv = np.zeros(6)
+                wv[1], wv[2] = bn, bL
+                for _ in range(60):
+                    pr = 1 / (1 + np.exp(-X @ wv))
+                    for j, c in enumerate(CATS):
+                        adj = np.log(target[c] / pr[cats == c].sum())
+                        wv[0 if j == 0 else 2 + j] += adj
+                pr = 1 / (1 + np.exp(-X @ wv))
+                a, l = eauc(num, pr), eauc(L, pr)
+                err = (a - 0.823) ** 2 + (max(l, 1 - l) - 0.792) ** 2
+                if best is None or err < best[0]:
+                    best = (err, wv.copy(), a, max(l, 1 - l), float(pr.mean()))
+        return best
+    cal = calibrated()
+    res["calibrated_on_seen"] = {"coef": [round(float(x), 3) for x in cal[1]], "expected_auroc_number": round(cal[2], 3),
+                                 "expected_auroc_length": round(cal[3], 3), "expected_rate": round(cal[4], 3)}
+    W1 = {"calibrated to the measured spreads (D23)": cal[1], "matched": w, "number +1 SE": w + np.r_[0, se[1], 0, 0, 0, 0], "number +2 SE": w + np.r_[0, 2 * se[1], 0, 0, 0, 0],
           "number 0": np.r_[w[0], 0.0, w[2:]], "type x2": np.r_[w[:3], 2 * w[3:]]}
     # Two more worlds that need no model: the new half is a resample of the seen rows with their real outcomes
     # ('resampled': matched exactly, P15), and the same with the number shuffled within question type, so it keeps
     # only what type already says (P16's null).
-    for name in ["resampled (matched exactly)", "resampled, number shuffled within type"]:
+    for name in ["resampled: seen rows copied into the new half", "resampled, number shuffled within type"]:
         cnt = {"pass": 0, "fail": 0, "untestable": 0}
         for _ in range(sims):
             new = [dict(seen[k], id=f"r{j}") for j, k in enumerate(rng.integers(0, len(seen), 150))]

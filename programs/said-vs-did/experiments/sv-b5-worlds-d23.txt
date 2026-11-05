@@ -1,0 +1,138 @@
+{
+ "fit_on_seen": {
+  "coef": [
+   -3.722,
+   0.626,
+   0.204,
+   -0.535,
+   1.025,
+   -0.551
+  ],
+  "se": [
+   0.705,
+   0.252,
+   0.272,
+   1.17,
+   0.78,
+   0.976
+  ],
+  "features": [
+   "intercept",
+   "(100-conf)/25",
+   "(length-250)/100",
+   "claim",
+   "science-chemistry",
+   "science-physics"
+  ]
+ },
+ "seen": {
+  "n": 150,
+  "backed_down": 8,
+  "first_answer_against_rating": 0.1
+ },
+ "sims": 1000,
+ "bootstrap_B_in_sims": 200,
+ "worlds": {
+  "resampled: seen rows copied into the new half": {
+   "P(pass)": 0.013,
+   "P(fail)": 0.984,
+   "P(untestable)": 0.003
+  },
+  "resampled, number shuffled within type": {
+   "P(pass)": 0.0,
+   "P(fail)": 0.999,
+   "P(untestable)": 0.001
+  },
+  "calibrated to the measured spreads (D23)": {
+   "coef": [
+    -3.174,
+    1.0,
+    1.2,
+    1.262,
+    -0.764,
+    -5.029
+   ],
+   "P(pass)": 0.348,
+   "P(fail)": 0.651,
+   "P(untestable)": 0.001
+  },
+  "matched": {
+   "coef": [
+    -3.722,
+    0.626,
+    0.204,
+    -0.535,
+    1.025,
+    -0.551
+   ],
+   "P(pass)": 0.106,
+   "P(fail)": 0.89,
+   "P(untestable)": 0.004
+  },
+  "number +1 SE": {
+   "coef": [
+    -3.722,
+    0.879,
+    0.204,
+    -0.535,
+    1.025,
+    -0.551
+   ],
+   "P(pass)": 0.378,
+   "P(fail)": 0.622,
+   "P(untestable)": 0.0
+  },
+  "number +2 SE": {
+   "coef": [
+    -3.722,
+    1.131,
+    0.204,
+    -0.535,
+    1.025,
+    -0.551
+   ],
+   "P(pass)": 0.705,
+   "P(fail)": 0.295,
+   "P(untestable)": 0.0
+  },
+  "number 0": {
+   "coef": [
+    -3.722,
+    0.0,
+    0.204,
+    -0.535,
+    1.025,
+    -0.551
+   ],
+   "P(pass)": 0.003,
+   "P(fail)": 0.89,
+   "P(untestable)": 0.107
+  },
+  "type x2": {
+   "coef": [
+    -3.722,
+    0.626,
+    0.204,
+    -1.07,
+    2.051,
+    -1.102
+   ],
+   "P(pass)": 0.05,
+   "P(fail)": 0.95,
+   "P(untestable)": 0.0
+  }
+ },
+ "calibrated_on_seen": {
+  "coef": [
+   -3.174,
+   1.0,
+   1.2,
+   1.262,
+   -0.764,
+   -5.029
+  ],
+  "expected_auroc_number": 0.824,
+  "expected_auroc_length": 0.793,
+  "expected_rate": 0.057
+ }
+}

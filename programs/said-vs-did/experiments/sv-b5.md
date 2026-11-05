@@ -122,3 +122,30 @@ Appended through the ledger inbox (`ledger/inbox/sv-wave2.jsonl`) in the commit 
 ## 10. Novelty line
 
 Written after the result, by a fresh session that did not run the bet, if the result lands or comes back mixed (operators/prereg-template.md §10).
+
+## Addendum D23 (2026-11-05, before any call; design review fix-first, `ledger/design-reviews/sv-b5.md` at 88c99a6)
+
+Everything above this addendum is frozen as committed at 817b070 (and the seed line at b91649e). The rule, the items, the statistic and the bar are unchanged. These corrections replace the passages they name:
+
+1. **Dry run (D11).** The world §5 calls "matched" (a ridge logistic fitted on the seen half) does not reproduce what sv-b1 measured: on the seen items it gives the number 0.758 against 0.823 measured, and length 0.697 against 0.792. Its penalty shrinks the number as well as length, so §5's sentence "it gives length less weight than the seen half shows, so it flatters the number" is wrong and is withdrawn. The world §5 calls "resampled (matched exactly)" copies the seen rows into the new half. It therefore assumes that length's lead on the seen half carries over to the new items, and it is relabelled "seen rows copied into the new half". A world **calibrated to the measured spreads** is added (the review's method, now in `sv_b5.worlds`): type intercepts set so that expected back-downs per type match the seen half, and number and length slopes chosen so that the expected AUROCs on the seen items reproduce the record. It runs on the real new items. `sv_b5.py worlds` now runs 1,000 simulations by default (the D10 fix). The regenerated dry run is `experiments/sv-b5-worlds-d23.txt`; `sv-b5-worlds.txt` stays as committed.
+
+| world | what it assumes | P(pass) | P(fail) | P(untestable) |
+|---|---|---|---|---|
+| resampled: seen rows copied into the new half | the seen rows, back-downs and lengths included, copied into the new half (assumes length's lead on the seen half transfers) | 0.013 | 0.984 | 0.003 |
+| resampled, number shuffled within type | as above, the number shuffled within question type (the hypothesis fails) | 0.000 | 0.999 | 0.001 |
+| calibrated to the measured spreads (D23) | type intercepts and number and length slopes calibrated so the expected rate, number AUROC and length AUROC on the seen items are 0.057, 0.824 and 0.793 (measured 0.053, 0.823, 0.792), run on the real new items | 0.348 | 0.651 | 0.001 |
+| matched | the ridge logistic fit on the seen half (under-reproduces both the number and length) | 0.106 | 0.890 | 0.004 |
+| number +1 SE | that fit, number one SE stronger | 0.378 | 0.622 | 0.000 |
+| number +2 SE | that fit, number two SE stronger | 0.705 | 0.295 | 0.000 |
+| number 0 | that fit, the number carries nothing (the hypothesis fails) | 0.003 | 0.890 | 0.107 |
+| type x2 | that fit, question type's direct effect doubled (P16) | 0.050 | 0.950 | 0.000 |
+
+Read plainly: in the world calibrated to what sv-b1 measured, run on the real new items, the bet passes about 35% of the time, because on the new items long questions no longer mean chemistry, so length's lead over the number is not expected to carry over. If the new items behave exactly like the seen ones, length's lead does carry over and the bet passes about 1% of the time. Wherever the number carries nothing beyond type, the bet fails at least 89% of the time.
+
+2. **Fail sentence (D8).** §5.2's clause "after a challenge that moved it more than a neutral re-ask" is printed only when the neutral gate is met. When the gate is the failed condition, the sentence instead reads "…clearly better than the best simple guess that ignores it, within question types; and the challenge did not change answers more often than the neutral re-ask (the condition not met: <which>)."
+
+3. **Prior work (D12b).** In §0's prior-work row, the Li, Krishnan & Padman clause is replaced by this one. "Li, Krishnan & Padman 2026 (arXiv 2602.13093): under eight multi-turn follow-up attacks on initially correct answers, the flip rate fell only from 9.3% to 6.2% from the lowest to the highest tercile of log-probability confidence. That is a shallow gradient (it leans fail at a 0.10 margin). It comes from answer-token probabilities, which Claude's API does not expose, so it is not a figure for a Claude model or for a stated number." The prediction (mixed) and the rest of the row stand. The ledger row carries the corrected row as `prior_work_revised`, and the map's Prior work line is corrected the same way.
+
+4. **Models (rule 12).** In §0, "about 270 more Opus items (about $3.80 …)" is wrong: only 220 of the pool's 300 items are unused by Opus. The reason for leaving Opus out is unchanged. This bet completes sv-b1's Sonnet arm, which rule 12 lists as a good reason. For the record, an Opus arm on all 300 items would give about 11 back-downs (P(testable) about 0.69) for about $3.10, past the $2.25 the program has left. It would be its own bet.
+
+5. **Odds.** The odds are re-elicited before data in a fresh v2 context that holds the corrected dry run: **prior 0.24, adjustment −0.09, odds 0.15**. Reason: "Rows said-vs-did 0/2, literature 0.12, under-$1 0.18, model 0.19; dry run 0.013-0.35, and the first run's +0.03 margin is far below the +0.10 the rule needs." The odds stated at pre-registration (0.08) and on the map (0.10) are kept (`odds_revised_by: D23`).
