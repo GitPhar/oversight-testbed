@@ -1,5 +1,5 @@
 // Loads the ledger and the maps, and joins them. Every page reads through here.
-import { DATA, getJSON, getJSONL, getText, manifest, normBet, normStatus, num, programTitle } from "./common.js";
+import { DATA, getJSON, getJSONL, getText, manifest, normBet, normNovelty, normStatus, num, programTitle } from "./common.js";
 
 const FALLBACK_MAPS = ["entangled-mind.json", "other-minds.json", "nature-graded.json", "settled-science.json", "test-awareness.json", "said-vs-did.json"];
 
@@ -10,6 +10,14 @@ export async function loadBets() {
 
 export async function loadSteers() {
   return (await getJSONL(DATA + "ledger/steers.jsonl")) || [];
+}
+
+// The valuations of the steers (operators/steers.md): one line per steer per scoring; the latest line per steer id is current.
+export async function loadSteerValues() {
+  const rows = (await getJSONL(DATA + "ledger/steer-values.jsonl")) || [];
+  const current = new Map();
+  for (const r of rows) if (r && r.steer_id) current.set(r.steer_id, r);
+  return current;
 }
 
 // The human's odds, one line per entry, written by the cockpit (site/cockpit.html) and committed by hand.
@@ -74,6 +82,10 @@ function normProgram(p, fallbackId) {
       result: d.result || "",
       opened: d.opened || d.created || d.date_opened || "",
       resolved: d.resolved || d.closed || d.date_resolved || "",
+      // Rule 13: the map node's own Prior work line (open directions) and novelty (landed or mixed ones).
+      priorWork: d.prior_work_line || "",
+      novelty: normNovelty(d.novelty),
+      noveltyLine: d.novelty_line || "",
     })),
   };
 }
@@ -96,6 +108,8 @@ export function joinBets(programs, bets) {
       if (b.cost) d.cost = b.cost;
       if (!d.opened) d.opened = b.opened || "";
       if (b.landed && b.status !== "open" && b.status !== "running") d.resolved = b.landed;
+      if (b.novelty) { d.novelty = b.novelty; d.noveltyLine = b.noveltyLine || d.noveltyLine; }   // the ledger's line wins (rule 13)
+      if (b.priorWork && !d.priorWork) d.priorWork = b.priorWork;
     }
   }
   return programs;

@@ -19,7 +19,9 @@ A **bet** is one pre-registered test. Each line says:
 - **the verdict**: `pass` (the pre-registered effect, or the overturning direction, was found), `null` (it was not), `mixed` (the rule itself returned mixed or partial), plus the pre-registered reading word for word (`verdict_prereg`);
 - **the outcome**: 1 if the event the odds were for happened, 0 if not. Only bets with stated odds and an outcome decided by the pre-registered rule are scored (`scored: true`); `scoring_note` says why any other bet is not;
 - **the audit path**: empty for every bet so far, because no independent audit has been run yet;
-- what it cost, and which earlier bet it replicates, if any.
+- what it cost, and which earlier bet it replicates, if any;
+- **the Novelty line (rule 13, from 2026-11-05)**, on every landed or mixed bet: `novelty` is `known` (a paper states the same result, in the same direction, on some model), `partly new` (the kind of result is in print, but not this comparison, or ours points the other way) or `new` (no prior statement found after a search); `novelty_line` is the sentence with its citations and the search in one line; `novelty_by` names the fresh session that wrote it (never the session that ran the bet); `novelty_at` the commit or pass that added it. The same line ends the results file's plain-English section. Bets settled before the rule got theirs in the backward pass of 2026-11-05 (`paper/informed-engine.md`); the audit checks the line as F27. A `known` result keeps its verdict and its score: the word changes what the result is evidence of, not its standing here.
+- **one scored bet per run (rule 15, from 2026-11-05)**: a scored bet that re-scores a run an earlier scored bet was already scored on (same program and result file, the same raw data with no new data, or an audit naming it) carries `secondary_of: <earlier bet id>`, `secondary_at` and a sentence in `scoring_note`. It stays `scored: true` with its odds and outcome; `brier.py`, `prior.py` and `scores.py` leave it out of every primary number and `brier.md` scores it in the Sensitivity row "all scored bets, secondary included".
 
 There are 19 bets. Five are scored. Most of the rest are biomimetic tests (that map ranked ideas but gave no probabilities) or replications (no new probability was stated).
 
@@ -28,6 +30,10 @@ There are 19 bets. Five are scored. Most of the rest are biomimetic tests (that 
 A **steer** is a decision by the human: start a program, add a question, set a rule, veto something. The nine founding-week steers are reconstructed from `CONTEXT.md` section 8. Each line says what Sean said, what happened as a result (`outcome`, with commits as evidence), and a **value judgment**: `helped`, `hurt`, `mixed` or `pending`, with one or two sentences on why, and what would likely have happened otherwise.
 
 These judgments are opinions written by the ledger session from the record. They are **not** measurements: there was no control run without the steer. Six are judged `helped` and three are `pending`; none `hurt`. Expect an auditor to push back on some of the six. A ledger where the human never hurts is a ledger to distrust.
+
+### `steer-values.jsonl` and `steers.md`: what each steer was worth
+
+The valuations of the steers, one line per steer per scoring, keyed by `steer_id` (the latest line for an id is current). Written by a fresh session that did not write the steer, under `operators/steers.md`: what the steer changed in the record (`changed`, each item with its file or commit), one counterfactual sentence (`counterfactual`, with `counterfactual_file` showing the engine's default), a measurable effect where one exists (`effect`, `effect_kinds`), and a label `value` of `helped`, `neutral` or `hurt` with a one-line `reason` and an `evidence_strength` (`measured`, `traced`, `early`). There is no pending. `scored_by` names the model and session; `history` keeps every earlier valuation when a steer is re-scored (monthly). `python3 ledger/steer_values.py` renders `steers.md`: **helped X of Y** and one row per steer; `reproduce.py` regenerates it and compares byte for byte. The human-hand page of the site and `paper/the-engine.md` §6.11 read the jsonl.
 
 ### `human-odds.jsonl`: Sean's odds, from the cockpit
 

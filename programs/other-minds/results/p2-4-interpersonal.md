@@ -40,6 +40,8 @@ Here Haiku was shown the very conversations program 1 ran (384 planted-answer se
 - The interval's width comes from resampling 16 and 40 items. No power check was pre-registered, although the map's standing rule requires one for a self/other null. The point estimate leans toward a self advantage on own-answer commitment, and a larger test could find one.
 - One model; program 1's item sets. The engine gave 60. The frozen rule's letter was met; the audited verdict is **undetermined** (om-p2-4).
 
+**Novelty:** partly new. Binder et al. 2024 (arXiv 2410.13787) report that a finetuned model predicts its own behaviour better than a second model trained on the same facts, while Song, Hu and Mahowald 2025 (arXiv 2503.07513) and Blandfort and Pawar 2026 (NeurIPS 2026 AI4GOOD workshop) find no self-specific advantage by prompting; our prompt-only "you" versus "Sam" contrast on anchoring effects is undetermined, leaning self. That models misreport what moved their answers is in print (Turpin et al. 2023, arXiv 2305.04388; Chen et al. 2025, arXiv 2505.05410), but no paper states that reported anchor influence runs opposite to measured uptake, the same under self and other labels. Search: WebSearch for "LLM self-prediction vs other-model prediction introspection", "self-report anchoring influence LLM", "Nisbett Wilson 1977"; arXiv abstract pages for each lead. *(Rule 13, CONTEXT.md §3; written by a fresh claude-fable-5-1 subagent launched by the informed-engine session, 2026-11-05, web reads only, no model API; its papers-opened list and caveats are in programs/other-minds/map/reads/novelty-2026-11-05-om-p2-4.md.)*
+
 ## Tables
 
 ### The eleven effects (u = share of the displacement taken up; OE in points ÷ 100; RA = share within 5 points of the first answer)

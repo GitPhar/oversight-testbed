@@ -192,3 +192,74 @@ Odds rationales (in `map/self-grading.json`, `odds_rationale`):
 | sg-b1 | sg-d1 (closed) | null (fail-same), audit stands | Rules out, on Haiku, Sonnet and Opus 5.5 and 60 made-up study conclusions graded 0-100, that grading a clean conclusion in the conversation that wrote it makes the model 3 or more points kinder than grading it fresh. | Placement does not make a model kinder to its own clean work: own − fresh −1.1, −0.4, −0.9. |
 | sg-b2 | sg-d2 (closed) | null (fail-same), audit stands | Rules out, on Haiku, Sonnet and Opus 5.5 and their own 60 clean conclusions graded near 90, that the label 'written by you' instead of 'by another AI model' raises the grade by 3 or more points. | An explicit "you wrote this" label does not make a model kinder: −0.0, +0.2, −0.5; Opus slightly harsher, under one point. |
 | — | sg-d9 (closed) | never run | (not a bet) | Closed by its gate: sg-d1 did not pass. |
+
+## Prior work lines (rule 13, added 2026-11-05)
+
+Written in the backward pass of 2026-11-05 (`paper/informed-engine.md`) by a fresh claude-fable-5-1 subagent that read this program's reads and opened every paper it cites that the reads do not already quote with numbers; the search behind each line is in `map/self-grading.json` (`prior_work_search`, `prior_work_sources`). Each line says what the nearest published work predicts for the direction's draft pass rule, on which models, and what the bet would add, or that no prior statement was found after a named search. From here on every new direction gets its line from the scout or the remap (`operators/scout.md` Step 4; `operators/remap.md` Step 2), and the design review checks it (D12).
+
+| id | prior work predicts | Prior work |
+|---|---|---|
+| sg-d5 | mixed | Mixed. Kumaran et al. 2025 (arXiv 2507.03120; Gemma 3 12B, GPT-4o): seeing its own earlier answer raised logit confidence +0.21 (Gemma) and +0.14 (GPT-4o) over hidden, and crediting the answer to another LLM removed the change-of-mind bias; no confidence figure for that arm. Khullar et al. 2026 (2603.04582; Claude 3.5 Haiku, Sonnet 4, Opus 4.1): explicit own/other labels move ratings under 0.5 of 10, a miss. No current Claude. |
+| sg-d10 | fail | Predicts a miss. Khullar et al. 2026 (arXiv 2603.04582; Claude Sonnet 4 among 11 models): off-policy artefacts in the model's own turn left code-correctness AUROC at 0.99, against 0.89 to 0.92 on-policy, so placement needed real authorship. Tsui 2025 (2507.02778; Claude 3.5 Haiku 52.5%, Sonnet 4 41.4% blind spot): planted assistant-turn errors go uncaught, but that is error detection, not a kinder grade on clean work. No 5.5 model. |
+| sg-d4 | fail | Predicts a miss. Chae et al. 2026 (arXiv 2608.18091; 10 judges including Claude Opus 4.7): on quality-matched identical targets the true-source effect was +0.02 of 7 (p = .689) against a label effect of +0.43. Popov 2026 (2611.01829; Claude Sonnet 5.5): unlabelled own text scored 0.28 of 10 lower. Laine et al. 2024, SAD (2407.04694): Claude 3.5 Sonnet self-recognition 50.0, chance. Only Popov is on a current Claude model. |
+| sg-d6 | fail | Predicts a miss. Chae et al. 2026 (arXiv 2608.18091; 10 judges including Claude Opus 4.7): blind self-preference +0.18 of 7, falling to +0.003 once two low-discrimination judges were dropped. Popov 2026 (2611.01829; Claude Sonnet 5.5): own unlabelled text 0.28 of 10 below rivals', self-deprecating. Panickssery et al. 2024 (2404.13076; GPT-4): pairwise self-preference 0.71 to 0.91, but with no quality control. Only Popov is on a current Claude model. |
+| sg-d7 | fail | Predicts a miss on the first conjunct, strain on the second. Khullar et al. 2026 (arXiv 2603.04582; Claude 3.5 Haiku, Sonnet 4, Opus 4.1): explicit 'you wrote this' labels move ratings under 0.5 of 10. Sharma et al. 2023 (2310.13548; claude-1.3, claude-2.0, GPT-4): feedback turns more positive when the user says 'I wrote this' (values figure-only), so the user label may beat the self label. No 5.5 model. |
+| sg-d8 | fail | Predicts a miss. Khullar et al. 2026 (arXiv 2603.04582; Claude 3.5 Haiku, Sonnet 4, Opus 4.1): explicit own/other labels move ratings under 0.5 of 10. Trouche et al. 2016 (DOI 10.1111/cogs.12303; 411 adults): relabelled own arguments were rejected 56 to 58% of the time, but the 'other' argument always opposed the participant's position, so authorship and agreement were never crossed. No LLM study crosses them; no Claude 5.5. |
+| sg-d11 | pass | Predicts a hit. Tsui 2025 (arXiv 2507.02778; Claude 3.5 Haiku 52.5%, Sonnet 4 41.4% blind spot): the identical error goes uncorrected in the assistant turn but corrected in the user turn, 'only the chat template role header differs', with no length cue. Khullar et al. 2026 (2603.04582; Claude Sonnet 4): identical patches in its own turn cut AUROC 0.99 to 0.92. No graded penalty or Opus 5.5 in print. |
+| sg-d12 | pass | Predicts a hit. Tsui 2025 (arXiv 2507.02778; Claude 3.5 Haiku 52.5%, Sonnet 4 41.4% blind spot): the same error moved from assistant turn to user turn is corrected; the cause is scoped 'to conversational role rather than authorship'. Khullar et al. 2026 (2603.04582; Claude Sonnet 4): the artefact in a user turn is the baseline (AUROC 0.99 vs 0.92 own turn). Neither tests a quoted transcript or 5.5 models. |
+
+## Known or new (rule 13)
+
+Every landed or mixed bet of this program carries a Novelty line in its results file and ledger row (`novelty`, `novelty_line`): 1 known. A known result keeps its verdict and score; the word says what it is evidence of.
+
+| bet | direction | ledger verdict | novelty | the line |
+|---|---|---|---|---|
+| sg-b3 | sg-d3 | pass-unreplicated | **known** | Self-Attribution Bias (Khullar, Hopkins, Wang and Roger, March 2026, arXiv 2603.04582) found a Claude monitor's ability to separate passing from failing patches fell from 0.99 to 0.92 when the patch sat in its own previous turn, and it was about five times likelier to approve a prompt-injected patch; Self-Correction Bench (Tsui, July 2025, arXiv 2507.02778) found the same error went uncorrected far more often when placed in the assistant turn than in the user turn (blind-spot rate 52.5% on Claude 3.5 Haiku, 41.4% on Claude Sonnet 4), and that prepending "Wait" removes most of it. Ours is a graded penalty on prose, on the 5.5 models, with Sonnet showing no gap: a footnote to a known effect, not a new one. The cheapest test the prior work leaves open is Tsui's fix prepended to the own-turn grading request, about $1.30. Search: paper/novelty.md, 2026-11-05 (arXiv searches on self-attribution bias, self-preference in LLM judges, self-correction blind spot, cross-context review), by a claude-fable-5-1 session on the novelty-check branch (93f47af); carried here by the informed-engine session. |
+
+## Follow-ups (remap 2026-11-05, second round)
+
+Written by a fresh remap session (`operators/remap.md`, with rule 13's Steps 1b–2a as written on the `informed-engine` branch) that wrote none of this program's results, pre-registrations or audits. It read the ledger rows for sg-b4 and sg-b5, both audits, both results files, this map and `map/self-grading.json`. It did not read `ledger/human-odds.jsonl`. Nothing here is pre-registered, run or budget-approved. Map tag: `remap: "2026-11-05b"`.
+
+**What the re-scout changes** (sg-b4; `reads/remap-2026-11-05b-sg-b4.md`, six reads, three in full): Nothing found makes sg-b4 known; the Novelty line stands. The audit's two tests stay, both sharpened. JudgeSense and Zhao et al. make a same-run repeat the reference for any judge comparison, so sg-d13 grades each cell twice in one run and reads T only against same-run cells. JudgeSense finds that rewording moves graded judgments most, and Grossmann and Kross find that a wording-only frame shrinks a human self-other gap. So the lead-in is a live carrier: sg-d14 stays, re-priced only by the cap. Laban et al. name message count as a rival, noted, not mapped. No odds are stated.
+
+### In plain English
+
+**What landed.** One bet of two: **sg-b4, pass, unreplicated** (audit `9aee23f` stands, 3 cuts; Novelty: partly new). sg-b3 found that Haiku and Opus went easier on a planted exaggeration in their own reply than when they saw it fresh. sg-b4 showed each model its writing conversation again, this time as a quoted copy inside a new message, with the same closing line. There, both models were stricter: about half of Haiku's easy treatment went away, and most of Opus's. Haiku cleared its bar by only half a point, though. Its comparison also used own-reply grades from a run an hour earlier, and those grades moved by about 4 points between runs. What is left between the quoted copy and a fresh grade (5.8 points on Haiku, 1.5 on Opus) sits in three differences: a header sentence, the User and Assistant labels, and the closing line "Now grade the conclusion above".
+
+**The two follow-ups.** Both come from the audit's "What would break it next".
+- **sg-d13, same-run re-grade (about 4 cents, Haiku only).** Haiku grades its own-reply and quoted-copy cells in one sitting, each twice, on all 60 studies. If it is still stricter in the quoted copy by at least its 6.3-point bar, sg-b4's pass holds without the cross-run comparison. If not, sg-b4 reads mixed. This is the cheapest test that could overturn the result.
+- **sg-d14, lead-in-only swap (about 46 cents, Haiku and Opus).** The quoted copy stays the same, except that its closing line becomes the fresh frame's plain "Grade the conclusion.". If both models get clearly stricter, by at least half of what was left, the closing line carries part of the remainder. If not, the header or the labels must.
+
+**The cap.** The program has spent $4.69 of its $5.00, so about $0.31 is left. sg-d13 fits. sg-d14 does not, alone or with sg-d13 (about $0.50). It can run only after a budget ruling or a cap raise. Under rule 4 that ruling is the engine's call, logged in `ledger/spend.jsonl`. This remap approves nothing. A Haiku-only sg-d14 (about 2 cents) would fit, but it would need a rule-12 sentence and would leave Opus's remainder untested.
+
+**What the kill rules out.** sg-b5 (sg-d11) failed. Once the exaggeration replaced the conclusion's last sentence, the answer was no longer too long, and Opus's easier treatment of it in its own conversation fell below the 5-point bar (3.4 points). Haiku's did not fall. The swap also removed the conclusion's caveat, so this cannot say whether the drop was the length or the caveat.
+
+**Not mapped, and why.**
+- sg-b5's audit names a caveat-kept arm: the exaggeration replaces a middle sentence, so the caveat and the length both stay (about $0.43). It would read *why* sg-b5 failed, not test an unexpected effect, so it is not a lead under Step 1. It is also past the cap.
+- The re-scout's message-count rival (Laban et al. 2025): a quoted copy split back into three user messages, about the price of sg-d14. It is not among the two cheapest, and no audit named it.
+- sg-d10 stays open as written.
+
+**sg-d3's line.** sg-b3's two follow-ups have now run: sg-d11 killed, sg-d12 landed. The line continues through sg-d12's children, sg-d13 and sg-d14.
+
+The new directions are on the cockpit.
+
+### Follow-ups
+
+Engine odds are **not stated** (`engine_odds` null). This session could not open the separate fresh contexts that template v2 needs, so each node carries `odds_template: "remap one pass, not v2; re-elicit under v2 before pre-registration"` and an `odds_rationale` saying what the re-scout changed. Costs are at sg-b4's cost per call: Haiku about $0.000075, Sonnet $0.0016, Opus $0.0032.
+
+| rank | id | parent (bet, Novelty) | follow-up | models | engine P(pass) | cost | draft pass rule | Prior work predicts | source |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | sg-d13 | sg-d12 (sg-b4, partly new) | Same-run re-grade: Haiku's own-turn and quoted cells, all 60 studies, twice each, one run | Haiku only (one model's cross-run margin, by design) | not stated (re-elicit under v2) | about $0.04; fits the $0.31 left | same-run T ≥ +6.3, 20-domain CI lower > 0, F CI lower > 0 | unknown | sg-b4 audit, cheapest overturning test |
+| 2 | sg-d14 | sg-d12 (sg-b4, partly new) | Lead-in only: the quoted copy with "Grade the conclusion." for "Now grade the conclusion above.", same run | Haiku (60), Opus (30); Sonnet left out (no blunting to split) | not stated (re-elicit under v2) | about $0.46; past the $0.31 left | S ≥ half the model's sg-b4 L (Haiku 2.9, Opus 0.75), CI lower > 0, flawed-text guard; both models | mixed | sg-b4 audit, second arm |
+
+Ranked by what each can change. sg-d13 can turn sg-b4's pass into mixed. sg-d14 can only say which part of the bundle carries the remainder. Both bars are read on a 20-domain cluster bootstrap (P14). The Prior work lines are on the nodes in `map/self-grading.json`.
+
+### Rules out
+
+| bet | direction | ledger verdict | rules out | diagnosis |
+|---|---|---|---|---|
+| sg-b5 | sg-d11 (closed) | null (fail), audit `4a66466` stands, 4 cuts (cut 4 the plant pl-034) | Rules out, on Opus 5.5 and these 60 made-up study conclusions, that grading in the writing conversation docks an overclaim 5 or more points less than fresh once it replaces the conclusion's caveat instead of making the text too long. | Opus's blunting fell from 6.0 to 3.4 points (under the 5-point bar) once the overclaim replaced the caveat; Haiku unchanged at 12.5; the swap bundles length with the lost caveat (sg-b5, audit 4a66466). |
+
+The sentence was checked against the audit: Opus's G′ is +3.42 [+2.52, +4.35], and its upper end stays under 5 on every seed and leave-one-out the audit tried. It is scoped to Opus, the model the rule turned on (Haiku stayed blunted), and it does not rule out a smaller own-conversation effect (the interval excludes 0).
+
+**Cockpit.** Cards for sg-d13 and sg-d14 are added to `map/cockpit-cards.jsonl`, without engine odds. The cards for sg-d11 and sg-d12 are dropped, because both directions already have a bet (sg-b5, sg-b4). That keeps the cockpit at 20 cards or fewer once this branch meets main, which already holds 20.

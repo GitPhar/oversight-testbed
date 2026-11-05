@@ -1,0 +1,19 @@
+# em-bm9
+
+*Novelty check for em-bm9 (rule 13), written 2026-11-05 by a fresh claude-fable-5-1 subagent launched by the informed-engine session: web reads only, no model API, no repo edits; every number below comes from a page the session opened. Its Novelty line is in the results file and the ledger row.*
+
+## Verdict
+partly new
+## Novelty line
+That numbers already in an LLM's context pull its next rating toward them is in print: Stureborg et al. 2024 (arXiv 2405.01724) find GPT-4's own earlier coherence score raises its later consistency score, Kapetanovic et al. 2026 (arXiv 2608.25869) find a shown prior score shifts judge ratings toward its value (d up to 0.71), and Temkit 2026 (arXiv 2605.22714) finds history polarity drags judgments its way across 12 models including Claude Haiku (d = -0.22). None holds the content's logical push fixed, tests a sub-question-then-main-question pair, or pits assimilation against contrast as we do: partly new. Search: WebSearch for "LLM sequential ratings assimilation serial dependence", "LLM-as-judge prior score anchoring", "LLM survey question order assimilation contrast"; arXiv abstracts and the Stureborg HTML opened; Fischer and Whitney and Cicchini via Europe PMC.
+## Papers opened
+- Stureborg, Alikaniotis, Suhara, 2024, "Large Language Models are Inconsistent and Biased Evaluators", https://arxiv.org/abs/2405.01724 and https://arxiv.org/html/2405.01724. Section 3.3: when GPT-4 scores several attributes in one output, an earlier coherence score above 5/10 is followed by a higher consistency score; GPT-4 coherence-consistency correlation 0.979 against 0.315 for humans. Assimilation toward the model's own earlier score, same direction as ours; only the upward case reported, content not controlled.
+- Kapetanovic, Altwlkany, Mercep, Duricic, Lacic, 2026, "Anchoring Bias in LLM-as-a-Judge Systems: Prior Scores Compromise Evaluation Independence", https://arxiv.org/abs/2608.25869. 192,000 evaluations, eight models, seven with significant effects; prior scores shown as metadata shift ratings toward their values, |d| up to 0.71; threshold-like rather than graded with anchor value. Same direction; the prior score is external, not the model's own.
+- Temkit, 2026, "AMEL: Accumulated Message Effects on LLM Judgments", https://arxiv.org/abs/2605.22714. 84,088 calls, 12 models; prior history polarity pulls later judgments its way, overall d = -0.17, Anthropic Haiku -0.22 to Opus -0.17; history length does not matter. Same direction (assimilation to history), but polarity of messages, not a number the model gave.
+- Kang, 2026, "Auditing Question-Order Effects in LLMs with the QQ Equality", https://arxiv.org/abs/2607.17219. One open-weight model; binary question-order audit, saturation caveat; does not discuss assimilation or contrast.
+- Fischer and Whitney, 2014, "Serial dependence in visual perception", Nature Neuroscience 17:738-743 (abstract via Europe PMC REST). Perceived orientation pulled toward recent stimuli, tuned to spatial and temporal proximity. Human baseline for attraction; not on LLMs.
+- Cicchini, Mikellidou, Burr, 2018, "The functional role of serial dependence", Proc. R. Soc. B (abstract via Europe PMC REST). Responses drift toward previously seen stimuli, stronger for less reliable and more similar stimuli. Human baseline.
+## Not found / caveats
+- No LLM paper found that rates a sub-question then the main question with the content's push held fixed and tests assimilation against contrast, or that reports a per-point slope like +0.27.
+- Fischer and Whitney could not be opened at nature.com (login redirect) and the Cicchini Royal Society page returned 403; both abstracts were read through the Europe PMC search API instead.
+- Stureborg et al. report the upward case only; whether a low earlier score lowers the later one is not stated.

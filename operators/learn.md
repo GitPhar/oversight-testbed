@@ -62,6 +62,10 @@ Rules:
  "scored": null, "recurred": null, "scored_note": null}
 ```
 
+**How the line reaches the ledger.** Not by editing `ledger/lessons.jsonl`: append it to your inbox with `python3 ledger/merge_inbox.py add lessons '<the row above>'`, a new pattern line the same way, and a pattern's `cited_by` or a lesson's `recurred`/`scored` with `python3 ledger/merge_inbox.py update lessons <id> '<fields>'`; commit the inbox file; the main-checkout session folds it.
+
+> **The ledger inbox (from 2026-11-05; CONTEXT.md §2, `ledger/inbox/README.md`).** Never edit `ledger/bets.jsonl`, `lessons.jsonl`, `steers.jsonl` or `plants.jsonl` directly. Append one line per change to your own inbox file with `python3 ledger/merge_inbox.py add <file> '<row>'` or `update <file> <id> '<fields>'` (in the main checkout, `export LEDGER_INBOX=<tab-name>` first; in a worktree the branch name is used), and commit that file alone: `git commit -m "…" -- ledger/inbox/<name>.jsonl`. The main-checkout session folds it with `python3 ledger/merge_inbox.py --commit`. Rows still in an inbox count for `check_prereg.py` and `reproduce.py`.
+
 Pattern lines (`kind: pattern`) carry `id`, `class`, `title`, `evidence`, `sources`, `do_this`, `first_seen` and `cited_by`, and they are never deleted. A pattern that stops recurring stays on the list as evidence that the loop worked.
 
 ## Step 3: after the bet resolves (the ledger session)

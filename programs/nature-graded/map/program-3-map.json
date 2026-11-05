@@ -40,7 +40,16 @@
    },
    "rules_out": "Rules out our simulator's missing idle decay as the cause of the 3 November gap: scheduling the circuit correctly moved the prediction by about 0.000 (0.268 against 0.267).",
    "rules_out_at": "2026-11-05T04:45",
-   "question_line": "3 November"
+   "question_line": "3 November",
+   "prior_work_line": "Vezvaee et al. 2025 (arXiv:2510.18847, Heron r2) found calibration-derived noise models must be scaled 2.3 to 4.0 times to match deep circuits, and Bautra et al. 2026 (arXiv:2603.14607, Eagle) found from_backend twins matched hardware at 95% in only 7 of 96 cases. So a correctly scheduled calibration model is predicted to stay far below the chip's 0.50: fail. Settled bet ng-p3-1: 0.268, fail.",
+   "prior_work_predicts": "fail",
+   "prior_work_sources": [
+    "Vezvaee et al. 2025, surface-code scaling on Heron versus calibration noise models (descriptor per reads D), arXiv:2510.18847",
+    "Bautra, Dimitrijevs, Yakaryilmaz 2026, calibration-based digital twins vs IBM hardware (descriptor per reads D), arXiv:2603.14607",
+    "Qiskit Aer NoiseModel.from_backend source and docs (reads D), https://github.com/Qiskit/qiskit-aer/blob/main/qiskit_aer/noise/noise_model.py"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "P3-2",
@@ -67,7 +76,17 @@
    "human_odds": null,
    "rules_out": "Rules out nothing about twirling: the 3 November gap was absent on 4 November (0.246 against 0.269), so there was nothing to close; it set the defaults (twirl off, DD off).",
    "rules_out_at": "2026-11-05T04:45",
-   "question_line": "3 November"
+   "question_line": "3 November",
+   "prior_work_line": "Cenedese et al. 2023 (arXiv:2211.16114, ibm_lagos) found random echoes made a coherently rotated tomography ellipsoid match the calibration simulator, so twirling is predicted to move a coherent gap toward the simulator; Vezvaee et al. 2025 (arXiv:2510.18847, Heron r2) found a 2.3 to 2.5 times residual even with DD, predicting a stochastic remainder. No twirl on/off versus from_backend exists for deep Heron r2 circuits. Settled ng-p3-2: untestable, no gap that day.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Cenedese, Benenti, Bondani 2023, correcting coherent errors on IBM hardware (descriptor per reads D), arXiv:2211.16114",
+    "Vezvaee et al. 2025, arXiv:2510.18847",
+    "Wallman and Emerson 2016, randomized compiling (abstract only in reads), arXiv:1512.01098",
+    "Proctor et al. 2022, measuring capabilities with mirror circuits, arXiv:2008.11294"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "P3-3",
@@ -92,7 +111,16 @@
    "human_odds": null,
    "rules_out": "Rules out nothing about bad qubits: with no gap on 4 November, both alternative layouts also sat near the simulator (0.277 and 0.297 against 0.265 and 0.264).",
    "rules_out_at": "2026-11-05T04:45",
-   "question_line": "3 November"
+   "question_line": "3 November",
+   "prior_work_line": "Klimov et al. 2018 (arXiv:1809.01043, Google Xmons: T1 moves up to 10 times within 15 minutes) and Kim et al. 2025 (arXiv:2407.02467, IBM: T1 fluctuates over 300% in 60 h) predict afternoon-scale drift rather than a fixed bad layout, so halving the gap on both alternative layouts is predicted not to occur: fail. No Heron r2 output-drift study exists. Settled ng-p3-3: untestable, no gap on 4 November.",
+   "prior_work_predicts": "fail",
+   "prior_work_sources": [
+    "Klimov et al. 2018, T1 fluctuations from TLS, arXiv:1809.01043",
+    "Kim, Govia, Dane, van den Berg et al. 2025, stabilising noise via TLS control, arXiv:2407.02467",
+    "Carroll, Rosenblatt, Jurcevic, Lauer, Kandala 2022, dynamics of qubit relaxation times, arXiv:2105.15201"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "P3-4",
@@ -119,7 +147,17 @@
     "paraphrase": 0.3,
     "negation_not_pass": 0.65,
     "incoherence": 0.1
-   }
+   },
+   "prior_work_line": "Hickman, Wu and Quiroz 2025 (arXiv:2506.18010, ibm_marrakesh Heron r2) found XY4 raised idle decay time from 6.95 to 10.5 µs, and Vezvaee et al. 2025 (arXiv:2510.18847, Heron r2) found DD cut the noise-scaling factor from 3.6-4.0 to 2.3-2.5 for phase-sensitive states: DD is predicted to help. No DD on/off negativity exists in print, and ng-p3-2's DD arm moved P(yes) only +0.010, so the 0.043 size is open.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Hickman, Wu, Quiroz 2025, crosstalk-robust DD on Eagle vs Heron, arXiv:2506.18010",
+    "Vezvaee et al. 2025, arXiv:2510.18847",
+    "Ezzell et al. 2023, DD performance survey, arXiv:2207.03670",
+    "ledger/bets.jsonl ng-p3-2 (DD arm +0.010)"
+   ],
+   "prior_work_search": "WebSearch 'dynamical decoupling entanglement negativity two-qubit tomography IBM hardware': no negativity-under-DD result found",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "P3-5",
@@ -142,7 +180,20 @@
    "diagnosis": null,
    "human_odds": null,
    "rules_out": "Rules out, on program 1's three archived pairs, a pure steady-twist account winning a 7-against-7 fit; the contest was decided by the reference state's purity, so P3-5c re-asked it (pass).",
-   "rules_out_at": "2026-11-05T04:45"
+   "rules_out_at": "2026-11-05T04:45",
+   "prior_work_line": "Cenedese et al. 2023 (arXiv:2211.16114, ibm_lagos) and Vezvaee et al. 2025 (arXiv:2510.18847, Heron r2: coherent CZ oscillations plus non-Markovian dephasing) predict coherent and incoherent error together, and McKay et al. 2023 (arXiv:2311.05933) say reported rates hide coherent error. None predicts a 7-knob unitary family out-fitting a Pauli family when the chip's states are more mixed than the reference: fail. Settled: ng-p3-5 fail; ng-p3-5c found both terms on all three.",
+   "prior_work_predicts": "fail",
+   "prior_work_sources": [
+    "Cenedese, Benenti, Bondani 2023, arXiv:2211.16114",
+    "Vezvaee et al. 2025, arXiv:2510.18847",
+    "McKay, Hincks, Pritchett, Carroll, Govia, Merkel 2023, layer fidelity / EPLG, arXiv:2311.05933",
+    "programs/nature-graded/results/p3-5-coherent-fits.md and p3-5c-nested.md"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "novelty": "known",
+   "novelty_line": "Tripathi et al. 2022 (Phys. Rev. Applied 18, 024068; arXiv 2108.04530) state that on IBM fixed-frequency transmons the always-on ZZ coupling \"contributes to both coherent and incoherent crosstalk errors\", alongside open-system decoherence; Carignan-Dugas et al. 2024 (Quantum 8, 1367; arXiv 2303.09945) measure \"substantial coherent errors biased in Z\" on three IBM chips next to decoherent error; Georgopoulos et al. 2021 (Phys. Rev. A 104, 062432) find operations \"more or less erroneous than the hardware-calibrated parameters show\". Our finding that ibm_fez pairs need both a rotation term and a blur term beyond the calibrated simulator is the same statement in the same direction, on a tunable-coupler Heron device. Search: WebSearch for \"superconducting qubits coherent and incoherent errors gate set tomography IBM ZZ calibration noise model underpredicts\", \"ibm_fez Heron coherent errors\", \"gate set tomography IBM coherent stochastic\"; arXiv abstract pages for each lead.",
+   "novelty_bet": "ng-p3-5c"
   },
   {
    "id": "P3-6",
@@ -169,7 +220,16 @@
     "paraphrase": 0.5,
     "negation_not_pass": 0.35,
     "incoherence": 0.15
-   }
+   },
+   "prior_work_line": "Bednorz et al. 2025 (arXiv:2506.08940) found signalling beyond 5σ on Eagle (brisbane, sherbrooke) and Heron r1 (torino) but none beyond statistical error on ibm_kingston (Heron r2) at about 3e-4; Rybotycki et al. 2025 (arXiv:2409.11348) found idle-pair δP up to 0.05 on Eagle. For ibm_fez, a Heron r2, a clean screen at the lean sensitivity (δP about 0.03) is predicted: pass. ibm_fez itself has never been screened (search).",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Bednorz, Batle, Bialecki, Korbicz 2025, Closing objectivity loophole in Bell tests on a public quantum computer, arXiv:2506.08940",
+    "Rybotycki, Bialecki, Batle, Bednorz 2025, Violation of no-signaling on a public quantum computer, arXiv:2409.11348",
+    "Hawley and Shyu 2026, CrossBench: Generalized Crosstalk Benchmark Generation for Quantum Computers (gate crosstalk on IBM devices, not phase-setting leakage; abstract only), arXiv:2604.27183"
+   ],
+   "prior_work_search": "WebSearch 'ibm_fez no-signalling test setting-dependent marginals crosstalk Heron r2': no ibm_fez screen found",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "P3-7",
@@ -192,7 +252,17 @@
     "A: Bednorz 2025"
    ],
    "diagnosis": null,
-   "human_odds": null
+   "human_odds": null,
+   "prior_work_line": "Bong et al. 2020 (arXiv:1907.05607, photons) violated genuine facet 1 only at purity 0.921 and above. Laux and Cavalcanti 2026 (arXiv:2609.12527, ibm_marrakesh Heron r2) reached CHSH-type S_LF 0.31-0.47 of 0.83, about 0.87 visibility at 3 CZ, which predicts S of roughly 0.2-0.4 at n=1: positive, near the 5σ bar. Zeng et al. 2025 (ibm_torino) ran only a Bell facet. No genuine LF facet has run on any processor.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Bong et al. 2020, strong Local Friendliness no-go, Nature Physics 16:1199, arXiv:1907.05607",
+    "Laux and Cavalcanti 2026, agent-like friends on ibm_marrakesh, arXiv:2609.12527",
+    "Zeng, Labib, Russo 2025, Towards violations of Local Friendliness with quantum computers, Quantum 9:1851, arXiv:2409.15302",
+    "reads A [our calc]: S(n) = 0.18 at v0 = 0.87, p = 1%; 0.65 at v0 = 0.92, p = 0.5%"
+   ],
+   "prior_work_search": "WebSearch 'genuine local friendliness inequality quantum computer experiment 2026 Bong facet superconducting': nothing newer than Zeng 2025 and Laux 2026",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "P3-8",
@@ -219,7 +289,17 @@
     "paraphrase": 0.3,
     "negation_not_pass": 0.7,
     "incoherence": 0.05
-   }
+   },
+   "prior_work_line": "Haddara and Cavalcanti 2025 (arXiv:2407.20346) Theorem 18: LF equals Bell only when every friend's party has two settings (Theorem 14) or all parties have friends (Corollary 15), so one friend with three settings is predicted to have genuine facets. No explicit facet, quantum value or noise tolerance is in print: Haddara, Wiseman and Cavalcanti 2025 (arXiv:2510.25127) give only a polytope correspondence; Woodhead 2014 thesis unverified. The 15% tolerance is open.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Haddara and Cavalcanti 2025, Local Friendliness Polytopes in Multipartite Scenarios, PRA 111:012206, arXiv:2407.20346 (Theorems 14, 18 and Corollary 15 read in the arXiv HTML)",
+    "Haddara, Wiseman, Cavalcanti 2025, Properties and Applications of Partially Deterministic Polytopes, arXiv:2510.25127 (PDF opened; Section IV.3 gives a one-to-one correspondence with partially deterministic polytopes, no explicit inequality)",
+    "Woodhead 2014, PhD thesis, Universite libre de Bruxelles (cited as ref. 34 of 2510.25127; could not be opened: unverified)",
+    "Bong et al. 2020, arXiv:1907.05607 (two-friend 3x3 facets; 932 facets, 9 classes)"
+   ],
+   "prior_work_search": "WebFetch arXiv abs/html/pdf 2510.25127 and html 2407.20346; WebSearch 'Woodhead partially deterministic polytope one deterministic input three inputs facets'",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "P3-9",
@@ -243,7 +323,18 @@
     "B: Kujala & Dzhafarov 2019"
    ],
    "diagnosis": null,
-   "human_odds": null
+   "human_odds": null,
+   "prior_work_line": "Peres-Mermin reaches χ 5.46(4) on ions (Kirchmair et al. 2009, arXiv:0904.1655), 5.618(5) with MCM on Google Willow (Kumar et al. 2025, arXiv:2512.02284, no CbD) and 5.31 on ibm_kingston Heron r2 (Kelleher and Holweck 2025, arXiv:2505.21243, no error bars). Massé 2021 (arXiv:2105.13821, unrefereed) found Kirchmair's data stay contextual under an adapted CbD correction by 0.566, so a CbD pass is predicted for both states; the exact LP is unapplied on hardware.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Kirchmair et al. 2009, state-independent quantum contextuality with single trapped ions, Nature 460:494, arXiv:0904.1655",
+    "Kumar et al. (Google Quantum AI) 2025, sequential Peres-Mermin with MCM on Willow, arXiv:2512.02284",
+    "Kelleher and Holweck 2025, Rio Negro inequality on Heron r2, arXiv:2505.21243",
+    "Masse 2021, CbD reanalysis of Kirchmair data (review, unrefereed), arXiv:2105.13821",
+    "Dzhafarov and Kujala 2016, CbD 2.0 (abstract only in reads), arXiv:1604.04799"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "P3-10",
@@ -266,7 +357,18 @@
     "B: Guhne 2010"
    ],
    "diagnosis": null,
-   "human_odds": null
+   "human_odds": null,
+   "prior_work_line": "Kirchmair et al. 2009 (arXiv:0904.1655, ions) got the disturbance-corrected 4-cycle X_DHV 2.23(5) > 2; Wang et al. 2022 (arXiv:2112.13612, two ions) got C 2.526(16) with KDL/CbD penalty 0.023; Malinowski et al. 2018 (arXiv:1712.06494, ion KCBS) beat the KDL-extended bound by 25σ in both orders. Jerger et al. 2016 (arXiv:1602.00440, transmon) saw about 0.07 marginal shift per pair, so a thin-margin transmon pass is predicted. No sequential superconducting KDL test exists.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Kirchmair et al. 2009, arXiv:0904.1655",
+    "Wang et al. 2022, CHSH-form KS inequality on two ion species, Sci. Adv. 8:eabk1660, arXiv:2112.13612",
+    "Malinowski et al. 2018, probing the limits of correlations in an indivisible quantum system, PRA 98:050102, arXiv:1712.06494",
+    "Jerger et al. 2016, sequential KCBS on a transmon qutrit, Nat. Commun. 7:12930, arXiv:1602.00440",
+    "Kujala, Dzhafarov, Larsson 2015, KDL criterion, PRL 115:150401, arXiv:1412.4724"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "P3-11",
@@ -295,7 +397,18 @@
     "paraphrase": 0.72,
     "negation_not_pass": 0.25,
     "incoherence": 0.03
-   }
+   },
+   "prior_work_line": "On IBM qubits K3 lands near 1.3-1.4 (Nath et al. 2025, arXiv:2502.02973, IBM Brussels, 'slightly lower' than 1.5; Santini and Vitale 2022, arXiv:2109.02507, ibmq_manila, mitigation needed), single-qubit invasiveness is 0.023(4) (Ku et al. 2020, arXiv:1905.13454, IBM, ancilla CNOTs) and Huffman and Mizel 2017 (arXiv:1609.05957, IBM 5Q) cleared clumsiness by 2.6σ. K3−1 near 0.3 against disturbance near 0.03 predicts pass. No IBM test with MCM, CbD or pre-registered control exists.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Nath, Sinha, Sinha 2025, LG-certified randomness on an IBM qubit, Front. Quantum Sci. Technol., arXiv:2502.02973",
+    "Santini and Vitale 2022, Leggett-Garg on ibmq_manila, PRA 105:032610, arXiv:2109.02507",
+    "Ku et al. 2020, experimental test of non-macrorealistic cat states in the cloud, npj QI, arXiv:1905.13454",
+    "Huffman and Mizel 2017, Leggett-Garg test addressing the clumsiness loophole, PRA 95:032131, arXiv:1609.05957",
+    "Knee et al. 2016, non-disturbance condition on a flux qubit, Nat. Commun. 7:13253, arXiv:1601.03728"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "P3-12",
@@ -321,7 +434,19 @@
     "paraphrase": 0.5,
     "negation_not_pass": 0.4,
     "incoherence": 0.08
-   }
+   },
+   "prior_work_line": "Hossenfelder 2014 (arXiv:1401.0286) and Hossenfelder and Palmer 2020 (arXiv:1912.06462) predict Corr_κ = exp(−κ/τ) only under environment-borne superdeterminism; quantum theory predicts zero, and no hardware test exists. For the control, repeat agreement is 0.9636 on Willow (Kumar et al. 2025, arXiv:2512.02284), 98.7% QND fidelity on a non-IBM superconducting chip (Wu et al. 2026, arXiv:2512.07966) and 0.95-0.98 on ions (Gühne et al. 2010), so the 95% bar is predicted met, narrowly: pass.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Hossenfelder 2014, testing superdeterministic conspiracy, arXiv:1401.0286",
+    "Hossenfelder and Palmer 2020, rethinking superdeterminism, Front. Phys. 8:139, arXiv:1912.06462",
+    "Kumar et al. 2025, arXiv:2512.02284 (P_agree 0.9636 ± 0.0004)",
+    "Wu et al. 2026, Measurement- and Feedback-Driven Non-Equilibrium Phase Transitions on a Quantum Processor, PRL 137:010401, arXiv:2512.07966 (abstract only; vendor not named)",
+    "Guhne et al. 2010, compatibility and noncontextuality for sequential measurements, PRA 81:022121, arXiv:0912.4846",
+    "Harper et al. 2026, Characterising the failure mechanisms of error-corrected quantum logic gates, Nat. Commun. 17:5039, arXiv:2504.07258 (abstract only: idling during MCM dominant, no numbers)"
+   ],
+   "prior_work_search": "WebSearch 'mid-circuit measurement repeatability QND fidelity IBM Heron' and 'Sydney IBM Heron r2 mid-circuit measurement idling noise': no IBM Heron repeat-agreement figure found",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "P3-13",
@@ -348,7 +473,16 @@
     "paraphrase": 0.5,
     "negation_not_pass": 0.35,
     "incoherence": 0.3
-   }
+   },
+   "prior_work_line": "Nath et al. 2024 (arXiv:2402.03712, photons, K3 1.32(4)) certified 0.054 bits per run asymptotically but only 0.0367 at 10^5 runs and nothing below about 3,000 runs after finite-size correction; Nath et al. 2025 (arXiv:2502.02973, IBM Brussels) measured K3 'slightly lower' than 1.5 with no bit count. Their Theorem 2 gives 0.0496 bits at K3 1.30 and 0.115 at 1.40, so at 72,000 rounds the 0.05 bar is predicted borderline.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Nath, Saha, Home, Sinha 2024, LG-based semi-device-independent QRNG (photonic), arXiv:2402.03712",
+    "Nath, Sinha, Sinha 2025, arXiv:2502.02973",
+    "reads C (my calc): 0.0496 bits/round at K3 = 1.30, 0.115 at 1.40, 0.179 at 1.45"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "P3-14",
@@ -369,7 +503,16 @@
     "E: Yang, Yuan & Barnes 2025"
    ],
    "diagnosis": null,
-   "human_odds": null
+   "human_odds": null,
+   "prior_work_line": "Ringbauer et al. 2015 (arXiv:1412.6213, photons, d=4) found S 0.690(1) assuming fair sampling and say that without it detection efficiency must exceed 0.976 (d=4, n=5), an error budget of a few per cent. Yang, Yuan and Barnes 2025 (arXiv:2510.11213, ibm_marrakesh Heron r2) measured 0.2-0.6% forbidden-outcome rates on adjacent pairs in a PBR test. Together these predict S below 1 by a thin margin. No superconducting d≥3 test exists (two searches).",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Ringbauer et al. 2015, measurements on the reality of the wavefunction, Nature Physics 11:249, arXiv:1412.6213",
+    "Yang, Yuan, Barnes 2025, Experimental Demonstration of the PBR Test on a Superconducting Processor, arXiv:2510.11213",
+    "Ray, Chaturvedi, Saha 2025, Maximally psi-epistemic models cannot explain gambling with two qubits, arXiv:2509.10437 (abstract only; theory, no hardware)"
+   ],
+   "prior_work_search": "WebSearch 'maximally psi-epistemic test superconducting qubits ququart overlap bound experiment': no superconducting test found",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "P3-15",
@@ -462,7 +605,17 @@
    "odds_template": "remap one pass (operators/remap.md), not v1; re-elicit under v1 before pre-registration",
    "diagnosis": null,
    "opened": "2026-11-05T04:45",
-   "rank": null
+   "rank": null,
+   "prior_work_line": "Readout drift on IBM qubits is reported as small and stepwise: Hirasaki et al. 2023 (arXiv:2307.04337) saw error-rate steps lasting minutes at about 1% assignment error, and Pal et al. 2026 (arXiv:2601.08290) found drift surviving full readout mitigation, so in preparation, not readout. Nothing predicts readout error 3-20 times the reported 0.24-0.88%, which the ng-p3-5c audit says the rival needs on h221 and h268: pass predicted. No such refit exists.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Hirasaki, Daimon, Itoko, Kanazawa, Saitoh 2023, Detection of temporal fluctuation in superconducting qubits for quantum error mitigation, arXiv:2307.04337 (abstract; the 1% figure and ibm_kawasaki come from a search summary, unverified)",
+    "Pal, Karoliya, Sharma, Podila 2026, A Preparation Nonstationarity Loophole in Superconducting-Qubit Bell Tests, arXiv:2601.08290 (abstract only)",
+    "Dasgupta and Humble 2024, Impact of unreliable devices on stability of quantum computations, arXiv:2307.06833 (abstract only; no readout figure)",
+    "ledger/audits/ng-p3-5c.md, The case that this result is false (readout knobs 2.7 to 5% per qubit needed; IBM snapshot 0.24 to 0.88%)"
+   ],
+   "prior_work_search": "WebSearch 'Dasgupta Humble stability readout error temporal fluctuation IBM' and 'IBM superconducting qubit readout assignment error drift over hours'; abstracts fetched",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "P3-18",
@@ -495,7 +648,18 @@
    "odds_template": "remap one pass (operators/remap.md), not v1; re-elicit under v1 before pre-registration",
    "diagnosis": null,
    "opened": "2026-11-05T04:45",
-   "rank": null
+   "rank": null,
+   "prior_work_line": "Vezvaee et al. 2025 (arXiv:2510.18847, Heron r2) report both coherent CZ error and non-Markovian dephasing, and Cenedese et al. 2023 (arXiv:2211.16114, ibm_lagos) a coherent rotation on top of decay, so a fresh job is predicted to need both terms: pass. Drift as in Kim et al. 2025 (arXiv:2407.02467, T1 over 300% in 60 h) could change which pair carries which term. ng-p3-5c found both on 3 of 3 pairs, unreplicated.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Vezvaee et al. 2025, arXiv:2510.18847",
+    "Cenedese, Benenti, Bondani 2023, arXiv:2211.16114",
+    "Kim, Govia, Dane, van den Berg et al. 2025, arXiv:2407.02467",
+    "Proctor et al. 2022, arXiv:2008.11294 (structured circuits worse than predicted on every processor)",
+    "programs/nature-graded/results/p3-5c-nested.md"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   }
  ],
  "closed": [
