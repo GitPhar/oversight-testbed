@@ -23,7 +23,8 @@ Written and frozen <YYYY-MM-DD HH:MM> (America/Denver), in its own commit, befor
 | source | `literature` / `engine` / `human` — *where the idea came from (Q5)* |
 | engine odds, P(pass) | <0–100>, stated <timestamp> in map/<program>.json — *copied, not restated* |
 | human odds, P(pass) | <0–100>, the first line for this direction in `ledger/human-odds.jsonl` (<line id>, <commit>) — *or "no human odds" if it has none; never asked for in a terminal* |
-| budget | $<n> API · <n> QPU s · <n> laptop hours |
+| models | `claude-haiku-5-5`, `claude-sonnet-5-5` and `claude-opus-5-5` (CONTEXT §3 rule 12, from 2026-11-05) — *or "not all three, because <reason>": e.g. no model is in the loop (a chip or archive test), the test needs internals (an open-weight model), or the question is about one model by design (a replication completing an earlier run, a rater that must match the bettor). Cost too high is not a reason by itself: use fewer repeats or items on Opus (it cannot turn thinking off; its calls cost about 100 times Haiku's) and say so.* |
+| budget | $<n> API · <n> QPU s · <n> laptop hours — *split by model* |
 | lesson | "Correcting <P-id(s)>: <what went wrong before>. This bet <what it does differently>, and its odds are <n>% (from <m>% on the map) because <reason from the ledger>." Written after reading ledger/bets.jsonl, brier.md, audits/ and lessons.jsonl (operators/learn.md). **Mandatory; never revised after this commit.** |
 | design review | before the first call, a fresh auditor dry-runs this design (operators/design-review.md) → `ledger/design-reviews/<bet-id>.md`, verdict go / fix-first / redesign. *No call runs before a go.* |
 | pre-mortem | "If this fails, the most likely reason is <one checkable mechanism, ≤35 words>." Kind: `world` / `design` / `execution` / `artefact` (operators/premortem.md). *Never revised after this commit.* |
@@ -37,7 +38,7 @@ Written and frozen <YYYY-MM-DD HH:MM> (America/Denver), in its own commit, befor
 
 ## 2. Material
 
-- *Models (exact ids), settings (thinking, max_tokens, temperature if any, structured output), prompts verbatim or by file path.*
+- *Models (exact ids), settings (thinking, max_tokens, temperature if any, structured output), prompts verbatim or by file path.* **By default all three: `claude-haiku-5-5`, `claude-sonnet-5-5`, `claude-opus-5-5`** (rule 12), with the same prompts; repeats or items per model stated, and the pass rule says which models it is read on (each, all, or a named one with the others reported). A design that leaves one out says why here, in one sentence.
 - *Items: source, n, selection rule, and the random seed for any draw.*
 - **Seed** (operators/hardware.md): CURBY-Q latest completed round ___ at ___ (checked before this commit). If that is under 24 h old, the seed is the first CURBY-Q round whose pulse is timestamped after this commit; if it is older (stalled), the first CURBy-RNG pulse timestamped after this commit. seed = the first 8 bytes of SHA-256(randomness ‖ bet-id), unsigned big-endian; sub-seeds per purpose by `ledger/seed.py --purpose <split|items|order>`. *Filled in by the seed commit, before any data:*
   `chain:` ___ · `round:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seed:` ___
