@@ -260,6 +260,26 @@ def main():
 
 # ---------------- round 2 (experiments/ss-b4.md) ----------------
 R2_ITEMS = ROOT / "items" / "r2" / "items.jsonl"
+# F2 (design review ss-b4): P(up option) per swap pair = (ups + 4 x 0.829) / (n + 4), counted on the 146 leak-dropped template
+# items only; fixed by the review before any round-2 bet. A pair not listed gets the prior 0.829.
+SWAP_PAIR_P = {"larger/smaller": 0.621, "more/less": 0.850, "improve": 0.975, "higher/lower": 0.634, "faster/slower": 0.759,
+               "increase": 0.789, "longer/shorter": 0.863, "better/worse": 0.870, "stronger/weaker": 0.914, "outperform": 0.938}
+PAIR_PRIOR = 0.829
+
+
+def swap_pair(it):
+    import difflib
+    a, b = it["option_a"].split(), it["option_b"].split()
+    w = next(" ".join(a[i1:i2]) for t, i1, i2, j1, j2 in difflib.SequenceMatcher(a=a, b=b, autojunk=False).get_opcodes() if t == "replace")
+    w = w.lower().strip(".,;:()").split("-")[0]   # "higher-dimensional" -> "higher"
+    for stem, key in (("improv", "improve"), ("worsen", "improve"), ("increas", "increase"), ("decreas", "increase"),
+                      ("outperform", "outperform"), ("underperform", "outperform")):
+        if w.startswith(stem):
+            return key
+    for key in SWAP_PAIR_P:
+        if "/" in key and w in key.split("/"):
+            return key
+    return w
 R2_BETS = ROOT / "bettor" / "r2-bets.jsonl"
 
 
@@ -273,20 +293,39 @@ def score_r2(items, bets):
             b = prim[iid]
             rows.append({"id": iid, "field": it["field"], "side": "post", "year": "2026-post", "headline": "n/a",
                          "p_true": p_true_of(b, it), "headline_p": HEADLINE_P if it["up_side"] == it["true_option"] else 1 - HEADLINE_P,
+                         "pair": swap_pair(it),
                          "clipped": not (1 <= b["p_option_1"] <= 99)})
-    labels = bet_labels(rows, [])
+    for r in rows:
+        pu = SWAP_PAIR_P.get(r["pair"], PAIR_PRIOR)
+        r["pair_p"] = pu if items[r["id"]]["up_side"] == items[r["id"]]["true_option"] else 1 - pu
+    se = lambda rs: [(1 - r["p_true"]) ** 2 for r in rs]  # noqa: E731
+    d_up = lambda rs: [(1 - r["p_true"]) ** 2 - (1 - r["headline_p"]) ** 2 for r in rs]  # noqa: E731
+    d_pair = lambda rs: [(1 - r["p_true"]) ** 2 - (1 - r["pair_p"]) ** 2 for r in rs]  # noqa: E731
+    b4 = lambda rs: boot_ci(se(rs))[1] < 0.25 - EPS  # noqa: E731
+    b5 = lambda rs: boot_ci(d_up(rs))[1] < -EPS and boot_ci(d_pair(rs))[1] < -EPS  # noqa: E731  combined label (F2)
     out = {"n_scored": len(rows), "summary": summarise(rows),
-           "bets": {"ss-b4": labels["ss-b1"], "ss-b5": labels["ss-b2"]}}
+           "pair_rule": {"brier": sum((1 - r["pair_p"]) ** 2 for r in rows) / len(rows) if rows else None,
+                         "bettor_minus_pair": sum(d_pair(rows)) / len(rows) if rows else None, "ci": boot_ci(d_pair(rows))},
+           "bets": {}}
+    for name, f in (("ss-b4", b4), ("ss-b5", b5)):
+        if len(rows) < 60:
+            out["bets"][name] = {"label": "untestable", "reason": f"{len(rows)} items scored, fewer than 60", "fragile_items": []}
+            continue
+        full = f(rows)
+        flips = [rows[i]["id"] for i in range(len(rows)) if f(rows[:i] + rows[i + 1:]) != full]
+        out["bets"][name] = {"label": "pass" if full else "null", "fragile_items": flips}
+    out["bets"]["ss-b4"]["status"] = "withdrawn before data (design review: redesign, P3); descriptive secondary only"
     if len(rows) >= 60:
-        se = lambda rs: [(1 - r["p_true"]) ** 2 for r in rs]  # noqa: E731
-        dif = lambda rs: [(1 - r["p_true"]) ** 2 - (1 - r["headline_p"]) ** 2 for r in rs]  # noqa: E731
-        for name, f, full in (("ss-b4", lambda rs: boot_ci(se(rs))[1] < 0.25 - EPS, labels["ss-b1"]["label"] == "pass"),
-                              ("ss-b5", lambda rs: boot_ci(dif(rs))[1] < -EPS, labels["ss-b2"]["label"] == "pass")):
-            out["bets"][name]["leave_one_field_out"] = {
-                fld: {"n": len(rest), "label": "pass" if f(rest) else "null"}
-                for fld in sorted({r["field"] for r in rows}) for rest in [[r for r in rows if r["field"] != fld]]}
-            out["bets"][name]["field_flips"] = [fld for fld, v in out["bets"][name]["leave_one_field_out"].items()
-                                                if (v["label"] == "pass") != full]
+        for name, f in (("ss-b4", b4), ("ss-b5", b5)):
+            full = out["bets"][name]["label"] == "pass"
+            lofo = {}
+            for fld in sorted({r["field"] for r in rows}):
+                rest = [r for r in rows if r["field"] != fld]
+                lofo[fld] = {"n": len(rest), "label": "untestable" if len(rest) < 60 else ("pass" if f(rest) else "null")}  # F6
+            out["bets"][name]["leave_one_field_out"] = lofo
+            out["bets"][name]["field_flips"] = [fld for fld, v in lofo.items() if v["label"] != "untestable" and (v["label"] == "pass") != full]
+            if out["bets"][name]["fragile_items"] or out["bets"][name]["field_flips"]:   # F6
+                out["bets"][name]["label_reported"] = f"{out['bets'][name]['label']}, fragile"
     groups = defaultdict(list)
     for r in rows:
         groups[r["field"]].append(r)
@@ -312,8 +351,10 @@ def tables_r2(s):
     for b, v in s["bets"].items():
         L.append(f"- {b}: **{v.get('label_reported', v['label'])}**" + (f" ({v['reason']})" if v.get("reason") else "")
                  + (f"; item flips: {', '.join(v['fragile_items'])}" if v.get("fragile_items") else "; no single item flips it")
-                 + (f"; field flips: {', '.join(v['field_flips'])}" if v.get("field_flips") else "; no single field flips it" if "field_flips" in v else ""))
-    L += ["", "| field | n | Brier | 95% CI | accuracy | up-word rule Brier | bettor − rule [95% CI] |", "|---|---|---|---|---|---|---|"]
+                 + (f"; query-bucket flips: {', '.join(v['field_flips'])}" if v.get("field_flips") else "; no single query bucket flips it" if "field_flips" in v else "")
+                 + (f" [{v['status']}]" if v.get("status") else ""))
+    L += [f"Swap-pair rule Brier {fmt(s['pair_rule']['brier'])}; bettor − rule {fmt(s['pair_rule']['bettor_minus_pair'])} [{fmt(s['pair_rule']['ci'][0])}, {fmt(s['pair_rule']['ci'][1])}].",
+          "", "| query bucket | n | Brier | 95% CI | accuracy | up-word rule Brier | bettor − rule [95% CI] |", "|---|---|---|---|---|---|---|"]
     for g, v in s["by_field"].items():
         L.append(f"| {g} | {v['n']} | {fmt(v['brier'])} | [{fmt(v['brier_ci'][0])}, {fmt(v['brier_ci'][1])}] | {fmt(v['accuracy'], 2)} | "
                  f"{fmt(v['headline_brier'])} | {fmt(v['minus_headline'])} [{fmt(v['minus_headline_ci'][0])}, {fmt(v['minus_headline_ci'][1])}] |")
@@ -333,7 +374,9 @@ def synthetic_r2(items, kind):
         o1 = rng.choice("ab")
         t1 = o1 == it["true_option"]
         p = {"coin": 50, "oracle": 90 if t1 else 10, "anti": 10 if t1 else 90,
-             "upword": 75 if it["up_side"] == o1 else 25}[kind]
+             "upword": 75 if it["up_side"] == o1 else 25,
+             "swappair": round(100 * (SWAP_PAIR_P.get(swap_pair(it), PAIR_PRIOR) if it["up_side"] == o1 else 1 - SWAP_PAIR_P.get(swap_pair(it), PAIR_PRIOR))),
+             "onefield": (90 if t1 else 10) if it["field"] == "model-psychology" else (75 if it["up_side"] == o1 else 25)}[kind]
         bets += [{"id": iid, "kind": "primary", "option_1_is": o1, "p_option_1": p},
                  {"id": iid, "kind": "order-check", "option_1_is": "b" if o1 == "a" else "a", "p_option_1": 100 - p}]
     return bets
@@ -344,7 +387,7 @@ def main_r2():
     if "--synthetic" in sys.argv:
         kind = sys.argv[sys.argv.index("--synthetic") + 1]
         s = score_r2(items, synthetic_r2(items, kind))
-        print(kind, "Brier", fmt(s["summary"]["brier"]), {b: (v["label"], v.get("field_flips")) for b, v in s["bets"].items()})
+        print(kind, "Brier", fmt(s["summary"]["brier"]), {b: (v.get("label_reported", v["label"]), v.get("field_flips")) for b, v in s["bets"].items()})
         return
     s = score_r2(items, [json.loads(l) for l in R2_BETS.read_text().splitlines() if l.strip()])
     (ROOT / "scoring" / "r2-scores.json").write_text(json.dumps(s, indent=1))

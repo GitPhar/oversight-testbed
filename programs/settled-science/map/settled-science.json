@@ -44,25 +44,29 @@
    "id": "ss-b4",
    "title": "Replication of ss-b1 with a writer outside the bettor's family (deterministic template): post-cutoff Brier 95% upper bound below 0.25",
    "parent": "ss-b1",
-   "status": "open",
+   "status": "withdrawn",
    "engine_odds": 0.7,
    "engine_odds_at": "2026-11-04 19:17 America/Denver",
    "odds_template": "item-writer, one pass (D1)",
    "source": "engine",
    "cost": "about $1 of the $5 cap",
-   "referee": "published-record"
+   "referee": "published-record",
+   "diagnosis": "design review: redesign (P3), trivial predictors pass the rule; D23"
   },
   {
    "id": "ss-b5",
-   "title": "Template items: the bettor beats the up-word dumb rule (paired 95% upper bound below 0)",
+   "title": "Template items: the bettor beats both the up-word rule and the swap-pair rule (paired 95% upper bounds below 0)",
    "parent": "ss-b4",
    "status": "open",
-   "engine_odds": 0.35,
+   "engine_odds": 0.25,
    "engine_odds_at": "2026-11-04 19:17 America/Denver",
    "odds_template": "item-writer, one pass (D1)",
    "source": "engine",
    "cost": "$0 beyond ss-b4",
-   "referee": "published-record"
+   "referee": "published-record",
+   "engine_odds_first": 0.35,
+   "engine_odds_revised_at": "2026-11-04 19:45 America/Denver",
+   "revision_reason": "D24: bar tightened to beat both the up-word and swap-pair rules"
   }
  ]
 }

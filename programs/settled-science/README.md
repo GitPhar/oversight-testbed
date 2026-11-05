@@ -23,6 +23,8 @@ This makes a third kind of referee for the engine:
 
 Round 1 (`results/ss-b1-results.md`; audited, passes stand): on 116 findings first posted after the bettor's stated cutoff, Brier 0.163 [0.139, 0.190], 76% right. That beats a coin and a publication-bias shortcut. Older papers it may have read score better (0.105). Model psychology was its weakest field. All three bets passed, unreplicated.
 
+Round 2 (`experiments/ss-b4.md`): items written by a fixed template, with no model writing. **ss-b4 was withdrawn before data:** trivial rules pass its bar on these items (DEVIATIONS D23). ss-b5, which must beat both the up-word and swap-pair rules, is the round-2 bet.
+
 ## Where things are
 
 | path | what |
