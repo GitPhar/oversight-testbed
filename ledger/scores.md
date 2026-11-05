@@ -53,18 +53,18 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-18 of 41 bets carry an engine pre-mortem; 9 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+18 of 41 bets carry an engine pre-mortem; 10 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
-| engine: named the main reason | 4/9 = 0.44 [0.19, 0.73] |
-| engine: named it or its kind | 7/9 = 0.78 [0.45, 0.94] |
-| lazy baseline: failures whose reason was 'the effect is not there' | 7/12 = 0.58 [0.32, 0.81] |
+| engine: named the main reason | 4/10 = 0.40 [0.17, 0.69] |
+| engine: named it or its kind | 8/10 = 0.80 [0.49, 0.94] |
+| lazy baseline: failures whose reason was 'the effect is not there' | 8/13 = 0.62 [0.36, 0.82] |
 | human: named the main reason | — |
 
 | stated kind \ actual kind | world | design | execution | artefact |
 |---|---|---|---|---|
-| world | 5 | 2 | 0 | 0 |
+| world | 6 | 2 | 0 | 0 |
 | design | 0 | 0 | 0 | 0 |
 | execution | 0 | 0 | 1 | 0 |
 | artefact | 0 | 1 | 0 | 0 |
@@ -100,22 +100,22 @@ Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denv
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 3 |
 
-Design reviews: 0 go, 10 fix-first, 3 redesign; 4 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 10 fix-first, 3 redesign; 5 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
-| P1 | Odds too high where the engine had a story | 7 | 4 of 6 scored |
+| P1 | Odds too high where the engine had a story | 7 | 5 of 7 scored |
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 2 | 2 of 2 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 8 | 5 of 7 scored |
-| P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 2 | 0 of 0 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 8 | 6 of 8 scored |
+| P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 2 | 1 of 1 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 1 | 0 of 0 scored |
 | P6 | A control that cannot fail | 1 | 0 of 0 scored |
 | P7 | A foreseeable execution risk run without a pilot | 1 | 0 of 1 scored |
-| P8 | Comparing across conditions that differ in more than the factor named | 5 | 2 of 3 scored |
-| P9 | The right rule, then the wrong noun | 6 | 4 of 4 scored |
-| P10 | A label that hangs on one item | 6 | 4 of 4 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 5 | 3 of 4 scored |
+| P9 | The right rule, then the wrong noun | 6 | 5 of 5 scored |
+| P10 | A label that hangs on one item | 6 | 5 of 5 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 1 | 1 of 1 scored |
 | P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 1 | 0 of 0 scored |
 
-**Does the loop help?** On 5 scored bets, Brier with the odds before the lesson is 0.352, after it 0.291.
+**Does the loop help?** On 6 scored bets, Brier with the odds before the lesson is 0.308, after it 0.261.
 
