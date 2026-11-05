@@ -135,5 +135,5 @@ Design reviews: 0 go, 33 fix-first, 6 redesign; 22 later found by the post-resul
 | P16 | A dumb baseline that is an item property, in dry-run worlds where item properties reach the outcome only through the predictor | 0 | 0 of 0 scored |
 | P17 | A design-review fix that replaces a guard can loosen it on the real data | 0 | 0 of 0 scored |
 
-**Does the loop help?** On 26 scored bets, Brier with the odds before the lesson is 0.181, after it 0.151.
+**Does the loop help?** On 22 scored bets (one per run, rule 15), Brier with the odds before the lesson is 0.156, after it 0.124. Counting secondary bets too: 0.181 before, 0.151 after, on 26.
 

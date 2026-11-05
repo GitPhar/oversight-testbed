@@ -51,17 +51,20 @@ function readBrier(md, bets) {
   const scores = {};
   for (const r of scoresT?.rows || []) {
     const side = clean(r.side).toLowerCase();
-    const key = side.startsWith("engine +") || side.includes("+") ? "both" : side.startsWith("human") ? "human" : "engine";
+    const key = side.includes("secondary included") ? "engineAll"   // rule 15's sensitivity row, not the headline
+      : side.startsWith("engine +") || side.includes("+") ? "both" : side.startsWith("human") ? "human" : "engine";
     scores[key] = {
       n: firstNum(col(r, "scored")), expected: firstNum(col(r, "expected")), observed: firstNum(col(r, "observed")),
       brier: firstNum(r["brier"]), base: firstNum(col(r, "base rate")), half: firstNum(col(r, "0.5")),
     };
   }
   void betT;
-  const points = [];
+  const points = [], secondary = [];
   for (const b of bets) {
     const o = outcomeOf(b);
     if (o == null || b.raw?.scored !== true) continue;
+    // Rule 15: a bet that re-scores a run an earlier bet was scored on counts once; it is kept for the sensitivity sentence only.
+    if (b.raw?.secondary_of) { if (b.engine != null) secondary.push({ id: b.id, of: b.raw.secondary_of, p: b.engine, o }); continue; }
     if (b.engine != null) points.push({ side: "engine", id: b.id, p: b.engine, o, bet: b, event: b.oddsEvent, ref: b.referee });
     if (b.human != null) points.push({ side: "human", id: b.id, p: b.human, o, bet: b, event: b.oddsEvent, ref: b.referee });
   }
@@ -73,7 +76,7 @@ function readBrier(md, bets) {
     const hn = firstNum(r["human: bets"]);
     if (hn) buckets.push({ side: "human", range, n: hn, p: firstNum(r["human: predicted"]), o: afterEq(r["human: observed"]), ci: interval(r["human: interval"] || ""), raw: clean(r["human: observed"]) });
   }
-  return { scores, points, buckets, source: "bets.jsonl", tables };
+  return { scores, points, secondary, buckets, source: "bets.jsonl", tables };
 }
 
 // ---------- drawing ----------
@@ -250,6 +253,11 @@ drawPrior();
     stat("Human's Brier score", humanPts.length ? fmt(brierOf(humanPts)) : "—", humanPts.length ? `Over ${humanPts.length} bets.` : `No human odds on any of the ${enginePts.length} scored bets.`),
     stat("Bets in the ledger", String(bets.length || "—"), `${enginePts.length} have both stated odds and an outcome decided by their pre-registered rule.`),
   ].join("");
+  // Rule 15: both numbers, one plain sentence.
+  if (data.secondary.length) {
+    const all = enginePts.map((p) => ({ p: p.p, o: p.o })).concat(data.secondary);
+    el("stats").insertAdjacentHTML("afterend", `<p class="how">Some tests were scored more than once on the same run, so one lucky run counted several times; counting each run once, the engine's Brier score is ${fmt(brierOf(enginePts))} on ${engineN} bets, and counting every scored row as before it is ${fmt(brierOf(all))} on ${all.length} (the ${data.secondary.length} repeats: ${data.secondary.map((x) => `${esc(x.id)} on ${esc(x.of)}'s run`).join(", ")}).</p>`);
+  }
   // brier.md is generated from the same file; if the two disagree, say so rather than pick one silently.
   if (e?.n != null && e.n !== enginePts.length)
     el("stats").insertAdjacentHTML("afterend", `<p class="muted small">Note: <code>brier.md</code> counts ${e.n} scored bets and <code>bets.jsonl</code> ${enginePts.length}; <code>brier.md</code> is regenerated on the next deploy.</p>`);

@@ -562,6 +562,7 @@ function gaugeReferee(bets, p3) {
     if (b.raw.direction != null) inLedger.add(`${b.program}|${b.raw.direction}`);
     const o = outcomeOf(b);
     if (b.engine == null) { side.noOdds++; continue; }
+    if (o != null && b.raw.secondary_of) { side.waiting.push({ id: b.id, title: b.title, p: b.engine, why: `same run as ${b.raw.secondary_of}, counted once (rule 15)` }); continue; }
     if (o != null) side.scored.push({ id: b.id, title: b.title, p: b.engine, o, aud: b.raw.verdict_after_audit || "" });
     else side.waiting.push({ id: b.id, title: b.title, p: b.engine, why: b.raw.scored === false && b.landed ? "settled, but not scorable by its rule" : "awaiting its result" });
   }
