@@ -1,5 +1,5 @@
 // Loads the ledger and the maps, and joins them. Every page reads through here.
-import { DATA, getJSON, getJSONL, getText, manifest, normBet, normStatus, num, programTitle } from "./common.js";
+import { DATA, getJSON, getJSONL, getText, manifest, normBet, normNovelty, normStatus, num, programTitle } from "./common.js";
 
 const FALLBACK_MAPS = ["entangled-mind.json", "other-minds.json", "nature-graded.json", "settled-science.json", "test-awareness.json", "said-vs-did.json"];
 
@@ -69,6 +69,10 @@ function normProgram(p, fallbackId) {
       result: d.result || "",
       opened: d.opened || d.created || d.date_opened || "",
       resolved: d.resolved || d.closed || d.date_resolved || "",
+      // Rule 13: the map node's own Prior work line (open directions) and novelty (landed or mixed ones).
+      priorWork: d.prior_work_line || "",
+      novelty: normNovelty(d.novelty),
+      noveltyLine: d.novelty_line || "",
     })),
   };
 }
@@ -91,6 +95,8 @@ export function joinBets(programs, bets) {
       if (b.cost) d.cost = b.cost;
       if (!d.opened) d.opened = b.opened || "";
       if (b.landed && b.status !== "open" && b.status !== "running") d.resolved = b.landed;
+      if (b.novelty) { d.novelty = b.novelty; d.noveltyLine = b.noveltyLine || d.noveltyLine; }   // the ledger's line wins (rule 13)
+      if (b.priorWork && !d.priorWork) d.priorWork = b.priorWork;
     }
   }
   return programs;

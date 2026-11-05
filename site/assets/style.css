@@ -671,3 +671,11 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
   .rec-sum th, .rec-sum td { padding: 6px 7px; }
   .rec-sum .btn { font-size: 14px; padding: 2px 9px; border-radius: 8px; }
 }
+
+/* Rule 13: known | partly new | new on landed and mixed nodes (the word is always printed; colour is a second channel). */
+.nov { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 13px; font-weight: 700; letter-spacing: .01em; border: 1px solid currentColor; }
+.nov-known { color: #c9a227; }
+.nov-partly-new { color: #6aaee8; }
+.nov-new { color: #5cc98a; }
+.tip .t-novel { margin-top: 8px; line-height: 1.45; border-left: 3px solid var(--text-2); padding-left: 10px; }
+.keysep { display: inline-block; width: 1px; height: 14px; background: var(--text-2); margin: 0 6px; vertical-align: middle; opacity: .5; }
