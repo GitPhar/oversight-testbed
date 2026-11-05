@@ -29,7 +29,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-2 audits prepared with a sealed plant line: 0 still sealed, 2 revealed, of which 2 carried a plant. 
+3 audits prepared with a sealed plant line: 0 still sealed, 3 revealed, of which 2 carried a plant. 
 
 **Catch rate: 2/2 = 1.00, 95% Wilson interval [0.34, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 2 is below that, so the arm is untestable for now.
 
@@ -97,20 +97,20 @@ Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denv
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 0 |
 
-Design reviews: 0 go, 6 fix-first, 0 redesign; 0 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 6 fix-first, 0 redesign; 1 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
-| P1 | Odds too high where the engine had a story | 2 | 0 of 1 scored |
+| P1 | Odds too high where the engine had a story | 2 | 1 of 2 scored |
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 0 | 0 of 0 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 2 | 0 of 1 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 2 | 1 of 2 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 1 | 0 of 0 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 1 | 0 of 0 scored |
 | P6 | A control that cannot fail | 1 | 0 of 0 scored |
 | P7 | A foreseeable execution risk run without a pilot | 1 | 0 of 1 scored |
 | P8 | Comparing across conditions that differ in more than the factor named | 1 | 0 of 0 scored |
-| P9 | The right rule, then the wrong noun | 1 | 0 of 0 scored |
-| P10 | A label that hangs on one item | 2 | 0 of 0 scored |
+| P9 | The right rule, then the wrong noun | 1 | 1 of 1 scored |
+| P10 | A label that hangs on one item | 2 | 1 of 1 scored |
 
-**Does the loop help?** On 1 scored bets, Brier with the odds before the lesson is 0.490, after it 0.160.
+**Does the loop help?** On 2 scored bets, Brier with the odds before the lesson is 0.325, after it 0.205.
 

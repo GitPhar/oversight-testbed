@@ -220,3 +220,7 @@ Also (minor, process): repeat the D20 sentence beside the verdict table, as adde
 2. **Memory vs easiness for ss-b3, free:** pre-register the recognition split on the next round. Code whether the rationale names or recalls a specific study, before scoring. Test the pre/post gap on non-recognised pre items only. On this archive, exploratory, that gap is −0.027 [−0.073, 0.022].
 3. **The usage-log check** (free): confirm from the Anthropic console that no test-set call preceded the 18:55:40 go, and no leakage call preceded 17:17:16.
 4. **A model-psychology replication** (the results file's item 3): 60 more model-psychology post items, about $0.40. It decides both whether ss-b1's weakest field is real and whether ss-b3's single-field dependence is real.
+
+---
+
+Revealed 2026-11-04 19:13 America/Denver: pl-003, **clean** (no plant; drawn at random, ½, sealed in `ledger/plants.jsonl` before this audit began; `plants.py verify`: ok). Every finding above is the audit of the real result; its seven required cuts go to the owning session.
