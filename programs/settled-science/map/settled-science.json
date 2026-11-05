@@ -638,7 +638,15 @@
    "prior_work_search": "web search 'BrainBench Claude Opus prompted accuracy neuroscience results prediction frontier models' (no Claude result found); arXiv 2403.03230 v4 HTML re-read, 2026-11-05",
    "prior_work_at": "2026-11-05T16:26",
    "diagnosis": null,
-   "remap": null
+   "remap": null,
+   "engine_odds": 0.5,
+   "odds_prior": 0.25,
+   "odds_adjustment": 0.25,
+   "odds_reason": "Settled-science row 0.50 (3/6); dry run puts pass between the Sonnet-like world (0.38) and the Opus-41 world (1.00); C2 is fragile, and the 40/41 likely overstates the other 159.",
+   "odds_prior_commit": "961d6ec",
+   "odds_template": "v2",
+   "engine_odds_at": "2026-11-05T16:28",
+   "odds_note": "fresh v2 subagent (claude-opus-5-5) handed only ledger/prior.md (961d6ec) and the bet's description with the committed dry run (06b990c); 1 read, no other tool use; the first odds for this direction"
   },
   {
    "id": "ss-f10",
@@ -674,7 +682,15 @@
    "prior_work_search": "web search 'LLM sensitivity to prompt paraphrase instruction wording accuracy multi-prompt evaluation Mizrahi Sclar'; abstracts of 2401.00595, 2310.11324 and 2509.01790 opened, 2026-11-05",
    "prior_work_at": "2026-11-05T16:26",
    "diagnosis": null,
-   "remap": null
+   "remap": null,
+   "engine_odds": 0.37,
+   "odds_prior": 0.25,
+   "odds_adjustment": 0.12,
+   "odds_reason": "Settled-science (0.50) and engine (0.38) rows sit above the prior; dry run's valence-only world gives 0.95. Pulled back: both models must stay within a two-sided ±5 window, and Haiku's discordance is 0.305.",
+   "odds_prior_commit": "961d6ec",
+   "odds_template": "v2",
+   "engine_odds_at": "2026-11-05T16:28",
+   "odds_note": "fresh v2 subagent (claude-opus-5-5) handed only ledger/prior.md (961d6ec) and the bet's description with the committed dry run (06b990c); 1 read, no other tool use; the first odds for this direction"
   }
  ]
 }

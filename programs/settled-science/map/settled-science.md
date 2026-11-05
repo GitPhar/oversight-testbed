@@ -177,9 +177,11 @@ ss-b10c is the ledger's only result with Novelty "new", and it is unreplicated: 
 
 | direction | parent bet | test | models | cost | engine odds |
 |---|---|---|---|---|---|
-| ss-f9 | ss-b10c | Opus, both prompts, all 200 items in both orders: the flattery accuracy's lower bound above the published 81.4% for LLMs, and the forecasting prompt no more than 5 points better | Opus (Haiku and Sonnet reported from ss-b10c) | about $5.80 | not yet stated |
-| ss-f10 | ss-b10c | the flattery question in a second wording (bettor/prompts/flattery-v2.txt), Haiku and Sonnet, all 200 items in both orders: each model's lower bound above 63.4% and within 5 points of its first-wording accuracy on the same items | Haiku, Sonnet | about $2.10 | not yet stated |
+| ss-f9 | ss-b10c | Opus, both prompts, all 200 items in both orders: the flattery accuracy's lower bound above the published 81.4% for LLMs, and the forecasting prompt no more than 5 points better | Opus (Haiku and Sonnet reported from ss-b10c) | about $5.80 | 50 (0.25 + 0.25) |
+| ss-f10 | ss-b10c | the flattery question in a second wording (bettor/prompts/flattery-v2.txt), Haiku and Sonnet, all 200 items in both orders: each model's lower bound above 63.4% and within 5 points of its first-wording accuracy on the same items | Haiku, Sonnet | about $2.10 | 37 (0.25 + 0.12) |
 
 **Prior work, ss-f9.** BrainBench's 81.4% is for open models scored by perplexity; its authors avoided prompting and found chat-tuned models worse than base models. No paper reports a prompted Claude model or a valence question on BrainBench (predicts: unknown).
 
 **Prior work, ss-f10.** The prompt-paraphrase literature points both ways: single-prompt results are brittle (Mizrahi et al. 2024; Sclar et al. 2023, up to 76 points from formatting on LLaMA-2-13B), but with model-judged answers the spread across paraphrases shrinks (arXiv 2509.01790). Nothing tests a valence question or BrainBench (predicts: mixed).
+
+Odds (rule 14; fresh contexts handed prior.md at 961d6ec and each bet's description with the dry run, nothing about its history): ss-f9 "Settled-science row 0.50 (3/6); dry run puts pass between the Sonnet-like world (0.38) and the Opus-41 world (1.00); C2 is fragile, and the 40/41 likely overstates the other 159." ss-f10 "Settled-science (0.50) and engine (0.38) rows sit above the prior; dry run's valence-only world gives 0.95. Pulled back: both models must stay within a two-sided ±5 window, and Haiku's discordance is 0.305."
