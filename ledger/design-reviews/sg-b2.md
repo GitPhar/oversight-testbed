@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: holds, D4: holds, D5: holds, D6: holds, D7: h
 flaws: 2
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: 2026-11-05 05:36 America/Denver
+confirmed_at: 2026-11-05 05:29 America/Denver
 ---
 
 # Design review of sg-b2
@@ -205,3 +205,5 @@ Every (model, study) pair is checked. Row D8c corrects D8a's wording.
 - add `labelled`'s source to the frozen check against ffa8033.
 
 The run may start once `check_prereg.py --before-run` passes.
+
+*Correction (2026-11-05 05:35 America/Denver):* confirmed_at said 05:36, a guessed clock time; it is corrected to 05:29, from the time of confirmation commit 302f704 (05:29:46). The addendum headings (05:32, 05:36) were also guessed: commit times are 4fcc755 05:27:43 and 302f704 05:29:46.
