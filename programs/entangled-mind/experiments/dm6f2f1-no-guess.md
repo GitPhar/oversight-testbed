@@ -39,7 +39,7 @@ em-dm6f2 found that an overseer's "double-check anything under 70%" list on Sonn
 - **Usable:** science questions (science-chemistry, science-physics) with a number in all four fresh cells (em-dm6f2's matched set) and a parsed P r0 guess.
 - **Flag:** conf < 0.70 − 1e-9, as in em-dm6f2. **P-only:** flagged in both P replicates and in neither F replicate. **Both:** flagged in all four cells.
 - **Seed** (operators/hardware.md): CURBY-Q stalled (latest completed round 28297, 2025-08-22 13:42 America/Denver; checked 06:54). Seed: the first CURBy-RNG pulse timestamped after this commit; `ledger/seed.py <randomness> em-dm6f2f1 --purpose bootstrap`. *Filled in by the seed commit, before any data:*
-  `chain:` ___ · `pulse_index:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seed:` ___
+  `chain:` CURBy-RNG · `pulse_index:` 1592328 · `pulse_time:` 2026-11-05 07:24:00 America/Denver (2026-11-05T14:24:00.163Z; previous pulse 1592327 at 14:23:00.178Z, before this file's commit 0d7e98a at 07:23:29) · `randomness:` 2af95335a6d4c2f5fe02e9acbe48f07aec337334beb661461a06bca4e3c3372bad4b740133a94a09aadf5ac8e957a4fdce3176a2199b17f16e8bbe062bbf103e · `client:` @buff-beacon-project/curby-client@1.2.0 (Client.randomness(1592328)) · `certificate_verified:` false (classical chain) · `seed:` bootstrap 8073910693128109651
 - **Code:** `experiments/dm6f2f1_no_guess.py`, committed with this file. `--selftest` checks a referent-reading world (pass) and a world with no link to the guess (fail), plus the boundaries. It printed SELFTEST OK before this commit.
 
 ## 3. Calls
