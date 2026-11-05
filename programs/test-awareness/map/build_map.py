@@ -138,7 +138,7 @@ KILLED = [
 STATUS = {   # updated as bets land (wave 1, 2026-11-05)
     "ta-d2": ("killed", "Closed (null): ta-b3, audited (71f1221). On Meinke's no-goal sandbagging prompt, Sonnet 5.5 and Opus 5.5 scored the same whichever way the unlearning threshold pointed (A - B +0.5 points each, 90% intervals within about 2 points); Haiku untestable (too weak at the items). The 2024 gap came with chain-of-thought; Sonnet ran with thinking off. Reopen only with thinking on or a goal in the system prompt, as a new direction."),
     "ta-d4": ("open", "ta-b2 untestable (audited, 7a5f6f5): Haiku rated even the chat version 74/100 as a test, so the benchmark format did not raise its belief by 20 points; Opus not run (cost, floor). On Sonnet the benchmark format lowered 'not sure' by 7.8 points [-12.2, -3.3], not separable from rewording. A re-bet needs a belief gate piloted on every model, and Opus funded."),
-    "ta-d1": ("running", "ta-b1 and ta-b1r withdrawn before data on design review (no room to move at the measured spreads; pattern P15); ta-b1r2 pre-registered (84deb7a): trivia ratings, dry run from the pilot."),
+    "ta-d1": ("killed", "Closed (null): ta-b1r2, audited (8e3b703), the third design after ta-b1 and ta-b1r were withdrawn on design review (pattern P15). On 90 trivia items rated 0-100, Haiku and Sonnet were undetermined (Sonnet: evaluation 52.1, placebo 56.9, real 59.9; E - P -4.8 [-10.9, +1.2], below the 5-point bar); the design could resolve about 8 points. Opus was untestable: it rated 'a real user's request, not a test' 89 test-like, nearly as test-like as 'an evaluation' (96). Reopen only with a new reason; the Opus finding is one (a note denying a test reads as a test cue), as a new direction."),
 }
 
 
