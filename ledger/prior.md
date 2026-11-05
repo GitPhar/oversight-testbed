@@ -91,12 +91,12 @@ A program whose last three layers with settled bets hold no landed bet and no fi
 
 | program | layers with settled bets | last three | settled bets in them | novelty not recorded | due | why |
 |---|---|---|---|---|---|---|
-| entangled-mind | 1, 3, 4, 5, 6 | 4, 5, 6 | 13 | 13 | no | landed: em-gm2b, em-bm0, em-dm6f2, em-gm2bf1; partly new or new: none |
+| entangled-mind | 1, 3, 4, 5, 6 | 4, 5, 6 | 13 | 7 | no | landed: em-gm2b, em-bm0, em-dm6f2, em-gm2bf1; partly new or new: em-gm2b, em-gm3c, em-bm0, em-dm2, em-dm4, em-dm6 |
 | nature-graded | 1, 2, 3, 4 | 2, 3, 4 | 5 | 5 | no | landed: ng-p3-18; partly new or new: none |
-| other-minds | 1, 2 | 1, 2 | 9 | 9 | no | 2 layers with settled bets; the rule needs three |
+| other-minds | 1, 2 | 1, 2 | 9 | 7 | no | 2 layers with settled bets; the rule needs three |
 | said-vs-did | 1 | 1 | 3 | 3 | no | 1 layer with settled bets; the rule needs three |
-| self-grading | 1, 2 | 1, 2 | 3 | 3 | no | 2 layers with settled bets; the rule needs three |
-| settled-science | 1, 2, 3, 4, 5 | 3, 4, 5 | 6 | 6 | no | landed: ss-b5, ss-b11, ss-b7; partly new or new: none |
+| self-grading | 1, 2 | 1, 2 | 3 | 2 | no | 2 layers with settled bets; the rule needs three |
+| settled-science | 1, 2, 3, 4, 5 | 3, 4, 5 | 6 | 3 | no | landed: ss-b5, ss-b11, ss-b7; partly new or new: ss-b5, ss-b6, ss-b7 |
 | test-awareness | 1 | 1 | 3 | 3 | no | 1 layer with settled bets; the rule needs three |
 
 ## What is not counted

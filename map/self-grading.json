@@ -97,7 +97,10 @@
    "bets": [
     "sg-b3"
    ],
-   "resolved": "2026-11-05T05:47"
+   "resolved": "2026-11-05T05:47",
+   "novelty": "known",
+   "novelty_line": "Self-Attribution Bias (Khullar, Hopkins, Wang and Roger, March 2026, arXiv 2603.04582) found a Claude monitor's ability to separate passing from failing patches fell from 0.99 to 0.92 when the patch sat in its own previous turn, and it was about five times likelier to approve a prompt-injected patch; Self-Correction Bench (Tsui, July 2025, arXiv 2507.02778) found the same error went uncorrected far more often when placed in the assistant turn than in the user turn (blind-spot rate 52.5% on Claude 3.5 Haiku, 41.4% on Claude Sonnet 4), and that prepending \"Wait\" removes most of it. Ours is a graded penalty on prose, on the 5.5 models, with Sonnet showing no gap: a footnote to a known effect, not a new one. The cheapest test the prior work leaves open is Tsui's fix prepended to the own-turn grading request, about $1.30. Search: paper/novelty.md, 2026-11-05 (arXiv searches on self-attribution bias, self-preference in LLM judges, self-correction blind spot, cross-context review), by a claude-fable-5-1 session on the novelty-check branch (93f47af); carried here by the informed-engine session.",
+   "novelty_bet": "sg-b3"
   },
   {
    "id": "sg-d2",
@@ -175,7 +178,15 @@
     "'harsher' (self-deprecating) is its own recorded verdict, not a hit",
     "per-item and leave-one-study-out secondaries"
    ],
-   "bets": []
+   "bets": [],
+   "prior_work_line": "Mixed. Kumaran et al. 2025 (arXiv 2507.03120; Gemma 3 12B, GPT-4o): seeing its own earlier answer raised logit confidence +0.21 (Gemma) and +0.14 (GPT-4o) over hidden, and crediting the answer to another LLM removed the change-of-mind bias; no confidence figure for that arm. Khullar et al. 2026 (2603.04582; Claude 3.5 Haiku, Sonnet 4, Opus 4.1): explicit own/other labels move ratings under 0.5 of 10, a miss. No current Claude.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Kumaran et al. 2025, How Overconfidence in Initial Choices and Underconfidence Under Criticism Modulate Change of Mind in LLMs, arXiv 2507.03120",
+    "Khullar, Hopkins, Wang, Roger 2026, Self-Attribution Bias: When AI Monitors Go Easy on Themselves, arXiv 2603.04582"
+   ],
+   "prior_work_search": "reads only; Kumaran HTML reopened to check the other-LLM arm (change-of-mind 31.3 vs 33.2%, no confidence number in text)",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "sg-d10",
@@ -210,7 +221,15 @@
     "'harsher' (self-deprecating) is its own recorded verdict, not a hit",
     "per-item and leave-one-study-out secondaries"
    ],
-   "bets": []
+   "bets": [],
+   "prior_work_line": "Predicts a miss. Khullar et al. 2026 (arXiv 2603.04582; Claude Sonnet 4 among 11 models): off-policy artefacts in the model's own turn left code-correctness AUROC at 0.99, against 0.89 to 0.92 on-policy, so placement needed real authorship. Tsui 2025 (2507.02778; Claude 3.5 Haiku 52.5%, Sonnet 4 41.4% blind spot): planted assistant-turn errors go uncaught, but that is error detection, not a kinder grade on clean work. No 5.5 model.",
+   "prior_work_predicts": "fail",
+   "prior_work_sources": [
+    "Khullar et al. 2026, Self-Attribution Bias, arXiv 2603.04582",
+    "Tsui 2025, Self-Correction Bench, arXiv 2507.02778 (abstract and HTML opened 2026-11-05; Claude rates in a footnote citing Table 7)"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "sg-d4",
@@ -248,7 +267,16 @@
     "'harsher' (self-deprecating) is its own recorded verdict, not a hit",
     "per-item and leave-one-study-out secondaries"
    ],
-   "bets": []
+   "bets": [],
+   "prior_work_line": "Predicts a miss. Chae et al. 2026 (arXiv 2608.18091; 10 judges including Claude Opus 4.7): on quality-matched identical targets the true-source effect was +0.02 of 7 (p = .689) against a label effect of +0.43. Popov 2026 (2611.01829; Claude Sonnet 5.5): unlabelled own text scored 0.28 of 10 lower. Laine et al. 2024, SAD (2407.04694): Claude 3.5 Sonnet self-recognition 50.0, chance. Only Popov is on a current Claude model.",
+   "prior_work_predicts": "fail",
+   "prior_work_sources": [
+    "Chae et al. 2026, Self- and Other-Labels Induce Bidirectional Bias in LLM Judges, arXiv 2608.18091",
+    "Popov 2026, Same text, different filename, arXiv 2611.01829",
+    "Laine et al. 2024, Me, Myself, and AI: The Situational Awareness Dataset, arXiv 2407.04694"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "sg-d6",
@@ -286,7 +314,16 @@
     "'harsher' (self-deprecating) is its own recorded verdict, not a hit",
     "per-item and leave-one-study-out secondaries"
    ],
-   "bets": []
+   "bets": [],
+   "prior_work_line": "Predicts a miss. Chae et al. 2026 (arXiv 2608.18091; 10 judges including Claude Opus 4.7): blind self-preference +0.18 of 7, falling to +0.003 once two low-discrimination judges were dropped. Popov 2026 (2611.01829; Claude Sonnet 5.5): own unlabelled text 0.28 of 10 below rivals', self-deprecating. Panickssery et al. 2024 (2404.13076; GPT-4): pairwise self-preference 0.71 to 0.91, but with no quality control. Only Popov is on a current Claude model.",
+   "prior_work_predicts": "fail",
+   "prior_work_sources": [
+    "Chae et al. 2026, arXiv 2608.18091",
+    "Popov 2026, arXiv 2611.01829",
+    "Panickssery, Bowman, Feng 2024, LLM Evaluators Recognize and Favor Their Own Generations, arXiv 2404.13076"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "sg-d7",
@@ -320,7 +357,15 @@
     "'harsher' (self-deprecating) is its own recorded verdict, not a hit",
     "per-item and leave-one-study-out secondaries"
    ],
-   "bets": []
+   "bets": [],
+   "prior_work_line": "Predicts a miss on the first conjunct, strain on the second. Khullar et al. 2026 (arXiv 2603.04582; Claude 3.5 Haiku, Sonnet 4, Opus 4.1): explicit 'you wrote this' labels move ratings under 0.5 of 10. Sharma et al. 2023 (2310.13548; claude-1.3, claude-2.0, GPT-4): feedback turns more positive when the user says 'I wrote this' (values figure-only), so the user label may beat the self label. No 5.5 model.",
+   "prior_work_predicts": "fail",
+   "prior_work_sources": [
+    "Khullar et al. 2026, arXiv 2603.04582",
+    "Sharma et al. 2023, Towards Understanding Sycophancy in Language Models, arXiv 2310.13548"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "sg-d8",
@@ -354,7 +399,15 @@
     "'harsher' (self-deprecating) is its own recorded verdict, not a hit",
     "per-item and leave-one-study-out secondaries"
    ],
-   "bets": []
+   "bets": [],
+   "prior_work_line": "Predicts a miss. Khullar et al. 2026 (arXiv 2603.04582; Claude 3.5 Haiku, Sonnet 4, Opus 4.1): explicit own/other labels move ratings under 0.5 of 10. Trouche et al. 2016 (DOI 10.1111/cogs.12303; 411 adults): relabelled own arguments were rejected 56 to 58% of the time, but the 'other' argument always opposed the participant's position, so authorship and agreement were never crossed. No LLM study crosses them; no Claude 5.5.",
+   "prior_work_predicts": "fail",
+   "prior_work_sources": [
+    "Khullar et al. 2026, arXiv 2603.04582",
+    "Trouche, Johansson, Hall, Mercier 2016, The Selective Laziness of Reasoning, Cognitive Science 40, DOI 10.1111/cogs.12303"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "sg-d9",
@@ -431,7 +484,15 @@
    "status": "open",
    "opened": "2026-11-05T05:55",
    "diagnosis": null,
-   "bets": []
+   "bets": [],
+   "prior_work_line": "Predicts a hit. Tsui 2025 (arXiv 2507.02778; Claude 3.5 Haiku 52.5%, Sonnet 4 41.4% blind spot): the identical error goes uncorrected in the assistant turn but corrected in the user turn, 'only the chat template role header differs', with no length cue. Khullar et al. 2026 (2603.04582; Claude Sonnet 4): identical patches in its own turn cut AUROC 0.99 to 0.92. No graded penalty or Opus 5.5 in print.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Tsui 2025, Self-Correction Bench, arXiv 2507.02778 (COLM 2026; abstract and HTML opened 2026-11-05)",
+    "Khullar et al. 2026, arXiv 2603.04582"
+   ],
+   "prior_work_search": "reads and paper/novelty.md item 2; Tsui opened on arXiv",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "sg-d12",
@@ -471,7 +532,15 @@
    "status": "open",
    "opened": "2026-11-05T05:55",
    "diagnosis": null,
-   "bets": []
+   "bets": [],
+   "prior_work_line": "Predicts a hit. Tsui 2025 (arXiv 2507.02778; Claude 3.5 Haiku 52.5%, Sonnet 4 41.4% blind spot): the same error moved from assistant turn to user turn is corrected; the cause is scoped 'to conversational role rather than authorship'. Khullar et al. 2026 (2603.04582; Claude Sonnet 4): the artefact in a user turn is the baseline (AUROC 0.99 vs 0.92 own turn). Neither tests a quoted transcript or 5.5 models.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Tsui 2025, Self-Correction Bench, arXiv 2507.02778",
+    "Khullar et al. 2026, arXiv 2603.04582"
+   ],
+   "prior_work_search": "reads and paper/novelty.md item 2; Tsui opened on arXiv",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "sg-k1",
