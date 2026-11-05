@@ -617,3 +617,40 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
   .rp-sn { font-size: 12px; }
   .rp-bar { padding: 8px 10px; }
 }
+
+/* ---------- the human hand (2026-11-05) ---------- */
+.hh-sum { font-size: 18px; color: var(--text-2); max-width: var(--measure); }
+.hh-sum b { color: var(--text); }
+.hh-key { font-size: 15px; gap: 6px 22px; margin: 6px 0 0; }
+.hh-key span { gap: 7px; }
+.hh-h { font-size: 24px; margin: 40px 0 12px; }
+.hh-none { max-width: var(--measure); background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: var(--radius); padding: 14px 18px; font-size: 17px; color: var(--text-2); }
+.hh-none b { color: var(--text); }
+.hh-rows, .hh-steers { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; max-width: 50rem; }
+.hh-row, .hh-steer { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 18px; }
+.hh-steer { border-left: 4px solid var(--accent); }
+.hh-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px; font-size: 14px; color: var(--text-2); }
+.hh-top b { color: var(--text); }
+.hh-st { color: var(--text); font-weight: 700; }
+.hh-q { margin: 4px 0 2px; font-size: 18px; font-weight: 700; line-height: 1.4; }
+.hh-steer .hh-q { font-weight: 400; font-size: 17px; }
+.hh-hit { margin: 0; color: var(--text-2); font-size: 15px; }
+.hh-line { margin: 4px 0 0; max-width: 36rem; }
+.hh-line svg { display: block; overflow: visible; }
+.hh-line text { font-family: var(--font); }
+.hh-cnt { margin: 2px 0 0; }
+.hh-tag { display: inline-block; font-size: 14px; color: var(--text-2); border: 1px solid var(--line); border-radius: 999px; padding: 1px 10px; }
+.hh-tag.yes { color: var(--hit); border-color: #2f5f43; }
+.hh-tag.no { color: var(--text-2); border-style: dashed; }
+.hh-row details, .hh-steer details { margin-top: 8px; color: var(--text-2); font-size: 15px; }
+.hh-row summary, .hh-steer summary { cursor: pointer; color: var(--muted); }
+.hh-row dl { display: grid; grid-template-columns: 12rem 1fr; gap: 6px 14px; margin: 8px 0 0; }
+.hh-row dt { color: var(--muted); }
+.hh-row dd { margin: 0; overflow-wrap: anywhere; }
+.hh-steer details p { margin: 6px 0 0; }
+@media (max-width: 640px) {
+  .hh-row, .hh-steer { padding: 12px 14px; }
+  .hh-row dl { grid-template-columns: 1fr; gap: 2px; }
+  .hh-row dd { margin-bottom: 6px; }
+  .hh-q { font-size: 17px; }
+}
