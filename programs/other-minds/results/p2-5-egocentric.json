@@ -1,0 +1,636 @@
+{
+ "label": "fail",
+ "reason": "not_inherited",
+ "point": {
+  "U_sam_own": 0.49558915028612005,
+  "U_sam_swap": 0.02212134880945804,
+  "dU": 0.473467801476662,
+  "U_self_own": 0.3566969664909038,
+  "U_self_swap": 0.07187130044956747,
+  "U_inf_own": 0.907053055942398,
+  "U_inf_swap": 0.0036706349206349163,
+  "copy_guard": 0.411463905656278,
+  "sam_minus_self": 0.13889218379521623,
+  "U_inst_own": 0.6450738345370364,
+  "U_inst_swap": 0.006254198178201816,
+  "dU_inst": 0.6388196363588345,
+  "inst_minus_person_own": 0.14948468425091632,
+  "leak_ratio": 1.389384258469039
+ },
+ "ci": {
+  "U_sam_own": [
+   0.38876545825322395,
+   0.5930457720636749
+  ],
+  "U_sam_swap": [
+   0.007480662612185113,
+   0.038662740581356235
+  ],
+  "dU": [
+   0.3659280996350925,
+   0.5742196697596502
+  ],
+  "U_self_own": [
+   0.2587089292595323,
+   0.4477168784937731
+  ],
+  "U_self_swap": [
+   0.05261414258115575,
+   0.08977802247912449
+  ],
+  "U_inf_own": [
+   0.8287432396066207,
+   0.9693752357486214
+  ],
+  "U_inf_swap": [
+   -0.00025936911487758923,
+   0.009494949494949478
+  ],
+  "copy_guard": [
+   0.34416224786883537,
+   0.4812632357531078
+  ],
+  "sam_minus_self": [
+   0.09559536494510745,
+   0.18606796897200414
+  ],
+  "U_inst_own": [
+   0.5018582852998784,
+   0.7737497416368017
+  ],
+  "U_inst_swap": [
+   0.001522562073662405,
+   0.012532850151299192
+  ],
+  "dU_inst": [
+   0.49615429887063467,
+   0.7681090654592246
+  ],
+  "inst_minus_person_own": [
+   0.10959094126906598,
+   0.19256636058815016
+  ],
+  "leak_ratio": [
+   1.2506137738007443,
+   1.6052919176170701
+  ]
+ },
+ "n_complete_vignettes": 16,
+ "fail_bound": "not_inherited",
+ "fail_bound_sentence": "On Haiku, on program 1's 16 vignettes, with another reader's (Alex's) answer also shown, the model's own planted answer pulled the rating it attributed to Sam detectably more than it pulled the model's own re-rating, so the pull on Sam cannot be the model's own shifted rating carried over to Sam (Sam minus own +0.139, 95% interval [+0.096, +0.186], wholly above 0).",
+ "map_rule": "pass",
+ "loo": [
+  {
+   "dropped": "co01",
+   "U_sam_own": 0.4895581539549522,
+   "dU": 0.46786180217305107,
+   "label": "fail",
+   "reason": "not_inherited"
+  },
+  {
+   "dropped": "co02",
+   "U_sam_own": 0.4956749093169905,
+   "dU": 0.4767877818537476,
+   "label": "fail",
+   "reason": "not_inherited"
+  },
+  {
+   "dropped": "co03",
+   "U_sam_own": 0.5033366391641451,
+   "dU": 0.4795136481385749,
+   "label": "fail",
+   "reason": "not_inherited"
+  },
+  {
+   "dropped": "co04",
+   "U_sam_own": 0.5077712216756506,
+   "dU": 0.4873884015902513,
+   "label": "fail",
+   "reason": "not_inherited"
+  },
+  {
+   "dropped": "co-lin06",
+   "U_sam_own": 0.4793787167446841,
+   "dU": 0.4545728197362079,
+   "label": "fail",
+   "reason": "not_inherited"
+  },
+  {
+   "dropped": "co-lin08",
+   "U_sam_own": 0.49365268043941585,
+   "dU": 0.47306976914202437,
+   "label": "fail",
+   "reason": "not_inherited"
+  },
+  {
+   "dropped": "co-lin09",
+   "U_sam_own": 0.48497852054961615,
+   "dU": 0.46193086529938177,
+   "label": "fail",
+   "reason": "not_inherited"
+  },
+  {
+   "dropped": "co-lin10",
+   "U_sam_own": 0.498195470516797,
+   "dU": 0.4771909426342669,
+   "label": "fail",
+   "reason": "not_inherited"
+  },
+  {
+   "dropped": "co05",
+   "U_sam_own": 0.48242069365752477,
+   "dU": 0.4579927768405311,
+   "label": "fail",
+   "reason": "not_inherited"
+  },
+  {
+   "dropped": "co06",
+   "U_sam_own": 0.4759667135476131,
+   "dU": 0.45500697038529075,
+   "label": "fail",
+   "reason": "not_inherited"
+  },
+  {
+   "dropped": "co07",
+   "U_sam_own": 0.47771553661996563,
+   "dU": 0.4539780156798655,
+   "label": "fail",
+   "reason": "not_inherited"
+  },
+  {
+   "dropped": "co08",
+   "U_sam_own": 0.5337113926158216,
+   "dU": 0.5098884015902514,
+   "label": "fail",
+   "reason": "not_inherited"
+  },
+  {
+   "dropped": "co09",
+   "U_sam_own": 0.4986413663400513,
+   "dU": 0.4815676560675841,
+   "label": "fail",
+   "reason": "not_inherited"
+  },
+  {
+   "dropped": "co10",
+   "U_sam_own": 0.5019642174930912,
+   "dU": 0.4794712200088839,
+   "label": "fail",
+   "reason": "not_inherited"
+  },
+  {
+   "dropped": "co11",
+   "U_sam_own": 0.4980927989046915,
+   "dU": 0.47471929827583015,
+   "label": "fail",
+   "reason": "not_inherited"
+  },
+  {
+   "dropped": "co12",
+   "U_sam_own": 0.5084926213381686,
+   "dU": 0.48452678430349105,
+   "label": "fail",
+   "reason": "not_inherited"
+  }
+ ],
+ "loo_flips": [],
+ "fragile": false,
+ "sentence": "On Haiku, on program 1's 16 vignettes, with another reader's (Alex's) answer also shown, the model's own planted answer pulled the rating it attributed to Sam detectably more than it pulled the model's own re-rating, so the pull on Sam cannot be the model's own shifted rating carried over to Sam.",
+ "complete_repeats_k": 5,
+ "by_class": {
+  "OWN|self|10": 0.5321428571428569,
+  "OWN|self|30": 0.32070262079190653,
+  "OWN|self|60": 0.21724542153794807,
+  "OWN|sam_p|10": 0.7413095238095239,
+  "OWN|sam_p|30": 0.45199655503226926,
+  "OWN|sam_p|60": 0.2934613720165671,
+  "OWN|sam_i|10": 0.8678571428571429,
+  "OWN|sam_i|30": 0.6275075331414616,
+  "OWN|sam_i|60": 0.43985682761250466,
+  "OWN|sam_inf|10": 0.9660714285714286,
+  "OWN|sam_inf|30": 0.9329288003663004,
+  "OWN|sam_inf|60": 0.8221589388894649,
+  "SWAP|self|10": 0.1099404761904762,
+  "SWAP|self|30": 0.06259162960055817,
+  "SWAP|self|60": 0.04308179555766804,
+  "SWAP|sam_p|10": 0.03940476190476188,
+  "SWAP|sam_p|30": 0.01960034013605443,
+  "SWAP|sam_p|60": 0.0073589443875578045,
+  "SWAP|sam_i|10": 0.008928571428571416,
+  "SWAP|sam_i|30": 0.006904761904761902,
+  "SWAP|sam_i|60": 0.00292926120127213,
+  "SWAP|sam_inf|10": 0.003928571428571421,
+  "SWAP|sam_inf|30": 0.004479166666666665,
+  "SWAP|sam_inf|60": 0.002604166666666663
+ },
+ "dedup": {
+  "point": {
+   "U_sam_own": 0.4633697288543613,
+   "U_sam_swap": 0.019082467993102238,
+   "dU": 0.444287260861259,
+   "U_self_own": 0.3267476782361302,
+   "U_self_swap": 0.057182578591481716,
+   "U_inf_own": 0.8998740696877222,
+   "U_inf_swap": 0.0031580946537228143,
+   "copy_guard": 0.4365043408333609,
+   "sam_minus_self": 0.13662205061823107,
+   "U_inst_own": 0.6075762110052415,
+   "U_inst_swap": 0.006091297176406613,
+   "dU_inst": 0.6014849138288348,
+   "inst_minus_person_own": 0.14420648215088022,
+   "leak_ratio": 1.4181270739420484
+  },
+  "ci": {
+   "U_sam_own": [
+    0.3572206854056096,
+    0.5614654670697089
+   ],
+   "U_sam_swap": [
+    0.006930171106348034,
+    0.03252672016638944
+   ],
+   "dU": [
+    0.3367782404411762,
+    0.546147500029682
+   ],
+   "U_self_own": [
+    0.23162333814651767,
+    0.41814374468654186
+   ],
+   "U_self_swap": [
+    0.04219680215289798,
+    0.07115807386553202
+   ],
+   "U_inf_own": [
+    0.8152967577967772,
+    0.9644133425657161
+   ],
+   "U_inf_swap": [
+    -0.000318264358117108,
+    0.007987586543059984
+   ],
+   "copy_guard": [
+    0.3638725194109308,
+    0.5095735002583274
+   ],
+   "sam_minus_self": [
+    0.0938639996716113,
+    0.18216069119078537
+   ],
+   "U_inst_own": [
+    0.465628959798156,
+    0.7390494326799109
+   ],
+   "U_inst_swap": [
+    0.0016135165192561922,
+    0.01184536157867843
+   ],
+   "dU_inst": [
+    0.45798847210258053,
+    0.7335365502199579
+   ],
+   "inst_minus_person_own": [
+    0.10006525735866004,
+    0.19154050145196785
+   ],
+   "leak_ratio": [
+    1.2675613240517694,
+    1.6702877322607883
+   ]
+  },
+  "rule_would_give": [
+   "fail",
+   "not_inherited"
+  ]
+ },
+ "by_band": {
+  "bands": [
+   [
+    5,
+    15
+   ],
+   [
+    15,
+    35
+   ],
+   [
+    35,
+    61
+   ]
+  ],
+  "uptake": {
+   "OWN|self|10": 0.5016257122507123,
+   "OWN|self|30": 0.31815574108431255,
+   "OWN|self|60": 0.14978293969247686,
+   "OWN|sam_p|10": 0.700224358974359,
+   "OWN|sam_p|30": 0.4400006441970728,
+   "OWN|sam_p|60": 0.20506968317195623,
+   "OWN|sam_i|10": 0.8566239316239316,
+   "OWN|sam_i|30": 0.595725185528757,
+   "OWN|sam_i|60": 0.33337176839221627,
+   "OWN|sam_inf|10": 0.9441239316239316,
+   "OWN|sam_inf|30": 0.9345700757575758,
+   "OWN|sam_inf|60": 0.8018016519743882,
+   "SWAP|self|10": 0.11869301994301994,
+   "SWAP|self|30": 0.055444753659039385,
+   "SWAP|self|60": 0.010589370868092331,
+   "SWAP|sam_p|10": 0.03361111111111109,
+   "SWAP|sam_p|30": 0.023499149659863938,
+   "SWAP|sam_p|60": -0.0004891445240857183,
+   "SWAP|sam_i|10": 0.0069444444444444345,
+   "SWAP|sam_i|30": 0.008333333333333326,
+   "SWAP|sam_i|60": 0.0021009656817809886,
+   "SWAP|sam_inf|10": 0.003055555555555549,
+   "SWAP|sam_inf|30": 0.006488095238095233,
+   "SWAP|sam_inf|60": 0.0008333333333333323
+  },
+  "cells_per_band": {
+   "(5, 15)": 72,
+   "(15, 35)": 56,
+   "(35, 61)": 40
+  }
+ },
+ "duplicate_cells": [
+  [
+   "co-lin06",
+   "X",
+   60,
+   85,
+   98,
+   30
+  ],
+  [
+   "co-lin06",
+   "Y",
+   -30,
+   7,
+   2,
+   -10
+  ],
+  [
+   "co-lin06",
+   "Y",
+   -60,
+   7,
+   2,
+   -10
+  ],
+  [
+   "co-lin09",
+   "X",
+   60,
+   70,
+   98,
+   30
+  ],
+  [
+   "co-lin10",
+   "X",
+   60,
+   85,
+   98,
+   30
+  ],
+  [
+   "co01",
+   "X",
+   60,
+   85,
+   98,
+   30
+  ],
+  [
+   "co02",
+   "Y",
+   -30,
+   8,
+   2,
+   -10
+  ],
+  [
+   "co02",
+   "Y",
+   -60,
+   8,
+   2,
+   -10
+  ],
+  [
+   "co03",
+   "X",
+   60,
+   85,
+   98,
+   30
+  ],
+  [
+   "co04",
+   "X",
+   60,
+   78,
+   98,
+   30
+  ],
+  [
+   "co04",
+   "Y",
+   -60,
+   27,
+   2,
+   -30
+  ],
+  [
+   "co06",
+   "Y",
+   -30,
+   10,
+   2,
+   -10
+  ],
+  [
+   "co06",
+   "Y",
+   -60,
+   10,
+   2,
+   -10
+  ],
+  [
+   "co08",
+   "X",
+   60,
+   80,
+   98,
+   30
+  ],
+  [
+   "co08",
+   "Y",
+   -60,
+   15,
+   2,
+   -30
+  ],
+  [
+   "co09",
+   "X",
+   60,
+   82,
+   98,
+   30
+  ],
+  [
+   "co10",
+   "X",
+   60,
+   78,
+   98,
+   30
+  ],
+  [
+   "co11",
+   "X",
+   60,
+   80,
+   98,
+   30
+  ]
+ ],
+ "calls": 7360,
+ "planned_calls": 7360,
+ "refused": 0,
+ "cost_usd": 0.354988,
+ "out_of_range": 0,
+ "ref_cells": {
+  "co01|X|self": 85.0,
+  "co01|X|sam_p": 85.0,
+  "co01|X|sam_i": 85.0,
+  "co01|X|sam_inf": 85.0,
+  "co01|Y|self": 5.0,
+  "co01|Y|sam_p": 5.0,
+  "co01|Y|sam_i": 5.0,
+  "co01|Y|sam_inf": 5.0,
+  "co02|X|self": 97.0,
+  "co02|X|sam_p": 97.0,
+  "co02|X|sam_i": 97.0,
+  "co02|X|sam_inf": 97.0,
+  "co02|Y|self": 8.0,
+  "co02|Y|sam_p": 8.0,
+  "co02|Y|sam_i": 8.0,
+  "co02|Y|sam_inf": 8.0,
+  "co03|X|self": 85.0,
+  "co03|X|sam_p": 85.0,
+  "co03|X|sam_i": 85.0,
+  "co03|X|sam_inf": 85.0,
+  "co03|Y|self": 50.0,
+  "co03|Y|sam_p": 50.0,
+  "co03|Y|sam_i": 50.0,
+  "co03|Y|sam_inf": 50.0,
+  "co04|X|self": 78.0,
+  "co04|X|sam_p": 78.0,
+  "co04|X|sam_i": 78.0,
+  "co04|X|sam_inf": 78.0,
+  "co04|Y|self": 27.0,
+  "co04|Y|sam_p": 27.0,
+  "co04|Y|sam_i": 27.0,
+  "co04|Y|sam_inf": 27.0,
+  "co-lin06|X|self": 85.0,
+  "co-lin06|X|sam_p": 85.0,
+  "co-lin06|X|sam_i": 85.0,
+  "co-lin06|X|sam_inf": 85.0,
+  "co-lin06|Y|self": 7.0,
+  "co-lin06|Y|sam_p": 7.0,
+  "co-lin06|Y|sam_i": 7.0,
+  "co-lin06|Y|sam_inf": 7.0,
+  "co-lin08|X|self": 60.0,
+  "co-lin08|X|sam_p": 57.6,
+  "co-lin08|X|sam_i": 55.4,
+  "co-lin08|X|sam_inf": 56.0,
+  "co-lin08|Y|self": 4.0,
+  "co-lin08|Y|sam_p": 4.0,
+  "co-lin08|Y|sam_i": 4.0,
+  "co-lin08|Y|sam_inf": 4.0,
+  "co-lin09|X|self": 70.0,
+  "co-lin09|X|sam_p": 70.0,
+  "co-lin09|X|sam_i": 70.0,
+  "co-lin09|X|sam_inf": 70.0,
+  "co-lin09|Y|self": 44.0,
+  "co-lin09|Y|sam_p": 44.0,
+  "co-lin09|Y|sam_i": 44.0,
+  "co-lin09|Y|sam_inf": 44.0,
+  "co-lin10|X|self": 85.0,
+  "co-lin10|X|sam_p": 85.0,
+  "co-lin10|X|sam_i": 85.0,
+  "co-lin10|X|sam_inf": 85.0,
+  "co-lin10|Y|self": 4.0,
+  "co-lin10|Y|sam_p": 4.0,
+  "co-lin10|Y|sam_i": 4.0,
+  "co-lin10|Y|sam_inf": 4.0,
+  "co05|X|self": 47.6,
+  "co05|X|sam_p": 45.6,
+  "co05|X|sam_i": 48.0,
+  "co05|X|sam_inf": 48.0,
+  "co05|Y|self": 4.0,
+  "co05|Y|sam_p": 4.0,
+  "co05|Y|sam_i": 4.0,
+  "co05|Y|sam_inf": 4.0,
+  "co06|X|self": 46.4,
+  "co06|X|sam_p": 47.0,
+  "co06|X|sam_i": 47.0,
+  "co06|X|sam_inf": 47.0,
+  "co06|Y|self": 10.0,
+  "co06|Y|sam_p": 10.0,
+  "co06|Y|sam_i": 10.0,
+  "co06|Y|sam_inf": 10.0,
+  "co07|X|self": 65.0,
+  "co07|X|sam_p": 65.0,
+  "co07|X|sam_i": 65.0,
+  "co07|X|sam_inf": 65.0,
+  "co07|Y|self": 37.4,
+  "co07|Y|sam_p": 35.0,
+  "co07|Y|sam_i": 38.0,
+  "co07|Y|sam_inf": 35.0,
+  "co08|X|self": 80.0,
+  "co08|X|sam_p": 80.0,
+  "co08|X|sam_i": 80.0,
+  "co08|X|sam_inf": 80.0,
+  "co08|Y|self": 15.0,
+  "co08|Y|sam_p": 15.0,
+  "co08|Y|sam_i": 15.0,
+  "co08|Y|sam_inf": 15.0,
+  "co09|X|self": 82.0,
+  "co09|X|sam_p": 80.0,
+  "co09|X|sam_i": 82.0,
+  "co09|X|sam_inf": 80.0,
+  "co09|Y|self": 5.0,
+  "co09|Y|sam_p": 5.0,
+  "co09|Y|sam_i": 5.0,
+  "co09|Y|sam_inf": 5.0,
+  "co10|X|self": 80.0,
+  "co10|X|sam_p": 78.0,
+  "co10|X|sam_i": 78.0,
+  "co10|X|sam_inf": 78.0,
+  "co10|Y|self": 3.8,
+  "co10|Y|sam_p": 4.0,
+  "co10|Y|sam_i": 4.0,
+  "co10|Y|sam_inf": 4.0,
+  "co11|X|self": 80.0,
+  "co11|X|sam_p": 80.0,
+  "co11|X|sam_i": 80.0,
+  "co11|X|sam_inf": 80.0,
+  "co11|Y|self": 3.0,
+  "co11|Y|sam_p": 3.0,
+  "co11|Y|sam_i": 3.0,
+  "co11|Y|sam_inf": 3.0,
+  "co12|X|self": 55.0,
+  "co12|X|sam_p": 55.0,
+  "co12|X|sam_i": 55.0,
+  "co12|X|sam_inf": 55.0,
+  "co12|Y|self": 49.2,
+  "co12|Y|sam_p": 49.8,
+  "co12|Y|sam_i": 49.4,
+  "co12|Y|sam_inf": 49.0
+ },
+ "anchor_vs_ref_self": 0.13750000000000004,
+ "within_cell_sd_median": 0.0
+}
