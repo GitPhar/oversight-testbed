@@ -23,3 +23,13 @@ Opened 2026-11-04 23:38 America/Denver; the session crashed at 23:44 and was res
 ## Rules inherited from the engine
 
 Odds before data, both sides, in writing. Cheapest falsifier first. Every test pre-registered in its own commit before its first call, with a lesson from the ledger and a fresh design review that says go. One scale direction in every graded prompt (0 = the worst end, 100 = the best end). Budgets enforced in code. Stop on refusal: nothing reworded or retried. No result without an independent audit, with a sealed plant draw. Nothing disappears: dead directions stay on the map with a diagnosis. Plain English first.
+
+## Reproducibility
+
+One command, from the repository root, with Python 3 and numpy installed (no keys, no network):
+
+    python3 programs/self-grading/reproduce.py
+
+The root `python3 reproduce.py` runs it too and prints one line for this program. It takes a copy of the program as committed, runs each bet's own `analyse` step on the archived call caches (`results/<bet>-write-calls*.json`, `results/<bet>-grade-calls*.json`), and checks that every `results/<bet>-analysis*.json` comes out byte for byte the same. Nothing is called and nothing outside the standard library and numpy is used.
+
+Today it rebuilds one file: sg-b1's design-review pilot (`results/sg-b1-analysis-pilot.json`). sg-b1's main run has its calls archived but no analysis committed yet. No results write-up (`results/*.md`) exists yet; when one lands, its tables are added to `reproduce.py` in the same commit, or the script fails on the unregistered file. Nothing the tables need is missing from the archive.
