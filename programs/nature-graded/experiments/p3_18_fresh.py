@@ -337,20 +337,49 @@ def retrieve_after_error(backends, t0, err, cal, purpose):
     if not jobs:
         return {"submitted_at": t0.isoformat(), "client_error": repr(err), "calibration_at_submit": cal, "jobs_listed": 0,
                 "note": "no job found after the client error; never resubmitted"}
-    jb = jobs[0]
+    # R2 (D45): take only a job that is this bet's: created after t0 on ibm_fez, with exactly this job's 39 PUBs and
+    # this bet's per-PUB shots; anything else is never taken.
+    want = [l_["shots"] for l_ in json.loads(PREP.read_text())["labels"]]
+    mine, seen = None, []
+    for jb in jobs:
+        try:
+            pubs = jb.inputs.get("pubs", [])
+            shots = [int(p_[2]) if len(p_) > 2 and p_[2] is not None else None for p_ in pubs]
+        except Exception as e2:  # noqa: BLE001
+            seen.append({"job_id": jb.job_id(), "inputs_error": repr(e2)})
+            continue
+        seen.append({"job_id": jb.job_id(), "n_pubs": len(pubs)})
+        if len(pubs) == len(want) and shots == want:
+            mine = jb
+            break
+    if mine is None:
+        return {"submitted_at": t0.isoformat(), "client_error": repr(err), "calibration_at_submit": cal, "jobs_listed": seen,
+                "note": "no job matching this bet's 39 PUBs and shots found after the client error; never resubmitted"}
+    jb = mine
     st = str(jb.status())
-    out = {"submitted_at": t0.isoformat(), "client_error": repr(err), "calibration_at_submit": cal, "job_id": jb.job_id(), "status": st}
+    out = {"submitted_at": t0.isoformat(), "client_error": repr(err), "calibration_at_submit": cal, "job_id": jb.job_id(),
+           "status": st, "jobs_listed": seen}
     if st in ("ERROR", "CANCELLED"):
         out["job_error"] = f"IBM status {st}"
         return out
     res = jb.result()                                    # waits for a queued or running job; a free read
     usage = jb.metrics().get("usage") or {}
+    out |= {"counts": [pub.data.meas.get_counts() for pub in res], "note": "retrieved by job id after a client error"}
+    RAW.write_text(json.dumps(out, indent=1))            # R1 (D45): the counts are saved before anything else
+    try:
+        after = backends.service_usage()
+    except Exception as e2:  # noqa: BLE001
+        after = {"usage_consumed_seconds": None, "error": repr(e2)}
     entry = {"when": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S"), "purpose": purpose + " (retrieved by job id)",
-             "backend": "ibm_fez", "job_id": jb.job_id(), "circuits": len(res), "shots": SHOTS_TOMO,
-             "quantum_seconds": backends.qpu_seconds(usage), "job_metrics_usage": usage}
-    backends._log(entry)
-    out |= {"usage": entry, "counts": [pub.data.meas.get_counts() for pub in res],
-            "note": "retrieved by job id after a client error"}
+             "backend": "ibm_fez", "job_id": jb.job_id(), "batch_id": None, "circuits": len(res), "shots": SHOTS_TOMO,
+             "quantum_seconds": backends.qpu_seconds(usage), "job_metrics_usage": usage, "service_before": None,
+             "service_after": after}
+    out["usage"] = entry
+    RAW.write_text(json.dumps(out, indent=1))
+    try:
+        backends._log(entry)
+    except Exception as e2:  # noqa: BLE001
+        out["usage_log_error"] = repr(e2)
     return out
 
 
@@ -442,9 +471,12 @@ def pair_sentence(it, rot, blur, info=None):
             t += (f" Even both terms together leave a misfit the model cannot explain (deviance {g['deviance']:.1f} on 11 df), "
                   "so part of what each term absorbs may be neither kind. Scaled by the misfit (x" + f"{sc:.1f}), the LRs are "
                   f"{a:.1f} (rotation) and {b:.1f} (blur) against the nulls' 99th percentiles of {q1:.1f} and {q2:.1f}")
+            st_ = [f"{n} {'above' if x > q else 'not above'}" for n, x, q in (("rotation", a, q1), ("blur", b, q2))]
             gone = [n for n, x, q, pr in (("rotation", a, q1, rot), ("blur", b, q2, blur)) if pr and x <= q]
-            t += (" (both still above)." if not gone else
-                  f" ({' and '.join(gone)} no longer above; the label stands under the rule, but on this pair it is not calibrated).")
+            t += f" ({'; '.join(st_)})."           # R3 (D45): each term's own status, whether or not it is present
+            if gone:
+                t += (f" The {' and '.join(gone)} label{'s' if len(gone) > 1 else ''} stand{'' if len(gone) > 1 else 's'} "
+                      "under the rule, but on this pair it is not calibrated.")
     return t
 
 
