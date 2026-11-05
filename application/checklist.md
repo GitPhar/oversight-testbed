@@ -1,112 +1,99 @@
 # Application checklist: Anthropic Residency, closes 2026-11-22
 
-Sources: the residency page (alignment.anthropic.com/2026/anthropic-residency) and the US Greenhouse posting (job-boards.greenhouse.io/anthropic/jobs/5438311008), both fetched 2026-11-04; Anthropic's candidate AI guidance (anthropic.com/candidate-ai-guidance); `CONTEXT.md` §9.
+Current with the ledger as of 2026-11-04 19:37 America/Denver (branch head `d02b645`). Sources: the residency page (alignment.anthropic.com/2026/anthropic-residency) and the US Greenhouse posting (job-boards.greenhouse.io/anthropic/jobs/5438311008), both fetched 2026-11-04; Anthropic's candidate AI guidance (anthropic.com/candidate-ai-guidance); `CONTEXT.md` §0, §2, §3 and §9; `TASKS.md`.
 
-Legend:
-- **[HUMAN]** — only Sean can do it.
-- **[CLAUDE]** — a session can do it.
-- **[BOTH]** — Claude prepares it and Sean decides or does it.
+Two kinds of item:
+- **S: Sean only.** Nobody else can do these. There are six: the five chores plus the form itself.
+- **E: engine work.** A session does it, under the rules in `CONTEXT.md` §3. Each carries the `TASKS.md` open item it belongs to, or says that none is open yet. Decisions these items need are made by the session under rule 11 and stated in its commit, where Sean can veto them from the cockpit.
 
 Tick each box when it's done.
 
 ---
 
-## H — Human-only items (do these first; nobody else can)
+## S — Sean only
 
-- [ ] **H1. OSF registration [HUMAN].** Register the pre-registration files on OSF so the timestamps don't rest on git alone. Cover entangled-mind's frozen pre-registrations (afe1c1b and onwards, as listed in `DEVIATIONS.md`) and this repo's `paper/the-engine.md` §4 (H1–H5, frozen in `7b6bbb8`). Put the OSF link in both READMEs.
-- [ ] **H2. Support ticket for the two refusals [HUMAN].** Both are category `reasoning_extraction`, from the claim extractor on SimpleQA items with Sonnet as base model:
-  - `req_011Cgh7v49vVQNR6AgY3EDui` (item `h101`, D20, entangled-mind `e2215bb`)
-  - `req_011CghAdzJQ9nFBMocCLUMhf` (item `t368`, D25, `3d7a47e`)
+- [ ] **S1. OSF account.** Create a free account at osf.io. That is the whole chore. A session then registers the pre-registration files so their timestamps do not rest on git alone (E10).
+- [ ] **S2. Support ticket for the refusals.** File one ticket with Anthropic support covering the three refused requests on file. Each stopped its run, and none was reworded or retried (`CONTEXT.md` §3, rule 3):
 
-  Details are in entangled-mind `results/refusal-sonnet-replication*.md`. Ask whether the extractor design is acceptable, and record the ticket number in `CONTEXT.md` §3, rule 3.
-- [ ] **H3. Decide how to use Claude-drafted text, given the AI policy [HUMAN].** The form requires you to confirm you have read the candidate AI guidance. That guidance says: "Please create your first draft yourself, then use Claude to refine it."
-  - `research-interest.md` is a Claude first draft, written because you asked for one.
-  - The safe route is to write your own first draft of that answer, then use the file to check numbers and wording.
-  - `why-anthropic-outline.md` is an outline only, so it is already compatible.
-- [ ] **H4. Write "Why Anthropic?" yourself [HUMAN].** It is required, and 200–400 words is typical. Use `why-anthropic-outline.md` for the facts. Claude can refine it after you have a draft.
-- [ ] **H5. Write the research-interest answer [HUMAN].** The form field is "What research would you most like to work on, and why?" It is optional on the form, but you should answer it. Name Model Psychology, Model Internals and Scalable Oversight. Check your draft against `research-interest.md` and its source table.
-- [ ] **H6. References: 2–3 people [HUMAN].** One per line, each with name, current role and how you worked together. They are contacted only in later rounds, but ask them now.
-  - Prefer people who saw your four years as a technical lead in AI pipeline development.
-- [ ] **H7. Record the walkthrough [HUMAN].** Use `walkthrough-script.md`, which runs about 1,400 spoken words, roughly ten minutes.
-  - First confirm its two **[SEAN: …]** notes. They concern when you said the st-02 and st-03 steers.
-  - Record your screen with the commits and site pages the script names.
-  - Host it as an unlisted link (YouTube or Loom) and put the link in the READMEs.
-- [ ] **H8. Resume/CV or LinkedIn [HUMAN].** One of the two is required. Accepted formats are pdf, doc, docx, txt and rtf.
-- [ ] **H9. Choose the title, or decide to wait [HUMAN].** See `CONTEXT.md` §0. Renaming the repo after you submit would break the Pages link https://gitphar.github.io/oversight-testbed/, because GitHub redirects renamed repos but not their Pages sites. Rename before you submit, or not until after the decision.
-- [ ] **H10. The form itself [HUMAN].** Submit on the US or the UK posting, not both.
-  - Required fields:
+  | request id | category | where | record |
+  |---|---|---|---|
+  | `req_011Cgh7v49vVQNR6AgY3EDui` | `reasoning_extraction` | program 1, claim extractor, Sonnet as base, SimpleQA item `h101` (D20) | `programs/entangled-mind/results/refusal-sonnet-replication.md` |
+  | `req_011CghAdzJQ9nFBMocCLUMhf` | `reasoning_extraction` | program 1, claim extractor, Sonnet as base, SimpleQA item `t368` (D25) | `programs/entangled-mind/results/refusal-sonnet-replication-2.md` |
+  | `req_011Cgih9NjqNtezArQLWd12p` | `general_harms` | program 2, om-p2-3, SimpleToM job `ms\|gen8_sev3`, after 26 calls | `programs/other-minds/results/refusal-p2-3.md` |
+
+  The question for support: is the claim-extractor design (claims taken only from the model's visible explanation) acceptable, and is the SimpleToM story set usable? Program 1's day-one extractor refusal (`results/refusal-attempt-2.md`) has no request id on file, so it cannot go on the ticket. Once the ticket exists, a session records its number (E11).
+- [ ] **S3. The essay, "Why Anthropic?"** It is required, and the form says 200–400 words is typical. `why-anthropic-outline.md` has the beats and the facts, but no sentences, by design. The guidance says to write the first draft yourself and then use Claude to refine it. A session refines it once a draft is in the folder (E12).
+- [ ] **S4. The title.** See `CONTEXT.md` §0. It comes from `proposal.md` when that reads right to you. Timing matters: GitHub redirects a renamed repository but not its Pages site, so a rename after submitting would break https://gitphar.github.io/oversight-testbed/ on the form. A session does the rename and fixes every link the day a title is chosen (E13).
+- [ ] **S5. Record the walkthrough.** Use `walkthrough-script.md`: about 1,300 spoken words, nine and a half to ten minutes. It covers one kill (ng-p3-15, three tries at 3 November's number), one steer (st-16, the chip budget and the lever handed over) and program 4's first audited passes. Record your screen with the files and commits the script names. Host it as an unlisted link (YouTube or Loom). A session puts the link in the READMEs and the site (E2). If ng-p3-15's run 2 or its audit has landed by then, the script will already say so (E1).
+- [ ] **S6. The form itself.** Submit on the US or the UK posting, not both. Everything on it is yours to enter:
+  - **Required fields:**
     - [ ] first name, last name, email
     - [ ] open to working in person 25% of the time? (San Francisco preferred; remote possible, especially for shorter placements)
-    - [ ] AI Policy for Application: read the guidance, then select "Yes" (see H3)
-    - [ ] Why Anthropic? (H4)
+    - [ ] AI Policy for Application: read the guidance, then select "Yes"
+    - [ ] Why Anthropic? (S3)
     - [ ] visa sponsorship now; visa sponsorship in future
     - [ ] open to relocation?
     - [ ] interviewed at Anthropic before?
     - [ ] Agreement to Arbitrate: read the agreement first
-    - [ ] References (H6)
-    - [ ] voluntary self-identification (the form marks it required but it is voluntary, and it does not affect hiring)
-  - Optional fields worth filling:
-    - [ ] Resume or LinkedIn (H8)
+    - [ ] References: 2–3 people, one per line, each with name, current role and how you worked together. They are contacted only in later rounds. People who saw your four years as a technical lead in AI pipeline development fit best.
+    - [ ] voluntary self-identification (marked required, but voluntary; it does not affect hiring)
+  - **Optional fields worth filling:**
+    - [ ] Resume/CV or LinkedIn (one of the two; pdf, doc, docx, txt or rtf)
     - [ ] website: https://gitphar.github.io/oversight-testbed/
-    - [ ] Links to notable work, each with a short note on your involvement (see C6)
-    - [ ] What research would you most like to work on, and why? (H5)
-    - [ ] Mentor areas of interest (multi-select). Suggested: Model Psychology (Jack Lindsey), Scalable Oversight (Samuel Marks), how models represent themselves (Belinda Li). Your call.
-    - [ ] Residency lengths (multi-select): six weeks, three months or six months. `research-proposal.md` is sized for three months.
+    - [ ] Links to notable work, each with a short note on your involvement. The links and draft notes are E8.
+    - [ ] What research would you most like to work on, and why? `research-interest.md` is a Claude draft (384 words) with a source table. The guidance's first-draft rule applies to it as it does to the essay: your own first draft, checked against the file's numbers and wording.
+    - [ ] Mentor areas of interest: Model Psychology and Model Internals, the two areas the research-interest answer names. Mentors whose work our results touch: Jack Lindsey (introspection), Samuel Marks (truth probes), Belinda Li (what models represent).
+    - [ ] Residency length: `research-proposal.md` is sized for three months; six weeks covers its H1 and H2 only.
     - [ ] earliest start date; deadlines or timeline considerations
-    - [ ] Additional information / cover letter: optional. Could link `research-proposal.md`.
+    - [ ] Additional information / cover letter: can link `research-proposal.md`
     - [ ] phone, country, address you will work from, how you heard
-- [ ] **H11. Push this branch [HUMAN].** Do it from the main checkout, which holds the token. Worktree sessions cannot push. Merge `application` into `main` so the files are public, or keep them private if you prefer. **Your call:** they include drafts you may not want to publish.
 
-## C — Items a session can do, and Sean signs off
+---
 
-- [ ] **C1. Bring `proposal.md` in line with the entangled-mind record [CLAUDE].** It still says:
-  - "there is no stored credence to read out" and "six elicitation formats need six credences". Both are contradicted on Opus by D49–D50: F′ Q 0.94.
-  - "consistency is memory". The audit flags this as a mechanism word.
-  - "Overclaims cut by independent re-checks: three". The audit now gives 166 of 560 claims failed and 0 of 39 verdicts reversed.
-  - that experiments 1–3 are "running". The multi-model replication is done; the probe is unverified (D53); the audit has run.
-- [ ] **C2. Bring `CONTEXT.md` §4 up to date [CLAUDE].** It is "as of 09:15" and lacks:
-  - D49–D50 (Opus)
-  - the audit and D51
-  - experiment 5 re-issued as classical (D52)
-  - DP1 unverified (D53)
-  - the archival tests relabelled exploratory (D54, D54a)
+## E — Engine work
 
-  Also update §9, item 4: the research-interest answer now names Scalable Oversight too. The nightly updater should catch most of this, so check after 23:33.
-- [ ] **C3. `paper/the-engine.md` §6 [CLAUDE].**
-  - §6.2 says "eleven pre-registered tests" and uses audit-flagged phrasings. Five of the eleven are exploratory re-analyses.
-  - The §6.4 row for em-gm5 says "probes branch, not yet merged". It is now merged and **unverified**.
-- [ ] **C4. Decide how em-gm5 is scored [BOTH].** `ledger/bets.jsonl` scores it 0 ("mixed"), but its step 3 replayed the gate data (D53). Re-scoring it as untestable until DP2 runs would change the Brier. Fix the rule, log the decision, then rerun `python3 ledger/brier.py`.
-- [ ] **C5. The audit log in this repo [CLAUDE].** `ledger/audits/` does not exist yet. Either link entangled-mind's `audits/` per bet, or copy the per-result audit verdicts in. H2's numbers need it.
-- [ ] **C6. Pick the links for "notable work" [BOTH].** Suggested:
-  - (1) the site
-  - (2) entangled-mind's `paper/record.md`
-  - (3) `paper/no-credence-to-read.md`
-  - (4) `audits/SUMMARY.md`
-  - (5) the walkthrough video
+- [ ] **E1. Keep the walkthrough current** (TASKS 8; the ng-p3-15 run is TASKS 4). When ng-p3-15's run 2 lands (scheduled no earlier than 21:30 on 2026-11-04) and then its audit, update the one Part 1 paragraph that says both are pending, and the numbers table. Do the same for Part 3 when program 4's round 2 (ss-b4, ss-b5) reports. Change nothing stronger than the audit allows.
+- [ ] **E2. Walkthrough link** (TASKS 8). After S5, add the unlisted link to `README.md`, `programs/entangled-mind/README.md` and the site's front page.
+- [ ] **E3. ng-p3-15 run 2 and audit** (TASKS 4). Run 2 is a secondary under the pre-registration (`7f9cedf`); run 1 decided the bet. Then a fresh auditor, and a plant drawn at random first (TASKS 6). If the audit changes the verdict, E1 follows.
+- [ ] **E4. Program 4, round 2** (TASKS 2). ss-b4 and ss-b5 are pre-registered (`29e8769`, 19:24) and seeded (`e8f921e`). Next comes the design review in `ledger/design-reviews/ss-b4.md`, then the run, then the audit. ss-b5 (beat the up-word rule) is the informative test; ss-b4 alone cannot show judgment, because the up-word rule passes it in the dry run (0.171). The audit's cheapest overturning test for ss-b1 (a non-Claude item-writer) is only partly answered by a template writer, and the write-up should say so.
+- [ ] **E5. Bring `research-proposal.md` current** (TASKS 8). It still gives the engine's calibration as Brier 0.256 on five bets (now 0.246 on 14, `ledger/brier.md`) and calls the probe one to "do properly this time" (DP2 has since verified the run; verdict mixed). It has nothing on program 4 or on ng-p3-15.
+- [ ] **E6. Bring `proposal.md` current** (no TASKS item open; listed here so it is not lost). It still says "there is no stored credence to read out" and "six elicitation formats need six credences", which Opus contradicts (D49–D50). It says "consistency is memory" (an audit-flagged mechanism word), "five bets … Brier 0.256", and that the replications are "running". `proposal.md` is also where the title will come from (S4), so it should read right.
+- [ ] **E7. `paper/the-engine.md`** (TASKS 7). It still gives Brier 0.256 on five bets, and calls em-gm5 "unverified (D53)" (lines 20, 470, 523 and 544–554 as of `d02b645`). DP2 verified it, with the verdict mixed and the score still 0. Fold in program 4's design and ss-b1's audited passes, and ng-p3-15, keeping the referee comparison suggestive (nature-graded 0.062 on 3, published-record 0.388 on 3, model-graded 0.263 on 8).
+- [ ] **E8. Notable-work links and notes** (TASKS 8). Decision under rule 11, vetoable from the cockpit: (1) the site; (2) `programs/entangled-mind/paper/record.md`; (3) `programs/entangled-mind/paper/no-credence-to-read.md`; (4) `ledger/audits/` with `SUMMARY-1.md` and `SUMMARY-2.md`; (5) `ledger/audits/ss-b1.md` and its results file; (6) the walkthrough video (after S5). Draft one line each saying what Sean did and what Claude did, from the steers and commit trailers, in a file in this folder.
+- [ ] **E9. Check the residency quote** (no TASKS item open). `CONTEXT.md` and `proposal.md` attribute a line about "framing a research agenda and judging what is worth doing" to the residency page, and the 2026-11-04 fetch did not surface it. Fetch the live page. Then either quote it exactly with the source, or reword it in both files as a paraphrase.
+- [ ] **E10. OSF registration** (waiting on S1; TASKS "Waiting on Sean"). Once the account exists, register entangled-mind's frozen pre-registrations (`afe1c1b` onwards, as listed in its `DEVIATIONS.md`), this repo's `paper/the-engine.md` §4 (H1–H5, frozen in `7b6bbb8`), and every bet's pre-registration commit in `ledger/bets.jsonl`. Put the OSF link in both READMEs.
+- [ ] **E11. Record the ticket** (waiting on S2). Put the ticket number in `CONTEXT.md` §3, rule 3, and against each request id in the refusal files.
+- [ ] **E12. Refine the essay** (waiting on S3; TASKS "Waiting on Sean"). Numbers and wording only, against `why-anthropic-outline.md`'s facts and its keep-out list. The voice stays Sean's.
+- [ ] **E13. Rename** (waiting on S4). Rename the repository and every link to it, including the Pages URL in `README.md`, the site and this checklist. Do it before submission, or not until after the decision.
+- [ ] **E14. `CONTEXT.md` §4 and §8** (TASKS 1, the nightly updater). §4 is "as of 09:15" and lacks D49–D54, audit round 2, program 4 and ng-p3-15. The nightly updater (23:33) rewrites §4, §5 and §8. Check what it caught.
+- [ ] **E15. Reproduction check before submitting** (TASKS 6). Run `python3 reproduce.py` at the root; it should print ALL LEDGER TABLES AND SITE DATA REPRODUCED. Run `experiments/reproduce.py` in `programs/entangled-mind/`; it should print ALL TABLES REPRODUCED. Confirm the site loads every page.
+- [ ] **E16. Papers final** (TASKS deliverable 3). *No Credence to Read*, scoped to what replicated, and *The Entangled Mind*, the short negative result. Both get figures and a safety-framed abstract.
+- [ ] **E17. Engine first analysis** (TASKS 7; frozen in `paper/the-engine.md` §4 for 2026-11-21). Run it then and report each H at the n it reached. H1 needs 20 scored bets (14 now). H2's catch rate needs 10 plants (2 now). H3 needs 20 dual-odds bets (0 now; the human column is empty). Most will be untestable, and that is the honest result.
 
-  Each needs one line saying what you did and what Claude did.
-- [ ] **C7. Check the residency quote [HUMAN, 1 minute].** `CONTEXT.md` and `proposal.md` attribute a line about "framing a research agenda and judging what is worth doing" to the residency page. The 2026-11-04 fetch did not surface it. Check the live page before quoting it anywhere.
-- [ ] **C8. Reproduction check before submitting [CLAUDE].** Run `experiments/reproduce.py` in entangled-mind; it should print ALL TABLES REPRODUCED. Run `python3 ledger/brier.py` here. Confirm the site loads every page.
-- [ ] **C9. Papers final [BOTH].** These are `CONTEXT.md` §9 deliverables 1–2, both with figures and a safety-framed abstract:
-  - *No credence to read*
-  - *The Entangled Mind* (the short negative result)
-- [ ] **C10. Engine first analysis [CLAUDE].** `paper/the-engine.md` §4 freezes it for **2026-11-21**. Run it then and report each H at the n it reached. Most will be untestable, and that is the honest result.
+- [ ] **E18. This folder on main** (TASKS 8). The engine session in the main checkout merges each application branch into `main` and pushes (`CONTEXT.md` §2). There is no human step. If a merge is refused, the branch stays unmerged and the session's report says so.
+
+## Done
+
+- [x] **The audit log in this repo.** `ledger/audits/` holds round 1's links (`em-*.md`, `SUMMARY-1.md`), round 2 (`SUMMARY-2.md`) and every audit since; 31 of 33 bets audited (`73a413b` and later).
+- [x] **How em-gm5 is scored.** DP2 re-ran the probe's test step on fresh seeds. The audit verified it, with the verdict mixed (`ledger/audits/probe-dissociation-dp2.md`). It stays scored 0; the Brier is unchanged.
+- [x] **This update** (TASKS 8): walkthrough script on ng-p3-15, st-16 and program 4's audited passes; research-interest answer naming Model Psychology and Model Internals; Why Anthropic outline refreshed; this checklist.
 
 ## Dates
 
 | date | what |
 |---|---|
-| now → 11-15 | H1, H2, H6 (ask referees), C1–C5 |
-| by 11-18 | H4 and H5 drafted by Sean; H7 recorded |
-| 11-21 | C10 engine first analysis; C8 reproduction check |
-| **11-22** | **applications close**; submit H10 by the morning, not at midnight |
+| tonight | E1 and E3 after ng-p3-15's run 2 (≥ 21:30); E14 after the nightly updater (23:33) |
+| now → 11-15 | S1, S2, S6's references asked; E4–E9 |
+| by 11-18 | S3 drafted and S5 recorded; E2, E12 |
+| 11-21 | E17 engine first analysis; E15 reproduction check |
+| **11-22** | **applications close**; S6 submitted by the morning, not at midnight |
 
 ## Files in this folder
 
 | file | what | status |
 |---|---|---|
-| `research-interest.md` | the 399-word answer plus its source table | Claude draft; see H3 |
-| `research-proposal.md` | one-page proposal (TL;DR, H1–H5 table, plan, outcomes, risks, resources, mentor fit) | ready for Sean's read |
-| `why-anthropic-outline.md` | the beats and facts for Sean's own essay | outline only, by design |
-| `walkthrough-script.md` | the ten-minute script: the quantum-encoding kill and the sequential-judgment steer | two [SEAN] checks |
+| `research-interest.md` | 384-word answer naming Model Psychology and Model Internals, plus its source table | Claude draft; S6 |
+| `research-proposal.md` | one-page proposal (TL;DR, H1–H5 table, plan, outcomes, risks, resources, mentor fit) | numbers stale; E5 |
+| `why-anthropic-outline.md` | beats and facts for Sean's own essay | outline only, by design; S3 |
+| `walkthrough-script.md` | ten-minute script: the ng-p3-15 kill, the st-16 steer, program 4's audited passes | ready to record; E1 keeps it current |
 | `checklist.md` | this file | — |
