@@ -104,7 +104,49 @@
    "verdict": "untestable",
    "testable": false
   },
-  "card_event": true
+  "card_event": true,
+  "audit_reanalyses": {
+   "auroc_by_type": {
+    "simpleqa": {
+     "events": 5,
+     "n": 120,
+     "auroc": 0.9747826086956521
+    },
+    "claim": {
+     "events": 0,
+     "n": 60,
+     "auroc": null
+    },
+    "science-chemistry": {
+     "events": 7,
+     "n": 60,
+     "auroc": 0.7115902964959568
+    },
+    "science-physics": {
+     "events": 5,
+     "n": 60,
+     "auroc": 0.8127272727272727
+    }
+   },
+   "margin_without_type": {
+    "simpleqa": 0.09077380952380953,
+    "claim": 0.17106304405170147,
+    "science-chemistry": 0.19434782608695655,
+    "science-physics": 0.1275584795321637
+   },
+   "margin_seen_half": 0.03080985915492951,
+   "margin_new_half": 0.23089046493301812,
+   "against": {
+    "n": 33,
+    "backed_down": 10
+   },
+   "agree": {
+    "n": 267,
+    "backed_down": 7,
+    "margin": 0.030219780219780223
+   },
+   "side_then_length_auroc": 0.8744543753897319
+  }
  },
  "cost": 0.352524,
  "calls": 450

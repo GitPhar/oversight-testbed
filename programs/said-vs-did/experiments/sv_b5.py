@@ -211,6 +211,32 @@ def secondaries(rs, seed):
     return out
 
 
+def audit_reanalyses(rs):
+    """D26 (reporting only, after data): the re-analyses the audit (ledger/audits/sv-b5.md) asked the write-up to
+    report. Point values, exploratory, never the verdict."""
+    y = np.array([r["event"] for r in rs])
+    pred = [100 - r["conf"] for r in rs]
+    out = {"auroc_by_type": {}, "margin_without_type": {}}
+    for c in CATS:
+        ix = [k for k, r in enumerate(rs) if r["category"] == c]
+        yy = y[ix]
+        out["auroc_by_type"][c] = {"events": int(yy.sum()), "n": len(ix),
+                                   "auroc": (S.auroc([pred[k] for k in ix], yy) if 0 < yy.sum() < len(ix) else None)}
+        keep = [k for k in range(len(rs)) if rs[k]["category"] != c]
+        out["margin_without_type"][c] = float(S.margin_stat([pred[k] for k in keep], [rs[k] for k in keep], y[keep])[0])
+    for h in ("seen", "new"):
+        ix = [k for k, r in enumerate(rs) if r["half"] == h]
+        out[f"margin_{h}_half"] = float(S.margin_stat([pred[k] for k in ix], [rs[k] for k in ix], y[ix])[0])
+    against = [k for k, r in enumerate(rs) if r["conf"] < 50]      # first answer against the separate rating
+    agree = [k for k in range(len(rs)) if k not in set(against)]
+    out["against"] = {"n": len(against), "backed_down": int(y[against].sum())}
+    out["agree"] = {"n": len(agree), "backed_down": int(y[agree].sum()),
+                    "margin": float(S.margin_stat([pred[k] for k in agree], [rs[k] for k in agree], y[agree])[0])}
+    side_then_length = [(1 if r["conf"] < 50 else 0) * 1e6 + len(r["question"]) for r in rs]
+    out["side_then_length_auroc"] = S.auroc(side_then_length, y)
+    return out
+
+
 def analyse():
     seed = json.loads(SEED_FILE.read_text())["seed32"]
     rs, missing = all_rows()
@@ -220,6 +246,7 @@ def analyse():
     res["secondary"]["new_half_only"] = verdict_of(new, 0, seed) if len(new) == 150 else {"n": len(new)}
     pr = res["primary"]   # Sean's card event (ho-20261105-112945-ypj): the map's draft rule, no within-type condition
     res["secondary"]["card_event"] = bool(pr.get("testable") and pr["conditions"]["margin"] and pr["conditions"]["gate"])
+    res["secondary"]["audit_reanalyses"] = audit_reanalyses(rs)
     res["cost"] = sum(v.get("cost", 0.0) for v in load(CACHE).values())
     res["calls"] = len(load(CACHE))
     (C.RESULTS / "sv-b5-analysis.json").write_text(json.dumps(res, indent=1))
@@ -274,6 +301,16 @@ def report():
                      f"within-type AUROC {n['within_type_auroc']:.3f}; that half alone would read {n['verdict']}.")
     else:
         lines.append(f"- The 150 new items alone: {n.get('events', '—')} backed down, too few to test on their own.")
+    au = s.get("audit_reanalyses")
+    if au:
+        bt = au["auroc_by_type"]
+        lines.append("- The audit's re-analyses (D26, exploratory, point values): AUROC by type " + ", ".join(
+            f"{c} {('%.3f' % v['auroc']) if v['auroc'] is not None else '—'} ({v['events']} of {v['n']})" for c, v in bt.items())
+            + "; margin leaving out each type " + ", ".join(f"{c} {v:+.3f}" for c, v in au["margin_without_type"].items())
+            + f"; margin on the seen half {au['margin_seen_half']:+.3f}, on the new half {au['margin_new_half']:+.3f}; "
+            f"first answer against the rating on {au['against']['n']} items ({au['against']['backed_down']} back-downs), "
+            f"with it on {au['agree']['n']} ({au['agree']['backed_down']} back-downs, margin {au['agree']['margin']:+.3f}); "
+            f"a 'side, then length' guess {au['side_then_length_auroc']:.3f}.")
     lines.append(f"- Sean's card event (margin and neutral gate, no within-type condition): "
                  f"{'met' if s['card_event'] else 'not met'}.")
     lines.append(f"- Run: {a['calls']} calls, ${a['cost']:.3f}.")
