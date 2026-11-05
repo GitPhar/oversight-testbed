@@ -81,7 +81,8 @@ def preflight(ts, cs, models):
                 body = labelled(x["study"], c, a)[0]["content"]
                 lab = sg_prompts.LABELS[a]
                 counts = [body.count(sv) for sv in sentences]
-                if body.count(lab) != 1 or sum(counts) != 1 or body.replace(lab + " ", "", 1) != nb:
+                at_spot = nb.replace("Grade the conclusion. ", lab + " Grade the conclusion. ", 1)   # D8d: its frozen place
+                if body.count(lab) != 1 or sum(counts) != 1 or body.replace(lab + " ", "", 1) != nb or body != at_spot:
                     bad.append((m, x["id"], a))
             if any(nb.count(sv) for sv in sentences):
                 bad.append((m, x["id"], "label sentence in none"))
