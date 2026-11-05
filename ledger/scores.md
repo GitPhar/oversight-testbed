@@ -29,7 +29,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-12 audits prepared with a sealed plant line: 1 still sealed, 11 revealed, of which 6 carried a plant. 
+12 audits prepared with a sealed plant line: 0 still sealed, 12 revealed, of which 6 carried a plant. 
 
 **Catch rate: 6/6 = 1.00, 95% Wilson interval [0.61, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 6 is below that, so the arm is untestable for now.
 
@@ -56,18 +56,18 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-29 of 52 bets carry an engine pre-mortem; 11 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+29 of 52 bets carry an engine pre-mortem; 12 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
-| engine: named the main reason | 4/11 = 0.36 [0.15, 0.65] |
-| engine: named it or its kind | 9/11 = 0.82 [0.52, 0.95] |
-| lazy baseline: failures whose reason was 'the effect is not there' | 9/13 = 0.69 [0.42, 0.87] |
+| engine: named the main reason | 5/12 = 0.42 [0.19, 0.68] |
+| engine: named it or its kind | 10/12 = 0.83 [0.55, 0.95] |
+| lazy baseline: failures whose reason was 'the effect is not there' | 10/14 = 0.71 [0.45, 0.88] |
 | human: named the main reason | — |
 
 | stated kind \ actual kind | world | design | execution | artefact |
 |---|---|---|---|---|
-| world | 7 | 2 | 0 | 0 |
+| world | 8 | 2 | 0 | 0 |
 | design | 0 | 0 | 0 | 0 |
 | execution | 0 | 0 | 1 | 0 |
 | artefact | 0 | 1 | 0 | 0 |
@@ -92,7 +92,7 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
 
-Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 12 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 22 lesson lines written.
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 13 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 22 lesson lines written.
 
 | | count |
 |---|---|
@@ -104,22 +104,23 @@ Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denv
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 3 |
 
-Design reviews: 0 go, 12 fix-first, 3 redesign; 8 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 12 fix-first, 3 redesign; 9 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
-| P1 | Odds too high where the engine had a story | 10 | 5 of 7 scored |
+| P1 | Odds too high where the engine had a story | 10 | 6 of 8 scored |
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 4 | 2 of 2 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 17 | 6 of 8 scored |
-| P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 4 | 1 of 2 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 17 | 7 of 9 scored |
+| P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 4 | 2 of 3 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 1 | 0 of 1 scored |
 | P6 | A control that cannot fail | 3 | 1 of 1 scored |
 | P7 | A foreseeable execution risk run without a pilot | 2 | 0 of 1 scored |
-| P8 | Comparing across conditions that differ in more than the factor named | 13 | 4 of 5 scored |
-| P9 | The right rule, then the wrong noun | 10 | 6 of 6 scored |
-| P10 | A label that hangs on one item | 10 | 6 of 6 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 13 | 5 of 6 scored |
+| P9 | The right rule, then the wrong noun | 10 | 7 of 7 scored |
+| P10 | A label that hangs on one item | 10 | 7 of 7 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 1 | 1 of 1 scored |
-| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 10 | 1 of 1 scored |
+| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 10 | 2 of 2 scored |
+| P13 | A boundary the rule names, compared in plain floating point | 0 | 0 of 0 scored |
 
-**Does the loop help?** On 8 scored bets, Brier with the odds before the lesson is 0.277, after it 0.241.
+**Does the loop help?** On 9 scored bets, Brier with the odds before the lesson is 0.264, after it 0.222.
 
