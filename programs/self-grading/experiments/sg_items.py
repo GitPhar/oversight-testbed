@@ -8,7 +8,7 @@ self-selected, before-after), the uncertainty, and the complication. A conclusio
 a lower grade. The tasks are generated, not copied, so no grader has seen them, and they carry no real-world content
 likely to be refused.
 
-62 tasks are drawn: t01-t60 are the test set; p01-p02 are a pilot set, excluded from every test statistic, for the
+66 tasks are drawn: t01-t60 are the test set; p01-p06 are a pilot set, excluded from every test statistic, for the
 design review's optional execution pilot (operators/design-review.md D6). The draw uses only the seed given, which is
 the beacon seed of sg-b1 (purpose "items"), fixed after the pre-registration commit.
 """
@@ -104,10 +104,10 @@ def main():
     rng = random.Random(seed)
     test = list(range(60))                                              # 3 tasks per domain on the test set
     rng.shuffle(test)                                                   # (the crashed draft shuffled a copy: a no-op)
-    order = test + [rng.randrange(20), rng.randrange(20)]
+    order = test + [rng.randrange(20) for _ in range(6)]
     tasks = [render(rng, k, f"t{i + 1:02d}") for i, k in enumerate(order[:60])]
     tasks += [render(rng, k, f"p{i + 1:02d}") for i, k in enumerate(order[60:])]
-    out = {"seed": seed, "generator": "experiments/sg_items.py", "n_test": 60, "n_pilot": 2, "tasks": tasks}
+    out = {"seed": seed, "generator": "experiments/sg_items.py", "n_test": 60, "n_pilot": 6, "tasks": tasks}
     (ROOT / "data").mkdir(exist_ok=True)
     (ROOT / "data" / "sg-tasks.json").write_text(json.dumps(out, indent=1))
     print(f"wrote data/sg-tasks.json: {len(tasks)} tasks (seed {seed})")
