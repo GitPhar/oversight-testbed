@@ -4,7 +4,7 @@ Pre-registered in `experiments/sg-b5-length.md` (`046f851`, 2026-11-05 10:08 Ame
 - **Design review** (`ledger/design-reviews/sg-b5.md`): fix-first with 4 flaws (`3f38287`), no pilot. The fixes are D15 (`599d490`), confirmed at 10:21, before the first call.
 - **Run:** 2026-11-05, 10:30:56 to 10:32:56 America/Denver, after sg-b4. **420 calls, complete, no refusal, $0.663** of the $0.85 cap. The program has spent **$4.69 of $5.00**.
 - **Odds:** engine 22 (v2; the map's 45). Sean's odds: 55 (`ho-20261105-061152-u4l`).
-- **Audit:** not yet.
+- **Audit:** `ledger/audits/sg-b5.md` (`4a66466`). The verdict stands as fail, with 4 required cuts. Cut 4 named the planted sentence (pl-034, caught) and is not applied to the real record, which never carried it. Cuts 1–3 are applied under D17.
 
 ## In plain English
 
@@ -21,13 +21,13 @@ Pre-registered in `experiments/sg-b5-length.md` (`046f851`, 2026-11-05 10:08 Ame
 - **Opus still went easier on it in its own conversation, but by less than the bar:** 3.4 points of 100 [+2.5, +4.4], against 6.0 in sg-b3. The interval is above 0 and below 5, so Opus reads "same" under the rule (not blunted by 5 points or more). The flawed text itself scored higher in its own conversation (+3.1 [+2.4, +3.8]).
 - **Haiku went just as easy as in sg-b3:** 12.5 points [+10.4, +14.7], against 12.6. It reads blunted.
 - **Sonnet:** 1.6 points [+0.7, +2.5], same, as in sg-b3 (1.4).
-- **Length matching cut Opus's gap by 2.6 points** [+1.7, +3.3] and Haiku's by 0.1 [−3.0, +3.1].
+- **Swapping the caveat for the overclaim (which also matched the length) cut Opus's gap by 2.6 points** [+1.7, +3.3] and Haiku's by 0.1 [−3.0, +3.1]; this design cannot say how much of the cut was the length.
 - **Every model docked the exaggeration heavily in both places:** on average 80.7 to 88.2 points out of 100, except Haiku in its own conversation (68.2).
 - **The drift check did not fire.** Re-graded, the clean cells moved by −0.4 (Haiku), +0.7 (Sonnet) and 0.0 (Opus).
 
 **Robustness (pre-registered).** No reading changes when any single study or domain is dropped. The study bootstrap gives the same readings. For Sonnet and Opus the flawed text scored under 5 fresh on average (4.7, 4.5), so sharpening could not be measured for them.
 
-**So, on this test:** Haiku's easier treatment of an exaggeration in its own conversation does not depend on the answer running long. Opus's does, in part. With the length matched, about 3 of Opus's 6 points remain, below the bar this bet set. This design cannot say which part of the change took the rest: the end of the length breach, the loss of the caveat, or the end of the exaggeration contradicting that caveat.
+**So, on this test:** Haiku's easier treatment of the exaggeration was unchanged on average by the swap (12.5 against 12.6 points); only 14 of its 60 sg-b3 texts had run over the length limit, so this test says little about length for Haiku. Opus's was smaller after the swap, by 2.6 of its 6.0 points. With the length matched, about 3 of Opus's 6 points remain, below the bar this bet set. This design cannot say which part of the change took the rest: the end of the length breach, the loss of the caveat, or the end of the exaggeration contradicting that caveat.
 
 **What this does not show** (§6, D15):
 - **The edit is "a caveat replaced by an overclaim",** not "an overclaim added". Length, caveat and contradiction moved together.
