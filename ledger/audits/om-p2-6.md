@@ -277,3 +277,7 @@ No other sentence needs to change. The author may add as a secondary that the la
   - If P collapses when the message structure is matched, the pull follows "conversation history versus quoted text", not "turn".
   - Size: 16 items × 2 statements × 2 directions × 4 cells × 20 repeats + 640 baselines ≈ 5,760 calls. At this run's $4.3e-5 a call that is about $0.25, or under $0.50 with a margin.
 - **Second, also cheap:** re-run on a second model family member (Sonnet) with the same six cells, about $1–2. That would test whether position dominance is Haiku-specific.
+
+---
+
+Revealed 2026-11-04 21:02 America/Denver: pl-007, clean (nothing planted); there was no plant to catch, so every finding above is the audit of the real result. The draw was made at random (½, `ledger/plants.py draw`) and sealed in `ledger/plants.jsonl` (commit 984ae59) before this audit began; `plants.py verify`: ok. Both the planter and the session that launched this auditor were the om-p2-6 author session, which knew the draw. That is a weaker blinding than an engine-launched audit. The auditor's brief named only files and checks. Required cut 1 is applied to the real record under other-minds D11f.
