@@ -79,7 +79,7 @@ Predicted = mean stated probability in the bucket; observed = fraction that hit;
 - **em-bm2** (Sampling: PT+N identity and its item-level Z slope): Not scored: no probability stated.
 - **em-bm1** (Source dependence: run 3's anchors as the model's own answer): Not scored: no probability stated.
 - **em-gm2b** (Robustness: direction 2 on all 40 experiment-5 items): Not scored: a replication with no new probability stated.
-- **em-gm3c** (Robustness: predict each format from the other five): Not scored: a follow-up with no new probability stated.
+- **em-gm3c** (Robustness: predict each format from the other five): Not scored: a follow-up with no new probability stated. Audit round 1 (ledger/audits/em-gm3c.md) found the label undetermined: 'little' beats 'partial' by 0.0012 (CI upper end 0.4988 against the 0.5 line) and flips under a refit and on 5 of 6 bootstrap seeds. It was never scored, so no score changes.
 - **em-bm0** (Source x distance x lag (the shared biomimetic test)): Not scored: no probability stated. The cap cut the lag arm to R = 17 of 20 (D47a).
 - **em-dm2** (Multi-model: six formats on Sonnet and Opus): Not scored: a replication with no new probability stated.
 - **em-dm3** (Multi-model: self-knowledge with Sonnet x Opus): Not scored: a replication with no new probability stated.
@@ -90,6 +90,6 @@ Predicted = mean stated probability in the bucket; observed = fraction that hit;
 - **ng-p3-2** (Coherent or stochastic? Twirling and DD on the Stage 1 circuit): Not scored: untestable by its pre-registered rule 5.1. Audited (round 2): verdict stands. Audited (round 2): verdict stands.
 - **ng-p3-3** (Is the gap nine particular qubits, or one afternoon?): Not scored: untestable by its pre-registered rule 5.1. Audited (round 2): verdict stands. QPU seconds are booked once, under ng-p3-2 (shared job). Audited (round 2): verdict stands.
 - **ng-p3-15** (What made 3 November different: the afternoon, or the circuit's barrier and shot grouping?): open: design review confirmed (9 flaws fixed, D11-D17); no submission until Sean rules on the budget (F6 code gate)
-- **ng-p3-5c** (Corrected P3-5: steering given blur, and blur given steering (nested, bootstrap)): Not scored by design: a corrected re-analysis of an archive this program and its auditor have already analysed (P3-5). It states no odds.
+- **ng-p3-5c** (Corrected P3-5: steering given blur, and blur given steering (nested, bootstrap)): unscored by design; design review fix-first (7 flaws); --run refuses until confirmed
 
-9 of the 30 bets have an audit in `ledger/audits/`; 5 of the 10 scored bets are audited, and the audit reversed 1 verdict: om-p2-4 → undetermined. The founding-week audits (entangled-mind `audits/`, round 1) are not yet linked here. When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.
+28 of the 30 bets have an audit in `ledger/audits/`; 10 of the 10 scored bets are audited, and the audit reversed 2 verdicts: em-gm3c → undetermined; om-p2-4 → undetermined. Founding-week (round 1) audits are links into `programs/entangled-mind/audits/` (`ledger/audits/em-*.md`, summary `SUMMARY-1.md`); round 2 is `SUMMARY-2.md`. When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.

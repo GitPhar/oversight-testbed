@@ -2,6 +2,8 @@
 
 Quantum hardware has two jobs in this testbed: **referee** and **seed source**. It is **never a computational resource**. The referee is our IBM chip (IBM Open Plan, 600 QPU s/month, project hard stop 420 s, 46 s used). The seed source is not our chip. It is NIST's Bell-test apparatus, reached through the CU Randomness Beacon (CURBy). This file is the whole policy. It follows CONTEXT.md §3 rule 7, ARCHITECTURE.md (the `Beacon` and `Tiebreak` objects, step 3 of the loop) and proposal.md.
 
+> **The human is never asked in a terminal** (CONTEXT.md §3 rule 11). This session never asks Sean for odds or for a decision, in a terminal, a chat or a question dialog. His odds come only from `ledger/human-odds.jsonl` (the cockpit's downloads, committed); if a direction has no line there when its bet is pre-registered, the bet proceeds marked "no human odds". A decision this session would otherwise ask about, it makes under the written rules and states in its report and commit, where Sean can veto it from the cockpit. Sean's judgment is recorded and scored as steers in `ledger/steers.jsonl`: seed questions, vetoes, added questions and architecture decisions.
+
 ## In plain English
 
 Everything we can afford to run on the chip, a laptop can simulate exactly, faster and without noise. Our circuits use at most a few dozen qubits and a few hundred gates, inside 600 seconds a month. So the chip cannot make any of the engine's numbers better, and any claim that it did would be false. Program 1 spent its hardware budget showing exactly that: the entangled encoding tied a classical twin, and the learned version switched its own entanglement off.

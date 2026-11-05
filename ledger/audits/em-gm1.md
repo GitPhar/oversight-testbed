@@ -1,0 +1,1 @@
+../../programs/entangled-mind/audits/gm1-self-knowledge.md

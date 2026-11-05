@@ -2,6 +2,8 @@
 
 A scalable-oversight testbed for AI-driven research. The AI proposes, bets, runs and audits; a human steers from a map; both are scored. Built for trust, not volume.
 
+The diagram, as built on 2026-11-04: [`paper/figures-architecture-v2.svg`](paper/figures-architecture-v2.svg) (also on the site's home page). This file is the authority where the two differ.
+
 ## Objects
 
 ```
@@ -13,7 +15,7 @@ Bet          = { direction, pass_rule, statistic, budget, engine_odds, human_odd
                  result, audit, verdict: pass|classical|tie|null|untestable, scored: bool }
 Read         = { paper, read_depth: full|abstract, what_tested, on_whom, result, limits, borrow, next_steps_it_suggests }
 Kill         = { direction, diagnosis, evidence, date }        # nothing disappears
-Steer        = { date, human, action: add_question|veto|budget|override_audit|choose_seed, reason, outcome_later, shadow_id? }
+Steer        = { date, human, action: choose_seed|veto|add_question|architecture|budget|override_audit, reason, outcome_later, shadow_id? }   # the human's judgment, recorded and scored
 Shadow       = { steer, direction, engine_odds_at_veto, human_odds_at_veto, vetoed_budget, kind: archive_proxy|cheapest_version|none,
                  proxy_strength: direct|partial|weak, prereg_commit, outcome: hit|miss|undecided,
                  veto_value: saved|probably_saved|killed_hit|undecided }   # operators/veto.md; ledger/shadows.jsonl
@@ -46,7 +48,7 @@ loop(program):
         d = Direction(c)
         d.cheapest_test, d.cost = cheapest_falsifier(d)           # cents before dollars; archives before API; API before hardware
         d.engine_odds = engine.P(real_result | d)                 # written down
-        d.human_odds  = ask(human, d)                             # written down separately, before data
+        d.human_odds  = first_line(ledger/human-odds.jsonl, d) or "no human odds"   # cockpit downloads only; never asked in a terminal
         d.weight      = f(surprise_potential, cost, odds, neighbourhood_heat)
     program.map = rank(candidates by weight)
 
@@ -144,6 +146,7 @@ oversight_test:
 8. Plain English first in every artifact.
 9. Quantum hardware is a referee (simulator-vs-chip tiebreaks, scored as bets) and a seed source (CURBy), never a computational resource.
 10. No pre-registration without a lesson from the ledger and a fresh design review that says go before the first call.
+11. No session asks the human for odds or decisions in a terminal. Human odds come only from `ledger/human-odds.jsonl` (cockpit downloads); without them a bet proceeds marked "no human odds". The human's judgment is recorded and scored as steers.
 
 ## Repositories
 
@@ -176,7 +179,7 @@ morning  (07:03 America/Denver, cloud):  read CONTEXT.md → read both repos' la
 nightly  (23:33 America/Denver, cloud):  read day's commits → rewrite CONTEXT.md §state, §map, §steers → push
 planter  (per audit, before it):         not the auditor; builds the audit clone, draws plant/clean in secret, plants one bad claim, seals it (operators/plant.md)
 auditor  (per result, local tab):        fresh session in the audit clone, has not seen the work, instructed to break it, writes ledger/audits/<bet>.md
-scout    (per program start, local tab): full reads, all fields, next-steps extracted, candidates ranked with odds; a form for the human's odds
+scout    (per program start, local tab): full reads, all fields, next-steps extracted, candidates ranked with odds; the human's question on each cockpit card
 learn    (per prereg, before it):        the betting session reads bets, brier, audits, lessons; writes one lesson line (operators/learn.md)
 review   (per prereg, before 1st call):  fresh auditor dry-runs the design, D1–D10, no paid calls; go | fix-first | redesign (operators/design-review.md)
 shadow   (per veto, 7–30 days later):    fresh session, argued neither side; pre-registers and runs the cheapest look at a vetoed direction (operators/veto.md)

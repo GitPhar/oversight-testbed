@@ -26,7 +26,7 @@
     </section>
     <section class="panel" aria-labelledby="p2">
       <h2 id="p2"><span class="n">2</span> What the human does</h2>
-      <p>One person steers. For every open question, the human writes down their own odds <b>before</b> seeing the AI's number. They can veto a direction, giving a reason, or add a question the AI did not think of.</p>
+      <p>One person steers, from the cockpit only; the AI never asks them anything in a chat. On any open question, the human can write down their own odds <b>before</b> seeing the AI's number, and a bet goes ahead without them if they don't. They can veto a direction, giving a reason, or add a question the AI did not think of.</p>
       <p>Every one of those moves is logged, and later scored, so the record shows whether the human's hand made the research better or worse.</p>
       <a class="cta" href="cockpit.html">Open the cockpit →</a>
     </section>
@@ -40,6 +40,13 @@
       <p class="muted small" id="qpu"></p>
     </section>
   </div>
+
+  <h2>How it fits together</h2>
+  <figure class="arch">
+    <a href="data/engine/paper/figures-architecture-v2.svg"><img src="data/engine/paper/figures-architecture-v2.svg" width="1200" height="900" loading="lazy"
+      alt="The architecture: research reads, seed questions and the ledger feed a scout that maps directions; the cockpit is the human's hand; each bet is pre-registered and design-reviewed, run, then refereed by another model, the quantum chip or the published record; an auditor, itself audited by planted claims, checks every result; the ledger scores both sides and feeds the next map."></a>
+    <figcaption>The engine as built on 4 November 2026: the human's hand in gold, checks that cannot be fooled in green, and the referee that could fool itself without the audit below it in red.</figcaption>
+  </figure>
 
   <h2>Look at it</h2>
   <div class="tiles">

@@ -170,7 +170,7 @@ def main():
     w(f"{len(audited)} of the {len(bets)} bets have an audit in `ledger/audits/`; {len(sa)} of the {n} scored bets are audited, "
       f"and the audit reversed {len(reversed_)} verdict{'s' if len(reversed_) != 1 else ''}"
       + (": " + "; ".join(f"{b['id']} → {b['verdict']}" for b in reversed_) if reversed_ else "")
-      + ". The founding-week audits (entangled-mind `audits/`, round 1) are not yet linked here. "
+      + ". Founding-week (round 1) audits are links into `programs/entangled-mind/audits/` (`ledger/audits/em-*.md`, summary `SUMMARY-1.md`); round 2 is `SUMMARY-2.md`. "
       "When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.")
     (HERE / "brier.md").write_text("\n".join(L) + "\n")
     print(f"engine Brier {fmt(brier(eng))} on {n} bets; human {fmt(brier(hum))} on {len(hum)}")

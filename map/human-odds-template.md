@@ -2,7 +2,7 @@
 
 **The rule (Sean, 2026-11-04).** The human is a non-specialist, and his judgment is about *direction*, not mechanism. So he is asked one plain-English question per mapped direction, never the technical pass rule. The technical sub-bets keep the engine's odds only and are marked `engine-only`.
 
-One copy of this form per program, made by the scout from the program's map. Fill it in **before** each direction's first test is pre-registered. Dictating is fine: say the answers, and the session types them in and commits the file as `ledger/human-odds/<program>-<date>.md`, in its own commit, with one line per answer in `ledger/human-odds.jsonl`. The commit time is the proof that your number came first. A direction can also be answered on its own card in the cockpit (`site/cockpit.html`), which writes the same jsonl line.
+One copy of this form per program, made by the scout from the program's map. Fill it in **before** each direction's first test is pre-registered. **Answers come only through the cockpit** (`site/cockpit.html`, CONTEXT.md §3 rule 11): each question here is on its direction's card, you type the number there, download, and the lines are committed to `ledger/human-odds.jsonl`. That file is the only source of human odds. No session asks you for them in a terminal, and a number said in a chat is not recorded. The commit time is the proof that your number came first. A direction with no line when its bet is pre-registered goes ahead, marked "no human odds".
 
 ---
 
@@ -62,10 +62,13 @@ Each row names its parent direction and is marked `engine-only` and, where it ap
 
 **Before pre-registering any direction on this form** (mandatory from 2026-11-04 17:00): the betting session reads `ledger/bets.jsonl`, `ledger/brier.md`, `ledger/audits/` and `ledger/lessons.jsonl` in the engine repo, and writes one lesson line in the pre-registration's §0: which past pattern it corrects, and how its odds reflect it (`operators/learn.md`). A fresh auditor then dry-runs the design and must say **go** before the first call (`operators/design-review.md`). A direction pre-registered without both is a rule violation: it is flagged in the ledger and on the site. Your own number on this form is unaffected; the lesson is the engine's.
 
-1. Commit the filled form on its own, before the pre-registration of any direction it answers. Never edit a number afterwards. A change of mind is a new line with a new time, and both stay (the first given is scored).
-2. For each answered question, copy the number into the line of that direction's **primary bet** in `ledger/bets.jsonl`:
-   - `human_odds`: the number divided by 100 (for example `0.25`);
-   - `human_odds_note`: `"ledger/human-odds/<program>-<date>.md, <commit>; Q<n>; saw engine odds: yes|no|some"`.
+Never ask Sean for these numbers or for any decision in a terminal (CONTEXT.md §3 rule 11). Read them only from `ledger/human-odds.jsonl`.
+
+1. Cockpit downloads are committed to `ledger/human-odds.jsonl` unchanged, each in its own commit. Never edit a number afterwards. A change of mind is a new line with a new time, and both stay (the first given is scored).
+2. When a direction's **primary bet** is pre-registered, copy its first committed line into that bet in `ledger/bets.jsonl`:
+   - `human_odds`: `human_odds` from the line (0–1);
+   - `human_odds_note`: `"ledger/human-odds.jsonl, <commit>; <line id>; saw engine odds: yes|no|some"`.
+   If the direction has no line, the bet proceeds: `human_odds: null`, `human_odds_note: "no human odds"`. It is never held for an answer.
 3. Sub-bets get `human_odds: null` and `human_odds_note: "engine-only"`.
 4. Rerun `python3 ledger/brier.py`. The human column fills in once a direction with human odds has an outcome.
 5. If a number was given after any of that direction's data was seen, set `human_odds` to `null` and say why in `human_odds_note`. A late number is not scored. A direction pre-registered before the human answered is marked "closed" on the form and is never filled in later.

@@ -116,6 +116,9 @@ code { font-family: var(--mono); font-size: 0.86em; background: var(--surface-2)
 .tile .num { display: block; font-size: 15px; color: var(--muted); margin-top: 10px; }
 
 .explain { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 28px 0 0; }
+.arch { margin: 0 0 8px; }
+.arch img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--radius); }
+.arch figcaption { color: var(--muted); font-size: 15px; margin-top: 8px; }
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; }
 .panel h2 { font-size: 21px; margin: 0 0 10px; display: flex; align-items: center; gap: 10px; }
 .panel h2 .n { color: var(--hit); }

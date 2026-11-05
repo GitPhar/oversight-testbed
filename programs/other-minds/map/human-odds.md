@@ -10,7 +10,7 @@
 - The engine's numbers and ranking are left off this form. Program 1 showed that a number you have just seen pulls the next one you give.
 - The order is shuffled (seed 20261104), so it gives no hint of a ranking.
 - If you have already read `program-2-map.md`, say so in the box below. Your numbers still count, and the ledger records that you had seen them.
-- You can dictate. Give a number and, if you have one, a line of why. Skip any you have no feel for; a blank is recorded as "no odds", not as 50.
+- **Answer in the cockpit** (`site/cockpit.html`), which asks these same questions, one card per direction; download, and the lines are committed to `ledger/human-odds.jsonl`. That file is the only source of your odds: no session asks you for them in a terminal, and a number said in a chat is not recorded (CONTEXT.md §3 rule 11). Skip any you have no feel for; a blank is recorded as "no odds", not as 50, and the direction's bet goes ahead marked "no human odds".
 
 A guide, if it helps: 5 = I'd be amazed. 25 = I doubt it. 50 = coin flip. 75 = I expect it. 95 = I'd be amazed if not.
 
@@ -112,4 +112,4 @@ These keep the engine's odds only (`human_odds: null`, `human_odds_note: "engine
 
 **Before pre-registering any direction on this form** (mandatory from 2026-11-04 17:00): the betting session reads `ledger/bets.jsonl`, `ledger/brier.md`, `ledger/audits/` and `ledger/lessons.jsonl` in the engine repo, and writes one lesson line in the pre-registration's §0: which past pattern it corrects, and how its odds reflect it (`operators/learn.md`). A fresh auditor then dry-runs the design and must say **go** before the first call (`operators/design-review.md`). A direction pre-registered without both is a rule violation: it is flagged in the ledger and on the site. Your own number on this form is unaffected; the lesson is the engine's.
 
-Follow `oversight-testbed/map/human-odds-template.md`, "For the session recording this form". Commit the filled form on its own, before the pre-registration of any direction it answers. Copy each number into that direction's primary bet in `ledger/bets.jsonl` (`human_odds` = number / 100) and append a line to `ledger/human-odds.jsonl`. Sub-bets get `human_odds: null`. Never fill a closed question.
+Follow `oversight-testbed/map/human-odds-template.md`, "For the session recording this form". Never ask Sean for these numbers or for a decision in a terminal (CONTEXT.md §3 rule 11). His odds come only from `ledger/human-odds.jsonl` (cockpit downloads, committed). When a direction's primary bet is pre-registered, copy its first line into `ledger/bets.jsonl` (`human_odds`, 0–1); if there is none, the bet proceeds with `human_odds: null` and `human_odds_note: "no human odds"`. Sub-bets get `human_odds: null`. Never fill a closed question.

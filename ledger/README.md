@@ -45,9 +45,36 @@ The **calibration table** groups bets by stated odds and compares the average st
 
 `brier.md` is generated: run `python3 ledger/brier.py` after any change to `bets.jsonl`. Do not edit it by hand.
 
-### `audits/`: not created yet
+### `audits/`: every audit, one file per bet
 
-Each audit will be `audits/<bet-id>.md`, written by a fresh session that has not seen the work and is told to break it. When an audit changes a verdict, the bet's outcome changes, the change is noted in its `scoring_note`, and `brier.md` is regenerated.
+Each audit is `audits/<bet-id>.md`, written by a fresh session that has not seen the work and is told to break it. When an audit changes a verdict, the bet's outcome changes, the change is noted in its `scoring_note`, and `brier.md` is regenerated. Each audited bet carries `audit_path`, `audit_status` (round, commit, verdict, number of cuts, most serious hole), `verdict_stands` and `verdict_after_audit`.
+
+- **Round 1, the founding week** (entangled-mind branch `audit`, `b009a15`, 2026-11-04 10:27): the files live in `programs/entangled-mind/audits/`. `audits/em-<bet>.md` are relative links to them, and `audits/SUMMARY-1.md` links to that round's summary. The site build copies the linked files (`cp -RL`). Round 1 also audited phase-A results that are not ledger bets (stage 1–2, experiments 3–5, the witness); those stay in the program folder only.
+- **Round 2** (branch `audit2`, 14:32–16:40): `audits/SUMMARY-2.md`, the program 2 and 3 files, and the six re-audits of program 1 results (`multi-model-r2`, `calibration-under-format-r2`, `probe-dissociation-r2`, `probe-dissociation-dp2`, `mm-gm3b-opus-completion`, `exp5-verdict-reissue`), copied from that branch.
+
+| bet | round-1 file | round-1 verdict | round 2 |
+|---|---|---|---|
+| em-gm9 | `gm9-nsit.md` | stands with caveats | — |
+| em-gm3a | `gm3a-anchor-gap.md` | stands | — |
+| em-gm1 | `gm1-self-knowledge.md` | stands with caveats | — |
+| em-gm2 | `gm2-self-conditioning.md` | stands with caveats | — |
+| em-gm3b | `gm3b-format-invariance.md` | stands | — |
+| em-gm4 | `gm4-evidence-seeking.md` | stands | — |
+| em-gm5 | `probe-dissociation.md` | stands with caveats | `probe-dissociation-r2.md`, `probe-dissociation-dp2.md` |
+| em-bm3 | `bm3-confirmation.md` | stands | — |
+| em-bm7 | `bm7-serial-position.md` | stands | — |
+| em-bm9 | `bm9-contrast.md` | stands with caveats | — |
+| em-bm2 | `bm2-sampling-identity.md` | stands with caveats | — |
+| em-bm1 | `bm1-serial-dependence.md` | stands with caveats | — |
+| em-gm2b | `gm2b-self-conditioning-40.md` | stands with caveats | — |
+| em-gm3c | `gm3c-heldout-format.md` | undetermined | — |
+| em-bm0 | `bm0-source-distance-lag.md` | stands with caveats | — |
+| em-dm2 | `mm-gm3b-format-invariance.md` | stands with caveats | `multi-model-r2.md`, `mm-gm3b-opus-completion.md` |
+| em-dm3 | `mm-gm1-self-knowledge.md` | stands with caveats | — |
+| em-dm4 | `mm-gm2-self-conditioning.md` | stands with caveats | `multi-model-r2.md` |
+| em-dm6 | `calibration-under-format.md` | stands with caveats | `calibration-under-format-r2.md` |
+
+One founding-week verdict changed: **em-gm3c** pass → undetermined ("little" beats "partial" by 0.0012). It was never scored, so no Brier score moves. The other 18 stand, 5 of them without caveats; every one of the 19 had sentences cut.
 
 ### `shadows.jsonl`: what each veto gave up
 
