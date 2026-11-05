@@ -82,7 +82,7 @@ def main():
         same = norm(ln.get("lesson")) == norm(lesson)
         commit_ok = bool(pc) and str(ln.get("prereg_commit", "")).startswith(pc[:7])
         ok("L2", same and commit_ok, f"ls-{bet}: text {'matches' if same else 'differs from'} §0; prereg_commit {'matches' if commit_ok else 'differs'}")
-    cited = set(re.findall(r"\bP\d+\b", lesson))
+    cited = set(re.findall(r"\bP\d+\b(?!-\d)", lesson))   # "P3-5" names a direction, not pattern P3
     ok("L3", ("none applies" in lesson.lower()) or (cited and cited <= patterns),
        f"patterns cited: {sorted(cited) or 'none'}" + (f"; unknown: {sorted(cited - patterns)}" if cited - patterns else ""))
 
