@@ -28,8 +28,8 @@ Two harness fixes, both inside this script (nothing in the program is changed):
 Registered files (every one must be accounted for, or the run fails):
   results/ta-b2-analysis.json, ta-b3-analysis.json   rebuilt by the bet's own --analyse step (see above)
   results/ta-b2-results.md, ta-b3-results.md         one table each, rebuilt from the regenerated analysis JSON
-  results/ta-b1-pilot.md, ta-b2-pilot.md,            one table each, rebuilt from the design reviewer's pilot call
-  results/ta-b3-pilot.md                             cache (results/<bet>-pilot-calls.json); see the two notes below
+  results/ta-b1-pilot.md, ta-b1r-pilot.md,           one table each, rebuilt from the design reviewer's pilot call
+  ta-b2-pilot.md, ta-b3-pilot.md                     cache (results/<bet>-pilot-calls.json); see the notes below
   results/ta-b2-run.log                              a run log, not a table: skipped
 Pilot notes:
   - ta-b1 pilot: "right when asked plainly" and "went along" need each item's gold answer, taken from program 1's
@@ -37,6 +37,12 @@ Pilot notes:
     against the cache, so the answers are those of the items actually asked. The table's "median" output tokens is
     the upper median (sorted values [n // 2]): for Opus's 16 calls that is 93, while the midpoint median is 63.5.
     For Haiku and Sonnet the two agree. The cell is checked as the upper median and the output says so.
+  - ta-b1r pilot: every cached request (P, P2 and the E/R belief checks) is rebuilt with ta_b1r.behaviour_job and
+    check_job from questions-train.json and its SHA-256 checked against the cache. "P ratings <= 4" counts each
+    item's first P rating; "at 0-2 or 98-100" is the share of all P and P2 ratings; the repeat columns compare P with
+    P2 per item. Its median output tokens is the usual (midpoint) median. Its header writes "mean |repeat diff|"
+    with unescaped pipes, so the header has 11 cells to the separator's 9 (a markdown renderer will not draw the
+    table); the header is copied as it is, and its 9 columns are counted as copied cells.
   - ta-b3 pilot: "correct (of 10)" needs the pilot's questions, trial 0 of question_sets(20261105). The pilot ran on
     the generator as pre-registered (979ec5d), before T5 (77b6cdb) changed how the options are drawn, so HEAD's
     question_sets gives different questions from that seed. The 979ec5d generator is quoted below; each of the 9
@@ -46,8 +52,8 @@ How a table is compared: every number in it is recomputed. Descriptive cells (ro
 line, and the output counts both kinds per file. A "—" where a model has no estimate (untestable) is recomputed: it
 is printed when the analysis has no such statistic. Bold is the author's emphasis: a recomputed "0 (0%)" matches
 "**0 (0%)**". The prose of the write-ups is not compared; the analysis JSON it quotes from is.
-ta-b1 was withdrawn before any test call and re-bet as ta-b1r; neither has a call cache or an analysis at HEAD, so
-there is nothing of theirs to rebuild yet (ta-b1's pilot is its only archived data). When ta-b1r's analysis lands it
+ta-b1 was withdrawn before any test call and re-bet as ta-b1r; neither has a test call cache or an analysis at HEAD,
+so only their design-review pilots are rebuilt. When ta-b1r's analysis lands it
 is rebuilt and compared automatically; its write-up's tables must be added here, or the run fails on the file. The cost probe's results/probe-calls.json feeds no table.
 """
 import json
@@ -228,7 +234,7 @@ class Tables:
 
         lines = [have[0] if have else missing, have[1] if len(have) > 1 else missing]
         lines += [build(r, j + 2) for j, r in enumerate(rows)]
-        self.n["kept"] += len(split_row(lines[0]))      # the header's cells
+        self.n["kept"] += len(split_row(lines[1]))      # the header's cells (one per column of the |---| line)
         self.regen.append((idx, lines))
 
     def check(self, rep, name):
@@ -343,6 +349,38 @@ def table_ta_b1_pilot(tab, root, tmp, models, b1, common):
     tab.add(0, rows)
 
 
+def table_ta_b1r_pilot(tab, root, tmp, models, b1r, common):
+    """The ta-b1r pilot: 0-100 ratings of the user's wrong claim, P arm twice per item (P, P2), plus a few belief checks
+    (ME, MR). Every request is rebuilt from questions-train.json and checked against the cache's SHA-256."""
+    cache = json.loads((root / "results/ta-b1r-pilot-calls.json").read_text())
+    pool = {x["id"]: {"id": x["id"], "q": x["question"], "gold": x["answer"],
+                      "wrong": "no" if x["answer"] == "yes" else "yes", "category": x["category"]}
+            for x in json.loads((tmp / P1_FILES[0]).read_text()) if x["category"] in ("simpleqa", "puzzle-computed")}
+    for k, v in cache.items():
+        arm, i, m = k.split("|")
+        job = (b1r.check_job(pool[i], m, arm[1:]) if arm.startswith("M")
+               else b1r.behaviour_job(pool[i], m, arm[0], arm[1:]))
+        if job[0] != k or common.content_hash(list(job[1:])) != v["sha256"]:
+            raise RuntimeError(f"ta-b1r pilot: the rebuilt request for {k} does not match the cache's sha256")
+    rows = []
+    for m in models:
+        mine = {k: v for k, v in cache.items() if k.split("|")[2] == m}
+        cost = sum(v["cost"] for v in mine.values())
+        out = [v["usage"]["out"] for v in mine.values()]
+        p1 = {k.split("|")[1]: v["value"] for k, v in mine.items() if k.split("|")[0] == "P"}
+        p2 = {k.split("|")[1]: v["value"] for k, v in mine.items() if k.split("|")[0] == "P2"}
+        if p1.keys() != p2.keys():
+            raise RuntimeError(f"ta-b1r pilot: {m} has P without P2 or the reverse")
+        both = list(p1.values()) + list(p2.values())
+        ends = sum(x <= 2 or x >= 98 for x in both)
+        rows.append([K, str(len(mine)), n(cost, 4), n(cost / len(mine), 5),
+                     f"{min(out)} / {statistics.median(out):g} / {max(out)}",
+                     f"{sum(x <= 4 for x in p1.values())}/{len(p1)}", f"{round(100 * ends / len(both))}%",
+                     n(statistics.mean(abs(p1[i] - p2[i]) for i in p1), 1),
+                     f"{sum(p1[i] == p2[i] for i in p1)}/{len(p1)}"])
+    tab.add(0, rows)
+
+
 def table_ta_b2_pilot(tab, root, models):
     cache = json.loads((root / "results/ta-b2-pilot-calls.json").read_text())
     rows = []
@@ -451,6 +489,8 @@ def main():
         allm, b2, b3 = mods["ta_common"].MODELS, mods["ta_b2"], mods["ta_b3"]
         writeups = {
             "results/ta-b1-pilot.md": lambda t: table_ta_b1_pilot(t, root, tmp, allm, mods["ta_b1"], mods["ta_common"]),
+            "results/ta-b1r-pilot.md": lambda t: table_ta_b1r_pilot(t, root, tmp, allm, mods["ta_b1r"],
+                                                                    mods["ta_common"]),
             "results/ta-b2-pilot.md": lambda t: table_ta_b2_pilot(t, root, allm),   # all three models were piloted
             "results/ta-b3-pilot.md": lambda t: table_ta_b3_pilot(t, root, b3.MODELS, b3, mods["ta_common"]),
             "results/ta-b2-results.md": lambda t: table_ta_b2_results(t, analyses["ta-b2"], b2),
