@@ -90,12 +90,17 @@ export async function manifest() {
 // ---------- the status vocabulary ----------
 // Every status has a colour, a shape and a word. Colour is never the only channel.
 export const STATUS = {
-  hit:     { word: "Bet landed",  color: "var(--hit)",   hex: "#f2c14e" },
+  hit:     { word: "Landed",      color: "var(--hit)",   hex: "#5cc98a" },
   killed:  { word: "Killed",      color: "var(--kill)",  hex: "#e47272" },
-  mixed:   { word: "Mixed or unsettled", color: "var(--mixed)", hex: "#a99cf0" },
+  mixed:   { word: "Mixed",       color: "var(--mixed)", hex: "#a99cf0" },
   running: { word: "Running",     color: "var(--run)",   hex: "#6aaee8" },
   open:    { word: "Open",        color: "var(--open)",  hex: "#737983" },
 };
+
+// What the words mean, in one plain sentence (the map's legend; Sean's walk, 2026-11-04).
+export const LEGEND_SENTENCE = "<b>Landed</b> means its pre-registered test passed; <b>mixed</b> means it was tried but not settled " +
+  "(a partial result, a test that could not decide, or one withdrawn); <b>killed</b> means a test said no, or it was dropped " +
+  "with a stated reason before any test; <b>open</b> means nothing has tried it yet, and <b>running</b> means a test is under way now.";
 
 const SYN = {
   hit: ["hit", "pass", "passed", "positive", "confirmed", "landed", "supported", "found", "true", "yes", "win"],
