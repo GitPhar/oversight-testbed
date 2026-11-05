@@ -4,7 +4,7 @@ Pre-registered in `experiments/sg-b7-leadin.md` (`7041920`, 2026-11-05 11:43 Ame
 - **Design review** (`ledger/design-reviews/sg-b7.md`): fix-first with 2 flaws (`f3994ff`), no pilot. The fixes are D22 (`6d4e69c`) and, for the shared dry run, D23 (`124b665`), confirmed go at 12:02 (`ac24166`), before the first call.
 - **Run:** 2026-11-05, 12:02:54 to 12:04:47 America/Denver. **480 calls, complete, no refusal, $0.598** of the $0.75 cap. The program had then spent $5.29 of $7.65 (br-016, D19).
 - **Odds:** engine 14 (v2; the map stated none). Sean's odds: 50 (`ho-20261105-112945-mjj`).
-- **Audit:** pending.
+- **Audit:** `ledger/audits/sg-b7.md` (`ed37f87`). The verdict stands as mixed, with 4 required cuts; cuts 2–4 are applied under D26, and cut 1 named the planted cell (pl-042, caught) and is not applied: the real file reads [−0.44, +1.15].
 
 ## In plain English
 
@@ -25,10 +25,11 @@ Pre-registered in `experiments/sg-b7-leadin.md` (`7041920`, 2026-11-05 11:43 Ame
 **How strong it is.**
 - **Haiku's mean rests on a few studies.** 14 of its 60 studies show no change at all (S = 0), its median S is +0.5, and its 10% trimmed mean +2.1. Dropping one study (t60) or one domain (domain 17) turns its reading into "lead-in carries part"; it is fragile.
 - **Opus's reading is fragile the other way:** dropping study t07, or domain 15, turns it into "not the lead-in". Its median S is 0.0.
+- With the 14 ties (S = 0) excluded, Haiku's mean S is +3.24, above its 2.9 bar, and its reading would be 'lead-in carries part'; Opus's is +0.40 with 5 ties excluded, still undetermined. Excluding exact zeros raises a mean by construction; this is reported because §4 committed it, and the reading stands.
 - The spread of S across studies is about what the dry run's measured noise predicted (SD 7.95 on Haiku against about 8.3 implied; 2.70 on Opus against about 2.9), so the dry run's power figures stand: under its noise, even a closing line that carried all of sg-b4's remainder would have passed only about half the time, because of Opus.
 - The quoted copy's penalty in this run is close to sg-b4's on the same studies (Haiku −0.9 [−2.6, +0.5], Opus +0.2).
 
-**So, on this test:** on Haiku, swapping only the closing line made it somewhat stricter about the exaggeration, by under half of what sg-b4 left, on a mean carried by a few studies; on Opus it changed nothing measurable. Neither model clears or misses its bar cleanly, so this test does not say whether the closing line carries sg-b4's remainder. If the closing line carries part of it, that part is small on Opus.
+**So, on this test:** on Haiku, the exaggeration cost 2.5 points more with the plain closing line on average (95% domain-cluster CI +0.2 to +4.9, between 3% and 85% of what sg-b4 left; uncorrected for the three models looked at, a domain sign-flip test gives p ≈ 0.06, and the median study moved 0.5 points); on Opus it changed nothing measurable. Neither model clears or misses its bar cleanly, so this test does not say whether the closing line carries sg-b4's remainder. On Opus the interval runs from −0.44 to +1.15 points: the closing line could carry nothing or up to about three quarters of Opus's 1.5-point remainder, and this test cannot say which.
 
 **What this does not show** (§6, D22):
 - It splits the remainder only between the closing line and everything else; the header sentence and the labels are not separated from each other.
