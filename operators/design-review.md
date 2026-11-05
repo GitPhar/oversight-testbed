@@ -52,6 +52,8 @@ Each gets one of: *holds*, *flaw* (with evidence and the fix), or *cannot check*
 
 **D9. One item cannot decide it** (P10). The leave-one-item-out check is pre-registered, and so is what happens if one item flips the label.
 
+**D11. The bet can both pass and fail.** Under the plausible worlds the design itself names (a world where the hypothesis holds, and one where it doesn't), simulate or calculate P(pass) and P(fail). Each must be at least about 10%. A bet that cannot pass (or cannot fail) at the available n is not a test: its result is known before it runs, and scoring it at extreme odds would buy the engine Brier points without information. *em-qwalk2 failed this (P(pass) at most about 4% even in quantum-friendly labels; review 0417646).* Below the floor, the verdict is **redesign**: raise n, change the statistic, or withdraw.
+
 **D10. Machinery.** Budget enforced in code; stop-on-refusal in code; one scale direction (0 = false, 100 = true); caching by content hash; the beacon seed rule (`operators/hardware.md`); and the lesson line present and matching (`operators/learn.md`).
 
 ## Verdict and what follows
@@ -72,7 +74,7 @@ reviewer_model: <model id>
 author_model: <model id>
 same_model_family: true|false
 date: <YYYY-MM-DD HH:MM America/Denver>
-checks: {D1: holds, D2: flaw, ...}
+checks: {D1: holds, D2: flaw, ..., D11: holds}
 flaws: <int>
 pilot_usd: 0.00
 verdict: go|fix-first|redesign
@@ -85,7 +87,7 @@ confirmed_at: <date, when a fix-first is confirmed; else null>
 <three to five sentences: would this test have answered its question as built, and what had to change>
 
 ## Checks
-<D1–D10, each with evidence and the commands run>
+<D1–D11, each with evidence and the commands run>
 
 ## Required fixes
 <each flaw, with the exact fix and the DEVIATIONS row it needs>
