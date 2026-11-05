@@ -1,0 +1,46 @@
+{
+ "n": 80,
+ "linear": {
+  "rss": 33970.357115615814,
+  "k": 3,
+  "b": 0.2680963622756511
+ },
+ "dog": {
+  "rss": 32939.769444778096,
+  "k": 4,
+  "A": 0.5100407667671198,
+  "w": 97.63577480267418
+ },
+ "tanh": {
+  "rss": 32875.46752006397,
+  "k": 4,
+  "A": 0.6076606314560153,
+  "w": 33.59514118254803
+ },
+ "dAIC_dog_vs_linear": 0.4646055453097233,
+ "dAIC_dog_vs_tanh": -0.15632111502236512,
+ "dog_peak_abs_L": 69.03891844937355,
+ "abs_L_range": [
+  0.0,
+  97.35
+ ],
+ "dog_w_at_grid_edge": false,
+ "verdict": "fail",
+ "boot_dAIC_dog_vs_linear_95": [
+  -2.161827869529003,
+  15.861963675958123
+ ],
+ "boot_dAIC_dog_vs_tanh_95": [
+  -4.723718453006155,
+  4.021623002141356
+ ],
+ "boot_share_pass": 0.0979,
+ "loo_item_flips": [],
+ "sentence": "On Haiku's 80 archived pairs, the shift in the main rating after a sub-question was not shown, by the pre-registered rule, to have the derivative-of-Gaussian shape seen in human serial dependence; the rule did not separate it from a straight-line or levelling-off relation to the gap.",
+ "seed": 965198064319072892,
+ "archive_sha256": {
+  "exp5-conversations.json": "a16fc525e5f763d49e1b2addf8adb145defcc3bc3a0bdb360d3b2b7453b27a33",
+  "split-exp5.json": "6a45da5620c1cffb3eb7525dc89c0b288208824c8ad40eec0f0208a4c1dd03f8",
+  "pool-run-3.json": "8011ae79b4c12c6ac9b95dd751b68c891aeb3c7c47a5d5afb2d7c465b4db2b56"
+ }
+}

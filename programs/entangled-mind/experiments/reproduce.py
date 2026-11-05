@@ -160,7 +160,8 @@ def main() -> int:
         importlib.import_module(mod).main()
     # 2026-11-05 remap follow-ups (D61-D63+), each from its archive with its beacon seed
     for mod, md, args in (("dm6f2_flag_overlap", "dm6f2-flag-overlap.md", ["--seed", "3958117464482761837"]),
-                          ("gm2bf1_order_vs_format", "gm2bf1-order-vs-format.md", ["--seed", "12485997366771242721"]),):
+                          ("gm2bf1_order_vs_format", "gm2bf1-order-vs-format.md", ["--seed", "12485997366771242721"]),
+                          ("bm9f2_dog_shape", "bm9f2-dog-shape.md", ["--seed", "965198064319072892"]),):
         if md in committed:
             step(md, lambda mod=mod, args=args: run_with_args(mod, args))
     if "mm-gm3b-opus-completion-with-h291.md" in committed:     # D49a sensitivity
