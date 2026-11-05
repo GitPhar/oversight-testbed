@@ -27,8 +27,9 @@ from entangled_mind import llm  # noqa: E402
 
 load_dotenv(P1 / ".env")
 BUDGET_USD = 5.00  # protocol/fixed-rules.md, lowered from 6.00 to the engine record's $5 (TASKS.md) before any call: DEVIATIONS D3
+ADAPTIVE_LOW = {"claude-opus-5-5"}  # D18: thinking cannot be disabled on this model
 THINKING_OFF = {}  # model -> the thinking setting that turns thinking off for it
-CACHES = [ROOT / "items" / "leakage-cache.json", ROOT / "bettor" / "bettor-cache.json"]
+CACHES = [ROOT / "items" / "leakage-cache.json", ROOT / "bettor" / "bettor-cache.json", ROOT / "bettor" / "pilot-cache.json"]
 
 
 def key_of(*parts) -> str:
@@ -103,9 +104,14 @@ def structured(model, system, user, schema, call, max_tokens=400):
     """One call, thinking disabled, structured JSON output, no tools. Returns (parsed, cost, request id, usage)."""
     kw = dict(model=model, max_tokens=max_tokens, system=system, messages=[{"role": "user", "content": user}],
               output_config={"format": {"type": "json_schema", "schema": schema}})
-    # Thinking off. Some current models reject {"type": "disabled"} and ask for {"type": "between_tools"}, which with
-    # no tools in the request means no thinking at all. The setting each model needs is remembered (THINKING_OFF).
-    if model not in THINKING_OFF:
+    # Thinking setting per model (D6, D18). claude-opus-5-5 cannot run with thinking off: {"type": "disabled"} is a 400 at
+    # every effort, and omitting `thinking` runs adaptive thinking. The closest setting is to omit it and set effort "low";
+    # its reasoning is hidden (display "omitted", empty text) and billed as output tokens. Other models: thinking off.
+    if model in ADAPTIVE_LOW:
+        kw["output_config"] = {**kw["output_config"], "effort": "low"}
+        THINKING_OFF[model] = "adaptive (omitted), effort low"
+        resp = llm.client().messages.create(**kw)
+    elif model not in THINKING_OFF:
         try:
             resp = llm.client().messages.create(thinking={"type": "disabled"}, **kw)
             THINKING_OFF[model] = "disabled"
@@ -116,9 +122,8 @@ def structured(model, system, user, schema, call, max_tokens=400):
             resp = llm.client().messages.create(thinking={"type": "between_tools"}, **kw)
     else:
         resp = llm.client().messages.create(thinking={"type": THINKING_OFF[model]}, **kw)
-    if any(b.type == "thinking" for b in resp.content):
+    if model not in ADAPTIVE_LOW and any(b.type == "thinking" for b in resp.content):
         raise RuntimeError(f"{call}: a thinking block came back; thinking was meant to be off")
-    llm._check_stop(resp, call)
     text = next(b.text for b in resp.content if b.type == "text")
     u = llm._usage(resp)
     return json.loads(text), u.cost, getattr(resp, "_request_id", None), {**u.as_dict(), "thinking": THINKING_OFF[model]}

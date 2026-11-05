@@ -64,7 +64,7 @@ def main(dry):
         return
 
     def fn(job):
-        out, cost, rid, usage = structured(MODEL, SYSTEM, job["user"], SCHEMA, "bettor", max_tokens=400)
+        out, cost, rid, usage = structured(MODEL, SYSTEM, job["user"], SCHEMA, "bettor", max_tokens=4000)
         return {"id": job["id"], "kind": job["kind"], "option_1_is": job["option_1_is"], "p_option_1": out["p_option_1"],
                 "rationale": out["rationale"], "cost": cost, "request_id": rid, "usage": usage, "model": MODEL}
 
