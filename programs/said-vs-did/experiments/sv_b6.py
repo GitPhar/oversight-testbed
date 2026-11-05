@@ -389,6 +389,34 @@ def secondary(model, rows, per_rows, seed):
     return out
 
 
+def audit_reanalyses(seed):
+    """D27 (reporting only, after the audit ledger/audits/sv-b6.md): Opus's margin interval lower end over 20 other
+    bootstrap seeds (1-20, B = 2000) and at B = 20,000 on the beacon seed; the point margin with every pair of its
+    passes left out (bag of words carried fixed, the group guesses recomputed); and the point margin leaving out each
+    topic. Exploratory, never the verdict."""
+    from itertools import combinations
+    rs, st = rows_for("claude-opus-5-5")
+    if not st["run"]:
+        return {}
+    y = np.array([r["event"] for r in rs])
+    pred = [100 - r["conf"] for r in rs]
+    lows = [boot(pred, rs, y, BOOT_B, s)["margin_ci"][0] for s in range(1, 21)]
+    big = boot(pred, rs, y, 20000, seed)["margin_ci"][0]
+    bow = bow_scores(rs)
+
+    def point(keep):
+        sub = [rs[k] for k in keep]
+        G = guess_scores(sub, bow=[bow[k] for k in keep])
+        return float(margin([pred[k] for k in keep], G, y[keep], {g: [r[g] for r in sub] for g in GROUP_GUESSES})[0])
+    passes = [k for k in range(len(rs)) if y[k]]
+    pair = [point([k for k in range(len(rs)) if k not in (a, b)]) for a, b in combinations(passes, 2)]
+    topics = sorted({r["topic"] for r in rs})
+    return {"opus_lower_end_seeds_1_20": lows, "opus_lower_at_or_below_0": int(sum(l <= 0 for l in lows)),
+            "opus_lower_end_B20000": float(big), "opus_pairs": len(pair),
+            "opus_pairs_below_bar": int(sum(m < MARGIN for m in pair)), "opus_pair_min": float(min(pair)),
+            "opus_margin_without_topic": {t: point([k for k, r in enumerate(rs) if r["topic"] != t]) for t in topics}}
+
+
 def analyse():
     seed = json.loads(ITEMS.read_text())["boot_seed"]
     res = {"bet": BET, "boot_seed": seed, "models": {}}
@@ -424,6 +452,7 @@ def analyse():
         lo, hi = float(np.percentile(ms, 2.5)), float(np.percentile(ms, 97.5))
         card[m] = {"margin": m0, "margin_ci": [lo, hi], "passes": bool(m0 >= MARGIN and lo > 0)}
     res["card_event"] = {"per_model": card, "met": sum(v["passes"] for v in card.values()) >= 2}
+    res["audit_reanalyses"] = audit_reanalyses(seed)
     res["cost"] = {k: sum(v.get("cost", 0.0) for v in load(p).values()) for k, p in CACHE.items()}
     res["calls"] = {k: len(load(p)) for k, p in CACHE.items()}
     (C.RESULTS / "sv-b6-analysis.json").write_text(json.dumps(res, indent=1))
@@ -474,6 +503,16 @@ def report():
             bits.append(f"margin with the number shuffled within topic {s['margin_with_number_shuffled_within_topic']:+.3f}")
             bits.append(f"leave-one-item-out flips of the point-margin condition: {s['loo_margin_flip_ids'] or 'none'}")
         L.append(f"- {C.SHORT[m].title()}: " + "; ".join(bits) + ".")
+    au = a.get("audit_reanalyses") or {}
+    if au:
+        wt = au["opus_margin_without_topic"]
+        lo = min(wt, key=wt.get)
+        L.append(f"- The audit's re-analyses of Opus (D27, exploratory): the margin interval's lower end is at or below 0 "
+                 f"on {au['opus_lower_at_or_below_0']} of 20 other bootstrap seeds (range "
+                 f"{min(au['opus_lower_end_seeds_1_20']):+.3f} to {max(au['opus_lower_end_seeds_1_20']):+.3f}), and "
+                 f"{au['opus_lower_end_B20000']:+.3f} at B = 20,000; leaving out two of its passes takes the point margin "
+                 f"under the bar in {au['opus_pairs_below_bar']} of {au['opus_pairs']} pairs (lowest "
+                 f"{au['opus_pair_min']:+.3f}); leaving out one topic, lowest {wt[lo]:+.3f} (without {lo}).")
     ce = a.get("card_event", {})
     L.append("- Sean's card event (margin over constant, rating side and length only; no within-topic condition): " +
              "; ".join(f"{C.SHORT[m].title()} {v['margin']:+.3f} [{v['margin_ci'][0]:+.3f}, {v['margin_ci'][1]:+.3f}]"
