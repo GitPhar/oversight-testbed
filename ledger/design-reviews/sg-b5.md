@@ -11,7 +11,7 @@ checks: {D1: flaw, D2: holds, D3: holds, D4: holds, D5: holds, D6: holds, D7: fl
 flaws: 4
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 10:21 America/Denver
 prior_work_search: "choice blindness planted change in participant's own written answers detection rate self-transforming survey" (cognitive psychology: choice blindness, self-transforming survey, attitude reversal)
 papers_opened: ["Tsui 2025, Self-Correction Bench, arXiv 2507.02778v3 (HTML, 2026-11-05)", "Khullar, Hopkins, Wang, Roger 2026, Self-Attribution Bias, arXiv 2603.04582v1 (HTML, 2026-11-05)", "Hall, Johansson, Strandberg 2012, Lifting the Veil of Morality, PLOS ONE (search result abstract only; reviewer's own search)"]
 ---
@@ -141,3 +141,26 @@ Each needs a dated row in `programs/self-grading/DEVIATIONS.md`, written before 
 4. **(D12) Add a `prior_work` line to map node sg-d11** (and to sg-d12 for sg-b4's review), stating the predicted outcome with citations. The §0 row can be copied: "Mixed: Tsui 2025 (2507.02778, Table 7 footnote: identical planted error, assistant vs user turn, no length cue, Claude 3.5 Haiku 52.5%, Sonnet 4 41.4% uncorrected in the assistant turn) predicts a pass; Khullar et al. 2026 (2603.04582, Table 1, off-policy harmfulness: Haiku +0.74, Opus 4.1 −0.46, Sonnet 4 −0.79) points against on the larger models; no paper tests a length cue." In §0, also add: "Khullar's Table 1 caption and its Appendix A.3 use conflicting sign conventions; the reading here follows the caption's ranking (self-sycophantic to self-critical)."
 
 Run note (not a flaw): run sg-b5 in the checkout that holds sg-b4's grade cache, so that `program_spent()` sees sg-b4's spend.
+
+## Confirmation addendum (2026-11-05 10:21 America/Denver)
+
+I read commit 599d490 (author time 10:20:03) with `git show 599d490`. It comes after this review (3f38287, 10:19:40). It touches only `programs/self-grading/DEVIATIONS.md` (row D15) and `map/self-grading.json`, and the map is still valid JSON. The frozen pre-registration and code are unchanged since the seed commit: `git diff 046f851 599d490 -- programs/self-grading/experiments/` shows only the seed lines. No `results/sg-b4-*`, `results/sg-b5-*` or `refusal.md` file exists, so no call has run. Row D15 is dated, names this review, and is written before data.
+
+1. **D1, verdict precedence: holds.** D15 (1) states the order untestable, then pass, then fail, then mixed, as `verdict()` does. It names the two-verdict case explicitly: Opus same or sharpened with both other models untestable reads untestable.
+2. **D7, the bundle named: holds.**
+   - D15 (2) carries the §1 replacement sentence word for word, and the "usually" to "almost every text" and "almost always" changes in §1 and §6.
+   - The pre-mortem is kept as a frozen guess, with the commitment that the results file will not repeat it as the finding.
+3. **D8, verdict sentences: holds.**
+   - The pass ending names the removed caveat.
+   - The fail (same) sentence says "differed by less than the 5-point bar", carries the "<did / did not> exclude 0" slot, and names the three candidate causes.
+   - The fail (sharpened) sentence is reworded the same way.
+   - §5.5 adds whether G′'s cluster CI excludes 0.
+4. **D12, the prior-work line: holds.**
+   - Map node sg-d11 now has `prior_work_line`, which states a predicted outcome ("Mixed") with both citations and their numbers, says that no paper tests a length cue, and says what the bet adds. It also has `prior_work_predicts: mixed` and `prior_work_sources`.
+   - sg-d12 got a line as well ("Predicts a pass").
+   - D15 (4) adds the Khullar sign-convention note to §0's prior-work row.
+   - Two minor notes, neither open:
+     - The field is named `prior_work_line`, while the original nodes use `prior_work`.
+     - `prior_work_at` reads "10:25", which is later than the commit's author time of 10:20:03. That is a guessed clock time; the commit time is the record.
+
+All four fixes hold. **Confirmed: go.** The run may start, in this checkout (sg-wave2), after sg-b4, so that `program_spent()` sees sg-b4's cache.
