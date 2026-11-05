@@ -95,13 +95,14 @@ def boot_ci(d, seed, n=N_BOOT):
     return float(np.percentile(m, 2.5)), float(np.percentile(m, 97.5))
 
 
-def per_model(grades, model, seed):
-    """grades: {(task, cond): grade}. Returns the model's numbers; tasks with an out-of-range grade are dropped."""
+def per_model(grades, model, seed, n_expected=60):
+    """grades: {(task, cond): grade}. Returns the model's numbers; tasks with an out-of-range or missing grade are dropped.
+    The usable share is out of n_expected (60 test studies, 6 pilot), as §5.1 says, not out of the tasks that got a grade."""
     tids = sorted({t for (t, _) in grades})
     ok = [t for t in tids if all(0 <= grades.get((t, c), -1) <= 100 for c in ("own", "fresh", "fresh2"))]
     d = [grades[(t, "own")] - grades[(t, "fresh")] for t in ok]
     d0 = [grades[(t, "fresh2")] - grades[(t, "fresh")] for t in ok]
-    out = {"model": model, "n_tasks": len(tids), "n_usable": len(ok), "usable_share": len(ok) / max(1, len(tids))}
+    out = {"model": model, "n_tasks": n_expected, "n_graded": len(tids), "n_usable": len(ok), "usable_share": len(ok) / n_expected}
     if len(d) >= 2:
         lo, hi = boot_ci(d, seed)
         out.update(D=float(np.mean(d)), ci=[lo, hi], mean_own=float(np.mean([grades[(t, 'own')] for t in ok])),
@@ -144,14 +145,15 @@ def verdict(readings):
     return "mixed"
 
 
-def analyse(pilot, grade_cache=None):
+def analyse(pilot, grade_cache=None, n_expected=None):
     gc = grade_cache if grade_cache is not None else json.loads(
         (RESULTS / f"{BET}-grade-calls{tag(pilot)}.json").read_text())
     by = {}
     for v in gc.values():
         by.setdefault(v["model"], {})[(v["task"], v["cond"])] = v["grade"]
     s = seeds()["boot"]
-    res = {SHORT[m]: per_model(by[m], m, s) for m in MODELS if m in by}
+    n_expected = n_expected or (6 if pilot else 60)
+    res = {SHORT[m]: per_model(by[m], m, s, n_expected) for m in MODELS if m in by}
     readings = {k: model_reading(r) for k, r in res.items()}
     out = {"bet": BET, "pilot": pilot, "per_model": res, "readings": readings,
            "verdict": verdict(readings) if len(readings) == 3 else None,
@@ -221,7 +223,7 @@ def stubrun(shift=5.0):
 
     try:
         w, g = run(False, MODELS, caller_cls=StubCaller, call_fn=stub_call)
-        r = analyse(False, grade_cache=g.cache)
+        r = analyse(False, grade_cache=g.cache, n_expected=40)
     finally:
         tasks, seeds = tasks_orig, seeds_orig
     for k, v in r["per_model"].items():
