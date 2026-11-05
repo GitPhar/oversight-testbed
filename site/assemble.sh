@@ -51,9 +51,55 @@ if [ -n "$ng" ] && [ -f "$ng/map/program-3-map.json" ]; then
 fi
 
 python3 - "$out" "$em" "$root" "$ng" <<'PY'
-import json, os, subprocess, sys, datetime
+import json, os, re, subprocess, sys, datetime
 out, em, root = sys.argv[1], sys.argv[2], sys.argv[3]
 d = lambda *p: os.path.join(out, "data", *p)
+
+# A program whose map lives only in its own folder, in its own format (programs/<name>/map/<name>.json, e.g.
+# program 4), is converted here into the site's map format, so it gets a tab on the map without a hand copy that
+# could go stale. A file of the same name in the engine's map/ wins. Verdicts still come from ledger/bets.jsonl.
+def convert_program_map(name):
+    src = os.path.join(root, "programs", name, "map", name + ".json")
+    if not os.path.isfile(src) or os.path.exists(d("map", name + ".json")):
+        return
+    p = json.load(open(src))
+    if p.get("title") or not p.get("directions"):
+        return
+    readme = open(os.path.join(root, "programs", name, "README.md")).read() if os.path.isfile(os.path.join(root, "programs", name, "README.md")) else ""
+    n = re.search(r"\bProgram (\d+) of\b", readme)
+    bet_ids = set()
+    bets_path = d("ledger", "bets.jsonl")
+    if os.path.isfile(bets_path):
+        for line in open(bets_path):
+            line = line.strip()
+            if line:
+                try: bet_ids.add(json.loads(line).get("id"))
+                except ValueError: pass
+    when = lambda s: re.sub(r"^(\d{4}-\d\d-\d\d)[ T](\d\d:\d\d).*$", r"\1T\2", str(s or ""))
+    dirs = []
+    for x in p["directions"]:
+        short = re.sub(r"\s*\([^)]*\)\s*$", "", x.get("title", "")).strip()
+        dirs.append({k: v for k, v in {
+            "id": x["id"], "parent": x.get("parent"), "title": x.get("title"), "short": short if short != x.get("title") else None,
+            "status": x.get("status"), "parked": x.get("status") == "parked" or None, "opened": when(x.get("engine_odds_at")),
+            "engine_odds": x.get("engine_odds"), "engine_odds_first": x.get("engine_odds_first"), "cost": x.get("cost"),
+            "referee": x.get("referee"), "odds_event": x.get("odds_event"), "diagnosis": x.get("diagnosis"),
+            "bets": [x["id"]] if x["id"] in bet_ids else None,
+        }.items() if v is not None})
+    opened = sorted(x["opened"] for x in dirs if x.get("opened"))
+    conv = {
+        "program": p.get("program", name),
+        "title": f"Program {n.group(1)}: {name.replace('-', ' ').title()}" if n else name,
+        "seed_question": p.get("seed_question", ""),
+        "seed_date": opened[0] if opened else p.get("scouted", ""),
+        "note": f"Converted by site/assemble.sh from programs/{name}/map/{name}.json at deploy; do not edit this copy.",
+        "directions": dirs,
+    }
+    json.dump(conv, open(d("map", name + ".json"), "w"), indent=1)
+
+for name in sorted(os.listdir(os.path.join(root, "programs"))) if os.path.isdir(os.path.join(root, "programs")) else []:
+    convert_program_map(name)
+
 ls = lambda p, ext: sorted(f for f in os.listdir(p) if f.endswith(ext)) if os.path.isdir(p) else []
 def head(repo):
     try:
