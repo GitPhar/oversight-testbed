@@ -18,9 +18,9 @@ MODEL = "claude-opus-5-5"
 CACHE = ROOT / "bettor" / "r2-valence-cache.json"
 OUT = ROOT / "bettor" / "r2-valence.jsonl"
 
-SYSTEM = """You will see two versions of one sentence from a research paper's abstract. They differ in one word.
+SYSTEM = """You will see the research field and two versions of a sentence reporting a study's result. They differ in one word. Treat both as hypothetical: do not try to judge which one a paper actually contains.
 
-Write a short rationale of at most 100 words. Then give the probability, as a whole number from 1 to 99, that Option 1 makes the paper's own method or result look better than Option 2 does. 1 means Option 2 clearly makes it look better; 99 means Option 1 clearly does; 50 means neither does."""
+Write a short rationale of at most 100 words. Then give the probability, as a whole number from 1 to 99, that Option 1 is better news than Option 2 for the method, system or approach that the paper itself proposes or defends. 1 means Option 2 is clearly better news for it; 99 means Option 1 clearly is; 50 means the difference is not good or bad news for anything the paper proposes."""   # design review ss-b6 F1 (D32), verbatim
 
 SCHEMA = {"type": "object", "properties": {"rationale": {"type": "string"}, "p_option_1": {"type": "integer"}},
           "required": ["rationale", "p_option_1"], "additionalProperties": False}
@@ -37,8 +37,8 @@ def jobs():
     for it in items:
         b_first = swap[it["id"]]                  # the bettor's primary-call order
         o1, o2 = (it["option_b"], it["option_a"]) if b_first else (it["option_a"], it["option_b"])
-        u = f"Option 1: {o1}\nOption 2: {o2}"
-        out.append({"key": key_of("valence-v1", MODEL, SYSTEM, u), "id": it["id"], "option_1_is": "b" if b_first else "a", "user": u})
+        u = f"Field: {it['field']}\n\nOption 1: {o1}\nOption 2: {o2}"           # F1: matches the bettor's field line
+        out.append({"key": key_of("valence-v2", MODEL, SYSTEM, u), "id": it["id"], "option_1_is": "b" if b_first else "a", "user": u})
     return out
 
 

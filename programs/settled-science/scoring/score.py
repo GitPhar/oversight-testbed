@@ -7,7 +7,9 @@ p_true = the bettor's probability on the option the paper reported (p_option_1 i
 1 - p_option_1). Brier = mean over items of (1 - p_true)^2; a constant 0.5 scores 0.25. Unit of analysis: items.
 """
 import json
+import math
 import random
+import re
 import sys
 
 import numpy as np
@@ -397,64 +399,178 @@ def main_r2():
     print(tables_r2(s))
 
 
-# ---------------- ss-b6: valence comparator (experiments/ss-b6.md) ----------------
+# ---------------- ss-b6: valence comparator (experiments/ss-b6.md; design review ss-b6 F2-F5, D33-D36) ----------------
 R2_VALENCE = ROOT / "bettor" / "r2-valence.jsonl"
+G3_RE = re.compile(r"\b(original|real|actual|actually|published|authentic|genuine|abstract|plausib\w*|edited|altered|modified|likely (?:the )?(?:reported|written|true))\b", re.I)
+
+
+def _lg(p):
+    p = min(0.99, max(0.01, p))
+    return math.log(p / (1 - p))
+
+
+def _fit(X, y, iters=50, ridge=1e-3):
+    """Logistic regression, no intercept, Newton's method (reference: the reviewer's sim_b6_fair.fit)."""
+    w = np.zeros(X.shape[1])
+    for _ in range(iters):
+        p = 1 / (1 + np.exp(-X @ w))
+        g = X.T @ (y - p) - ridge * w
+        H = -(X.T * (p * (1 - p))) @ X - ridge * np.eye(len(w))
+        w -= np.linalg.solve(H, g)
+    return w
+
+
+def _feats(p1, up):
+    return [_lg(p1 / 100), up, up * (1.0 if abs(p1 - 50) <= 5 else 0.0)]
+
+
+def _loo(X, y):
+    n = len(y)
+    return np.array([1 / (1 + math.exp(-X[i] @ _fit(X[np.arange(n) != i], y[np.arange(n) != i]))) for i in range(n)])
 
 
 def score_b6(items, bets, valence):
-    """ss-b6: paired Brier difference, bettor minus the valence rule, on items with both; pass if upper bound < 0 on >= 60.
-    Leave-one-item-out and leave-one-query-bucket-out on the label; up-word / down-word subsets reported (pre-registered)."""
     prim = {b["id"]: b for b in bets if b["kind"] == "primary"}
     val = {v["id"]: v for v in valence}
+    ids = sorted(set(prim) & set(val))
     rows = []
-    for iid in sorted(set(prim) & set(val)):
-        it = items[iid]
+    for iid in ids:
+        it, b, v = items[iid], prim[iid], val[iid]
+        assert v["option_1_is"] == b["option_1_is"], iid
+        o1 = b["option_1_is"]
         rows.append({"id": iid, "field": it["field"], "down": it["up_side"] != it["true_option"],
-                     "p_true": p_true_of(prim[iid], it), "v_true": p_true_of(val[iid], it)})
-    d = lambda rs: [(1 - r["p_true"]) ** 2 - (1 - r["v_true"]) ** 2 for r in rs]  # noqa: E731
-    f = lambda rs: boot_ci(d(rs))[1] < -EPS  # noqa: E731
-    mean = lambda v: sum(v) / len(v) if v else None  # noqa: E731
-    out = {"n": len(rows), "missing": sorted(set(prim) - set(val)),
-           "bettor_brier": mean([(1 - r["p_true"]) ** 2 for r in rows]),
-           "valence_brier": mean([(1 - r["v_true"]) ** 2 for r in rows]),
-           "valence_brier_ci": boot_ci([(1 - r["v_true"]) ** 2 for r in rows]),
-           "valence_accuracy": mean([1 if r["v_true"] > 0.5 else 0.5 if r["v_true"] == 0.5 else 0 for r in rows]),
-           "diff": mean(d(rows)), "diff_ci": boot_ci(d(rows))}
+                     "y": 1.0 if o1 == it["true_option"] else 0.0, "up": 1.0 if it["up_side"] == o1 else -1.0,
+                     "pb": b["p_option_1"], "pv": v["p_option_1"], "p_true": p_true_of(b, it), "v_true": p_true_of(v, it),
+                     "rationale": v.get("rationale", "")})
+    mean = lambda v: float(sum(v) / len(v)) if len(v) else None  # noqa: E731
+    out = {"n": len(rows), "missing": sorted(set(prim) - set(val))}
+    # gates (F3): no answer labels used
+    nz = [r for r in rows if r["pv"] != 50]
+    share_up = mean([1.0 if (r["pv"] > 50) == (r["up"] > 0) else 0.0 for r in nz]) if nz else None
+    g3 = sum(1 for r in rows if G3_RE.search(r["rationale"] or ""))
+    out["gates"] = {"G1_share_up": share_up, "G1_n": len(nz), "G1_x": sum(1 for r in nz if (r["pv"] > 50) == (r["up"] > 0)),
+                    "G3_matches": g3}
     if len(rows) < 60:
         out["label"], out["reason"] = "untestable", f"{len(rows)} items with both ratings, fewer than 60"
+        out["sentence"] = f"Too few valence ratings were returned to test it ({len(rows)} of 92; {out['reason']})."
         return out
-    full = f(rows)
+    if share_up is not None and share_up < 0.50:
+        out["label"], out["reason"] = "untestable", "G1: rater favoured the up word on fewer than half the non-50 ratings"
+        out["sentence"] = (f"The valence rater favoured the up word on only {out['gates']['G1_x']} of {len(nz)} items, which suggests it "
+                           "misread the scale, so the comparison was not run as a test.")
+        return out
+    # leg 1: raw paired Brier (frozen); leg 2: both sides recalibrated by the same leave-one-out logistic (F2)
+    d1 = np.array([(1 - r["p_true"]) ** 2 - (1 - r["v_true"]) ** 2 for r in rows])
+    y = np.array([r["y"] for r in rows])
+    Xb = np.array([_feats(r["pb"], r["up"]) for r in rows])
+    Xv = np.array([_feats(r["pv"], r["up"]) for r in rows])
+    pb, pv = _loo(Xb, y), _loo(Xv, y)
+    d2 = (y - pb) ** 2 - (y - pv) ** 2
+    out["leg1"] = {"d": mean(d1), "ci": boot_ci(list(d1)), "bettor_brier": mean([(1 - r["p_true"]) ** 2 for r in rows]),
+                   "valence_brier": mean([(1 - r["v_true"]) ** 2 for r in rows]),
+                   "valence_accuracy": mean([1 if r["v_true"] > 0.5 else 0.5 if r["v_true"] == 0.5 else 0 for r in rows])}
+    out["leg2"] = {"d": mean(d2), "ci": boot_ci(list(d2)), "bettor_recal_brier": float(((y - pb) ** 2).mean()),
+                   "rival_recal_brier": float(((y - pv) ** 2).mean())}
+    lab = lambda a, b: boot_ci(list(a))[1] < -EPS and boot_ci(list(b))[1] < -EPS  # noqa: E731  both legs, rows dropped, no refit
+    full = lab(d1, d2)
     out["label"] = "pass" if full else "null"
-    out["fragile_items"] = [rows[i]["id"] for i in range(len(rows)) if f(rows[:i] + rows[i + 1:]) != full]
+    out["null_legs"] = [n for n, d in (("raw", d1), ("recalibrated", d2)) if not boot_ci(list(d))[1] < -EPS]
+    idx = np.arange(len(rows))
+    out["fragile_items"] = [rows[i]["id"] for i in idx if lab(d1[idx != i], d2[idx != i]) != full]
     lofo = {}
     for fld in sorted({r["field"] for r in rows}):
-        rest = [r for r in rows if r["field"] != fld]
-        lofo[fld] = {"n": len(rest), "label": "untestable" if len(rest) < 60 else ("pass" if f(rest) else "null")}
+        keep = np.array([r["field"] != fld for r in rows])
+        lofo[fld] = {"n": int(keep.sum()), "label": "untestable" if keep.sum() < 60 else ("pass" if lab(d1[keep], d2[keep]) else "null")}
     out["leave_one_bucket_out"] = lofo
     out["bucket_flips"] = [k for k, v in lofo.items() if v["label"] != "untestable" and (v["label"] == "pass") != full]
+    # F4: down-word split on leg 2, greedy flip count, discordant-pair sign test (secondary)
+    dn = np.array([r["down"] for r in rows])
+    out["leg2_up_word"] = {"n": int((~dn).sum()), "d": mean(d2[~dn]), "ci": boot_ci(list(d2[~dn]))}
+    out["leg2_down_word"] = {"n": int(dn.sum()), "d": mean(d2[dn]), "ci": boot_ci(list(d2[dn]))}
+    greedy = None
+    if boot_ci(list(d2))[1] < -EPS:
+        order = np.argsort(d2)                      # most negative = largest bettor advantage first
+        for k in range(1, len(order)):
+            rest = np.delete(d2, order[:k])
+            if boot_ci(list(rest))[1] >= 0:
+                greedy = {"k": int(k), "down_word": int(dn[order[:k]].sum())}
+                break
+    out["greedy_flip"] = greedy
+    disc, b_right = 0, 0
+    for r in rows:
+        if r["pb"] == 50:
+            continue
+        b_fav = 1 if r["pb"] > 50 else 2
+        r_fav = (1 if r["pv"] > 50 else 2) if abs(r["pv"] - 50) > 5 else (1 if r["up"] > 0 else 2)
+        if b_fav != r_fav:
+            disc += 1
+            b_right += 1 if (b_fav == 1) == (r["y"] == 1) else 0
+    from math import comb
+    p_sign = sum(comb(disc, j) for j in range(b_right, disc + 1)) / 2 ** disc if disc else None
+    out["discordant"] = {"n": disc, "bettor_right": b_right, "one_sided_sign_p": p_sign}
+    # F5 sentences with qualifiers in the order G2, G3, down-word, greedy, fragile
+    f3 = lambda c: f"[{c[0]:.3f}, {c[1]:.3f}]"  # noqa: E731
+    if full:
+        sent = (f"On {len(rows)} round-2 sentence pairs, the bettor picked the published sentence better than the same model asked only which version "
+                f"is better news for the paper's own method (raw: d₁ {out['leg1']['d']:.3f} {f3(out['leg1']['ci'])}, valence rule Brier "
+                f"{out['leg1']['valence_brier']:.3f}), and better than that rating combined with the up word once both were recalibrated the same way "
+                f"(d₂ {out['leg2']['d']:.3f} {f3(out['leg2']['ci'])}). Round 2's pass is not only picking the flattering version or the up word, though "
+                "this does not separate knowing the result from reasoning within the sentence, and the rater was the same model as the bettor")
+    else:
+        sent = (f"On {len(rows)} round-2 sentence pairs, the bettor was not shown to pick the published sentence better than the same model asked only "
+                f"which version is better news for the paper's own method (raw d₁ {out['leg1']['d']:.3f} {f3(out['leg1']['ci'])}; recalibrated with "
+                f"the up word d₂ {out['leg2']['d']:.3f} {f3(out['leg2']['ci'])}; null on: {', '.join(out['null_legs'])}). Round 2's pass may reduce to "
+                "picking the flattering version, or the rater, being the same model, may have used the same judgment of which version is real; "
+                "this test cannot tell those apart")
+    if share_up is not None and share_up >= 0.95:
+        sent += (f"; the valence rater favoured the up word on {out['gates']['G1_x']} of {len(nz)} items, so it behaved almost as the up-word "
+                 "rule and this result largely repeats ss-b5")
+    if not full and g3 >= 10:
+        sent += (f"; in {g3} of {len(rows)} rationales the rater reasoned about which version is real, so it may share the bettor's judgment, "
+                 "and this null does not show the pass reduces to flattery")
+    if full and out["leg2_up_word"]["ci"][0] is not None and out["leg2_up_word"]["ci"][0] > 0:
+        sent += (f"; on the 71 up-word items the bettor was worse than the comparator (d {out['leg2_up_word']['d']:.3f} "
+                 f"{f3(out['leg2_up_word']['ci'])}), so the pass rests on the 21 down-word items")
+    if full and greedy:
+        sent += f"; removing {greedy['k']} chosen items ({greedy['down_word']} of them down-word) would flip it"
     if out["fragile_items"] or out["bucket_flips"]:
         out["label_reported"] = f"{out['label']}, fragile"
-    for lab, sub in (("up_word", [r for r in rows if not r["down"]]), ("down_word", [r for r in rows if r["down"]])):
-        out[lab] = {"n": len(sub), "bettor_brier": mean([(1 - r["p_true"]) ** 2 for r in sub]),
-                    "valence_brier": mean([(1 - r["v_true"]) ** 2 for r in sub]), "diff": mean(d(sub)), "diff_ci": boot_ci(d(sub))}
-    out["rows"] = rows
+        what = (f"the item{'s' if len(out['fragile_items']) > 1 else ''} {', '.join(out['fragile_items'])}" if out["fragile_items"]
+                else f"the query bucket {', '.join(out['bucket_flips'])}")
+        sent += f"; this label rests on {what}: without it the label would be {'null' if full else 'pass'}"
+    out["sentence"] = sent + "."
+    out["rows"] = [{k: v for k, v in r.items() if k != "rationale"} for r in rows]
     return out
+
+
+def synthetic_valence(items, prim, kind):
+    val = []
+    for b in prim:
+        it, o1 = items[b["id"]], b["option_1_is"]
+        t1, up1 = o1 == it["true_option"], it["up_side"] == o1
+        pair_up = SWAP_PAIR_P.get(swap_pair(it), PAIR_PRIOR)
+        v50 = b["p_option_1"] if (b["p_option_1"] >= 70 or b["p_option_1"] <= 30) else 50
+        p = {"coin": 50, "copy": b["p_option_1"], "oracle": 90 if t1 else 10, "upword": 75 if up1 else 25,
+             "alwaysup99": 99 if up1 else 1, "swappair": round(100 * (pair_up if up1 else 1 - pair_up)),
+             "valence50": v50, "inverted": 100 - v50}[kind]
+        val.append({"id": b["id"], "kind": "valence", "option_1_is": o1, "p_option_1": p, "rationale": ""})
+    return val
 
 
 def main_b6():
     items = {it["id"]: it for it in (json.loads(l) for l in R2_ITEMS.read_text().splitlines() if l.strip())}
     bets = [json.loads(l) for l in R2_BETS.read_text().splitlines() if l.strip()]
     if "--synthetic" in sys.argv:
-        kind = sys.argv[sys.argv.index("--synthetic") + 1]
         prim = [b for b in bets if b["kind"] == "primary"]
-        val = []
-        for b in prim:
-            it, o1 = items[b["id"]], b["option_1_is"]
-            t1 = o1 == it["true_option"]
-            p = {"coin": 50, "copy": b["p_option_1"], "oracle": 90 if t1 else 10, "upword": 75 if it["up_side"] == o1 else 25}[kind]
-            val.append({"id": b["id"], "kind": "valence", "option_1_is": o1, "p_option_1": p})
-        s = score_b6(items, bets, val)
-        print(kind, "valence Brier", fmt(s["valence_brier"]), "diff", fmt(s["diff"]), s["diff_ci"], s.get("label_reported", s["label"]))
+        kinds = sys.argv[sys.argv.index("--synthetic") + 1:] or ["coin"]
+        for kind in kinds:
+            s = score_b6(items, bets, synthetic_valence(items, prim, kind))
+            if "leg1" not in s:
+                print(f"{kind:11s} {s['label']}: {s.get('reason')}")
+                continue
+            print(f"{kind:11s} leg1 {s['leg1']['d']:+.3f} [{s['leg1']['ci'][0]:+.3f},{s['leg1']['ci'][1]:+.3f}]  "
+                  f"leg2 {s['leg2']['d']:+.3f} [{s['leg2']['ci'][0]:+.3f},{s['leg2']['ci'][1]:+.3f}]  -> {s.get('label_reported', s['label'])}"
+                  f"  G1 {s['gates']['G1_share_up']}  greedy {s['greedy_flip']}")
         return
     s = score_b6(items, bets, [json.loads(l) for l in R2_VALENCE.read_text().splitlines() if l.strip()])
     (ROOT / "scoring" / "b6-scores.json").write_text(json.dumps(s, indent=1))
