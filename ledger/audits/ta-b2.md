@@ -150,3 +150,6 @@ The verdict class rests on two choices: the belief-check prompt, and not running
 3. **The question itself:** a pre-registered two-sided re-bet across all three models, adding a C2-like benchmark rewording (a second benchmark template). That would tell a format-class effect from a template effect. Since both models moved toward fewer "not sure" answers under the benchmark format, the re-bet should state that direction as its hypothesis, written before data.
 
 Reproduction note: I ran `ta_b2.py --analyse` in the clone. It regenerated `results/ta-b2-analysis.json` byte-identically (`git status` clean afterwards). My own code (`reanalyse.py`, `seeds.py`) reproduced every table entry and secondary. The top-level `reproduce.py` was **not run**, because it reads `ledger/plants.jsonl`, which the auditor may not open. No paid call was made, and `--run` was never invoked.
+
+
+Revealed 2026-11-05: pl-016, planted overclaim/plain_vs_table at §In plain English, Sonnet bullet ("lowered it by only 1.9 points", true value 3.9); caught (Required cuts, item 1). That cut is marked plant: not applied to the real record. Every other finding stands as the real audit of the real result.
