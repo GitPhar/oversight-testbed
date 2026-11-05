@@ -411,9 +411,9 @@
    "models_note": "All 60 studies on Opus: it is the model the audit says carries the pass, so its items are not cut.",
    "cost": "about $0.72 (Opus 140 calls about $0.49, Sonnet 140 about $0.22, Haiku 140 about $0.01; at sg-b3's cost per call)",
    "odds_event": "On the length-matched texts, per model G' = mean[(clean - flawed') fresh - (clean - flawed') own turn]; blunted if G' >= +5 with CI lower > 0 and the D9b guard met; pass if Opus reads blunted and at least 2 of 3 models read blunted, none sharpened.",
-   "engine_odds": 0.45,
-   "engine_odds_at": "2026-11-05T05:55-07:00",
-   "odds_template": "remap one pass (operators/remap.md), not v1; re-elicit under v1 before pre-registration",
+   "engine_odds": 0.22,
+   "engine_odds_at": "2026-11-05T09:57-07:00",
+   "odds_template": "v2",
    "odds_rationale": "Running base rate 8 hits in 24 scored (ledger/brier.md; P1 start (8+1)/(24+2) = 0.35). Moved up on archive evidence: Haiku's split points against the length rival (gap 7.4 where its text ran long, 14.2 where it did not), and Opus scored the flawed text higher in its own turn on 58 of 60 studies. Held below 0.5 because Opus cleared the 5-point bar by under one point after being selected by passing (regression to the mean), its domain interval reaches 4.6, and Opus is a conjunct, so the rule is close to P(Opus blunted).",
    "question": "Does a model still go easier on an exaggeration in its own conversation when the exaggeration does not make the answer longer than asked?",
    "known": [
@@ -428,10 +428,17 @@
    ],
    "source": "literature",
    "source_note": "ledger/audits/sg-b3.md, 'What would break it next' (the audit's cheapest overturning test, costed there at about $0.42 on Opus); also the second design invariant 7 asks for",
-   "status": "open",
+   "status": "bet",
    "opened": "2026-11-05T05:55",
    "diagnosis": null,
-   "bets": []
+   "bets": [
+    "sg-b5"
+   ],
+   "engine_odds_first": 0.45,
+   "odds_prior": 0.32,
+   "odds_adjustment": -0.1,
+   "odds_reason": "Literature (0.13), under-$1 (0.19) and model-referee (0.22) rows outweigh layer 2 (0.67, few bets); conjunctive rule needs Opus, parent 6.0, barely above +5; Sonnet 1.4 unlikely.",
+   "odds_prior_commit": "73eb5cf"
   },
   {
    "id": "sg-d12",
@@ -451,9 +458,9 @@
    "models_note": "Opus on 30 of the 60 studies (cost: Opus calls cost about 45 times Haiku's here), Haiku and Sonnet on all 60; Sonnet is run under rule 12 and reported, not scored, since it did not blunt.",
    "cost": "about $0.51 (Opus 80 calls about $0.28, Sonnet 140 about $0.22, Haiku 140 about $0.01; at sg-b3's cost per call)",
    "odds_event": "Per model T = (clean - flawed) in the quoted transcript - (clean - flawed) in the own turn (archived); turn role carries it if T >= half that model's sg-b3 G (Haiku >= +6.3, Opus >= +3.0) with CI lower > 0; pass if both Haiku and Opus read 'turn role'.",
-   "engine_odds": 0.3,
-   "engine_odds_at": "2026-11-05T05:55-07:00",
-   "odds_template": "remap one pass (operators/remap.md), not v1; re-elicit under v1 before pre-registration",
+   "engine_odds": 0.15,
+   "engine_odds_at": "2026-11-05T09:57-07:00",
+   "odds_template": "v2",
    "odds_rationale": "Running base rate 8 hits in 24 scored (ledger/brier.md; P1 start 0.35). Khullar et al. 2026 tie leniency to text in the model's own turn, which favours a pass; but the audit names the own-turn lead-in and layout as live rivals, and a quoted transcript keeps most authorship cues, so much of the gap may survive in it. Two correlated conjuncts (Haiku and Opus), Opus on 30 studies with a wider interval, and the comparison is against archived grades from another run (P8; the drift check guards it). Set a little below the base rate.",
    "question": "Is a model easier on an exaggeration because it sits in its own reply, or because of how the grading request was worded?",
    "known": [
@@ -468,10 +475,17 @@
    ],
    "source": "literature",
    "source_note": "ledger/audits/sg-b3.md, 'What would break it next' (the second arm, 'worth the same money'); Opus items halved here so both follow-ups fit the program's $1.37 remainder",
-   "status": "open",
+   "status": "bet",
    "opened": "2026-11-05T05:55",
    "diagnosis": null,
-   "bets": []
+   "bets": [
+    "sg-b4"
+   ],
+   "engine_odds_first": 0.3,
+   "odds_prior": 0.32,
+   "odds_adjustment": -0.17,
+   "odds_reason": "Literature (0.13), under $1 (0.19) and model referee (0.22) rows point down. The pass needs four conditions to hold together, and Opus is underpowered (T≥3.0, n=30). I discount layer 2 (0.67, six bets).",
+   "odds_prior_commit": "73eb5cf"
   },
   {
    "id": "sg-k1",
