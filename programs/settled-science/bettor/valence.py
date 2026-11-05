@@ -17,6 +17,7 @@ from common import ROOT, Caller, key_of, structured  # noqa: E402
 MODEL = "claude-opus-5-5"
 CACHE = ROOT / "bettor" / "r2-valence-cache.json"
 OUT = ROOT / "bettor" / "r2-valence.jsonl"
+RETEST_OUT = ROOT / "bettor" / "r2-valence-retest.jsonl"   # D38: rater test-retest on the 46 order-check items, reversed
 
 SYSTEM = """You will see the research field and two versions of a sentence reporting a study's result. They differ in one word. Treat both as hypothetical: do not try to judge which one a paper actually contains.
 
@@ -26,31 +27,35 @@ SCHEMA = {"type": "object", "properties": {"rationale": {"type": "string"}, "p_o
           "required": ["rationale", "p_option_1"], "additionalProperties": False}
 
 
-def jobs():
+def jobs(retest=False):
     sys.argv.append("--r2")          # bettor.py reads its round-2 paths from argv at import
     import bettor as B
     items = sorted((json.loads(l) for l in B.MASKED.read_text().splitlines() if l.strip()), key=lambda x: x["id"])
     seeds = json.loads(B.SEED.read_text())["seeds"]
     items = B.sample_r2(items, seeds["items"])
-    swap, _ = B.draws(items, seeds)
+    swap, check = B.draws(items, seeds)
     out = []
     for it in items:
-        b_first = swap[it["id"]]                  # the bettor's primary-call order
+        if retest and it["id"] not in check:
+            continue
+        b_first = swap[it["id"]] if not retest else not swap[it["id"]]   # retest: the bettor's order-check (reversed) order
         o1, o2 = (it["option_b"], it["option_a"]) if b_first else (it["option_a"], it["option_b"])
         u = f"Field: {it['field']}\n\nOption 1: {o1}\nOption 2: {o2}"           # F1: matches the bettor's field line
-        out.append({"key": key_of("valence-v2", MODEL, SYSTEM, u), "id": it["id"], "option_1_is": "b" if b_first else "a", "user": u})
+        out.append({"key": key_of("valence-v2", MODEL, SYSTEM, u), "id": it["id"], "kind": "valence-retest" if retest else "valence",
+                    "option_1_is": "b" if b_first else "a", "user": u})
     return out
 
 
-def main(dry):
-    js = jobs()
+def main(dry, retest=False):
+    js = jobs(retest)
+    out_path = RETEST_OUT if retest else OUT
     if dry:
         print(SYSTEM, "\n---\n", js[0]["user"], "\n---\n", len(js), "calls")
         return
 
     def fn(job):
         out, cost, rid, usage = structured(MODEL, SYSTEM, job["user"], SCHEMA, "valence", max_tokens=4000)
-        return {"id": job["id"], "kind": "valence", "option_1_is": job["option_1_is"], "p_option_1": out["p_option_1"],
+        return {"id": job["id"], "kind": job["kind"], "option_1_is": job["option_1_is"], "p_option_1": out["p_option_1"],
                 "rationale": out["rationale"], "cost": cost, "request_id": rid, "usage": usage, "model": MODEL}
 
     try:
@@ -58,9 +63,9 @@ def main(dry):
     finally:
         cache = json.loads(CACHE.read_text()) if CACHE.exists() else {}
         rows = [cache[j["key"]] for j in js if j["key"] in cache]
-        OUT.write_text("".join(json.dumps(r) + "\n" for r in rows))
-        print(f"wrote {len(rows)} valence ratings", flush=True)
+        out_path.write_text("".join(json.dumps(r) + "\n" for r in rows))
+        print(f"wrote {len(rows)} valence ratings to {out_path.name}", flush=True)
 
 
 if __name__ == "__main__":
-    main("--dry-run" in sys.argv)
+    main("--dry-run" in sys.argv, "--retest" in sys.argv)

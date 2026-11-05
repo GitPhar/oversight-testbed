@@ -567,6 +567,27 @@ def synthetic_valence(items, prim, kind):
     return val
 
 
+def rater_noise(bets):
+    """D38: test-retest on the 46 order-check items, options reversed. For the valence rater and, on the same items, the bettor:
+    mean |p + p' - 100| (0 = perfectly consistent) and the share choosing the same side both times."""
+    p = ROOT / "bettor" / "r2-valence-retest.jsonl"
+    if not p.exists():
+        return None
+    val = {v["id"]: v for v in (json.loads(l) for l in R2_VALENCE.read_text().splitlines() if l.strip())}
+    ret = {v["id"]: v for v in (json.loads(l) for l in p.read_text().splitlines() if l.strip())}
+    prim = {b["id"]: b for b in bets if b["kind"] == "primary"}
+    chk = {b["id"]: b for b in bets if b["kind"] == "order-check"}
+
+    def stats(a, b, ids):
+        pairs = [(a[i]["p_option_1"], b[i]["p_option_1"]) for i in ids]
+        inc = [abs(x + y - 100) for x, y in pairs]
+        return {"n": len(pairs), "mean_abs_incoherence": sum(inc) / len(inc) if inc else None,
+                "incoherence_ci": boot_ci(inc) if inc else None,
+                "same_side": sum(1 for x, y in pairs if (x - 50) * (50 - y) > 0) / len(pairs) if pairs else None}
+    ids = sorted(set(val) & set(ret))
+    return {"rater": stats(val, ret, ids), "bettor_same_items": stats(prim, chk, [i for i in ids if i in prim and i in chk])}
+
+
 def main_b6():
     items = {it["id"]: it for it in (json.loads(l) for l in R2_ITEMS.read_text().splitlines() if l.strip())}
     bets = [json.loads(l) for l in R2_BETS.read_text().splitlines() if l.strip()]
@@ -585,6 +606,7 @@ def main_b6():
                 print("   ", s["sentence"])
         return
     s = score_b6(items, bets, [json.loads(l) for l in R2_VALENCE.read_text().splitlines() if l.strip()])
+    s["rater_noise"] = rater_noise(bets)          # D38: reported secondary; does not change the verdict rule
     (ROOT / "scoring" / "b6-scores.json").write_text(json.dumps(s, indent=1))
     print(json.dumps({k: v for k, v in s.items() if k != "rows"}, indent=1))
 
