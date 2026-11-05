@@ -27,6 +27,8 @@ Pre-registered in `experiments/bm0-source-distance-lag.md` (D47), committed befo
 - **Cap stop.** The $0.50 cap stopped the run at 3,650 of 3,840 conversations ($0.502, as calls already in flight finished). As planned, only the lag arm was cut: 17 of 20 repeats, plus 2 conversations of the 18th.
 - **Clipping.** 68 of 448 cells were dropped because clipping at 2 or 98 left too small a displacement.
 
+**Novelty:** partly new. The source part is in print: Kumaran et al. 2025 (arXiv 2507.03120) find Gemma 3, GPT-4o and o1-preview change their mind far less when their own initial answer is visible (13.1% against 32.5% hidden) and that the effect disappears when the same answer is attributed to another LLM (33.2% against 31.3%). Their design is two turns at one fixed foil separation, so neither the fall in uptake with distance (0.71, 0.44, 0.21 at 10, 30, 60 points) nor the survival of the pull across three filler turns is stated there or anywhere else found: partly new. Search: WebSearch for "LLM anchoring own prior answer versus other", "LLM anchoring anchor distance extreme anchors", "LLM anchoring persists across intervening turns", "serial dependence large language models"; arXiv abstracts and the Kumaran HTML (both halves) opened. *(Rule 13, CONTEXT.md §3; written by a fresh claude-fable-5-1 subagent launched by the informed-engine session, 2026-11-05, web reads only, no model API; its papers-opened list and caveats are in programs/entangled-mind/map/reads/novelty-2026-11-05-em-bm0.md.)*
+
 ## Uptake u = shift / displacement (1 = takes the value fully, 0 = ignores it, < 0 = moves away)
 
 | distance |d| | own (lag 0) | other | own − other (paired) |

@@ -37,5 +37,7 @@ jobs:
           python -m venv "$RUNNER_TEMP/venv"
           "$RUNNER_TEMP/venv/bin/pip" install --quiet -r requirements-reproduce.txt
           "$RUNNER_TEMP/venv/bin/pip" list
+      - name: Front-page numbers match the ledger (site/numbers.py; fails if any placeholder is stale)
+        run: python site/numbers.py --check
       - name: Reproduce every table (no keys, no network)
         run: env -i PATH=/usr/bin:/bin HOME="$HOME" LANG=en_US.UTF-8 TZ=America/Denver "$RUNNER_TEMP/venv/bin/python" reproduce.py

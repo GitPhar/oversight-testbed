@@ -2,7 +2,7 @@
 // Built from data/map/*.json joined with data/ledger/bets.jsonl and human-odds.jsonl. Plain SVG, no library.
 // The drawing always opens fitted to the screen, with the replay bar inside the same frame, so the replay
 // can be watched without scrolling. Scroll or pinch zooms, drag pans, Fit goes back.
-import { header, esc, inline, STATUS, LEGEND_SENTENCE, markSVG, parseDate, fmtDate } from "./common.js";
+import { header, esc, inline, STATUS, NOVELTY, LEGEND_SENTENCE, markSVG, parseDate, fmtDate } from "./common.js";
 import { loadBets, loadMaps, joinBets, loadHumanOdds, joinHumanOdds, engineOddsVisible } from "./data.js";
 
 header();
@@ -320,6 +320,15 @@ function tipHTML(n) {
   let body = "";
   if (v === "killed") body += `<div class="t-diag"><b>Why it died.</b> ${n.diagnosis ? inline(n.diagnosis) : "No diagnosis recorded yet."}</div>`;
   if (n.result && v !== "open") body += `<div style="margin-top:8px">${inline(n.result)}</div>`;
+  // Rule 13: a landed or mixed node says whether its result was already in print.
+  if ((v === "hit" || v === "mixed") && n.novelty) {
+    body += `<div class="t-novel"><span class="nov nov-${n.novelty.replace(" ", "-")}">${esc(NOVELTY[n.novelty].word)}</span> ` +
+      `<b>${n.novelty === "known" ? "Already in print" : n.novelty === "new" ? "No prior statement found" : "Partly in print"}.</b>` +
+      (n.noveltyLine ? ` ${inline(n.noveltyLine)}` : "") + `</div>`;
+  } else if ((v === "hit" || v === "mixed")) {
+    body += `<div class="t-novel muted">Known or new: not yet checked against the literature (rule 13).</div>`;
+  }
+  if (v === "open" && n.status === "open" && n.priorWork) body += `<div class="t-test"><b>Prior work:</b> ${inline(n.priorWork)}</div>`;
   if (v === "open" && n.status !== "open") body += `<div style="margin-top:8px" class="muted">Not yet bet on at this point in the replay.</div>`;
   if (v === "open" && n.status === "open" && n.raw?.question) body += `<div style="margin-top:6px">${esc(n.raw.question)}</div>`;
   if (v === "open" && n.status === "open") {
@@ -471,9 +480,11 @@ function renderList() {
       const odds = [n.engine != null && engineOddsVisible(n) ? `engine ${Math.round(n.engine * 100)}%` : null,
         n.human != null ? `human ${Math.round(n.human * 100)}%` : null].filter(Boolean);
       const note = n.status === "killed" ? `<b>Why it died:</b> ${inline(n.diagnosis || "no diagnosis recorded yet")}` : n.status !== "open" && n.result ? inline(n.result) : "";
+      const nov = (n.status === "hit" || n.status === "mixed") && n.novelty
+        ? ` · <span class="nov nov-${n.novelty.replace(" ", "-")}">${esc(NOVELTY[n.novelty].word)}</span>` : "";
       rows.push(`<li class="${n.status}" style="margin-left:${depth * 18}px">${markSVG(n.status, 16)}
         <span class="t">${esc(n.title)}</span>${note ? `<span class="d">${note}</span>` : ""}
-        <span class="o">${STATUS[n.status].word}${odds.length ? " · odds before data: " + odds.join(", ") : ""}</span></li>`);
+        <span class="o">${STATUS[n.status].word}${nov}${odds.length ? " · odds before data: " + odds.join(", ") : ""}</span></li>`);
     }
     n.children.forEach(walk);
   })(root);
@@ -512,7 +523,10 @@ function select(id) {
 }
 
 el("key").innerHTML = ["hit", "running", "mixed", "killed", "open"]
-  .map((k) => `<span>${markSVG(k, 16)}<b>${STATUS[k].word}</b></span>`).join("");
+  .map((k) => `<span>${markSVG(k, 16)}<b>${STATUS[k].word}</b></span>`).join("") +
+  // Rule 13: the novelty words, shown on landed and mixed nodes.
+  `<span class="keysep" aria-hidden="true"></span>` +
+  Object.keys(NOVELTY).map((k) => `<span><span class="nov nov-${k.replace(" ", "-")}">${esc(NOVELTY[k].word)}</span></span>`).join("");
 el("legendline").innerHTML = LEGEND_SENTENCE;
 
 let lastW = window.innerWidth, lastH = window.innerHeight;

@@ -1,0 +1,21 @@
+# em-gm5
+
+*Novelty check for em-gm5 (rule 13), written 2026-11-05 by a fresh claude-fable-5-1 subagent launched by the informed-engine session: web reads only, no model API, no repo edits; every number below comes from a page the session opened. Its Novelty line is in the results file and the ledger row.*
+
+## Verdict
+partly new
+## Novelty line
+Schouten et al. 2024/2025 (arXiv 2404.18865, COLM 2025) report that truth probes are context sensitive and that preceding sentences which should not change a statement's truth still shift probe outputs; Adarsh et al. 2026 (arXiv 2601.06599, ACL 2026) report that added context rotates and rescales the true-versus-false direction, more so when it conflicts with stored knowledge. Neither varies the order of prior sub-questions, sizes the shift against the probe's own true-false gap, or compares it with the verbal rating's shift; our 6% figure on Llama-3-8B and the undetermined probe-rating tracking are not in print: partly new. Search: WebSearch for "truth probe sensitivity to context", "sycophancy probe internal truth representation", "truth direction geometry context ACL 2026"; arXiv abstracts of the leads and hits opened.
+## Papers opened
+- Schouten, Bloem, Markov, Vossen, 2024 (v3 2025), "Truth-value judgment in language models: 'truth directions' are context sensitive", https://arxiv.org/abs/2404.18865 (COLM 2025). Probes are generally context sensitive; contexts that should not affect truth often still change probe outputs; error types depend on layer, model and data; causal intervention along the truth direction moves entailed sentences. Bears on the bet: nearest prior statement that a truth probe moves with irrelevant prior context.
+- Adarsh, Maistro, Lioma, 2026, "How Context Shapes Truth: Geometric Transformations of Statement-level Truth Representations in LLMs", https://arxiv.org/abs/2601.06599 (ACL 2026 long). Four LLMs, four datasets; context changes the angle and magnitude of the truth vector, layer dependent; conflicting context causes larger changes. Bears on the bet (probe reading not fixed under context); no question order, no verbal comparison.
+- Pandey, 2026, "LLMs Know They're Wrong and Agree Anyway: The Shared Sycophancy-Lying Circuit", https://arxiv.org/abs/2604.19117. Twelve open-weight models; a "this statement is wrong" head signal stays intact while the model agrees under user pressure. Bears on the bet in the opposite direction (internal signal still, output moves), but under pushback, not sub-question order.
+- Marks and Tegmark, 2023 (v3 2024), "The Geometry of Truth", https://arxiv.org/abs/2310.06824 (COLM 2024). Source of the mass-mean probe and datasets used here; abstract says nothing about stability under context.
+- Bürger, Hamprecht, Nadler, 2024, "Truth is Universal: Robust Detection of Lies in LLMs", https://arxiv.org/abs/2407.12831. Two-dimensional truth subspace across Gemma-7B, LLaMA2-13B, Mistral-7B, LLaMA3-8B; abstract does not address context sensitivity.
+- Levinstein and Herrmann, 2023, "Still No Lie Detector for Language Models", https://arxiv.org/abs/2307.00175. Probes of Azaria and Mitchell and of Burns et al. fail to generalize; conceptual argument; does not bear on order effects.
+- Wang, Li, Yang, Zhang, Wang, 2025, "When Truth Is Overridden: Uncovering the Internal Origins of Sycophancy in LLMs", https://arxiv.org/abs/2508.02087 (AAAI 2026). Opinion statements induce sycophancy with late-layer output shift then deeper representational divergence; no truth-probe reading reported in the abstract.
+- Baez, Karny, Pataranutaporn, 2026, "Dissociating the Internal Representations of Sycophancy in LLMs", https://arxiv.org/abs/2607.07003. Factual versus opinion sycophancy representations; does not bear on it.
+## Not found / caveats
+- No paper found that reads a truth probe after different orderings of the same sub-questions, or that reports the probe's order shift as a fraction of its true-false gap, or that correlates probe and verbal order effects.
+- Schouten et al. and Adarsh et al. were read from abstracts only; model names and numbers are not in the abstracts.
+- The results file itself carries an UNVERIFIED (D53) flag and notes the verified replication lives on another branch; the novelty judgment does not depend on which copy is taken.

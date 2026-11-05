@@ -29,20 +29,20 @@ Here, the engine is the driver and its judgment is the driving. In most programs
   - 30% of the 560 claims checked failed.
   - No verdict was reversed.
   - Three quarters of the overclaims were in the READMEs and papers, not the results files. Write-ups get bolder the further they travel from the table.
-- **The AI's odds were no better than a coin.** On 21 scored bets they scored 0.220 against 0.250 for always saying 50% and 0.222 for always saying the pass rate. Twenty-one bets cannot tell those apart (`ledger/brier.md`). The human's odds: none on any scored bet yet.
+- **The AI's odds are not yet shown to beat simple yardsticks.** Counting each run once, on <!--n:scored-->31<!--/n--> scored bets they scored <!--n:brier-->0.158<!--/n--> against <!--n:coin-->0.250<!--/n--> for always saying 50% and <!--n:hit_rate_ref-->0.175<!--/n--> for always saying the pass rate; counting every scored row, <!--n:brier_all-->0.188<!--/n--> on <!--n:scored_all-->37<!--/n-->. At this size those gaps are not reliable (`ledger/brier.md`). The human's odds: <!--n:human_brier-->0.513<!--/n--> on <!--n:human_n-->4<!--/n--> scored bets.
 - **The AI's odds move with wording.** When the engine was asked "will it fail?" instead of "will it pass?", its odds shifted by 11 points on average and by up to 30. Program 1 found this in the model it studied; the engine has the same habit (`nature-graded/map/odds-elicitation/README.md`).
-- **Comparing the referees is suggestive, not clean.** Model-graded 0.195 on 12, chip-graded 0.047 on 4, record-graded 0.417 on 5; the bets are about different kinds of things and the wording noise alone is 11 points (`ledger/brier.md`; `paper/the-engine.md` §6.8).
+- **Comparing the referees is suggestive, not clean.** Model-graded <!--n:ref_model_brier-->0.156<!--/n--> on <!--n:ref_model_n-->24<!--/n-->, chip-graded <!--n:ref_nature_brier-->0.070<!--/n--> on <!--n:ref_nature_n-->5<!--/n-->, record-graded <!--n:ref_record_brier-->0.406<!--/n--> on <!--n:ref_record_n-->2<!--/n-->; the bets are about different kinds of things and the wording noise alone is 11 points (`ledger/brier.md`; `paper/the-engine.md` §6.8).
 
 **Four additions** (`paper/the-engine.md` §3.7–3.10), where they stand on 2026-11-05:
-1. **A scored veto.** Built; no veto of a research direction has been logged, so none is scored (`ledger/scores.md`).
-2. **Planted faults to score the auditor.** Built; 6 planted, 6 caught, too few to be a rate.
-3. **A pre-mortem.** Built; the engine named the actual reason for failure in 5 of 12 scored cases.
+1. **A scored veto.** Built; the first two vetoes of research directions were logged on 5 November (ta-d8, ta-d10, steers st-22 and st-23), with shadow checks due from 12 November; none is scored yet (`ledger/scores.md`).
+2. **Planted faults to score the auditor.** Built; <!--n:plants_planted-->12<!--/n--> planted, <!--n:plants_caught-->12<!--/n--> caught (`ledger/scores.md`).
+3. **A pre-mortem.** Built; the engine named the actual reason for failure in <!--n:premortem_named-->11<!--/n--> of <!--n:premortem_failed-->28<!--/n--> scored cases.
 4. **Hardware as referee and as a source of questions.** Built; program 3's questions grew out of the chip's own surprise in program 1, where it gave 0.50 when its noise model said 0.25, and three pre-registered tries have not brought it back.
 
 **What it costs.**
-- **Founding week:** about $50 of API and 46 seconds of quantum-chip time (`proposal.md`); 69 seconds used in all by 2026-11-05.
+- **Founding week:** about $50 of API and 46 seconds of quantum-chip time (`proposal.md`); <!--n:chip_s-->89<!--/n--> of the <!--n:chip_stop-->420<!--/n-->-second hard stop used in all, and about $<!--n:api_usd-->80<!--/n--> of API logged (`ledger/scores.md`, Resources).
 - **The audit:** no paid calls (`entangled-mind/audits/SUMMARY.md`).
-- **Through 22 November:** about $60 more planned (`proposal.md`). Program 2's first four tests are capped at $4.65 (`other-minds/README.md`). Program 3 plans about 146 chip seconds of the 374 left under the project's hard stop (`nature-graded/README.md`).
+- **Through 22 November:** about $60 more planned (`proposal.md`). Program 2's first four tests are capped at $4.65 (`other-minds/README.md`). Program 3 planned about 146 chip seconds (`nature-graded/README.md`); <!--n:chip_left-->331<!--/n--> are left under the project's hard stop.
 - **Not yet costed:** the human's and the sessions' time.
 
 **What it would take at a lab's scale.** The engine's own hypotheses need about 20 scored bets before calibration is testable, and 30 before a calibration chart is worth drawing. Forecasting studies use hundreds (`paper/the-engine.md` §2.4, §4). At this week's caps, which are about $1.16 per model-graded bet and about 13 chip seconds per hardware bet, a few hundred bets would cost a few hundred dollars of API and a few months of free chip allowance. That is rough arithmetic from the files above.

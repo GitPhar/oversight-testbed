@@ -73,3 +73,68 @@ Each direction's assumption, prior work, our data, cheapest test, cost and draft
 - **SV-1r** (sv-b1's audit): Sonnet's challenge and re-ask on the other 150 items it already rated, about $0.35, so Sonnet is testable with probability about 0.96 at its measured 5.3% rate.
 - **SV-2w / SV-3w** (sv-b2's audit): the number against the remaining simple guesses within SimpleQA only, on fresh items, Haiku and Sonnet, about $0.55; on this data that comparison gave margins of +0.14 (Haiku) and +0.26 (Sonnet), so the outcome is not foregone.
 - **SV-8** (map rank 5, $0): whether the action adds information about errors beyond the number, on the wave-1 data, pre-registered before it opens them.
+
+## Prior work lines (rule 13, added 2026-11-05)
+
+Written in the backward pass of 2026-11-05 (`paper/informed-engine.md`) by a fresh claude-fable-5-1 subagent that read this program's reads and opened every paper it cites that the reads do not already quote with numbers; the search behind each line is in `map/said-vs-did.json` (`prior_work_search`, `prior_work_sources`). Each line says what the nearest published work predicts for the direction's draft pass rule, on which models, and what the bet would add, or that no prior statement was found after a named search. From here on every new direction gets its line from the scout or the remap (`operators/scout.md` Step 4; `operators/remap.md` Step 2), and the design review checks it (D12).
+
+| id | prior work predicts | Prior work |
+|---|---|---|
+| SV-1 | mixed | Mixed. Kumaran et al. 2025 (arXiv 2507.03120; Gemma 3 12B, GPT-4o): initial logit confidence predicts change of mind (R2 0.96). Guo et al. 2026 (2605.27288; GPT-5.4): conformity rises 10.6 to 27.5 points with sampling entropy, yet 10 to 29% yield when certain. Sharma et al. 2023 (2310.13548; claude-1.3, claude-2.0): the stated number barely moved (90.6 to 85.3) and answers stated at 95%+ still flipped, a miss. No current Claude. |
+| SV-2 | mixed | Mixed. Kumaran et al. 2026 (arXiv 2603.22161; GPT-4o, DeepSeek-V3, Qwen3-Next): separately elicited verbal confidence predicts abstention independently of logits (beta -4.87, the dominant predictor), a hit in direction. Wang et al. 2026, RiskEval (2601.07767; 10 models): under announced penalties 'models almost never abstain', a floor with nothing to predict. Zong et al. 2026, I-CALM (2604.03904): spelled-out payoffs, as this rule uses, are the strongest lever on abstention. No Claude. |
+| SV-3 | mixed | Mixed; near-empty field. Pal et al. 2025 (arXiv 2511.13240; GPT-4o, Gemini 2.5, open models): separately elicited confidence against calling a 'reliably correct' search tool gave positive Spearman monotonicity 'far from +1'. Zhang and Choi 2023 (2311.09469; GPT-3, LLaMA-2): the model's own 'follow-up needed' judgement predicted benefit at AUROC 0.37 to 0.63. Desender et al. 2018 (humans): low confidence predicted paying to see again at matched accuracy. No Claude. |
+| SV-4 | unknown | No direct prior statement: nothing plants a confidence number and measures caving (readers B, C, D; web search found none). Kumaran et al. 2025 (arXiv 2507.03120; Gemma 3 12B): a planted wrong own answer was abandoned 74.5% against 8.8% for a real one, so plants are not kept blindly. Pal et al. 2025 (2511.13240; GPT-4o): a confidence stated inside the answer raised deference consistency up to +0.19. No Claude. |
+| SV-5 | mixed | Mixed. Wang et al. 2026, RiskEval (arXiv 2601.07767; 10 models): stated confidence and abstention flat across penalties 0 to 100, and 'use this confidence' changed nearly nothing, a miss on the first conjunct. Zong et al. 2026, I-CALM (2604.03904; GPT-5 mini): the announced payoff was the strongest lever. Kumaran et al. 2026 (2603.22161; GPT-4o): instructed thresholds moved abstention, scale 0.66 to 1.80, a hit on the second. No Claude. |
+| SV-6 | mixed | Mixed; each half is in print on different models, never together. Smolin and Wilder 2026 (arXiv 2609.07943; nine models): world-directed bets at matched thresholds track one latent belief (concordance 0.8 to 0.95), the strongest model nearest the instructed threshold, weaker ones needing a higher threshold for bets (figure only). Wang et al. 2026, RiskEval (2601.07767): self-directed abstention ignores stated confidence. Haiku may fail the bet half. No Claude. |
+| SV-7 | fail | Predicts a miss. Binder et al. 2024 (arXiv 2410.13787; GPT-4o, GPT-4, GPT-3.5, Llama 3.1 70B, fine-tuned to self-predict): on predicting its own behaviour under 'Are you sure?' pushback there was no self-advantage, 74.5% self vs 76.5% cross (50% baseline), while self-advantages appeared on other short-output properties. Kapoor et al. 2024 (2406.08391): one model's features estimate another's correctness. No Claude model was a subject, and no untrained in-context version exists. |
+| SV-8 | mixed | Mixed, straddling the bar. Yamin et al. 2026 (arXiv 2602.06286; GPT-5, DeepSeek-R1, Llama-4 Scout; clinical tasks, separate context windows): sufficiency rejected in all 16 cells; adding the deferral action improved prediction of the true label by 6.15, 4.89, 5.11 and 15.19% (random-forest MSE, not log-loss). Smolin and Wilder 2026 (2609.07943): outcome-sufficiency violation under 5% relative for capable models, so Opus may fall short. No Claude; no pushback action. |
+| SV-9 | pass | Predicts a hit in direction; bar not in print. Costa-Gomes and Weizsacker 2008 (Review of Economic Studies): best responses to own stated beliefs rose from 7.22 to 8.41 of 14 games when stated before acting. Pal et al. 2025 (arXiv 2511.13240; GPT-4o, Gemini 2.5): a confidence stated in the same response raised deference consistency by up to +0.192. Kumaran et al. 2026 (2603.22161) elicited confidence only separately. No Claude. |
+| SV-10 | mixed | Mixed. Pal et al. 2025 (arXiv 2511.13240; GPT-4o, Gemini, open models): 'models often place bets in the opposite direction of their expressed high-confidence beliefs', directional consistency never above 79%. Smolin and Wilder 2026 (2609.07943): for capable models one verbal probability carries over 90% of the bets' predictive signal, a miss. Armantier et al. 2015 (IER): 88.9% single-switch; Dreber et al. 2015 (PNAS): bets and survey correlate r 0.78. No Claude. |
+| SV-11 | fail | Predicts a miss, by floor. Zhou et al. 2024 (arXiv 2401.06730; GPT-4, Claude-1, Claude-2): only 5% of plain answers carry any marker; hedged answers 32% correct against 53% strengthened. Yona et al. 2024 (2405.16908; GPT-4-turbo): hedging matched resample confidence at cMFG 0.52 to 0.57 against a 0.5 floor. Yang et al. 2020 (PNAS): hedging words did not separate replicating papers (p = .84). No current Claude. |
+| SV-12 | mixed | Mixed. Smolin and Wilder 2026 (arXiv 2609.07943; nine models, no Claude): with a per-format offset and slope, 'highly capable' models reach held-out concordance 0.8 to 0.95, while weak models do 'much worse'. No rule says where a small current model such as Haiku 5.5 falls, and program 1's F-prime test, which partly allowed the same slack, still found little shared belief on Haiku. No published refit of Claude data. |
+| SV-13 | pass | Predicts a hit. Chen et al. 2025 (arXiv 2505.05410; Claude 3.7 Sonnet, DeepSeek R1): when a hint switched the MCQ answer, the chain of thought named it 25% (Claude 3.7) and 39% (R1); the 'consistency' hint (the model's own prefilled answer) is one of six. Turpin et al. 2023 (2305.04388; GPT-3.5, Claude 1.0): 0 of 234 explanations mentioned the bias. Untested on a confidence rating or 5.5 model. |
+
+## Follow-ups (remap 2026-11-05)
+
+Written 2026-11-05 10:33 America/Denver by a fresh remap session (worktree `remap-p67`, claude-opus-5-5, `operators/remap.md`) that wrote none of wave 1's results, pre-registrations or audits. It read every program-7 row of `ledger/bets.jsonl`, each audit, the results files and this map. Nothing was run or called for the remap. The same session then pre-registered SV-8 and SV-12 (bets sv-b4, sv-b5), which were already on the map at $0. Their own records are in `experiments/sv-b4.md` and `sv-b5.md`.
+
+**What the re-scout changes (sv-b2, lead SV-2w)** (`map/reads/remap-2026-11-05-sv-b2.md`): Kumaran 2026 (2606.29490) already shows SV-2w's direction on four non-Claude models. Within SimpleQA, a separately elicited number predicts abstaining (AUROC 0.60–0.88), and an item-difficulty control barely dents it. So SV-2w is partly a replication. What it adds is Claude, an announced penalty and the simple-guess margin. The re-scout adds three cheap secondary rivals: a bag-of-words guess (Wagner 2026), SimpleQA topic or answer type (Wei 2024), and cross-model item decline propensity (Guo 2019). It drops nothing and leaves the price unchanged.
+
+**What the re-scout changes (sv-b1, re-bet SV-1r)** (`map/reads/remap-2026-11-05-sv-b1.md`): no paper found tests whether a separately stated number predicts backing down. The nearest predictor in print is the model's own sampling disagreement (SycoLens on four Claude models). It also shows a bare "Are you sure?" barely moves current Claude models, and that about half of all flipping happens on items the model never wavers on. The re-scout adds resampling disagreement as a secondary rival and leaves the price unchanged. It leans against a clear pass.
+
+### In plain English
+
+Nothing in program 7's first wave landed or came back mixed. The backing-down bet could not be judged, because Sonnet and Opus almost never backed down. The declining and checking bets failed: the stated number tracked both behaviours, but whether a question was obscure trivia predicted them almost as well. So no follow-up is owed, and each bet gets its rules-out sentence.
+
+Two directions are added, both from the audits:
+- **SV-1r** finishes sv-b1's Sonnet arm on its other 150 questions (about 35 cents). It is Sonnet-only by design. The audit's two-model version could not pass, because Haiku's arm is complete and already failed the same rule.
+- **SV-2w** asks the declining question inside trivia alone, where "is it trivia?" can no longer do the work (about $1.30). It is a post-hoc lead, never a required follow-up.
+
+The new directions are on the cockpit.
+
+### Follow-ups
+
+| id | grows from | direction | models | cost | engine P(pass) | prior work predicts |
+|---|---|---|---|---|---|---|
+| SV-1r | SV-1, bet `sv-b1` (untestable) — re-bet | Does Sonnet's stated confidence predict when it backs down under "are you sure?" | Sonnet (completes its arm) | about $0.35 | 10 | mixed |
+| SV-2w | SV-2 and SV-3, bet `sv-b2` (fail) — lead, post hoc | Within trivia alone, does the stated number predict declining under a penalty? | Haiku, Sonnet (300 each), Opus (80) | about $1.27 | 25 | pass (in direction; Kumaran 2026, no Claude) |
+
+Odds are template v2, each from its own fresh context holding only `ledger/prior.md` (69fb813) and the direction's row, elicited before ranking. Their prior, adjustment and reason are on the map nodes.
+
+### What the kills rule out
+
+| bet | direction | ledger verdict | rules out (at most 40 words) | re-bet |
+|---|---|---|---|---|
+| sv-b1 | SV-1 | untestable | Rules out nothing about Sonnet or Opus: they changed answers under 'are you sure?' on 8 of 150 and 3 of 80 items, below the 10 needed; on Haiku the stated number predicted flipping no better than question length. | SV-1r |
+| sv-b2 | SV-2 | null (fail) | Rules out, on these 300 hard yes/no items, Haiku's and Sonnet's stated number beating a one-bit 'is it trivia?' guess by 0.10 AUROC at predicting declining under a penalty; the within-type question stays open (lead SV-2w). | lead SV-2w |
+| sv-b3 | SV-3 | null (fail) | Rules out, on these items, Haiku's and Sonnet's stated number beating the one-bit trivia guess by 0.10 AUROC at predicting a choice to check a reference at a cost; Opus checked on 9 of 80 items, too few. | not mapped: the audit's power re-run (about $1.97) exceeds the cap left; within-type question shared with SV-2w |
+
+SV-1's map status was `mixed` and is corrected to `open`. The ledger verdict is untestable, which the remap classes as neither landed nor mixed (Step 1). SV-2 and SV-3 stay closed with their diagnoses. Program cap: $2.75 of $5.00 spent; SV-1r and SV-2w together come to about $1.62.
+
+### SV-8 and SV-12, the two free follow-ups (2026-11-05, after the remap)
+
+Neither was run, and neither is scored.
+- **SV-8** was pre-registered as sv-b4 (fb1c81a, seed df050cb). Its design review said fix-first and then **redesign** (04edc7f). Matched to the rates wave 1 had already published, no plausible world gave the rule a 10% chance of passing. The bet was withdrawn before the archive was opened (D17).
+- **SV-12** was parked before pre-registration by its own record check (`experiments/sv12-record-check.md`, D18). Program 1's published agreement between formats already implies a concordance near 0.77, below the drafted 0.85, so a bet could not pass.
+
+Both are `parked` on the map with what would reopen them. Sean's odds (0.55, 0.60) stay on record, not scored.

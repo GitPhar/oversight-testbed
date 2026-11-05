@@ -16,12 +16,17 @@ library and numpy, and says whether what is committed matches. It changes nothin
 What it does, in order:
   1. Reads every ledger file (bets, steers, human odds, shadows, plants, lessons, spend) and checks that each line
      parses, ids are unique, and every audit path, steer evidence path and plant reference points at a file that exists.
+     Lines waiting in ledger/inbox/ (ledger/inbox/README.md) must parse and apply cleanly; rows they add count as in
+     the ledger for the cross-reference checks, and are named as waiting for ledger/merge_inbox.py.
   2. Copies ledger/ to a scratch folder, runs ledger/brier.py, ledger/scores.py and ledger/prior.py there (prior.py
      also reads the committed map/*.json), and compares brier.md, scores.md and prior.md byte for byte with the
      committed ones.
   3. Recomputes the engine's and the human's Brier scores from bets.jsonl with separate code, and checks the
      headline numbers printed in brier.md.
   4. Runs `ledger/plants.py verify` (every revealed plant matches its sealed hash).
+  5a. Checks that every ledger number in README.md, paper/plain-words.md, paper/one-page.md and
+     application/one-page-plain.md is a placeholder filled from brier.md, scores.md and prior.md and is current
+     (site/numbers.py); with --write it rewrites stale ones.
   5. Lays out the site with site/assemble.sh and checks that every data file the pages read is a byte-identical copy
      of its source (links followed), that the manifest lists what was copied, and that every bet's audit link resolves.
   6. Runs each program's own programs/<name>/reproduce.py (other-minds, nature-graded, settled-science, self-grading,
@@ -47,7 +52,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 LEDGER = ROOT / "ledger"
-JSONL = ["bets", "steers", "human-odds", "shadows", "plants", "lessons", "spend"]
+JSONL = ["bets", "steers", "human-odds", "shadows", "plants", "lessons", "spend", "steer-values"]
 # A clean environment: no keys, no tokens, nothing inherited that a script could lean on.
 CLEAN_ENV = {"PATH": "/usr/bin:/bin:/usr/sbin:/sbin", "HOME": os.environ.get("HOME", "/tmp"), "LANG": "en_US.UTF-8",
              "TZ": "America/Denver", "PYTHONDONTWRITEBYTECODE": "1"}
@@ -101,7 +106,25 @@ def read_ledger():
             fail(f"ledger/{name}.jsonl repeats ids: {', '.join(dup)}")
         rows[name] = out
         ok(f"ledger/{name}.jsonl: {len(out)} line(s)")
-    bets = rows["bets"]
+    # The inbox (CONTEXT.md section 2): rows still waiting to be folded count as in the ledger here.
+    sys.path.insert(0, str(LEDGER))
+    import merge_inbox as mi
+    try:
+        items = mi.inbox_lines()
+        led = {f: [dict(r) for r in rows.get(f, [])] for f in mi.FILES}
+        _, adds, _, probs = mi.apply(led, items)
+        for p in probs:
+            fail(f"ledger/inbox: {p}")
+        if items:
+            note(f"ledger/inbox: {len(items)} line(s) waiting to be folded ({', '.join(f'{f} +{n}' for f, n in adds.items() if n) or 'updates only'}); "
+                 "run python3 ledger/merge_inbox.py. brier.md, scores.md and prior.md do not count them yet.")
+        else:
+            ok("ledger/inbox: empty (nothing waiting to be folded)")
+        eff = {f: led[f] for f in mi.FILES}
+    except Exception as e:   # a line that does not parse
+        fail(f"ledger/inbox: {e}")
+        eff = {f: rows.get(f, []) for f in mi.FILES}
+    bets = eff["bets"]
     for b in bets:
         ap = b.get("audit_path")
         if ap and not (ROOT / ap).is_file():
@@ -122,7 +145,7 @@ def read_ledger():
         fail(msg)
     if not missing:
         ok(f"human odds: every bet pre-registered after a cockpit line for its direction carries it ({len(ho_rows)} line(s))")
-    for s in rows["steers"]:
+    for s in eff["steers"]:
         for ev in s.get("evidence") or []:
             path = ev.split(" ")[0]
             if path.startswith(("ledger/", "map/", "operators/")) and not (ROOT / path).exists():
@@ -138,14 +161,14 @@ def regenerate(write):
         scratch = tmp / "ledger"
         shutil.copytree(LEDGER, scratch, symlinks=True,
                         ignore=shutil.ignore_patterns("__pycache__", ".seals", "*.pyc"))
-        for script in ("brier.py", "scores.py", "prior.py"):
-            extra = [str(ROOT)] if script == "prior.py" else []   # prior.py reads map/ and programs/*/map/ from the repo
+        for script in ("brier.py", "scores.py", "prior.py", "steer_values.py"):
+            extra = [str(ROOT)] if script in ("prior.py", "scores.py") else []   # prior.py reads map/ and programs/*/map/; scores.py the chip log
             r = run([sys.executable, str(scratch / script)] + extra, cwd=tmp)
             if r.returncode:
                 fail(f"ledger/{script} exited {r.returncode}: {r.stderr.strip()[-300:]}")
             else:
                 ok(f"ledger/{script}: {r.stdout.strip().splitlines()[-1] if r.stdout.strip() else 'ran'}")
-        for md in ("brier.md", "scores.md", "prior.md"):
+        for md in ("brier.md", "scores.md", "prior.md", "steers.md"):
             new, old = scratch / md, LEDGER / md
             if not new.exists():
                 fail(f"{md} was not written")
@@ -164,7 +187,8 @@ def regenerate(write):
 # ---------- 3. the Brier scores, recomputed independently ----------
 def brier_check(bets):
     print("3. Brier scores, recomputed from bets.jsonl with separate code")
-    sc = [b for b in bets if b.get("scored") and b.get("engine_odds") is not None and b.get("outcome") in (0, 1)]
+    sc_all = [b for b in bets if b.get("scored") and b.get("engine_odds") is not None and b.get("outcome") in (0, 1)]
+    sc = [b for b in sc_all if not b.get("secondary_of")]   # rule 15: one scored bet per run
     if not sc:
         fail("no scored bets")
         return
@@ -181,12 +205,38 @@ def brier_check(bets):
     elif abs(stated - round(eng, 3)) > 1e-9:
         fail(f"brier.md says engine Brier {stated}, recomputed {eng:.3f}")
     else:
-        ok(f"engine Brier {eng:.3f} on {len(sc)} scored bets ({hits} hits); hit-rate baseline {clim:.3f}; matches brier.md")
+        ok(f"engine Brier {eng:.3f} on {len(sc)} scored bets ({hits} hits), one per run (rule 15); hit-rate baseline {clim:.3f}; matches brier.md")
+    if len(sc_all) != len(sc):
+        ea = sum((b["engine_odds"] - b["outcome"]) ** 2 for b in sc_all) / len(sc_all)
+        m2 = re.search(r"all scored bets, secondary included \(every row counted, as before rule 15\) \| ([0-9]+) \| ([0-9]+\.[0-9]+) \|", md)
+        if not m2 or int(m2.group(1)) != len(sc_all) or abs(float(m2.group(2)) - round(ea, 3)) > 1e-9:
+            fail(f"brier.md: the secondary-included sensitivity row does not match {ea:.3f} on {len(sc_all)}")
+        else:
+            ok(f"engine Brier, secondary bets included: {ea:.3f} on {len(sc_all)}; matches brier.md's sensitivity row")
+    for b in sc_all:
+        if b.get("secondary_of") and not any(x["id"] == b["secondary_of"] for x in sc):
+            fail(f"{b['id']}: secondary_of {b['secondary_of']} is not a primary scored bet")
     if hum:
         h = sum((b["human_odds"] - b["outcome"]) ** 2 for b in hum) / len(hum)
         ok(f"human Brier {h:.3f} on {len(hum)} bets")
     else:
         ok("human Brier: no scored bet has human odds yet (ledger/human-odds.jsonl is the only source; its lines wait for their bets)")
+
+
+# ---------- 5a. document numbers ----------
+def numbers_check(write):
+    print("5a. Ledger numbers in the front-page documents (site/numbers.py)")
+    import importlib.util   # load site/numbers.py by path, so the stdlib module `numbers` is never shadowed
+    spec = importlib.util.spec_from_file_location("site_numbers", ROOT / "site" / "numbers.py")
+    _n = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(_n)
+    code, changed = _n.run(check=not write, quiet=True)
+    for d in changed:
+        note(f"{d}: stale numbers rewritten in place (--write)")
+    if code:
+        fail("front-page documents hold stale or unknown ledger numbers; run python3 site/numbers.py (or reproduce.py --write) and commit")
+    else:
+        ok(f"{len(_n.DOCS)} documents: every ledger number is a placeholder and current")
 
 
 # ---------- 4. plants ----------
@@ -333,6 +383,7 @@ def main():
     brier_check(rows["bets"])
     plants_check()
     site_check(a.site_out, rows["bets"])
+    numbers_check(a.write)
     if not a.ledger_only:
         programs_check(bool(a.program_1))
     if a.program_1:

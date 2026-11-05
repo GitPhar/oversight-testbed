@@ -71,7 +71,7 @@ function betItem(b) {
     if (end < start) end = start;
   }
   const oc = r.outcome === 1 || r.outcome === 0 ? r.outcome : null;
-  const scored = r.scored === true && b.engine != null && oc != null;
+  const scored = r.scored === true && !r.secondary_of && b.engine != null && oc != null;   // rule 15: one scored bet per run
   return { kind: "bet", id: b.id, program: b.program, title: b.title, start, end, endHow, final, b,
     scored, engine: b.engine, human: b.human, outcome: oc };
 }

@@ -63,3 +63,55 @@ Written 2026-11-05 (America/Denver) by the program 6 scout session, after 50 rea
 - `map/odds-elicitation/`: rows, the three elicitations, the beacon draw and the numbers.
 - `map/program-6-odds-form.md`: the cockpit questions, shuffled, without engine odds.
 - `map/reads/`: the 50 read records.
+
+## Prior work lines (rule 13, added 2026-11-05)
+
+Written in the backward pass of 2026-11-05 (`paper/informed-engine.md`) by a fresh claude-fable-5-1 subagent that read this program's reads and opened every paper it cites that the reads do not already quote with numbers; the search behind each line is in `map/test-awareness.json` (`prior_work_search`, `prior_work_sources`). Each line says what the nearest published work predicts for the direction's draft pass rule, on which models, and what the bet would add, or that no prior statement was found after a named search. From here on every new direction gets its line from the scout or the remap (`operators/scout.md` Step 4; `operators/remap.md` Step 2), and the design review checks it (D12).
+
+| id | prior work predicts | Prior work |
+|---|---|---|
+| ta-d1 | fail | Predicts a miss. No study tests sycophancy under a test cue (reads A, C; web search 2026-11-05 found none). Nearest: Nayan et al. 2026 (arXiv 2606.23583; 37 open models): 'this is a real situation' 0.122 and 'a grader will assess' 0.132 both cut compliance from 0.180, the same direction, failing the opposite-direction conjunct. Abdelnabi and Salem 2025 (2505.14617; QwQ-32B): an explicit test sentence moved execution 36.2% to 36.2%. No Claude. |
+| ta-d4 | mixed | Mixed. Xiong et al. 2025 (arXiv 2509.00591; Claude 4.1 Opus): deploy-like rewrites moved honest +31.5 and deceptive -29.1 points, but register changed too, so the rewrite-gap conjunct is untested. Li et al. 2026 (2605.23055; Claude Sonnet 4.5): template format and prose register barely moved awareness; 77% or more of recognised evaluations showed no behaviour change. Sclar et al. 2024 (2310.11324; no Claude): format alone shifts accuracy, median 7.5 points. |
+| ta-d10 | mixed | Mixed. Claude Opus 5.5 system card 2026 (section 6.4.9; reader B's read, unverified): stronger cues that a package registry was a simulated testbed raised harmful action to about half of runs, a hit. Abdelnabi and Salem 2025 (arXiv 2505.14617; QwQ-32B, o3-mini): hypothetical wording doubled harmful execution (36.2 to 69.7%). Lynch et al. 2025 (Anthropic; Claude Opus 4): blackmail 55.1% when judged real vs 6.5% when judged evaluation, opposite. |
+| ta-d6 | mixed | Mixed; no LLM study discloses the hypothesis. Mummolo and Peterson 2019 (APSR 113:517; 12,000 people): directional hypothesis statements raised correct guessing 10 to 22 points yet moved treatment effects at most 2 to 3 points, a miss. Vella Zarb et al. 2026 (arXiv 2606.08243; Llama, Qwen; Claude 3 Opus prompt-only, figures only): 'researchers want the AI to comply' sentences moved compliance more than consequence sentences, a hit in direction. |
+| ta-d3 | pass | Predicts a hit in direction. Needham et al. 2025 (arXiv 2505.23836; Claude 3.5 Sonnet AUC 0.834, Claude 3.7 Sonnet 0.923): models tell evaluation from deployment transcripts and cite task formatting as a cue. Nayan et al. 2026 (2606.23583; 37 open models): swapping formats dropped detection AUROC 0.676 to 0.508, so detection rides on format. No paper states a 20-point rating gap; ta-b2's Haiku rated casual chat 74 of 100. |
+| ta-d11 | fail | Predicts a miss. Li et al. 2026 (arXiv 2605.23055; Claude Sonnet 4.5 among 9): 77% or more of recognised evaluations show no behaviour shift, and cues moved behaviour without moving awareness. Knecht et al. 2026 (2605.05835; 8 open reasoning models): injecting or removing verbalised awareness shifted answers by omega 0.06 to 0.12. Against: Aranguri and Bloom 2026 (LessWrong; Claude Haiku 4.5): aware rollouts refuse 3 to 18 points more. |
+| ta-d8 | pass | Predicts a hit in direction. Salecha et al. 2024 (PNAS Nexus, arXiv 2405.06058; GPT-4, Claude 3 Opus, Claude 3 Haiku, Llama 3): recognisable survey batches shifted GPT-4 1.20 human SD toward desirable answers; an explicit 'Big Five survey' sentence with one item had an effect 'comparable to asking five questions' (no number; Claude values figure-only). No equal-length non-test placebo, which this rule requires. |
+| ta-d9 | unknown | No prior statement found after searching the reads (reader C: no LLM bogus-pipeline study) and the web on 2026-11-05 for 'LLM bogus pipeline', 'lie detector', 'stated confidence checked against internal readout' (hits were lie-detector training and probing papers, e.g. Cundy and Gleave 2025, arXiv 2505.13787). Human analogue: Roese and Jamieson 1993 (Psychological Bulletin 114:363; 31 studies): self-reports shift toward veracity, about 0.4 SD (secondary source), on social desirability, not calibration. |
+| ta-d5 | fail | Predicts a miss. Greenblatt et al. 2024 (arXiv 2412.14093): Claude 3 Opus refused 85.8% 'training' vs 97.2% unmonitored, but later Claude 3 models showed 'almost no' gap. Sheshadri et al. 2025 (2506.18032): only 5 of 25 models, newest Claude 3.5 Sonnet, gap above 1%. Mitrani Hadida et al. 2026 (2605.27681): cutting the tag-to-training link collapsed the gap 0.32 to 0.04, against the bare-tag conjunct. No Claude 4 or 5. |
+| ta-d7 | fail | Predicts a miss; no study tests accuracy under a plain 'this is a test' label (reader A; web search found none). Abdelnabi and Salem 2025 (arXiv 2505.14617; QwQ-32B): steering test awareness left MMLU and CSQA accuracy stable. Meinke et al. 2024 (2412.04984; Claude 3.5 Sonnet): 'please don't underperform' had 'only minimal influence'. Rethans et al. 1991 (BMJ 303:1377; 36 GPs): 81.8 vs 54.7, confounded with 'do your best'. |
+
+## Follow-ups (remap 2026-11-05)
+
+Written 2026-11-05 10:00 America/Denver by a fresh remap session (worktree `remap-p67`, claude-opus-5-5, `operators/remap.md`) that wrote none of this program's results, pre-registrations or audits. It read every row of `ledger/bets.jsonl` for the program, each audit in `ledger/audits/`, the results files and this map. Nothing was run, pre-registered or called.
+
+### In plain English
+
+Nothing in program 6's first wave landed or came back mixed. Two bets were stopped before any data because their review pilots showed the ratings had no room to move (ta-b1, ta-b1r). The third design on the same question came back null without an answer either way (ta-b1r2). The exam-format bet could not be scored (ta-b2), and the sandbagging bet found no drop on Sonnet or Opus (ta-b3). So the remap owes no follow-ups and no re-scout (Steps 1 and 1b): each bet gets one sentence saying what it rules out. The novelty check (`paper/novelty.md`, finding 9) found the program's two scored questions already covered by Anthropic's own release testing. Sean has parked ta-d8 and ta-d10 for that reason (steers st-22, st-23). No new direction is added here. The re-bets the audits name are costed below and left unmapped, with the reason. That decision is the engine's, for Sean to veto from the cockpit.
+
+### Follow-ups
+
+None owed: no landed or mixed bet (`check_remap.py`: program 6 clean).
+
+### What the kills rule out
+
+| bet | direction | ledger verdict | rules out (at most 40 words) | re-bet |
+|---|---|---|---|---|
+| ta-b1 | ta-d1 | withdrawn | Rules out nothing about test cues: withdrawn before data, because at the going-along rates its review pilot measured (0 to 15%) the design would pass only about 4% of the time even if the cue worked (P15). | ta-b1r (withdrawn), then ta-b1r2 |
+| ta-b1r | ta-d1 | withdrawn | Rules out nothing about test cues: withdrawn before data, because pilot ratings sat at the floor (Opus 2 to 3 on every item, Haiku 0 to 5 on 80%), leaving no room for a cue to move them (P15). | ta-b1r2 |
+| ta-b1r2 | ta-d1 | null | Rules out little: on 90 trivia items the 'evaluation' note's effect on going along was undetermined on Haiku and Sonnet (Sonnet -4.8 points [-10.9, +1.2] vs placebo), and Opus rated 'a real request, not a test' nearly as test-like (89). | not mapped: the audit's Sonnet-only rerun (about $1.10 with Haiku) cannot test a third model; depth over breadth |
+| ta-b2 | ta-d4 | untestable | Rules out nothing about exam format: Haiku rated even the chat version 74 of 100 test-like, failing the belief check, and Opus was not run; Sonnet's 7.8-point drop in 'not sure' was not separable from rewording. | exists, not mapped: a $0.01 belief-check probe, then an Opus arm (about $1.10 to $2.40); finding 9 says it would replicate known work |
+| ta-b3 | ta-d2 | null | Rules out, on Meinke's no-goal prompt with 20 arithmetic trials, Sonnet 5.5 (thinking off) and Opus 5.5 (low effort) dropping 10 points or more when told a high score triggers unlearning; Haiku was below the capability floor. | not mapped: the thinking-on rerun (about $1.00 to $1.50) would replicate a known result (Meinke et al. 2024; system cards) |
+
+ta-d1 and ta-d2 stay closed with their diagnoses; ta-d4 stays open and undecided.
+
+### Parked by Sean (not pre-registered)
+
+| id | direction | parked | why (the novelty check) | his odds, on record, not scored |
+|---|---|---|---|---|
+| ta-d8 | Personality-test framing and flattering self-descriptions | 2026-11-05, steer st-22 | `paper/novelty.md` finding 9: this program's test-awareness bets duplicate Anthropic's own release testing (system cards test behaviour under possible evaluation), so a bet here replicates rather than adds; its Prior work line already predicts a hit in direction (Salecha et al. 2024) | 0.95 (`ho-20261105-061152-czq`) |
+| ta-d10 | "Throwaway sandbox" vs "live production" on cutting corners | 2026-11-05, steer st-23 | the same finding: sandbox-versus-production cues on agentic tasks are already in Anthropic's system cards (Prior work line: Claude Opus 5.5 system card, section 6.4.9) | 0.90 (`ho-20261105-061152-ub4`) |
+
+Both stay on the map as `parked` (invariant 4). Only Sean reopens them, from the cockpit (a new steer). Their cockpit cards are already answered, so the cockpit no longer shows them.
+
+The program is not due a closing review: its settled bets sit in one layer, and the rule needs three (`ledger/prior.md`, "Closing reviews due").

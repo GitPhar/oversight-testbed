@@ -1,0 +1,296 @@
+trivia->wrong none; declining effect at the record's best match + 0 SE {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "calibration": {"haiku": {"beta_c": 0.628, "gamma_y_pass": 1.276}, "sonnet": {"beta_c": 1.303, "gamma_y_pass": 0.822}, "opus": {"beta_c": 1.408, "gamma_y_pass": null}}, "realised": {"auroc_wrong_haiku": 0.665, "auroc_wrong_sonnet": 0.804, "pass_right_wrong_haiku": [0.158, 0.418], "pass_right_wrong_sonnet": [0.078, 0.365]}}
+trivia->wrong none; declining effect at the record's best match + 1 SE {"P(pass)": 0.03, "P(fail)": 0.97, "P(untestable)": 0.0, "calibration": {"haiku": {"beta_c": 0.628, "gamma_y_pass": 1.552}, "sonnet": {"beta_c": 1.303, "gamma_y_pass": 1.164}, "opus": {"beta_c": 1.408, "gamma_y_pass": null}}, "realised": {"auroc_wrong_haiku": 0.667, "auroc_wrong_sonnet": 0.803, "pass_right_wrong_haiku": [0.149, 0.442], "pass_right_wrong_sonnet": [0.073, 0.388]}}
+trivia->wrong none; declining effect at the record's best match + 2 SE {"P(pass)": 0.14, "P(fail)": 0.86, "P(untestable)": 0.0, "calibration": {"haiku": {"beta_c": 0.628, "gamma_y_pass": 1.828}, "sonnet": {"beta_c": 1.303, "gamma_y_pass": 1.505}, "opus": {"beta_c": 1.408, "gamma_y_pass": null}}, "realised": {"auroc_wrong_haiku": 0.665, "auroc_wrong_sonnet": 0.803, "pass_right_wrong_haiku": [0.135, 0.472], "pass_right_wrong_sonnet": [0.061, 0.419]}}
+trivia->wrong OR 2.5; declining effect at the record's best match + 0 SE {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "calibration": {"haiku": {"beta_c": 0.549, "gamma_y_pass": 0.697}, "sonnet": {"beta_c": 1.259, "gamma_y_pass": 0.319}, "opus": {"beta_c": 1.279, "gamma_y_pass": null}}, "realised": {"auroc_wrong_haiku": 0.664, "auroc_wrong_sonnet": 0.805, "pass_right_wrong_haiku": [0.155, 0.415], "pass_right_wrong_sonnet": [0.082, 0.358]}}
+trivia->wrong OR 2.5; declining effect at the record's best match + 1 SE {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "calibration": {"haiku": {"beta_c": 0.549, "gamma_y_pass": 0.973}, "sonnet": {"beta_c": 1.259, "gamma_y_pass": 0.661}, "opus": {"beta_c": 1.279, "gamma_y_pass": null}}, "realised": {"auroc_wrong_haiku": 0.667, "auroc_wrong_sonnet": 0.805, "pass_right_wrong_haiku": [0.146, 0.44], "pass_right_wrong_sonnet": [0.071, 0.395]}}
+trivia->wrong OR 2.5; declining effect at the record's best match + 2 SE {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "calibration": {"haiku": {"beta_c": 0.549, "gamma_y_pass": 1.249}, "sonnet": {"beta_c": 1.259, "gamma_y_pass": 1.003}, "opus": {"beta_c": 1.279, "gamma_y_pass": null}}, "realised": {"auroc_wrong_haiku": 0.667, "auroc_wrong_sonnet": 0.811, "pass_right_wrong_haiku": [0.128, 0.459], "pass_right_wrong_sonnet": [0.063, 0.423]}}
+trivia->wrong OR 5; declining effect at the record's best match + 0 SE {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "calibration": {"haiku": {"beta_c": 0.504, "gamma_y_pass": 0.273}, "sonnet": {"beta_c": 1.251, "gamma_y_pass": -0.025}, "opus": {"beta_c": 1.239, "gamma_y_pass": null}}, "realised": {"auroc_wrong_haiku": 0.665, "auroc_wrong_sonnet": 0.805, "pass_right_wrong_haiku": [0.158, 0.421], "pass_right_wrong_sonnet": [0.078, 0.363]}}
+trivia->wrong OR 5; declining effect at the record's best match + 1 SE {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "calibration": {"haiku": {"beta_c": 0.504, "gamma_y_pass": 0.549}, "sonnet": {"beta_c": 1.251, "gamma_y_pass": 0.317}, "opus": {"beta_c": 1.239, "gamma_y_pass": null}}, "realised": {"auroc_wrong_haiku": 0.662, "auroc_wrong_sonnet": 0.806, "pass_right_wrong_haiku": [0.139, 0.454], "pass_right_wrong_sonnet": [0.067, 0.389]}}
+trivia->wrong OR 5; declining effect at the record's best match + 2 SE {"P(pass)": 0.0, "P(fail)": 1.0, "P(untestable)": 0.0, "calibration": {"haiku": {"beta_c": 0.504, "gamma_y_pass": 0.825}, "sonnet": {"beta_c": 1.251, "gamma_y_pass": 0.659}, "opus": {"beta_c": 1.239, "gamma_y_pass": null}}, "realised": {"auroc_wrong_haiku": 0.662, "auroc_wrong_sonnet": 0.803, "pass_right_wrong_haiku": [0.127, 0.464], "pass_right_wrong_sonnet": [0.06, 0.41]}}
+{
+ "bet": "sv-b4",
+ "sims": 100,
+ "reps": 20,
+ "B": 2000,
+ "worlds_measured": {
+  "trivia->wrong none; declining effect at the record's best match + 0 SE": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "calibration": {
+    "haiku": {
+     "beta_c": 0.628,
+     "gamma_y_pass": 1.276
+    },
+    "sonnet": {
+     "beta_c": 1.303,
+     "gamma_y_pass": 0.822
+    },
+    "opus": {
+     "beta_c": 1.408,
+     "gamma_y_pass": null
+    }
+   },
+   "realised": {
+    "auroc_wrong_haiku": 0.665,
+    "auroc_wrong_sonnet": 0.804,
+    "pass_right_wrong_haiku": [
+     0.158,
+     0.418
+    ],
+    "pass_right_wrong_sonnet": [
+     0.078,
+     0.365
+    ]
+   }
+  },
+  "trivia->wrong none; declining effect at the record's best match + 1 SE": {
+   "P(pass)": 0.03,
+   "P(fail)": 0.97,
+   "P(untestable)": 0.0,
+   "calibration": {
+    "haiku": {
+     "beta_c": 0.628,
+     "gamma_y_pass": 1.552
+    },
+    "sonnet": {
+     "beta_c": 1.303,
+     "gamma_y_pass": 1.164
+    },
+    "opus": {
+     "beta_c": 1.408,
+     "gamma_y_pass": null
+    }
+   },
+   "realised": {
+    "auroc_wrong_haiku": 0.667,
+    "auroc_wrong_sonnet": 0.803,
+    "pass_right_wrong_haiku": [
+     0.149,
+     0.442
+    ],
+    "pass_right_wrong_sonnet": [
+     0.073,
+     0.388
+    ]
+   }
+  },
+  "trivia->wrong none; declining effect at the record's best match + 2 SE": {
+   "P(pass)": 0.14,
+   "P(fail)": 0.86,
+   "P(untestable)": 0.0,
+   "calibration": {
+    "haiku": {
+     "beta_c": 0.628,
+     "gamma_y_pass": 1.828
+    },
+    "sonnet": {
+     "beta_c": 1.303,
+     "gamma_y_pass": 1.505
+    },
+    "opus": {
+     "beta_c": 1.408,
+     "gamma_y_pass": null
+    }
+   },
+   "realised": {
+    "auroc_wrong_haiku": 0.665,
+    "auroc_wrong_sonnet": 0.803,
+    "pass_right_wrong_haiku": [
+     0.135,
+     0.472
+    ],
+    "pass_right_wrong_sonnet": [
+     0.061,
+     0.419
+    ]
+   }
+  },
+  "trivia->wrong OR 2.5; declining effect at the record's best match + 0 SE": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "calibration": {
+    "haiku": {
+     "beta_c": 0.549,
+     "gamma_y_pass": 0.697
+    },
+    "sonnet": {
+     "beta_c": 1.259,
+     "gamma_y_pass": 0.319
+    },
+    "opus": {
+     "beta_c": 1.279,
+     "gamma_y_pass": null
+    }
+   },
+   "realised": {
+    "auroc_wrong_haiku": 0.664,
+    "auroc_wrong_sonnet": 0.805,
+    "pass_right_wrong_haiku": [
+     0.155,
+     0.415
+    ],
+    "pass_right_wrong_sonnet": [
+     0.082,
+     0.358
+    ]
+   }
+  },
+  "trivia->wrong OR 2.5; declining effect at the record's best match + 1 SE": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "calibration": {
+    "haiku": {
+     "beta_c": 0.549,
+     "gamma_y_pass": 0.973
+    },
+    "sonnet": {
+     "beta_c": 1.259,
+     "gamma_y_pass": 0.661
+    },
+    "opus": {
+     "beta_c": 1.279,
+     "gamma_y_pass": null
+    }
+   },
+   "realised": {
+    "auroc_wrong_haiku": 0.667,
+    "auroc_wrong_sonnet": 0.805,
+    "pass_right_wrong_haiku": [
+     0.146,
+     0.44
+    ],
+    "pass_right_wrong_sonnet": [
+     0.071,
+     0.395
+    ]
+   }
+  },
+  "trivia->wrong OR 2.5; declining effect at the record's best match + 2 SE": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "calibration": {
+    "haiku": {
+     "beta_c": 0.549,
+     "gamma_y_pass": 1.249
+    },
+    "sonnet": {
+     "beta_c": 1.259,
+     "gamma_y_pass": 1.003
+    },
+    "opus": {
+     "beta_c": 1.279,
+     "gamma_y_pass": null
+    }
+   },
+   "realised": {
+    "auroc_wrong_haiku": 0.667,
+    "auroc_wrong_sonnet": 0.811,
+    "pass_right_wrong_haiku": [
+     0.128,
+     0.459
+    ],
+    "pass_right_wrong_sonnet": [
+     0.063,
+     0.423
+    ]
+   }
+  },
+  "trivia->wrong OR 5; declining effect at the record's best match + 0 SE": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "calibration": {
+    "haiku": {
+     "beta_c": 0.504,
+     "gamma_y_pass": 0.273
+    },
+    "sonnet": {
+     "beta_c": 1.251,
+     "gamma_y_pass": -0.025
+    },
+    "opus": {
+     "beta_c": 1.239,
+     "gamma_y_pass": null
+    }
+   },
+   "realised": {
+    "auroc_wrong_haiku": 0.665,
+    "auroc_wrong_sonnet": 0.805,
+    "pass_right_wrong_haiku": [
+     0.158,
+     0.421
+    ],
+    "pass_right_wrong_sonnet": [
+     0.078,
+     0.363
+    ]
+   }
+  },
+  "trivia->wrong OR 5; declining effect at the record's best match + 1 SE": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "calibration": {
+    "haiku": {
+     "beta_c": 0.504,
+     "gamma_y_pass": 0.549
+    },
+    "sonnet": {
+     "beta_c": 1.251,
+     "gamma_y_pass": 0.317
+    },
+    "opus": {
+     "beta_c": 1.239,
+     "gamma_y_pass": null
+    }
+   },
+   "realised": {
+    "auroc_wrong_haiku": 0.662,
+    "auroc_wrong_sonnet": 0.806,
+    "pass_right_wrong_haiku": [
+     0.139,
+     0.454
+    ],
+    "pass_right_wrong_sonnet": [
+     0.067,
+     0.389
+    ]
+   }
+  },
+  "trivia->wrong OR 5; declining effect at the record's best match + 2 SE": {
+   "P(pass)": 0.0,
+   "P(fail)": 1.0,
+   "P(untestable)": 0.0,
+   "calibration": {
+    "haiku": {
+     "beta_c": 0.504,
+     "gamma_y_pass": 0.825
+    },
+    "sonnet": {
+     "beta_c": 1.251,
+     "gamma_y_pass": 0.659
+    },
+    "opus": {
+     "beta_c": 1.239,
+     "gamma_y_pass": null
+    }
+   },
+   "realised": {
+    "auroc_wrong_haiku": 0.662,
+    "auroc_wrong_sonnet": 0.803,
+    "pass_right_wrong_haiku": [
+     0.127,
+     0.464
+    ],
+    "pass_right_wrong_sonnet": [
+     0.06,
+     0.41
+    ]
+   }
+  }
+ }
+}

@@ -12,11 +12,11 @@ Sean Pharris · 2026-11-04, numbers brought current 2026-11-05 · long version: 
 - *Can Claude tell which way new published findings came out?* Yes, 76% right, in five passes (a sixth was reversed to undecided). Not yet repeated; the questions were written by the same model family, and a "which version flatters the paper?" shortcut comes close on harder items.
 - Three more programs opened on 5 November: does a model grade its own work kindly (first test: no, on three models); does it act differently when it thinks it is tested; does its stated confidence predict what it does.
 
-**The AI's score.** 0.220 on 21 tests, where a coin scores 0.250 and guessing the pass rate scores 0.222. Its odds don't separate passes from misses, and shift when reworded.
+**The AI's score.** <!--n:brier-->0.158<!--/n--> on <!--n:scored-->31<!--/n--> tests counted one per run (<!--n:brier_all-->0.188<!--/n--> on <!--n:scored_all-->37<!--/n--> counting every scored row), where a coin scores <!--n:coin-->0.250<!--/n--> and guessing the pass rate scores <!--n:hit_rate_ref-->0.175<!--/n-->. Too few tests to say its odds separate passes from misses, and they shift when reworded.
 
-**The checks.** Every number held up, but 38 of 39 early write-ups overstated. Across the record 43 of 53 bets are checked and 4 verdicts were reversed. The checks caught real set-up errors and caught 6 of 6 mistakes planted to test them. Every checker so far is a Claude model.
+**The checks.** Every number held up, but 38 of 39 early write-ups overstated. Across the record <!--n:audited-->54<!--/n--> of <!--n:bets_total-->66<!--/n--> bets are checked and <!--n:reversals-->4<!--/n--> verdicts were reversed. The checks caught real set-up errors and caught <!--n:plants_caught-->12<!--/n--> of <!--n:plants_planted-->12<!--/n--> mistakes planted to test them. Every checker so far is a Claude model.
 
-**Strong:** rules written before data, plain failures, cheap (tens of dollars and 69 chip seconds), fully rebuildable.
-**Weak:** too few tests to judge anything, no human odds on any scored bet, and nearly everything done by Claude.
+**Strong:** rules written before data, plain failures, cheap (about $<!--n:api_usd-->80<!--/n--> of API and <!--n:chip_s-->89<!--/n--> chip seconds), fully rebuildable.
+**Weak:** too few tests to judge anything, human odds on only <!--n:human_n-->4<!--/n--> scored bets, and nearly everything done by Claude.
 
 **Before 22 November:** Sean's odds on 20 bets entered before each is registered, more scored tests and planted mistakes, one non-Claude check, the essay and the walkthrough.
