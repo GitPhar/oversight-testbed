@@ -12,7 +12,7 @@ prior_work_search: "not needed: the line cites a predicted outcome (mixed). The 
 papers_opened: 4
 flaws: 3
 pilot_usd: 0.00
-verdict: fix-first
+verdict: redesign
 confirmed_at: null
 ---
 
@@ -148,3 +148,38 @@ Each fix needs a dated DEVIATIONS row (D16 onward) in `programs/said-vs-did/DEVI
 Recommended, not required:
 - Report the improvement in Brier score next to log-loss, so the number can be set beside Yamin et al.'s MSE figures.
 - Add the backing-down secondary on items where the first answer matches the said side (D7).
+
+## Addendum: the fixes checked against f51bb86 (D16), 2026-11-05 10:50 America/Denver
+
+Same reviewer session and the same restrictions: `analyse` not run, and nothing computed from the caches linking wrongness, the number and a behaviour. I read the D16 row, the addendum at the end of `experiments/sv-b4.md`, the diff of `sv_b4.py` from fb1c81a to f51bb86, `experiments/sv-b4-worlds-d16.txt`, and the map commit d7d1db2.
+
+**Fixes 2 and 3 are done.**
+- **Fix 2.** The prior-work row now reads Smolin and Wilder correctly. The odds-reason clause that relied on them is marked. The map's SV-8 line was updated at d7d1db2. Two small errors in the new row:
+  - arXiv 2606.29490 is by Kumaran alone, so "Kumaran et al." is wrong.
+  - Its abstract names four non-reasoning and four reasoning models, not "four non-Claude models".
+- **Fix 3.** The pass and fail sentences now use only what the base model holds: how confident the stated number was, the SimpleQA bit, held-out log-loss, and the behaviour named per model.
+- **The new code holds.** The Brier and "first answer matches the said side" secondaries are correct. `arrays()` compares the b1 first answer with the rating's side. The Brier accumulator is set and cleared inside `cell()`. `report()` only formats the analysis JSON. Gate, seed and pass rule are unchanged.
+
+**Fix 1 is done as asked, and its condition (e) is not met. The verdict is redesign.** `worlds_measured()` puts both behaviours on the same items, runs at reps 20 and B 2000, and is matched to the published AUROCs and decline rates: realised Haiku 0.665 and 0.16 → 0.42, Sonnet 0.804 and 0.08 → 0.36. The committed table shows P(pass):
+- 0.00 at the best match, in all three trivia worlds;
+- 0.00–0.03 at one standard error;
+- 0.00 at two standard errors whenever trivia carries extra wrong beliefs (odds ratio 2.5 or 5);
+- 0.14 in one world: trivia carries no extra wrong beliefs, at two standard errors.
+
+I re-ran that world at the committed calibration (`t8.py`, two runs of 100) and got 0.13 and 0.11. A full `worlds-measured 40` run gave 0/40 there. Pooled, about 0.10. It sits on the floor, not above it.
+
+The author asked me to judge whether that world is a plausible reading of the record. I judge that it is not, for three reasons:
+1. **It moves both models two standard errors at once.** The +2 SE shift is applied to Haiku's and Sonnet's declining together, and a pass needs both. As a joint departure from the two published rate pairs, that is about 2.8 standard errors (χ² ≈ 8 on 2 df, p ≈ 0.02). It is not "within about two standard errors". With either model held at one standard error, P(pass) is at most 0.03.
+2. **"No extra wrong beliefs on trivia" conflicts with the record.** The record shows confidence flat by type (Sonnet 92.6 vs 93.6, Haiku 96.4 vs 97.1). It also shows declining 6.5 to 11 times more common on SimpleQA (Haiku 52% vs 8%, Sonnet 33% vs 3%).
+   - With confidence flat, this world means SimpleQA items are wrong no more often than chemistry, physics and the authored claims. Yet both models decline there as if they know they are not.
+   - SimpleQA was built to be hard for frontier models, and the re-scout's read of it records Claude-3 models not attempting 35–75% of it.
+   - The dry run's `_draw` still makes confidence about 4.6 points lower on trivia, so even its "none" world gets some extra trivia wrongness through a confidence gap the record does not show.
+   - Every world where trivia carries extra wrong beliefs gives 0.00.
+3. **The engine's own odds say the result is known.** The fresh v2 re-elicitation gives 0.03. That is below em-qwalk2's at most 4%, the case P12 was written for. Scoring this bet would buy Brier points with no information, which D11 exists to stop.
+
+So no world that is a fair reading of the record within about two standard errors reaches P(pass) 0.10. Under fix 1(e) and D11 the verdict is **redesign**:
+- The bet is withdrawn before data and recorded in `ledger/bets.jsonl` with `verdict: withdrawn`. As a withdrawn bet it is not scored; it is counted and published.
+- Re-betting SV-8 needs data that can see a moderate addition. The options are more items, the dry run's estimate of the n at which a Yamin-size addition (5–15%) passes at least about 10% at the record's best match, or a design whose bar this n can reach without lowering it.
+- The D16 code and dry run stay committed as the record of why.
+
+`confirmed_at` stays null, so `review_gate` refuses `analyse`.
