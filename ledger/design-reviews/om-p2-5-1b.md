@@ -13,7 +13,8 @@ checks: {D1: flaw, D2: flaw, D3: holds, D4: holds, D5: flaw, D6: holds, D7: flaw
 flaws: 5
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-04 20:35 America/Denver
+confirmed_commit: 6558a73
 ---
 
 # Design review of om-p2-5 (review 1b)
@@ -197,3 +198,30 @@ In §4, add to the power table P(bounded), P(open) and P(reversed) for each cell
 **F5 (D10). The gate must read every review of this bet.** Change `gate()` to read every `ledger/design-reviews/om-p2-5*.md` (at least `om-p2-5.md` and `om-p2-5-1b.md`). It opens only if at least one exists and *each* is `go` or `fix-first` with `confirmed_at` set. Any `redesign` closes it. Add a dry-run line: `om-p2-5.md` at go and `om-p2-5-1b.md` at unconfirmed fix-first gives a closed gate. Engine note, not required of this bet: `ledger/check_prereg.py` R1 and R2 should do the same.
 
 After the fixes, a reviewer confirms them in a short addendum here and sets `confirmed_at`. Until then `verdict: fix-first` stands, and no call may run.
+
+## Confirmation of fixes (2026-11-04 20:35 America/Denver, at 6558a73)
+
+**All five fixes hold, and nothing new blocks.** `confirmed_at` is set. The gate still needs `om-p2-5.md`'s own confirmation as well, and until then it stays closed. I checked this file's F1–F5 against commit 6558a73, which is other-minds DEVIATIONS row D12, under the same limits as the review: every call stubbed, no `.env`, no paid calls, and the same runner `/private/tmp/claude-501/-Users-seanpharris-oversight-testbed/19f84df9-a6ff-48ba-89d6-d3f43e5d1747/scratchpad/rv/noenv.py`. The new scripts are `review_confirm.py`, `r2.py` and `spot.py`; their output is in `review_confirm.out`. The working tree matches 6558a73 for every p2-5 file. Sections 1, 2 and 4 of the committed `p2-5-dryrun-output.txt` regenerate byte for byte, apart from the temporary paths. The pre-registration file itself is unchanged; D12 governs where it differs, which is the right way to amend a frozen file.
+
+| fix | status | evidence |
+|---|---|---|
+| F1 (D7) | holds | D12 strikes §6's "points 2–4 work against a pass" and replaces it with "which way points 2–4 lean is not known… a label-blind responder that weights the assistant-turn number more passes the map's event and beats SWAP, so a pass is about the bundle". `BUNDLE` adds "its place in the conversation (Alex's answer comes just before the question)". A label-blind turn anchor is in the dry-run table, and the text under the table says the rule "does NOT reject the label-blind turn anchor". I ran my own version of that responder on the D12 code: it gets **pass**, since the new 5b conjunct ("not inherited": U_sam(OWN) ≤ U_self(OWN)) holds at 0.399 against 0.523. So the text is right. |
+| F2 (D2) | holds | The dry run asserts 1,472 job keys per repeat, 1,328 distinct prompt hashes and 18 duplicate cells, and lists them. They match my `review_dups.out`: 18 redundant cells among the 33 involved. `uptake_table(dedup=True)` and `uptake_table(bands=True)` (bands 5–14, 15–34, 35–60) are reported as `dedup` and `by_band`, never promoted. D12 records that classes are nominal \|d\| and that in the 60 class, 31 of 56 cells are displaced less than 60 points. |
+| F3 (D1, D10) | holds | `complete_repeats()` and `cell_means(k)`. My stops on the D12 code: at 99.9% of calls k = 4 → pass; at 90% k = 4 → pass; at 50% k = 2 → pass; at 21% k = 1 → pass; at 10% k = 0 → untestable (few). Before the fix, all four of those stops were untestable. With a refused job in repeat 0 and a stop at 70%, k = 3 and 15 of 16 vignettes are complete, so the refused cell's vignette drops out, as written. The dry run's 90% and 10% lines match. `k` is reported. |
+| F4 (D5/P2, D8/P9) | holds | `fail_bound` returns the right sub-reading on hand-built tables: small bounded or open; anchoring reversed, bounded or open; copy; not inherited; pass. Each comes with its sentence, filled with the run's estimate and interval. On synthetic data, my reversed responder (ΔU −0.202 [−0.209, −0.196]) now reads `anchoring_reversed`, my near-margin responder reads `anchoring_open`, and midpoint reads `anchoring_bounded`. Scoring is unchanged and the leave-one-out flip test stays on (label, reason). The §4 table reports every sub-reading's share. |
+| F5 (D10) | holds | `gate()` globs `om-p2-5*.md` and requires each file to be go or a confirmed fix-first. Results: om-p2-5.md confirmed with -1b unconfirmed → closed; both confirmed → open; redesign → closed. On the real folder now it is closed ("om-p2-5-1b.md: … not confirmed" before this addendum; `om-p2-5.md` is still unconfirmed). `check_prereg.py` now also reads the -1b file (R2+). |
+
+**The F4 deviation is acceptable.** I asked for a power row calibrated to the archive: per-statement own-uptake CV 0.56 and other-uptake SD 0.36. D12 instead draws own uptake per statement and class from bm0's archived rows and adds per-cell noise at two settings, "moderate" (σ Sam 0.3, σ Alex 0.3, REF SD 2, call SD 3) and "bm0-like" (0.43, 0.6, 3, 5). Three reasons it is acceptable:
+- **It agrees with mine.** At α = 0.1, λ = 0.35 (ΔU about 0.05), P(pass) is 0.64 moderate and 0.30 bm0-like. My rows gave 0.56 under (b) and 0.29 under (c). It also reproduces: with the dry run's seeds I get exactly 0.30 / 0.70 open and 0.64 / 0.36 open.
+- **It is closer to the data.** Own uptake comes from the archive rather than from F3's profile times a factor.
+- **The odds revision is sound.** It was made before data, from 0.33 to 0.25, with 0.30, 0.33 and 0.25 all kept in `bets.jsonl`, `lessons.jsonl` (`odds_revised`) and the map. Under the bm0-like model, P(pass) across the plausible region is 0.12–0.84, and there is an added conjunct. 0.25 is below both base rates, which is the cautious direction.
+
+What the deviation leaves out is a per-statement Alex component: its Alex noise is per cell. Its results bracket mine, so this changes no conclusion.
+
+**Notes, not blocking.** None needs a new row:
+1. **The turn-anchor row reads as rejected on one seed.** The committed table shows the dry run's own turn anchor as "fail (not_inherited)". That responder's self uptake equals its Sam uptake (0.396 against 0.399), so 5b catches it by noise on that seed. Over 20 seeds it passes 8 times, and the fixed nudge passes 11 times. The text below the table says correctly that the rule does not reject either. The next commit that touches the dry run should mark both rows "fails 5b by noise on this seed; passes in about half of seeds", or add my version, which passes outright.
+2. **Which pass sentence to quote.** `SENTENCES["pass"]`, the label sentence, still says "by at least 0.10 … and by at least 0.05 more". The estimate wording is in `fail_bound_sentence` (`SUB_SENTENCES["pass"]`). The write-up should quote `fail_bound_sentence` for every label, the pass included. The auditor can hold it to that.
+3. **The gate's glob is broad.** `om-p2-5*.md` would also match a future `om-p2-50.md`. That can only make the gate stricter.
+4. **A small false-pass rate under bm0-like noise.** At λ = 0 the rate is 0.02, 1 of 50 runs, which I reproduced. That is within a one-sided 2.5% error.
+
+From this file's side, the run may start once `om-p2-5.md` is also confirmed. I have not committed this addendum.
