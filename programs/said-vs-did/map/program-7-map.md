@@ -149,3 +149,33 @@ Both follow-ups of the remap were pre-registered, reviewed (fix-first, confirmed
 | SV-2w | `sv-b6` | Within obscure trivia alone, does the stated number predict declining under a penalty? | Haiku, Sonnet (300), Opus (100) | **null**, reversed from pass by audit (8fa642a) | partly new (Kumaran 2026 reports the direction on four non-Claude models) | $1.251 |
 
 In plain English: Sonnet's own number, asked separately, warned when it would back down under "are you sure?" (AUROC 0.877 against question length's 0.738), though most of that came from the 33 questions where its rating leaned against its own answer. Within trivia alone, Sonnet's number also warned when it would skip a question under a penalty, beating every simple guess including a bag of words; Haiku's did not, and Opus skipped too rarely (11 of 100) for its lead to hold up beyond one bootstrap stream, so the two-model rule failed after audit. New pattern P18 (a bootstrap endpoint whose Monte Carlo error exceeds its distance from the bar). SV-1r is now a landed node and is owed two follow-ups by a fresh remap session (`python3 ledger/check_remap.py`); the audits' cheapest next tests are a fresh 300-item Sonnet run with the "rating leans against the answer, then length" guess pre-registered (about $0.95) and Opus on sv-b6's other 200 items (about $1.55), both past the $0.65 the program cap has left.
+
+## Follow-ups (remap 2026-11-05c)
+
+*Written 2026-11-05 by a fresh remap session (claude-opus-5-5) that ran none of program 7's bets; re-scout by a fresh reader subagent; odds by fresh blind contexts (rule 14).*
+
+**What came back.** On 300 hard yes/no questions, Sonnet 5.5's separately stated confidence predicted which answers it would drop after "are you sure?" better than question length did (sv-b5, pass, unreplicated, one model, flagged fragile). The audit's weak point: most of that comes from the 33 questions where Sonnet's own rating already said its first answer was wrong, and a guess using only that side and then question length nearly ties it (0.874 against 0.877). Psychology has a name for the split: error detection against graded confidence (Yeung and Summerfield 2012), with the untested prediction that graded confidence adds something beyond a right/wrong signal. Two earlier bets get rules-out sentences below (sv-b4 withdrawn, sv-b6 null).
+
+**What the follow-ups would show.** SV-15: on 600 fresh questions, whether Sonnet's number still beats every simple guess once the "it already says it is wrong" guess is one of them. Sized by back-downs (Hanley and McNeil 1982): the audit's 300 items would give about 17 back-downs again, 600 give about 34. SV-16: Opus's arm on all 300 hard-pool questions, which completes the three-model picture (Haiku's failed in sv-b1); the risk is that Opus backs down too rarely to judge (3 times in 80 so far). A $0 lead, not drafted: the same side split on sv-b1's archived Haiku (57) and Opus (3) back-downs.
+
+**Budget.** Program 7's cap is $5.00 (st-20, in code), $4.35 spent, $0.65 left; neither follow-up fits. SV-15 (about $1.87) and SV-16 (about $3.08) each need a cap raise by a budget ruling; together they bring November to about $9.31, under rule 4's $10, so the ruling is the engine's call at pre-registration. This remap approves none.
+
+### What the re-scouts change
+
+- **sv-b5** (Novelty: partly new; stands; `programs/said-vs-did/map/reads/remap-2026-11-05c-sv-b5.md`). It names the side rival in psychology's terms: error detection against graded confidence (Yeung & Summerfield 2012). Its prediction, graded adds beyond binary, is untested. This keeps the audit's design as follow-up 1. Sizing by back-downs (Hanley & McNeil 1982) re-prices it from 300 fresh items (about $0.95, ~7 agreeing back-downs, below the floor) to 600 (about $1.87, ~34 back-downs). Follow-up 2 completes Opus on the hard pool ($3.08). Fewer items is impossible: Opus backs down 3 times in 80. It adds a $0 lead: the side split on sv-b1's archived Haiku (57) and Opus (3) back-downs. It drops nothing.
+
+### Follow-ups
+
+| id | parent (bet, novelty) | follow-up | models | cost | engine odds (prior + adjustment) | prior work predicts | card |
+|---|---|---|---|---|---|---|---|
+| SV-15 | SV-1r (sv-b5, partly new) | On 600 new questions, does Sonnet's stated confidence predict backing down under "are you sure?" beyond whether its rating points against its own answer? | sonnet | about $1.87 | 0.05 (0.25 -0.20) | mixed | yes |
+| SV-16 | SV-1r (sv-b5, partly new) | Does Opus's stated confidence predict when it backs down under "are you sure?" (Opus's arm of sv-b5's test, completed on all 300 hard-pool questions) | opus | about $3.08 | 0.12 (0.25 -0.13) | fail | yes |
+
+Each row's Prior work line, pass rule, cost arithmetic and cap note are on its node in `map/said-vs-did.json`; the odds record is in `programs/said-vs-did/map/odds-elicitation/v2-remap-2026-11-05c.md`.
+
+### Rules out (killed or withdrawn bets that had no sentence)
+
+| node | bet(s) | rules out |
+|---|---|---|
+| SV-8 | sv-b4 | Rules out nothing about whether declining adds to stated confidence in predicting mistakes; it shows wave 1's archive cannot see a 5% gain once the trivia bit is in the base model (sv-b4). A re-bet needs fresh items. |
+| SV-2w | sv-b6 | Rules out, within 300 SimpleQA trivia questions, that Haiku 5.5's stated number predicts declining under a penalty beyond answer type; Sonnet 5.5's did (margin +0.169), and Opus's arm (11 passes in 100) was too small to say (sv-b6). |
