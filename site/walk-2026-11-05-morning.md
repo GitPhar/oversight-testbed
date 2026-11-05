@@ -26,3 +26,7 @@ All eight pages load at 1366×900 and 390×844 with no console error and no fail
 - **Instruments.** A line above the gauges: "What changed since yesterday. In the last 24 hours (since Wed Nov 4, 04:52): 33 bets placed; 37 settled (12 came true, 12 did not, 13 mixed); 45 directions killed; the engine's score moved from 0.292 on 2 to 0.259 on 19 scored bets; $34.94 of API spent; 16 seconds of chip time used; no new human answers." Every number is recounted on load.
 
 Not changed, still worth a look: the record shows date-only result times as 00:00 (e.g. "Wed Nov 4, 00:00" on ng-p3-5c).
+
+### After merging main (`487642e`) into this branch
+
+Main had moved on: a remap created its own `map/settled-science.json` (14 directions), which takes the program 4 tab instead of the deploy-time conversion, as designed. With it, program 4 has open questions, so the twelve cards are now three per program: bmq-d1, P2-7, P3-10, ss-f1, bmq-d2, P2-8, P3-9, ss-f2, bmq-d4, P2-9, P3-7, ss-f3. ss-f1 to ss-f6 got plain sentences in `map/plain-questions.jsonl`. The remap's `short` labels were the first 35 characters of each title ("ss-b1: Post-cutoff Brier beats a co"). The map now ignores a label that is only the start of its own title and wraps the title by words instead. All eight pages were re-shot at both widths with no errors.

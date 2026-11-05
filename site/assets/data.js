@@ -37,6 +37,15 @@ export async function loadMaps() {
   return programs.sort((a, b) => n(a) - n(b));
 }
 
+// A short label that is only the title cut off mid-word ("ss-b1: Post-cutoff Brier beats a co") is dropped for the
+// title without its trailing parenthesis, which the map wraps at word boundaries.
+function cleanLabel(short, title) {
+  if (!short) return null;
+  const bare = String(short).replace(/^[\w.-]+:\s*/, "").trimEnd();
+  const truncated = bare.length < title.length && title.startsWith(bare);
+  return truncated ? title.replace(/\s*\([^)]*\)\s*$/, "") : short;
+}
+
 function normProgram(p, fallbackId) {
   const dirs = p.directions || p.nodes || p.map || [];
   return {
@@ -50,7 +59,7 @@ function normProgram(p, fallbackId) {
       id: String(d.id ?? d.direction ?? d.title),
       parent: d.parent ?? d.parent_id ?? d.from ?? null,
       title: d.title || d.label || d.name || d.assumption_at_stake || String(d.id),
-      label: d.short || d.label || null,
+      label: cleanLabel(d.short || d.label || null, d.title || ""),
       status: normStatus(d.status ?? d.verdict ?? d.state),
       engine: num(d.engine_odds ?? d.engine_p ?? d.odds ?? d.p),
       human: num(d.human_odds ?? d.human_p),
