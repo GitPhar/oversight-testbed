@@ -57,7 +57,7 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 |---|---|
 | engine: named the main reason | 3/7 = 0.43 [0.16, 0.75] |
 | engine: named it or its kind | 6/7 = 0.86 [0.49, 0.97] |
-| lazy baseline: failures whose reason was 'the effect is not there' | 6/9 = 0.67 [0.35, 0.88] |
+| lazy baseline: failures whose reason was 'the effect is not there' | 6/10 = 0.60 [0.31, 0.83] |
 | human: named the main reason | — |
 
 | stated kind \ actual kind | world | design | execution | artefact |
