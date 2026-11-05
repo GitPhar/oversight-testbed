@@ -1,28 +1,38 @@
 # (working title — see CONTEXT.md §0)
 
-A scalable-oversight testbed for AI-driven research. The AI maps every candidate path and bets on them with stated odds; a human steers; an independent auditor tries to break every result; both the AI and the human are scored on their judgment. Built for trust, not volume.
+A testbed for AI-driven research in which the judgment, not just the output, is scored. An AI (Claude) maps the research paths it could take and writes down its odds on each before any data. A person steers. A separate AI session that has not seen the work tries to break every result. The AI's odds and the person's are then scored against what happened. Built for trust, not volume.
 
-**New here? Start with [the project in plain words](paper/plain-words.md)** (under 1,500 words, no jargon) or [the same on one page](application/one-page-plain.md).
+**New here? Start with [the project in plain words](paper/plain-words.md)** (under 1,500 words, no jargon) or [the same on one page](application/one-page-plain.md). The panel-style review of the whole submission is [paper/review-anthropic.md](paper/review-anthropic.md).
 
-Read in this order: `CONTEXT.md` (the living brain, rewritten nightly), `TASKS.md` (open items, decisions made, what waits on whom), `ARCHITECTURE.md` (the loop in pseudocode), `proposal.md` (the research proposal for the engine itself).
+For the working files, read in this order: `CONTEXT.md` (the rules and the current state), `TASKS.md` (open items), `ARCHITECTURE.md` (the loop, step by step), `proposal.md` (the research proposal for the engine itself).
 
 ## The five commitments
 
-1. **Odds before data.** Every bet carries the engine's odds and the human's odds, recorded separately, before any data are seen.
-2. **Cheapest falsifier first.** Archives before API, API before hardware; budgets in code; stop rules; stop-on-refusal.
-3. **No result without audit.** An independent session that has not seen the work tries to break every result, and its report is published whether or not the result stands.
-4. **Nothing disappears.** Every dead direction stays on the map with its diagnosis.
-5. **Full reads first, all fields.** Every program starts from adjacent research read in full, its "what to do next" extracted and filtered by cost and falsifiability.
+1. **Odds before data.** Every bet carries the AI's odds and the person's odds, recorded separately, before any data are seen. (As of 5 November 2026 no scored bet yet carries the person's odds; `ledger/brier.md` shows the empty column.)
+2. **Cheapest test first.** Archived data before new API calls, API calls before hardware; budgets enforced in code; stop rules; a run stops at its first refusal.
+3. **No result without a check.** An independent session that has not seen the work tries to break every result, and its report is published whether or not the result stands.
+4. **Nothing disappears.** Every dead direction stays on the map with the reason it died.
+5. **Full reads first, all fields.** Every program starts from adjacent research read in full, its "what to do next" extracted and filtered by cost and whether it can fail.
+
+## Where it stands (5 November 2026)
+
+- 52 bets in the ledger, 20 scored, 41 audited, 2 verdicts reversed by audit.
+- The AI's odds score 0.249 on the 20 scored bets, where always saying 50% scores 0.250: no better than a coin so far (`ledger/brier.md`).
+- Three kinds of referee decide bets: another Claude model's behaviour (programs 1, 2, 5, 6, 7), an IBM quantum chip used only as a judge whose outcomes a model cannot argue with (program 3; 69 of 420 chip seconds used), and the published scientific record (program 4).
+- 6 planted faults, 6 caught by the auditor (too few to be a rate). Every auditor, reviewer and bettor so far is a Claude model; a check by a non-Claude model has not yet been run.
 
 ## Programs
 
 Every program lives in this repository under `programs/`, with its git history imported. There are no separate program repositories.
 
-- Program 1, [The Entangled Mind](programs/entangled-mind/): a quantum encoding of a model's competing beliefs (closed, negative, with diagnosis) that produced a live finding about what a model's self-reports measure. Its original repository, [GitPhar/entangled-mind](https://github.com/GitPhar/entangled-mind), is kept untouched as the historical record.
-- Program 2, [Other Minds](programs/other-minds/) (open): does a model's account of another mind behave like its account of its own?
-- Program 3, [Nature-Graded](programs/nature-graded/) (open): the same engine's odds, graded by a quantum chip instead of a language model. The chip is a referee, never a computational resource (`operators/hardware.md`).
-- Program 4, [Settled Science](programs/settled-science/) (opening): the engine's odds graded by the published record.
+- Program 1, [The Entangled Mind](programs/entangled-mind/): can a quantum-style encoding of a model's competing beliefs flag its wrong answers? Closed, negative, with a diagnosis. It left a live question: does a model's stated confidence report a fixed belief? (On Haiku, mostly not; on Opus, partly yes.) Its original repository, [GitPhar/entangled-mind](https://github.com/GitPhar/entangled-mind), is kept untouched as the historical record.
+- Program 2, [Other Minds](programs/other-minds/): does a model reason about another mind the way it reasons about its own? Six tests on Haiku, none passed.
+- Program 3, [Nature-Graded](programs/nature-graded/): the same AI's odds, graded by a real quantum chip instead of by a language model. The chip is a referee, never a computing resource (`operators/hardware.md`).
+- Program 4, [Settled Science](programs/settled-science/): can the AI tell which way published findings came out? Six passes, none yet repeated.
+- Program 5, [Self-Grading](programs/self-grading/): does a model grade its own work more kindly than someone else's? Opened 5 November.
+- Program 6, [Test Awareness](programs/test-awareness/): does a model behave differently when it thinks it is being tested? Opened 5 November.
+- Program 7, [Said vs Did](programs/said-vs-did/): does the confidence a model states predict what it then does? Opened 5 November.
 
 ## Ledger, audits, map, site
 
-`ledger/bets.jsonl`, `ledger/steers.jsonl`, `ledger/audits/`, `map/`, `site/` — populated by the operators described in `CONTEXT.md` §7.
+`ledger/bets.jsonl` (every bet, its odds and its outcome), `ledger/steers.jsonl` (every human decision), `ledger/audits/` (every independent check), `map/` (every path considered), `site/` (the public pages at https://gitphar.github.io/oversight-testbed/). The operators that populate them are described in `CONTEXT.md` §7.
