@@ -36,8 +36,9 @@ The definitions, once:
   program's own count of what it has spent, which its budget code passes in. The programs' call caches carry no
   dates, so (b) is everything the program has spent; every program began in November 2026, so today that is exact,
   and from December it can only overcount, which stops a call early and never lets one through.
-- A closed program (map status "closed", a closing review's decision) makes no paid call at all; only a new reason
-  its diagnosis does not cover, or a steer from Sean, reopens it.
+- A closed program (map status "closed", a closing review's decision) makes no paid call, except a shadow check of
+  one of Sean's vetoes (operators/veto.md; DollarLine(..., shadow_of=<the veto's steer id>)), which has its own cap.
+  Only a new reason its diagnosis does not cover, or a steer from Sean, reopens it.
 
 Standard library only; no network, no keys.
 """
@@ -147,13 +148,25 @@ class DollarLine:
         if line.blocks(spent_in_this_run): stop the run, report "rule 16 dollar line"
     """
 
-    def __init__(self, program, spent_usd=0.0, root=ROOT):
+    def __init__(self, program, spent_usd=0.0, root=ROOT, shadow_of=None):
         try:
             bets, steers, maps = load(root)
         except Exception as e:   # no ledger, no paid call: fail closed
             raise Rule16Stop(f"rule 16: cannot read the ledger and maps at {root} ({e!r}); no paid call may run")
         s = status(program, bets, steers, maps, spent_usd=spent_usd)
         self.program, self.status = program, s
+        # A shadow check of one of Sean's vetoes (operators/veto.md) is the one paid run a closed or capped program
+        # still makes: it is how the ledger learns whether the veto saved money or killed a hit, and it has its own
+        # cap (the lesser of $2 and 10% of the vetoed budget) and the $5 monthly shadow pool. The shadow's code names
+        # the veto steer; it must be a veto of this program in ledger/steers.jsonl with a shadow row.
+        if shadow_of is not None:
+            ok = any(x.get("id") == shadow_of and x.get("action") == "veto" and x.get("program") == program
+                     for x in steers)
+            if not ok:
+                raise Rule16Stop(f"{program}: shadow_of={shadow_of!r} names no veto of this program in ledger/steers.jsonl")
+            self.released, self.line, self.start, self.shadow_of = True, None, s["usd_month"], shadow_of
+            return
+        self.shadow_of = None
         self.released = bool(s["released_by_result"])
         self.line = None if self.released else s["usd_line"]
         self.start = s["usd_month"]

@@ -122,7 +122,10 @@ def _rule16(spent_usd=0.0):
     if led not in sys.path:
         sys.path.insert(0, led)
     import rule16
-    return rule16.DollarLine("test-awareness", spent_usd, root=ENGINE)
+    return rule16.DollarLine("test-awareness", spent_usd, root=ENGINE, shadow_of=SHADOW_OF)
+
+
+SHADOW_OF = None   # a shadow check of a veto (operators/veto.md) sets this to the veto's steer id before its first call
 
 
 def refusal_on_record():
