@@ -24,6 +24,8 @@ from common import ROOT, Caller, key_of, spent_total, structured, BUDGET_USD  # 
 import bettor as B  # noqa: E402  (the bettor SYSTEM prompt and SCHEMA, verbatim)
 
 MODELS = ("claude-haiku-5-5", "claude-sonnet-5-5")
+OPUS = "claude-opus-5-5"   # D54 (design review F4): flattery secondary only, never in the pass rule
+OPUS_N = 50
 ITEMS = ROOT / "items" / "brainbench" / "items.jsonl"
 PILOT_POOL = ROOT / "items" / "brainbench" / "gpt4-pilot-pool.jsonl"
 SEED = ROOT / "bettor" / "bb-seed.json"
@@ -89,11 +91,16 @@ def plan(items, seeds):
     for model in MODELS:
         steps.append((f"{model.split('-')[1]} flattery order-check",
                       [job(it, model, "flattery", "order-check", not orig_first[it["id"]]) for it in items if it["id"] in check]))
+    # step 7 (D54): Opus, flattery, primary order, on the OPUS_N lowest-id items of the order-check half; run last
+    opus_ids = sorted(check)[:OPUS_N]
+    steps.append(("opus flattery secondary", [job(it, OPUS, "flattery", "opus-secondary", orig_first[it["id"]])
+                                              for it in items if it["id"] in opus_ids]))
     return steps
 
 
 def fn(j):
-    out, cost, rid, usage = structured(j["model"], j["system"], j["user"], SCHEMA, f"bb-{j['task']}", max_tokens=MAX_TOKENS)
+    mt = 4000 if j["model"] == OPUS else MAX_TOKENS        # Opus: adaptive thinking at effort low (D18), as the bettor
+    out, cost, rid, usage = structured(j["model"], j["system"], j["user"], SCHEMA, f"bb-{j['task']}", max_tokens=mt)
     return {"id": j["id"], "model": j["model"], "task": j["task"], "kind": j["kind"],
             "original_is_option": j["original_is_option"], "p_option_1": out["p_option_1"], "rationale": out["rationale"],
             "cost": cost, "request_id": rid, "usage": usage, "t_utc": datetime.datetime.now(datetime.timezone.utc).isoformat()}
@@ -116,13 +123,13 @@ def write_out(steps):
 
 
 def estimate(steps):
-    price = {"claude-haiku-5-5": (0.10, 0.50), "claude-sonnet-5-5": (2.00, 10.00)}
+    price = {"claude-haiku-5-5": (0.10, 0.50), "claude-sonnet-5-5": (2.00, 10.00), OPUS: (4.00, 20.00)}
     tot = 0.0
     for _, js in steps:
         for j in js:
             tin = (len(j["system"]) + len(j["user"])) / 3.6 + 20
             pi, po = price[j["model"]]
-            tot += tin * pi / 1e6 + 180 * po / 1e6
+            tot += tin * pi / 1e6 + (300 if j["model"] == OPUS else 180) * po / 1e6
     return tot
 
 
