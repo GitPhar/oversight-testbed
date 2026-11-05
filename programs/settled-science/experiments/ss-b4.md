@@ -37,7 +37,7 @@ There is a catch, found in the dry run before this pre-registration. **78% of th
 - **Draw:** a field with more than 30 items gives a beacon-drawn 30 (`bettor.py` `sample_r2`, sub-seed `items`). That leaves **92 items** to bet: model psychology 30, interpretability 27, scalable oversight 21, quantum devices 14.
 - **Bettor:** exactly as in ss-b1 after D18–D19: claude-opus-5-5, one fresh call per item, no tools, adaptive thinking at effort low with reasoning hidden, max_tokens 4000, the same `SYSTEM` and `user_text`. The option order and the half that gets an order check are drawn from the beacon sub-seeds `order` and `order-check`.
 - **Seed** (operators/hardware.md): CURBY-Q stalled (latest completed round 28297, 2025-08-22 13:42 America/Denver, last checked 16:55 today). **Seed: the first CURBy-RNG pulse timestamped after this commit.** seed = `ledger/seed.py <randomness> ss-b4 --purpose <items|order|order-check>`. Filled in by the seed commit, before any bettor call:
-  `chain:` ___ · `pulse_index:` ___ · `pulse_time:` ___ · `randomness:` ___ · `seeds:` ___
+  `chain:` CURBy-RNG · `pulse_index:` 1591609 · `pulse_time:` 2026-11-04 19:25:00 America/Denver (previous pulse 1591608 at 2026-11-05T02:24:00.188Z UTC, before the commit) · `randomness:` 6703b701645cec17f743b7d3a92c786de7735e442e061beeb812720ad906232c4c6e09e732a5c3387b52416523d8a390e100da0a8c65396d4d95b4273a18895f · `seeds:` items 17297228536032390272, order 17107093521283368216, order-check 9357504176147922809 (bettor/r2-seed.json)
 - Bootstrap seed 20261104, 10,000 resamples, numpy (D16).
 
 ## 3. Calls
