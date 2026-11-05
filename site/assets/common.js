@@ -19,6 +19,13 @@ export const SITE = {
 
 export const DATA = "data/";
 
+// Names for programs whose map is not deployed with the site (their map file lives only under programs/<name>/map/).
+const PROGRAM_NAMES = { "entangled-mind": "Program 1: The Entangled Mind", "other-minds": "Program 2: Other Minds",
+  "nature-graded": "Program 3: Nature-Graded", "settled-science": "Program 4: Settled Science" };
+export function programTitle(id, programs = []) {
+  return programs.find((p) => p.id === id)?.title || PROGRAM_NAMES[id] || id;
+}
+
 const PAGES = [
   ["index.html", "Home"],
   ["map.html", "Map"],
@@ -153,7 +160,9 @@ export function normBet(o) {
     status,
     date: pick(o, "date", "resolved", "verdict_date", "landed", "opened") || "",
     result: pick(o, "result", "result_summary", "summary") || "",
-    diagnosis: pick(o, "diagnosis", "why", "kill_reason") || "",
+    // A failed bet's reason is written as failure_reason by the auditor's scoring (operators/premortem.md).
+    diagnosis: pick(o, "diagnosis", "why", "kill_reason", "failure_reason") || "",
+    failureKind: pick(o, "failure_kind") || "",
     prereg: pick(o, "prereg_commit", "prereg", "preregistration") || "",
     source: pick(o, "source") || "",
     cost: pick(o, "cost", "budget") || (o.cost_usd != null ? "$" + Number(o.cost_usd).toFixed(2) : ""),
@@ -169,7 +178,35 @@ export function normBet(o) {
     replicationOf: pick(o, "replication_of") || "",
     audit: pick(o, "audit_path") || "",
     auditStatus: pick(o, "audit_status") || "",
+    verdictAfterAudit: pick(o, "verdict_after_audit") || "",
+    referee: refereeOf(o),
   };
+}
+
+// What decided a bet's outcome. Three referees: another model, the quantum chip, the published record.
+export const REFEREE = {
+  model:  { word: "Model-graded",  short: "model",  hex: "#3987e5", shape: "circle",   what: "another language model's behaviour decided it" },
+  chip:   { word: "Chip-graded",   short: "chip",   hex: "#c98500", shape: "square",   what: "the ibm_fez quantum chip decided it" },
+  record: { word: "Record-graded", short: "record", hex: "#d55181", shape: "triangle", what: "the published literature decided it" },
+};
+export function refereeOf(o) {
+  const r = String(o.referee || "").toLowerCase();
+  if (["nature", "chip", "hardware", "qpu"].includes(r)) return "chip";
+  if (["published-record", "record", "literature", "published"].includes(r)) return "record";
+  if (["mathematics", "math", "maths", "proof"].includes(r)) return "maths";
+  if (r) return "model";
+  return o.program === "nature-graded" ? "chip" : o.program === "settled-science" ? "record" : "model";
+}
+// The mark for a referee, as SVG markup centred on (x, y). Shape and colour both carry identity.
+export function refMark(ref, x, y, r = 7, ring = "#191c20") {
+  const R = REFEREE[ref] || REFEREE.model, c = R.hex;
+  if (R.shape === "square") return `<rect x="${x - r * 0.9}" y="${y - r * 0.9}" width="${r * 1.8}" height="${r * 1.8}" rx="2" fill="${c}" stroke="${ring}" stroke-width="2"/>`;
+  if (R.shape === "triangle") { const h = r * 1.15; return `<path d="M${x} ${y - h}L${x + h} ${y + h * 0.8}L${x - h} ${y + h * 0.8}Z" fill="${c}" stroke="${ring}" stroke-width="2" stroke-linejoin="round"/>`; }
+  return `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}" stroke="${ring}" stroke-width="2"/>`;
+}
+export function refKey(ref, size = 16) {
+  const h = size / 2;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true">${refMark(ref, h, h + (REFEREE[ref]?.shape === "triangle" ? 1 : 0), h - 2.5, "transparent")}</svg>`;
 }
 // 1 = hit, 0 = miss, null = not scorable (open, running, mixed)
 export function outcomeOf(b) {

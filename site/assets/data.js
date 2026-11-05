@@ -1,5 +1,5 @@
 // Loads the ledger and the maps, and joins them. Every page reads through here.
-import { DATA, getJSON, getJSONL, getText, manifest, normBet, normStatus, num } from "./common.js";
+import { DATA, getJSON, getJSONL, getText, manifest, normBet, normStatus, num, programTitle } from "./common.js";
 
 const FALLBACK_MAPS = ["entangled-mind.json", "other-minds.json", "nature-graded.json"];
 
@@ -140,7 +140,6 @@ export async function loadKills() {
     program: b.program, direction: String(b.direction || b.id), title: b.title, diagnosis: b.diagnosis,
     evidence: b.result, date: b.landed || b.date, prereg: b.prereg, bet: b, key: b.id,
   });
-  const titles = Object.fromEntries(maps.map((p) => [p.id, p.title]));
-  for (const k of out) k.programTitle = k.programTitle || titles[k.program] || k.program;
+  for (const k of out) k.programTitle = k.programTitle || programTitle(k.program, maps);
   return out;
 }
