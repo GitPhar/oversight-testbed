@@ -1,6 +1,6 @@
-# P3-5c result: every pair needs both a rotation-type and a blur-type term (not scored)
+# P3-5c result: on all three archived pairs (one job, 3 November), the 16-knob model needs both a rotation-type and a blur-type term (not scored)
 
-Pre-registration: `experiments/p3-5c-nested.md` (commit `930efe8`, 17:31; seed `03356ad`, CURBy-RNG 1591496). Design-review fixes D19–D25, recovery study D26 (`511ea05`); review `ledger/design-reviews/ng-p3-5c.md`: fix-first, confirmed 21:45 (`709d8c1`; D11 holds). Run `experiments/p3_5c_fits.py --run`, about 21:47–22:50 on the laptop: archive counts only, $0, 0 QPU s. **Not scored; no odds stated.** P3-5's scored verdict (fail, odds 0.42) stands as recorded. This is reported beside it, never in place of it. Unaudited.
+Pre-registration: `experiments/p3-5c-nested.md` (commit `930efe8`, 17:31; seed `03356ad`, CURBy-RNG 1591496). Design-review fixes D19–D25, recovery study D26 (`511ea05`); review `ledger/design-reviews/ng-p3-5c.md`: fix-first, confirmed (header typed 21:45; commit `709d8c1` at 21:38:51, which is the record; D11 holds). Run `experiments/p3_5c_fits.py --run`, about 21:47–22:50 on the laptop: archive counts only, $0, 0 QPU s. **Not scored; no odds stated.** P3-5's scored verdict (fail, odds 0.42) stands as recorded. This is reported beside it, never in place of it. Unaudited.
 
 ## In plain English
 
@@ -17,7 +17,7 @@ Overall: both present on 3 of 3 pairs; rotation only, blur only and neither on n
 *Which rules applied, so a stranger can check:*
 - "Present" means bootstrap p < 0.01. All six tests (3 pairs × 2 kinds) reached B = 1,000 under the D20 extension and gave p = 0.001, the floor 1/(B + 1). Every observed LR is above the largest of its 1,000 null draws. So all six also pass the Bonferroni line, 0.0017.
 - Misfit rule: full16 deviance against χ²₁₁'s 99th percentile, 24.7. Only h088 exceeds it (63.3). h221 gives 14.0 and h268 16.8.
-- One-setting rule (D24): no setting carries more than half of any LR labelled present (the largest share is 0.43, YZ for rotation on h088), so no "rests mostly on setting" sentence and no drop-one refit.
+- One-setting rule (D24): no setting carries more than half of any LR labelled present (the largest share is 0.43, YZ for rotation on h088), so no "rests mostly on setting" sentence and no drop-one refit. The weakest label is rotation on h221: two settings, XZ (15.5) and XY (11.0), carry 69% of its LR of 38.5. In the auditor's post-hoc refits, dropping XZ alone leaves 19.5 and dropping both leaves 13.8, against that null's 99th percentile of 13.0. The label survives every single and paired drop, but narrowly. *(Audit cut 4, D30.)*
 - CV (secondary, D21): positive for both kinds on every pair, so the "CV disagrees" sentence does not apply.
 - Spectator check (D23): on h088, 19 of 20 draws were invisible, so the "invisible" sentence applies. On h268, 20 of 20 were detected as rotation. §5 has no sentence for that outcome, so it appears only in the table.
 - The "never 'blur, not steering' or the reverse" rule: no sentence says either.
@@ -52,7 +52,7 @@ Overall: both present on 3 of 3 pairs; rotation only, blur only and neither on n
 
 - The legacy line reproduces P3-5 to the published 0.1 on every pair. So review note 1 (rerun with P3-5's own starts if it missed by more than about 1) did not trigger.
 - Fixing T1/T2 moves h088 by +5.6 and h268 by +19.8. The reparametrisation changes nothing to 0.001. Adding decay to the 7-knob blur family moves only h221 (−2.2).
-- Whichever way it is computed, P3-5's head-to-head still favours blur on h221 and h088, and steering on h268. The nested tests above say why that contest was the wrong question: each kind is needed given the other on every pair.
+- Whichever way it is computed, P3-5's head-to-head still favours blur on h221 and h088, and steering on h268. The nested tests above say why that contest was the wrong question: in the 16-knob model, each term is needed given the other on all three pairs.
 
 **Spectator check** (D23; 0.1 rad ZZ on the 344 CZ pairs not touching the measured pair; 20 synthetic draws, classified with the pair's real-data null 99th percentiles):
 
@@ -64,8 +64,9 @@ Overall: both present on 3 of 3 pairs; rotation only, blur only and neither on n
 **Noticed after the data; leads, not findings:**
 - On h268, spectator rotations of 0.1 rad show up as *rotation*, not blur, in every draw. So on that pair, part of the rotation-type term could come from rotations on other qubits in the circuit, not only on the measured pair. §5 wrote no sentence for this outcome.
 - h088's misfit (63.3 on 11 df) is the largest. h088 is also the pair whose blur term is biggest (LR 242) and whose fitted state loses the most negativity relative to the reference (0.109 → 0.062).
+- On h221 and h268, a rotation model with four extra readout knobs makes the blur term unnecessary (LR 8.9 and 7.6). This needs 2.7–5% extra readout error per qubit, several times IBM's reported 0.2–0.9%, so it is unlikely here, but this design cannot exclude it (auditor, post hoc; D30).
 - The run printed an overflow warning from P3-5's softmax incoherent family, inside the legacy comparison. That line still reproduces P3-5, so it did not change the result.
 
-**Pre-mortem** ("the 14-knob fits land in different local optima across bootstrap samples, widening the null and hiding steering that the point fit shows"; kind `design`). For the auditor: no steering was hidden. Every rotation LR beat all 1,000 null draws, by a factor of 3 to 14 over the null's 99th percentile. The pre-mortem names the 14-knob set; the 16-knob primary behaves the same way.
+**Pre-mortem** ("the 14-knob fits land in different local optima across bootstrap samples, widening the null and hiding steering that the point fit shows"; kind `design`). For the auditor: no rotation-type term was hidden. Every rotation LR beat all 1,000 null draws, by a factor of 3 to 14 over the null's 99th percentile. The pre-mortem names the 14-knob set; the 16-knob primary behaves the same way.
 
 Data: `results/p3-5c-nested.json` (fits, all bootstrap nulls, setting shares, spectator outcomes). Code: `experiments/p3_5c_fits.py --run`. Recovery evidence: `data/p3-5c-recovery.json`.
