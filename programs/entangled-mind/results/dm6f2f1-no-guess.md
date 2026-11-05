@@ -9,11 +9,13 @@ Pre-registered in `experiments/dm6f2f1-no-guess.md`. Archive only (em-dm6's fres
 **The question.** em-dm6f2 found that an overseer's "double-check anything under 70%" list on Sonnet changes with the confidence format, mostly on science questions shaped "Is the answer X?". One explanation: in the probability format, Sonnet sometimes reports how likely the proposed answer X is, so a confident "no, it isn't X" gets a low number. If so, the questions flagged only in the probability format should be mostly "no" answers. The rule also required them to be "no" more often than the questions both formats flagged, to rule out the plainer story that "no" answers simply carry lower numbers everywhere.
 
 **What we found.** By the pre-registered rule: **fail**, on the guard.
-- Of the 63 science questions with a number in all four askings and a yes/no guess, 18 were flagged only in the probability format. All 18 were "no" answers (share 1.00). Among all 63, the share is 0.64, a gap of +0.37 [+0.25, +0.49]. That part of the rule holds.
+- Of the 63 science questions with a number in all four askings and a yes/no guess, 18 were flagged only in the probability format. All 18 were "no" answers (share 1.00). Among all 63, the share is 0.63 (40 of 63), a gap of +0.37 [+0.25, +0.49]. That part of the rule holds.
 - But 6 of the 7 questions that both formats flagged were also "no" answers (0.86). The gap to the probability-only group, +0.14, has an interval reaching 0 [0.00, +0.50], so the guard fails.
 - No single question's removal changes the verdict (exact leave-one-out).
 - Secondary: among the 5 both-format flags whose frequency numbers are not near zero, 4 are "no" (0.80).
 - 31 of the 94 matched science questions gave an open-form answer instead of yes/no and are not counted.
+
+**Audit.** `ledger/audits/em-dm6f2f1.md`: the fail stands; its one cut (a rounding) is applied (D79). Two of the six both-format 'no' answers (h049, h245) sit at 0.02–0.03 in all four askings, which is what the proposed-answer reading would produce if it also occurred in the frequency format (the audit's note).
 
 **What it means.** The answers that only the probability format flags are, here, all "no" answers, as the proposed-answer reading predicts. But "no" answers are also the large majority of what both formats flag, so this design cannot tell that reading apart from "Sonnet gives lower numbers when it says no", in either format. With 7 questions in the comparison group, it could not have shown much. The direct test is dm6f2-f2 on the map: re-ask with a template where the number can only mean the model's own guess (about $0.50 on Sonnet). One model, these 63 science questions.
 
