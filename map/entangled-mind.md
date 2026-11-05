@@ -89,3 +89,12 @@ Added 2026-11-05 06:21 America/Denver (commit 53fd45b; the first version said 06
 | gm2-f1 | gm2 (also gm2b, dm4), bet `em-gm2` | Does question order still move the final rating when the four sub-questions sit in one user message, with no answer turns and no placeholder? | Haiku, Sonnet (not Opus: the job names these two; Opus is the next layer if it passes) | $3.50 cap (about $2.60 planned) | 10 (v1, fresh subagent) |
 
 - **gm2-f1.** *Event:* On both Haiku and Sonnet: the shown chain's order effect is significant (permutation p < 0.05, else that model is untestable); the questions-only order effect is itself significant (p < 0.05); and R = OE_questions-only / OE_shown has a 95% item-bootstrap lower bound of at least 0.5. *Odds 10 (v1):* the shown chains probably gate on both models; the weak link is questions-only, where the model never commits to each statement, so its order effect is probably smaller, and two items carry most of it, so the lower bound needs R near 1 on both models. Below the running base rate 9/26 = 0.35 (`ledger/brier.md`).
+
+### gm2-f1 result and its follow-ups (2026-11-05, after the audit)
+
+gm2-f1 ran as bet `em-gm2q` (pre-registration `2f30696`, results `85e0765`, audit `951d189`, scored `361284b`). Verdict, from the ledger: **mixed**. With nothing in the transcript but the questions, their order still moved the final rating on both Haiku and Sonnet (raw gate p = 0.0002 each). Sonnet met the full pre-registered rule. Haiku failed it on the wrong-target check: three cells lost too many answers that sat on a listed statement's rating. The surviving effect is not the turn-by-turn one: it falls on different items and orders, mostly one item per model. Results: `programs/entangled-mind/results/gm2q-questions-only.md`. The two cheapest follow-ups are the audit's "what would break it next". Their cards are on the cockpit, posted with these nodes, with no engine odds. Engine odds are one pass by the gm2q session, not v1; re-elicit before pre-registering.
+
+| id | grows from | direction | models | cost | engine P(pass) |
+|---|---|---|---|---|---|
+| gm2q-f1 | gm2-f1, bet `em-gm2q` | With only questions in the message, is the final number an answer to the main question or a rating of a listed statement? (schema {line, rating}) | Haiku, Sonnet | about $0.48 | 25 |
+| gm2q-f2 | gm2-f1, bet `em-gm2q` | Does the questions-only order effect spread across gm2b's 30 further items, or stay on a few? | Haiku | about $0.70 | 35 |
