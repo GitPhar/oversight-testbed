@@ -1,0 +1,17 @@
+{
+ "pilot_stories": 14,
+ "planned_calls": 182,
+ "made": 182,
+ "refusals": 0,
+ "cost_usd": 0.00841,
+ "mean_cost_per_call": {
+  "ms": 3.9835714285714297e-05,
+  "action": 4.524047619047619e-05,
+  "judge": 4.819761904761905e-05
+ },
+ "values_seen": [
+  "A",
+  "B"
+ ],
+ "note": "Pilot data are not test data and are never pooled with the test (D8)."
+}
