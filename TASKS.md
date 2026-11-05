@@ -59,6 +59,7 @@ Status as of 2026-11-05 05:40. Several sessions are mid-run; their latest commit
    - `om_common.py`, `sg_common.py`, `ta_common.py` and `svd_common.py` point at the old checkout `/Users/seanpharris/entangled-mind`. The reproduce scripts redirect them into the snapshot; the program code should use `programs/entangled-mind` itself.
    - Two pilot write-ups read loosely: `test-awareness/results/ta-b1-pilot.md` prints Opus's median output tokens as 93, the upper median of 16 (the midpoint median is 63.5); `ta-b3-pilot.md` names `ta_b3.question_sets(20261105)`, which since fix T5 draws different questions (the pilot used the generator at `979ec5d`, which the script rebuilds and checks against the cached prompt hashes).
    - `test-awareness/results/ta-b1r-pilot.md`: the header cell "mean |repeat diff|" has unescaped `|`, so the table does not render (11 header cells against 9); `ta-b2-results.md` escapes it as `\|`.
+   - `said-vs-did/results/sv-b3-ask.md` gives the bet's cost as $0.600, the sum of its rounded parts; the caches give $0.6006 ($0.601). The script accepts that printing and names it on every run.
    - Numbers quoted in write-ups that no archived code computes (auditors' own runs, commit hashes, a few prose figures) are listed, not checked, in each program README's Reproducibility section.
 
 ## Waiting on Sean (only these)

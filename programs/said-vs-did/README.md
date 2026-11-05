@@ -19,6 +19,15 @@ One command, from the repository root, with Python 3 and numpy installed (no key
 
     python3 programs/said-vs-did/reproduce.py
 
-The root `python3 reproduce.py` runs it too and prints one line for this program. It takes a copy of the program as committed, runs the wave-1 script's own `analyse` step (`experiments/svd_wave1.py analyse b1|b2|b3`) on the archived call caches (`results/sv-said-calls.json`, `results/sv-<bet>-calls.json`), and checks that `results/sv-<bet>-analysis.json` comes out byte for byte the same.
+The root `python3 reproduce.py` runs it too and prints one line for this program. It takes about 3 seconds. It takes a copy of the program as committed, plus program 1's hard pool (`programs/entangled-mind/experiments/questions-hard.json`), which holds the items. Nothing is called, and nothing outside the standard library and numpy is used. Nothing is read from outside that copy: the script checks every module and every path the program's code holds.
 
-Today there is nothing to rebuild: no call has been made. When an analysis or a results write-up (`results/*.md`) lands, the script picks the analysis up by name; a write-up's tables are added to `reproduce.py` in the same commit, or the script fails on the unregistered file.
+What it checks:
+- **The analyses.** It runs the wave-1 script's own `analyse` step (`experiments/svd_wave1.py analyse b1|b2|b3`) on the archived call caches (`results/sv-said-calls.json`, `results/sv-<bet>-calls.json`). Each `results/sv-<bet>-analysis.json` comes out byte for byte the same.
+- **The generated part of each write-up.** `results/sv-b1-pushback.md`, `sv-b2-decline.md` and `sv-b3-ask.md` each hold a section printed by `experiments/svd_report.py`: the verdict, the pre-registered sentences and every table in the file. The script runs `svd_report.py` on the regenerated analysis and checks that its output appears in the write-up exactly. No cell is copied. The file's table count must match, so no table sits outside the check.
+- **The hand-written part.** The plain-English lead and the "Run" section copy numbers from the analysis and the caches: counts, AUROCs, margins and intervals, secondary percentages, and costs. Each is rebuilt and checked. So is the lead's verdict and its first sentence, which must be the first pre-registered sentence.
+
+Two values are accepted in a second faithful printing, and the script names both:
+- Opus's agreement with the never-check rule in sv-b3 is 71 of 80, exactly 88.75%. The write-up prints 88.7%; Python prints 88.8%. Either is accepted.
+- sv-b3's cost is printed as $0.600, the sum of its rounded parts ($0.424 + $0.176). The exact cost is $0.6006, which rounds to $0.601. Both printings are accepted, and the script says which one the write-up used.
+
+Not checked: commit hashes, and the thresholds the prose restates (75%, 87.5%, 0.10), which are fixed in the code, not results. Wave 1 wrote no run log, error log or refusal record. The "Run" check relies on their absence. Nothing the tables need is missing from the archive. A new results file fails the script until it is taught there.
