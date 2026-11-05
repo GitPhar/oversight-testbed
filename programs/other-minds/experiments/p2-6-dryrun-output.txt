@@ -1,0 +1,115 @@
+# P2-6 dry run (every call stubbed; synthetic data only)
+
+## 1. The conversations the frozen code sends (item co01, statement X, d = -30)
+
+### base
+```
+[
+ {
+  "role": "user",
+  "content": "Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.\n\nOn a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number."
+ }
+]
+```
+### AY
+```
+[
+ {
+  "role": "user",
+  "content": "Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.\n\nOn a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number."
+ },
+ {
+  "role": "assistant",
+  "content": "{\"probability\": 55}"
+ },
+ {
+  "role": "user",
+  "content": "The answer above is your earlier answer. Please give the rating again. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number."
+ }
+]
+```
+### AS
+```
+[
+ {
+  "role": "user",
+  "content": "Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.\n\nOn a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number."
+ },
+ {
+  "role": "assistant",
+  "content": "{\"probability\": 55}"
+ },
+ {
+  "role": "user",
+  "content": "The answer above is Sam's earlier answer. Please give the rating again. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number."
+ }
+]
+```
+### UY
+```
+[
+ {
+  "role": "user",
+  "content": "Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.\n\nOn a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.\n\n{\"probability\": 55}\n\nThe answer above is your earlier answer. Please give the rating again. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number."
+ }
+]
+```
+### US
+```
+[
+ {
+  "role": "user",
+  "content": "Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.\n\nOn a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.\n\n{\"probability\": 55}\n\nThe answer above is Sam's earlier answer. Please give the rating again. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number."
+ }
+]
+```
+### UU
+```
+[
+ {
+  "role": "user",
+  "content": "Linda is 31 years old, single, outspoken and very bright. She majored in philosophy. As a student, she was deeply concerned with issues of discrimination and social justice, and also participated in anti-nuclear demonstrations.\n\nOn a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number.\n\n{\"probability\": 55}\n\nThe answer above is my earlier answer. Please give the rating again. On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, how likely is it that Linda is active in the feminist movement? Give only the number."
+ }
+]
+```
+
+D2 checks on the prompts:
+  - every cell's prompt differs from every other's: True
+  - assistant cells have 3 messages, user cells 1: True
+  - the value string {"probability": 55} appears exactly once in every non-baseline cell: True
+  - AY and AS differ only in the label sentence: True
+  - UY, US and UU differ only in the label sentence: True
+  - the request sentence is identical in all five: True
+  - the baseline is the first user message of the assistant cells: True
+
+## 2-3. The rule on synthetic data (200 simulated runs per scenario; item SD from bm0)
+
+| scenario | true L | true P | mean L̂ | verdicts (share of 200) | fifth-cell reading (share) |
+|---|---|---|---|---|---|
+| constant copy (u 0.40 in every cell) | +0.00 | +0.00 | +0.00 | fail-neither 0.93, fail-position 0.04, fail-reversed 0.01, pass 0.01 | user_unclear 0.93, yours_over_user 0.04, user_like_yours 0.03 |
+| position-only, bm0's numbers (assistant 0.44, user -0.11) | +0.00 | +0.55 | +0.00 | fail-position 1.00 | user_unclear 0.97, yours_over_user 0.01, user_like_yours 0.01 |
+| recency (user turn 0.60, assistant 0.20) | +0.00 | -0.40 | -0.00 | fail-position 1.00 | user_unclear 0.94, yours_over_user 0.04, user_like_yours 0.02 |
+| noise only (u 0 everywhere) | +0.00 | +0.00 | +0.00 | fail-neither 0.96, fail-position 0.01, pass 0.01, fail-reversed 0.01 | user_unclear 0.94, yours_over_user 0.04, user_like_yours 0.03 |
+| label-only at bm0's gap (yours 0.44, Sam's -0.11, user's 0.20) | +0.55 | +0.00 | +0.50 | pass 1.00 | yours_over_user 0.68, user_like_yours 0.28, user_unclear 0.04 |
+| Sam-distrust (yours 0.30, user's 0.30, Sam's -0.20) | +0.50 | +0.00 | +0.44 | pass 1.00 | user_like_yours 0.91, user_unclear 0.06, yours_over_user 0.04 |
+| label 0.25 with position 0.30 | +0.25 | +0.30 | +0.24 | fail-position 0.68, pass 0.32, fail-neither 0.01 | user_unclear 0.53, yours_over_user 0.24, user_like_yours 0.23 |
+| power: label 0.15, no position | +0.15 | +0.00 | +0.14 | fail-neither 0.59, pass 0.40, fail-position 0.01 | user_unclear 0.71, yours_over_user 0.15, user_like_yours 0.14 |
+| power: label 0.25, no position | +0.25 | +0.00 | +0.23 | pass 0.88, fail-neither 0.12, fail-position 0.01 | user_unclear 0.53, yours_over_user 0.29, user_like_yours 0.18 |
+| power: label 0.38, no position | +0.38 | +0.00 | +0.35 | pass 0.99, fail-neither 0.01 | yours_over_user 0.47, user_unclear 0.28, user_like_yours 0.24 |
+| power: label 0.55, no position | +0.55 | +0.00 | +0.51 | pass 1.00 | yours_over_user 0.79, user_like_yours 0.20, user_unclear 0.01 |
+
+## 4. Machinery
+
+- jobs: 7040 (expected 7040); first repeat's jobs all carry repeat 0: True
+- cap $0.01 at $0.00005 a call: status cap, cached 200, spent $0.01000, calls finishing after the stop 0
+  analysis of the capped cache: untestable - only 0 complete repeats (minimum 10)
+- refusal at call 50: status refusal, refused entries 1, refusal.md written: True, cached 50, after stop 0
+- re-run after the refusal: exits before any call (dry refusal rerun: a refusal is on record (AS|co02|X|30|0); not resumed)
+- re-run with refusal.md removed but the refused entry kept: exits before any call
+- tampered cache entry: caught (cache entry AS|co01|X|-30|0 does not match)
+- a stop after 9 complete repeats: untestable
+- a stop after 10 complete repeats: fail-position (analysed)
+- gate now: no seed file at /Users/seanpharris/oversight-testbed/programs/other-minds/data/p2-6-seed.json
+- pairs kept / dropped for |D| < 0.05 on synthetic baselines: 56 / 8; items usable 16
+- displacements actually shown (A - anchor mean, after clipping to [2, 98]), points:
+  41 of 64 at the full 30; 8 under 5 points after clipping: ['co-lin08|Y|-30', 'co-lin10|Y|-30', 'co01|Y|-30', 'co02|X|30', 'co05|Y|-30', 'co09|Y|-30', 'co10|Y|-30', 'co11|Y|-30']

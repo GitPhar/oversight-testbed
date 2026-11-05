@@ -192,6 +192,7 @@ API tier P2-1 to P2-9 and P2-11: about $7.00 estimated, $8.70 in caps. Recommend
 - **Cheapest falsifying test.** bm0's 16 items at ±30, one wording for every cell ("please give the rating again"), 40 conversations per cell. The value appears either in an assistant turn or in a user turn, labelled either "your earlier answer" or "Sam's earlier answer". A fifth cell is the user's own stated estimate. Statistic: uptake by cell; a label main effect and a position main effect.
 - **Cost.** About 6,400 conversations ≈ $0.65 (cap $0.80).
 - **Event and odds.** The label effect (own minus Sam, pooled over position) is at least 0.15 uptake, with the CI excluding 0, and larger than the position effect. **P = 0.35.** The engine leans toward position: the model is continuing the assistant turn whatever the label says.
+- **Odds revised before data (2026-11-04, lesson `ls-om-p2-6`, pre-registration `experiments/p2-6-position-or-label.md`, D11):** 0.35 → **0.25**, both kept (`engine_odds_first` 0.35, `engine_odds` 0.25). Reason from the ledger: om-p2-3b (audited, stands) found a planted answer labelled as Haiku's own, in its own turn, pulling less than the same answer credited to another reader in the user turn; program 2 is 0 hits in 3 scored bets.
 - **Source.** P1 (the caveat) + L (B13, B18, D34, B6, B16).
 
 ### P2-7. Shared format fingerprint — rank 7
