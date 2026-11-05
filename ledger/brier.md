@@ -126,8 +126,8 @@ Predicted = mean stated probability in the bucket; observed = fraction that hit;
 - **ng-p3-17** (Is P3-5c's blur-type term still needed when readout error may be up to 3x each job's calibration value?): (no scoring_note in this ledger row; the bet owner should add one)
 - **ng-p3-18** (Do both error terms show up again when the three entangled pairs are measured in a fresh chip job?): (no scoring_note in this ledger row; the bet owner should add one)
 - **em-gm2q** (Questions only: does order still move the final rating with the four sub-questions in one message and no answer turns? (Haiku, Sonnet)): open: pre-registered (2f30696), seeded (1ba7f8c); awaiting design review
-- **ss-b10** (The flattery rule on BrainBench's 200 expert-written neuroscience items (Haiku, Sonnet)): open: pre-registered (ef2fa6b), seeded (70efc56); awaiting design review
-- **ss-b11** (Round-1 bettor vs a field-aware good-news baseline (archive)): open: pre-registered (3fd6037); awaiting design review
+- **ss-b10** (The flattery rule on BrainBench's 200 expert-written neuroscience items (Haiku, Sonnet)): open: pre-registered (ef2fa6b), seeded (70efc56); design review fix-first (1afa4f7), fixes D54 (386d462) await confirmation
+- **ss-b11** (Round-1 bettor vs a field-aware good-news baseline (archive)): open: pre-registered (3fd6037); design review fix-first (1422610), fixes D55 (386d462) await confirmation
 - **em-gm2bf1** (Do claims that move with question order also move with answer format? (Haiku, archive)): open: pre-registered (e65b1d5), seeded (14d6c9e); awaiting design review
 - **ss-b12** (Recall check: pre- vs post-cutoff on items the bettor shows no sign of recognising (template items)): open: pre-registered (0e81ddc), seeded (9e6ee65); awaiting design review
 - **em-bm9f2** (Does the pull toward the last rating have the human serial-dependence (DoG) shape? (Haiku, archive)): open: pre-registered (cd534d9), seeded (527e239); awaiting design review

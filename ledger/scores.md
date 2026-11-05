@@ -104,13 +104,13 @@ Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denv
 |---|---|
 | pre-registrations since the rule | 32 |
 | with a lesson line | 29 |
-| with a design review verdict | 24 |
-| awaiting their design review (nothing may run yet) | 8: ng-p3-17, ng-p3-18, em-gm2q, ss-b10, ss-b11, em-gm2bf1, ss-b12, em-bm9f2 |
+| with a design review verdict | 26 |
+| awaiting their design review (nothing may run yet) | 6: ng-p3-17, ng-p3-18, em-gm2q, em-gm2bf1, ss-b12, em-bm9f2 |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 6 |
 
-Design reviews: 0 go, 24 fix-first, 6 redesign; 17 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 26 fix-first, 6 redesign; 17 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
