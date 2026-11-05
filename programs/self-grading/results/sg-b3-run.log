@@ -1,0 +1,9 @@
+sg-b3 grade: 100 done, $0.007 (program $2.405)
+sg-b3 grade: 200 done, $0.015 (program $2.412)
+sg-b3 grade: 300 done, $0.112 (program $2.509)
+sg-b3 grade: 400 done, $0.269 (program $2.667)
+sg-b3 grade: 500 done, $0.464 (program $2.861)
+sg-b3 grade: 600 done, $0.805 (program $3.202)
+sg-b3 grade: 700 done, $1.158 (program $3.556)
+sg-b3 grade: complete, 720 cached calls, $1.2305 (program $3.6279)
+exit 0
