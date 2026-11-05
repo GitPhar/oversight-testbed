@@ -319,15 +319,16 @@
    "engine_only": [
     "the exact bar: on at least 2 of 3 models, adding the behaviour improves held-out log-loss for correctness by ≥ 5% with CI above 0."
    ],
-   "prior_work_line": "Mixed, straddling the bar. Yamin et al. 2026 (arXiv 2602.06286; GPT-5, DeepSeek-R1, Llama-4 Scout; clinical tasks, separate context windows): sufficiency rejected in all 16 cells; adding the deferral action improved prediction of the true label by 6.15, 4.89, 5.11 and 15.19% (random-forest MSE, not log-loss). Smolin and Wilder 2026 (2609.07943): outcome-sufficiency violation under 5% relative for capable models, so Opus may fall short. No Claude; no pushback action.",
+   "prior_work_line": "Mixed, straddling the bar. Yamin et al. 2026 (arXiv 2602.06286 v3; GPT-5 minimal/high, DeepSeek-R1, Llama-4 Scout; clinical diagnose-or-defer, separate contexts): sufficiency rejected in all 16 cells; adding the action cut random-forest MSE by 6.15, 4.89, 5.11 and 15.19%, intervals above zero only for GPT-5-high and Llama. Smolin and Wilder's under-5% residual conditions on an all-output latent, not the stated number. Adds Claude, pushback, log-loss.",
    "prior_work_predicts": "mixed",
    "prior_work_sources": [
     "Yamin et al. 2026, When Agents Say One Thing and Do Another: Validating Elicited Beliefs from LLMs, arXiv 2602.06286",
     "Smolin and Wilder 2026, arXiv 2609.07943",
     "Feng et al. 2024, Don't Hallucinate, Abstain, arXiv 2402.00367"
    ],
-   "prior_work_search": "reads only",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_search": "logged in programs/said-vs-did/map/reads/prior-work-2026-11-05-sv8-sv12.md (Searches)",
+   "prior_work_at": "2026-11-05 remap re-scout (programs/said-vs-did/map/reads/prior-work-2026-11-05-sv8-sv12.md); earlier line kept as prior_work_line_before",
+   "prior_work_line_before": "Mixed, straddling the bar. Yamin et al. 2026 (arXiv 2602.06286; GPT-5, DeepSeek-R1, Llama-4 Scout; clinical tasks, separate context windows): sufficiency rejected in all 16 cells; adding the deferral action improved prediction of the true label by 6.15, 4.89, 5.11 and 15.19% (random-forest MSE, not log-loss). Smolin and Wilder 2026 (2609.07943): outcome-sufficiency violation under 5% relative for capable models, so Opus may fall short. No Claude; no pushback action."
   },
   {
    "id": "SV-9",
@@ -480,13 +481,14 @@
    "engine_only": [
     "the exact bar: Haiku's held-out-format concordance ≥ 0.85 (the disagreement is one of criterion)."
    ],
-   "prior_work_line": "Mixed. Smolin and Wilder 2026 (arXiv 2609.07943; nine models, no Claude): with a per-format offset and slope, 'highly capable' models reach held-out concordance 0.8 to 0.95, while weak models do 'much worse'. No rule says where a small current model such as Haiku 5.5 falls, and program 1's F-prime test, which partly allowed the same slack, still found little shared belief on Haiku. No published refit of Claude data.",
+   "prior_work_line": "Mixed. Smolin and Wilder 2026 (arXiv 2609.07943; nine models, no Claude; one response per case and output, per-output offset and slope): concordance (pairs tied on the target dropped, prediction ties half credit, macro-averaged) reached 0.8-0.95 for capable models, but on reports-versus-decisions group holdouts; single-output holdouts are figure-only, and weak models score \"much less highly\". Where Haiku 5.5 falls is not in print. Adds a Claude refit (none found).",
    "prior_work_predicts": "mixed",
    "prior_work_sources": [
     "Smolin and Wilder 2026, Beliefs and behavior, arXiv 2609.07943"
    ],
-   "prior_work_search": "reads only",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_search": "logged in programs/said-vs-did/map/reads/prior-work-2026-11-05-sv8-sv12.md (Searches)",
+   "prior_work_at": "2026-11-05 remap re-scout (programs/said-vs-did/map/reads/prior-work-2026-11-05-sv8-sv12.md); earlier line kept as prior_work_line_before",
+   "prior_work_line_before": "Mixed. Smolin and Wilder 2026 (arXiv 2609.07943; nine models, no Claude): with a per-format offset and slope, 'highly capable' models reach held-out concordance 0.8 to 0.95, while weak models do 'much worse'. No rule says where a small current model such as Haiku 5.5 falls, and program 1's F-prime test, which partly allowed the same slack, still found little shared belief on Haiku. No published refit of Claude data."
   },
   {
    "id": "SV-13",
