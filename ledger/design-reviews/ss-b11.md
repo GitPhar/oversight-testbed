@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: holds, D4: holds, D5: holds, D6: holds, D7: h
 flaws: 3
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 06:57 America/Denver
 ---
 
 # Design review of ss-b11
@@ -173,3 +173,20 @@ Each needs one dated DEVIATIONS row (one row may cover all three), written befor
 Recommended, not required:
 - guard `main()` so an untestable result writes its sentence rather than raising;
 - state in the results file that the field jackknife interval uses ±1.96 on 4 clusters, and give the t with 3 df (±3.18) width beside it.
+
+## Addendum: fixes confirmed (2026-11-05 06:57 America/Denver)
+
+The fixes are under DEVIATIONS D55: 386d462 for the code and the row, 05e13e6 for the row's time and 5ee223a for the ledger. I checked them with `--synthetic` runs and on a tampered copy of the items file only. The archive was not scored.
+
+- **F1 holds.** `sentence()` now names "a rule that knows, for each field, how often papers' own claims held and how often the 'higher / more' option was the reported one". The endings now read "is more than these field habits" and "may come from these field habits". I checked the printed sentences on the `skilled` world (pass) and the `coin` world (null).
+- **F2 holds.** Both verdicts now end with the in-sample disclosure and the leave-one-out difference, taken from `s["loo_baseline"]`. On synthetic data the pass gives −0.070 [−0.109, −0.031] and the null gives 0.001 [−0.027, 0.028]. The statistic, the rule and the pass bar are unchanged: the `--synthetic` outputs for `skilled` and `coin` are identical to those before the fix.
+- **F3 holds.** D55 carries the §6 disclosure (the ss-b1 audit's item 9 numbers and the review's P(pass) of 0.80–0.94). The pre-registration stays frozen.
+  - The engine revised its odds before data, keeping every number. `ledger/bets.jsonl` has `engine_odds` 0.85, `engine_odds_first` 0.50, `odds_after_lesson` 0.70 and `odds_after_review` 0.85. The bar is not lowered.
+  - The results file should repeat the D55 disclosure beside the verdict.
+- **The checksum stop holds for the items file.** `main()` parses `items/SHA256SUMS`, and the real file matches it. I pointed `ITEMS` at a tampered file, `BETS` at a missing path and the outputs at scratch. The run then wrote "untestable" with its sentence and never called `score()`.
+  - Residual, not blocking: `bettor/bets.jsonl` has no checksum and the code does not check it. The run session should record `git diff --quiet HEAD -- bettor/bets.jsonl` before scoring, as fix 3 asked.
+- **The untestable crash is fixed.** `score()` sets `verdict_reported` on its own untestable branch, and `main()` writes a short tables file for any untestable label.
+- **The read block holds.** ls-ss-b11's `read` (27 scored, Brier 0.209, 8/27, read at 3fd6037) matches `ledger/brier.md` at 3fd6037. The lesson text is unchanged.
+
+The fixes hold. **The archive may now be scored:** `python3 scoring/score_f3.py`, once, from `programs/settled-science`.
+
