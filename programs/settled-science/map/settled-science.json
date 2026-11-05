@@ -256,15 +256,15 @@
    "short": "Model psychology, 60 more findings",
    "title": "Does the bettor beat always-50% on 60 more model-psychology findings, its weakest field in round 1?",
    "assumption_at_stake": "The bettor's skill holds in the field it scored worst in, not just on average.",
-   "cheapest_test": "60 post-cutoff model-psychology findings written by the template writer (no model), the bettor on Opus, Sonnet and Haiku (the ss-b1 audit's item 4).",
+   "cheapest_test": "round 2's model-psychology query widened with 14 item-spec terms, round 2's window (2,088 papers, 158 candidates, measured 2717c06); template writer; leakage drop on the first 120 (+38) in a beacon order; first 60 clean frozen; bettor on Opus (rule), Sonnet and Haiku; Opus flattery rater.",
    "models": [
     "claude-haiku-5-5",
     "claude-sonnet-5-5",
     "claude-opus-5-5"
    ],
    "cost": "about $0.60",
-   "engine_odds": 0.27,
-   "odds_event": "On the first 60 (at least 50) leakage-clean post-cutoff model-psychology template items, the claude-opus-5-5 bettor's Brier upper bound < 0.25, and Brier minus the up-word rule's and minus the Opus flattery rater's each with upper bound < -0.01, every bound on both the item and the swap-pair-cluster bootstrap; Haiku and Sonnet reported.",
+   "engine_odds": 0.38,
+   "odds_event": "On the first 60 (at least 50) leakage-clean post-cutoff template items from the widened model-psychology query (158 candidates), the claude-opus-5-5 bettor's Brier upper bound < 0.25, and Brier minus the up-word rule's and minus the Opus flattery rater's each with upper bound < -0.01, every bound on both the item and the swap-pair-cluster bootstrap; flattery-rater scale gate G1; Haiku and Sonnet reported.",
    "odds_rationale": "Round 1's model-psychology items were its weakest field, and findings about models are where a model's priors may mislead it; template items give little context. But the field average was still near passing and 60 items is a reasonable n. Near the running base rate 8/19 = 0.42 (ledger/brier.md).",
    "question": "Can the model tell which way new research about AI models' own psychology went?",
    "known": [
@@ -276,7 +276,7 @@
    "kind": "follow-up",
    "status": "open",
    "remap": "2026-11-05",
-   "engine_odds_at": "2026-11-05T04:45",
+   "engine_odds_at": "2026-11-05T10:47",
    "odds_template": "v2",
    "diagnosis": null,
    "opened": "2026-11-05T04:45",
@@ -290,11 +290,24 @@
    "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
    "engine_odds_first": 0.45,
    "odds_prior": 0.32,
-   "odds_adjustment": -0.05,
-   "odds_reason": "Settled-science (0.75) and published-record (1.00) rows pull up, but C3 cleared -0.01 by only 0.006 on 92 pairs; 60 items with 8-10 clusters widen that bound. Literature row 0.13.",
+   "odds_adjustment": 0.06,
+   "odds_reason": "Rows settled-science (0.75), published-record (1.00) and layer 2 (0.67) argue for higher; held to +0.06 because C3 is borderline (-0.036 margin, 60 items, about 9 clusters) in the weakest field.",
    "odds_prior_commit": "bd3bbb5",
-   "engine_odds_revised_at": "2026-11-05T10:12",
-   "revision_reason": "re-elicited before pre-registration in a fresh v2 context (rule 14; prior.md at bd3bbb5); the remap's 0.45 was one pass, not v2; the pass rule now adds the up-word and good-news/flattery baselines at a 0.01 margin and a cluster bootstrap (P3, P14)"
+   "engine_odds_revised_at": "2026-11-05T10:47",
+   "revision_reason": "ss-b15 (re-bet of ss-b14 on a measured, widened pool): fresh v2 context, prior.md at bd3bbb5",
+   "withdrawn_bet": {
+    "bet": "ss-b14",
+    "odds_event": "On the first 60 (at least 50) leakage-clean post-cutoff model-psychology template items, the claude-opus-5-5 bettor's Brier upper bound < 0.25, and Brier minus the up-word rule's and minus the Opus flattery rater's each with upper bound < -0.01, every bound on both the item and the swap-pair-cluster bootstrap; Haiku and Sonnet reported.",
+    "engine_odds": 0.27,
+    "odds_adjustment": -0.05,
+    "odds_reason": "Settled-science (0.75) and published-record (1.00) rows pull up, but C3 cleared -0.01 by only 0.006 on 92 pairs; 60 items with 8-10 clusters widen that bound. Literature row 0.13.",
+    "note": "withdrawn before data (D67): its pool held 9 candidates"
+   },
+   "odds_contaminated": {
+    "engine_odds": 0.15,
+    "odds_adjustment": -0.17,
+    "note": "a first context for ss-b15 was handed, by the session's mistake, ss-b14's design-review estimate of P(pass); before either answer was seen the session fixed a second, clean context's number as the odds; both kept"
+   }
   },
   {
    "id": "ss-f3",
