@@ -294,7 +294,7 @@
    "parent": "SV-1",
    "title": "Does what the model does reveal more about its errors than what it says?",
    "short": "Acts reveal more than words?",
-   "status": "open",
+   "status": "parked",
    "opened": "2026-11-05T05:00",
    "rank": 5,
    "engine_odds": 0.3,
@@ -307,7 +307,9 @@
    "what_our_data_say": "none; would reuse SV-1/SV-2 data.",
    "cheapest_test": "logistic regression of correctness on stated confidence, with and without the behaviour (flip, pass), held-out log-loss.",
    "cost": "$0 if SV-1/SV-2 run.",
-   "bets": [],
+   "bets": [
+    "sv-b4"
+   ],
    "diagnosis": null,
    "question": "Does what an AI does tell you more about its mistakes than what it says?",
    "human_prompt": "Is it worth nothing extra (it reuses the first tests' data) to find out whether what an AI does tells you more about its mistakes than its stated confidence does? Will it come back a hit (here, a hit means the action adds clear information beyond the number)?",
@@ -328,7 +330,8 @@
    ],
    "prior_work_search": "logged in programs/said-vs-did/map/reads/prior-work-2026-11-05-sv8-sv12.md (Searches)",
    "prior_work_at": "2026-11-05 remap re-scout (programs/said-vs-did/map/reads/prior-work-2026-11-05-sv8-sv12.md); earlier line kept as prior_work_line_before",
-   "prior_work_line_before": "Mixed, straddling the bar. Yamin et al. 2026 (arXiv 2602.06286; GPT-5, DeepSeek-R1, Llama-4 Scout; clinical tasks, separate context windows): sufficiency rejected in all 16 cells; adding the deferral action improved prediction of the true label by 6.15, 4.89, 5.11 and 15.19% (random-forest MSE, not log-loss). Smolin and Wilder 2026 (2609.07943): outcome-sufficiency violation under 5% relative for capable models, so Opus may fall short. No Claude; no pushback action."
+   "prior_work_line_before": "Mixed, straddling the bar. Yamin et al. 2026 (arXiv 2602.06286; GPT-5, DeepSeek-R1, Llama-4 Scout; clinical tasks, separate context windows): sufficiency rejected in all 16 cells; adding the deferral action improved prediction of the true label by 6.15, 4.89, 5.11 and 15.19% (random-forest MSE, not log-loss). Smolin and Wilder 2026 (2609.07943): outcome-sufficiency violation under 5% relative for capable models, so Opus may fall short. No Claude; no pushback action.",
+   "parked": "2026-11-05: bet sv-b4 withdrawn before data on its design review (redesign, 04edc7f; DEVIATIONS D17). On wave 1's archive, with the one-bit trivia flag in the base model (P16), a 5% held-out log-loss gain from backing down or declining is visible only in a world beyond what the published right/wrong decline rates allow (P12). Needs fresh items at an n whose record-matched dry run (sv_b4.py worlds-measured) gives P(pass) >= 0.10; that n was not computed. Sean's cockpit odds (0.55, ho-20261105-061152-edb) stay on the line; the withdrawn bet is not scored."
   },
   {
    "id": "SV-9",
