@@ -1,0 +1,270 @@
+{
+ "bet": "ss-b10",
+ "n_items": 200,
+ "experts": 0.634,
+ "llms": 0.814,
+ "models": [
+  {
+   "model": "claude-haiku-5-5",
+   "n_flattery": 200,
+   "n_bettor": 200,
+   "flattery": {
+    "acc": 0.68,
+    "ci": [
+     0.615,
+     0.7425
+    ],
+    "brier": 0.209853,
+    "brier_ci": [
+     0.177564,
+     0.244057
+    ],
+    "n_50": 8,
+    "vs_llms": "below"
+   },
+   "clears_experts": false,
+   "loo_flips": [],
+   "section_flips": [
+    "Development/Plasticity/Repair"
+   ],
+   "by_section": {
+    "Behavioral/Cognitive": {
+     "n": 75,
+     "flattery_acc": 0.666667,
+     "bettor_acc": 0.746667
+    },
+    "Cellular/Molecular": {
+     "n": 25,
+     "flattery_acc": 0.8,
+     "bettor_acc": 0.88
+    },
+    "Development/Plasticity/Repair": {
+     "n": 24,
+     "flattery_acc": 0.479167,
+     "bettor_acc": 0.666667
+    },
+    "Neurobiology of Disease": {
+     "n": 25,
+     "flattery_acc": 0.8,
+     "bettor_acc": 0.92
+    },
+    "Systems/Circuits": {
+     "n": 51,
+     "flattery_acc": 0.676471,
+     "bettor_acc": 0.705882
+    }
+   },
+   "flattery_real_reasoning": 10,
+   "bettor": {
+    "n_paired": 200,
+    "acc": 0.765,
+    "ci": [
+     0.705,
+     0.82
+    ],
+    "brier": 0.176591,
+    "brier_ci": [
+     0.156834,
+     0.197153
+    ],
+    "acc_minus_flattery": 0.085,
+    "acc_minus_flattery_ci": [
+     0.0325,
+     0.14
+    ],
+    "brier_gain_over_flattery": 0.033263,
+    "brier_gain_ci": [
+     0.008041,
+     0.060644
+    ],
+    "agree_n": 163,
+    "disagree_n": 29,
+    "disagree_bettor_right": 22,
+    "vs_llms": "not shown different",
+    "share_matched": 0.679245,
+    "share_matched_ci": [
+     0.486111,
+     0.864407
+    ]
+   },
+   "order_check": {
+    "n": 100,
+    "same_side": 0.47,
+    "mean_abs_incoherence": 25.95,
+    "incoherence_ci": [
+     21.22,
+     30.89
+    ],
+    "option1_pull": 11.765,
+    "option1_pull_ci": [
+     9.11,
+     14.435
+    ],
+    "acc_averaged_orders": 0.75,
+    "acc_primary_same_items": 0.68
+   }
+  },
+  {
+   "model": "claude-sonnet-5-5",
+   "n_flattery": 200,
+   "n_bettor": 200,
+   "flattery": {
+    "acc": 0.8175,
+    "ci": [
+     0.765,
+     0.8675
+    ],
+    "brier": 0.135155,
+    "brier_ci": [
+     0.113403,
+     0.159119
+    ],
+    "n_50": 9,
+    "vs_llms": "not shown different"
+   },
+   "clears_experts": true,
+   "loo_flips": [],
+   "section_flips": [],
+   "by_section": {
+    "Behavioral/Cognitive": {
+     "n": 75,
+     "flattery_acc": 0.8,
+     "bettor_acc": 0.8
+    },
+    "Cellular/Molecular": {
+     "n": 25,
+     "flattery_acc": 0.96,
+     "bettor_acc": 0.96
+    },
+    "Development/Plasticity/Repair": {
+     "n": 24,
+     "flattery_acc": 0.791667,
+     "bettor_acc": 0.916667
+    },
+    "Neurobiology of Disease": {
+     "n": 25,
+     "flattery_acc": 0.94,
+     "bettor_acc": 0.92
+    },
+    "Systems/Circuits": {
+     "n": 51,
+     "flattery_acc": 0.72549,
+     "bettor_acc": 0.784314
+    }
+   },
+   "flattery_real_reasoning": 39,
+   "bettor": {
+    "n_paired": 200,
+    "acc": 0.845,
+    "ci": [
+     0.7925,
+     0.8925
+    ],
+    "brier": 0.10792,
+    "brier_ci": [
+     0.083129,
+     0.135045
+    ],
+    "acc_minus_flattery": 0.0275,
+    "acc_minus_flattery_ci": [
+     -0.02,
+     0.075
+    ],
+    "brier_gain_over_flattery": 0.027235,
+    "brier_gain_ci": [
+     0.007166,
+     0.046757
+    ],
+    "agree_n": 168,
+    "disagree_n": 21,
+    "disagree_bettor_right": 13,
+    "vs_llms": "not shown different",
+    "share_matched": 0.92029,
+    "share_matched_ci": [
+     0.791946,
+     1.065693
+    ]
+   },
+   "order_check": {
+    "n": 74,
+    "same_side": 0.72973,
+    "mean_abs_incoherence": 15.72973,
+    "incoherence_ci": [
+     12.162162,
+     19.716216
+    ],
+    "option1_pull": 7.310811,
+    "option1_pull_ci": [
+     5.351351,
+     9.391892
+    ],
+    "acc_averaged_orders": 0.858108,
+    "acc_primary_same_items": 0.824324
+   }
+  }
+ ],
+ "dumb": {
+  "longer abstract": {
+   "acc": 0.4975,
+   "ci": [
+    0.4375,
+    0.5575
+   ],
+   "ties": 51,
+   "clears_experts": false
+  },
+  "shorter abstract": {
+   "acc": 0.5025,
+   "ci": [
+    0.4425,
+    0.5625
+   ],
+   "ties": 51,
+   "clears_experts": false
+  },
+  "more up-words than down-words": {
+   "acc": 0.505,
+   "ci": [
+    0.46,
+    0.5475
+   ],
+   "ties": 120,
+   "clears_experts": false
+  },
+  "fewer negation words": {
+   "acc": 0.4825,
+   "ci": [
+    0.46,
+    0.505
+   ],
+   "ties": 177,
+   "clears_experts": false
+  },
+  "more 'significant'": {
+   "acc": 0.5025,
+   "ci": [
+    0.5,
+    0.5075
+   ],
+   "ties": 199,
+   "clears_experts": false
+  }
+ },
+ "calls": 974,
+ "cost_usd": 2.479095,
+ "opus_secondary": {
+  "n": 0,
+  "note": "not run"
+ },
+ "verdict": "mixed",
+ "verdict_reported": "mixed",
+ "sentences": [
+  "On BrainBench's 200 expert-written abstract pairs, a model asked only which version is better news for the paper's own idea beat the neuroscientists' published 63.4% on Sonnet (81.8% [76.5, 86.8]) but was not shown to on Haiku (68.0% [61.5, 74.2]), so this prompt beats the experts' published rate on one of the two models only.",
+  "With the program's forecasting prompt instead (a different instruction, a question line, and a note that one version was altered by an expert), Haiku picked the published abstract 76.5% [70.5, 82.0] of the time, 8.5 points more than with the flattery prompt (difference [3.2, 14.0]); the flattery prompt's above-chance accuracy was 67.9% [48.6, 86.4] of the forecasting prompt's.",
+  "With the program's forecasting prompt instead (a different instruction, a question line, and a note that one version was altered by an expert), Sonnet picked the published abstract 84.5% [79.2, 89.2] of the time, 2.8 points more than with the flattery prompt (difference [-2.0, 7.5]); the flattery prompt's above-chance accuracy was 92.0% [79.2, 106.6] of the forecasting prompt's.",
+  "Haiku's flattery rule was below the published 81.4% for LLMs (interval [61.5, 74.2]).",
+  "Sonnet's flattery rule was not shown different from the published 81.4% for LLMs (interval [76.5, 86.8]).",
+  "On Haiku, leaving out the Development/Plasticity/Repair section(s) would change whether it clears the experts' rate.",
+  "BrainBench and its source abstracts (Journal of Neuroscience, 2023) were public before both models' training data were collected, so either prompt may draw on memory of the benchmark or of the papers; the models ran with thinking off, and the prompts asked for a rating, not the perplexity the original study used."
+ ]
+}
