@@ -1,0 +1,42 @@
+{
+ "dry_run": {
+  "usable_rate": {
+   "like em-dm6": 0.7833333333333333,
+   "like em-dm6f2f2": 0.75
+  },
+  "worlds": {
+   "OY like em-dm6, NO like em-dm6f2f2": {
+    "pass": 0.89,
+    "fail": 0.11,
+    "untestable": 0.0
+   },
+   "both like em-dm6f2f2": {
+    "pass": 0.77,
+    "fail": 0.23,
+    "untestable": 0.0
+   },
+   "both like em-dm6": {
+    "pass": 0.98,
+    "fail": 0.02,
+    "untestable": 0.0
+   },
+   "OY no format effect, NO like em-dm6f2f2": {
+    "pass": 0.0,
+    "fail": 0.99,
+    "untestable": 0.01
+   },
+   "both no format effect": {
+    "pass": 0.0,
+    "fail": 1.0,
+    "untestable": 0.0
+   }
+  }
+ },
+ "cost_sim": {
+  "p_all_run": 1.0,
+  "mean_spend": 0.482963647,
+  "p95_spend": 0.5022821000000001,
+  "max_spend": 0.5297990000000001,
+  "mean_questions_run": 60.0
+ }
+}
