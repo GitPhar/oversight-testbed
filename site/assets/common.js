@@ -8,7 +8,7 @@ export const SITE = {
   operator: "Sean Pharris",              // the human whose odds and steers the cockpit records
   // Every program lives inside the engine repo as programs/<name>/, with its history imported (git subtree),
   // so commit hashes in the ledger resolve in the engine repo. Program 1's standalone repo is its historical record.
-  programs: Object.fromEntries(["entangled-mind", "other-minds", "nature-graded", "settled-science"].map((name) => [name, {
+  programs: Object.fromEntries(["entangled-mind", "other-minds", "nature-graded", "settled-science", "test-awareness"].map((name) => [name, {
     commit: "https://github.com/GitPhar/oversight-testbed/commit/",
     blob: `https://github.com/GitPhar/oversight-testbed/blob/main/programs/${name}/`,
     raw: `https://raw.githubusercontent.com/GitPhar/oversight-testbed/main/programs/${name}/`,
@@ -21,7 +21,8 @@ export const DATA = "data/";
 
 // Names for programs whose map is not deployed with the site (their map file lives only under programs/<name>/map/).
 const PROGRAM_NAMES = { "entangled-mind": "Program 1: The Entangled Mind", "other-minds": "Program 2: Other Minds",
-  "nature-graded": "Program 3: Nature-Graded", "settled-science": "Program 4: Settled Science" };
+  "nature-graded": "Program 3: Nature-Graded", "settled-science": "Program 4: Settled Science",
+  "test-awareness": "Program 6: Test Awareness" };
 export function programTitle(id, programs = []) {
   return programs.find((p) => p.id === id)?.title || PROGRAM_NAMES[id] || id;
 }

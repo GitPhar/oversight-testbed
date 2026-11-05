@@ -17,3 +17,30 @@ Written 2026-11-05 (America/Denver), after the reads (eb3b40d) and before any pr
 `chain:` CURBy-RNG · `pulse_index:` 1592176 · `pulse_time:` 2026-11-05 04:52:00 America/Denver (11:52:00.152Z; previous pulse 1592175 at 04:51:00, before the rows commit f9136a9 at 04:51:57) · `randomness:` 198b86b6b26e2c55ad7a10f4a958d1bde543f82e8a66310056999dcef970a2c582e1ff4c88f1f1c8dc91be63976d6d88edb6bdc7a8c0805da82af5bf93cdf731 · `client:` @buff-beacon-project/curby-client@1.2.0 (`Client.randomness(1592176)`) · `certificate_verified:` false (classical chain) · `seed:` 13088965802074220129 (`--purpose elicit-half`).
 
 Ids in numeric order (ta-d1 … ta-d11); `random.Random(13088965802074220129).sample(ids, 6)` → **ta-d2, ta-d3, ta-d4, ta-d5, ta-d7, ta-d8**.
+
+## The numbers
+
+Elicited 2026-11-05 04:53 America/Denver (file write times: v1.md 04:53:56; check-paraphrase.md and check-negation.md 04:53:29). The elicitors could not read a clock (no commands allowed), so these write times are the timestamps. All three elicitors were `claude-opus-5-5`, the same model as the scout.
+
+Headline P(pass) (v1):
+
+| id | ta-d1 | ta-d2 | ta-d3 | ta-d4 | ta-d5 | ta-d6 | ta-d7 | ta-d8 | ta-d9 | ta-d10 | ta-d11 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| v1 | 7 | 22 | 80 | 10 | 8 | 33 | 5 | 10 | 10 | 45 | 8 |
+
+Elicitation check, random half:
+
+| id | v1 P(pass) | paraphrase P(pass) | negation P(not pass) | implied by negation (100 − x) | spread (max − min of the three) | \|P(pass) + P(not pass) − 100\| |
+|---|---|---|---|---|---|---|
+| ta-d2 | 22 | 30 | 65 | 35 | 13 | 13 |
+| ta-d3 | 80 | 78 | 18 | 82 | 4 | 2 |
+| ta-d4 | 10 | 18 | 78 | 22 | 12 | 12 |
+| ta-d5 | 8 | 9 | 85 | 15 | 7 | 7 |
+| ta-d7 | 5 | 7 | 88 | 12 | 7 | 7 |
+| ta-d8 | 10 | 16 | 78 | 22 | 12 | 12 |
+
+- **Mean negation incoherence:** 8.8 points. **Mean |v1 − paraphrase|:** 4.5 points.
+- **Direction:** in all 6 directions the negated question implied a *higher* pass probability than the direct one (+2 to +13), and the paraphrase was higher than v1 in 5 of 6. Program 3's check found the same lean (5 of 7). Asked directly whether a test will pass, the elicitor is the more pessimistic. Across two programs that is 11 of 13 checked rows leaning the same way; it is reported, not corrected.
+- **Expected passes over the 11 directions:** 2.38 by the v1 numbers.
+
+The headline numbers stay the v1 numbers. Any later difference in calibration smaller than this elicitation noise (up to 13 points here) should be read as no difference.

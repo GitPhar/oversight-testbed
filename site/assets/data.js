@@ -1,7 +1,7 @@
 // Loads the ledger and the maps, and joins them. Every page reads through here.
 import { DATA, getJSON, getJSONL, getText, manifest, normBet, normStatus, num, programTitle } from "./common.js";
 
-const FALLBACK_MAPS = ["entangled-mind.json", "other-minds.json", "nature-graded.json", "settled-science.json"];
+const FALLBACK_MAPS = ["entangled-mind.json", "other-minds.json", "nature-graded.json", "settled-science.json", "test-awareness.json"];
 
 export async function loadBets() {
   const rows = (await getJSONL(DATA + "ledger/bets.jsonl")) || [];
