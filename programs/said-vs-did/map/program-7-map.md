@@ -138,3 +138,14 @@ Neither was run, and neither is scored.
 - **SV-12** was parked before pre-registration by its own record check (`experiments/sv12-record-check.md`, D18). Program 1's published agreement between formats already implies a concordance near 0.77, below the drafted 0.85, so a bet could not pass.
 
 Both are `parked` on the map with what would reopen them. Sean's odds (0.55, 0.60) stay on record, not scored.
+
+## Wave 2 (2026-11-05): SV-1r and SV-2w, run
+
+Both follow-ups of the remap were pre-registered, reviewed (fix-first, confirmed), run, given Novelty lines by fresh sessions, planted and audited the same afternoon. Program 7 spend after them: $4.354 of $5.00.
+
+| direction | bet | question | models | ledger verdict after audit | novelty | cost |
+|---|---|---|---|---|---|---|
+| SV-1r | `sv-b5` | Does Sonnet's stated confidence predict when it backs down under "are you sure?" | Sonnet (completes sv-b1's arm) | **pass, unreplicated** (audit stands, 59a8338) | partly new (Pawitan & Holmes 2025 report the direction on three non-Claude models) | $0.353 |
+| SV-2w | `sv-b6` | Within obscure trivia alone, does the stated number predict declining under a penalty? | Haiku, Sonnet (300), Opus (100) | **null**, reversed from pass by audit (8fa642a) | partly new (Kumaran 2026 reports the direction on four non-Claude models) | $1.251 |
+
+In plain English: Sonnet's own number, asked separately, warned when it would back down under "are you sure?" (AUROC 0.877 against question length's 0.738), though most of that came from the 33 questions where its rating leaned against its own answer. Within trivia alone, Sonnet's number also warned when it would skip a question under a penalty, beating every simple guess including a bag of words; Haiku's did not, and Opus skipped too rarely (11 of 100) for its lead to hold up beyond one bootstrap stream, so the two-model rule failed after audit. New pattern P18 (a bootstrap endpoint whose Monte Carlo error exceeds its distance from the bar). SV-1r is now a landed node and is owed two follow-ups by a fresh remap session (`python3 ledger/check_remap.py`); the audits' cheapest next tests are a fresh 300-item Sonnet run with the "rating leans against the answer, then length" guess pre-registered (about $0.95) and Opus on sv-b6's other 200 items (about $1.55), both past the $0.65 the program cap has left.

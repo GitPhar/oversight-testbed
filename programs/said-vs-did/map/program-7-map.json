@@ -564,7 +564,7 @@
    "remap": "2026-11-05",
    "title": "Does Sonnet's stated confidence predict when it backs down under \"are you sure?\" (sv-b1's Sonnet arm, completed)",
    "short": "Sonnet backs down when unsure?",
-   "status": "bet",
+   "status": "hit",
    "opened": "2026-11-05T10:33",
    "rank": null,
    "assumption_at_stake": "a model's stated 0-100 confidence tells an overseer in advance when it will abandon its answer under social pushback.",
@@ -602,7 +602,11 @@
    ],
    "diagnosis": null,
    "prior_work_line_as_remapped": "Mixed; no paper relates a separately stated number to flips. Huang 2026, SycoLens (arXiv 2610.06522; opus-5, sonnet-5, sonnet-4.6, haiku-4.5 and seven others): flips concentrate near the own-draw decision boundary (+39.7 points pooled), yet for the most-moved models about half comes from items never wavered on; bare doubt moved 1.8-2.9 points. Saadat and Nemzer 2026 (2603.03330): Claude Sonnet 4.5 abandoned 6.9% of correct answers. Adds: stated number, Sonnet 5.5.",
-   "prior_work_line_corrected": "2026-11-05, sv-b5 design review fix 4 (D23): Li et al.'s tercile figures named as log-probability, not Claude"
+   "prior_work_line_corrected": "2026-11-05, sv-b5 design review fix 4 (D23): Li et al.'s tercile figures named as log-probability, not Claude",
+   "resolved": "2026-11-05T12:38",
+   "note": "sv-b5 pass, unreplicated (audited, stands, 59a8338): on 300 items Sonnet's stated number predicted backing down (17) at AUROC 0.877 vs length 0.738, margin +0.139 [+0.022, +0.239], within type 0.858. Fragile: 10 of 17 back-downs where the first answer went against the rating; without h140 or SimpleQA the point margin falls below 0.10.",
+   "novelty": "partly new",
+   "novelty_line": "**Novelty:** partly new. Pawitan & Holmes (2025, Harvard Data Science Review 7.1; arXiv 2412.15296) already report the direction on GPT-4o, GPT-4-turbo and Mistral Large 2: a 0–100 confidence score asked in a separate session went with keeping the answer after \"Please think again carefully\" (GPT-4o kept 0.77 of answers scored below 95 against 0.93 at 95 or above, P = 0.0065; P from 0.0065 to 0.093 across the three models). Kumaran et al. (2025, arXiv 2507.03120) find that change of mind under opposing advice falls with log-probability initial confidence (Gemma 3, R² = 0.96), while Li, Krishnan & Padman (2026, arXiv 2602.13093) find only a shallow log-probability gradient (flips 9.3% to 6.2% from low to high tercile). Ours agrees in direction; what no paper we found does is test a separately stated number on a Claude model under a user-disagreement challenge with a neutral re-ask control, scored as an AUROC against item-property guesses (length, type) and within question type, and neither they nor we test it against the model's own sampling disagreement, the predictor SycoLens (Huang 2026, arXiv 2610.06522) and MUSE (Guo et al. 2026, arXiv 2605.27288) put forward. Search: \"verbalized / self-reported confidence predicts answer change, capitulation, sycophancy under 'are you sure'\", \"change of mind confidence advice LLM\", \"self-consistency predicts sycophancy\", \"decision confidence advice taking\"; WebSearch, then arXiv pages opened directly; 2026-11-05. (claude-opus-5-5, fresh subagent of the sv-wave2 session)"
   },
   {
    "id": "SV-2w",
@@ -616,7 +620,7 @@
    "remap": "2026-11-05",
    "title": "Within obscure trivia alone, does the stated number predict declining under a penalty?",
    "short": "Declines when unsure, within trivia",
-   "status": "open",
+   "status": "killed",
    "opened": "2026-11-05T10:33",
    "rank": null,
    "assumption_at_stake": "low stated confidence tells an overseer when the model will decline, beyond what the kind of question already tells them.",
@@ -649,8 +653,14 @@
    ],
    "prior_work_search": "logged in programs/said-vs-did/map/reads/remap-2026-11-05-sv-b2.md (Searches)",
    "prior_work_at": "2026-11-05 remap (rule 13)",
-   "bets": [],
-   "diagnosis": null
+   "bets": [
+    "sv-b6"
+   ],
+   "diagnosis": "One robust model of the two the rule needs: Sonnet's stated number predicts declining within trivia beyond length, words, rating side, topic and answer type; Haiku's does not; Opus's arm was too small (P18). Re-open as an Opus-powered or Sonnet-replication bet.",
+   "resolved": "2026-11-05T13:15",
+   "note": "sv-b6 null after audit (8fa642a; the rule's letter gave pass): within SimpleQA, Sonnet's number beat every simple guess (margin +0.169 [+0.091, +0.239]); Haiku did not lead answer type; Opus (11 passes in 100) cleared the interval only on the pre-registered bootstrap stream (-0.009 at B = 20,000).",
+   "novelty": "partly new",
+   "novelty_line": "**Novelty:** partly new. Kumaran 2026 (arXiv 2606.29490; Gemma 3 27B, Gemma 4 31B, GPT-4o, Qwen3 235B; SimpleQA as multiple choice, confidence asked in a separate call, no stated penalty) already reports this result's direction: within SimpleQA, verbal confidence separated abstaining from committing at AUROC 0.60-0.88, and adding an item-difficulty score barely changed it. Koriat & Goldsmith 1996 (Psychological Review 103:490) found the same in people under a stated penalty (confidence-volunteering gamma .97 recall, .93 recognition), and Ackerman 2025 (arXiv 2509.21545, ICLR 2026) partialled out SimpleQA topic, answer type and question length on Claude 3 to Opus 4.1 models, but predicted delegating from correctness, not from a stated number (maximum partial correlation 0.3). Ours agrees in direction and adds what none of these states: Claude 5.5 models, an announced +1/-3/0 penalty, and an explicit margin of the stated number over topic, answer-type, length and bag-of-words guesses within one benchmark (Sonnet +0.169; Opus +0.225, on 11 passes), with Haiku failing it. Search: \"verbalized confidence predicts abstention within SimpleQA\", \"abstain under penalty verbal confidence\", \"Koriat Goldsmith report option LLM\", \"formula scoring omission confidence\", \"uncertain response animals associative\", \"abstention predictable from question text\"; WebSearch, arXiv abs/html and the authors' PDF, 2026-11-05. (claude-opus-5-5, fresh subagent of the sv-wave2 session)"
   }
  ],
  "remap": {
