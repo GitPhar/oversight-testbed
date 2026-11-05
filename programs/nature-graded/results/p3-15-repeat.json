@@ -1,0 +1,335 @@
+{
+ "runs": {
+  "1": {
+   "job": "dbltng9kbkrc73cod80g",
+   "qpu_s": 4.0,
+   "timestamps": {
+    "created": "2026-11-05T01:28:34.122732Z",
+    "finished": "2026-11-05T01:28:43.633718Z",
+    "running": "2026-11-05T01:28:35.403534Z"
+   },
+   "arms": {
+    "BB": {
+     "p_yes": 0.3110000000000002,
+     "se": 0.01463827175591436,
+     "shots": 1000,
+     "marginals_p1": [
+      0.553,
+      0.507,
+      0.745,
+      0.596,
+      0.606,
+      0.646,
+      0.65,
+      0.471,
+      0.679
+     ],
+     "entropy_bits": 7.810554835576627,
+     "tvd_from_uniform": 0.436125
+    },
+    "NB": {
+     "p_yes": 0.31900000000000023,
+     "se": 0.014739029818817794,
+     "shots": 1000,
+     "marginals_p1": [
+      0.576,
+      0.52,
+      0.741,
+      0.588,
+      0.595,
+      0.649,
+      0.645,
+      0.474,
+      0.704
+     ],
+     "entropy_bits": 7.7252890314519265,
+     "tvd_from_uniform": 0.45046875
+    },
+    "R1": {
+     "p_yes": 0.0,
+     "se": 4.4721359549995796e-08,
+     "shots": 500,
+     "marginals_p1": [
+      0.988,
+      0.98,
+      0.998,
+      0.99,
+      0.994,
+      0.982,
+      0.988,
+      0.972,
+      0.988
+     ],
+     "entropy_bits": 0.8746018906539563,
+     "tvd_from_uniform": 0.9765625
+    },
+    "NI": {
+     "p_yes": 0.2740000000000002,
+     "se": 0.014104041973845656,
+     "shots": 1000,
+     "marginals_p1": [
+      0.598,
+      0.492,
+      0.744,
+      0.752,
+      0.618,
+      0.702,
+      0.661,
+      0.499,
+      0.706
+     ],
+     "entropy_bits": 7.378574968744209,
+     "tvd_from_uniform": 0.496859375
+    },
+    "BI": {
+     "p_yes": 0.2960000000000002,
+     "se": 0.014435511767859153,
+     "shots": 1000,
+     "marginals_p1": [
+      0.598,
+      0.474,
+      0.713,
+      0.74,
+      0.608,
+      0.667,
+      0.669,
+      0.472,
+      0.672
+     ],
+     "entropy_bits": 7.590887886367932,
+     "tvd_from_uniform": 0.47218750000000004
+    },
+    "R0": {
+     "p_yes": 1.0,
+     "se": 4.4721359549995796e-08,
+     "shots": 500,
+     "marginals_p1": [
+      0.006,
+      0.026,
+      0.0,
+      0.002,
+      0.002,
+      0.004,
+      0.0,
+      0.016,
+      0.002
+     ],
+     "entropy_bits": 0.44171740213406785,
+     "tvd_from_uniform": 0.982421875
+    },
+    "B_pooled": {
+     "p_yes": 0.3035000000000002,
+     "se": 0.010280752647544831,
+     "shots": 2000,
+     "marginals_p1": [
+      0.5755,
+      0.4905,
+      0.729,
+      0.668,
+      0.607,
+      0.6565,
+      0.6595,
+      0.4715,
+      0.6755
+     ],
+     "entropy_bits": 7.912717996238453,
+     "tvd_from_uniform": 0.41679687500000007
+    },
+    "N_pooled": {
+     "p_yes": 0.2965000000000002,
+     "se": 0.01021243727030918,
+     "shots": 2000,
+     "marginals_p1": [
+      0.587,
+      0.506,
+      0.7425,
+      0.67,
+      0.6065,
+      0.6755,
+      0.653,
+      0.4865,
+      0.705
+     ],
+     "entropy_bits": 7.784736728459466,
+     "tvd_from_uniform": 0.427640625
+    },
+    "block_pooled": {
+     "p_yes": 0.3150000000000002,
+     "se": 0.01038689077635844,
+     "shots": 2000,
+     "marginals_p1": [
+      0.5645,
+      0.5135,
+      0.743,
+      0.592,
+      0.6005,
+      0.6475,
+      0.6475,
+      0.4725,
+      0.6915
+     ],
+     "entropy_bits": 7.965506854703354,
+     "tvd_from_uniform": 0.401796875
+    },
+    "inter_pooled": {
+     "p_yes": 0.2850000000000002,
+     "se": 0.010093933821855583,
+     "shots": 2000,
+     "marginals_p1": [
+      0.598,
+      0.483,
+      0.7285,
+      0.746,
+      0.613,
+      0.6845,
+      0.665,
+      0.4855,
+      0.689
+     ],
+     "entropy_bits": 7.68177658204128,
+     "tvd_from_uniform": 0.451890625
+    }
+   },
+   "comparisons": {
+    "BB_minus_NB": {
+     "diff": -0.008000000000000007,
+     "se": 0.020773011336828375,
+     "z": -0.3851150837152264,
+     "ci90": [
+      -0.042171603649082685,
+      0.02617160364908267
+     ],
+     "within_equiv": true,
+     "big": false
+    },
+    "barrier_pooled": {
+     "diff": 0.007000000000000006,
+     "se": 0.014490954074870296,
+     "z": 0.4830599809945682,
+     "ci90": [
+      -0.01683761945316163,
+      0.030837619453161644
+     ],
+     "within_equiv": true,
+     "big": false
+    },
+    "grouping_pooled": {
+     "diff": 0.030000000000000027,
+     "se": 0.014483611428093481,
+     "z": 2.0713066039461547,
+     "ci90": [
+      0.006174459200786249,
+      0.053825540799213804
+     ],
+     "within_equiv": false,
+     "big": false
+    }
+   },
+   "classes": {
+    "BB_minus_NB": "within",
+    "barrier_pooled": "within",
+    "grouping_pooled": "between"
+   },
+   "lopo_classes": {
+    "barrier_pooled": [
+     "within",
+     "within",
+     "within",
+     "within",
+     "within",
+     "within",
+     "within",
+     "within",
+     "within",
+     "within",
+     "within",
+     "within",
+     "within",
+     "within",
+     "within",
+     "within",
+     "within",
+     "within",
+     "within",
+     "within"
+    ],
+    "grouping_pooled": [
+     "between",
+     "between",
+     "between",
+     "between",
+     "between",
+     "between",
+     "between",
+     "between",
+     "between",
+     "between",
+     "between",
+     "between",
+     "between",
+     "between",
+     "between",
+     "within",
+     "between",
+     "between",
+     "between",
+     "between"
+    ]
+   },
+   "lopo_stable": {
+    "barrier_pooled": true,
+    "grouping_pooled": false
+   },
+   "BB_contiguous_block": false,
+   "NB_contiguous_block": false,
+   "predictions": {
+    "barrier_ALAP": 0.26854999999999996,
+    "nobarrier_ALAP": 0.26854999999999996,
+    "barrier_ASAP": 0.2755499999999999,
+    "nobarrier_ASAP": 0.26648999999999995
+   },
+   "predicted_barrier_effect": {
+    "if_ALAP": 0.0,
+    "if_ASAP": 0.009059999999999957
+   },
+   "readout": {
+    "p1_given_0": [
+     0.006,
+     0.026,
+     0.0,
+     0.002,
+     0.002,
+     0.004,
+     0.0,
+     0.016,
+     0.002
+    ],
+    "p0_given_1": [
+     0.01200000000000001,
+     0.020000000000000018,
+     0.0020000000000000018,
+     0.010000000000000009,
+     0.006000000000000005,
+     0.018000000000000016,
+     0.01200000000000001,
+     0.028000000000000025,
+     0.01200000000000001
+    ]
+   }
+  }
+ },
+ "verdict": "fail",
+ "flags": {
+  "BB_high": false,
+  "NB_high": false,
+  "all_arms_high": false,
+  "barrier_class": "within",
+  "grouping_class": "between",
+  "control_NI_within_0.05_of_nov4": true,
+  "BB_contiguous_block": false
+ },
+ "control_NI_vs_nov4": {
+  "NI": 0.2740000000000002,
+  "nov4": 0.24600000000000016
+ }
+}
