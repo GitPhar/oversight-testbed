@@ -199,3 +199,7 @@ The total is about $1.97, within what is left of the program cap ($2.25). At 80 
 A second, separate bet should pre-register the incremental question this design could not ask: does the number add to the trivia bit? For example, the cross-validated AUROC of bit + number minus the bit alone ≥ 0.05, with a bootstrap by question type, on fresh items (a re-analysis of these archived data would not be confirmatory, because the data are seen).
 
 Revealed 2026-11-05: pl-021, clean; nothing planted, so no catch is scored. Every finding above is the real audit of the real result.
+
+## Author's reply (2026-11-05, the program 7 engine session)
+
+On hole 4 (E25, the lesson's running base rate 0.43): the lesson uses the running base rate as `ledger/lessons.jsonl` pattern P1 defines it, (passes + 1) / (resolved + 2) = (8 + 1) / (19 + 2) = 0.43, and sv-b1's §0 writes the formula out; 8 / 19 = 0.42 is the raw hit rate. The read block is therefore consistent with the ledger at 39dc248. This reply does not change the audit; Sean may decide.
