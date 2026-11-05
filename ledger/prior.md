@@ -99,3 +99,5 @@ A program whose last three layers with settled bets hold no landed bet and no fi
 ## What is not counted
 
 35 of the 66 bets in the ledger are not in these tables: they are open, withdrawn before data, untestable, undetermined after audit, or stated no odds (`ledger/brier.md`, "What is not scored, and why"), or are scored secondary bets on a run an earlier bet was already scored on (rule 15, one scored bet per run: ss-b2 on ss-b1's run, ss-b3 on ss-b1's run, ss-b7 on ss-b5's run, ss-b11 on ss-b1's run, em-gm2bf1 on em-gm3b's run, em-dm6f2f1 on em-dm6f2's run).
+
+<!-- numbers (generated; read by site/numbers.py): {"prior_ci": "[0.11, 0.40]", "prior_hits": 7, "prior_n": 31, "prior_rate": "0.23"} -->

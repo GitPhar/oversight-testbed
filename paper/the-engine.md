@@ -831,6 +831,47 @@ The cockpit (`site/cockpit.html`) shows Sean one plain question per direction, i
 **What the two columns show, descriptively.** Sean is more hopeful than the engine on 21 of the 26 directions and less on 5 (P2-8, P3-10, ss-f2, P3-17, P3-18); his mean is 0.67 against the engine's 0.41. The largest gaps are ta-d8 (0.95 against 0.10), ss-f4 (1.00 against 0.25), P2-14 (0.75 against 0.20), sg-d1 (0.75 against 0.24) and ta-d1 (0.60 against 0.07); the two chip follow-ups are the only places he is markedly below the engine (P3-17, 0.30 against 0.70). Three of the directions he rated have since resolved without carrying his odds, and they are hints only: sg-d1's bet came back fail-same (he had 0.75), sg-d3's came back a pass (he had 0.70), SV-1's came back untestable (he had 0.80). Nothing here is a score. H3 needs 20 bets that carry both sets of odds; 3 do in the ledger (one of them withdrawn) and a fourth in its pre-registration file. Two have results files and no ledger verdict: om-p2-7 reports a fail at his 0.70 against the engine's 0.15, audited and standing; ta-b1r2 reports null at his 0.60 against 0.06, unaudited.
 
 
+#### Steers panel: what the human's steers were worth
+
+*Source: `ledger/steer-values.jsonl` (the latest line per steer id) rendered as `ledger/steers.md` by `ledger/steer_values.py`; the method is `operators/steers.md`; the steers themselves are `ledger/steers.jsonl` (st-01 to st-28). The site's human-hand page (`site/human.html`) reads the same file.*
+
+The odds column above is one narrow measurement of the human: whether his number on a bet beats the engine's. Most of what he did was not a number on a bet. It was a seed question, a rule, a stop, a frame, a budget, and those acts changed what the engine ran and what it was allowed to say. The panel review (`paper/review-anthropic.md`, Part 1) found that side of the record invisible: twenty steers logged and nearly all valued "pending". Under `operators/steers.md` every steer now carries a valuation written by a fresh session that did not write the steer: what it changed in the record (each item with its file or commit), one sentence on what the engine's default would have done (with the file that shows the default), a measurable effect where one exists, and a label, **helped**, **neutral** or **hurt**, with a one-line reason. There is no pending. Each label also says what decided it: a number in the ledger (*measured*), a chain of named files (*traced*), or a reading given early on a steer whose effect is mostly still to come (*early*). Every row is re-scored monthly and earlier valuations are kept.
+
+**Helped 18 of 28** (10 neutral, 0 hurt; 17 measured, 6 traced, 5 early), as scored on 5 November 2026 by a Claude Fable 5.1 session.
+
+| steer | what Sean decided, in short | label | why, in one line |
+|---|---|---|---|
+| st-01 | Go all-in on the Entangled Mind; IBM, the API, GitHub; real hardware | helped | His own idea died in one day for about $50 and 46 chip seconds, and every program-1 finding since (3 of the ledger's 7 primary hits) descends from the attempt |
+| st-02 | Never lower the bar; find where quantum would have to win and test it there | helped | The rule that killed his own two near-wins; no bar has been lowered after data in any bet, and three audit rounds found overclaims in wording, never in the bar |
+| st-03 | Keep pushing; where's the gold; broaden to adjacent research | helped | Three of the ledger's seven primary hits sit under this one question, including the only belief-side finding the novelty check calls partly new |
+| st-04 | Review adjacent research before designing experiment 5 | helped | A concrete design error caught for nothing, and the habit (read in full first) became an invariant every scout since has kept |
+| st-05 | Biomimetics | helped | For thirty cents it produced a replication of a known effect and the lead that became program 2's only partly-new result; nothing in it is scored |
+| st-06 | The window is too complicated to help anyone (veto) | helped | An audience call that was right; the cost was a sunk afternoon, and one window note still seeded a test |
+| st-07 | Not a pipeline demo: a scored system for self-driving research with a human hand | helped | The frame that turned results into a scored record; the panel's praise and its sharpest complaint are both things only this frame could produce |
+| st-08 | Build for trust, not volume; be frugal; import all fields | neutral | Two of its three parts held (frugal, all fields); the third, not volume, is the thing the panel faulted most |
+| st-09 | Second seed: model psychology / theory of mind | neutral | Six dollars bought no hit and one partly-new lead; the program's chief product is a pattern the engine learned from its own overconfidence |
+| st-10 | Open program 3: the chip as referee | neutral | The chip column is the engine's best-looking number and the audit says most of it was bought by bets that could not pass; one real hit, 89 chip seconds |
+| st-11 | Approve program 3's wave-2 repeat | helped | Seven chip seconds settled an audit's open question and let the 3 November question close |
+| st-12 | Approve the P2-3 re-bet on lower-severity stories | helped | Turned a refusal-stopped bet into the cleanest miss program 2 has, for under two dollars, on a narrower question |
+| st-13 | Entangled claims: a quantum walk against PageRank | neutral | It cost nothing, answered nothing, and left one reusable pattern |
+| st-14 | Biomimicry queue: memory, sleep and forgetting, to be scouted | neutral | A scout and five free directions, none run |
+| st-15 | Never ask the human in a terminal; odds only from the cockpit | neutral | It made every human number blind, and it is also why the column holds four bets after thirty-one |
+| st-16 | Budget rulings under the hard stop are the engine's call | helped | Took a chore out of the human's hands and left a paper trail: six rulings, every one capped in code |
+| st-17 | Program 5 seed: does a model grade its own work more kindly? | neutral | The question was already answered in print and the engine did not say so before spending $3.63; what it bought was the discovery of that failure, which became rule 13 |
+| st-18 | His first cockpit odds, 12 directions, blind | neutral | By H3's own rule the label waits for 8 scored bets; on the 4 so far the combined forecast is worse than the engine alone (0.208 against 0.057) and his odds score 0.513 |
+| st-19 | Close the 3 November chip question; the chip's roles are seeds, tiebreaks and one foundations experiment | helped | Stopped the chip chasing a result four tries could not bring back and kept most of the budget; the one chip bet since came back a hit |
+| st-20 | Program 7 seed: when a model says it is unsure, does it act unsure? | neutral | Three dollars bought two clean misses and a usable null, but one wave with no hit is not yet an answer |
+| st-21 | Secondary bets on one run count as one scored bet; both numbers published (rule 15) | helped | Closes the audit's biggest hole in his own words and publishes both counts instead of the flattering one |
+| st-22 | Park ta-d8 (his 95 percent): the literature already has the answer | helped | He parked his own highest-odds card on the literature's say-so; the shadow check will say whether it cost a hit |
+| st-23 | Park ta-d10 (his 90 percent): the literature already has the answer | helped | Parked where both he and the engine were hopeful; the shadow check will say whether it cost a hit |
+| st-24 | P3-9 is the chip's one foundations experiment; P3-10 no | neutral | The sharpest human-against-engine disagreement on the ledger, chosen by him over the engine's ranking; nothing can be said until P3-9 scores |
+| st-25 | Every bet on three models (rule 12) | helped | Three of the nine results since split by model, which a one-model design would have reported as a clean finding or a clean null |
+| st-26 | A landed bet must open the next paths (the remap) | helped | Two of the ledger's seven primary hits are follow-ups that did not exist before this rule, against three hits in twenty first-layer bets |
+| st-27 | The engine must know prior work before it bets and check whether a result is already known (rule 13) | helped | It names the engine's largest blind spot and puts a check at every step; the forward effect is unmeasured because the rule merged the same morning |
+| st-28 | Cockpit cards must carry context from our own results | helped | The usable cockpit was his call from his own site walk; the record went from no human odds in fourteen hours to twenty-six in one |
+
+**The honest sentence.** The scorer is a Claude session, the same model family that runs the engine, carried out the steers, logged them, and is studied by them. The counterfactuals are readings of files, never runs. "Helped" means the record is better with the steer than the default the record shows; the sum is a count of readings, published with the method so each can be checked and disagreed with (`operators/steers.md`, How to disagree), not a measurement of the human's skill. The measurement, where the ledger has one, is the odds column above, and on it the human is behind the engine at n = 4.
+
 ---
 
 ## 7. Limitations
@@ -956,6 +997,7 @@ Every file this paper cites is listed with the commit that last changed it as of
 | `ledger/bets.jsonl`, `ledger/brier.md`, `ledger/scores.md`, `ledger/plants.jsonl` | `8730692` |
 | `ledger/brier.md` as of the founding week (§6.5) | `216aec1` |
 | `ledger/lessons.jsonl` | `d02b645` |
+| `ledger/steer-values.jsonl`, `ledger/steers.md`, `ledger/steer_values.py`, `operators/steers.md` (§6.11 Steers panel) | this revision's commit, branch `steer-scorer`, 2026-11-05 |
 | `ledger/steers.jsonl` | `aa9e49d` |
 | `ledger/human-odds.jsonl` (no lines) | `ba0e8df` |
 | `ledger/shadows.jsonl` | `9b519f2` |

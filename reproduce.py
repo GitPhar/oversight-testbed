@@ -24,6 +24,9 @@ What it does, in order:
   3. Recomputes the engine's and the human's Brier scores from bets.jsonl with separate code, and checks the
      headline numbers printed in brier.md.
   4. Runs `ledger/plants.py verify` (every revealed plant matches its sealed hash).
+  5a. Checks that every ledger number in README.md, paper/plain-words.md, paper/one-page.md and
+     application/one-page-plain.md is a placeholder filled from brier.md, scores.md and prior.md and is current
+     (site/numbers.py); with --write it rewrites stale ones.
   5. Lays out the site with site/assemble.sh and checks that every data file the pages read is a byte-identical copy
      of its source (links followed), that the manifest lists what was copied, and that every bet's audit link resolves.
   6. Runs each program's own programs/<name>/reproduce.py (other-minds, nature-graded, settled-science, self-grading,
@@ -49,7 +52,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 LEDGER = ROOT / "ledger"
-JSONL = ["bets", "steers", "human-odds", "shadows", "plants", "lessons", "spend"]
+JSONL = ["bets", "steers", "human-odds", "shadows", "plants", "lessons", "spend", "steer-values"]
 # A clean environment: no keys, no tokens, nothing inherited that a script could lean on.
 CLEAN_ENV = {"PATH": "/usr/bin:/bin:/usr/sbin:/sbin", "HOME": os.environ.get("HOME", "/tmp"), "LANG": "en_US.UTF-8",
              "TZ": "America/Denver", "PYTHONDONTWRITEBYTECODE": "1"}
@@ -158,14 +161,14 @@ def regenerate(write):
         scratch = tmp / "ledger"
         shutil.copytree(LEDGER, scratch, symlinks=True,
                         ignore=shutil.ignore_patterns("__pycache__", ".seals", "*.pyc"))
-        for script in ("brier.py", "scores.py", "prior.py"):
-            extra = [str(ROOT)] if script == "prior.py" else []   # prior.py reads map/ and programs/*/map/ from the repo
+        for script in ("brier.py", "scores.py", "prior.py", "steer_values.py"):
+            extra = [str(ROOT)] if script in ("prior.py", "scores.py") else []   # prior.py reads map/ and programs/*/map/; scores.py the chip log
             r = run([sys.executable, str(scratch / script)] + extra, cwd=tmp)
             if r.returncode:
                 fail(f"ledger/{script} exited {r.returncode}: {r.stderr.strip()[-300:]}")
             else:
                 ok(f"ledger/{script}: {r.stdout.strip().splitlines()[-1] if r.stdout.strip() else 'ran'}")
-        for md in ("brier.md", "scores.md", "prior.md"):
+        for md in ("brier.md", "scores.md", "prior.md", "steers.md"):
             new, old = scratch / md, LEDGER / md
             if not new.exists():
                 fail(f"{md} was not written")
@@ -218,6 +221,22 @@ def brier_check(bets):
         ok(f"human Brier {h:.3f} on {len(hum)} bets")
     else:
         ok("human Brier: no scored bet has human odds yet (ledger/human-odds.jsonl is the only source; its lines wait for their bets)")
+
+
+# ---------- 5a. document numbers ----------
+def numbers_check(write):
+    print("5a. Ledger numbers in the front-page documents (site/numbers.py)")
+    import importlib.util   # load site/numbers.py by path, so the stdlib module `numbers` is never shadowed
+    spec = importlib.util.spec_from_file_location("site_numbers", ROOT / "site" / "numbers.py")
+    _n = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(_n)
+    code, changed = _n.run(check=not write, quiet=True)
+    for d in changed:
+        note(f"{d}: stale numbers rewritten in place (--write)")
+    if code:
+        fail("front-page documents hold stale or unknown ledger numbers; run python3 site/numbers.py (or reproduce.py --write) and commit")
+    else:
+        ok(f"{len(_n.DOCS)} documents: every ledger number is a placeholder and current")
 
 
 # ---------- 4. plants ----------
@@ -364,6 +383,7 @@ def main():
     brier_check(rows["bets"])
     plants_check()
     site_check(a.site_out, rows["bets"])
+    numbers_check(a.write)
     if not a.ledger_only:
         programs_check(bool(a.program_1))
     if a.program_1:

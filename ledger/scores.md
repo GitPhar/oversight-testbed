@@ -137,3 +137,14 @@ Design reviews: 0 go, 33 fix-first, 6 redesign; 22 later found by the post-resul
 
 **Does the loop help?** On 22 scored bets (one per run, rule 15), Brier with the odds before the lesson is 0.156, after it 0.124. Counting secondary bets too: 0.181 before, 0.151 after, on 26.
 
+## Resources: chip seconds and API spend
+
+| | value | from |
+|---|---|---|
+| quantum chip seconds used (ibm_fez) | 89.0 of the 420 s project hard stop | `programs/entangled-mind/results/ibm-usage.json` |
+| API spend logged | $80.48 of the $200/month allowance | `spend.jsonl` baseline $50.00 to 2026-11-04 09:15, 1 logged run(s) $6.04, bets' `cost_usd` since then $24.44 |
+
+API spend is a floor: scouts, design-review pilots and checks priced only in their own results files are not added.
+
+
+<!-- numbers (generated; read by site/numbers.py): {"api_allowance": 200, "api_usd": "80", "api_usd_exact": "80.48", "chip_left": "331", "chip_s": "89", "chip_stop": 420, "dr_fix": 33, "dr_go": 0, "dr_missed": 22, "dr_redesign": 6, "dr_total": 39, "plants_caught": 12, "plants_planted": 12, "plants_revealed": 32, "plants_rows": 32, "plants_sealed": 0, "premortem_failed": 28, "premortem_named": 11} -->
