@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: flaw, D4: holds, D5: holds, D6: holds, D7: ho
 flaws: 4
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 05:48 (9bae3a2)
 ---
 
 # Design review of sv-b1
@@ -227,3 +227,22 @@ The same applies to sv-b2 and sv-b3, which share `svd_report.py`.
 **Nothing else broke.** The D9-D11 changes touch only `run()`'s logging and `svd_report.py`. Earlier results stand: the gate, the not-run rule, the one-item ids, the resume limit, and the dry run that reproduces `sv-wave1-worlds-d7.txt`. The not-run models' secondaries are now shown as "not run" in the tables, which is correct.
 
 `confirmed_at` stays null.
+
+## Addendum 3: confirmation (2026-11-05 05:48 America/Denver)
+
+Checked against **9bae3a2** (DEVIATIONS D12). Since cbce911, the only code change is `svd_report.stop_cause(model, step)`. At 9bae3a2 and in the working tree, `svd_wave1.py`, `svd_common.py`, `svd_stats.py` and `svd_report.py` are identical. No paid call: I re-ran `d9_check.py` and the stubbed `run("said")` and `run("b1")`, with `C.call` stubbed and the review gate pointed at scratch go files.
+
+**N1: fixed.** Every not-run sentence now names the stop that left that model's items incomplete:
+- **A, b1 step cap during Sonnet:** the Sonnet and Opus sentences both name "sv-b1 stopped during claude-sonnet-5-5: the step cap ($2.20) was reached".
+- **Stubbed real run, $1.00 cap hit during Haiku:** the Haiku, Sonnet and Opus sentences all name that stop. Before, Sonnet and Opus said "no logged cause".
+- **B, `max_tokens` error on a Sonnet job:** Sonnet and Opus name the sv-b1 error and its job key.
+- **C, said cap during Opus:** Opus names the sv-said stop.
+- **D, sv-b1 error on Opus plus an unrelated sv-b2 cap stop during Opus:** only the sv-b1 error is named. The sv-b2 stop no longer leaks in.
+- **E, a Sonnet transport error at 06:00 (resumed and completed) and then the b1 cap during Opus at 06:30:** Opus names the cap stop.
+- **F, a refusal on Sonnet:** Sonnet and Opus name the refusal and its request ID.
+
+One test-only note: when two logged stops in the same step carry the identical timestamp, the error log wins. My first run of case E did this because the test used one fixed time for both stops. That cannot happen in practice: a resume is a new process, and log times are to the second.
+
+**Nothing else broke.** `analyse()`, the gate, the not-run rule, the one-item ids, the resume limit, the review gate, the caps and the dry run are unchanged since my earlier addenda. The D7 dry run reproduced exactly at cbce911, and `svd_wave1.py` has not changed since.
+
+All four flaws and N1 are fixed. `confirmed_at` is set to 2026-11-05 05:48 (9bae3a2). The verdict stays fix-first, now confirmed.
