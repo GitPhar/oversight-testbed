@@ -24,7 +24,7 @@ One line per finding, with the models it was shown on. The "known / partly new /
 - A rule that only asks "which version flatters the paper's method?" scored 90% where the bettor scored 93%, so most of that skill is matched by a flattery rule. Partly new: an April 2026 paper asked for this measurement; the margin could not be told from no edge, so the check reversed the bet to undecided. (Shown on: Opus)
 - Told that a high score would trigger "unlearning", the models did not lower their score; and a test-looking format could not be tested because Haiku rated even a casual chat message 74 of 100 likely to be a test. Known: Anthropic runs this test before every release. (Shown on: Sonnet, Opus; Haiku untestable)
 - The confidence a model states in a separate conversation did not predict what it then did, whether backing down under "are you sure?", declining under a penalty, or asking to check a reference, better than simple guesses such as "is this a trivia question?". Not yet checked against the literature. (Shown on: Haiku, Sonnet; Opus too rarely did any of the three to test)
-- The AI's own odds score <!--n:brier-->0.149<!--/n--> on <!--n:scored-->42<!--/n--> scored tests counted one per run (<!--n:brier_all-->0.173<!--/n--> on <!--n:scored_all-->48<!--/n--> counting every scored row), against <!--n:coin-->0.250<!--/n--> for always saying 50-50 and <!--n:hit_rate_ref-->0.181<!--/n--> for always saying the share that passed. New in form, since no AI research loop was found that scores its own pre-data odds, but not yet a finding at this size. (Shown on: the engine's bets across programs 1 to 7)
+- The AI's own odds score <!--n:brier-->0.160<!--/n--> on <!--n:scored-->44<!--/n--> scored tests counted one per run (<!--n:brier_all-->0.182<!--/n--> on <!--n:scored_all-->50<!--/n--> counting every scored row), against <!--n:coin-->0.250<!--/n--> for always saying 50-50 and <!--n:hit_rate_ref-->0.188<!--/n--> for always saying the share that passed. New in form, since no AI research loop was found that scores its own pre-data odds, but not yet a finding at this size. (Shown on: the engine's bets across programs 1 to 7)
 
 Two more results are not on that list because the novelty page did not assess them: the founding idea (quantum maths spotting a model's wrong answers) died by pre-registered tests on Haiku and Sonnet, and it was ours, so no novelty is claimed for the kill; and program 3's chip puzzle, described below, is closed rather than found.
 
@@ -45,27 +45,27 @@ Two more results are not on that list because the novelty page did not assess th
 
 ## The AI's score, and why it means little yet
 
-The score measures how far the odds were from what happened: 0 is perfect, always saying 50-50 scores <!--n:coin-->0.250<!--/n-->. Counting each run once, on <!--n:scored-->42<!--/n--> scored tests the AI scores **<!--n:brier-->0.149<!--/n-->** (`ledger/brier.md`). Always guessing the share that passed (<!--n:hits-->10<!--/n--> of <!--n:scored-->42<!--/n-->) scores <!--n:hit_rate_ref-->0.181<!--/n-->, and nobody knew that share in advance. Counting every scored row, including the <!--n:secondary-->6<!--/n--> that re-scored a run already scored, it is <!--n:brier_all-->0.173<!--/n--> on <!--n:scored_all-->48<!--/n-->. Why it means little yet:
+The score measures how far the odds were from what happened: 0 is perfect, always saying 50-50 scores <!--n:coin-->0.250<!--/n-->. Counting each run once, on <!--n:scored-->44<!--/n--> scored tests the AI scores **<!--n:brier-->0.160<!--/n-->** (`ledger/brier.md`). Always guessing the share that passed (<!--n:hits-->11<!--/n--> of <!--n:scored-->44<!--/n-->) scores <!--n:hit_rate_ref-->0.188<!--/n-->, and nobody knew that share in advance. Counting every scored row, including the <!--n:secondary-->6<!--/n--> that re-scored a run already scored, it is <!--n:brier_all-->0.182<!--/n--> on <!--n:scored_all-->50<!--/n-->. Why it means little yet:
 
 - **Its odds barely sort winners from losers.** The hits sit in the same range of odds as most misses (`ledger/brier.md`, calibration table).
 - **It erred both ways.** It gave program 2's bets 40–60% and all missed; it gave program 4's passes 25–50%.
 - **One run used to count several times.** The third round of checks found that program 4's passes were one bettor run scored against three bars, twice (`ledger/audits/SUMMARY-3.md`). Since 5 November the score counts one bet per run (rule 15, Sean's decision); the all-rows number is published beside it.
 - **Its odds wobble with wording.** Reworded or flipped, they moved 11 points on average, up to 30.
-- **<!--n:scored-->42<!--/n--> is too few.** At this size the gaps between <!--n:brier-->0.149<!--/n-->, <!--n:hit_rate_ref-->0.181<!--/n--> and <!--n:coin-->0.250<!--/n--> are not reliable.
+- **<!--n:scored-->44<!--/n--> is too few.** At this size the gaps between <!--n:brier-->0.160<!--/n-->, <!--n:hit_rate_ref-->0.188<!--/n--> and <!--n:coin-->0.250<!--/n--> are not reliable.
 
 ## Sean's odds
 
-Sean has entered <!--n:human_lines-->35<!--/n--> odds in the cockpit, each on a direction's plain question and without seeing the AI's odds (`ledger/human-odds.jsonl`); the first 26 came on 5 November in two batches (12 at 05:11, 14 at 06:11). Honest sentence about timing: four of the first twelve concerned bets that had already been pre-registered minutes before his line reached the ledger (sg-b1, ta-b1, sv-b1 before he saved; sg-b3 after he saved but before the file was picked up), and by rule 11 those bets never get his odds. His odds score <!--n:human_brier-->0.394<!--/n--> on the <!--n:human_n-->10<!--/n--> scored bets that carry them, one per run (<!--n:human_brier_all-->0.370<!--/n--> on <!--n:human_n_all-->11<!--/n--> counting every row). "Does the human add anything?", the question closest to his role, has a number now, but on far too few bets to mean anything.
+Sean has entered <!--n:human_lines-->35<!--/n--> odds in the cockpit, each on a direction's plain question and without seeing the AI's odds (`ledger/human-odds.jsonl`); the first 26 came on 5 November in two batches (12 at 05:11, 14 at 06:11). Honest sentence about timing: four of the first twelve concerned bets that had already been pre-registered minutes before his line reached the ledger (sg-b1, ta-b1, sv-b1 before he saved; sg-b3 after he saved but before the file was picked up), and by rule 11 those bets never get his odds. His odds score <!--n:human_brier-->0.386<!--/n--> on the <!--n:human_n-->12<!--/n--> scored bets that carry them, one per run (<!--n:human_brier_all-->0.365<!--/n--> on <!--n:human_n_all-->13<!--/n--> counting every row). "Does the human add anything?", the question closest to his role, has a number now, but on far too few bets to mean anything.
 
 ## What the independent checks caught
 
 - **Round one, 39 results:** every number recomputed, but 38 of 39 write-ups said more than the data showed; 166 of 560 claims failed; no verdict reversed.
 - **Round two, 14 results:** 133 sentences cut, 3 verdicts changed.
 - **Round three, 21 results, by a stronger Claude model (Fable 5.1):** every headline number reproduced; one verdict reversed (ss-b6, pass to undecided, because its rule passes about half the time in a world with no real edge); one label changed with no score change; and the "six hits are two runs" hole above (`ledger/audits/SUMMARY-3.md`).
-- **Across the ledger:** <!--n:audited-->61<!--/n--> of <!--n:bets_total-->85<!--/n--> bets checked; <!--n:reversals-->4<!--/n--> verdicts reversed.
+- **Across the ledger:** <!--n:audited-->61<!--/n--> of <!--n:bets_total-->87<!--/n--> bets checked; <!--n:reversals-->4<!--/n--> verdicts reversed.
 - **Real catches:** a chip simulation that never loaded that day's settings; a "repeat" replaying the same 500 conversations; program 2's only pass; a contest decided by how its sides were built; Opus's "single belief" cut to "single verdict".
-- **Checking the checkers:** another session secretly planted a known mistake in some checks, drawn at random; <!--n:plants_caught-->19<!--/n--> of <!--n:plants_planted-->19<!--/n--> were caught (`ledger/scores.md`). The catch-rate test needs at least 10 plants and a lower bound above one half, and one of the plants was placed by hand rather than drawn at random.
-- **Before spending,** a reviewer dry-runs each test: "go" first time <!--n:dr_go-->0<!--/n--> of <!--n:dr_total-->58<!--/n--> times (<!--n:dr_fix-->46<!--/n--> fix-first, <!--n:dr_redesign-->12<!--/n--> redesign); <!--n:withdrawn-->13<!--/n--> tests withdrawn before data; <!--n:dr_missed-->29<!--/n--> reviews missed flaws found later (`ledger/scores.md`).
+- **Checking the checkers:** another session secretly planted a known mistake in some checks, drawn at random; <!--n:plants_caught-->21<!--/n--> of <!--n:plants_planted-->21<!--/n--> were caught (`ledger/scores.md`). The catch-rate test needs at least 10 plants and a lower bound above one half, and one of the plants was placed by hand rather than drawn at random.
+- **Before spending,** a reviewer dry-runs each test: "go" first time <!--n:dr_go-->0<!--/n--> of <!--n:dr_total-->60<!--/n--> times (<!--n:dr_fix-->48<!--/n--> fix-first, <!--n:dr_redesign-->12<!--/n--> redesign); <!--n:withdrawn-->13<!--/n--> tests withdrawn before data; <!--n:dr_missed-->29<!--/n--> reviews missed flaws found later (`ledger/scores.md`).
 - **Who did the checking:** every checker, reviewer, planter and bettor so far is a Claude model (Opus 5.5, with round three by Fable 5.1), and a few checks were started by the same session that wrote the result. No check by a non-Claude model has been run.
 
 ## What holds up
@@ -77,14 +77,14 @@ Sean has entered <!--n:human_lines-->35<!--/n--> odds in the cockpit, each on a 
 ## What does not, yet
 
 - Most of what the record shows is already in print, some of it from Anthropic staff. Three findings are partly new; none is new and repeated.
-- Sean's own odds: on only <!--n:human_n-->10<!--/n--> scored bets so far.
+- Sean's own odds: on only <!--n:human_n-->12<!--/n--> scored bets so far.
 - One model family does nearly everything: Claude writes, checks, plants mistakes and is studied. The best belief finding is mostly Haiku, and Opus partly contradicts it.
-- <!--n:bets_total-->85<!--/n--> bets in a few days can look like volume. The numbers to defend are <!--n:scored-->42<!--/n--> scored (one per run), <!--n:audited-->61<!--/n--> checked, <!--n:reversals-->4<!--/n--> reversed, <!--n:withdrawn-->13<!--/n--> withdrawn before data.
+- <!--n:bets_total-->87<!--/n--> bets in a few days can look like volume. The numbers to defend are <!--n:scored-->44<!--/n--> scored (one per run), <!--n:audited-->61<!--/n--> checked, <!--n:reversals-->4<!--/n--> reversed, <!--n:withdrawn-->13<!--/n--> withdrawn before data.
 
 ## What it needs before 22 November
 
-1. Twenty bets that carry Sean's odds, entered in the cockpit before each bet is registered (<!--n:human_n-->10<!--/n--> scored so far).
+1. Twenty bets that carry Sean's odds, entered in the cockpit before each bet is registered (<!--n:human_n-->12<!--/n--> scored so far).
 2. One check by a non-Claude model, and program 4 repeated with questions written by a non-Claude model.
 3. The three replications the novelty page ranks as most worth running (the flattery rule on a public human-written benchmark; the order test with nothing in the transcript but questions; "another mind moves more than the self" on Sonnet and Opus), about $10 in all.
-4. Planted mistakes on every audit from here on (<!--n:plants_planted-->19<!--/n--> planted so far; the catch-rate test needs 10).
+4. Planted mistakes on every audit from here on (<!--n:plants_planted-->21<!--/n--> planted so far; the catch-rate test needs 10).
 5. Sean's own pieces: the "Why Anthropic?" essay, the recorded ten-minute walkthrough, the title, public registration of the test plans, and the support ticket about the refusals.
