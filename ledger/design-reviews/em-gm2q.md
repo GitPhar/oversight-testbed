@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: holds, D4: holds, D5: flaw, D6: holds, D7: fl
 flaws: 5
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 07:13
 ---
 
 # Design review of em-gm2q
@@ -266,3 +266,64 @@ The open sub-item: the review asked that an *errored* conversation's cost also c
 3. Fix 5's errored-conversation cost.
 
 All three are small and can go in one dated DEVIATIONS row amending D69, before any call. The reviewer then confirms in a second addendum.
+
+## Confirmation 2
+
+Checked 2026-11-05 07:13 America/Denver against D70 and commit `d78475d`. The working tree matches `d78475d` for the code and `results/gm2q-dry-run.json`. Read-only. No calls were made. The scratch scripts are the same ones as in confirmation 1, re-run.
+
+**Result: every fix is confirmed. Final verdict: go.**
+
+### Fix 1 (flag): confirmed
+
+- `wrong_target` is the rule as written in confirmation 1: `abs(r - s4) < abs(r - fin) - TOL and abs(r - fin) > 20 + TOL`.
+- `synthetic_cache` now draws both the shown sub-ratings and the wrong-target answers with `stmt_sd`. `archive_world` measures it from the archives' shown cells: 10.6 for Haiku and 8.5 for Sonnet, the same values I measured.
+- `--selftest` passes. The 30% wrong-target world gives a raw p of 0.0002 and a cleaned p of 0.45, with 27% of answers flagged, and is labelled fail.
+
+### Fix 3 (sentences): confirmed
+
+- The placeholder sentence now names the whole bundle, including the numbered list and the rate-only opening. Haiku's R_qonly/redacted is reported beside it.
+- `sentence_key` picks the sentence as follows:
+
+| sentence | when it is used |
+|---|---|
+| fail-short | raw and cleaned qonly gates both pass on at least one model |
+| fail-target | otherwise, a raw gate passes on some model |
+| the two "dies" sentences | otherwise; they need the raw gate p ≥ 0.05 on both models |
+
+- The selftest asserts all five sentence cases, including fail-target with `qonly_p_clean` both None and failing.
+- **fail-target carries.** When the raw gate passes and the cleaned gate does not, the only detectable effect lies in answers the flag cannot tell from rating the wrong line. The sentence says exactly that, says the question is not settled, and uses no placeholder clause.
+- Recommended wording, not required: "…but **detectably** only through answers that…". A failed cleaned gate shows non-detection, not that the effect is absent.
+
+### Fix 5 (errored cost): confirmed
+
+- With a stub error at call 31, the recorded spend is $0.02040, exactly what was billed before the failed call. The conversation is stored under `_lost|…` as "errored".
+- The refusal stubs at calls 31 and 434 again give 0 calls after the refusal.
+- A second run with the refusal record present makes 0 calls.
+- The cap stops the run at $3.442.
+- The seed assert holds.
+
+### Dry run: reproduced
+
+`dry_run()` called by import gives output **identical** to the committed JSON. Every bet figure matches D70's table:
+
+| world | bet P(pass) |
+|---|---|
+| equal | 0.739 |
+| redacted pattern | 0.127 |
+| 0.75 | 0.448 |
+| shuffled items | 0.005 |
+| wrong-target 0.3 | 0.005 |
+| null | 0 |
+
+### D11 after the power loss: holds, so this is not a redesign
+
+- **It can still pass.** A world where the hypothesis holds still passes in two cases:
+  - **Same items:** the effect sits on the same items at about full size (equal world, 0.739).
+  - **Big jumps:** the effect is made of gm2-like big jumps (redacted-pattern world, 0.127, just above the floor of about 10%).
+- **It can still fail.** P(fail) is 0.26 in the equal world, and 1.0 in the null world and in the 30% wrong-target world (0.995).
+- **Why the big-jump world loses power.** Its effect is a few large jumps onto one statement's rating, such as h191's 81 against 3. Those are the answers the design cannot tell from rating the wrong line. Counting them as a pass would put back the very loophole fix 1 closed. In that world the bet now usually ends in fail-target, whose sentence says the question is not settled.
+- **What the question has become.** Does a questions-only order effect, made of moderate shifts on the same items as the turn-by-turn one, survive at about its size? It is narrower than the original question, and D69 and D70 now say so plainly. The odds of 0.10 fit the corrected table. The bet can answer this question.
+
+### Header
+
+`confirmed_at` is set to 2026-11-05 07:13. The verdict field stays `fix-first` (confirmed), with fix rows D69 and D70. The run may start.
