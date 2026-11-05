@@ -47,7 +47,7 @@ An overseer who hears a model say "I'm 90% sure" also sees what the model does. 
 - **Items per model and behaviour:** backing down: Haiku 300, Sonnet 150, Opus 80. Declining: Haiku 300, Sonnet 300, Opus 80.
 - **Scale:** one direction, 0 = certainly false, 100 = certainly true (wave 1's prompts).
 - **Seed** (operators/hardware.md): CURBY-Q's latest completed round is 28297, its result pulse at 2025-08-22 13:42 America/Denver (checked 2026-11-05 10:06 with `@buff-beacon-project/curby-client@1.2.0`), so CURBY-Q is stalled. **Seed: the first CURBy-RNG pulse timestamped after this commit.** seed = the first 8 bytes of SHA-256(randomness ‖ bet-id), unsigned big-endian, with sub-seed `--purpose split` (`ledger/seed.py`). Its value mod 2³² draws the cross-validation folds. The bootstrap seed is the fixed constant 8008. *Filled in by the seed commit, before any analysis:*
-  `chain:` ___ · `pulse:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seed (split):` ___
+  `chain:` CURBy-RNG · `pulse:` 1592502 · `pulse_time:` 2026-11-05 10:18:00 America/Denver (the pulse before it, 1592501, is 10:17:00, before this file's commit fb1c81a at 10:17:22) · `randomness:` `665600cf95aa3e07d0f81e1912de5a3aaf26768533984f49179b4f2ef04308aa6988608608df2f1f764ad26a73a502f976efbefa15ff5cb65c80f49c2289c7e9` · `client:` @buff-beacon-project/curby-client@1.2.0 · `certificate_verified:` false · `seed (split):` 2781744853229195455 (mod 2³² = 2826916031), in `data/sv-b4-seed.json`
 
 ## 3. Calls
 
