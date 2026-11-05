@@ -148,3 +148,7 @@ The pre-mortem: "If this fails, the most likely reason is that 'Wait.' in the us
 ## What would break it next
 
 The fail is about one placement, so it is not overturned by re-analysis. The cheapest test the prior work leaves open is Tsui's own placement on this design. Append "Wait." to the end of the model's own conclusion, in its assistant turn, and grade with the unchanged own-turn request, alongside same-run own and fresh cells. On Haiku (60 studies) and Opus (30) that is about $0.70 at this run's cost per call: 360 Haiku calls at about $0.00007, plus 180 Opus calls at about $0.0035. A second cheap arm separates the doubt reading from the trigger reading, again within one run. It puts a neutral user prefix of the same length ("Okay. Now grade…") beside "Wait." and costs about $0.35 more on Haiku and Opus. If Haiku's leniency follows any user interjection, the reversal is about the user turn, not about "Wait". Both are new bets with their own pre-registration.
+
+---
+
+Revealed 2026-11-05 12:50 America/Denver: pl-043, clean (nothing planted). Every finding above is the audit of the real result; cuts 1-4 are applied under program 5 D30.
