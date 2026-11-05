@@ -165,3 +165,31 @@ Each fix needs a dated DEVIATIONS row, written before any test call and naming t
 5. **D10: frozen-prompt check.** In `run()`, refuse to start unless `WRITE`, `GRADE_Q`, `GRADE_ABOVE`, `FRESH`, `SCALE` and `OVERCLAIM` equal their text at e29f25c, as sg-b1's `check_frozen_prompts()` does.
 
 The pilot files (`results/sg-b3-grade-calls-pilot.json`, `results/sg-b3-analysis-pilot.json`) are committed with this review. They are not test data. The reviewer confirms the five fixes in an addendum here before the first non-pilot call.
+
+## Addendum: check of the fixes (2026-11-05 05:52 America/Denver)
+
+The fixes are in commit b8d6ee3, DEVIATIONS rows D9a–D9e, all dated before any test call. I re-ran `sg_b3_flaw.py dryrun` (35 s) and ran my own checks through the fixed `analyse()` (scratch script `confirm.py`, in the same scratchpad). No paid call was made. **Three fixes hold and two need one more step, so this is not yet confirmed (confirmed_at stays null).**
+
+1. **Floor rule for sharpening (D9a): holds.**
+   - The dry run prints these bounded worlds: null fail-same 1.00; blunting +1.5 logit pass 1.00; sharpening −1 logit fail-same 1.00.
+   - My worlds: sharpening −3.0 logit reads fail-same 20/20. 54 of 60 model readings carry the note "not blunted (sharpening not measurable at the floor)".
+   - Sharpened is now blocked at the floor. The fail-same sentence reads "did not penalise … less".
+2. **Harshness guard (D9b): holds.**
+   - Harshness only, with no flaw-specific effect: −0.7 logit reads mixed 20/20 (was pass 14) and −1.0 reads mixed 20/20 (was pass 20). The dry run's −1 world reads mixed 1.00.
+   - Real blunting is kept: +1.2 logit passes 20/20, with or without −0.4 harshness added.
+   - The seeds are `boot + 4` and `boot + 5`, as the row says.
+3. **The bundle named (D9c): text holds; code does not.**
+   - The secondary "flawed text exceeds three sentences" uses `n_sentences()`, which splits after every ". ". It therefore counts "vs." as a sentence end.
+   - On the real write cache it puts Haiku at 30 over three and 30 not. The abbreviation-aware count, which the row quotes, is 14 and 46: 16 of Haiku's 60 studies are misclassified.
+   - Opus (60/60) and Sonnet (58/60) agree with the row.
+   - **Needed:** don't split after abbreviations ("vs.", "e.g.", "i.e."), and show in the dry run that the counts are 60 / 58 / 14.
+4. **Fragile defined (D9d): text holds; code does not.**
+   - `robustness()` still computes the leave-one-out readings with the plain G rule, without the D9b guard or the D9a floor. So "fragile" describes a reading other than the one reported.
+   - In the harshness-only world at −1.0 logit, all 60 model readings are "undetermined", while the robustness base reading is "blunted" for all 60. At sharpening −1.2 with s = +0.4, 4 readings differ the same way.
+   - **Needed:** recompute each leave-one-out reading with the same guards (the flawed_D CIs at `boot + 4` / `boot + 5`, and the floor), so that "fragile" refers to the reported reading. Show in the dry run that the base reading equals the reported reading.
+5. **Frozen-prompt and completeness check (D9e): holds.**
+   - Tampering `OVERCLAIM` with one trailing space is refused ("prompts differ from e29f25c: ['OVERCLAIM']").
+   - A write cache missing one (model, study) is refused before any job.
+   - The dry run prints that the strings equal e29f25c's.
+
+Both remaining items are code fixes to reported secondaries. Neither moves the primary reading or a bar. Once each has a DEVIATIONS row (or an amendment to D9c / D9d) dated before any test call, the reviewer confirms them in a further addendum. The run should not start until then.
