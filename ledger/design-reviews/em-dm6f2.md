@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: holds, D4: holds, D5: holds, D6: holds, D7: h
 flaws: 3
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 06:30 America/Denver
 ---
 
 # Design review of em-dm6f2
@@ -170,3 +170,25 @@ Not required (recommendations):
 - the rate-matched secondary breaks ties among equal F values by question-id order (`argsort(kind="stable")`). With values on a 0.01 grid this choice can move `J_F_rate_matched`. Report the tie count or average over random tie orders. It is secondary and cannot change the verdict.
 
 VERDICT: fix-first (3)
+
+## Addendum: fixes confirmed (2026-11-05 06:30 America/Denver)
+
+I checked the fixes against `7f5d3f4` (code and DEVIATIONS D63) and `dafca10` (D63's own time corrected to 06:24). The fix row is D63, not D62, because D62 went to another bet. Since the pre-registration, the only change to `dm6f2_flag_overlap.py` is D63's. The frozen `.md` is untouched apart from the seed commit, and D63 carries the new §5 sentences and the new §7 text. The rule, thresholds, n floor and seed are unchanged.
+
+- **F1 holds.**
+  - `same_format()` returns J_PP and J_FF. `analyse()` reports both with question-bootstrap intervals, plus `noise_asymmetric` (J_F ≥ min(J_PP, J_FF) − 1e-9) and the noisier format. The md table shows all of them.
+  - The pass and fail sentences match the review's wording word for word.
+  - The extra clause is appended only on a pass with the flag set, and it names the lower same-format overlap. On a flagged pass (P sd 0.3, F sd 0.03, n = 272) it reads: "In the probability format, two askings overlapped no more than the two formats did (J 0.488 against J_F 0.585), …".
+  - `--selftest` prints `SELFTEST OK`. Its new asymmetric-noise world gives J_PP 0.49, J_FF 0.97, D +0.12 and a pass with the flag True. The original three worlds, the untestable case and every boundary assert still give their old results.
+  - Note: the same-format intervals use a third generator stream (seed + 2), which neither §2 nor D63 states. It feeds only reported intervals and cannot touch the verdict.
+- **F2 holds.** On the fake archive, Haiku's entry has `sentence: null` with the note "secondary; no verdict sentence (D63, design review F2)". The md prints only Sonnet's sentence.
+- **F3 holds.**
+  - `PINNED_SHA256` matches the three real files: I hashed them, which is not an analysis.
+  - With the fake archive, `main()` stops with "archive sha256 mismatch, run stopped before analysis: …", naming each file with both hashes. It writes no results file.
+  - With the pins set to the fake files' hashes, it runs to completion.
+- **Recommendation taken:** the leave-one-question-out flip ids are now printed. The two that were not taken are secondary and were not required.
+- **Erratum:** D61's "06:15" is corrected inside D63 (pre-registration author time 06:06:43).
+
+No paid calls, $0. The primary analysis was not run on the real data.
+
+CONFIRMED: yes
