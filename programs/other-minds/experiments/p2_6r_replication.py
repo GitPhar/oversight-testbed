@@ -36,6 +36,7 @@ RESULTS, DATA = ROOT / "results", ROOT / "data"
 CACHE, OUT_JSON, OUT_MD = RESULTS / "p2-6r-calls.json", RESULTS / "p2-6r-replication.json", RESULTS / "p2-6r-tables.md"
 SEEDF = DATA / "p2-6r-seed.json"
 REVIEW_GLOB = "om-p2-6r*.md"
+REFUSAL_FILES = ("refusal-p2-6r.md", "refusal.md")    # D14d (F4): written to the first; a run refuses to start if either exists
 HAIKU_JSON = RESULTS / "p2-6-position-or-label.json"
 CAP = 4.00                                             # dollars, both models together, checked under a lock before every call
 MODELS = {"sonnet": "claude-sonnet-5-5", "opus": "claude-opus-5-5"}
@@ -94,8 +95,9 @@ class GuardedCaller:
         self.path, self.cap, self.label, self.call_fn = Path(cache_path), cap, label, call_fn
         self.cache = json.loads(self.path.read_text()) if self.path.exists() else {}
         refused = [k for k, v in self.cache.items() if v.get("refused")]
-        if refused or (RESULTS / "refusal.md").exists():
-            sys.exit(f"{label}: a refusal is on record ({refused[0] if refused else 'results/refusal.md'}); not resumed")
+        on_file = [f for f in REFUSAL_FILES if (RESULTS / f).exists()]
+        if refused or on_file:                          # D14d (F4): this bet's own record, and the shared one
+            sys.exit(f"{label}: a refusal is on record ({refused[0] if refused else 'results/' + on_file[0]}); not resumed")
         self.lock, self.stop = threading.Lock(), threading.Event()
         self.refusal, self.errors, self.after_stop, self.capped = {}, [], 0, False
 
@@ -156,7 +158,7 @@ class GuardedCaller:
             self.path.with_name(self.path.stem + "-stop.json").write_text(json.dumps(rec, indent=1))
             if self.refusal:
                 key, e = self.refusal["e"]
-                (RESULTS / "refusal.md").write_text(
+                (RESULTS / REFUSAL_FILES[0]).write_text(
                     f"# Run stopped on a refusal\n\n{self.label}, job `{key}`\n\nRefused call: **{getattr(e, 'call', '?')}**\n\n"
                     f"Request ID: `{getattr(e, 'request_id', None)}`\n\nStop details:\n\n```\n{getattr(e, 'stop_details', '')}\n```\n\n"
                     f"Calls already in flight that completed after the stop: {self.after_stop}.\n\n"
@@ -167,6 +169,17 @@ class GuardedCaller:
 
 
 RATE = base.RATE
+
+
+def run_all(caller, jobs_):
+    """D14d (F4): one model at a time, in ORDER; the next model starts only if the previous one's run completed, so a
+    stop on Sonnet (refusal, error or cap) means Opus is never called."""
+    status = None
+    for mk in ORDER:
+        status = caller.run([j for j in jobs_ if j[1] == mk])
+        if status != "complete":
+            return f"{status} (on {mk})"
+    return status
 
 
 def real_call():
@@ -306,13 +319,14 @@ def fmt(x):
 SENTENCES = {
     "pass": ("On Sonnet 5.5 and Opus 5.5, as on Haiku 5.5, on program 1's 16 bm0 items at ±30 points, a value in the "
              "assistant turn was taken up more than the same value in the user turn, by at least 0.15 of the "
-             "displacement on both uptake measures and by more than the label (\"your\" against \"Sam's\") changed it: "
+             "displacement on both uptake measures and by more than the label (\"your\" against \"Sam's\") changed it "
+             "on the pre-registered measure: "
              "Sonnet position effect {P_sonnet} (label {L_sonnet}), Opus {P_opus} (label {L_opus}). On this design, on "
              "these three Claude models, the pull of an earlier answer follows the turn it sits in more than whose "
              "answer it is said to be."),
-    "fail": ("The position-over-label result found on Haiku 5.5 did not hold on both Sonnet 5.5 and Opus 5.5 by the "
-             "pre-registered rule (on each model: a position effect of at least 0.15 of the displacement on both "
-             "uptake measures, its 95% interval above 0, and larger than the label effect)."),
+    "fail": ("The pre-registered event did not occur: Sonnet 5.5 and Opus 5.5 did not both meet the rule (on each "
+             "model: a position effect of at least 0.15 of the displacement on both uptake measures, its 95% interval "
+             "above 0, and larger than the label effect)."),                                       # D14c (F3)
     "holds": ("On {M}, the position effect held: {P} of the displacement (shift-invariant {P_s}), against a label "
               "effect of {L}."),
     "fail-small": ("On {M}, the position effect did not meet the rule: position {P} (shift-invariant {P_s}), label "
@@ -323,9 +337,14 @@ SENTENCES = {
     "fail-label": ("On {M}, the label changed uptake at least as much as the position: label {L}, position {P}."),
     "fail-reversed": ("On {M}, a value in the user turn was taken up more than the same value in the assistant turn: "
                       "position effect {P}."),
-    "no_own_pull": ("On {M}, the value labelled as the model's own and placed in its own turn was not taken up "
-                    "detectably (uptake {AY}), so the own-answer pull is not present in this wording on {M}, and the "
-                    "position effect there has little to split."),
+    "no_own_pull": ("On {M}, the value labelled as the model's own and placed in its own turn was not detectably "
+                    "taken up (uptake {AY}): this design did not detect an own-answer pull in this wording on {M}."),
+    "no_own_pull_split": ("The position effect there has little to split."),             # D14b (F2): not on holds
+    "smaller_ordered": ("On {M}, the position effect, {P}, was below the 0.15 bar but larger than the label effect "
+                        "(position minus label {PmL}): the ordering seen on Haiku held on this design at a smaller "
+                        "size."),                                                          # D14c (F3)
+    "smaller_unordered": ("On {M}, the position effect, {P}, was below the 0.15 bar and could not be told apart from "
+                          "the label effect at this n (position minus label {PmL})."),
     "fragile": ("Dropping item {item} alone on {M} changes the overall verdict to \"{v}\", so it rests on that item."),
     "untestable": ("The test could not answer its question as run: {why}. No verdict is drawn."),
 }
@@ -359,8 +378,13 @@ def analyse_model(mk, cache, its, anc, seed32_boot):
     v = model_reading(s, ss)
     res.update(items=ids, item_uptakes={q: up[q] for q in ids}, items_s=ids_s, item_uptakes_s={q: up_s[q] for q in ids_s},
                stats=s, stats_shift=ss, reading=v, sentence=model_sentence(mk, v, s, ss))
-    if s["AY"][1] <= EPS:
-        res["no_own_pull_sentence"] = SENTENCES["no_own_pull"].format(M=NAME[mk], AY=fmt(s["AY"]))
+    if s["AY"][1] <= EPS:                                       # D14b (F2)
+        res["no_own_pull_sentence"] = SENTENCES["no_own_pull"].format(M=NAME[mk], AY=fmt(s["AY"])) + \
+            ("" if v == "holds" else " " + SENTENCES["no_own_pull_split"])
+    if v == "fail-small" and s["P"][0] < MARGIN - EPS and s["P"][1] > EPS:     # D14c (F3), secondary
+        key = "smaller_ordered" if s["P_minus_L"][1] > EPS else "smaller_unordered"
+        res["smaller_sentence"] = SENTENCES[key].format(M=NAME[mk], P=fmt(s["P"]), PmL=fmt(s["P_minus_L"]))
+        res["smaller_reading"] = key
     loo = {}
     for i, q in enumerate(ids):
         sl = summarise(np.delete(U, i, 0), seed32_boot)
@@ -443,14 +467,19 @@ def write_md(r):
             ("uptake UY (user, yours)", "stats", "UY", "secondary"),
             ("uptake US (user, Sam's)", "stats", "US", "secondary")]
     for name, block, k, role in rows:
-        hv = fmt(h[block][k]) if h else "—"
+        hv = fmt(h[block][k]) if h and k in h[block] else "—"      # D14a (F1): om-p2-6 has no P_minus_L
         lines.append(f"| {name} | {fmt(r['models']['sonnet'][block][k])} | {fmt(r['models']['opus'][block][k])} | {hv} | {role} |")
     lines.append("| label-swap null: share of swaps with L ≥ observed | "
                  + " | ".join(f"{r['models'][mk]['label_swap_null']['p_ge_obs']:.4f}" for mk in ORDER) + " | — | secondary |")
     lines.append("| leave-one-item-out P range | " + " | ".join(
         f"{r['models'][mk]['loo_P_range'][0]:+.3f} to {r['models'][mk]['loo_P_range'][1]:+.3f}" for mk in ORDER) + " | — | robustness |")
     lines += ["", "Readings by model: " + "; ".join(f"{NAME[mk]} **{r['readings'][mk]}**" for mk in ORDER) + ".",
-              f"Leave-one-item-out flips of the overall verdict: {len(r['loo_flips'])}.", "",
+              f"Leave-one-item-out flips of the overall verdict: {len(r['loo_flips'])}.", ""]
+    for mk in ORDER:
+        for key in ("no_own_pull_sentence", "smaller_sentence"):
+            if key in r["models"][mk]:
+                lines.append(f"- {r['models'][mk][key]}")
+    lines += ["",
               f"**Verdict by the pre-registered rule: {r['label']}**", ""]
     for mk in ORDER:
         m = r["models"][mk]
@@ -484,7 +513,7 @@ def main():
         if why:
             sys.exit(f"gate closed: {why}")
         c = GuardedCaller(CACHE, CAP, "p2-6r", real_call())
-        print("run status:", c.run(jobs(its, anc, so)))
+        print("run status:", run_all(c, jobs(its, anc, so)))
     cache = json.loads(CACHE.read_text())
     res = analyse_cache(cache, its, anc, sb)
     stopf = CACHE.with_name(CACHE.stem + "-stop.json")

@@ -231,3 +231,81 @@ for sd in (3.0, 8.0):
     for ws, wo in combos:
         r, per = rates(ws, wo, sd)
         print(f"| {ws} | {wo} | {r['pass']:.2f} | {r['fail']:.2f} | {r['untestable']:.2f} | {per['sonnet']} | {per['opus']} |")
+
+
+print("\n## 8. Design-review fixes D14a-D14d, checked with every call stubbed")
+import time
+# F4: Opus starts only after Sonnet completes; a slow refusal near the end of Sonnet sends no Opus call
+with tempfile.TemporaryDirectory() as t:
+    R.RESULTS = Path(t)
+    n = {"i": 0, "opus": 0}
+
+    def slow(mk, msgs):
+        n["i"] += 1
+        if mk == "opus":
+            n["opus"] += 1
+        if mk == "sonnet" and n["i"] == 860:
+            time.sleep(0.2)
+            raise FakeRefusal()
+        time.sleep(0.002)
+        return {"probability": 50}, 0.0, f"r{n['i']}"
+    slow.refusal_error = FakeRefusal
+    c = R.GuardedCaller(Path(t) / "c.json", 99, "stub", slow)
+    st = R.run_all(c, J)
+    print(f"- slow refusal at Sonnet call 860 of 864: status {st}; Opus calls sent {n['opus']} (must be 0); "
+          f"record written to {R.REFUSAL_FILES[0]}: {(Path(t) / R.REFUSAL_FILES[0]).exists()}; shared refusal.md written: "
+          f"{(Path(t) / 'refusal.md').exists()}")
+    (Path(t) / "refusal.md").write_text("another bet's refusal")
+    (Path(t) / R.REFUSAL_FILES[0]).unlink()
+    try:
+        R.GuardedCaller(Path(t) / "e.json", 99, "stub", stub()[0])
+        print("- start with only the shared refusal.md present: STARTED (wrong)")
+    except SystemExit as e:
+        print(f"- start with only the shared refusal.md present: exits ({e})")
+R.RESULTS = old
+
+# F2, F3: the new sentences on the review's example tables
+for name, cells in (("holds with negative user-turn uptakes (review F2)", (0.10, 0.08, -0.15, -0.17)),
+                    ("smaller uptake, ordering kept (review F3)", (0.14, 0.10, 0.05, 0.01))):
+    U = np.array([[a + 0.03 * np.sin(i + j) for j, a in enumerate(cells)] for i in range(16)])
+    U[:8, 0] -= 0.2
+    U[8:, 0] += 0.2
+    s_ = R.summarise(U, 3)
+    v = R.model_reading(s_, s_)
+    print(f"- {name}: AY {R.fmt(s_['AY'])}, P {R.fmt(s_['P'])}, L {R.fmt(s_['L'])}, P - L {R.fmt(s_['P_minus_L'])}; reading {v}")
+
+for v in ("holds", "fail-small"):
+    txt = R.SENTENCES["no_own_pull"].format(M="Opus 5.5", AY="+0.10 [-0.02, +0.22]") + ("" if v == "holds" else " " + R.SENTENCES["no_own_pull_split"])
+    print(f"- no-own-pull sentence as attached to a {v} reading: {txt}")
+# F1: main() --analyse end to end on a synthetic cache in a temp dir, with the real Haiku reference file
+with tempfile.TemporaryDirectory() as t:
+    t = Path(t)
+    rng = np.random.default_rng(5)
+    cache = {}
+    for mk, w in (("sonnet", "scaled:0.75"), ("opus", "scaled:0.15")):
+        cache.update(simulate(mk, w, 3.0, rng))
+    by = {it["id"]: it for it in its}
+    for key, v in cache.items():
+        mk, cell, q, o, d, _ = key.split("|")
+        A = None if cell == "base" else base.shown_value(anc[q][f"m_{o}"], int(d))
+        v["sha256"] = R.content_hash(mk, base.messages(cell, by[q], o, A))
+    (t / "calls.json").write_text(json.dumps(cache))
+    (t / "seed.json").write_text(json.dumps({"seed32_order": 1, "seed32_boot": 2}))
+    saved = (R.CACHE, R.OUT_JSON, R.OUT_MD, R.SEEDF, sys.argv)
+    R.CACHE, R.OUT_JSON, R.OUT_MD, R.SEEDF = t / "calls.json", t / "out.json", t / "tables.md", t / "seed.json"
+    sys.argv = ["p2_6r_replication.py", "--analyse"]
+    import contextlib, io
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        R.main()
+    R.CACHE, R.OUT_JSON, R.OUT_MD, R.SEEDF, sys.argv = saved
+    out = json.loads((t / "out.json").read_text())
+    md = (t / "tables.md").read_text()
+    print(f"- main() --analyse on a synthetic cache (Sonnet at 0.75, Opus at 0.15 of Haiku's uptakes): verdict "
+          f"{out['verdict']}, readings {out['readings']}; tables file written, {len(md.splitlines())} lines")
+    print("  - its P − L row: " + next(l for l in md.splitlines() if l.startswith("| position minus label")))
+    for mk in R.ORDER:
+        for key in ("no_own_pull_sentence", "smaller_sentence"):
+            if key in out["models"][mk]:
+                print(f"  - {mk} {key}: {out['models'][mk][key]}")
+    print("  - verdict sentence: " + out["sentence"])
