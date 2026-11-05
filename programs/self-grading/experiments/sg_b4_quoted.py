@@ -418,3 +418,35 @@ if __name__ == "__main__":
     else:
         dryrun()
         stubrun()
+
+
+def tables(r):
+    """The write-up's tables, regenerated from the analysis (results/sg-b4-quoted.md; reproduce.py compares them)."""
+    from sg_followups import cix, fx, sx, table
+    P = r["per_model"]
+    rows = []
+    for k in ("haiku", "opus", "sonnet"):
+        v = P[k]
+        d = v.get("drift", {})
+        rows.append([k.capitalize(), v["n_usable"], sx(v.get("T")), cix(v.get("T_ci")), cix(v.get("T_ci_study")),
+                     sx(v.get("F")), cix(v.get("F_ci")), fx(v.get("q")), fx(v.get("o")), fx(v.get("o", 0) + v.get("G_b3_subset", 0)),
+                     sx(v.get("L")), sx(d.get("mean")) if d.get("mean") is not None else "—", sx(v.get("T_adj")),
+                     f"**{v['reading']}**" if k != "sonnet" else v["reading"]])
+    t1 = table(["model", "studies", "T", "95% CI (20 domains)", "95% CI (studies)", "F", "F 95% CI (domains)",
+                "penalty, quoted copy", "penalty, own turn (sg-b3)", "penalty, fresh (sg-b3)", "L = fresh − quoted",
+                "drift", "T − drift", "reading"], rows)
+    sec = []
+    for lab, f in (("reading on Sean's card event (no F guard)", lambda v: v.get("reading_card_event", "—")),
+                   ("reading on the study bootstrap", lambda v: v.get("reading_study_bootstrap", "—")),
+                   ("clean text, quoted − own (points)", lambda v: sx(v.get("clean_shift"))),
+                   ("drift 95% CI (10 studies)", lambda v: cix((v.get("drift") or {}).get("ci"))),
+                   ("drift fires", lambda v: "yes" if (v.get("drift") or {}).get("fires") else "no"),
+                   ("fragile, one study dropped", lambda v: "yes" if v.get("robustness", {}).get("fragile_study") else "no"),
+                   ("fragile, one domain dropped", lambda v: "yes" if v.get("robustness", {}).get("fragile_domain") else "no"),
+                   ("ties (T = 0)", lambda v: v.get("robustness", {}).get("n_ties", "—"))):
+        sec.append([lab] + [f(P[k]) for k in ("haiku", "opus", "sonnet")])
+    t2 = table(["", "Haiku", "Opus", "Sonnet"], sec)
+    sp = r["spend_by_model"]
+    t3 = table(["", "Haiku", "Opus", "Sonnet", "total"],
+               [["test run", f"${sp['haiku']:.3f}", f"${sp['opus']:.3f}", f"${sp['sonnet']:.3f}", f"**${r['spend_usd']:.3f}**"]])
+    return [t1, t2, t3]

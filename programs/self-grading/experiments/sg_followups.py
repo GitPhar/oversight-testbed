@@ -114,3 +114,29 @@ def loo_domain(values, clusters, read):
         r = read(keep)
         flips.append((c, r))
     return flips
+
+
+# ---- printing, shared by the write-ups and reproduce.py (no effect on any statistic) -------------------------------
+MINUS = "−"
+
+
+def sx(x, nd=2):
+    """Signed number as the write-ups print it (U+2212 for minus)."""
+    if x is None:
+        return "—"
+    v = round(float(x), nd)
+    if v == 0:
+        v = 0.0
+    return (f"+{v:.{nd}f}" if v > 0 else (f"{MINUS}{abs(v):.{nd}f}" if v < 0 else f"{0:.{nd}f}"))
+
+
+def fx(x, nd=1):
+    return "—" if x is None else f"{float(x):.{nd}f}"
+
+
+def cix(c, nd=2):
+    return "—" if c is None else f"[{sx(c[0], nd)}, {sx(c[1], nd)}]"
+
+
+def table(header, rows):
+    return ["| " + " | ".join(header) + " |", "|" + "---|" * len(header)] + ["| " + " | ".join(map(str, r)) + " |" for r in rows]

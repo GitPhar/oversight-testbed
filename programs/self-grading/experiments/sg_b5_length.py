@@ -390,3 +390,41 @@ if __name__ == "__main__":
     else:
         dryrun()
         stubrun()
+
+
+def tables(r):
+    """The write-up's tables, regenerated from the analysis (results/sg-b5-length.md; reproduce.py compares them)."""
+    from sg_followups import cix, fx, sx, table
+    P = r["per_model"]
+    rows = []
+    for k in ("opus", "haiku", "sonnet"):
+        v = P[k]
+        d = v.get("drift", {})
+        m = v.get("mean", {})
+        rows.append([k.capitalize(), v["n_usable"], sx(v.get("G")), cix(v.get("ci")), cix(v.get("ci_study")),
+                     sx(v.get("flawed_D")), cix(v.get("flawed_D_ci")), fx(v.get("P_fresh")), fx(v.get("P_own")),
+                     fx(m.get("fresh-flawedL")), fx(m.get("own-flawedL")),
+                     sx(d.get("mean")) if d.get("mean") is not None else "—", sx(v.get("G_adj")), f"**{v['reading']}**"])
+    t1 = table(["model", "studies", "G′", "95% CI (20 domains)", "95% CI (studies)", "fD′ (own − fresh, flawed′)",
+                "fD′ 95% CI (domains)", "penalty fresh", "penalty own turn", "flawed′ fresh", "flawed′ own turn",
+                "drift", "G′ − drift", "reading"], rows)
+    sec = []
+    g = lambda v, key: (v.get("secondaries", {}).get(key) or {})
+    for lab, f in (("sg-b3's G − G′ (points)", lambda v: sx(g(v, "G_b3_minus_G_len").get("mean"))),
+                   ("its 95% CI (domains)", lambda v: cix(g(v, "G_b3_minus_G_len").get("ci"))),
+                   ("G′, study interval excludes 0 (n 14)", lambda v: sx(g(v, "G_ci_excludes_0_True").get("mean"))),
+                   ("G′, study interval includes 0 (n 46)", lambda v: sx(g(v, "G_ci_excludes_0_False").get("mean"))),
+                   ("G′ CI (domains) excludes 0", lambda v: "yes" if v.get("ci") and (v["ci"][0] > 0 or v["ci"][1] < 0) else "no"),
+                   ("reading on the study bootstrap", lambda v: v.get("reading_study_bootstrap", "—")),
+                   ("drift 95% CI (10 studies)", lambda v: cix((v.get("drift") or {}).get("ci"))),
+                   ("fragile, one study dropped", lambda v: "yes" if v.get("robustness", {}).get("fragile_study") else "no"),
+                   ("fragile, one domain dropped", lambda v: "yes" if v.get("robustness", {}).get("fragile_domain") else "no"),
+                   ("flawed′ within three sentences", lambda v: None)):
+        sec.append([lab] + [f(P[k]) for k in ("opus", "haiku", "sonnet")])
+    L = r["length"]
+    sec[-1] = ["flawed′ within three sentences"] + [f"{L[k]['flawedL_within_3']}/{L[k]['n']}" for k in ("opus", "haiku", "sonnet")]
+    t2 = table(["", "Opus", "Haiku", "Sonnet"], sec)
+    sp = r["spend_by_model"]
+    t3 = table(["", "Opus", "Haiku", "Sonnet", "total"],
+               [["test run", f"${sp['opus']:.3f}", f"${sp['haiku']:.3f}", f"${sp['sonnet']:.3f}", f"**${r['spend_usd']:.3f}**"]])
+    return [t1, t2, t3]
