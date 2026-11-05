@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: holds, D4: holds, D5: holds, D6: flaw, D7: ho
 flaws: 2
 pilot_usd: 0.0350
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 06:19 America/Denver
 ---
 
 # Design review of ta-b1r2
@@ -170,3 +170,22 @@ The reviewer confirms the fixes by:
 - checking the output file name.
 
 `confirmed_at` is filled then.
+
+## Confirmation (2026-11-05 06:19 America/Denver)
+
+**Confirmed.** The fixes are in e420784 under T14. The odds were revised before data, 0.08 → 0.06 (both kept; fresh re-elicitation e0e4a97, ledger 1a40787, `lesson_revised` in `ls-ta-b1r2`). No paid call was made for this check. The scripts are in the scratchpad folder `review-ta-b1r2/`.
+
+**F1: fixed.**
+- *The gated run* (`stub_gate.py`). The real `main()` `--run` path ran through the real `Caller`, with `ta_common.call` replaced, `review_gate` stubbed, and `CACHE` and `RESULTS` in the scratchpad.
+  - With pilot-like Opus checks (E 92 / R 90), `gate()` passed Haiku (mean 100) and Sonnet (61) and failed Opus (2.0). Phase 2 had 810 jobs and none for Opus: Opus made 64 calls in all, the belief check only. `--analyse` labelled Opus `untestable-cue`.
+  - With all three passing, phase 2 had all 1,080 jobs.
+  - With Sonnet's gap at exactly 20, Sonnet passed (the tolerance holds). At 19, Sonnet was gated out and labelled `untestable-cue`.
+  - On a second `--run`, with every entry cached, the gate read the cached entries as successful (the author's bug fix holds) and made 0 calls.
+  - `model_label`'s new first check is the same mean-only gate. It returns before any bootstrap, so the frozen interval condition on the check is still applied afterwards.
+- *The dry run.* `--dry-run` reproduces T14's table exactly: pass rates W0 0%, W4 2.7%, W5 19.3%, W6 6.0%, W7 5.3%, with the null sub-readings printed. The boundary checks are unchanged.
+  - This agrees with this review's own simulation at the measured gates (W4 5.3%, W5 20.0%). D11 holds on the strong world only, as stated.
+- *Not counted, to fix in the results write-up.* `GATES` states the pilot means slightly wrong: Opus E 92 / R 90, where the measured values are 94.75 / 89; Sonnet R 22 with SD 4, where the measured R is 36, SD 26, over 12–72. Neither changes a gate outcome or a pass share. The hard-pool-like Haiku variant and the per-model label shares were not added; omitting the variant is conservative, since it raised the strong-world pass to 44%. The pre-flight still projects all phases ($2.19 < $2.40), which is conservative.
+
+**F2: fixed.** `--analyse` writes `ta-b1r2-analysis.json` (seen in every stub run), and the docstring names `ta_b1r2.py`.
+
+The run may start (`review_gate` accepts fix-first with `confirmed_at` filled).
