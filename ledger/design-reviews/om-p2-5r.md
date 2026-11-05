@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: holds, D4: holds, D5: flaw, D6: flaw, D7: fla
 flaws: 5
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 10:38 America/Denver
 ---
 
 # Design review of om-p2-5r
@@ -107,3 +107,34 @@ Recommended, not required:
 - relabel the dry-run world "Haiku as measured" (its downward gap is 0, not Haiku's +0.04)
 - say in the write-up why the Haiku column's pooled gap (+0.130) differs from om-p2-5's +0.139
 - report, as a secondary, the up/down split by sign relative to each model's own one-turn rating from om-p2-6r's base cells (archived, a different run; never promoted)
+
+## Addendum: fixes confirmed (2026-11-05 10:38 America/Denver)
+
+The author applied the five fixes under DEVIATIONS D18b, commit `d71608d` (10:33:55). They were written before any call: `programs/other-minds/results/` holds no p2-5r file, and the only results commits since `ff19617` are om-p2-15's. I checked the code at `d71608d`, the bet row, br-011, and the dry run. Commands were run with `/Users/seanpharris/entangled-mind/.venv/bin/python`. The scratchpad scripts `t_machinery.py`, `t_analysis.py` and `t_fix.py` were re-run on the new code with stub callers. `real_call` was replaced by a function that exits. No paid call was made.
+
+**Rerun.** `--dry-run` and `plan`, re-run here, match `experiments/p2-5r-dryrun-output-D18b.txt` line for line.
+
+- **F1 (D5): holds.**
+  - `reading()` now returns pass only when gap_up, gap_down and `dU_all` each have their lower bound above EPS. When both gaps clear but `dU_all` does not, it returns `sam_follows_any_number`.
+  - `bet_reading()` counts that reading as tested and not a pass. Shown: (sam_follows_any_number, none) gives fail, and (sam_follows_any_number, not_run) gives fail.
+  - The frozen sentence is in `SENTENCES` and formats.
+  - In the dry run, the mean-of-two-numbers responder reads `sam_follows_any_number` 0.98 with pass 0, and the source-blind Sam reads it 0.85 with pass 0. The hypothesis worlds are unchanged: Haiku-like 0.23, clear two-way gap 0.85, +0.08 gap 0.15. So D11 still holds.
+  - My 13 synthetic tables (now with `dU_all`) return the same single readings as before. The new dry-run assertions cover a `dU_all` lower bound of 0.0, which reads `sam_follows_any_number`, and 1e-4, which reads pass. The bar is tightened, not lowered.
+- **F2 (D6): holds.**
+  - `CAPS` = Sonnet $1.50 and Opus $4.25; `CAP` = $5.75. Opus `EST` is $3.49/1,136, the top of my range. `plan` shows Opus $3.49, total $4.47.
+  - With a stub at $0.0039 per Opus call, Opus stops at $4.251 with Sonnet complete, and Sonnet's cap still stops at $1.50 with no Opus call.
+  - br-011 in `ledger/spend.jsonl` amends br-010 to $5.75. The bet row has `budget_usd` 5.75 and `budget_ruling` "br-010, amended br-011".
+  - Sonnet's estimate stays at $0.98, below my $1.01–1.09, but well inside its cap; this is not a flaw.
+- **F3 (D7): holds.** `WORDING` is appended to the pass, up_only, down_only, reversed, `sam_follows_any_number` and bet_pass sentences, and each was formatted and checked. The clause names the two question wordings and says the gap may belong to the wording. It is shorter than my suggested text: it omits that the Sam question names both earlier answers. That still carries the bundle, so it is acceptable.
+- **F4 (D8): holds.**
+  - (a) pass, up_only and down_only say "Haiku's usual rating". The Haiku reference sentence shows it.
+  - (b) `bet_fail` names only the tested models and lists the others' readings. (none, not_run) reads "…on Sonnet 5.5, Sam did not… ; on Opus 5.5 the reading was not_run." (none, untestable_nothing_moved) is the same.
+  - (c) `bet_pass` adds the other model's reading. (pass, reversed) reads "…; on Opus 5.5 the reading was reversed."
+  - Readings appear as codes (`not_run`) rather than prose. That is acceptable, because the per-model not_run sentence gives the reason.
+- **F5 (D10): holds.** `analyse_cache` marks not_run whenever a model's answered (non-refused) calls are fewer than planned, whatever `status` says. `analyse()` reads the stop file and passes its reason through. My earlier test now gives not_run on both paths, the run path and `--analyse`, with Opus missing 1, 2 or 3 calls; before the fix, `--analyse` read pass. The dry run asserts the same.
+
+**Odds.** The bet row keeps both numbers: `engine_odds_first` 0.12, `engine_odds` 0.15 (prior 0.32 − 0.17), each with its context in `odds_history`. That is allowed before data.
+
+**Unchanged.** The run order, cache hashing, stop-on-refusal and the gate all re-test as before. The Haiku reference still reproduces the audit's split: up +0.217, down +0.042, dU +0.468, reading up_only.
+
+All five fixes hold. **Verdict: fix-first, confirmed at 2026-11-05 10:38 America/Denver.** The gate opens once this file is in the working tree.
