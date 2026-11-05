@@ -7,6 +7,8 @@
   "interpretability-post.jsonl:24": "2610.35586: the writer reports the quote leaves the comparison target implicit; item-spec requires the quote alone to settle the answer"
  },
  "earlier_version": {
-  "2608.27340": "comments: 'presented at 2026 ICML Mechanistic Interpretability Workshop'; a workshop copy may have been public before 2026-07-01, so Rule 2 moves it to pre-cutoff"
+  "2608.27340": "comments: 'presented at 2026 ICML Mechanistic Interpretability Workshop'; a workshop copy may have been public before 2026-07-01, so Rule 2 moves it to pre-cutoff",
+  "2611.00420": "comments: 'Extended version of a paper presented at the Mechanistic Interpretability and Compositional Learning workshops at ICML 2026' (design review F1)",
+  "2609.25366": "comments: 'Accepted to Transactions on Machine Learning Research (TMLR), September 2026'; TMLR submissions are public on OpenReview from submission, so a version may predate 2026-07-01 (design review F1 venue rule)"
  }
 }

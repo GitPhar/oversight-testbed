@@ -68,15 +68,21 @@ def main(dry):
         return {"id": job["id"], "kind": job["kind"], "option_1_is": job["option_1_is"], "p_option_1": out["p_option_1"],
                 "rationale": out["rationale"], "cost": cost, "request_id": rid, "usage": usage, "model": MODEL}
 
-    prim = [j for j in jobs if j["kind"] == "primary"]
-    c = Caller(CACHE, "bettor-primary")
-    c.run(prim, fn)                                   # primary first: alone enough for the primary statistic
-    c2 = Caller(CACHE, "bettor-order-check")
-    c2.run([j for j in jobs if j["kind"] == "order-check"], fn)
-    rows = [c2.cache[j["key"]] for j in jobs if j["key"] in c2.cache]
-    OUT.write_text("".join(json.dumps(r) + "\n" for r in rows))
-    print(f"wrote {len(rows)} bets to {OUT.relative_to(ROOT)}")
+    def save():
+        cache = json.loads(CACHE.read_text()) if CACHE.exists() else {}
+        rows = [cache[j["key"]] for j in jobs if j["key"] in cache]
+        OUT.write_text("".join(json.dumps(r) + "\n" for r in rows))
+        print(f"wrote {len(rows)} bets to {OUT.relative_to(ROOT)}", flush=True)
 
+    # Every exit path (completion, cap, refusal, error) saves the bets made so far (design review F3, D14).
+    try:
+        Caller(CACHE, "bettor-primary").run([j for j in jobs if j["kind"] == "primary"], fn)  # alone enough for every bet
+    finally:
+        save()
+    try:
+        Caller(CACHE, "bettor-order-check").run([j for j in jobs if j["kind"] == "order-check"], fn)
+    finally:
+        save()
 
 if __name__ == "__main__":
     main("--dry-run" in sys.argv)

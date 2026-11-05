@@ -85,6 +85,8 @@ class Caller:
         self.path.write_text(json.dumps(self.cache, indent=0))
         if self.refusal:
             k, e = self.refusal["e"]
+            print(f"REFUSAL: {self.label}, job {k}, request ID {e.request_id}", file=sys.stderr, flush=True)
+            (ROOT / "results").mkdir(exist_ok=True)
             (ROOT / "results" / "refusal.md").write_text(
                 f"# Run stopped on a refusal\n\n{self.label}, job `{k}`\n\nRefused call: **{e.call}**\n\n"
                 f"Request ID: `{e.request_id}`\n\nStop details:\n\n```\n{e.stop_details}\n```\n\n"

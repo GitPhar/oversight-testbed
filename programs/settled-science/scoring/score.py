@@ -9,6 +9,8 @@ p_true = the bettor's probability on the option the paper reported (p_option_1 i
 import json
 import random
 import sys
+
+import numpy as np
 from collections import defaultdict
 from pathlib import Path
 
@@ -17,6 +19,7 @@ ITEMS = ROOT / "items" / "items.jsonl"
 BETS = ROOT / "bettor" / "bets.jsonl"
 BOOT_SEED, BOOT_N = 20261104, 10000
 HEADLINE_P = 0.75
+EPS = 1e-12  # numerical tolerance on every 'below' test (D16)
 
 
 def load_items():
@@ -38,13 +41,13 @@ def brier(ps):
     return sum((1 - p) ** 2 for p in ps) / len(ps) if ps else None
 
 
-def boot_ci(vals, stat, n=BOOT_N, seed=BOOT_SEED):
-    if not vals:
+def boot_ci(vals, stat=None, n=BOOT_N, seed=BOOT_SEED):
+    """Percentile bootstrap of the mean over items (numpy; D16). Bounds: sorted[int(0.025n)], sorted[int(0.975n) - 1]."""
+    v = np.asarray(vals, float)
+    if len(v) == 0:
         return (None, None)
-    rng = random.Random(seed)
-    k = len(vals)
-    s = sorted(stat([vals[rng.randrange(k)] for _ in range(k)]) for _ in range(n))
-    return (s[int(0.025 * n)], s[int(0.975 * n) - 1])
+    m = np.sort(v[np.random.default_rng(seed).integers(0, len(v), size=(n, len(v)))].mean(1))
+    return (float(m[int(0.025 * n)]), float(m[int(0.975 * n) - 1]))
 
 
 def acc(ps):
@@ -100,16 +103,8 @@ def score(items, bets):
     post = [r for r in rows if r["side"] == "post"]
     pre = [r for r in rows if r["side"] == "pre"]
     out["primary_post"] = summarise(post)
-    hi = out["primary_post"]["brier_ci"][1]
-    out["verdict"] = ("untestable" if len(post) < 60 else "pass" if hi is not None and hi < 0.25 else "null")
-    # leave-one-item-out on the primary rule (P10)
-    flips = []
-    for i in range(len(post)):
-        rest = [(1 - r["p_true"]) ** 2 for j, r in enumerate(post) if j != i]
-        hi_i = boot_ci(rest, lambda v: sum(v) / len(v), n=2000)[1]
-        if (hi_i < 0.25) != (hi < 0.25):
-            flips.append(post[i]["id"])
-    out["loo_flips"] = flips
+    out["bets"] = bet_labels(post, pre)
+    out["verdict"] = out["bets"]["ss-b1"]["label"]
     out["pre_cutoff"] = summarise(pre)
     se = lambda rs: [(1 - r["p_true"]) ** 2 for r in rs]  # noqa: E731
     out["pre_minus_post"] = (None if not pre or not post else
@@ -145,10 +140,40 @@ def score(items, bets):
 
 
 def two_sample_ci(a, b, n=BOOT_N, seed=BOOT_SEED):
-    rng = random.Random(seed)
-    m = lambda v: sum(v) / len(v)  # noqa: E731
-    s = sorted(m([a[rng.randrange(len(a))] for _ in a]) - m([b[rng.randrange(len(b))] for _ in b]) for _ in range(n))
-    return (s[int(0.025 * n)], s[int(0.975 * n) - 1])
+    a, b = np.asarray(a, float), np.asarray(b, float)
+    rng = np.random.default_rng(seed)
+    ma = a[rng.integers(0, len(a), size=(n, len(a)))].mean(1)
+    mb = b[rng.integers(0, len(b), size=(n, len(b)))].mean(1)
+    d = np.sort(ma - mb)
+    return (float(d[int(0.025 * n)]), float(d[int(0.975 * n) - 1]))
+
+
+def bet_labels(post, pre):
+    """ss-b1..b3 labels by the pre-registered rules (§5) as completed by DEVIATIONS D15, with leave-one-item-out (D16)."""
+    se = lambda rs: [(1 - r["p_true"]) ** 2 for r in rs]  # noqa: E731
+    dif = lambda rs: [(1 - r["p_true"]) ** 2 - (1 - r["headline_p"]) ** 2 for r in rs]  # noqa: E731
+    b1 = lambda po: boot_ci(se(po))[1] < 0.25 - EPS  # noqa: E731
+    b2 = lambda po: boot_ci(dif(po))[1] < -EPS  # noqa: E731
+    b3 = lambda po, pr: two_sample_ci(se(pr), se(po))[1] < -EPS  # noqa: E731
+    out = {}
+    if len(post) < 60:
+        why = f"{len(post)} post-cutoff findings scored, fewer than 60"
+        return {b: {"label": "untestable", "reason": why, "fragile_items": []} for b in ("ss-b1", "ss-b2", "ss-b3")}
+    for name, f in (("ss-b1", b1), ("ss-b2", b2)):
+        full = f(post)
+        flips = [post[i]["id"] for i in range(len(post)) if f(post[:i] + post[i + 1:]) != full]
+        out[name] = {"label": "pass" if full else "null", "fragile_items": flips}
+    if len(pre) < 30:
+        out["ss-b3"] = {"label": "untestable", "reason": f"{len(pre)} pre-cutoff findings scored, fewer than 30", "fragile_items": []}
+    else:
+        full = b3(post, pre)
+        flips = [post[i]["id"] for i in range(len(post)) if b3(post[:i] + post[i + 1:], pre) != full]
+        flips += [pre[i]["id"] for i in range(len(pre)) if b3(post, pre[:i] + pre[i + 1:]) != full]
+        out["ss-b3"] = {"label": "pass" if full else "null", "fragile_items": flips}
+    for v in out.values():
+        if v["fragile_items"]:
+            v["label_reported"] = f"{v['label']}, fragile"
+    return out
 
 
 def synthetic(items, kind):
@@ -180,7 +205,11 @@ def tables(s):
     pp = s["primary_post"]
     L += [f"Primary (post-cutoff, n = {pp['n']}): Brier **{fmt(pp['brier'])}** "
           f"[{fmt(pp['brier_ci'][0])}, {fmt(pp['brier_ci'][1])}], accuracy {fmt(pp['accuracy'], 2)}; "
-          f"verdict **{s['verdict']}** (pass: upper 95% bound below 0.25). Leave-one-item-out flips: {len(s['loo_flips'])}.", ""]
+          f"verdict **{s['verdict']}** (pass: upper 95% bound below 0.25).", ""]
+    for b, v in s["bets"].items():
+        L.append(f"- {b}: **{v.get('label_reported', v['label'])}**" + (f" ({v['reason']})" if v.get("reason") else "")
+                 + (f"; leave-one-item-out flips: {', '.join(v['fragile_items'])}" if v["fragile_items"] else "; no single item flips it"))
+    L.append("")
     pc = s["pre_cutoff"]
     L += [f"Pre-cutoff (n = {pc['n']}; **the bettor may have read these papers**): Brier {fmt(pc['brier'])} "
           f"[{fmt(pc['brier_ci'][0])}, {fmt(pc['brier_ci'][1])}], accuracy {fmt(pc['accuracy'], 2)}.", ""]
@@ -215,7 +244,7 @@ def main():
     if "--synthetic" in sys.argv:
         kind = sys.argv[sys.argv.index("--synthetic") + 1]
         s = score(items, synthetic(items, kind))
-        print(kind, "post Brier", fmt(s["primary_post"]["brier"]), s["primary_post"]["brier_ci"], "verdict", s["verdict"],
+        print(kind, "post Brier", fmt(s["primary_post"]["brier"]), s["primary_post"]["brier_ci"], "labels", {b: v["label"] for b, v in s["bets"].items()},
               "| pre", fmt(s["pre_cutoff"]["brier"]), "| order bonus", fmt(s["order_check"]["mean_first_shown_bonus"], 1))
         return
     bets = [json.loads(l) for l in BETS.read_text().splitlines() if l.strip()]
