@@ -117,8 +117,11 @@ def main():
            f"verdict {verdict or '?'}" + (f", confirmed {conf}" if verdict == "fix-first" else ""))
         # Every review of this bet must clear it, not only the first one found (<bet>.md and <bet>-*.md):
         # when two reviewers are run, the stricter verdict binds.
+        # Any file named for this bet: "<bet>.md" or "<bet>" followed by a non-alphanumeric character
+        # ("<bet>-1b.md", "<bet>_extra.md", "<bet>-1b-r2.md"), but not another bet that merely shares the
+        # prefix ("em-qwalk2.md" is not a review of "em-qwalk"). Odd names must not slip past (em-qwalk2-1b F-C).
         others = sorted(p for p in (ROOT / "ledger" / "design-reviews").glob(f"{bet}*.md")
-                        if p != rv and (p.stem == bet or p.stem.startswith(bet + "-")))
+                        if p != rv and (p.stem == bet or (len(p.stem) > len(bet) and not p.stem[len(bet)].isalnum())))
         for o in others:
             oh = o.read_text().split("\n---", 2)[0]
             ov = (re.search(r"^verdict:\s*(\S+)", oh, re.M) or [None, ""])[1]
@@ -127,6 +130,9 @@ def main():
                 mb = re.search(rf"{re.escape(bet)}\s*:\s*([\w-]+)", ob.group(1))
                 ov = mb.group(1) if mb else ov
             oc = (re.search(r"^confirmed_at:\s*(.+)$", oh, re.M) or [None, "null"])[1].strip()
+            if not ov:
+                ok("R2+", False, f"{o.name}: no readable verdict: header line (refused)")
+                continue
             ok("R2+", ov == "go" or (ov == "fix-first" and oc not in ("", "null")),
                f"{o.name}: verdict {ov or '?'}" + (f", confirmed {oc}" if ov == "fix-first" else ""))
         if not before_run:
