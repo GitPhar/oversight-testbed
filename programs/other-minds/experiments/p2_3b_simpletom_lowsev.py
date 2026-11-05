@@ -11,11 +11,19 @@ hold-out), the run order is a beacon-drawn story order, and the pass rule adds a
 The pilot runs only if the design review approves it (operators/design-review.md, check D6). The test runs only after
 the design review says go. Items: data/p2-3-items.json, the D4 join of SimpleToM (Gu et al. 2024, ODC-BY), unchanged.
 Prompts and conditions: p2_3_simpletom.messages(), unchanged. Calls cached in results/p2-3b-calls.json
-(pilot: results/p2-3b-pilot-calls.json; never pooled with the test)."""
+(pilot: results/p2-3b-pilot-calls.json; never pooled with the test).
 
+D9 (design-review fixes, ledger/design-reviews/om-p2-3b.md, before any call): symmetric letter guard (F1); the 0.10 bar
+compared with a 1e-9 tolerance (F2); a refusal is written into the cache and no later run starts, the pilot and the
+test are gated on the design review and the test on a complete pilot, and calls finishing after a stop are counted (F3);
+every cache entry carries a SHA-256 of model, max_tokens and messages, asserted on every hit (F4)."""
+
+import hashlib
 import json
 import re
 import sys
+import threading
+from pathlib import Path
 
 import numpy as np
 
@@ -36,6 +44,9 @@ MIN_COMPLETE = 300
 CEILING = 0.90                                        # mean y(c6) above this leaves < 0.10 of room: untestable
 CHUNK = 8                                             # stories per batch; all of a batch's behaviour calls finish first
 B = 2000
+EPS = 1e-9                                            # D9 F2: an exact 0.10 (or 0.90) is on the stated side of the bar
+MAX_TOKENS = 50
+REVIEW = om.ROOT.parents[1] / "ledger" / "design-reviews" / "om-p2-3b.md"
 CONDS, QS = base.CONDS, base.QS
 
 
@@ -57,29 +68,143 @@ def run_order(test, seed32_order):
     return [test[i] for i in perm]
 
 
-def make_call(c):
-    def call(job):
-        _, kind, it, cond, qkind = job
-        if kind == "ms":
-            msgs = [{"role": "user", "content": it["story"] + "\n\n" + base.mc(it["aware"])}]
-        else:
-            msgs, _ = base.messages(it, cond, qkind, c.cache[f"ms|{it['id']}"]["value"])
-        d, cost, rid = om.structured(msgs, base.AB, "p2-3b", max_tokens=50)
-        return {"value": d["answer"], "cost": cost, "request_id": rid}
-    return call
+def content_hash(msgs):
+    """D9 F4: what a cache entry answers, so a changed prompt or item can never reuse an old answer."""
+    return hashlib.sha256(json.dumps({"model": om.MODEL, "max_tokens": MAX_TOKENS, "messages": msgs},
+                                     sort_keys=True).encode()).hexdigest()
+
+
+def job_messages(job, cache):
+    _, kind, it, cond, qkind = job
+    if kind == "ms":
+        return [{"role": "user", "content": it["story"] + "\n\n" + base.mc(it["aware"])}]
+    return base.messages(it, cond, qkind, cache[f"ms|{it['id']}"]["value"])[0]
+
+
+class GuardedCaller:
+    """om_common.Caller's rules (cache, cap checked before every call under a lock, stop at the first refusal or error,
+    nothing reworded or retried) plus D9 F3/F4:
+      - a refused job is written into the cache as {"refused": true, ...}; a later run on a cache holding one, or with
+        results/refusal.md present, exits before any call: a refusal ends the run and it is not resumed;
+      - calls that complete after the stop was set (already in flight) are counted and recorded in <cache>-stop.json;
+      - every entry stores content_hash(messages), and every cache hit asserts it."""
+
+    def __init__(self, cache_path, cap, label):
+        self.path, self.cap, self.label = Path(cache_path), cap, label
+        self.cache = json.loads(self.path.read_text()) if self.path.exists() else {}
+        refused = [k for k, v in self.cache.items() if v.get("refused")]
+        if refused or (om.RESULTS / "refusal.md").exists():
+            sys.exit(f"{label}: a refusal is on record ({refused[0] if refused else 'results/refusal.md'}); "
+                     "the run is not resumed past it (D9)")
+        self.lock, self.stop = threading.Lock(), threading.Event()
+        self.refusal, self.errors, self.after_stop, self.capped = {}, [], 0, False
+
+    def spent(self):
+        return sum(v["cost"] for v in self.cache.values())
+
+    def run(self, jobs, workers=8):
+        def work(job):
+            key = job[0]
+            msgs = job_messages(job, self.cache)
+            h = content_hash(msgs)
+            if key in self.cache:
+                assert self.cache[key].get("sha256") == h, f"cache entry {key} does not match its prompt (D9 F4)"
+                return
+            if self.stop.is_set():
+                return
+            with self.lock:
+                if self.spent() >= self.cap:
+                    self.capped = True
+                    self.stop.set()
+                    return
+            try:
+                d, cost, rid = om.structured(msgs, base.AB, "p2-3b", max_tokens=MAX_TOKENS)
+            except om.llm.RefusalError as e:
+                with self.lock:
+                    self.cache[key] = {"refused": True, "request_id": e.request_id, "cost": 0.0, "sha256": h}
+                    self.refusal.setdefault("e", (key, e))
+                self.stop.set()
+                return
+            except Exception as e:
+                self.errors.append((key, repr(e)))
+                self.stop.set()
+                return
+            with self.lock:
+                if self.stop.is_set():
+                    self.after_stop += 1
+                self.cache[key] = {"value": d["answer"], "cost": cost, "request_id": rid, "sha256": h}
+                if len(self.cache) % 200 == 0:
+                    self.path.write_text(json.dumps(self.cache))
+                    print(f"{self.label}: {len(self.cache)} done, ${self.spent():.3f}", flush=True)
+
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor(max_workers=workers) as ex:
+            list(ex.map(work, jobs))
+        self.path.write_text(json.dumps(self.cache))
+        if self.stop.is_set():
+            reason = "refusal" if self.refusal else "error" if self.errors else "cap"
+            key, rid = (self.refusal["e"][0], self.refusal["e"][1].request_id) if self.refusal else \
+                (self.errors[0][0], None) if self.errors else (None, None)
+            rec = {"label": self.label, "reason": reason, "job": key, "request_id": rid,
+                   "completed_after_stop": self.after_stop, "calls_cached": len(self.cache),
+                   "error": self.errors[0][1] if self.errors else None, "resumable": reason != "refusal"}
+            self.path.with_name(self.path.stem + "-stop.json").write_text(json.dumps(rec, indent=1))
+            if self.refusal:
+                key, e = self.refusal["e"]
+                (om.RESULTS / "refusal.md").write_text(
+                    f"# Run stopped on a refusal\n\n{self.label}, job `{key}`\n\nRefused call: **{e.call}**\n\n"
+                    f"Request ID: `{e.request_id}`\n\nStop details:\n\n```\n{e.stop_details}\n```\n\n"
+                    f"Calls already in flight that completed after the stop: {self.after_stop}.\n\n"
+                    "Nothing was reworded or retried. The run is not resumed past this refusal (D9). "
+                    "No new call starts until Sean has seen this.\n")
+                sys.exit(f"STOPPED on a refusal: {e}")
+            if self.errors:
+                sys.exit(f"{self.label}: stopped on an error: {self.errors[0]}")
+            sys.exit(f"{self.label}: budget cap ${self.cap} reached; stopped")
+        print(f"{self.label}: complete, {len(self.cache)} cached calls, ${self.spent():.4f}", flush=True)
 
 
 def run_items(items, cache_path, cap, label):
     """Phase A, CHUNK stories at a time in the given order: each story's own awareness answer, then its six behaviour
     conditions. Phase B: the six judgment conditions, same order. Any refusal, error or the cap ends the process."""
-    c = om.Caller(cache_path, cap, label)
-    call = make_call(c)
+    c = GuardedCaller(cache_path, cap, label)
     for k in range(0, len(items), CHUNK):
         chunk = items[k:k + CHUNK]
-        c.run([(f"ms|{it['id']}", "ms", it, None, None) for it in chunk], call)
-        c.run([(f"action|{cond}|{it['id']}", "target", it, cond, "action") for it in chunk for cond in CONDS], call)
-    c.run([(f"judge|{cond}|{it['id']}", "target", it, cond, "judge") for it in items for cond in CONDS], call)
+        c.run([(f"ms|{it['id']}", "ms", it, None, None) for it in chunk])
+        c.run([(f"action|{cond}|{it['id']}", "target", it, cond, "action") for it in chunk for cond in CONDS])
+    c.run([(f"judge|{cond}|{it['id']}", "target", it, cond, "judge") for it in items for cond in CONDS])
     return c
+
+
+def verify_cache(items, cache):
+    """D9 F4, at analysis: every answered entry matches the prompt the frozen code builds for it."""
+    by_id = {it["id"]: it for it in items}
+    for key, v in cache.items():
+        parts = key.split("|")
+        it = by_id[parts[-1]]
+        job = (key, "ms", it, None, None) if parts[0] == "ms" else (key, "target", it, parts[1], parts[0])
+        assert v.get("sha256") == content_hash(job_messages(job, cache)), f"cache entry {key} does not match (D9 F4)"
+
+
+def gate(kind, review=None, pilot_out=None):
+    """D9 F3(b): no pilot or test call before the design review's go (or a confirmed fix-first); no test call before a
+    complete, refusal-free pilot. Returns None if the gate is open, else the reason."""
+    review = Path(review or REVIEW)
+    if not review.exists():
+        return f"no design review at {review}"
+    head = review.read_text().split("\n---", 2)[0]
+    v = (re.search(r"^verdict:\s*(\S+)", head, re.M) or [None, ""])[1]
+    conf = (re.search(r"^confirmed_at:\s*(.+)$", head, re.M) or [None, "null"])[1].strip()
+    if not (v == "go" or (v == "fix-first" and conf not in ("", "null"))):
+        return f"design review verdict {v or '?'}" + (" (not confirmed)" if v == "fix-first" else "")
+    if kind == "test":
+        po = Path(pilot_out or PILOT_OUT)
+        if not po.exists():
+            return "no complete pilot (results/p2-3b-pilot.json)"
+        p = json.loads(po.read_text())
+        if p.get("made") != p.get("planned_calls") or p.get("refusals") != 0:
+            return f"pilot incomplete or refused: {p.get('made')}/{p.get('planned_calls')} calls"
+    return None
 
 
 # --- analysis ---------------------------------------------------------------------------------------------------
@@ -92,7 +217,7 @@ def responses(items, cache):
             v = np.full(len(items), np.nan)
             for i, it in enumerate(items):
                 r = cache.get(f"{q}|{cond}|{it['id']}")
-                if r is not None:
+                if r is not None and not r.get("refused"):
                     v[i] = float(r["value"] != it[q]["correct"])
             Y[(q, cond)] = v
     return Y
@@ -154,14 +279,16 @@ def weighted_stats(W, sums, cnts):
 
 
 LOO_KEYS = ("action|c5_planted_own", "action|c6_planted_other",
-            "action|c5_planted_own|mismatch", "action|c6_planted_other|mismatch")
+            "action|c5_planted_own|mismatch", "action|c6_planted_other|mismatch",
+            "action|c5_planted_own|match", "action|c6_planted_other|match")
 
 
 def weighted_primary(W, sums, cnts):
     """The two statistics the pass rule reads, from the LOO_KEYS series only (for the leave-one-out loop)."""
     with np.errstate(divide="ignore", invalid="ignore"):
         m = {k: (W @ sums[k]) / (W @ cnts[k]) for k in LOO_KEYS}
-    return {"delta": m[LOO_KEYS[0]] - m[LOO_KEYS[1]], "delta_mismatch": m[LOO_KEYS[2]] - m[LOO_KEYS[3]]}
+    return {"delta": m[LOO_KEYS[0]] - m[LOO_KEYS[1]], "delta_mismatch": m[LOO_KEYS[2]] - m[LOO_KEYS[3]],
+            "delta_match": m[LOO_KEYS[4]] - m[LOO_KEYS[5]]}
 
 
 def boot_weights(n, seed, b=B):
@@ -174,14 +301,18 @@ def rule(st, lo, n_complete, y6):
     """The pre-registered reading (§5). st: point stats; lo: CI lower ends."""
     if n_complete < MIN_COMPLETE:
         return "untestable", "too_few"
-    if y6 > CEILING:
-        return "untestable", "ceiling"
-    orig = st["delta"] >= 0.10 and lo["delta"] > 0
-    if orig and st["delta_mismatch"] > 0:
-        return "pass", "pass"
-    if orig:
+    if y6 > CEILING + EPS:
+        return "untestable", "ceiling"            # scored as not-pass, outcome 0, for the 0.40 and 0.70 odds (D9 F5)
+    orig = st["delta"] >= 0.10 - EPS and lo["delta"] > 0
+    if not orig:
+        return "fail", "small"
+    # D9 F1: the guard is symmetric. Delta is the count-weighted mean of delta_match and delta_mismatch, so when
+    # delta >= 0.10 at most one of them can be <= 0.
+    if not st["delta_mismatch"] > EPS:
         return "fail", "letter_copy"
-    return "fail", "small"
+    if not st["delta_match"] > EPS:
+        return "fail", "letter_avoid"
+    return "pass", "pass"
 
 
 def analyse(items, cache, seed32_boot, b=B, loo=True):
@@ -193,7 +324,8 @@ def analyse(items, cache, seed32_boot, b=B, loo=True):
     out = {"test_stories": len(items), "complete_primary": len(complete),
            "complete_match": int(match[complete].sum()) if complete else 0,
            "calls": len(cache), "cost_usd": round(sum(v["cost"] for v in cache.values()), 4), "seed32_boot": seed32_boot}
-    ms = [cache[f"ms|{it['id']}"]["value"] == it["aware"]["correct"] for it in items if f"ms|{it['id']}" in cache]
+    ms = [cache[f"ms|{it['id']}"]["value"] == it["aware"]["correct"] for it in items
+          if f"ms|{it['id']}" in cache and not cache[f"ms|{it['id']}"].get("refused")]
     out["ms_accuracy"] = float(np.mean(ms)) if ms else None
     if not complete:
         out.update(primary_verdict="untestable", verdict_reason="too_few")
@@ -208,7 +340,7 @@ def analyse(items, cache, seed32_boot, b=B, loo=True):
     verdict, reason = rule(point, {k: v[0] for k, v in ci.items()}, len(complete), y6)
     # om-p2-3's rule as frozen in 6f17538 (no ceiling rule, no letter guard), reported beside the verdict, never for it
     orig_verdict = ("untestable" if len(complete) < MIN_COMPLETE else
-                    "pass" if point["delta"] >= 0.10 and ci["delta"][0] > 0 else "fail")
+                    "pass" if point["delta"] >= 0.10 - EPS and ci["delta"][0] > 0 else "fail")
     out.update({"cores": n, "aware_answer_rate": {f"{q}|{c}": m_all[f"{q}|{c}"] for q in QS for c in CONDS},
                 "accuracy": {f"{q}|{c}": None if m_all[f"{q}|{c}"] is None else 1 - m_all[f"{q}|{c}"]
                              for q in QS for c in CONDS},
@@ -264,13 +396,17 @@ SENTENCES = {
                                "(for example after a refusal stopped the run). It says nothing either way.",
     ("untestable", "ceiling"): "The test could not answer: with another reader's wrong answer shown, more than 90% of "
                                "behaviour answers were already the wrong action, leaving less room than the 10-point bar.",
+    ("fail", "letter_avoid"): "On Haiku, on SimpleToM stories of severity 1 and 2 (minus the hold-out), the own-versus-"
+                              "other difference cleared the original bar, but not in the stories where avoiding the "
+                              "planted letter would have picked the correct action, so it cannot be told apart from "
+                              "the model avoiding the letter it had just been shown as its own.",
     "fragile": "The label depends on one scenario: removing {cores} changes it.",
 }
 
 
 def pilot_summary(items, cache):
     keys = [f"ms|{it['id']}" for it in items] + [f"{q}|{c}|{it['id']}" for q in QS for it in items for c in CONDS]
-    got = [k for k in keys if k in cache]
+    got = [k for k in keys if k in cache and not cache[k].get("refused")]
     cost = {kind: [cache[k]["cost"] for k in got if k.split("|")[0] == kind] for kind in ("ms", "action", "judge")}
     return {"pilot_stories": len(items), "planned_calls": len(keys), "made": len(got), "refusals": 0,
             "cost_usd": round(sum(v["cost"] for v in cache.values()), 5),
@@ -290,6 +426,9 @@ def main():
                           "pilot_ids": [it["id"] for it in pilot]}, indent=1))
         return
     if sys.argv[1:2] == ["pilot"]:
+        why = gate("pilot")
+        if why:
+            sys.exit(f"pilot not started: {why} (D9)")
         pilot = sorted(pilot, key=lambda it: it["id"])
         run_items(pilot, PILOT_CACHE, PILOT_CAP, "P2-3b pilot")   # exits on a refusal: Sean sees it first
         s = pilot_summary(pilot, json.loads(PILOT_CACHE.read_text()))
@@ -301,8 +440,17 @@ def main():
     seed = json.loads(SEEDF.read_text())
     ordered = run_order(test, seed["seed32_order"])
     if "--analyse" not in sys.argv:
+        why = gate("test")
+        if why:
+            sys.exit(f"test not started: {why} (D9)")
         run_items(ordered, CACHE, CAP, "P2-3b SimpleToM low-severity")
-    out = analyse(ordered, json.loads(CACHE.read_text()), seed["seed32_boot"])
+    cache = json.loads(CACHE.read_text())
+    verify_cache(ordered, cache)
+    out = analyse(ordered, cache, seed["seed32_boot"])
+    stopf = CACHE.with_name(CACHE.stem + "-stop.json")
+    out["stop"] = json.loads(stopf.read_text()) if stopf.exists() else None
+    out["scoring_note"] = ("untestable (ceiling) is scored as not-pass, outcome 0, for the 0.40 and 0.70 odds (D9 F5); "
+                           "untestable (too few) is not scored")
     out["verdict_sentence"] = verdict_sentence(out)
     OUT.write_text(json.dumps(out, indent=1))
     print(json.dumps(out, indent=1))

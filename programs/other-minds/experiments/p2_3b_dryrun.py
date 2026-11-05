@@ -1,6 +1,8 @@
 """Dry run of P2-3b with every API call stubbed (no network, no cost). Written with the pre-registration (D8), so the
 design reviewer can re-run it. Checks the machinery (counts, run order, cap, stop-on-refusal and what a stop leaves),
 the conditions' text, the dumb baselines the pass rule must reject, and the power of the rule on synthetic data.
+D9 adds: the letter-avoider baselines (F1), a re-run after a refusal makes no call (F3a), calls finishing after a stop
+are counted (F3d), the pilot and test gates (F3b), a tampered cache entry is caught (F4), an exact 0.10 passes (F2).
 
     /Users/seanpharris/entangled-mind/.venv/bin/python experiments/p2_3b_dryrun.py [--quick]
 
@@ -93,6 +95,7 @@ except SystemExit as e:
     print(f"3b. cap at $0.05 with $0.01 calls: stopped ({e}); calls made {len(calls)} (cap + at most 8 in flight)")
 
 for k in (150, 350):
+    (TMP / "refusal.md").unlink(missing_ok=True)
     calls.clear()
     om.structured = stub_factory(refuse_id=ordered[k]["id"])
     path = TMP / f"refuse{k}.json"
@@ -104,7 +107,94 @@ for k in (150, 350):
         print(f"3c. refusal stub at run position {k}: stopped ({str(e)[:40]}…); {len(cache)} calls cached; "
               f"complete stories {out['complete_primary']}; verdict {out['primary_verdict']} ({out['verdict_reason']}); "
               f"refusal.md written: {(TMP / 'refusal.md').exists()}; refused story cached: "
-              f"{any(ordered[k]['id'] in key for key in cache)}")
+              f"{any(ordered[k]['id'] in key and not v.get('refused') for key, v in cache.items())}; "
+              f"refused key recorded in cache: {sum(bool(v.get('refused')) for v in cache.values())}; "
+              f"completed after the stop: {json.loads((TMP / f'refuse{k}-stop.json').read_text())['completed_after_stop']}")
+
+# D9 F3(d): with call latency, calls already in flight finish after the stop and are counted
+(TMP / "refusal.md").unlink(missing_ok=True)
+
+
+def slow_stub(refuse_id):
+    inner = stub_factory(refuse_id=refuse_id)
+
+    def f(msgs, *a, **k):
+        if STORY2ID[msgs[0]["content"].split("\n\n")[0]] != refuse_id:
+            time.sleep(0.05)
+        return inner(msgs, *a, **k)
+    return f
+
+
+calls.clear()
+om.structured = slow_stub(ordered[19]["id"])
+try:
+    t.run_items(ordered, TMP / "slow.json", t.CAP, "dry slow refusal")
+except SystemExit:
+    rec = json.loads((TMP / "slow-stop.json").read_text())
+    print(f"3c. refusal at run position 19 with 50 ms latency: completed after the stop {rec['completed_after_stop']} "
+          f"(in-flight calls, kept and counted); stop record {rec['reason']}, resumable {rec['resumable']}")
+(TMP / "refusal.md").unlink(missing_ok=True)
+om.structured = stub_factory(refuse_id=ordered[350]["id"])
+try:
+    t.run_items(ordered, TMP / "refuse350.json", t.CAP, "dry refusal again")
+except SystemExit:
+    pass
+
+# D9 F3(a): a second run after the refusal makes no call, with or without refusal.md
+for drop_md in (False, True):
+    if drop_md:
+        (TMP / "refusal.md").unlink(missing_ok=True)
+    calls.clear()
+    om.structured = stub_factory()
+    try:
+        t.run_items(ordered, TMP / "refuse350.json", t.CAP, "dry rerun")
+        print("3d. RE-RUN MADE CALLS: FLAW")
+    except SystemExit as e:
+        print(f"3d. re-run after the refusal ({'refusal.md removed, refused key still in cache' if drop_md else 'refusal.md present'}): "
+              f"exited at start ({str(e)[:70]}…); calls made {len(calls)}")
+    assert len(calls) == 0
+
+# D9 F4: a cache entry whose prompt no longer matches is caught on the hit and at analysis
+full = json.loads((TMP / "full.json").read_text())
+assert all("sha256" in v for v in full.values())
+t.verify_cache(ordered, full)
+bad = dict(full)
+k0 = f"action|c5_planted_own|{ordered[0]['id']}"
+bad[k0] = dict(bad[k0], sha256="0" * 64)
+(TMP / "bad.json").write_text(json.dumps(bad))
+calls.clear()
+om.structured = stub_factory()
+try:
+    t.run_items(ordered, TMP / "bad.json", t.CAP, "dry tampered")
+    print("3e. TAMPERED ENTRY NOT CAUGHT: FLAW")
+except AssertionError as e:
+    print(f"3e. tampered cache entry caught on its cache hit: {e}; calls made {len(calls)}")
+try:
+    t.verify_cache(ordered, bad)
+    print("3e. TAMPERED ENTRY NOT CAUGHT AT ANALYSIS: FLAW")
+except AssertionError as e:
+    print(f"3e. and at analysis: {e}")
+
+# D9 F3(b): the gates
+rv = TMP / "review.md"
+pf = TMP / "pilot.json"
+print("3f. gates:")
+print(f"   the real review file now (fix-first, unconfirmed): pilot -> {t.gate('pilot')}; test -> {t.gate('test')}")
+for head, pilot_rec in ((("go", "null"), None), (("fix-first", "2026-11-04 18:30"), None),
+                        (("go", "null"), {"made": 182, "planned_calls": 182, "refusals": 0}),
+                        (("go", "null"), {"made": 100, "planned_calls": 182, "refusals": 0}),
+                        (("redesign", "null"), {"made": 182, "planned_calls": 182, "refusals": 0})):
+    rv.write_text(f"---\nbet: om-p2-3b\nverdict: {head[0]}\nconfirmed_at: {head[1]}\n---\n")
+    pf.unlink(missing_ok=True)
+    if pilot_rec:
+        pf.write_text(json.dumps(pilot_rec))
+    print(f"   review {head[0]}, confirmed {head[1]}, pilot {pilot_rec and str(pilot_rec['made']) + '/' + str(pilot_rec['planned_calls'])}: "
+          f"pilot gate -> {t.gate('pilot', rv, pf) or 'open'}; test gate -> {t.gate('test', rv, pf) or 'open'}")
+
+# D9 F2: an exact 0.10 passes (34/300 - 4/300 evaluates to 0.0999...)
+st = {"delta": 34 / 300 - 4 / 300, "delta_mismatch": 0.1, "delta_match": 0.1}
+print(f"3g. exact 0.10 at n = 300: delta = {st['delta']!r} -> {t.rule(st, {'delta': 0.01}, 300, 0.2)}")
+assert t.rule(st, {"delta": 0.01}, 300, 0.2)[0] == "pass"
 
 
 # --- 4. synthetic answer models ----------------------------------------------------------------------------------
@@ -148,6 +238,15 @@ def copy_letter(any_visible):
     return f
 
 
+def avoid_letter(rate):
+    """D9 F1: in c5, with probability `rate`, picks the option whose letter is NOT the planted (own) letter."""
+    def f(it, q, cond, u, rng):
+        if cond == "c5_planted_own" and rng.random() < rate:
+            return next(l for l in it[q]["labels"] if l != it["wrong_ms"])
+        return letter(it, q, u < BASE[cond])
+    return f
+
+
 baselines = {
     "constant 'A'": lambda it, q, cond, u, rng: "A",
     "always the aware option": lambda it, q, cond, u, rng: t.aware_letter(it, q),
@@ -155,6 +254,9 @@ baselines = {
     "no uptake (c5 = c6 = 0.20)": uptake(with_delta(0.0)),
     "copies its own assistant-turn letter (c4, c5)": copy_letter(False),
     "copies any shown letter (c5 and c6)": copy_letter(True),
+    "avoids its own assistant-turn letter, 100%": avoid_letter(1.0),
+    "avoids its own assistant-turn letter, 50%": avoid_letter(0.5),
+    "avoids its own assistant-turn letter, 40%": avoid_letter(0.4),
     "real uptake, delta 0.15 everywhere": uptake(with_delta(0.15)),
     "ceiling (c6 = 0.95, c5 = 1.0)": uptake(with_delta(0.05, other=0.95)),
 }
@@ -163,9 +265,9 @@ rng = np.random.default_rng(1)
 for name, model in baselines.items():
     out = t.analyse(ordered, synth(ordered, model, rng), seed_b, loo=(name.startswith("real")))
     s = out.get("stats", {})
-    d, dm = s.get("delta", [np.nan] * 3), s.get("delta_mismatch", [np.nan] * 3)
+    d, dm, dt = s.get("delta", [np.nan] * 3), s.get("delta_mismatch", [np.nan] * 3), s.get("delta_match", [np.nan] * 3)
     extra = f"; LOO delta {out['loo_core']['delta_range'][0]:+.3f}..{out['loo_core']['delta_range'][1]:+.3f}, label flips {len(out['loo_core']['label_flips'])}" if "loo_core" in out else ""
-    print(f"   {name:48s} delta {d[0]:+.3f} [{d[1]:+.3f}, {d[2]:+.3f}]  mismatch {dm[0]:+.3f}  "
+    print(f"   {name:48s} delta {d[0]:+.3f} [{d[1]:+.3f}, {d[2]:+.3f}]  match {dt[0]:+.3f}  mismatch {dm[0]:+.3f}  "
           f"om-p2-3 rule: {out.get('verdict_under_om_p2_3_rule')}  -> {out['primary_verdict']} ({out['verdict_reason']}){extra}")
 
 # --- 5. power of the pass rule ---------------------------------------------------------------------------------
