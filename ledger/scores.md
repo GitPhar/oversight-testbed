@@ -85,9 +85,8 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 | Brier on tiebreaks, engine (n = 0) | — |
 | Brier on tiebreaks, human (n = 0) | — |
 | QPU seconds used by tiebreaks | 0 |
-| bets by seed source: curby-rng | 28 |
+| bets by seed source: curby-rng | 30 |
 | bets by seed source: inherited (ss-b4 seed e8f921e; no new draw) | 2 |
-| bets by seed source: inherited (sv-b1's CURBy-RNG pulse; no new draw) | 2 |
 | bets by seed source: none recorded | 21 |
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)

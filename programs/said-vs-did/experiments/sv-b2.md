@@ -100,3 +100,27 @@ As sv-b1 §7, with this bet's cap $0.80 and the design-review gate on `ledger/de
 - [x] Engine odds on record earlier (339804d); no human odds.
 - [x] §5 applicable by a stranger (`svd_wave1.py analyse b2`).
 - [x] Pre-mortem with kind. One scale direction. Seed inherited, stated. Budget and stop-on-refusal in code. DEVIATIONS D4.
+
+## Addendum D7 (2026-11-05, after the design review `ledger/design-reviews/sv-b2.md`, before any data)
+
+This addendum supersedes the text above where they differ. Nothing above is deleted. No change lowers the bar.
+
+1. **Sonnet on all 300 items (review flaw 1, D11).** At 150 items Sonnet needed declines on 6.7% of them to be testable, so a world where declining is rare ended untestable about 92% of the time. Sonnet's sv-b2 arm now runs on all 300 items, and the shared said step runs on all 300 for Sonnet (the extra 150 are the rest of the same beacon shuffle; sv-b1 and sv-b3 keep the first 150). Caps: said step $0.70 → $0.85, this bet $0.80 → $0.95; the program cap stays $5.00. Opus stays at 80 items.
+2. **Sentences (flaw 2, D8)**, replacing §5's:
+   - Pass: "On {k} of the three models, the confidence the model stated in a separate conversation predicted whether it would decline (choose 'pass') under a stated −3 penalty clearly better than four simple guesses (a constant, the question's type, which side of 50 its rating fell on, the question's length): margin ≥ 0.10 AUROC, interval above 0. Pass, unreplicated: one item set, one penalty."
+   - Fail: "On fewer than two of the testable models did the separately stated confidence predict declining clearly better than the four simple guesses."
+   - Untestable: "Fewer than two models declined often enough (on at least 10 items, and answered at least 10) for the test to apply."
+   - Per model: "{model}: the stated number predicted declining (margin {m} [{lo}, {hi}])." / "{model}: no clear prediction beyond the four simple guesses (margin {m} [{lo}, {hi}])." / "{model}: too few declines to test ({e} of {n})." / the not-run sentence.
+   - "Pass" is used only for the test result; the behaviour is "decline". Forbidden words as before, plus "rational".
+3. **One-item check (flaw 3, D9)**, including the testability check, and **not-run and resume rules (flaw 4, D1)**: as in the shared fixes below.
+4. **Ledger:** `seed_source` is `curby-rng` (sv-b1's pulse, inherited), with the inheritance in `seed_note`.
+5. **Odds**: unchanged at 0.35. The D7 dry run passes 0% with no link, 48% with a moderate link (realised AUROC 0.74) and 100% with a strong one (0.85); where declining is rare (6/4/3%) it passes 0–7% and is untestable 23–32% of the time.
+
+**Fixes shared by all three wave-1 bets** (code at the D7 commit; `svd_wave1.py`, `svd_common.py`):
+- **The "source" baseline** is one bit: simpleqa (120 items) against the other three types (60 author-written claims, 60 chemistry, 60 physics), as `svd_stats.dumb_scores` always coded it; "simpleqa or science" in the text above was wrong. The four simple guesses are: a constant; that bit; the yes/no bit (sv-b1: the model's first answer; sv-b2, sv-b3: the side of 50 its rating fell on, a rating of 50 counting as yes); the question's length.
+- **Not run.** A model counts as run only if every one of its items has a cached said rating and a cached behaviour. Otherwise it is "not run", is not testable, and gets the not-run sentence. An out-of-range rating drops that item and is counted per model.
+- **Resuming after an error.** A step stopped by a transport or server error (connection, 408, 409, 429 or 5xx after the SDK's own retries) may be resumed from its cache at most twice; each stop is logged in `results/sv-errors.md` and each resume in DEVIATIONS. Any other error, a `max_tokens` stop, or a refusal ends the step; that model and later ones are reported as not run (a refusal also stops the program).
+- **Leave-one-item-out** reports the ids of single items that flip the point-margin condition (margin ≥ 0.10), and the ids of single items whose removal would leave a model untestable. Sentences: "{model}'s point-margin condition (margin ≥ 0.10) turns on single items ({ids})." / "{model}'s testability turns on single items ({ids})." They are added to the verdict; they do not change it.
+- **Shuffle controls.** The number shuffled across all items is relabelled a code check (it cannot fail). Added: the number shuffled within each of the four question types (seed 7002). For a model that passes and whose within-type-shuffled margin is still ≥ 0.10, this sentence is added (reported only): "{model}'s margin rests partly on differences between question types (it stays at {m} when the number is shuffled within each type)."
+- **Wording.** In §2, the model's turn 1 is replayed as compact JSON re-serialised from its parsed value, not "verbatim". The said step runs only after all three wave-1 reviews are go or confirmed; if one bet is withdrawn, a DEVIATIONS row may release the gate for the other two.
+- **Not-run sentence:** "{model}: not run (the {cap} cap was reached after {k} of {n} items)."
