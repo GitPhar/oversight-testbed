@@ -88,8 +88,12 @@ function isClosed(c) { return !!c.betId && c.human == null && !oddsFor(c).some((
 function needsOdds(c) { return !isClosed(c) && !oddsFor(c).length; }
 function askHTML(c) {
   if (c.prompt) return `<h3>${esc(c.prompt)}</h3>`;
-  const cost = c.cost ? `about ${esc(c.cost)}` : "what it costs";
-  return `<h3>${esc(c.question)}</h3><p class="ask">Is it worth ${cost}? Will it come back a hit?</p>`;
+  const raw = String(c.cost || "").trim();
+  const ask = !raw || /not costed|unknown|tbd/i.test(raw) ? "Its cost is not estimated yet. Will it come back a hit?"
+    : /^\$0\b/.test(raw) ? (() => { const rest = raw.replace(/^\$0\s*(API)?\s*[;,]?\s*/i, "").replace(/^\((.*)\)$/, "$1").trim();
+        return `It needs no API money${rest ? ` (${esc(rest)})` : ""}. Is it worth the time, and will it come back a hit?`; })()
+    : `Is it worth ${/^(about|≈|~)/.test(raw) ? "" : "about "}${esc(raw)}? Will it come back a hit?`;
+  return `<h3>${esc(c.question)}</h3><p class="ask">${ask}</p>`;
 }
 
 function cardHTML(c) {
@@ -169,6 +173,40 @@ function cardHTML(c) {
     </div>
     ${vetoLine}${mine ? `<ul class="mine">${mine}</ul>` : ""}
   </article>`;
+}
+
+// ---------- next to run ----------
+// What happens next, in order: things Sean approved, bets already pre-registered, and each program's top open direction.
+// No engine odds here, so the strip cannot anchor the human.
+function nextToRun(programs, bets, steers) {
+  const items = [];
+  const title = (p) => (programs.find((x) => x.id === p)?.title || p).replace(/^Program\s*(\d+):\s*/i, "P$1 · ");
+  for (const s of steers.filter((x) => x.next_to_run)) {
+    const b = bets.find((x) => x.raw?.steer === s.id);
+    if (b && b.status !== "open" && b.status !== "running") continue;           // it ran; the card is gone
+    if (b) continue;                                                              // shown below as a pre-registered bet
+    items.push({ state: "approved", word: "approved by you", prog: title(s.next_to_run.program), text: s.next_to_run.title, cost: s.next_to_run.cost, ref: s.id });
+  }
+  for (const b of bets) {
+    const r = b.raw || {};
+    if (!(r.prereg_commit && (r.verdict === "open" || r.verdict == null) && !r.result_commit)) continue;
+    const dr = r.design_review || {};
+    const [state, word] = dr.verdict === "go" ? ["go", "cleared to run"] : dr.verdict === "fix-first" ? ["fix", "fixing design-review flaws"]
+      : dr.verdict === "redesign" ? ["fix", "redesign"] : ["review", "waiting for its design review"];
+    items.push({ state, word, prog: title(b.program), text: b.title, cost: b.cost || (r.budget_usd != null ? "$" + r.budget_usd : ""), ref: b.id });
+  }
+  for (const p of programs) {
+    const open = p.directions.filter((d) => d.status === "open" && !d.bet && !d.raw.moved_to)
+      .sort((a, b) => (a.raw.rank ?? 999) - (b.raw.rank ?? 999));
+    if (open[0]) items.push({ state: "map", word: "next on the map", prog: title(p.id), text: open[0].raw.question || open[0].title, cost: open[0].cost, ref: open[0].id, key: `${p.id}|${open[0].id}` });
+  }
+  return items;
+}
+function renderNext(items) {
+  el("nextrun").innerHTML = items.length ? `<h2>Next to run</h2><ol class="nr">${items.map((i) => `<li class="nr-${i.state}">
+      <span class="nr-state">${esc(i.word)}</span><span class="nr-prog">${esc(i.prog)} · ${esc(i.ref)}</span>
+      ${i.key ? `<a class="nr-text" href="#${encodeURIComponent(i.key)}">${esc(i.text)}</a>` : `<span class="nr-text">${esc(i.text)}</span>`}
+      ${i.cost ? `<span class="costpill">${esc(i.cost)}</span>` : ""}</li>`).join("")}</ol>` : "";
 }
 
 function visibleCards() {
@@ -388,6 +426,7 @@ el("newqbtn").addEventListener("click", () => {
   local.steers = local.steers.filter((e) => !inLedger.has(e.id));
   if (local.odds.length + local.steers.length !== before) save();
   cards = buildCards(programs, bets);
+  renderNext(nextToRun(programs, bets, steers));
   el("newprog").innerHTML = programs.map((p) => `<option value="${esc(p.id)}">${esc(p.title)}</option>`).join("");
   render();
   if (location.hash) document.querySelector(`.card[data-key="${CSS.escape(decodeURIComponent(location.hash.slice(1)))}"]`)?.scrollIntoView();

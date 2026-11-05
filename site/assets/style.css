@@ -137,6 +137,20 @@ code { font-family: var(--mono); font-size: 0.86em; background: var(--surface-2)
 .filters .btn[aria-pressed="true"] { color: var(--bg); background: var(--text); border-color: var(--text); }
 .filters label { color: var(--text-2); font-size: 16px; display: inline-flex; gap: 8px; align-items: center; margin-left: 8px; }
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 30rem), 1fr)); gap: 16px; align-items: start; }
+.nextrun h2 { font-size: 15px; letter-spacing: .06em; text-transform: uppercase; color: var(--text-2); margin: 4px 0 8px; }
+.nextrun .nr { list-style: none; margin: 0 0 16px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.nextrun .nr li { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--muted); border-radius: var(--radius); padding: 10px 14px; display: flex; flex-direction: column; gap: 4px; }
+.nextrun .nr-state { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--text-2); }
+.nextrun .nr-prog { font-size: 13px; color: var(--muted); }
+.nextrun .nr-text { font-size: 15px; color: var(--text); line-height: 1.4; }
+.nextrun a.nr-text { text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.nextrun .costpill { align-self: flex-start; display: inline-block; font-size: 13px; color: var(--text); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 0 9px; white-space: nowrap; margin-top: 2px; }
+.nextrun .nr-approved { border-left-color: var(--hit); }
+.nextrun .nr-review, .nextrun .nr-fix { border-left-color: var(--mixed); }
+.nextrun .nr-go { border-left-color: var(--run); }
+.nextrun .nr-map { border-left-color: var(--line); }
+.tip .t-test { margin-top: 6px; line-height: 1.45; }
+.tip .t-test b { color: var(--text); }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; }
 .card.vetoed { border-left: 4px solid var(--kill); }
 .card.done { border-left: 4px solid var(--hit); }

@@ -83,7 +83,7 @@ export async function manifest() {
 export const STATUS = {
   hit:     { word: "Bet landed",  color: "var(--hit)",   hex: "#f2c14e" },
   killed:  { word: "Killed",      color: "var(--kill)",  hex: "#e47272" },
-  mixed:   { word: "Mixed",       color: "var(--mixed)", hex: "#a99cf0" },
+  mixed:   { word: "Mixed or unsettled", color: "var(--mixed)", hex: "#a99cf0" },
   running: { word: "Running",     color: "var(--run)",   hex: "#6aaee8" },
   open:    { word: "Open",        color: "var(--open)",  hex: "#737983" },
 };
@@ -91,8 +91,8 @@ export const STATUS = {
 const SYN = {
   hit: ["hit", "pass", "passed", "positive", "confirmed", "landed", "supported", "found", "true", "yes", "win"],
   killed: ["killed", "kill", "closed", "dead", "null", "fail", "failed", "falsified", "negative", "miss", "classical",
-           "tie", "untestable", "inconclusive", "refuted", "no", "false"],
-  mixed: ["mixed", "partial", "partly", "split"],
+           "tie", "refuted", "no", "false"],
+  mixed: ["mixed", "partial", "partly", "split", "untestable", "undetermined", "inconclusive", "withdrawn"],   // unsettled: the direction is not dead
   running: ["running", "bet", "preregistered", "pre-registered", "registered", "queued", "in_progress", "active"],
   open: ["open", "candidate", "proposed", "idea", "pending", ""],
 };
@@ -136,7 +136,9 @@ const pick = (o, ...keys) => { for (const k of keys) if (o[k] !== undefined && o
 
 export function normBet(o) {
   const verdictRaw = pick(o, "verdict", "outcome", "status", "result_class");
-  const status = normStatus(verdictRaw);
+  // A bet pre-registered but not yet resolved is running, not open.
+  const status = (verdictRaw == null || String(verdictRaw).toLowerCase() === "open") && o.prereg_commit && !o.result_commit
+    ? "running" : normStatus(verdictRaw);
   return {
     raw: o,
     id: String(pick(o, "id", "bet_id", "bet", "key") ?? ""),

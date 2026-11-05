@@ -313,7 +313,7 @@ function tipHTML(n) {
       : `Engine's odds: <b>hidden</b> until the human's are in (the cockpit)`);
   }
   meta.push(`Human's odds before data: <b>${n.human != null ? Math.round(n.human * 100) + "%" : "not recorded"}</b>`);
-  if (n.cost) meta.push(`Cost: ${esc(n.cost)}`);
+  if (n.cost && !(v === "open" && n.status === "open")) meta.push(`Cost: ${esc(n.cost)}`);
   if (n.resolved && v !== "open") meta.push(`Landed ${esc(fmtDate(parseDate(n.resolved)))}`);
   else if (n.opened) meta.push(`Opened ${esc(fmtDate(parseDate(n.opened)))}`);
   if (n.bet?.prereg) meta.push(`Pre-registered in <code>${esc(n.bet.prereg)}</code>`);
@@ -323,6 +323,11 @@ function tipHTML(n) {
   if (n.result && v !== "open") body += `<div style="margin-top:8px">${inline(n.result)}</div>`;
   if (v === "open" && n.status !== "open") body += `<div style="margin-top:8px" class="muted">Not yet bet on at this point in the replay.</div>`;
   if (v === "open" && n.status === "open" && n.raw?.question) body += `<div style="margin-top:6px">${esc(n.raw.question)}</div>`;
+  if (v === "open" && n.status === "open") {
+    const test = n.raw?.cheapest_test || n.test || "";
+    body += `<div class="t-test"><b>Cheapest test:</b> ${test ? esc(test) : "not designed yet"}</div>` +
+      `<div class="t-test"><b>Cost:</b> ${n.cost ? esc(n.cost) : "not estimated yet"}</div>`;
+  }
   return `<div class="t-status">${markSVG(v, 14)}${STATUS[v]?.word || v}</div>
     <div class="t-title">${esc(n.title)}</div>${body}<div class="t-meta">${meta.join("<br>")}</div>`;
 }

@@ -355,35 +355,45 @@ function gaugeStability(p3) {
 }
 
 // ---------- gauges: audit ----------
-function gaugeOverclaim(a) {
-  if (!a?.overclaim) return missing("g-overclaim", "Audit: overclaim rate", "<code>audits/SUMMARY.md</code> from program 1 is not deployed with the site.");
-  const [k, n] = a.overclaim;
-  const claims = a.claims ? `; ${a.claims[1]} of ${a.claims[0]} individual claims (${pct(a.claims[1] / a.claims[0])}) failed` : "";
+// Audit gauges read the ledger: every bet with an audit file, its cuts, and whether its verdict stood.
+// Program 1's founding-week audits (entangled-mind audits/SUMMARY.md) and round 2's summary are added in the caption.
+function auditedBets(bets) { return bets.filter((b) => b.raw?.audit_path); }
+function roundTwo(md) {
+  if (!md) return null;
+  const ch = md.match(/verdict changed by the audit \|\s*\**(\d+)\s*\/\s*(\d+)/i);
+  const rows = [...md.matchAll(/^\|\s*\[`[^`]+`\][^|]*\|[^|]*\|[^|]*\|\s*(\d+)\s*\/\s*(\d+)\s*\/\s*(\d+)\s*\|/gm)];
+  return { changed: ch ? [+ch[1], +ch[2]] : null, results: rows.length, withCuts: rows.filter((m) => +m[3] > 0).length };
+}
+const cutsOf = (b) => { const m = String(b.raw.audit_status || "").match(/(\d+) cuts/); return m ? +m[1] : 0; };
+function gaugeOverclaim(a, bets, r2) {
+  const ab = auditedBets(bets);
+  if (!ab.length) return missing("g-overclaim", "Audit: overclaim rate", "no audited bet in <code>ledger/bets.jsonl</code>.");
+  const cut = ab.filter((b) => cutsOf(b) > 0).length, n = ab.length;
+  const r1 = a?.overclaim ? `founding week ${a.overclaim[0]} of ${a.overclaim[1]} results` : "";
+  const r2s = r2?.results ? `round 2 ${r2.withCuts} of ${r2.results}` : "";
   const box = card("g-overclaim", {
     label: "Audit: overclaim rate",
-    value: pct(k / n), unit: `${k} of ${n} results`,
-    caption: `An auditor who had not seen the work found a sentence that said more than the data in ${k} of ${n} results${claims}.`,
-    source: `${src("audits/SUMMARY.md", "entangled-mind audits/SUMMARY.md", REPO.em)}, "Headline rates"${a.date ? ` · audit of ${esc(a.date)}` : ""}`,
+    value: pct(cut / n), unit: `${cut} of ${n} audited bets`,
+    caption: `An auditor who had not seen the work required at least one sentence cut or rewritten in ${cut} of ${n} audited ledger bets. Over every audited result (${[r1, r2s].filter(Boolean).join("; ")}), nearly every write-up said more than its data somewhere.`,
+    source: `${src("ledger/bets.jsonl")} (<code>audit_path</code>, <code>audit_status</code>) · ${src("ledger/audits/SUMMARY-2.md", "SUMMARY-2.md")} · ${src("audits/SUMMARY.md", "entangled-mind audits/SUMMARY.md", REPO.em)}`,
   });
-  cells(box, [{ n: k, cls: "c-over", word: "with an overclaim cut" }, { n: n - k, cls: "c-clean", word: "clean" }]);
+  cells(box, [{ n: cut, cls: "c-over", word: "with a cut" }, { n: n - cut, cls: "c-clean", word: "clean" }]);
 }
-function gaugeReversal(a) {
-  if (!a?.reversed) return missing("g-reversal", "Audit: verdict reversals", "<code>audits/SUMMARY.md</code> from program 1 is not deployed with the site.");
-  const [rev, n] = a.reversed;
-  const und = a.undetermined?.[0] ?? 0;
-  const frag = Math.max(0, (a.fragile?.[0] ?? und) - und);   // SUMMARY's fragile count includes the undetermined ones
-  const stands = n - rev - und - frag;
+function gaugeReversal(a, bets, r2) {
+  const ab = auditedBets(bets);
+  if (!ab.length) return missing("g-reversal", "Audit: verdict reversals", "no audited bet in <code>ledger/bets.jsonl</code>.");
+  const rev = ab.filter((b) => b.raw.verdict_stands === false), n = ab.length;
+  const r1 = a?.reversed ? `founding week ${a.reversed[0]} of ${a.reversed[1]}` : "";
+  const r2s = r2?.changed ? `round 2 ${r2.changed[0]} of ${r2.changed[1]}` : "";
   const box = card("g-reversal", {
     label: "Audit: verdict reversals",
-    value: pct(rev / n), unit: `${rev} of ${n} verdicts overturned`,
-    caption: `${rev === 0 ? "No pre-registered verdict was overturned" : `${rev} verdict${rev === 1 ? " was" : "s were"} overturned`}, but ${und} could not be settled and ${frag} more flip under one defensible re-check.`,
-    source: `${src("audits/SUMMARY.md", "entangled-mind audits/SUMMARY.md", REPO.em)}, "Headline rates" and "Fragile labels"`,
+    value: `${rev.length} of ${n}`, unit: "audited bets overturned",
+    caption: `${rev.length ? `Overturned: ${rev.map((b) => `${esc(b.id)}, now ${esc(b.raw.verdict)}`).join("; ")}.` : "No audited bet was overturned."} Counting every audited result, not only ledger bets: ${[r1, r2s].filter(Boolean).join(", ")} verdicts changed.`,
+    source: `${src("ledger/bets.jsonl")} (<code>verdict_stands</code>) · ${src("ledger/audits/SUMMARY-2.md", "SUMMARY-2.md")} · ${src("audits/SUMMARY.md", "entangled-mind audits/SUMMARY.md", REPO.em)}`,
   });
-  cells(box, [
-    { n: rev, cls: "c-rev", word: "reversed" }, { n: und, cls: "c-und", word: "undetermined" },
-    { n: frag, cls: "c-frag", word: "fragile label" }, { n: stands, cls: "c-stand", word: "stands" },
-  ].filter((g) => g.n > 0 || g.cls === "c-rev"));
+  cells(box, [{ n: rev.length, cls: "c-rev", word: "overturned" }, { n: n - rev.length, cls: "c-stand", word: "stands" }]);
 }
+
 // The auditor's own catch rate: known-bad claims planted before an audit, sealed, then revealed (operators/plant.md).
 function gaugeCatch(plants) {
   const rev = (plants || []).filter((r) => r.status === "revealed" && r.plaintext);
@@ -395,11 +405,11 @@ function gaugeCatch(plants) {
   const lim = planted.map((r) => r.limits).filter(Boolean);
   const box = card("g-catch", {
     label: "Audit: the auditor's catch rate",
-    value: `${k} of ${n}`, unit: `planted claim${n === 1 ? "" : "s"} caught · 95% interval ${pct(lo)}–${pct(hi)}`,
-    caption: `Another session hid a known-bad claim in a results file and sealed it before the audit; the auditor ${k === n ? "found every one" : `found ${k}`}. ${n < 10 ? `With ${n === 1 ? "one plant" : n + " plants"} this is not a rate yet (H2 needs 10).` : ""} ${lim.length ? "Limits: " + esc(lim[0].split(". ").slice(0, 2).join(". ")) + "." : ""}`,
+    value: `${k} of ${n}`, unit: `planted claim${n === 1 ? "" : "s"} caught`,
+    caption: `95% interval ${pct(lo)}–${pct(hi)}. Another session hid a known-bad claim in a results file and sealed it before the audit; the auditor ${k === n ? "found every one" : `found ${k}`}. ${n < 10 ? `With ${n === 1 ? "one plant" : n + " plants"} this is not a rate yet (H2 needs 10).` : ""} ${lim.length ? "Limits: " + esc(lim[0].split(". ").slice(0, 2).join(". ")) + "." : ""}`,
     source: `${src("ledger/plants.jsonl")} (hash-checked by <code>ledger/plants.py verify</code>) · ${src("ledger/scores.md", "scores.md")}`,
   });
-  cells(box, [{ n: k, cls: "c-clean", word: "caught" }, { n: n - k, cls: "c-over", word: "missed" }]);
+  cells(box, [{ n: k, cls: "c-over", word: "caught" }, { n: n - k, cls: "c-rev", word: "missed" }]);
 }
 
 // The feedback loop: every pre-registration from the rule's start carries a lesson and a design review.
@@ -433,7 +443,7 @@ function gaugeKills(kills, p3) {
     value: `${diag} of ${n}`, unit: "with a diagnosis",
     caption: n === 0 ? "Nothing has been killed yet." : diag === n
       ? "Every dead direction stays on the record with the reason it died; none was quietly dropped."
-      : `${n - diag} dead direction${n - diag === 1 ? " is" : "s are"} still missing the reason it died.`,
+      : `${n - diag} dead direction${n - diag === 1 ? " is" : "s are"} still missing the reason ${n - diag === 1 ? "it" : "they"} died.`,
     source: `the <a href="kills.html">kill log</a>: killed map nodes, <code>null</code> bets and <code>ledger/kills.jsonl</code>, merged`,
   });
   const marks = kills.map((k) => `<span class="km" data-i="${kills.indexOf(k)}">${markSVG(String(k.diagnosis || "").trim() ? "killed" : "open", 18)}</span>`).join("");
@@ -446,19 +456,24 @@ function gaugeKills(kills, p3) {
 }
 
 // ---------- gauges: spend ----------
-function gaugeAPI(ctx, bets, apiMd) {
-  const ledger = bets.reduce((a, b) => a + (Number(b.raw.cost_usd) || 0), 0);
-  const pool = apiMd ? +((apiMd.match(/Session total:\s*\$(\d+(?:\.\d+)?)/i) || [])[1] || 0) : 0;
-  const itemised = ledger + pool;
-  const budget = ctx.budget ?? 200;
-  const spent = ctx.spent ?? itemised;
+// API dollars: a dated baseline plus everything itemised after it, so the number moves on every push.
+// Baseline and non-bet runs: ledger/spend.jsonl. Bets: cost_usd of every bet pre-registered after the baseline.
+function gaugeAPI(ctx, bets, apiMd, spend) {
+  const base = (spend || []).find((r) => r.kind === "baseline");
+  if (!base) return missing("g-api", "Spend: API dollars", "<code>ledger/spend.jsonl</code> has no baseline row.");
+  const runs = (spend || []).filter((r) => r.kind === "run");
+  const later = bets.filter((b) => (b.raw?.prereg_time || "") > base.as_of && b.raw?.cost_usd != null);
+  const fromBets = later.reduce((a, b) => a + Number(b.raw.cost_usd || 0), 0);
+  const fromRuns = runs.reduce((a, r) => a + Number(r.usd || 0), 0);
+  const spent = base.usd + fromBets + fromRuns;
+  const budget = ctx.budget || 200;
   const box = card("g-api", {
     label: "Spend: API dollars",
-    value: `$${spent % 1 ? spent.toFixed(2) : spent}`, unit: `of $${budget} this month`,
-    caption: `${pct(spent / budget)} of the month's API credit is used${ctx.planMore ? `; the plan to ${esc(ctx.planTo)} adds about $${ctx.planMore}, leaving $${budget - spent - ctx.planMore} spare` : ""}.`,
-    source: `${ctx.spent != null ? `${src("CONTEXT.md")} §1 "Cost rule"` : "itemised files only"} · itemised so far: $${itemised.toFixed(2)} (${src("ledger/bets.jsonl", "bets")} $${ledger.toFixed(2)} + ${src("results/api-usage.md", "pool runs", REPO.em)} $${pool.toFixed(2)}); later phase-A runs are priced only in their own results files`,
+    value: "$" + spent.toFixed(2), unit: `of $${budget} this month`,
+    caption: `${pct(spent / budget)} of the month's API credit: $${base.usd.toFixed(2)} through ${esc(base.as_of)}, then $${fromBets.toFixed(2)} on ${plural(later.length, "bet")} and $${fromRuns.toFixed(2)} on ${plural(runs.length, "other run")}.${ctx.planMore ? ` The plan to ${esc(ctx.planTo)} adds about $${ctx.planMore}.` : ""}`,
+    source: `${src("ledger/spend.jsonl")} (baseline and non-bet runs) · ${src("ledger/bets.jsonl")} (<code>cost_usd</code> after the baseline)`,
   });
-  meter(box, { value: spent, max: budget, unit: "$", marker: ctx.planMore ? spent + ctx.planMore : null, markerLabel: ctx.planMore ? `with the plan to ${ctx.planTo}` : "", color: C.run });
+  drawn(box, (b) => meter(b, { value: spent, max: budget, unit: "$", marker: ctx.planMore ? Math.min(budget, spent + ctx.planMore) : null, markerLabel: ctx.planMore ? `with the plan to ${ctx.planTo}` : "" }));
 }
 function gaugeQPU(ibm, ctx, p3) {
   if (!Array.isArray(ibm)) return missing("g-qpu", "Spend: QPU seconds", "<code>results/ibm-usage.json</code> from program 1 is not deployed with the site.");
@@ -652,7 +667,7 @@ function gaugeTimeline(bets, maps, p3) {
 
 // ---------- page ----------
 (async () => {
-  const [bets, maps, kills, auditMd, ibm, apiMd, ctxMd, p3, plants, lessons] = await Promise.all([
+  const [bets, maps, kills, auditMd, ibm, apiMd, ctxMd, p3, plants, lessons, spend, r2Md] = await Promise.all([
     loadBets(), loadMaps(), loadKills(),
     getText(DATA + EM + "audits/SUMMARY.md"),
     getJSON(DATA + EM + "results/ibm-usage.json"),
@@ -661,7 +676,10 @@ function gaugeTimeline(bets, maps, p3) {
     getJSON(DATA + NG + "map/program-3-map.json"),
     getJSONL(DATA + "ledger/plants.jsonl"),
     getJSONL(DATA + "ledger/lessons.jsonl"),
+    getJSONL(DATA + "ledger/spend.jsonl"),
+    getText(DATA + "ledger/audits/SUMMARY-2.md"),
   ]);
+  const r2 = roundTwo(r2Md);
   const ctx = readContext(ctxMd);
   const audit = readAudit(auditMd);
   const scored = (side) => bets.flatMap((b) => {
@@ -673,12 +691,12 @@ function gaugeTimeline(bets, maps, p3) {
   run(() => gaugeHumanBrier(bets, scored("human"), p3));
   run(() => gaugeHits(scored("engine")));
   run(() => gaugeStability(p3));
-  run(() => gaugeOverclaim(audit));
-  run(() => gaugeReversal(audit));
+  run(() => gaugeOverclaim(audit, bets, r2));
+  run(() => gaugeReversal(audit, bets, r2));
   run(() => gaugeCatch(plants));
   run(() => gaugeKills(kills, p3));
   run(() => gaugeLearning(bets, lessons));
-  run(() => gaugeAPI(ctx, bets, apiMd));
+  run(() => gaugeAPI(ctx, bets, apiMd, spend));
   run(() => gaugeQPU(ibm, ctx, p3));
   run(() => gaugeReferee(bets, p3));
   run(() => gaugeTimeline(bets, maps, p3));
