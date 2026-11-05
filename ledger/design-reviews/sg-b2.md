@@ -156,3 +156,28 @@ Each fix gets a dated DEVIATIONS row, written before any sg-b2 call and naming `
    Recommended alongside: `analyse()` refuses unless sg-b1's fresh grades are present for every study it reads.
 
 The reviewer confirms both fixes in an addendum here before the first call.
+
+## Addendum: check of the fixes (2026-11-05 05:32 America/Denver)
+
+The fixes are in commit d3fe29a, DEVIATIONS rows D8a and D8b, both made before any sg-b2 call. I re-ran `sg_b2_label.py dryrun`, which prints "D10 frozen prompts: ok" and "D10 preflight on the real write cache …". Its power table and stub results are unchanged. I also drove `preflight()` against broken set-ups with scratch script `confirm.py`, in the same scratchpad. No paid call was made. **Fix 1 holds. Fix 2 holds only in part, so this review is not yet confirmed.**
+
+1. **Mixed sentence (D8b): holds.** The new reading is "… met no pass or fail rule; on [the models read undetermined] the test could not tell …". It drops "did not agree" and names the undetermined models. The frozen text stands beside the row.
+2. **Preflight (D8a): partial.** `preflight()` caught:
+   - an edited `FRESH`;
+   - an edited `LABELS`;
+   - one missing Opus conclusion;
+   - a `labelled()` that drops the sentence.
+
+   It did **not** catch:
+   - a `labelled()` that moves the sentence to the top of the message;
+   - a `labelled()` that inserts the sentence twice;
+   - a `none` arm that no longer equals `fresh()` (one trailing newline added).
+
+   The reason: it checks one study only, for presence only, and never compares the `none` body with `fresh()`. Row D8a says "each arm carries exactly its sentence", and fix 2 asked for exactly once, on every job, with `none == fresh()`. The gate's claim to be "byte-identical to sg-b1's fresh call" rests on that last check. The dry run checks it only on a synthetic study, and running the dry run is not required before `run()`.
+
+**Still to do before confirmation:** in `preflight()`, loop over every (model, study) pair in the run and check three things:
+- `labelled(study, c, "none") == fresh(study, c)`;
+- for `self` and `other`, `body.count(LABELS[a]) == 1`;
+- for `self` and `other`, `body.replace(LABELS[a] + " ", "")` equals the `none` body.
+
+Raise `SystemExit` rather than using `assert`, which `python -O` strips. Then correct row D8a's wording, or add a row, and I will confirm in a further addendum.
