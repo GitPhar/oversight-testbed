@@ -1,0 +1,255 @@
+{
+ "raw_reply": "{\"X002\": {\"patterns\": [\"none\"], \"why\": \"Labels a post-hoc simulation as not pre-registered; a provenance fix, not one of the listed faults.\"},\n\"X004\": {\"patterns\": [\"P3\"], \"why\": \"A no-uptake predictor that copies the visible answer also passes the gate, so the gate cannot separate the arms from a trivial baseline.\"},\n\"X005\": {\"patterns\": [\"P8\"], \"why\": \"Gap-closed figure compares rebuild against program 1's estimate, which differ in more than scheduling; scheduling alone closes about 0%.\"},\n\"X006\": {\"patterns\": [\"P2\", \"P9\"], \"why\": \"An undecided null with no power check was written up as 'no better than', and the verdict sentence goes beyond the result.\"},\n\"X008\": {\"patterns\": [\"none\"], \"why\": \"Adds a multiple-comparison note that leaves the verdict unchanged; no listed fault.\"},\n\"X009\": {\"patterns\": [\"P9\"], \"why\": \"Claim about error 'kinds' replaced by the narrower model-specific 'term' the test actually supports.\"},\n\"X012\": {\"patterns\": [\"P2\", \"P9\"], \"why\": \"An unpowered null is read as confirming no privileged self-knowledge; the claim goes past what was shown.\"},\n\"X013\": {\"patterns\": [\"P2\", \"P3\"], \"why\": \"Main conjunct is a non-detection with no power check, and a no-uptake predictor meets the gate and r bar.\"},\n\"X015\": {\"patterns\": [\"P4\", \"P8\"], \"why\": \"E2 was never applied because of a bug; the 7% is a reconstruction offset, not the idle-decay factor.\"},\n\"X019\": {\"patterns\": [\"none\"], \"why\": \"Marks a post-hoc, uncommitted simulation as a lead, not a finding; about provenance, not a listed pattern.\"},\n\"X021\": {\"patterns\": [\"P4\"], \"why\": \"A bug left T1 and T2 unchanged, so the stated \u00f73 manipulation never took effect.\"},\n\"X024\": {\"patterns\": [\"P4\"], \"why\": \"T1/T2 were not overwritten from the snapshot; the reference simulator did not use the parameters stated.\"},\n\"X025\": {\"patterns\": [\"P9\"], \"why\": \"Title says 'mostly blur, not steering'; the result is better fit on two of three pairs, with both present.\"},\n\"X026\": {\"patterns\": [\"P2\"], \"why\": \"'No detectable self advantage' null reported without a pre-registered power check; MDE near Sam's whole error.\"},\n\"X031\": {\"patterns\": [\"P6\"], \"why\": \"Faithfulness control would also pass a noiseless simulator, so it cannot fail.\"},\n\"X034\": {\"patterns\": [\"P8\"], \"why\": \"'Identical circuit' actually lacked the barrier and used interleaved blocks; the conditions differ in more than named.\"},\n\"X039\": {\"patterns\": [\"none\"], \"why\": \"Timestamp correction only.\"},\n\"X041\": {\"patterns\": [\"P4\"], \"why\": \"Bug left T1/T2 at library values, so the chip's afternoon rates were not loaded as stated.\"},\n\"X042\": {\"patterns\": [\"none\"], \"why\": \"Overstated 'agree' tightened to SE-scaled descriptions; descriptive precision, no listed fault.\"},\n\"X051\": {\"patterns\": [\"P9\"], \"why\": \"Title's noun overstates the result; the test only shows idle decay does not explain the gap.\"},\n\"X057\": {\"patterns\": [\"P4\"], \"why\": \"T1/T2 \u00f73 was intended but a bug left them unchanged; the manipulation did not take effect.\"},\n\"X058\": {\"patterns\": [\"none\"], \"why\": \"Substantive miss with an adequate design; no listed fault.\"},\n\"X060\": {\"patterns\": [\"P9\"], \"why\": \"'Steering' replaced by the narrower 'rotation-type term' the test examined.\"},\n\"X061\": {\"patterns\": [\"P8\"], \"why\": \"Simulation and chip run differ in untested ways (schedule, readout asymmetry) beyond the named factors.\"},\n\"X066\": {\"patterns\": [\"P4\"], \"why\": \"Planned E2 twist was not applied because of a bug, yet it was reported as changing nothing.\"},\n\"X068\": {\"patterns\": [\"P8\"], \"why\": \"Framings differ in both verb and subject, so the effect cannot be put on self-naming alone.\"},\n\"X069\": {\"patterns\": [\"P2\"], \"why\": \"Self/other null had no pre-registered power check, despite the standing rule.\"},\n\"X072\": {\"patterns\": [\"none\"], \"why\": \"Pooled claim corrected to its direction by story type; factual refinement, no listed fault.\"},\n\"X076\": {\"patterns\": [\"P2\", \"P9\"], \"why\": \"Unpowered null with a biased interval reported as a pass meaning 'knows itself as well'; the audited verdict is null.\"},\n\"X077\": {\"patterns\": [\"none\"], \"why\": \"Clean substantive miss; no listed fault.\"},\n\"X079\": {\"patterns\": [\"P9\"], \"why\": \"'One unusual afternoon' asserts what the test left untested; reworded to what was observed.\"},\n\"X081\": {\"patterns\": [\"none\"], \"why\": \"A 2.3 SE excess was overread; descriptive tightening, no listed fault.\"},\n\"X083\": {\"patterns\": [\"P7\"], \"why\": \"Refusal risk on hazardous stories was foreseeable; the run, without a pilot, stopped with 0 of 300 stories.\"},\n\"X085\": {\"patterns\": [\"P9\"], \"why\": \"Write-up says the number 'does not add' over the trivia bit; the pre-registered test asks a different, head-to-head question.\"},\n\"X092\": {\"patterns\": [\"P3\"], \"why\": \"A no-uptake predictor clears the 0.70 correlation bar, so the bar does not beat a trivial baseline.\"},\n\"X093\": {\"patterns\": [\"none\"], \"why\": \"Corrects which effects carry the self edge; factual, exploratory refinement.\"},\n\"X095\": {\"patterns\": [\"none\"], \"why\": \"Adds the per-qubit residual disagreement; descriptive precision, no listed fault.\"},\n\"X096\": {\"patterns\": [\"none\"], \"why\": \"Adds bin sizes and tie note; reporting detail only.\"},\n\"X097\": {\"patterns\": [\"none\"], \"why\": \"Numeric correction of the fitted error range.\"},\n\"X099\": {\"patterns\": [\"none\"], \"why\": \"More optimiser starts improve the coherent fits slightly; verdict unchanged, no listed fault.\"}}\n",
+ "tool_uses": 0,
+ "tags": {
+  "X002": {
+   "patterns": [
+    "none"
+   ],
+   "why": "Labels a post-hoc simulation as not pre-registered; a provenance fix, not one of the listed faults."
+  },
+  "X004": {
+   "patterns": [
+    "P3"
+   ],
+   "why": "A no-uptake predictor that copies the visible answer also passes the gate, so the gate cannot separate the arms from a trivial baseline."
+  },
+  "X005": {
+   "patterns": [
+    "P8"
+   ],
+   "why": "Gap-closed figure compares rebuild against program 1's estimate, which differ in more than scheduling; scheduling alone closes about 0%."
+  },
+  "X006": {
+   "patterns": [
+    "P2",
+    "P9"
+   ],
+   "why": "An undecided null with no power check was written up as 'no better than', and the verdict sentence goes beyond the result."
+  },
+  "X008": {
+   "patterns": [
+    "none"
+   ],
+   "why": "Adds a multiple-comparison note that leaves the verdict unchanged; no listed fault."
+  },
+  "X009": {
+   "patterns": [
+    "P9"
+   ],
+   "why": "Claim about error 'kinds' replaced by the narrower model-specific 'term' the test actually supports."
+  },
+  "X012": {
+   "patterns": [
+    "P2",
+    "P9"
+   ],
+   "why": "An unpowered null is read as confirming no privileged self-knowledge; the claim goes past what was shown."
+  },
+  "X013": {
+   "patterns": [
+    "P2",
+    "P3"
+   ],
+   "why": "Main conjunct is a non-detection with no power check, and a no-uptake predictor meets the gate and r bar."
+  },
+  "X015": {
+   "patterns": [
+    "P4",
+    "P8"
+   ],
+   "why": "E2 was never applied because of a bug; the 7% is a reconstruction offset, not the idle-decay factor."
+  },
+  "X019": {
+   "patterns": [
+    "none"
+   ],
+   "why": "Marks a post-hoc, uncommitted simulation as a lead, not a finding; about provenance, not a listed pattern."
+  },
+  "X021": {
+   "patterns": [
+    "P4"
+   ],
+   "why": "A bug left T1 and T2 unchanged, so the stated \u00f73 manipulation never took effect."
+  },
+  "X024": {
+   "patterns": [
+    "P4"
+   ],
+   "why": "T1/T2 were not overwritten from the snapshot; the reference simulator did not use the parameters stated."
+  },
+  "X025": {
+   "patterns": [
+    "P9"
+   ],
+   "why": "Title says 'mostly blur, not steering'; the result is better fit on two of three pairs, with both present."
+  },
+  "X026": {
+   "patterns": [
+    "P2"
+   ],
+   "why": "'No detectable self advantage' null reported without a pre-registered power check; MDE near Sam's whole error."
+  },
+  "X031": {
+   "patterns": [
+    "P6"
+   ],
+   "why": "Faithfulness control would also pass a noiseless simulator, so it cannot fail."
+  },
+  "X034": {
+   "patterns": [
+    "P8"
+   ],
+   "why": "'Identical circuit' actually lacked the barrier and used interleaved blocks; the conditions differ in more than named."
+  },
+  "X039": {
+   "patterns": [
+    "none"
+   ],
+   "why": "Timestamp correction only."
+  },
+  "X041": {
+   "patterns": [
+    "P4"
+   ],
+   "why": "Bug left T1/T2 at library values, so the chip's afternoon rates were not loaded as stated."
+  },
+  "X042": {
+   "patterns": [
+    "none"
+   ],
+   "why": "Overstated 'agree' tightened to SE-scaled descriptions; descriptive precision, no listed fault."
+  },
+  "X051": {
+   "patterns": [
+    "P9"
+   ],
+   "why": "Title's noun overstates the result; the test only shows idle decay does not explain the gap."
+  },
+  "X057": {
+   "patterns": [
+    "P4"
+   ],
+   "why": "T1/T2 \u00f73 was intended but a bug left them unchanged; the manipulation did not take effect."
+  },
+  "X058": {
+   "patterns": [
+    "none"
+   ],
+   "why": "Substantive miss with an adequate design; no listed fault."
+  },
+  "X060": {
+   "patterns": [
+    "P9"
+   ],
+   "why": "'Steering' replaced by the narrower 'rotation-type term' the test examined."
+  },
+  "X061": {
+   "patterns": [
+    "P8"
+   ],
+   "why": "Simulation and chip run differ in untested ways (schedule, readout asymmetry) beyond the named factors."
+  },
+  "X066": {
+   "patterns": [
+    "P4"
+   ],
+   "why": "Planned E2 twist was not applied because of a bug, yet it was reported as changing nothing."
+  },
+  "X068": {
+   "patterns": [
+    "P8"
+   ],
+   "why": "Framings differ in both verb and subject, so the effect cannot be put on self-naming alone."
+  },
+  "X069": {
+   "patterns": [
+    "P2"
+   ],
+   "why": "Self/other null had no pre-registered power check, despite the standing rule."
+  },
+  "X072": {
+   "patterns": [
+    "none"
+   ],
+   "why": "Pooled claim corrected to its direction by story type; factual refinement, no listed fault."
+  },
+  "X076": {
+   "patterns": [
+    "P2",
+    "P9"
+   ],
+   "why": "Unpowered null with a biased interval reported as a pass meaning 'knows itself as well'; the audited verdict is null."
+  },
+  "X077": {
+   "patterns": [
+    "none"
+   ],
+   "why": "Clean substantive miss; no listed fault."
+  },
+  "X079": {
+   "patterns": [
+    "P9"
+   ],
+   "why": "'One unusual afternoon' asserts what the test left untested; reworded to what was observed."
+  },
+  "X081": {
+   "patterns": [
+    "none"
+   ],
+   "why": "A 2.3 SE excess was overread; descriptive tightening, no listed fault."
+  },
+  "X083": {
+   "patterns": [
+    "P7"
+   ],
+   "why": "Refusal risk on hazardous stories was foreseeable; the run, without a pilot, stopped with 0 of 300 stories."
+  },
+  "X085": {
+   "patterns": [
+    "P9"
+   ],
+   "why": "Write-up says the number 'does not add' over the trivia bit; the pre-registered test asks a different, head-to-head question."
+  },
+  "X092": {
+   "patterns": [
+    "P3"
+   ],
+   "why": "A no-uptake predictor clears the 0.70 correlation bar, so the bar does not beat a trivial baseline."
+  },
+  "X093": {
+   "patterns": [
+    "none"
+   ],
+   "why": "Corrects which effects carry the self edge; factual, exploratory refinement."
+  },
+  "X095": {
+   "patterns": [
+    "none"
+   ],
+   "why": "Adds the per-qubit residual disagreement; descriptive precision, no listed fault."
+  },
+  "X096": {
+   "patterns": [
+    "none"
+   ],
+   "why": "Adds bin sizes and tie note; reporting detail only."
+  },
+  "X097": {
+   "patterns": [
+    "none"
+   ],
+   "why": "Numeric correction of the fitted error range."
+  },
+  "X099": {
+   "patterns": [
+    "none"
+   ],
+   "why": "More optimiser starts improve the coherent fits slightly; verdict unchanged, no listed fault."
+  }
+ },
+ "untestable_reason": null,
+ "tool_uses_reported": 1,
+ "tool_uses_note": "the harness reported 1 tool use: the hand-back call that delivers the reply; no read, search or run",
+ "classifier": "fresh general-purpose subagent, model opus (claude-opus-5-5), prompt data/p2-path2-prompt-pilot.txt pasted verbatim"
+}

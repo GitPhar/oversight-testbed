@@ -219,25 +219,34 @@ def diff_of(units, tags, p1, base=("baseline",)):
     return c(t) - c(b)
 
 
+_SUBSETS = {}
+
+
+def _subset_masks(k):
+    if k not in _SUBSETS:
+        from itertools import combinations
+        _SUBSETS[k] = [sum(1 << (i - 1) for i in c) for c in combinations(range(1, 18), k)]
+    return _SUBSETS[k]
+
+
+def _mask(patterns):
+    return sum(1 << (int(p[1:]) - 1) for p in patterns if p != "none")
+
+
 def perm_p(units, tags, p1, base=("baseline",)):
     """D21a (F3): the origin-permutation null. Every way of choosing len(p1) of the 17 patterns as 'program 1' (all
     C(17, k) subsets, exactly); p = share of subsets whose program-2-minus-baseline difference is at least the
     observed one. Small p says the gap is specific to program 1's patterns, not to tagging rates or unit mix."""
-    from itertools import combinations
-    ids = [f"P{i}" for i in range(1, 18)]
     obs = diff_of(units, tags, p1, base)
-    k = len(p1)
-    t = [u for u in units if u["group"] == "target"]
-    b = [u for u in units if u["group"] in base]
-    tset = [set(tags[u["unit"]]["patterns"]) for u in t]
-    bset = [set(tags[u["unit"]]["patterns"]) for u in b]
-    n = ge = 0
-    for comb in combinations(ids, k):
-        cs = set(comb)
-        d = sum(1 for x in tset if x & cs) / len(t) - sum(1 for x in bset if x & cs) / len(b)
-        n += 1
+    t = [_mask(tags[u["unit"]]["patterns"]) for u in units if u["group"] == "target"]
+    b = [_mask(tags[u["unit"]]["patterns"]) for u in units if u["group"] in base]
+    from collections import Counter
+    tc, bc = Counter(t), Counter(b)
+    ge, subs = 0, _subset_masks(len(p1))
+    for sm in subs:
+        d = sum(n for m, n in tc.items() if m & sm) / len(t) - sum(n for m, n in bc.items() if m & sm) / len(b)
         ge += d >= obs - EPS
-    return ge / n, obs
+    return ge / len(subs), obs
 
 
 def label_of(sh, p_perm=0.0):
@@ -364,7 +373,7 @@ def score_cmd():
 PILOT_TAGS = DATA / "p2-path2-pilot-tags.json"
 
 
-def dryrun_cmd(sims=1500):
+def dryrun_cmd(sims=400):
     """D11 on measured tag sets (D21a F4): the pilot's tags (classifier A's model on 40 excluded units) are resampled
     into the real group sizes. Null world: every unit draws a pilot tag set at random (no path dependence). Path
     worlds: as null, but each program 2 unit also gains one random program-1 pattern with probability q."""
@@ -415,6 +424,7 @@ def prompts_cmd():
 def save_tags_cmd():
     """python3 experiments/p2_path2.py save <A|B|pilot> <reply file> <tool_uses>: store a classifier's reply verbatim
     with its parsed tags; a reply that is not one JSON object, or a session that used any tool, is stored as untestable."""
+    # tool_uses is the subagent's reported count minus its one hand-back call (the call that delivers the reply)
     which, reply_file, tool_uses = sys.argv[2], Path(sys.argv[3]), int(sys.argv[4])
     raw = reply_file.read_text()
     m = re.search(r"\{.*\}", raw, re.S)
