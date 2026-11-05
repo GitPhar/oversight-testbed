@@ -88,7 +88,7 @@ A program whose last three layers with settled bets hold no landed bet and no fi
 | program | layers with settled bets | last three | settled bets in them | novelty not recorded | due | why |
 |---|---|---|---|---|---|---|
 | entangled-mind | 1, 3, 4, 5, 6 | 4, 5, 6 | 15 | 8 | no | landed: em-gm2b, em-bm0, em-dm6f2, em-gm2bf1, em-dm6f2f2; partly new or new: em-gm2b, em-gm3c, em-bm0, em-dm2, em-dm4, em-dm6, em-dm6f2f2 |
-| nature-graded | 1, 2, 3, 4 | 2, 3, 4 | 5 | 5 | no | landed: ng-p3-18; partly new or new: none |
+| nature-graded | 1, 2, 3, 4 | 2, 3, 4 | 5 | 4 | no | landed: ng-p3-18; partly new or new: none |
 | other-minds | 1, 2 | 1, 2 | 11 | 9 | no | 2 layers with settled bets; the rule needs three |
 | said-vs-did | 1, 2 | 1, 2 | 5 | 3 | no | 2 layers with settled bets; the rule needs three |
 | self-grading | 1, 2, 3, 4 | 2, 3, 4 | 6 | 1 | no | landed: sg-b3, sg-b4; partly new or new: sg-b4, sg-b8, sg-b6, sg-b7 |
