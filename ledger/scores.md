@@ -83,30 +83,32 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
 
-Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 10 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 2 lesson lines written.
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 10 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 3 lesson lines written.
 
 | | count |
 |---|---|
 | pre-registrations since the rule | 2 |
 | with a lesson line | 2 |
-| with a design review verdict | 0 |
-| awaiting their design review (nothing may run yet) | 2: ng-p3-15, om-p2-3b |
+| with a design review verdict | 1 |
+| awaiting their design review (nothing may run yet) | 1: om-p2-3b |
 | **violations** (no lesson, or a result without a review) | 0 |
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 0 |
 
+Design reviews: 0 go, 1 fix-first, 0 redesign; 0 later found by the post-result audit to have missed a flaw they should have caught.
+
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
-| P1 | Odds too high where the engine had a story | 1 | 0 of 0 scored |
+| P1 | Odds too high where the engine had a story | 2 | 0 of 0 scored |
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 0 | 0 of 0 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 1 | 0 of 0 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 2 | 0 of 0 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 0 | 0 of 0 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 0 | 0 of 0 scored |
 | P6 | A control that cannot fail | 1 | 0 of 0 scored |
 | P7 | A foreseeable execution risk run without a pilot | 1 | 0 of 0 scored |
 | P8 | Comparing across conditions that differ in more than the factor named | 1 | 0 of 0 scored |
-| P9 | The right rule, then the wrong noun | 0 | 0 of 0 scored |
-| P10 | A label that hangs on one item | 1 | 0 of 0 scored |
+| P9 | The right rule, then the wrong noun | 1 | 0 of 0 scored |
+| P10 | A label that hangs on one item | 2 | 0 of 0 scored |
 
 **Does the loop help?** Not measurable yet: no bet with a lesson has a scored outcome. The test is Brier with the odds before the lesson against after it, paired.
 
