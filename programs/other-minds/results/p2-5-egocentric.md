@@ -1,6 +1,6 @@
 # P2-5. Egocentric leakage: does the model's own planted answer pull the rating it attributes to Sam? (results)
 
-Pre-registered in `experiments/p2-5-egocentric.md` (`a29d6ab`, 2026-11-04 19:53:53 America/Denver), seed `fcd1909` (CURBy-RNG pulse 1591638), design-review fixes D12 (`6558a73`) and D12a (`fa12b7f`), both reviews confirmed before the first call (`ledger/design-reviews/om-p2-5.md`, `dc9006c`; `om-p2-5-1b.md`, 20:35). Run 2026-11-04 20:55–21:07 America/Denver on `claude-haiku-5-5`. **7,360 calls, $0.355 of the $1.00 cap, no refusal, no out-of-range value, every repeat complete (k = 5), all 16 vignettes complete.** Unaudited at this commit.
+Pre-registered in `experiments/p2-5-egocentric.md` (`a29d6ab`, 2026-11-04 19:53:53 America/Denver), seed `fcd1909` (CURBy-RNG pulse 1591638), design-review fixes D12 (`6558a73`) and D12a (`fa12b7f`), both reviews confirmed before the first call (`ledger/design-reviews/om-p2-5.md`, `dc9006c`; `om-p2-5-1b.md`, 20:35). Run 2026-11-04 20:55:38–21:07:12 America/Denver on `claude-haiku-5-5` (`results/p2-5-run.log`; the run started 11 s after the confirmation commit `dc9006c` at 20:55:27). **7,360 calls, $0.355 of the $1.00 cap, no refusal, no out-of-range value, every repeat complete (k = 5), all 16 vignettes complete.** Audited: `ledger/audits/om-p2-5.md` (`420f3a4`), verdict stands; its three required cuts are applied (D13).
 
 ## In plain English
 
@@ -14,6 +14,8 @@ With its numbers (the pre-registered sub-reading):
 
 > On Haiku, on program 1's 16 vignettes, with another reader's (Alex's) answer also shown, the model's own planted answer pulled the rating it attributed to Sam detectably more than it pulled the model's own re-rating, so the pull on Sam cannot be the model's own shifted rating carried over to Sam (Sam minus own +0.139, 95% interval [+0.096, +0.186], wholly above 0).
 
+Here 'cannot be the model's own shifted rating carried over' means that carry-over alone cannot account for the pull on Sam. A full carry-over of the model's own shift (0.36) plus a further pull of about 0.14 fits these numbers too.
+
 **What happened, step by step through the rule.**
 - **The manipulation took.** The model's own re-rating moved toward its planted answer by 0.36 points per point of displacement, averaged over the 10-, 30- and 60-point classes [0.26, 0.45].
 - **Sam's rating moved too.** Sam, a person who had seen neither the model's answer nor Alex's, was given a rating that moved toward the model's planted answer by 0.50 points per point [0.39, 0.59]. That clears the map's bar of 0.10.
@@ -21,7 +23,7 @@ With its numbers (the pre-registered sub-reading):
 - **The copy guard held.** When Sam was said to have seen the model's answer, Sam's rating moved further still: 0.91 [0.83, 0.97].
 - **The last check failed.** Sam's rating moved *more* than the model's own re-rating did, by 0.14 [0.10, 0.19], and the interval is wholly above 0. By the rule added before data at the design reviews (5b, D12, D12a), a pull on Sam larger than the pull on the model's own rating is not the model's own shifted rating carried over, and the bet fails. It scores 0.
 
-**Beside the verdict, never in its place:** the map's event measured on this design (another reader's answer in view), U_sam(OWN) ≥ 0.10 with its interval above 0, **passes**. The map's own rule, before the design reviews added the margin, the copy guard and 5b, would have called this a pass. The frozen rule as fixed before data does not.
+**Beside the verdict, never in its place:** the map's event measured on this design (another reader's answer in view), U_sam(OWN) ≥ 0.10 with its interval above 0, **passes**. The map's event alone would have called this a pass. The margin over SWAP and the copy guard were added at pre-registration (`a29d6ab`, D11), and step 5b by the design reviews (D12, D12a), all before data. The frozen rule as fixed before data does not.
 
 **Robustness.**
 - Leave-one-vignette-out: all 16 drops give the same label (fail, not inherited). The result is not fragile.
@@ -81,7 +83,7 @@ Map's event measured on this design (step 3 alone): pass.
 | SWAP | Sam, instance | 0.009 / 0.007 / 0.003 | 0.007 / 0.008 / 0.002 |
 | SWAP | Sam, informed | 0.004 / 0.004 / 0.003 | 0.003 / 0.006 / 0.001 |
 
-Cells per real-displacement band: 72 / 56 / 40 (each in both conditions). In every class and band, in OWN, Sam (person) moved more than the model's own re-rating.
+Cells per real-displacement band: 72 / 56 / 40 (each in both conditions). Pooled over upward and downward plants, in every class and band, in OWN, Sam (person) moved more than the model's own re-rating. Split by direction (an exploratory check by the audit, not pre-registered, uncorrected), the gap comes from upward plants: Sam minus own is +0.22 [+0.16, +0.27] for upward plants and +0.04 [−0.02, +0.10] for downward plants, where the rule would read pass. At d = −60, Sam moved less than the model's own re-rating (0.19 against 0.27). The same split holds on the statements kept in both directions (+0.20 against +0.03).
 
 ### Robustness (§4, D12)
 

@@ -1,0 +1,85 @@
+start 20:55:38
+exit 0
+end 21:07:12
+p2-5 egocentric: 250 done, $0.0121
+p2-5 egocentric: 500 done, $0.0242
+p2-5 egocentric: 750 done, $0.0362
+p2-5 egocentric: 1000 done, $0.0483
+p2-5 egocentric: 1250 done, $0.0603
+p2-5 egocentric: 1500 done, $0.0724
+p2-5 egocentric: 1750 done, $0.0844
+p2-5 egocentric: 2000 done, $0.0965
+p2-5 egocentric: 2250 done, $0.1086
+p2-5 egocentric: 2500 done, $0.1206
+p2-5 egocentric: 2750 done, $0.1326
+p2-5 egocentric: 3000 done, $0.1447
+p2-5 egocentric: 3250 done, $0.1568
+p2-5 egocentric: 3500 done, $0.1689
+p2-5 egocentric: 3750 done, $0.1809
+p2-5 egocentric: 4000 done, $0.1929
+p2-5 egocentric: 4250 done, $0.2050
+p2-5 egocentric: 4500 done, $0.2171
+p2-5 egocentric: 4750 done, $0.2291
+p2-5 egocentric: 5000 done, $0.2412
+p2-5 egocentric: 5250 done, $0.2533
+p2-5 egocentric: 5500 done, $0.2653
+p2-5 egocentric: 5750 done, $0.2773
+p2-5 egocentric: 6000 done, $0.2894
+p2-5 egocentric: 6250 done, $0.3015
+p2-5 egocentric: 6500 done, $0.3135
+p2-5 egocentric: 6750 done, $0.3257
+p2-5 egocentric: 7000 done, $0.3376
+p2-5 egocentric: 7250 done, $0.3497
+p2-5 egocentric: complete, 7360 cached calls, $0.3550
+{
+ "label": "fail",
+ "reason": "not_inherited",
+ "fail_bound": "not_inherited",
+ "map_rule": "pass",
+ "n_complete_vignettes": 16,
+ "complete_repeats_k": 5,
+ "loo_flips": [],
+ "calls": 7360,
+ "cost_usd": 0.354988
+}
+{
+ "U_sam_own": 0.49558915028612005,
+ "U_sam_swap": 0.02212134880945804,
+ "dU": 0.473467801476662,
+ "U_self_own": 0.3566969664909038,
+ "U_self_swap": 0.07187130044956747,
+ "U_inf_own": 0.907053055942398,
+ "U_inf_swap": 0.0036706349206349163,
+ "copy_guard": 0.411463905656278,
+ "sam_minus_self": 0.13889218379521623,
+ "U_inst_own": 0.6450738345370364,
+ "U_inst_swap": 0.006254198178201816,
+ "dU_inst": 0.6388196363588345,
+ "inst_minus_person_own": 0.14948468425091632,
+ "leak_ratio": 1.389384258469039
+}
+{
+ "U_sam_own": [
+  0.38876545825322395,
+  0.5930457720636749
+ ],
+ "U_sam_swap": [
+  0.007480662612185113,
+  0.038662740581356235
+ ],
+ "dU": [
+  0.3659280996350925,
+  0.5742196697596502
+ ],
+ "U_self_own": [
+  0.2587089292595323,
+  0.4477168784937731
+ ],
+ "U_self_swap": [
+  0.05261414258115575,
+  0.08977802247912449
+ ],
+ "U_inf_own": [
+  0.8287432396066207,
+
+[exited with code 0]
