@@ -153,3 +153,92 @@ Each needs a dated DEVIATIONS row in `programs/said-vs-did/DEVIATIONS.md` before
 4. **D1: give a stopped run a reading.**
    - Add to §5 and to `analyse()`: a model is "not run" (not testable) unless every item in its list has a cached said rating and a cached b2 choice. `analyse()` checks this and prints the not-run sentence. A cap stop partway through Opus therefore yields "Opus: not run", not an analysis of a partial set.
    - Add to §7: after an API error that the SDK's 4 automatic retries did not clear, the same command may be re-run once. It resumes from the cache and re-sends the failed call unchanged (the code's actual behaviour), logged as a DEVIATIONS row. A refusal is never resumed.
+
+## Addendum: confirmation (2026-11-05 05:42 America/Denver)
+
+I checked commit 83a4c82: DEVIATIONS D7, the addendum at the end of `experiments/sv-b2.md` (the text above it unchanged), the code in `svd_wave1.py` and `svd_common.py`, `sv-wave1-worlds-d7.txt`, and the `sv-b2` ledger row. `programs/said-vs-did/experiments/` at HEAD is identical to 83a4c82, and the working tree is clean there.
+
+What I ran, all with no paid calls and with the paths and `call` stubbed in my scratch folder:
+- `python3 svd_wave1.py dryrun` and `python3 svd_wave1.py worlds b2`;
+- `d7_confirm.py` and `d7_loo.py` in `/private/tmp/claude-501/-Users-seanpharris-oversight-testbed/0a71ee39-78f8-4098-9ca9-34db26080759/scratchpad/review-sv-b2/`.
+
+**Flaw 1 (D11): fixed.**
+- `N_ITEMS` is now per step, and `items_for(model, step)` takes the step. Sonnet's b2 set and its said-step set are the full beacon shuffle (all 300 items). Sonnet's b1 and b3 sets are still the first 150 of that shuffle, so sv-b1 and sv-b3 are unchanged. Opus is still the first 80. All of this checked equal to `data/sv-wave1-items.json`.
+- Caps: said $0.85, b2 $0.95. The step caps sum to $4.80, inside the $5.00 program cap. A stubbed b2 run stopped at exactly $0.95. Ledger `budget_usd` is 1.23 (= 0.95 + 0.85/3).
+- `worlds b2` reproduces `sv-wave1-worlds-d7.txt` exactly. Each world gives P(pass) / P(fail) / P(untestable):
+
+  | world | P(pass) | P(fail) | P(untestable) |
+  |---|---|---|---|
+  | no link | 0.00 | 1.00 | 0.00 |
+  | moderate | 0.485 | 0.515 | 0.00 |
+  | strong | 1.00 | 0.00 | 0.00 |
+  | rare, no link | 0.00 | 0.68 | 0.32 |
+  | rare, moderate | 0.07 | 0.70 | 0.23 |
+
+  These worlds round ratings to 5, make confidence depend on the question type and report P(untestable), as asked. That agrees with my own realistic world with Sonnet at 300 (moderate 0.43 / 0.58; rare, no link 0.00 / 0.73 / 0.27). The floor now holds in every world that matters: the bet can pass where the number drives declining, and can fail where it does not, rare declining included.
+- Their worlds still draw Opus's 80 items at random rather than using the fixed 80, and the claims are no more confident than the science items. At 300 items Haiku and Sonnet see the whole pool anyway, so neither point changes the conclusion.
+
+**Flaw 2 (D8): fixed.** The behaviour is now "decline"; "pass" names only the test result. The baselines are named. The not-run sentence and "too few declines" are added, and "rational" is forbidden. One wording note, not blocking: "the question's type" describes a one-bit guess (SimpleQA trivia against the other three types). The shared-fixes paragraph defines it correctly, and my own suggested "source" had the same looseness. If the write-up reports the baseline, it should say "whether the question is SimpleQA trivia".
+
+**Flaw 3 (D9): fixed.**
+- `secondary()` now returns `loo_flip_ids`. On a synthetic Opus with margin 0.09 it returned six ids (`h061`, `h194`, `h134`, `h217`, `h204`, `h205`).
+- It also returns `loo_testability_flip_ids`. A synthetic Sonnet with exactly 10 declines returned all 10 event ids.
+- The two sentences are in the addendum, and the addendum says the check covers the point margin only.
+
+**Flaw 4 (D1): fixed.**
+- `rows()` now returns a status per model, and `analyse()` marks a model `not_run` (not testable) unless every item has a cached rating and choice. Two cases tested:
+  - 30 of Opus's 80 b2 entries removed: "Opus not run"; the verdict rests on Haiku and Sonnet.
+  - Sonnet's said step stopped at 150: "Sonnet not run" for b2.
+- An out-of-range rating drops only that item and is counted (`invalid_rating: 1`); the model still counts as run.
+- The resume rule (at most two resumes, only after transport or server errors; anything else ends the step) is written in the addendum and in D7. Every error stop is now appended to `results/sv-errors.md` (shown with a stubbed 529).
+- The limit on resumes is procedural, not enforced in code. The error log makes it checkable by the auditor, which I accept. Allowing two resumes instead of my one does not touch the bar.
+
+**Nothing else broken (D1–D11 re-checked on the new code):**
+- **D1:** the synthetic tables still give one verdict each: follows → pass; ignores → fail; Sonnet and Opus never decline → untestable; reversed → fail; SimpleQA-only declining → fail.
+- **D3:** the new within-type shuffle stays at or below 0 when the number carries signal (−0.05 to −0.06), and is reported only.
+- **D5:** the category-only "number" still fails (margins −0.29 to −0.40).
+- **D10:**
+  - the gate still blocks a missing review and an unconfirmed fix-first, and accepts a dated one;
+  - stop-on-refusal still blocks the next caller;
+  - the cache hash check and the scale are unchanged;
+  - `seed_source` is now `curby-rng`, with the inheritance in `seed_note`.
+
+**Observations, not flaws:**
+- The odds stay at 0.35 while the D7 dry run's moderate world now passes 48%. The frozen lesson `ls-sv-b2` still quotes 18% and 77%, and the addendum's item 5 gives the new numbers, so both are kept. Setting odds is the engine's call, not this review's.
+- Secondaries are still computed for a not-run model's partial items. They should not be reported as that model's result.
+
+**All four flaws fixed; confirmed.** The verdict stays fix-first, now confirmed, so the gate opens for sv-b2's own calls. The said step still needs sv-b1 and sv-b3 confirmed as well.
+
+## Addendum: confirmation against 933e38e (2026-11-05 05:44 America/Denver)
+
+The engine asked me to confirm against 933e38e (DEVIATIONS D8) instead of 83a4c82. **This section replaces the conclusion of the addendum above.** `programs/said-vs-did/experiments/` at HEAD is identical to 933e38e. What I ran: `d8_confirm.py` in my scratch folder (paths and `call` stubbed, no paid calls), plus my earlier `d7_confirm.py`, whose code paths 933e38e leaves unchanged.
+
+What 933e38e changes, and what I found:
+
+- **Flaws 1–4 are still fixed.** `svd_wave1.py` is unchanged since 83a4c82. Every result in the addendum above still holds.
+- **The rename is done.** Addendum D8 and `svd_report.py` now read "whether the question is SimpleQA trivia" in the four-guesses list. This settles my wording note on flaw 2.
+- **The resume limit is now enforced in code.** `Caller.__init__` counts this step's stops logged in `results/sv-errors.md`. With a stub that errors on every third call:
+  - the first run stopped;
+  - resume 1 stopped;
+  - resume 2 stopped;
+  - a third resume was refused: "3 error stops logged; the two allowed resumes are used up";
+  - another step's `Caller` still starts.
+
+  The restriction to transport or server errors is still procedural. The log makes it checkable.
+- **`svd_report.py` (new) fills the pre-registered b2 sentences correctly** for pass, fail, untestable, the per-model lines, the one-item sentences and the within-type sentence. I checked it on synthetic tables.
+
+**New flaw (D8): the not-run sentence can name a cause that did not happen.**
+`svd_report.sentences()` (line 47) always writes "{model}: not run (the {W.CAPS[step]}-dollar cap was reached after {k} of {n} items)", using this bet's own $0.95 cap. But `analyse()` marks a model not run whenever any item lacks a said rating *or* a choice. That happens in three situations:
+- the b2 cap is reached (the only case the sentence describes);
+- the said step stops early, on its own $0.85 cap, an error or a refusal. Opus runs last there too;
+- the step ends on an error that may not be resumed, which the D7 addendum itself says leads to "not run".
+
+On a synthetic run whose said step stopped after Sonnet's first 150 ratings, with every b2 call complete, the report printed "Sonnet: not run (the 0.95-dollar cap was reached after 150 of 300 items)." That is false: the b2 cap was never reached. The pre-registered not-run sentence carries the same assumption, because it has only a {cap} slot.
+
+**Exact fix**, with a DEVIATIONS row before any data:
+- Replace the not-run sentence, in the sv-b2 addendum and in `svd_report.py`, with: "{model}: not run (only {k} of {n} items have both a stated rating and a choice)."
+- Record the cause of the stop (which cap, an error from `results/sv-errors.md`, or a refusal from `results/refusal.md`) in the results file from the run log, not in the sentence.
+
+The b1 and b3 branches of the same line have the same problem. That is outside this review, but probably the same fix.
+
+**Not confirmed.** `confirmed_at` is back to null. Flaws 1–4 stand fixed, so only the new not-run sentence is open, and I will confirm once it is corrected.
