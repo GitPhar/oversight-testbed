@@ -14,7 +14,8 @@
  "curby_q_status": "stalled (round 28297, 2025-08-22 13:42 America/Denver; checked 2026-11-05 09:58)",
  "derivation": "python3 ledger/seed.py <randomness> ss-b14 --purpose <p>",
  "seeds": {
-  "items": 2982438694,
-  "order": 2464508027
- }
+  "items": 16180817909411768102,
+  "order": 12026579425415227515
+ },
+ "seed_note": "corrected before any draw (D66): the seed commit 35fc122 wrote the 32-bit values {'items': 2982438694, 'order': 2464508027}"
 }
