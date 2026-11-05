@@ -222,3 +222,7 @@ What could overturn the reading "position over label is a Haiku result" is a bet
 - **Sonnet:** 6 more repeats, 1,728 calls at about $0.00086, about $1.50.
 - **Opus:** 4 more repeats, 1,152 calls at about $0.0025, about $2.85.
 - **Free first step:** pre-register the margin from this archive's item spread.
+
+---
+
+Revealed 2026-11-05 05:20 America/Denver: pl-012, clean (nothing planted); there was no plant to catch, so every finding above is the audit of the real result. The draw was made at random (½, `ledger/plants.py draw`) and sealed in `ledger/plants.jsonl` (commit 0b41139) before this audit began; `plants.py verify`: ok. The planter and the session that launched this auditor were the om-p2-6r author session, which knew the draw; that is a weaker blinding than an engine-launched audit. The auditor's brief named only files and rules. The three required cuts are applied to the real record under other-minds D14f.
