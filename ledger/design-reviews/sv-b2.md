@@ -11,7 +11,7 @@ checks: {D1: flaw, D2: holds, D3: holds, D4: holds, D5: holds, D6: holds, D7: ho
 flaws: 4
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 05:49 (328a73f)
 ---
 
 # Design review of sv-b2
@@ -296,3 +296,23 @@ I checked DEVIATIONS D12 and `svd_report.stop_cause(model, step)`. `programs/sai
 **Nothing else broke.** 9bae3a2 changes only `svd_report.py` and DEVIATIONS.
 
 **Not confirmed.** `confirmed_at` stays null.
+
+## Addendum: confirmation against 328a73f (2026-11-05 05:49 America/Denver)
+
+I checked DEVIATIONS D13 and `svd_report.step_incomplete` and `stop_cause`. `programs/said-vs-did/experiments/` at HEAD is identical to 328a73f. Since 9bae3a2 only `svd_report.py` and DEVIATIONS changed. `svd_wave1.py`, `svd_common.py` and `svd_stats.py` are unchanged, so every earlier result above still stands.
+
+**What I ran.** I re-ran all seven stubbed cases with no paid calls. The scripts are `d12_extra.py` (cases a–f, which includes `d9_confirm.py`) and `d12_g.py` (case g), in my scratch folder. Each drives the real `run("said")` and `run("b2")` with a stubbed `call`, using go reviews in the scratch folder only, then builds the not-run sentences with `svd_report.sentences`.
+
+**Results.** Every not-run sentence now names exactly the stop that left that model's items incomplete:
+
+| case | what happened | model(s) not run | cause the sentence names |
+|---|---|---|---|
+| (a) | the said cap was reached during Sonnet | Sonnet, Opus | the said step's $0.85 cap |
+| (b) | the b2 cap was reached during Sonnet | Sonnet, Opus | the $0.95 b2 cap |
+| (c) | sv-b1 logged a cap stop on Opus; the sv-b2 cap was then reached during Opus | Opus | the sv-b2 cap only |
+| (d) | sv-b1 logged an error on an Opus job; sv-b2 stopped on an error | Haiku, Sonnet, Opus | sv-b2's error only |
+| (e) | an sv-b2 error was resumed past; the b2 cap was later reached during Opus | Opus | the cap only |
+| (f) | a refusal occurred before b2 | Haiku, Sonnet, Opus | the refusal and its request ID |
+| (g) | a said-step error during Sonnet was resumed past and the said step completed; the b2 cap was later reached during Opus | Opus | the b2 cap only (the resumed error is no longer named) |
+
+**All flaws are fixed and nothing else broke. Confirmed.** The verdict stays fix-first, with `confirmed_at` set to 2026-11-05 05:49 (328a73f).

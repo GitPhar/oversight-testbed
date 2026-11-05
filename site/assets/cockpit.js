@@ -1,18 +1,19 @@
-// The cockpit: at most 12 cards, chosen by what the maps say is next to run, each one plain question.
-// Per card: what we would test (one sentence), would you spend about $X on it, will it come back a hit, your odds if
-// you want. One "Save my answers" button writes human-odds.jsonl in the ledger's format (ledger/README.md): every
+// The cockpit: at most 20 cards, the next layer of directions, posted before any session pre-registers them.
+// Per card: what we would test (one plain question), would you spend about $X on it, will it come back a hit, what our
+// own settled results say so far (one sentence), your odds if you want. One "Save my answers" button writes human-odds.jsonl in the ledger's format (ledger/README.md): every
 // line already committed, plus the new ones. The next session picks the file up from ~/Downloads with
 // ledger/pickup_human_odds.py and commits it. The engine's odds are never shown here (CONTEXT.md §3 rule 11).
 //
-// Which cards: nextToAsk() in data.js (each map's open, un-bet directions in rank order, programs taking turns,
-// skipping any already answered in the ledger), until 12.
-// The plain sentence for each card comes from map/plain-questions.jsonl; the cost from the map's own cost field.
+// Which cards: map/cockpit-cards.jsonl, written ahead of the pre-registrations (CONTEXT.md §3 rule 11, the ordering
+// rule): for every program, the two cheapest not-yet-bet follow-ups its remap wrote. A card drops off once its
+// direction has a bet in ledger/bets.jsonl (too late to attach) or an answer in ledger/human-odds.jsonl.
+// The page reads no map file, so no engine odds reach the browser.
 import { header, esc, SITE, DATA, getText, getJSONL } from "./common.js";
-import { loadBets, loadMaps, joinBets, nextToAsk } from "./data.js";
+import { loadBets } from "./data.js";
 
 header();
 
-const MAX = 12;
+const MAX = 20;
 const KEY = "cockpit.v2";
 const el = (id) => document.getElementById(id);
 
@@ -31,46 +32,13 @@ function denverNow() {
   return { date, time, iso: `${date}T${time}:${parts.second}${off}`, stamp: `${parts.year}${parts.month}${parts.day}-${parts.hour}${parts.minute}${parts.second}` };
 }
 
-// ---------- the cost, said plainly, from the map's cost field ----------
-// "$0.24 (cap $0.30)" -> about $0.24; "$0 API; laptop ~4-6 h" -> about $0, laptop time; "~15 QPU s" -> about $0, chip time.
-function spend(cost) {
-  const raw = String(cost || "").trim();
-  if (!raw) return { ask: "Its cost is not estimated yet. Would you run it anyway?", phrase: null };
-  const dollars = raw.match(/\$\s?(\d+(?:\.\d+)?)(?:\s*[–-]\s*\$?(\d+(?:\.\d+)?))?/);
-  const amount = dollars ? `$${dollars[1]}${dollars[2] ? "–" + dollars[2] : ""}` : null;
-  if (amount && Number(dollars[1]) > 0) return { ask: `Would you spend about ${amount} on it?`, phrase: `about ${amount}` };
-  const range = (s) => s.replace(/\s*-\s*/, "–");
-  const qpu = raw.match(/(\d+(?:\.\d+)?)\s*(?:extra\s*)?QPU s/i);
-  const laptop = raw.match(/laptop\s*~?\s*(\d+(?:\.\d+)?(?:\s*[-–]\s*\d+(?:\.\d+)?)?)\s*h/i);
-  let what;
-  if (qpu && /^\s*~?\s*\d/.test(raw) && Number(qpu[1]) > 0) what = `about ${qpu[1]} seconds of the quantum chip's free monthly time`;
-  else if (qpu && Number(qpu[1]) === 0 && /extra/i.test(raw)) what = "no extra chip time, only some laptop time";
-  else if (laptop) what = `about ${range(laptop[1])} hours of laptop time`;
-  else if (/laptop|desk|CPU/i.test(raw)) what = "a few hours of laptop time";
-  else if (/archive/i.test(raw)) what = "only data we already have";
-  else if (!amount) return { ask: `It costs ${raw}. Would you spend that on it?`, phrase: raw };
-  return { ask: `Would you spend about $0 on it? It needs no money, ${what ? "only " + what.replace(/^only /, "") : "only time"}.`, phrase: `about $0 (${what || "time only"})` };
-}
-
-// The plain sentence: map/plain-questions.jsonl first; otherwise the direction's own question.
-function plainTest(d, plain) {
-  if (plain?.test) return plain.test;
-  return d.raw.question || d.title;
-}
-function hitMeans(d, plain) {
-  if (plain?.hit) return plain.hit;
-  const m = String(d.raw.human_prompt || "").match(/\(here, a hit means (.*?)\)\??\s*$/i);
-  return m ? m[1].charAt(0).toUpperCase() + m[1].slice(1) + "." : null;
-}
-
 // ---------- choosing the cards ----------
-function choose(programs, plainRows, answered) {
-  const plainBy = new Map(plainRows.map((r) => [`${r.program}|${r.direction}`, r]));
-  return nextToAsk(programs, answered, MAX).map(({ p, d, place }) => {
-    const key = `${p.id}|${d.id}`, plain = plainBy.get(key);
-    return { key, program: p.id, programTitle: p.title, id: d.id, place, test: plainTest(d, plain), hit: hitMeans(d, plain),
-      spend: spend(d.cost), event: d.raw.odds_event || null };
-  });
+function choose(rows, answered, betOn) {
+  return rows.filter((r) => r.program && r.direction && !answered.has(`${r.program}|${r.direction}`) && !betOn.has(`${r.program}|${r.direction}`))
+    .slice(0, MAX)
+    .map((r) => ({ key: `${r.program}|${r.direction}`, program: r.program, programTitle: r.program_title || r.program, id: r.direction,
+      layer: r.layer || "", test: r.question, hit: r.hit_means || null, ours: r.our_results || null,
+      spend: { ask: r.spend_ask || "Its cost is not estimated yet. Would you run it anyway?", phrase: r.spend_asked || null }, event: r.event || null }));
 }
 
 // ---------- drawing ----------
@@ -81,8 +49,9 @@ function cardHTML(c, i) {
   const a = local.answers[c.key] || {};
   const prog = c.programTitle.replace(/^Program\s*(\d+):\s*/i, "Program $1 · ");
   return `<article class="qcard${a.spend != null || a.hit != null || a.odds != null ? " answered" : ""}" data-key="${esc(c.key)}">
-    <div class="q-top"><span class="q-n">${i + 1}</span><span>${esc(prog)}</span><span class="muted">· ${c.place === 1 ? "next" : `number ${c.place}`} on its map</span></div>
+    <div class="q-top"><span class="q-n">${i + 1}</span><span>${esc(prog)}</span><span class="muted">· ${/^remap/.test(c.layer) ? "a follow-up from its remap" : "next on its map"}</span></div>
     <h3 class="q-test">${esc(c.test)}</h3>
+    ${c.ours ? `<p class="q-ours"><b>What our own results say so far:</b> ${esc(c.ours)}</p>` : ""}
     <div class="q-row"><p class="q-ask">${esc(c.spend.ask)}</p>${yesNo(c, "spend", a.spend)}</div>
     <div class="q-row"><p class="q-ask">Will it come back a hit?${c.hit ? `<span class="q-hit">A hit means: ${esc(c.hit)}</span>` : ""}</p>${yesNo(c, "hit", a.hit)}</div>
     <div class="q-row q-odds"><label for="o-${i}">Your odds it comes back a hit, if you want</label>
@@ -165,7 +134,7 @@ document.addEventListener("input", (e) => {
 
 // ---------- load ----------
 (async () => {
-  const [bets, maps, text, plain] = await Promise.all([loadBets(), loadMaps(), getText(DATA + "ledger/human-odds.jsonl"), getJSONL(DATA + "map/plain-questions.jsonl")]);
+  const [bets, text, rows] = await Promise.all([loadBets(), getText(DATA + "ledger/human-odds.jsonl"), getJSONL(DATA + "map/cockpit-cards.jsonl")]);
   committedText = text || "";
   const committed = committedText.split("\n").map((l) => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
   committedIds = new Set(committed.map((l) => l.id));
@@ -174,8 +143,8 @@ document.addEventListener("input", (e) => {
   const answered = new Set(committed.map((l) => `${l.program}|${l.direction}`));
   for (const k of Object.keys(local.answers)) if (answered.has(k)) delete local.answers[k];
   store();
-  const programs = joinBets(maps, bets);
-  cards = choose(programs, plain || [], answered);
+  const betOn = new Set(bets.filter((b) => b.program && b.direction).map((b) => `${b.program}|${b.direction}`));
+  cards = choose(rows || [], answered, betOn);
   el("cards").innerHTML = cards.length ? cards.map(cardHTML).join("")
     : `<div class="empty">Nothing on the maps is waiting for an answer right now.</div>`;
   if (answered.size) el("intro").insertAdjacentHTML("beforeend", ` <span class="muted">${answered.size} question${answered.size === 1 ? " you answered is" : "s you answered are"} already in the ledger, so ${answered.size === 1 ? "it is" : "they are"} not shown again.</span>`);

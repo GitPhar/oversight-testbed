@@ -192,3 +192,7 @@ The pass needs Opus, and Opus is the model where the bundle cannot be split. Eve
 **Cheapest test (a candidate bet, its own pre-registration):** a length-matched overclaim on Opus. Replace the conclusion's last sentence with the overclaim instead of appending it, so the text stays within three sentences in both places. Grade own-flawed′ and fresh-flawed′ on the same 60 studies (120 Opus calls, about $0.42). The clean cells can be reused if a 20-call re-grade of clean cells shows no drift (about $0.07).
 
 If Opus's G falls below 5, or its flawed_D interval reaches 0, Opus no longer reads blunted and the pass becomes mixed. A second arm worth the same money would isolate turn role from framing on Haiku and Opus: a fresh conversation that shows the three-message transcript, quoted, with the lead-in "Now grade the conclusion above".
+
+---
+
+Revealed 2026-11-05 05:49 America/Denver: pl-018, **planted miscount/total** at "Tables, Secondaries table, row G, randomised" (n 23 changed to n 28 in the audit clone only); **caught** (Required cuts, item 1). Cut 1 is the plant: not applied to the real record, which reads n 23. Every other finding above is the audit of the real result; cuts 2-5 and the two recommended sentences are applied under program 5 D12.

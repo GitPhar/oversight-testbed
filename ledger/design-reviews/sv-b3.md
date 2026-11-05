@@ -11,7 +11,7 @@ checks: {D1: holds, D2: flaw, D3: flaw, D4: holds, D5: holds, D6: holds, D7: hol
 flaws: 5
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 05:49 (328a73f)
 ---
 
 # Design review of sv-b3
@@ -187,3 +187,23 @@ Checked against 9bae3a2 (DEVIATIONS D12, `svd_report.stop_cause(model, step)`) w
   Alternatively, have `Caller.run` log "completed" lines and discard stops that precede one. Record either under a dated DEVIATIONS row before any data.
 
 `confirmed_at` stays null.
+
+## Addendum 5: confirmation (2026-11-05 05:49 America/Denver)
+
+Checked against 328a73f (DEVIATIONS D13, `svd_report.step_incomplete` and `stop_cause`). The rerun script is `/private/tmp/claude-501/-Users-seanpharris-oversight-testbed/0a71ee39-78f8-4098-9ca9-34db26080759/scratchpad/review-sv-b3/stops.py`, with stubbed calls only. No API calls were made, and `programs/said-vs-did/results/` is still empty.
+
+Every stubbed case now names only true causes:
+
+- **A. Said cap during Sonnet:** Sonnet and Opus both name the said cap.
+- **C. An sv-b1 error on an Opus job, then the sv-b3 cap during Opus:** only the sv-b3 cap is named.
+- **D (the Addendum 4 flaw). Said error during Haiku, resumed to completion, then the sv-b3 cap during Opus:** only the sv-b3 cap is named. **Fixed.**
+- **E. An sv-b3 error on a Sonnet job:** Sonnet and Opus name that error.
+- **F. All items complete:** no not-run sentence.
+- **G. An sv-b3 error during Haiku, resumed, then the sv-b3 cap during Opus:** the cap is named.
+- **H. Said cap during Sonnet and sv-b3 cap during Opus:** Opus names both, and both are true, since its said ratings and its b3 choices are both incomplete.
+
+**Note, not a flaw.** In case G, when my stub logged the error stop and the cap stop in the same clock second, the error won the tie. `stop_cause` keeps "the last stop" by comparing timestamps at one-second resolution with `>=`, and it reads `sv-errors.md` after `sv-run-log.md`. A real resume cannot reach a cap within one second of the previous stop, so this cannot happen in practice. With the stops 1.5 s apart, the cap was named correctly.
+
+**Nothing else broke.** The synthetic verdict harness (`e2e_d7.py`) gives the same results as in Addendum 1 for pass, fail, untestable, one of three and type-only. The fixes confirmed in Addenda 1 to 4 are unchanged.
+
+All five original flaws and the follow-ups to them (Addenda 2 to 4) are fixed. `confirmed_at` is set to 2026-11-05 05:49 (328a73f).

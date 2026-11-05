@@ -1,0 +1,16 @@
+{
+ "bet": "ta-b1r2",
+ "chain": "CURBy-RNG",
+ "pulse_index": 1592245,
+ "pulse_time": "2026-11-05 06:01:00 America/Denver",
+ "pulse_utc": "2026-11-05T13:01:00.177Z",
+ "previous_pulse": 1592244,
+ "previous_pulse_time": "2026-11-05 06:00:00 America/Denver",
+ "randomness": "cbcdab880011cfee3da82c15e9ffdcaad79027054856a1a93491458eae447b0e57f348507a72cd7a04e8163e2ea1ae5105f6c8433475f179e3da409d388777be",
+ "client": "@buff-beacon-project/curby-client@1.2.0",
+ "certificate_verified": false,
+ "seed": 13124791812179855702,
+ "items": 5334537968512012800,
+ "order": 6918697602725183561,
+ "boot": 1142758060700319074
+}

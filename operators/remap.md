@@ -1,6 +1,6 @@
 # Remap — standing instructions
 
-The remap runs after a program's results settle. A fresh session reads every settled result in the program and turns each one into map entries: for every bet that **landed or came back mixed**, the next two cheapest follow-up directions, each with engine odds stated before any data, a cost, and a one-sentence cockpit question; for every bet that was **killed**, one sentence saying what it rules out. It is step 6a of the loop (CONTEXT.md §6; ARCHITECTURE.md, step 7a).
+The remap runs after a program's results settle. A fresh session reads every settled result in the program and turns each one into map entries: for every bet that **landed or came back mixed**, a fresh read of the adjacent literature around that result (Step 1b), then the next two cheapest follow-up directions, each with engine odds stated before any data, a cost, and a one-sentence cockpit question; for every bet that was **killed**, one sentence saying what it rules out. It is step 6a of the loop (CONTEXT.md §6; ARCHITECTURE.md, step 7a).
 
 **The rule: no map may end at a landed bet with no follow-up.** A landed or mixed node whose children are all settled, or who has none, is a broken map. `python3 ledger/check_remap.py` finds every such node; the morning operator runs it every day (TASKS.md, standing rules).
 
@@ -10,7 +10,7 @@ The remap runs after a program's results settle. A fresh session reads every set
 
 ## In plain English
 
-When a test works, or half works, the obvious next questions are: does it hold on the other models, and what is the cheapest test that could still knock it down? When a test fails, the useful thing to keep is what it has now ruled out, said in one sentence so nobody runs it again by accident. The remap writes both down for every finished result, puts the price and the engine's odds next to each new direction, and puts a plain question on the cockpit for Sean: would you spend about this much on it, and will it come back a hit?
+When a test works, or half works, the first job is to read again: a result makes different papers matter than the question did, and someone may already have shown it, or named the rival explanation our test left open. The remap reads around each result and writes down what that changes before it writes anything new. Then the obvious next questions are: does it hold on the other models, and what is the cheapest test that could still knock it down? When a test fails, the useful thing to keep is what it has now ruled out, said in one sentence so nobody runs it again by accident. The remap writes both down for every finished result, puts the price and the engine's odds next to each new direction, and puts a plain question on the cockpit for Sean: would you spend about this much on it, and will it come back a hit?
 
 ## When it runs
 
@@ -44,6 +44,17 @@ cd /Users/seanpharris/oversight-testbed && claude --model opus "Read operators/r
 | `untestable`, `withdrawn` | neither | one sentence: what it rules out (often "nothing about X; it shows Y"), and whether a re-bet exists |
 
 The class comes from the ledger's verdict, not from the remap's reading of the result. A killed bet that turned up an unexpected or reversed effect stays killed. The remap may add one **lead** for it (`kind: "lead"`, labelled post hoc) when its audit names a cheap test of that effect. A lead is optional, and it never counts as a required follow-up. This keeps the engine from grading its own failures into successes (CONTEXT.md §1, the first failure mode).
+
+## Step 1b — Re-scout around each landed or mixed bet, before writing its follow-ups
+
+A result changes which papers matter. The scout read the literature around the *question*; the follow-ups must be written against the literature around the *result*. So, for every bet Step 1 classed **landed** or **mixed**, before any of its follow-ups is drafted:
+
+1. **Search again around the result** (operators/scout.md, Steps 1 and 2: full reads, abstract-only marked, recent preprints checked directly, never from a summary). Start from the result's own terms (what moved, on which models, under which design), its rival explanation, and the audit's "what would break it next"; search across fields, not only the one the scout began in. At least three new full reads per bet, or a sentence saying why fewer exist. Papers already in the program's reads are re-read only for the part the result now touches.
+2. **Record what it changes**, in `programs/<name>/map/reads/remap-<date>-<bet-id>.md` (one file per bet, its own file: parallel readers never write to one shared file): the papers read, and for each, one line under one of these heads: **already shown** (someone has found this; the follow-up must add something or be dropped), **rival named** (an explanation our design did not exclude; the cheapest test that excludes it is a follow-up candidate), **design to borrow** (a control, measure or item set that makes a follow-up cheaper or sharper), **changes nothing** (say why). End with a "What the re-scout changes" paragraph of at most 100 words: which candidate follow-ups it adds, drops, or re-prices, and whether it moves the odds the engine is about to state.
+3. **Then write the follow-ups** (Step 2), citing the re-scout file in each follow-up's `source` and `known` where it bears. The engine's odds (Step 2) are stated after the re-scout and say in `odds_rationale` what it changed, or "re-scout changed nothing".
+4. The program's map markdown gets the re-scout's "What the re-scout changes" paragraphs, one per bet, at the top of its "Follow-ups (remap <date>)" section (Step 5).
+
+The re-scout reads; it never runs, calls a model API or loads a local model. A killed bet gets no re-scout (its rules-out sentence is enough), unless the remap adds a lead for it.
 
 ## Step 2 — Two follow-ups for each landed or mixed bet
 
@@ -87,14 +98,16 @@ Each follow-up's `human_prompt` is one plain-English question at about a bachelo
 
 > Would you spend about <cost> to find out <what, in words a stranger understands>? Will it come back a hit (here, a hit means <the pass rule, in plain words>)?
 
-No symbols, thresholds or terms of art; the cost in the unit that is scarce for that program. Copy it verbatim into the direction's node in `map/<program>.json`, which the cockpit reads (`site/assets/data.js`), and list it, shuffled and without engine odds, in that remap's odds form (`map/remap-<date>-odds-form.md`). The cockpit hides the engine's odds on an open card until Sean has given his own; never print them in the report.
+No symbols, thresholds or terms of art; the cost in the unit that is scarce for that program. Copy it verbatim into the direction's node in `map/<program>.json`, and list it, shuffled and without engine odds, in that remap's odds form (`map/remap-<date>-odds-form.md`). Never print the engine's odds in the report.
+
+**Cards before pre-registrations (the ordering rule, CONTEXT.md §3 rule 11).** In the same commit as the map nodes, add each program's two cheapest new follow-ups to `map/cockpit-cards.jsonl`, the file the cockpit (`site/cockpit.html`) reads, one line each in that file's format: `question` (one plain sentence at a bachelor's reading level), `spend_ask` and `spend_asked`, `hit_means`, `our_results` (one plain sentence from the program's settled results that bear on it, with the bet ids in `our_results_from`; "nothing settled yet" if none), `event`, and **no engine odds**. The cockpit holds at most 20 cards: if adding these would pass 20, drop the cards whose directions already have a bet first, then the oldest. A follow-up's card is live before any session can pre-register it, so Sean's odds can attach.
 
 ## Step 5 — Write and check
 
 1. Each program's map markdown gets a section **"Follow-ups (remap <date>)"**: plain English first (what landed, what each follow-up would show, what each kill rules out), then one table of follow-ups with odds and cost, then the rules-out table. A program whose map lives elsewhere (program 1: `paper/gold-map.md`) gets `map/<program>.md`.
 2. Add the nodes to `map/<program>.json`, and to the program's own JSON if it has one (`programs/nature-graded/map/program-3-map.json`, `programs/settled-science/map/settled-science.json`). A program with no `map/<program>.json` gets one, so its cards reach the cockpit.
 3. Run `python3 ledger/check_remap.py`. It must print `OK: no map ends at a landed bet`. A line it reports is fixed by a follow-up, or by `closed_line` (below), before the commit.
-4. Commit each program's map changes in their own commit, with `git commit -m "…" -- <paths>` (CONTEXT.md §2), then the odds form.
+4. Commit each bet's re-scout file first, then each program's map changes and its cockpit cards in their own commit, with `git commit -m "…" -- <paths>` (CONTEXT.md §2), then the odds form.
 
 `closed_line` is allowed only when a standing rule forbids every follow-up (for example rule 6: the quantum error-prediction encoding is never revived) or the program is closed. It is a dated sentence naming the rule. "Nothing cheap enough" is not a reason; a parked follow-up with its cost is.
 
@@ -109,3 +122,5 @@ Plain English: for each program, what landed and the two cheapest follow-ups wit
 - Re-open a killed or vetoed direction without the reason scout.md requires.
 - Show the engine's odds to the human before his are recorded.
 - Leave a landed or mixed bet as a leaf.
+- Write a landed or mixed bet's follow-ups before its re-scout file is committed (Step 1b).
+- Leave a new follow-up off the cockpit (Step 4).

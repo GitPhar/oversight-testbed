@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: flaw, D4: holds, D5: holds, D6: holds, D7: ho
 flaws: 4
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: 2026-11-05 05:48 (9bae3a2)
+confirmed_at: 2026-11-05 05:49 (328a73f)
 ---
 
 # Design review of sv-b1
@@ -246,3 +246,15 @@ One test-only note: when two logged stops in the same step carry the identical t
 **Nothing else broke.** `analyse()`, the gate, the not-run rule, the one-item ids, the resume limit, the review gate, the caps and the dry run are unchanged since my earlier addenda. The D7 dry run reproduced exactly at cbce911, and `svd_wave1.py` has not changed since.
 
 All four flaws and N1 are fixed. `confirmed_at` is set to 2026-11-05 05:48 (9bae3a2). The verdict stays fix-first, now confirmed.
+
+## Addendum 4: D13 (2026-11-05 05:49 America/Denver)
+
+Checked against **328a73f** (DEVIATIONS D13). Since 9bae3a2, the only code change is `svd_report.step_incomplete`, used by `stop_cause`. At 328a73f and in the working tree, `svd_wave1.py`, `svd_common.py`, `svd_stats.py` and `svd_report.py` are identical. No paid call.
+
+I re-ran all my stubbed cases, A to F, E' and the stubbed `run("said")` and `run("b1")` with a $1.00 cap. Every not-run sentence still names the same true cause as in Addendum 3. (Case E, which uses identical timestamps, still shows the known test-only artifact.)
+
+Two new cases:
+- **G, an Opus error not yet resumed:** the Opus sentence names that error.
+- **H, a said stop during Sonnet that was later resumed to completion, followed by the b1 cap during Opus:** the Opus sentence names only the b1 cap. Its said items are complete, so the said stop is no longer named. That is what D13 intends.
+
+D13 breaks nothing. `confirmed_at` is updated to 2026-11-05 05:49 (328a73f).
