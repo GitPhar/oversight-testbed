@@ -43,7 +43,7 @@ EST = {(O, "qonly"): 0.0015, (O, "shown"): 0.00112, (S, "qonly"): 0.000585, (S, 
 MARGIN = 1.10                                           # remaining-cost projection before every round
 N_PERM, N_BOOT = q1.N_PERM, q1.N_BOOT
 ALPHA, BAR, TOL, USABLE_MIN, WT_FAR = q1.ALPHA, q1.BAR, q1.TOL, q1.USABLE_MIN, q1.WT_FAR
-SEED_RECORDED = None                                    # filled in by the seed commit; --analyse asserts it
+SEED_RECORDED = 8982550231960562870                     # beacon seed (CURBy-RNG 1592505, seed commit); --analyse asserts it
 RATING = q1.RATING
 
 HERE = Path(__file__).resolve().parent
