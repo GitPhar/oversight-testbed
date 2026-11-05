@@ -1,0 +1,1 @@
+../../programs/entangled-mind/audits/mm-gm2-self-conditioning.md

@@ -27,7 +27,7 @@ map="${MAP_DIR:-$root/map}"
 mkdir -p "$out/data/ledger" "$out/data/map" "$out/data/engine" "$out/data/programs/entangled-mind/paper"
 cp -R "$root/site/." "$out/"
 rm -f "$out/assemble.sh"
-[ -d "$ledger" ] && cp -R "$ledger/." "$out/data/ledger/"
+[ -d "$ledger" ] && cp -RL "$ledger/." "$out/data/ledger/"   # -L: ledger/audits/em-*.md are links into programs/entangled-mind/audits/
 [ -d "$map" ] && cp -R "$map/." "$out/data/map/"
 cp "$root/README.md" "$root/proposal.md" "$root/CONTEXT.md" "$out/data/engine/"
 [ -d "$em/paper" ] && cp -R "$em/paper/." "$out/data/programs/entangled-mind/paper/"
