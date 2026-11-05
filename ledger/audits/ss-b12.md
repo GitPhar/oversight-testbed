@@ -218,3 +218,6 @@ The cheapest test that could overturn the null is a larger, older draw, with $0 
 - Total about $1.05. That needs its own budget ruling, because program 4 has $0.50 left.
 
 Pre-register the same rule with the 2024 window as one named secondary. At about 85 older items against 89 newer, 80% power is near 0.03 in Brier, which reaches the round-1-sized advantage this bet could not see. The leakage-selection rival is separate. Re-running the leakage check with a non-Claude checker on the 61 dropped older items costs about $0.20, and it would show whether Sonnet's drops track recognition. That would need its own pre-registration.
+
+
+Revealed 2026-11-05: pl-027, clean; nothing to set aside. Note from the planter: the clone was built at the then-HEAD 813b2c5 (one ledger-only commit, em-gm2q, after the results commit 1efe6c5) and in a directory whose name carries the hash, because the planter's shell loop did not split its arguments; the seal records the true clone head.

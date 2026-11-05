@@ -1,14 +1,14 @@
 # ss-b12 results: is the bettor's advantage on older papers recall?
 
-Pre-registration `0e81ddc` (`experiments/ss-b12.md`, D53); seed `9e6ee65` (CURBy-RNG pulse 1592290). Design review `ledger/design-reviews/ss-b12.md`: fix-first (bd0e782), fixes D57 and D58, confirmed 07:08 (7aecdf4, author time 07:08:36). The arXiv fetch started at 07:09:17. The leakage check and the bettor ran between 07:10 and 07:12 on 2026-11-05. The newer side is ss-b5's archived run of 2026-11-04. Both sides used claude-opus-5-5 with adaptive thinking at effort low; the leakage checker was claude-sonnet-5-5 with thinking off. Budget ruling br-005. **Unaudited.**
+Pre-registration `0e81ddc` (`experiments/ss-b12.md`, D53); seed `9e6ee65` (CURBy-RNG pulse 1592290). Design review `ledger/design-reviews/ss-b12.md`: fix-first (bd0e782), fixes D57 and D58, confirmed 07:08 (7aecdf4, author time 07:08:36). The arXiv fetch started at 07:09:17. The leakage check and the bettor ran between 07:10 and 07:12 on 2026-11-05. The newer side is ss-b5's archived run of 2026-11-04. Both sides used claude-opus-5-5 with adaptive thinking at effort low; the leakage checker was claude-sonnet-5-5 with thinking off. Budget ruling br-005. **Audited** (`ledger/audits/ss-b12.md`, 43dbe08): the null stands; its four required cuts are applied here (DEVIATIONS D60). The audit also notes that f4-021 (arXiv 2607.22653) was first public in late July 2026; dropping it leaves the null (−0.008 [−0.045, 0.033]).
 
 ## In plain English
 
 In round 1 the model did better on research posted before its training cutoff than after (ss-b3), but a Claude model had chosen those findings, so the older ones might simply have been easier. Here both sides were built the same way, with no model choosing anything: the same four arXiv searches, the same one-word-swap template, the same leakage check, the same bettor. We then dropped any older paper whose explanation showed signs of recognising the study ("I recall…", a citation such as "et al." or a year), using a word rule fixed before any answer was seen.
 
-**On the 40 older papers it showed no sign of recognising, the model was not shown to do better than on 89 newer ones**: Brier 0.063 against 0.071 (lower is better), a difference of −0.008 with a 95% interval of −0.044 to +0.031. A permutation test agrees (p = 0.35). So, on these template items, **there is no advantage on older papers beyond recall.** But this test is small: an advantage below about 0.05 in Brier could not reliably have been seen, and both sides are already about 93% right.
+**On the 40 older papers it showed no sign of recognising, the model was not shown to do better than on 89 newer ones**: Brier 0.063 against 0.071 (lower is better), a difference of −0.008 with a 95% interval of −0.044 to +0.031. A permutation test agrees (p = 0.35). So, on these template items, **this test found no advantage on older papers beyond recall**; it cannot rule one out. But this test is small: an advantage below about 0.05 in Brier could not reliably have been seen, and both sides are already about 93% right.
 
-It does not show that round 1's gap was memory. The item format differs from round 1's, and only 3 of the 43 older rationales were flagged as recognising (2024 and 2025 papers, two naming the paper's authors). One more caveat the design names: the older items are the latest 100 papers of each search window, and a Claude leakage checker dropped more of them (61 of 104) than of round 2's newer candidates (146 of 243).
+It does not show that round 1's gap was memory. The item format differs from round 1's, and only 3 of the 43 older rationales were flagged as recognising (two 2024 papers and one 2025 paper: one names the paper's first author, one calls it "the OpenAI confessions paper", and one names an author, Balagansky, who is not on the paper). One more caveat the design names: the older items are the latest 100 papers of each search window, and a Claude leakage checker that may know the older papers dropped 61 of 104 of them (59%), close to its 146 of 243 (60%) on round 2's newer candidates.
 
 The engine gave this 20%; Sean gave it 100%.
 
@@ -72,7 +72,7 @@ The window rows are descriptive. The 2024 row (11 items, Brier 0.022) is the onl
 
 ## What it cannot do
 
-- **Silent memory.** The word rule catches only recall the model mentions. One older rationale names "the OpenAI confessions paper" without a citation. A model can remember without saying so.
+- **Silent memory.** The word rule catches only recall the model mentions. One older rationale (f4-015) names "the OpenAI confessions paper" without a citation; the rule flagged it only through "As I recall". A model can remember without saying so.
 - **Power.** About 40 against 89 items, both near the ceiling (93% right). An advantage under about 0.05 in Brier would usually be missed.
 - **The two sides differ in more than date** (D57): the window sampling (the latest 100 papers per window, against up to 600 over four months), sampling before against after the leakage check, the checker possibly knowing the older papers, and the run dates (2026-11-05 against 2026-11-04). The up-word share is the same (0.77 on both sides).
 - **One model, one item format.** It says nothing about round 1's Claude-written items.
