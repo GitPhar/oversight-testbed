@@ -56,3 +56,13 @@ ss-b6's audit named the rival its prompt left untested: the bettor may pick whic
 | ss-b7 | On at least 60 items, leg 1's upper bound is below 0, and leg 2's upper bound is below the null-world margin m*, where m* is set from this rater's own retest noise. | **40** |
 
 Rationale (under 100 words): the flattery rater matched 90% of round 2. A "striking" rater is probably a weaker match: striking can mean surprising, and surprising findings can run against the paper's own claim. That makes the bettor more likely to beat it on leg 1. But the margin is stricter than ss-b6's rule, and ss-b6 itself would have failed it (upper −0.0018 against a margin of about −0.003). These pull in opposite directions, so I set it near the running base rate.
+
+## Parked: the "headline-acceptance" rater (written 2026-11-04 22:36 America/Denver; not pre-registered; budget ruling br-002)
+
+The ss-b7 audit's next test asks a rater which version "a reviewer would be more likely to accept as the paper's headline result". That is publishability in the ss-b6 audit's sense, not ss-b7's "notable or surprising". The method is ss-b7's, unchanged: the same 92 items, a 46-pair retest, both legs beyond the rater's call-to-call noise margin. The audit's other free note is pre-registered with it: leg 2 on the 71 up-word items is reported against its own subset margin. Cost: about $0.68, against $0.24 left. **Parked**: the engine did not raise the $5 cap (br-002), because this rater would sit close to ss-b6's flattery rater.
+
+| id | event the odds are for | engine P(pass) | status |
+|---|---|---|---|
+| ss-b8 | The bettor beats the headline-acceptance rater on leg 1 and beyond the noise margin on leg 2, on at least 60 items. | **35** | parked (br-002) |
+
+Rationale (under 100 words): a headline-acceptance judgment is close to "better news for the paper's method", and the flattery rater reached 90% against the bettor's 93%, with a fragile edge. So this rater will probably also come close, and the margin makes a narrow edge fail. It is not certain, though: the bettor beat flattery on 4 of 5 opposite-side items, and "acceptable as headline" may track the published sentence less well than flattery does. The audit put P(overturn) at about 0.3, and this is the same view.

@@ -96,6 +96,19 @@
    "source": "engine",
    "cost": "about $0.68 (92 ratings + 46 retest)",
    "referee": "published-record"
+  },
+  {
+   "id": "ss-b8",
+   "title": "Parked: the bettor beats a 'headline-acceptance' (publishability) rater beyond its call-to-call noise margin",
+   "parent": "ss-b7",
+   "status": "parked",
+   "engine_odds": 0.35,
+   "engine_odds_at": "2026-11-04 22:36 America/Denver",
+   "odds_template": "item-writer, one pass (D1)",
+   "source": "engine",
+   "cost": "about $0.68 (needs a budget decision; br-002 declined)",
+   "referee": "published-record",
+   "diagnosis": null
   }
  ]
 }
