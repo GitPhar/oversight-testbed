@@ -125,3 +125,60 @@ Each needs a dated DEVIATIONS row (D40 onward) written before any striking-rater
 - Report "leg 2 without the near-50 term" against its own margin, with the same null world built without that term. This is the specification check the ss-b6 audit said its review missed.
 - 100 null simulations put the realised false-pass rate somewhere around 5–16% (world A gave 2/44). 200 simulations would halve that spread for about 10 s more per run.
 - Write a UTC timestamp into each cache entry (ss-b6 audit A1), so the audit can confirm the calls followed the confirmation of these fixes.
+
+---
+
+## Addendum 1: checking the fixes at 274e637 (D40–D45)
+
+Written 2026-11-04 by the same reviewer, before any striking-rater call. I read `programs/settled-science/{DEVIATIONS.md, scoring/score.py, bettor/valence.py}` at 274e637 from the main repo (`git archive 274e637` into the scratchpad `review-ss-b7/fix/`) and reran on that copy. As before: no paid calls, and the API modules were stubbed. Scripts: `scripts/d11_fix.py` (the D11 worlds, plus down-word and inverted-bettor raters, with `seed_check=False`; the seed check adds a qualifier and never changes the label) and `scripts/fixcheck.py` (edge cases, and a full run with the seed check on ss-b6's real valence data).
+
+**Verdict: still fix-first, with one item left (R1).** Each of F1–F6 is done as required. Running F3's new seed check on the motivating data exposed a gap in the verdict sentence. The fix for it is small.
+
+### Each fix
+
+- **F1 (D40): confirmed.** `score_b6(..., gate_g1=False)` is what `score_b7` calls. None of the 44 × 9 simulated runs below was untestable, including raters that favour the down word on 55% and 80% of items and the bettor's own ratings inverted. **Is "pass" right for the down-word raters?** Yes. `down55`/`down80` (D44) and my G worlds put 70 on whichever word a random draw picks. They carry no information beyond the up word, so after recalibration they reduce to the up-word rule, which the bettor beats (leg 2 upper ≈ −0.08). `inverted` is valence50 mirrored. Leg 2's logistic flips it back, so it gets exactly valence50's leg 2 (upper −0.0017) and its label, "pass, fragile". Leg 1 passes trivially for both, as it should for a rater whose scale runs the other way. A rater that knows what the bettor knows but reports it reversed (world H) comes out null 86% of the time, as the design's null world should. Its 6 of 44 passes are within Monte Carlo noise of world A's 2 of 44.
+- **F2 (D41): confirmed.**
+  - A missing retest gives untestable with the D41 sentence, and so does a 29-pair retest. A 30-pair retest is scored.
+  - A missing ratings file gives "Too few ratings were returned to test it (0 of 92)", with no crash.
+  - §3's fallback is struck. The scope sentence (`scope`) and `verdict_reported` are generated.
+  - The engine's ruling on the $0.22 is recorded in D41: approved by oversight-testbed-1b at about 21:08 under st-16. I can see that only as D41's statement. Nothing in `steers.jsonl` or the bet row carries it.
+- **F3 (D42): confirmed as specified.**
+  1. m* is recomputed for every leave-one-out and leave-one-bucket-out subset from the stored null d₂ vectors, with no refit.
+  2. The 20-seed check runs.
+  3. More than 5 item flips gives the count sentence.
+
+  On ss-b6's data, the null now reads "…this label sits at the margin: 43 of 92 single-item removals would make it pass", with `label_reported` "null, at the margin (16 of 20 seeds give pass), fragile". Full run: 273 s.
+- **F4 (D43): confirmed.** The sentences say "the rater's call-to-call noise margin". σ_dis and the world-B rate are computed: on ss-b6's data σ_dis 0.884, world-B rate 0.47, matching my world B (0.45). A pass gets the world-B clause. `world_b_rate` holds m* at its observed value rather than re-estimating it in each draw. With σ_rt fixed at its measured value that is acceptable.
+- **F5 (D44): confirmed.** Both sentences carry "(shown only the field and the two sentences, not the question or methods)".
+- **F6 (D44): confirmed.** The synthetic retest draws fresh noise on the clean value: copy+0.274 measures σ̂ 0.251, and copy+0.6 measures 0.604. §4's m* is corrected to −0.0026, and the cited rate is this review's 0.05. D45 (`t_utc` on each cache entry) is in `valence.py`.
+
+### D11 again, on the fixed code (44 draws per world)
+
+| world | P(pass) | untestable | median world-B rate reported |
+|---|---|---|---|
+| A: design's null, call noise only | 0.05 | 0 | 0.05 |
+| B: ss-b6 audit's null, stable item noise | 0.45 | 0 | 0.47 |
+| C: up word only | 1.00 | 0 | 0.98 |
+| D: half the bettor's signal | 0.66 | 0 | 0.56 |
+| E: like ss-b6's flattery rater | 0.45 | 0 | 0.51 |
+| F: same knowledge, less confident | 0.14 | 0 | 0.45 |
+| G55: 70 on the down word on 55% of items, else up (G1 share 0.47) | 1.00 | 0 | 0.98 |
+| G80: the same on 80% of items (G1 share 0.21) | 1.00 | 0 | 0.98 |
+| H: the bettor's own signal reversed, call noise (G1 share 0.21) | 0.14 | 0 | 1.00 |
+
+**D11 holds.** In the hypothesis-false worlds (A, and H, its mirror), P(fail) is 0.95 and 0.86. In the hypothesis-true worlds (C, D, and the down-word raters), P(pass) is 0.66–1.00.
+
+### What remains
+
+- **R1 (D8, created by F3's seed check): the verdict sentence must carry the seed split.**
+  - **The problem.** On ss-b6's own data the frozen seed gives null, while **16 of 20 other seeds give pass**. That split appears only in `label_reported`. The plain-English `sentence`, which P9 says is the only wording used afterwards, says "not shown to pick … better" with no word of it.
+  - **The fix.** When `seeds_other > 0`, append to the sentence: *"; this label sits at the margin: under 20 other bootstrap and null-simulation seeds, x gave <other>"*. Put it before the fragile clause. Name it in a DEVIATIONS row before any call.
+  - **Also needed.** When more than 5 items flip, the count sentence drops the bucket flips. Keep them, for example "…would make it <other>, and so would dropping the query bucket(s) …".
+  - **What does not change.** The rule, the seed and the bar.
+
+  Once that row and the code change are committed, the run may start. The engine session can check this by rerunning `scripts/fixcheck.py`: the full run's sentence must then name the seed split and the scalable-oversight bucket. It does not need another full review.
+
+### Notes (not required)
+
+- `verdict_reported` repeats itself ("null (null, at the margin …)"). Tidy it in the same change.
+- The seed split shows that, near the edge, the verdict at the frozen seed is close to a Monte Carlo coin. Increasing `N_NULL` to 400 and `NULL_BOOT` to 10,000 would cut that noise without moving the bar. It costs roughly 4–5× the scoring time (the seed check is the expensive part). This is the author's call, decided before data.
