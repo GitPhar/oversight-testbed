@@ -8,12 +8,18 @@ The diagram, as built on 2026-11-04: [`paper/figures-architecture-v2.svg`](paper
 
 ```
 Program      = { question, repo, seed_date, status: open|closed, map: [Direction], ledger: [Bet], kills: [Kill] }
-Direction    = { id, assumption_at_stake, prior_work: [Read], what_our_data_say, cheapest_test, cost, weight }
+Direction    = { id, assumption_at_stake, prior_work: [Read],
+                 prior_work_line: "what published work predicts for this exact test, with citations | no prior statement found after <search>",   # rule 13
+                 prior_work_predicts: pass|fail|mixed|unknown, what_our_data_say, cheapest_test, cost, weight,
+                 novelty: known|partly_new|new, novelty_line }                            # on a landed or mixed node; the site shows it
 Bet          = { direction, pass_rule, statistic, budget, engine_odds, human_odds, prereg_commit,
+                 prior_work: "the §0 row: what the literature predicts for this pass rule, and what this bet adds",   # rule 13; design review D12
                  premortem: "If this fails, the most likely reason is …", premortem_kind: world|design|execution|artefact,
                  premortem_score: named|kind_only|other|not_failed|unclear,              # operators/premortem.md
-                 result, audit, verdict: pass|classical|tie|null|untestable, scored: bool }
-Read         = { paper, read_depth: full|abstract, what_tested, on_whom, result, limits, borrow, next_steps_it_suggests }
+                 result, novelty: known|partly_new|new, novelty_line, novelty_by,        # rule 13; a fresh session, before the write-up is final; audit F27
+                 audit, verdict: pass|classical|tie|null|untestable, scored: bool }
+Read         = { paper, read_depth: full|abstract, what_tested, on_whom, result, limits, borrow, next_steps_it_suggests,
+                 predicts_for_us: [(direction, pass|fail|no bearing)] }                  # rule 13: the outcome, not the topic; searches recorded
 Kill         = { direction, diagnosis, evidence, date }        # nothing disappears
 Steer        = { date, human, action: choose_seed|veto|add_question|architecture|budget|override_audit, reason, outcome_later, shadow_id? }   # the human's judgment, recorded and scored
 Shadow       = { steer, direction, engine_odds_at_veto, human_odds_at_veto, vetoed_budget, kind: archive_proxy|cheapest_version|none,
@@ -26,8 +32,8 @@ Ledger       = engine and human odds vs outcomes; Brier score per side; publishe
 Lesson       = { bet, patterns: [P-id], lesson (one sentence, also in the prereg's §0), design_change,
                  odds_before_lesson, odds_after_lesson, read: {resolved, brier, base_rate, newest_audit}, recurred }  # operators/learn.md; ledger/lessons.jsonl
 Pattern      = { id: P<n>, class, evidence from past misses and audit cuts, do_this, cited_by }                  # ledger/lessons.jsonl
-DesignReview = { bet, fresh reviewer, checks D1–D10 on a dry run (no paid calls), verdict: go|fix-first|redesign,
-                 missed (filled by the post-result audit) }                                                         # operators/design-review.md
+DesignReview = { bet, fresh reviewer, checks D1–D12 on a dry run (no paid calls; D12 = is the predicted outcome already in print, and what does the bet add),
+                 verdict: go|fix-first|redesign, missed (filled by the post-result audit) }                          # operators/design-review.md
 Beacon       = { chain: CURBY-Q (Bell-certified, if live <24 h) | CURBy-RNG (if CURBY-Q stalled; stalled since 2025-08-22), round, pulse_time > prereg_commit, randomness,
                  seed = sha256(randomness ‖ bet_id)[:8] }                        # operators/hardware.md; ledger/seed.py
 Tiebreak     = Bet{ bet_type: tiebreak, event: chip agrees with simulator within tolerance, sim_prediction committed first,
@@ -39,15 +45,18 @@ Tiebreak     = Bet{ bet_type: tiebreak, event: chip agrees with simulator within
 ```
 loop(program):
     # 1. SCOUT — all fields, full reads, filtered by cost and falsifiability
-    reads = scout(program.question, fields = ALL, depth = full)
+    reads = scout(program.question, fields = ALL, depth = full)    # every search written down: terms, where, date
     for r in reads: r.next_steps_it_suggests = extract(r)          # the filter is the point
     candidates = reads.next_steps ∪ program.map ∪ human.added_questions
+    reads += scout(mechanism_of(c.cheapest_test) for c in candidates)   # rule 13: search around the test, not only the question's words
+    for r in reads: r.predicts_for_us = outcome_predicted(r, candidates)  # the outcome for each draft pass rule, not the topic
 
     # 2. MAP — rank, with odds stated before any data
     for c in candidates:
         d = Direction(c)
         d.cheapest_test, d.cost = cheapest_falsifier(d)           # cents before dollars; archives before API; API before hardware
-        d.engine_odds = engine.P(real_result | d)                 # written down
+        d.prior_work_line = literature.predicts(d.cheapest_test, reads) or "no prior statement found after <search>"   # rule 13, with citations; what this bet adds
+        d.engine_odds = engine.P(real_result | d)                 # written down; a number far from the prior work's prediction says why
         d.human_odds  = first_line(ledger/human-odds.jsonl, d) or "no human odds"   # cockpit downloads only; never asked in a terminal
         d.weight      = f(surprise_potential, cost, odds, neighbourhood_heat)
     program.map = rank(candidates by weight)
@@ -59,10 +68,12 @@ loop(program):
     bet.lesson = one_sentence(pattern corrected, design change, odds before → after)            # in §0, committed with the prereg
     bet.engine_odds = bet.lesson.odds_after                                                        # a revision before data; both kept
     bet.premortem = one_sentence("If this fails, the most likely reason is")   # written before the run, never revised
-    bet.prereg_commit = commit(pass_rule, statistic, split, seed_rule = first pulse after this commit (CURBY-Q if live, else CURBy-RNG), budget, stop_rules, premortem)
+    bet.prior_work = update(bet.direction.prior_work_line) + what_this_bet_adds   # rule 13: §0 row; papers since the map was written
+    bet.prereg_commit = commit(pass_rule, statistic, split, seed_rule = first pulse after this commit (CURBY-Q if live, else CURBy-RNG), budget, stop_rules, premortem, prior_work)
     bet.seed = commit(seed(fetch(beacon, first_round_after(bet.prereg_commit)), bet.id))   # before any data; nobody chose it
     # 3b. DESIGN REVIEW (mandatory) — a fresh auditor dry-runs the design before the first call
-    review = design_review(bet, by = fresh_session, dry_run = True, paid_calls = 0, pilot ≤ $0.10 if execution risk)
+    review = design_review(bet, by = fresh_session, dry_run = True, paid_calls = 0, pilot ≤ $0.10 if execution risk)   # D1–D11 the design
+    review.D12 = opens(bet.prior_work.papers) and (predicted_outcome_in_print(bet) implies bet.says_what_it_adds)   # rule 13; one search of the reviewer's own
     if review.verdict == redesign: withdraw(bet); re-bet with a new lesson                        # counted, not scored
     if review.verdict == fix-first: fix under DEVIATIONS rows dated before data; reviewer confirms
     assert check_prereg(bet) passes                                                                # ledger/check_prereg.py
@@ -70,6 +81,12 @@ loop(program):
     # 4. RUN — budget in code; stop-on-refusal; one scale direction; caches so a crash never pays twice
     bet.result = run(bet)
     write_results(plain_english_first, then_tables)
+    # 4a. NOVELTY (rule 13) — a fresh session that did not run the bet searches the literature around the result
+    if class_of(bet.result) in {landed, mixed}:
+        bet.novelty, bet.novelty_line = fresh_session.search_then_verdict(bet.result) ∈ {known, partly_new, new}   # operators/prereg-template.md §10
+        append(results_file.plain_english, "Novelty: " + bet.novelty_line); ledger.row(bet).novelty = bet.novelty
+        assert "finding" not in results_file unless bet.novelty != known or the prior paper is named in the same sentence
+    # the write-up is not final, and not audited, until the Novelty line is in
 
     # 5. AUDIT — an independent session that has not seen the work tries to break it
     clone = audit_clone(bet.results_commit)                         # history only, no remote, fresh hash every time
@@ -80,7 +97,8 @@ loop(program):
     if bet.audit.overclaims_cut: rewrite_results(bet, cuts)          # same commit series, never silently
     bet.verdict = decide(bet.result, bet.audit)
     bet.premortem_score = auditor.score(bet.premortem, against = auditor.failure_reason)   # reason written first, then compared
-    bet.lesson.recurred = pattern_in(bet.audit, bet.lesson.patterns); review.missed = flaws D1–D10 should have caught
+    bet.lesson.recurred = pattern_in(bet.audit, bet.lesson.patterns); review.missed = flaws D1–D12 should have caught
+    bet.audit.F27 = opens(bet.novelty_line.papers) and own_search(bet.result.mechanism) finds no prior statement the line missed   # rule 13
 
     # 6. LEDGER — score both sides
     ledger.record(bet.engine_odds, bet.human_odds, bet.verdict)
@@ -98,7 +116,10 @@ loop(program):
     if settled(program.round):                                       # every bet of the round has a verdict and a finished audit
         for b in program.round.bets:
             if class_of(b.verdict) in {landed, mixed}:               # by the ledger's verdict, never by the remap's reading
-                for f in two_cheapest_not_yet_run(b, sources = [b.audit.break_it_next, replicate(b, models = RULE_12), neighbours(b)]):
+                rescout = read_literature_around(b.result)            # Step 1b, mandatory: full reads, searches recorded; written before any follow-up
+                if b.novelty is None: b.novelty, b.novelty_line = rescout.verdict  # rule 13: results before 2026-11-05 get theirs here
+                for f in two_cheapest_not_yet_run(b, sources = [b.audit.break_it_next, rescout.rivals_and_prior_statements, replicate(b, models = RULE_12), neighbours(b)]):
+                    f.prior_work_line = rescout.predicts(f.odds_event) or "no prior statement found after <search>"   # rule 13
                     f.engine_odds = engine.P(pass | f)                # one pass, id order, before ranking; never revised after
                     f.human_prompt = "Would you spend about <cost> to find out <what>? Will it come back a hit?"
                     program.map.add(f, parent = b.direction)          # map/<program>.json → the cockpit
@@ -115,7 +136,8 @@ loop(program):
     if human.says_switch_question: program = fork_or_switch(program)
 
     # 9. CONTEXT — nothing lives only in a chat
-    rewrite(CONTEXT.md, from = {ledger, map, kills, steers, results})
+    rewrite(CONTEXT.md, from = {ledger, map, kills, steers, results})   # a landed result is listed with its novelty word; "established" never means "first"
+    site.map.show(node.novelty for landed or mixed nodes)               # known | partly new | new, in the tooltip, the list and the legend
 ```
 
 ## The engine itself is an experiment
@@ -160,6 +182,7 @@ oversight_test:
 10. No pre-registration without a lesson from the ledger and a fresh design review that says go before the first call.
 11. No session asks the human for odds or decisions in a terminal. Human odds come only from `ledger/human-odds.jsonl` (cockpit downloads); without them a bet proceeds marked "no human odds". The human's judgment is recorded and scored as steers.
 12. No map ends at a landed bet with no follow-up: every landed or mixed bet has at least one not-yet-run follow-up on the map (operators/remap.md; `ledger/check_remap.py`).
+13. The engine knows what it is testing against: no direction without a Prior work line (what published work predicts for this exact test, with citations, or a described search that found none), no pre-registration whose design review skipped D12, and no landed or mixed result called final before a fresh session that searched the literature has written its Novelty line (known, partly new or new), which the audit checks (F27) and the map and the site show. A known result is reported as a replication of the paper that found it (CONTEXT.md §3 rule 13; `paper/informed-engine.md`).
 
 ## Repositories
 
@@ -194,7 +217,8 @@ planter  (per audit, before it):         not the auditor; builds the audit clone
 auditor  (per result, local tab):        fresh session in the audit clone, has not seen the work, instructed to break it, writes ledger/audits/<bet>.md
 scout    (per program start, local tab): full reads, all fields, next-steps extracted, candidates ranked with odds; the human's question on each cockpit card
 learn    (per prereg, before it):        the betting session reads bets, brier, audits, lessons; writes one lesson line (operators/learn.md)
-review   (per prereg, before 1st call):  fresh auditor dry-runs the design, D1–D10, no paid calls; go | fix-first | redesign (operators/design-review.md)
+review   (per prereg, before 1st call):  fresh auditor dry-runs the design, D1–D12 (D12: the predicted outcome in print?), no paid calls; go | fix-first | redesign (operators/design-review.md)
+novelty  (per landed or mixed result, before the write-up is final): fresh session searches the literature around the result; writes the Novelty line (known | partly new | new) into the results file and the ledger row (operators/prereg-template.md §10); the remap's re-scout does it for results that predate rule 13
 shadow   (per veto, 7–30 days later):    fresh session, argued neither side; pre-registers and runs the cheapest look at a vetoed direction (operators/veto.md)
 remap    (per settled round, local tab): fresh session reads every settled result; two cheapest follow-ups per landed or mixed bet, a "rules out" sentence per kill (operators/remap.md)
 session  (any build tab):                reads CONTEXT.md first; obeys the invariants; commits with the deviation row it adds
