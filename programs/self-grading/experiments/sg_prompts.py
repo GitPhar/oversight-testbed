@@ -74,3 +74,15 @@ QUOTED_PLAIN = QUOTED[: -len(GRADE_ABOVE)] + PLAIN_LEAD
 
 def quoted_plain(study, conclusion):
     return [{"role": "user", "content": QUOTED_PLAIN.format(write=WRITE.format(study=study), conclusion=conclusion)}]
+
+
+# ---- the own-turn conversation with "Wait" before the grading request (sg-b8, direction sg-d15) -------------------
+# Tsui 2025's correction marker, placed at the start of the user's closing request (not after the model's own output,
+# where Tsui puts it). own_turn, word for word, except that its last message is "Wait. " + GRADE_ABOVE.
+WAIT_ABOVE = "Wait. " + GRADE_ABOVE
+
+
+def own_turn_wait(study, conclusion):
+    return [{"role": "user", "content": WRITE.format(study=study)},
+            {"role": "assistant", "content": conclusion},
+            {"role": "user", "content": WAIT_ABOVE}]
