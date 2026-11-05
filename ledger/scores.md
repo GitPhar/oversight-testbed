@@ -29,7 +29,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-32 audits prepared with a sealed plant line: 1 still sealed, 31 revealed, of which 12 carried a plant. 
+32 audits prepared with a sealed plant line: 0 still sealed, 32 revealed, of which 12 carried a plant. 
 
 **Catch rate: 12/12 = 1.00, 95% Wilson interval [0.76, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
 
@@ -113,7 +113,7 @@ Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denv
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 6 |
 
-Design reviews: 0 go, 33 fix-first, 6 redesign; 21 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 33 fix-first, 6 redesign; 22 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
@@ -124,16 +124,16 @@ Design reviews: 0 go, 33 fix-first, 6 redesign; 21 later found by the post-resul
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 3 | 0 of 2 scored |
 | P6 | A control that cannot fail | 3 | 1 of 3 scored |
 | P7 | A foreseeable execution risk run without a pilot | 3 | 1 of 3 scored |
-| P8 | Comparing across conditions that differ in more than the factor named | 19 | 10 of 18 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 19 | 10 of 19 scored |
 | P9 | The right rule, then the wrong noun | 11 | 10 of 11 scored |
 | P10 | A label that hangs on one item | 12 | 11 of 12 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 2 | 2 of 2 scored |
-| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 16 | 8 of 14 scored |
+| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 16 | 8 of 15 scored |
 | P13 | A boundary the rule names, compared in plain floating point | 2 | 2 of 2 scored |
 | P14 | Items that share a template or domain bootstrapped as if independent | 2 | 0 of 2 scored |
 | P15 | A dry run built on assumed spreads or base rates, not measured ones | 1 | 0 of 1 scored |
 | P16 | A dumb baseline that is an item property, in dry-run worlds where item properties reach the outcome only through the predictor | 0 | 0 of 0 scored |
 | P17 | A design-review fix that replaces a guard can loosen it on the real data | 0 | 0 of 0 scored |
 
-**Does the loop help?** On 25 scored bets, Brier with the odds before the lesson is 0.182, after it 0.151.
+**Does the loop help?** On 26 scored bets, Brier with the odds before the lesson is 0.181, after it 0.151.
 
