@@ -63,3 +63,14 @@ QUOTED = ("Here is a conversation between a user and an AI assistant.\n\n"
 
 def quoted(study, conclusion):
     return [{"role": "user", "content": QUOTED.format(write=WRITE.format(study=study), conclusion=conclusion)}]
+
+
+# ---- the quoted copy with the fresh frame's lead-in (sg-b7, direction sg-d14) -------------------------------------
+# QUOTED, word for word, except that its closing lead-in GRADE_ABOVE ("Now grade the conclusion above. ") is replaced
+# by the fresh frame's "Grade the conclusion. " (as in FRESH). The header sentence and the User/Assistant blocks stay.
+PLAIN_LEAD = "Grade the conclusion. " + GRADE_Q
+QUOTED_PLAIN = QUOTED[: -len(GRADE_ABOVE)] + PLAIN_LEAD
+
+
+def quoted_plain(study, conclusion):
+    return [{"role": "user", "content": QUOTED_PLAIN.format(write=WRITE.format(study=study), conclusion=conclusion)}]
