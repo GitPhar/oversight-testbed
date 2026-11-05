@@ -63,3 +63,27 @@ IBM Quantum Open Plan, 600 QPU seconds a month. The project's hard stop is 420 s
 - No result stands without an independent audit.
 - Nothing disappears: dead directions stay on the map with a diagnosis.
 - Plain English first.
+
+## Reproducibility
+
+One command, from the repository root, with Python 3 and numpy installed (no keys, no network, no IBM token):
+
+    python3 programs/nature-graded/reproduce.py
+
+The root `python3 reproduce.py` runs it too and prints one line for this program.
+
+What it does. It takes a copy of the program as committed and rebuilds every table in every write-up in `results/`. No script writes those write-ups; they were written by hand after each run. So the script recomputes each number from the archive, rebuilds each table cell by cell, and compares it line for line with the committed table. Descriptive cells (a row's "what" text, column headers) are copied; every number is recomputed. Nothing is sent to the chip. The chip is a referee here, never a computational resource: its archived counts are inputs.
+
+Where the numbers come from:
+- **Chip runs** (P3-2/P3-3, P3-15, P3-16): the raw counts in `data/*-raw.json` and the archived simulator predictions in `data/*-predictions.json`. Each bet's own `--analyse` step runs on them, and its analysis (`results/p3-2-3-job.json`, `p3-15-repeat.json`, `p3-16-lone-job.json`) must come out byte for byte the same. The tables are rebuilt from that.
+- **Simulator runs** (P3-1): the simulated counts archived in `results/p3-1-*.json`. P(yes), SE and per-qubit P(1) are recomputed from them. The simulations are not re-run.
+- **Fits** (P3-5, P3-5c): the scipy fits and the simulated reference states are not re-run; their outputs in `results/p3-5-coherent-fits.json` and `p3-5c-nested.json` are the inputs. The saturated likelihood, every ΔlogL and LR, the bootstrap p-values and null percentiles (from the 1,000 archived null draws), the deviance, the χ² quantile and the labels are recomputed.
+- **Program 1's numbers** (3 November): recomputed from its archived counts (`programs/entangled-mind/results/stage1-run-1.json`, `witness-run-1.json`). Cumulative QPU seconds come from its ledger (`results/ibm-usage.json`).
+
+Two printing rules. A time printed to the second matches IBM's timestamp floored or rounded (the write-ups use both). A number that is an exact tie at the printed precision (815 of 1,000 shots, to two places) matches either rounding. The script counts every such cell.
+
+Gaps: none. No table needs a file the archive lacks. The `.qpy` circuit files need qiskit to read, but no table depends on them.
+
+Not checked, because the number does not come from this archive:
+- `results/p3-1-rerun.md`, first table, column "auditor's fixed re-run" (4 cells): the auditor's own runs, not archived here.
+- `results/p3-15-repeat.md`, first table, column "predictions" (2 cells): commit hashes, from git history, not from JSON.
