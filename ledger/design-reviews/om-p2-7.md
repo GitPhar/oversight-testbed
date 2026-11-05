@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: holds, D4: holds, D5: flaw, D6: holds, D7: ho
 flaws: 5
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 06:14 America/Denver
 ---
 
 # Design review of om-p2-7
@@ -203,3 +203,29 @@ I checked fix commit `1e13a58` (DEVIATIONS D15a–D15e, the code, and the dry ru
 - a model stopped partway reads its own cause: refusal, cap or error, named separately, not "cap or error".
 
 Show this in the dry run with a Sonnet refusal (Opus's sentence) and a cap stop during Opus. When that commit is in, I confirm by addendum.
+
+## Addendum 2: confirmation of D15f (2026-11-05 06:14 America/Denver)
+
+I checked commit `c630b0f` (DEVIATIONS D15f, the code and the dry run's §8). As before: no call, `env -u ANTHROPIC_API_KEY`, stubs and in-process analysis only, and nothing written under `results/`. **The F5 residual is fixed. Every fix holds, so `confirmed_at` is set.**
+
+- **What changed in the code.**
+  - The stop record now carries the model the stop happened on, `jobs_[0][1]`, which is right because `run_all()` passes each model's jobs separately.
+  - `incomplete_reason()` builds the incomplete sentence's cause from that record, and `main()` passes the record to `analyse_cache`.
+- **What my stubs printed.**
+  - Haiku refusal at call 100:
+    - Haiku: "a refusal on this model stopped the run";
+    - Sonnet and Opus: "the run stopped on a refusal on Haiku 5.5 before {M}'s calls".
+  - Cap stop during Sonnet:
+    - Sonnet: "the budget cap stopped the run on this model";
+    - Opus: "the run stopped on the budget cap on Sonnet 5.5 before Opus 5.5's calls".
+  - Sonnet refusal at its 50th call:
+    - Sonnet: its own refusal;
+    - Opus: Sonnet's refusal.
+  - The dry run's §8 agrees, for a Sonnet refusal and for a cap stop during Opus.
+  - Every incomplete sentence is now true for the table it describes.
+- **The two optional notes taken.**
+  - With undefined resamples present, the CI ends use order statistics: 3% −∞ gives a lower end of −inf, not nan. The reading is unchanged.
+  - A stop record is renamed `…-stop-resolved.json` once the last model's run completes, so a resolved stop is no longer reported as current.
+- **Remaining optional note, not blocking.** After an error stop, a model that never started would read "the run stopped on a error on …". The grammar is wrong ("a error"). The sentence is reachable only by `--analyse` on a cache that must be resumed first (D15b), so it should never appear in a results file.
+
+F1–F5 are fixed under D15a–D15f. **Design review om-p2-7: fix-first, confirmed.** The gate now opens on this file.
