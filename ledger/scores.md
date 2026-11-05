@@ -29,7 +29,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-21 audits prepared with a sealed plant line: 0 still sealed, 21 revealed, of which 8 carried a plant. 
+23 audits prepared with a sealed plant line: 2 still sealed, 21 revealed, of which 8 carried a plant. 
 
 **Catch rate: 8/8 = 1.00, 95% Wilson interval [0.68, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 8 is below that, so the arm is untestable for now.
 
@@ -100,13 +100,13 @@ Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denv
 |---|---|
 | pre-registrations since the rule | 24 |
 | with a lesson line | 21 |
-| with a design review verdict | 21 |
-| awaiting their design review (nothing may run yet) | 3: om-p2-7, ta-b1r2, em-dm6f2 |
+| with a design review verdict | 23 |
+| awaiting their design review (nothing may run yet) | 1: em-dm6f2 |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 5 |
 
-Design reviews: 0 go, 21 fix-first, 5 redesign; 16 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 23 fix-first, 5 redesign; 16 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
