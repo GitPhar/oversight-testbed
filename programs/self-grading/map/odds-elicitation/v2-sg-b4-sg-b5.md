@@ -9,7 +9,7 @@
 
 Both moves are revisions before data; both numbers stay (`engine_odds_first`, `engine_odds`). The negation and paraphrase check (scout.md) is not run for follow-ups re-elicited at pre-registration.
 
-## Re-elicitation of sg-b4, 2026-11-05 10:37 (D16)
+## Re-elicitation of sg-b4, 2026-11-05 10:24 (D16; between d277c6f at 10:22:26 and fdb2588 at 10:25:01)
 
 Design review sg-b4 (D12) found the description's Prior work line too strong: both papers vary role together with turn structure (Tsui: "role attribution and turn position cannot be varied independently within this design"), so the literature predicts the bundle effect and is silent on a quoted copy that keeps the lead-in and labels. A new fresh context was given prior.md and the corrected description (also naming the drift check's estimated 6-15% false-untestable rate) and nothing else.
 

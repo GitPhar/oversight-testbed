@@ -445,7 +445,7 @@
     "Tsui 2025, Self-Correction Bench, arXiv 2507.02778 v3 (HTML opened 2026-11-05)",
     "Khullar, Hopkins, Wang, Roger 2026, Self-Attribution Bias, arXiv 2603.04582 (HTML opened 2026-11-05)"
    ],
-   "prior_work_at": "2026-11-05 10:25, program 5 follow-ups session, from the pre-registration's §0 row (rule 13; design review sg-b5 D12)"
+   "prior_work_at": "2026-11-05 10:20, program 5 follow-ups session, from the pre-registration's §0 row (rule 13; design review sg-b5 D12)"
   },
   {
    "id": "sg-d12",
@@ -466,7 +466,7 @@
    "cost": "about $0.51 (Opus 80 calls about $0.28, Sonnet 140 about $0.22, Haiku 140 about $0.01; at sg-b3's cost per call)",
    "odds_event": "Per model T = (clean - flawed) in the quoted transcript - (clean - flawed) in the own turn (archived); turn role carries it if T >= half that model's sg-b3 G (Haiku >= +6.3, Opus >= +3.0) with CI lower > 0; pass if both Haiku and Opus read 'turn role'.",
    "engine_odds": 0.18,
-   "engine_odds_at": "2026-11-05T10:37-07:00",
+   "engine_odds_at": "2026-11-05T10:24-07:00",
    "odds_template": "v2",
    "odds_rationale": "Running base rate 8 hits in 24 scored (ledger/brier.md; P1 start 0.35). Khullar et al. 2026 tie leniency to text in the model's own turn, which favours a pass; but the audit names the own-turn lead-in and layout as live rivals, and a quoted transcript keeps most authorship cues, so much of the gap may survive in it. Two correlated conjuncts (Haiku and Opus), Opus on 30 studies with a wider interval, and the comparison is against archived grades from another run (P8; the drift check guards it). Set a little below the base rate.",
    "question": "Is a model easier on an exaggeration because it sits in its own reply, or because of how the grading request was worded?",
@@ -499,7 +499,7 @@
     "Tsui 2025, Self-Correction Bench, arXiv 2507.02778 v3 (HTML opened 2026-11-05)",
     "Khullar, Hopkins, Wang, Roger 2026, Self-Attribution Bias, arXiv 2603.04582 (HTML opened 2026-11-05)"
    ],
-   "prior_work_at": "2026-11-05 10:35, program 5 follow-ups session (design review sg-b4 D12, D16)",
+   "prior_work_at": "2026-11-05 10:24, program 5 follow-ups session (design review sg-b4 D12, D16)",
    "prior_work_predicts_note": "pass for the bundle (own turn vs a user turn); no prediction for a quoted copy that keeps the lead-in and labels (design review sg-b4 D12)",
    "engine_odds_v2_first": 0.15
   },

@@ -13,7 +13,7 @@ papers_opened: ["Tsui 2025, Self-Correction Bench, arXiv 2507.02778v3 (HTML, sec
 flaws: 4
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 10:28 America/Denver
 ---
 
 # Design review of sg-b4
@@ -166,3 +166,30 @@ Recommended, not required:
 3. Fix the dry run's noise model: add the archive's noise, √2, and run the real seed's study sets. Report the false-untestable rate of the drift check, about 6% at clean-cell noise and up to about 15% if flawed-cell noise is three times larger.
 
 The reviewer confirms the four fixes in an addendum here before the first non-pilot call.
+
+## Confirmation addendum (2026-11-05 10:28 America/Denver)
+
+The fixes are in commit fdb2588 (author time 10:25:01), DEVIATIONS row D16, dated before any call. No call has run: there is no `results/sg-b4-grade-calls.json`. The frozen pre-registration is unchanged since its seed fill (`git diff 65f6f93 fdb2588` touches only that one line), and D16 states how §0, §1, §5 and §6 are to be read. I re-ran `sg_b4_quoted.py dryrun` (with stubrun) and `check_prereg.py --before-run` in the sg-wave2 checkout, and one synthetic check, below. No paid call was made. **All four fixes hold. Confirmed.**
+
+1. **D7, the bundle named: holds.** D16 (1) reads §0, §1 and §6 as the review asked. The quoted copy keeps the lead-in, the request-then-reply order and the User/Assistant labelling. It moves the text out of the model's turn together with the message structure: one message instead of three, triple-quoted blocks, and the grade question in the same message. §6's bundle sentence lists all four.
+2. **D8, the verdict sentences: holds.**
+   - D16 (2) gives the pass and fail-layout endings word for word as in the required fix.
+   - §6's "overstate" now reads "understate".
+3. **D10, QUOTED frozen: holds.**
+   - `check_frozen()` now compares `sg_prompts.QUOTED` with its text at 65f6f93, read with `git show`, as `check_frozen_prompts` does for e29f25c. The dry run prints the refusal of a QUOTED with one trailing space ("sg-b4: QUOTED differs from its text at 65f6f93") and then restores it.
+   - Every grade record now stores `messages_sha`, and `analyse` recomputes it. On a synthetic cache built from the real messages, `analyse` ran. With one record's `messages_sha` replaced, it refused: "1 grade records were made with other prompts (D16)".
+   - *Residual (minor):* a record with no `messages_sha` field is not refused. The cache is empty and every new record carries the field, so this cannot arise in this run.
+4. **D12, the prior-work line: holds.**
+   - `sg-d12` now has a `prior_work_line`: "Predicts the bundle effect, silent on this split". It quotes Tsui's sentence, "role attribution and turn position cannot be varied independently within this design".
+   - It now says that Khullar rates prose and QA numerically, and that both papers move role with turn structure. A `prior_work_predicts_note` scopes "pass" to the bundle.
+   - The odds were re-elicited under v2, from 0.15 to 0.18, with the reason quoted. The prior was given the corrected line and the drift check's false-untestable estimate. All numbers are kept: map 0.30, first v2 0.15, now 0.18. A revision before data is allowed, and the new reason no longer leans on the papers predicting the split.
+
+The two recommendations taken also check out:
+- The run order is now Haiku, Opus, Sonnet; the stub confirms model-by-model order.
+- The kinder-clean world reads mixed 0.99 in the dry run, so the F guard rejects it.
+
+The recommendation not taken (the noise model) is recorded in D16 with the 6–15% estimate. That is acceptable: it does not threaten D11.
+
+**One record correction, outside the four fixes, to make before the run.** The re-elicited odds are stamped 10:37: `engine_odds_at` "2026-11-05T10:37-07:00" in `map/self-grading.json` and the bets row, and the heading of the odds-elicitation file. `prior_work_at` is stamped 10:35. Both times are after the commit that records them (10:25:01) and after this addendum (10:28), so they cannot be right. Each should be corrected to the actual time, at or before 10:25:01. The ordering this implies (odds set before data) is not in doubt, since no call has run. But a later audit reads these times as written.
+
+`check_prereg.py --before-run` now gives L1–L3, R1 and H1 ok. R2 read "fix-first, confirmed null" before this addendum. With the addendum in the working tree, it reads "ok, confirmed 2026-11-05 10:28". The run may start once this addendum is committed and the timestamps above are corrected.
