@@ -78,7 +78,7 @@ Predicted = mean stated probability in the bucket; observed = fraction that hit;
 
 ## What is not scored, and why
 
-24 of the 43 bets in the ledger are not scored:
+25 of the 44 bets in the ledger are not scored:
 
 - **em-gm9** (Clonable minds: NSIT on archived experiment-5 conversations): Not scored: the stated P is for 'a publishable conceptual result', which the pre-registered NSIT rule does not decide. It resolves when an audit or a reviewer judges paper/clonable-minds.md. brier.md shows both possible outcomes as a sensitivity row.
 - **em-gm3a** (Free look: does the scale-direction gap predict errors?): Not scored: the gold map gave this free look no probability ('—'). The 0.45 sometimes attached to it was direction 3's original P, not 3a's.
@@ -104,5 +104,6 @@ Predicted = mean stated probability in the bucket; observed = fraction that hit;
 - **em-qwalk2** (Entangled claims, re-bet: a simulated quantum walk against PageRank on program 1's direction graph): Withdrawn before data on the design review's redesign (efb4920): the test cannot answer its question on this graph. The permutation null needs Δ > 0.149 and a quantum AUROC > 0.786 to pass, so in every planted world built (by the author, and by both reviewers) pass is at most 4.3% and classical at most 4.0%: the verdict is null 96-100% of the time whatever the truth, and scoring a null at 1% odds would flatter the engine's Brier with nothing learned. A fair test needs very roughly 550 settled directions; all maps hold 59. Not scored; counted as a withdrawal (D58). The leave-one-out leak (P11) and the below-chance pass were fixed; the second review (04e7f81) was fix-first, 3 small flaws.
 - **ng-p3-16** (Does 3 November's result come back when the circuit runs alone in its own job?): open: pre-registered (209c1e2), seeded (d09f541); awaiting design review and the engine's budget ruling; nothing submitted
 - **om-p2-6r** (Replication of P2-6 on Sonnet 5.5 and Opus 5.5: does position beat label on both?): open: pre-registered (ddb6c92), seeded (6ec5a8d); awaiting design review; no call made
+- **sg-b1** (Does a model grade its own conclusion more kindly in the conversation that wrote it than fresh?): open: pre-registered (d2589e3), seeded (b53dc6f); awaiting design review
 
-40 of the 43 bets have an audit in `ledger/audits/`; 19 of the 19 scored bets are audited, and the audit reversed 2 verdicts: em-gm3c → undetermined; om-p2-4 → undetermined. Founding-week (round 1) audits are links into `programs/entangled-mind/audits/` (`ledger/audits/em-*.md`, summary `SUMMARY-1.md`); round 2 is `SUMMARY-2.md`. When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.
+40 of the 44 bets have an audit in `ledger/audits/`; 19 of the 19 scored bets are audited, and the audit reversed 2 verdicts: em-gm3c → undetermined; om-p2-4 → undetermined. Founding-week (round 1) audits are links into `programs/entangled-mind/audits/` (`ledger/audits/em-*.md`, summary `SUMMARY-1.md`); round 2 is `SUMMARY-2.md`. When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.
