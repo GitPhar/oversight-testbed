@@ -459,7 +459,7 @@
    "parent": null,
    "title": "Program 1's six formats refitted with Smolin & Wilder's model",
    "short": "Program 1 formats, looser test",
-   "status": "open",
+   "status": "parked",
    "opened": "2026-11-05T05:00",
    "rank": 12,
    "engine_odds": 0.25,
@@ -491,7 +491,8 @@
    ],
    "prior_work_search": "logged in programs/said-vs-did/map/reads/prior-work-2026-11-05-sv8-sv12.md (Searches)",
    "prior_work_at": "2026-11-05 remap re-scout (programs/said-vs-did/map/reads/prior-work-2026-11-05-sv8-sv12.md); earlier line kept as prior_work_line_before",
-   "prior_work_line_before": "Mixed. Smolin and Wilder 2026 (arXiv 2609.07943; nine models, no Claude): with a per-format offset and slope, 'highly capable' models reach held-out concordance 0.8 to 0.95, while weak models do 'much worse'. No rule says where a small current model such as Haiku 5.5 falls, and program 1's F-prime test, which partly allowed the same slack, still found little shared belief on Haiku. No published refit of Claude data."
+   "prior_work_line_before": "Mixed. Smolin and Wilder 2026 (arXiv 2609.07943; nine models, no Claude): with a per-format offset and slope, 'highly capable' models reach held-out concordance 0.8 to 0.95, while weak models do 'much worse'. No rule says where a small current model such as Haiku 5.5 falls, and program 1's F-prime test, which partly allowed the same slack, still found little shared belief on Haiku. No published refit of Claude data.",
+   "parked": "2026-11-05: parked before pre-registration by its author's record check (programs/said-vs-did/experiments/sv12-record-check.md; DEVIATIONS D18). Program 1's published cross-format agreement on this archive (gm3c: mean Spearman 0.62, R2 0.37 [0.28, 0.47]) implies a held-out-format concordance near 0.77; the drafted rule (>= 0.85) passes 0% of synthetic runs matched to it, so a bet could not pass (P12). Reopen only with a new reason (another format or item set, or Smolin and Wilder's group holdout with their own bar). Sean's cockpit odds (0.60, ho-20261105-061152-zxv) stay on the line, not scored."
   },
   {
    "id": "SV-13",

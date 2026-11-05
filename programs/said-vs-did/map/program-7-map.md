@@ -130,3 +130,11 @@ Odds are template v2, each from its own fresh context holding only `ledger/prior
 | sv-b3 | SV-3 | null (fail) | Rules out, on these items, Haiku's and Sonnet's stated number beating the one-bit trivia guess by 0.10 AUROC at predicting a choice to check a reference at a cost; Opus checked on 9 of 80 items, too few. | not mapped: the audit's power re-run (about $1.97) exceeds the cap left; within-type question shared with SV-2w |
 
 SV-1's map status was `mixed` and is corrected to `open`. The ledger verdict is untestable, which the remap classes as neither landed nor mixed (Step 1). SV-2 and SV-3 stay closed with their diagnoses. Program cap: $2.75 of $5.00 spent; SV-1r and SV-2w together come to about $1.62.
+
+### SV-8 and SV-12, the two free follow-ups (2026-11-05, after the remap)
+
+Neither was run, and neither is scored.
+- **SV-8** was pre-registered as sv-b4 (fb1c81a, seed df050cb). Its design review said fix-first and then **redesign** (04edc7f). Matched to the rates wave 1 had already published, no plausible world gave the rule a 10% chance of passing. The bet was withdrawn before the archive was opened (D17).
+- **SV-12** was parked before pre-registration by its own record check (`experiments/sv12-record-check.md`, D18). Program 1's published agreement between formats already implies a concordance near 0.77, below the drafted 0.85, so a bet could not pass.
+
+Both are `parked` on the map with what would reopen them. Sean's odds (0.55, 0.60) stay on record, not scored.
