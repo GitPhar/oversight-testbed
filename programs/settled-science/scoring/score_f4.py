@@ -100,7 +100,7 @@ def rows_of(items, bets, side):
         itext = " ".join(str(it.get(k, "")) for k in ("question", "option_a", "option_b"))
         up = it.get("up_side")
         p_up = 0.75 if up == it["true_option"] else 0.25           # the up-word rule's p on the published option (ss-b5)
-        out.append({"id": b["id"], "side": side, "field": it["field"], "window": it.get("window", "post"),
+        out.append({"id": b["id"], "side": side, "field": it["field"], "window": it.get("window", "post"), "v1": it.get("v1_date", ""),
                     "b": (1 - pt) ** 2, "right": 1.0 if pt > 0.5 else 0.5 if pt == 0.5 else 0.0,
                     "recognised": recognised2(b.get("rationale"), itext),
                     "recognised_frozen": bool(RECOG.search(b.get("rationale") or "")),
@@ -193,6 +193,7 @@ def score(pre, post):
     se = float(np.sqrt((k - 1) / k * sum((x - np.mean(jk)) ** 2 for x in jk)))
     s["field_jackknife"] = {"clusters": k, "ci": [r6(d - 1.96 * se), r6(d + 1.96 * se)]}
     # D57 secondaries (design review ss-b12 F1, F3, F5)
+    s["n_post_jul_aug"] = sum(1 for r in qu if "2026-07-01" <= r.get("v1", "") < "2026-09-01")
     s["perm_p"] = r6(perm_p([r["b"] for r in pu], [r["b"] for r in qu]))
     fz_pu = [r for r in pre if not r["recognised_frozen"]]
     fz_qu = [r for r in post if not r["recognised_frozen"]]
@@ -216,7 +217,10 @@ def c3(c):
 
 BUNDLE = (" The two sides differ in more than date: the older items are the latest 100 papers of each window and were "
           "leakage-checked by a Claude model that may know them; the newer are up to 600 papers over four months.")
-NEWER = "papers first posted after its stated knowledge cutoff of June 2026 (34 of them in July–August)"
+def newer(s):
+    """D58: the July–August count is computed from the scored newer rows, not written in."""
+    return (f"papers first posted after its stated knowledge cutoff of June 2026 ({s.get('n_post_jul_aug', '?')} of them in "
+            f"July–August)")
 OLDER = "papers first posted between January 2024 and June 2026"
 
 
@@ -225,14 +229,14 @@ def sentence(s):
     pu, qu = s["pre_unrecognised"], s["post_unrecognised"]
     if s["label"] == "pass":
         t = (f"On {pu['n']} {OLDER} whose rationales showed no sign of recognising the study, the bettor still scored better "
-             f"than on {qu['n']} {NEWER} (Brier {pu['brier']:.3f} against {qu['brier']:.3f}; difference {s['d']:.3f} "
+             f"than on {qu['n']} {newer(s)} (Brier {pu['brier']:.3f} against {qu['brier']:.3f}; difference {s['d']:.3f} "
              f"{c3(s['d_ci'])}), so its advantage on older papers is not only papers it says it remembers. It may still be "
              f"memory it does not mention, or older findings being easier.")
         if s.get("perm_p") is not None and s["perm_p"] >= 0.025:
             t += f" A permutation test does not confirm it (p = {s['perm_p']:.3f})."
     else:
         t = (f"On {pu['n']} {OLDER} whose rationales showed no sign of recognising the study, the bettor was not shown to "
-             f"score better than on {qu['n']} {NEWER} (Brier {pu['brier']:.3f} against {qu['brier']:.3f}; difference "
+             f"score better than on {qu['n']} {newer(s)} (Brier {pu['brier']:.3f} against {qu['brier']:.3f}; difference "
              f"{s['d']:.3f} {c3(s['d_ci'])}), so this test finds no advantage on older papers beyond recall; an advantage "
              f"smaller than about 0.05 in Brier could not reliably have been seen.")
     t += BUNDLE
@@ -329,7 +333,7 @@ def main():
     n_items = len(load(PRE_ITEMS)) if PRE_ITEMS.exists() else 0
     if st.get("leak") in ("refusal", "error") or st.get("bet") in ("refusal", "error"):      # D57 F4
         s = {"bet": "ss-b12", "label": "untestable", "verdict_reported": "untestable",
-             "sentence": f"The run stopped on a {st.get('bet') if st.get('bet') in ('refusal', 'error') else st.get('leak')} "
+             "sentence": f"The run stopped on {'a refusal' if 'refusal' in (st.get('bet'), st.get('leak')) else 'an error'} "
                          f"({st.get('detail', '')}), so the bet is untestable whatever was written."}
     elif PRE_BETS.exists() and len(pre) < n_items and st.get("bet") != "cap":
         s = {"bet": "ss-b12", "label": "untestable", "verdict_reported": "untestable",
