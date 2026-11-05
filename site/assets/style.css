@@ -698,3 +698,8 @@ table.hcol td { vertical-align: top; }
 .rec-block { margin: 32px 0 4px; font-size: 1.25rem; }
 .rec-block .rec-n { font-size: .9rem; font-weight: 400; margin-left: 6px; }
 .rec-how { margin-bottom: 14px; }
+/* Plain words (assets/plain.js): a bet id's plain question on first use, and the four glossary lines */
+.pq { color: var(--text-2); font-style: italic; }
+.gloss { display: block; margin: 6px 0 10px; padding: 6px 10px; border-left: 3px solid var(--line); color: var(--text-2); font-size: .88rem; line-height: 1.45; font-weight: 400; font-style: normal; max-width: 46rem; }
+.gloss b { color: var(--text); }
+h1 + .gloss, h2 + .gloss, h3 + .gloss { margin-top: -4px; }

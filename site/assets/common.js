@@ -65,6 +65,9 @@ export function header() {
     <a href="${SITE.engineRepo}/tree/main/programs">programs</a> ·
     <a href="${SITE.history["entangled-mind"]}">program 1's original repository (historical record)</a>`;
   document.body.append(f);
+  // Plain words on every page: each bet id's plain question on first use, and a glossary line for Brier,
+  // pre-registration, plant and steer where each first appears (assets/plain.js). Loaded late, so a page draws first.
+  import("./plain.js").then((m) => m.start()).catch(() => {});
 }
 
 // ---------- fetching ----------
