@@ -11,7 +11,7 @@ checks: {D1: flaw, D2: holds, D3: holds, D4: flaw, D5: holds, D6: flaw, D7: hold
 flaws: 3
 pilot_usd: 0.1011
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 05:28 America/Denver
 ---
 
 # Design review of ta-b2
@@ -68,3 +68,50 @@ Each fix goes under a dated DEVIATIONS row (T4 or later) written before any data
 - In §5.4, report the number of leave-one-out flips. If more than 5 items flip the verdict, print "the verdict sits at the rule's boundary" instead of "one item decides".
 - Fill in `beacon.seed_commit` (0758555) in `bets.jsonl`.
 - Optionally add the pilot-calibrated worlds to §4, so the dry run reflects the observed determinism and floor.
+
+## Confirmation addendum (2026-11-05 05:28 America/Denver)
+
+**All three fixes are confirmed.** The fixes are in commit 77b6cdb, under DEVIATIONS row T6, all in `experiments/ta_b2.py`. `ta_b2.py` and `ta_common.py` are unchanged at HEAD since 77b6cdb. I made no paid calls. Scripts are in `/private/tmp/claude-501/-Users-seanpharris-oversight-testbed/ef2f935a-5d63-4107-98de-a7494c7e634b/scratchpad/review-ta-b2/`: `d11b.py`, `preflight_stub.py` and `pipeline2.py`.
+
+**F1 (budget), confirmed by a different route from the one I proposed.** The program cap stays at Sean's $5.00 and Opus is not run in ta-b2.
+- **The pre-flight works.** I stubbed `Caller`, `review_gate` and `program_spent` and ran the real `main()` with `--run` (`preflight_stub.py`). It projects $0.530 for the 1,268 uncached jobs and starts when the program has spent $0.30 or $4.40. It exits before any `Caller` is built when the program has spent $4.60, or when the bet has already spent $0.40 or $0.60 on 300 cached jobs. Its rates are the behaviour-call rates plus 10%; the belief-check prompts are a little longer, but the $0.80 cap leaves 51% slack over the projection.
+- **Dropping Opus does not lower the bar.** The pass needs two models labelled `format`, now a fixed pair: Haiku and Sonnet. "Both of these two" is at least as hard as "any 2 of 3", and the thresholds, intervals and belief check are unchanged. The new event in `bets.jsonl` states this. The pass sentence and the untestable sentence name "Opus not run". CONTEXT §3 rule 12 asks for a reason: T6 gives the pilot floor (0 of 22) together with the fixed program cap, so the reason is not cost alone.
+- **The reason holds only in null and weak worlds.** In my pilot-calibrated worlds a +12-point B effect lifts Opus off the floor, and Opus is then `format` in 98% of runs. So dropping Opus costs power in exactly the worlds where a pass is possible: at +12 points P(pass) falls from about 92% with three models to 42% with two. That makes the test harder to pass, not easier.
+- **The odds.** Engine odds stay at 10%, the elicited number. Whether that still fits a lower P(pass) is for the Brier record, not a design flaw.
+
+**D11 holds with two models.** I re-ran `--dry-run` and it reproduces T6 exactly:
+
+| world | P(pass) |
+|---|---|
+| null, any rewording, wording noise, moderate format effect | 0% |
+| strong (+12 points) | 8.3% |
+| strong with polarised items | 1.7% |
+| very strong (+17.6 points) | 36.7% |
+| W9 | 1.3% |
+| floor, cue not taken up | 100% untestable |
+
+W9 is labelled "pilot-like", but on the probability scale it is a moderate world: +7.9 points on Haiku and +6.6 on Sonnet. Its 1.3% is the known blindness to moderate effects, not a failure of D11. In my two-model worlds calibrated to the pilot (`d11b.py`, 400 runs each: Haiku 58% "not sure" with item SD 4, Sonnet 8.3% with SD 3):
+
+| world | P(pass) |
+|---|---|
+| null | 0% |
+| rewording +12 points | 0% |
+| format +7 points | 3.2% |
+| format +10 points | 20.5% |
+| format +12 points | 42.0% |
+| format +18 points | 89.0% |
+| format +12, half the item SD | 20.8% |
+| format +12, Sonnet at 3% | 52.0% |
+
+So P(pass) and P(fail) are each at least 10% in plausible strong-effect worlds, and every null world fails. T6 rightly extends §6: the bet sees only large format effects.
+
+**F2 (sentences), confirmed.** The null-rewording and null-equivalent sentences in `SENTENCES` are now the text this review specified, with "of the 2 models run". `bet_verdict()` on each label pair gives one verdict and the right sentence: format+format gives pass; format+rewording and rewording+rewording give null-rewording; equivalent+equivalent gives null-equivalent; format plus untestable-floor gives untestable; undetermined plus equivalent gives null-mixed. The recommended leave-one-out sentence is also done: with more than 5 flips the output says the verdict sits at the rule's boundary.
+
+**F3 (incomplete belief check), confirmed.** In `pipeline2.py` I dropped 15 of Sonnet's 32 B ratings, and `model_label()` now returns `untestable-cue` with `check_n` 17. With no ratings at all it still returns `untestable-cue`.
+
+**Nits, none blocking.**
+- The code comments say "T5 (review F1/F3)", but the row is T6 (T5 is ta-b3's).
+- §1 and §5 of the frozen pre-registration still say "two of the three models". T6 and the code carry the change, as a deviation should.
+- The `design_review` field of `bets.jsonl` is still null, for the ledger session to fill.
+
+The run may start once `check_prereg.py ta-b2 … --before-run` passes.
