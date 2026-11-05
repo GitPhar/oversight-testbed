@@ -197,3 +197,6 @@ All are in `programs/settled-science/results/ss-b10-results.md`.
 - **Haiku, both orders on all 200 items.** Run the flattery prompt in reversed order on the 100 items not yet rated that way (100 calls, about $0.03), and pre-register orders-averaged accuracy as the primary. If Haiku's lower bound then clears 0.634, the "Haiku does not beat the experts" half is a position-bias artefact. The same pre-registration should finish Sonnet's 26 missing order-check items (about $0.13) and run Opus's 50 (about $0.40). Total about $0.56.
 - **The Sonnet half.** The cheapest overturn of Sonnet's clear is a memory test. Run the flattery prompt on expert-altered abstracts of papers published after Sonnet's training cutoff. That needs new items, and is a bet of its own.
 - **Any re-run** should budget from counted tokens (about 1,445 input tokens per call here), not from the "$1.70" figure.
+
+
+Revealed 2026-11-05: pl-026, clean; nothing to set aside. Note from the planter: the clone was built at the then-HEAD 45593eb (five commits after the results commit 7fc2691, none touching ss-b10 files) and in a directory whose name carries the hash, because the planter's shell loop did not split its arguments; the seal records the true clone head.

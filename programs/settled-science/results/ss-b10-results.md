@@ -1,6 +1,6 @@
 # ss-b10 results: the flattery rule on BrainBench
 
-Pre-registration `ef2fa6b` (`experiments/ss-b10.md`, D51); seed `70efc56` (CURBy-RNG pulse 1592278). Design review `ledger/design-reviews/ss-b10.md`: fix-first (1afa4f7), fixes D54 and D56, confirmed 07:03 (e23beb8). The run started after the confirmation; the first call was at 2026-11-05 14:03:40 UTC (07:03:40 America/Denver; the confirmation commit e23beb8 is earlier, see its time) and the last at 07:10:26. Budget ruling br-004. **Unaudited.**
+Pre-registration `ef2fa6b` (`experiments/ss-b10.md`, D51); seed `70efc56` (CURBy-RNG pulse 1592278). Design review `ledger/design-reviews/ss-b10.md`: fix-first (1afa4f7), fixes D54 and D56, confirmed 07:03 (e23beb8). **Audited** (`ledger/audits/ss-b10.md`, ea2053b): the mixed verdict stands; its nine required cuts are applied here (DEVIATIONS D61). The run started after the confirmation; the first call was at 2026-11-05 14:03:40 UTC (07:03:40 America/Denver; the confirmation commit e23beb8 is earlier, see its time) and the last at 07:10:26. Budget ruling br-004. 
 
 ## In plain English
 
@@ -8,14 +8,14 @@ BrainBench is a published test (Luo et al., Nature Human Behaviour, 2024). Each 
 
 We asked two Claude models a different question, one that needs no knowledge of results: **which version is better news for the paper's own idea?** We told them to treat both versions as hypothetical.
 
-- **Sonnet, asked only that, picked the real abstract 81.8% of the time** (95% interval 76.5% to 86.8%). That is clearly above the neuroscientists' 63.4%, and level with the 81.4% the paper reported for language models. Asked directly which abstract was published, the same model was right 84.5%: the "better news" question gets about nine-tenths of the way there (92% of its above-chance accuracy; 79% to 107%).
-- **Haiku, asked the same, picked the real one 68.0% of the time** (61.5% to 74.2%), not shown to beat the neuroscientists. Asked directly, it was right 76.5%, so on Haiku the "better news" question gets about two-thirds of the way (68%; 49% to 86%).
-- **Text-only rules that use no model all sat at chance** (48% to 51%): longer or shorter abstract, more "increase" words, fewer negations, more "significant". So the shortcut is not a matter of surface wording.
+- **Sonnet, asked only that, picked the real abstract 81.8% of the time** (95% interval 76.5% to 86.8%). That is clearly above the neuroscientists' 63.4%, and not shown different from the 81.4% the paper reported for language models, which were base models scored by perplexity, a different measurement. With the program's forecasting prompt instead (a different instruction, a question line, and a note that one version was altered by an expert), the same model was right 84.5%; the flattery prompt's above-chance accuracy was 92% of the forecasting prompt's (79% to 107%).
+- **Haiku, asked the same, picked the real one 68.0% of the time** (61.5% to 74.2%), not shown to beat the neuroscientists. With the forecasting prompt it was right 76.5%; the flattery prompt's above-chance accuracy was 68% of the forecasting prompt's (49% to 86%).
+- **Text-only rules that use no model all sat at chance** (48% to 51%): longer or shorter abstract, more "increase" words, fewer negations, more "significant". So these five surface rules do not explain the result; they are weak rules and do not rule out other text cues.
 
-**So the pre-registered bet is mixed, not a pass.** The rule needed both models to beat the experts, and only Sonnet did. On Sonnet, a question that asks only which version flatters the paper's idea does about as well as the published language models. That shows the benchmark can be largely solved without a forecasting frame. It does not show the models used flattery, or that the models in the original study did.
+**So the pre-registered bet is mixed, not a pass.** The rule needed both models to beat the experts, and only Sonnet did. On Sonnet, a question that asks only which version flatters the paper's idea does about as well as the published language models. On Sonnet, a prompt with no forecasting frame scored within 3 points of the forecasting prompt (difference −2.0 to 7.5 points); this does not show by what route either prompt succeeds. It does not show the models used flattery, or that the models in the original study did.
 
 What else the numbers say (secondary, not part of the rule):
-- **Memory is a live rival.** BrainBench and its abstracts were public before these models were trained. In 39 of Sonnet's 200 flattery rationales the model reasoned about which version is "real", "original" or "plausible", even though it was told to treat both as hypothetical. Haiku did so in 10. So Sonnet's flattery score may partly be recognition.
+- **Memory is a live rival.** BrainBench and its abstracts were public before these models were trained. The pre-registered regex flags 39 of Sonnet's 200 flattery rationales and 10 of Haiku's. In Sonnet's, the flagged word is mostly "plausible" (31 of 43 matches): the model argued from prior biological plausibility, a rival the design cannot separate from valence. None of the 39 recalls or cites the paper, and the flagged items were less accurate (75.6%) than the rest (83.2%). Recognition can be silent, so this neither shows nor rules out memory.
 - **Haiku leans hard on position.** Asked again with the options swapped, Haiku chose the same abstract only 47% of the time. It put about 12 points extra on whichever version came first. With the two orders averaged, its flattery accuracy on those 100 items was 75%, against 68% from one order. That is exploratory: the rule was fixed on one order.
 - **Opus was not run.** The $2.50 cap (Sean's figure) stopped the run during Sonnet's order check, after 74 of 100 items. So the Opus secondary (step 7) did not run, and Sonnet's order check covers 74 items. Sonnet's calls cost more than estimated (about $0.0049 each, against $0.003). The stop was the budget cap, not a refusal or an error.
 
@@ -34,7 +34,7 @@ What else the numbers say (secondary, not part of the rule):
 > Sonnet's flattery rule was not shown different from the published 81.4% for LLMs (interval [76.5, 86.8]).
 > On Haiku, leaving out the Development/Plasticity/Repair section(s) would change whether it clears the experts' rate.
 > BrainBench and its source abstracts (Journal of Neuroscience, 2023) were public before both models' training data were collected, so either prompt may draw on memory of the benchmark or of the papers; the models ran with thinking off, and the prompts asked for a rating, not the perplexity the original study used.
-> Opus (step 7, secondary): not run; the bet's $2.50 cap stopped the run during step 6, after 74 of Sonnet's 100 order-check items.
+Not generated by score_bb.py, which prints no S9 line when Opus did not run: Opus (step 7, secondary) did not run; the bet's $2.50 cap stopped the run during step 6, after 74 of Sonnet's 100 order-check items.
 
 ## Tables
 
@@ -80,11 +80,11 @@ Generated by `scoring/score_bb.py` from `items/brainbench/items.jsonl` and `bett
 
 ## What it cannot do
 
-- **Memory.** BrainBench (March 2024) and its *Journal of Neuroscience* abstracts (2023) predate both models' training data. Nothing here separates judgement from recognition. Sonnet's 39 "which is real" rationales point toward recognition.
+- **Memory.** BrainBench (March 2024) and its *Journal of Neuroscience* abstracts (2023) predate both models' training data. Nothing here separates judgement from recognition. Sonnet's 39 flagged rationales mostly argue from plausibility, not recall; they do not show recognition either way.
 - **A different measurement from the original study.** The paper scored base models by perplexity; we asked chat models for a rating. The 81.4% is a reference point, not a matched comparison.
 - **Two prompts, not one factor.** The flattery and forecasting prompts differ in three ways: the instruction; a question line; and a note that one version was altered by an expert. Any gap between them belongs to that bundle (D54, F3).
 - **One flattery wording**, adapted from ss-b6's ("hypothesis, method or account"). Same-family models.
-- **Leave-one-section-out:** on Haiku, leaving out Development/Plasticity/Repair (24 items, 48% flattery accuracy) would lift it over the experts' rate, so Haiku's miss rests partly on that section.
+- **Leave-one-section-out and option order:** on Haiku, leaving out Development/Plasticity/Repair (24 items, 48% flattery accuracy) would lift it over the experts' rate. Haiku's flattery accuracy depends on position: 92.9% when the original is Option 1 and 44.1% when it is Option 2 (all 200 items). In that section the order draw put the original second on 17 of 24 items. So Haiku's miss rests partly on its position habit meeting the draw, and partly on that section; a different order draw would have let Haiku clear in roughly one draw in five to ten (exploratory).
 
 ## Process and spend
 
