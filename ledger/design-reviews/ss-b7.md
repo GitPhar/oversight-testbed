@@ -11,7 +11,7 @@ checks: {D1: flaw, D2: flaw, D3: flaw, D4: holds, D5: flaw, D6: holds, D7: flaw,
 flaws: 6
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-04 22:18 America/Denver   # addendum 2: fixes D40-D46 confirmed at ef378a4; go
 ---
 
 # Design review of ss-b7
@@ -182,3 +182,23 @@ Written 2026-11-04 by the same reviewer, before any striking-rater call. I read 
 
 - `verdict_reported` repeats itself ("null (null, at the margin …)"). Tidy it in the same change.
 - The seed split shows that, near the edge, the verdict at the frozen seed is close to a Monte Carlo coin. Increasing `N_NULL` to 400 and `NULL_BOOT` to 10,000 would cut that noise without moving the bar. It costs roughly 4–5× the scoring time (the seed check is the expensive part). This is the author's call, decided before data.
+
+---
+
+## Addendum 2: R1 confirmed at ef378a4 (D46). Go
+
+Written 2026-11-04 22:18 America/Denver, before any striking-rater call. I took the program at ef378a4 into a fresh scratch copy with `git archive ef378a4 programs/settled-science` (scratchpad `review-ss-b7/fix2/`). Then I reran `scripts/fixcheck.py` and a synthetic spot check. No paid calls were made, and nothing was stubbed except as before.
+
+**Verdict: confirmed (go).** Every fix, F1–F6 and R1, is in place as required, each under a DEVIATIONS row dated before data (D40–D46). The run may start.
+
+- **R1 is done.** The full run on ss-b6's real data (seed check on, 212 s) now ends its sentence with: *"…this test cannot tell those apart; this label sits at the margin: under 20 other bootstrap and null-simulation seeds, 16 gave pass; this label sits at the margin: 43 of 92 single-item removals would make it pass, and so would removing the query bucket scalable-oversight."* So it names the seed split and the scalable-oversight bucket. `verdict_reported` now reads "null; at the margin (16 of 20 seeds give pass), fragile".
+- **The rule, seed and bar are unchanged.**
+  - The ef378a4 diff to `score.py` touches only the sentence and `verdict_reported` strings.
+  - The constants and the label lines (`N_NULL, NULL_BOOT, …`, `BOOT_SEED, BOOT_N`, `lab = lambda`, `full = lab`) are identical to 274e637.
+  - The full run reproduces 274e637's numbers exactly: label null, m* −0.002555, σ_rt 0.27427, σ_dis 0.884, world-B rate 0.47, 16 of 20 seeds the other way, 43 item flips, bucket flip scalable-oversight.
+  - The edge cases are unchanged: no retest or 29 pairs gives untestable, 30 pairs is scored, no ratings gives "0 of 92".
+- **D11 needs no rerun.** The labels are untouched. The synthetic spot check at ef378a4 gives coin pass, copy null, inverted "pass, fragile", down80 pass, copy+0.274 null (σ̂ 0.259, m* −0.0023). These match addendum 1, so addendum 1's D11 table stands.
+- **The $0.22 ruling is now in the ledger.** `ledger/spend.jsonl` br-001 (069d8c7) records it: approved by oversight-testbed-1b at 21:08 under st-16, $0.68 in all, with the late recording disclosed. D41 now cites it.
+- **N_NULL stays at 100 and NULL_BOOT at 2,000,** by the author's call before data. My note was optional, and the seed check now reports the remaining Monte Carlo spread in the sentence itself.
+
+Cosmetic, not required: when both qualifiers fire, the sentence says "this label sits at the margin" twice.
