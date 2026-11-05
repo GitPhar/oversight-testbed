@@ -29,13 +29,13 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-7 audits prepared with a sealed plant line: 2 still sealed, 5 revealed, of which 3 carried a plant. 
+7 audits prepared with a sealed plant line: 0 still sealed, 7 revealed, of which 4 carried a plant. 
 
-**Catch rate: 3/3 = 1.00, 95% Wilson interval [0.44, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 3 is below that, so the arm is untestable for now.
+**Catch rate: 4/4 = 1.00, 95% Wilson interval [0.51, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 4 is below that, so the arm is untestable for now.
 
 | class / subclass | planted | caught | missed: expected checklist line |
 |---|---|---|---|
-| miscount / total | 2 | 2 | — |
+| miscount / total | 3 | 3 | — |
 | overclaim / scope | 1 | 1 | — |
 
 | plant | bet | class | caught | where (from the audit) | planter model |
@@ -43,6 +43,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 | pl-001 | om-p2-1 | overclaim/scope | yes | ledger/audits/om-p2-1-blind-pl-001.md (from entangled-mind audit2 842e7af): Checklist C13 'Hole. L24: "is not supported in its simplest form on Claude models". One model (claude-haiku-5-5) was tested.'; Claims row 16; Required cut 4 | claude-opus-5-5 |
 | pl-002 | om-p2-3b | miscount/total | yes | ledger/audits/om-p2-3b.md: Holes found 1 and Required cut 1, 'severity 2 (438)' -> 'severity 2 (428)', proved from the dataset, pre-registration 2, the design review and the JSON (-0.0444 = -19/428); 153 + 438 = 591, not 581 | claude-opus-5-5 |
 | pl-004 | ss-b5 | miscount/total | yes | ledger/audits/ss-b5.md: Holes 1 / Required cut 1, scalable oversight n = 25 vs 21 in the generated table, the draw and the pre-registration; column sums to 96, not 92 | claude-opus-5-5 |
+| pl-006 | ss-b6 | miscount/total | yes | Holes 1 / Required cut 1 (table: 75 -> 71 up-word items) | claude-opus-5-5 |
 
 **Limits, stated with the number:**
 
@@ -52,18 +53,18 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-17 of 40 bets carry an engine pre-mortem; 8 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+17 of 40 bets carry an engine pre-mortem; 9 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
-| engine: named the main reason | 3/8 = 0.38 [0.14, 0.69] |
-| engine: named it or its kind | 6/8 = 0.75 [0.41, 0.93] |
-| lazy baseline: failures whose reason was 'the effect is not there' | 6/11 = 0.55 [0.28, 0.79] |
+| engine: named the main reason | 4/9 = 0.44 [0.19, 0.73] |
+| engine: named it or its kind | 7/9 = 0.78 [0.45, 0.94] |
+| lazy baseline: failures whose reason was 'the effect is not there' | 7/12 = 0.58 [0.32, 0.81] |
 | human: named the main reason | — |
 
 | stated kind \ actual kind | world | design | execution | artefact |
 |---|---|---|---|---|
-| world | 4 | 2 | 0 | 0 |
+| world | 5 | 2 | 0 | 0 |
 | design | 0 | 0 | 0 | 0 |
 | execution | 0 | 0 | 1 | 0 |
 | artefact | 0 | 1 | 0 | 0 |
@@ -93,28 +94,28 @@ Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denv
 |---|---|
 | pre-registrations since the rule | 10 |
 | with a lesson line | 7 |
-| with a design review verdict | 9 |
-| awaiting their design review (nothing may run yet) | 1: om-p2-6 |
+| with a design review verdict | 10 |
+| awaiting their design review (nothing may run yet) | 0 |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 3 |
 
-Design reviews: 0 go, 9 fix-first, 3 redesign; 2 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 10 fix-first, 3 redesign; 4 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
-| P1 | Odds too high where the engine had a story | 7 | 4 of 5 scored |
+| P1 | Odds too high where the engine had a story | 7 | 4 of 6 scored |
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 2 | 2 of 2 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 8 | 4 of 5 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 8 | 5 of 7 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 2 | 0 of 0 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 1 | 0 of 0 scored |
 | P6 | A control that cannot fail | 1 | 0 of 0 scored |
 | P7 | A foreseeable execution risk run without a pilot | 1 | 0 of 1 scored |
-| P8 | Comparing across conditions that differ in more than the factor named | 5 | 2 of 2 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 5 | 2 of 3 scored |
 | P9 | The right rule, then the wrong noun | 5 | 4 of 4 scored |
-| P10 | A label that hangs on one item | 6 | 3 of 3 scored |
+| P10 | A label that hangs on one item | 6 | 4 of 4 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 1 | 1 of 1 scored |
 | P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 0 | 0 of 0 scored |
 
-**Does the loop help?** On 3 scored bets, Brier with the odds before the lesson is 0.357, after it 0.278.
+**Does the loop help?** On 5 scored bets, Brier with the odds before the lesson is 0.352, after it 0.291.
 
