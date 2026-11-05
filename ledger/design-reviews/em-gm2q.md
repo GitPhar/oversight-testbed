@@ -186,3 +186,83 @@ All five can go in one dated DEVIATIONS.md row, written before any data: the nex
    - Correct §3's Haiku and Sonnet qonly estimates (total ≈ $2.79), and fix the two text slips noted under D2 and the unregistered cell rule noted under D1.
 
 The reviewer confirms each fix in an addendum to this file before any call. Fixes 1 and 5 can be checked with stubs; fix 4 by re-running the shrunk and shuffled worlds.
+
+## Confirmation
+
+Checked 2026-11-05 07:05 America/Denver against D69 and commit `a548fae`. The working tree matches `a548fae` for the code and the dry-run JSON. Read-only. No calls were made. Scratch scripts are in `/private/tmp/claude-501/-Users-seanpharris-oversight-testbed/7db7e173-0d10-4755-94b1-f97b0684254c/scratchpad/review/`: `confirm1.py`, `confirm1b.py`, `confirm4.py` and `confirm5.py`. `--selftest` and `--print-prompts` pass.
+
+**Result: not confirmed (fixes 1 and 3 open, and one sub-item of 5). `confirmed_at` stays null.**
+
+### Fix 1 (D5, wrong-target flag): not confirmed
+
+The code does what D69 says:
+- `wrong_target` uses ±5 points near and more than 20 points far.
+- The cleaned qonly gate uses seed + 6.
+- A cell left with fewer than 2 ratings fails.
+- Both shares are reported.
+- The selftest world fails (raw p 0.0002; cleaned p 0.42).
+
+The flag does not work at realistic noise:
+- The dry run and the selftest draw each wrong-target answer with SD 2 around the statement's mean.
+- A real wrong-target answer would vary like the model's own rating of that statement. In the archives' shown chains that is a within-cell SD of 10.6 (Haiku) and 8.5 (Sonnet).
+- At those SDs, only about a quarter of the wrong-target answers fall within ±5. With f = 0.3, the flag catches 7.5% (Haiku) and 9.4% (Sonnet) of answers, against a true share of 30%.
+- P(pass) at f = 0.3 is therefore 0.58 (Haiku), 0.705 (Sonnet) and **0.41** for the bet, not D69's 0.04 (`confirm1.py`, 200 runs, the module's own functions).
+
+**Remaining fix:**
+- **Rule.** Flag an answer when it is *nearer* the 4th statement's mean than the item's final mean, and more than 20 points from the final mean: `abs(r - s4) < abs(r - fin) - TOL and abs(r - fin) > 20 + TOL`.
+- **Tested** with the same machinery and realistic SDs (`confirm1b.py`):
+  - The wrong-target 0.3 world passes 0.05 (Haiku), 0.115 (Sonnet) and **0.006** for the bet.
+  - The equal world keeps 0.97, 0.835 and 0.81, against D69's 0.822, so power is kept.
+  - Flagged share with no wrong-target answers: 1.6–1.9%.
+- **Tests.** Redraw the selftest's and the dry run's wrong-target answers with SD 10.6 (Haiku) and 8.5 (Sonnet), and update D69's table rows.
+- **Record.** Record it as an amendment to D69 (a new dated row), before any data.
+
+### Fix 2 (D7, differences listed): confirmed
+
+D69 lists all seven qonly-versus-shown differences and the matched factors. It says a fail cannot be laid on any one of them.
+
+### Fix 3 (D8, verdict sentences): not confirmed
+
+The split by the qonly gate carries, and so do fail-short and the mixed wording.
+
+On the placeholder sentence I kept by the job's order:
+- Its conditions are mine: qonly gate p ≥ 0.05 on both models, and today's Haiku redacted/shown lower bound ≥ 0.5.
+- "The gm2 pass" names gm2's Haiku result, which today's Haiku redacted arm can carry.
+- So the sentence is acceptable in that case, with two changes:
+  - **(a) Name the whole bundle.** The parenthesis defines "the placeholder" as the line, the turn-taking and the act of answering. qonly also differs from the redacted chain in the 1–5 numbering and in the opening's "give a rating for the question itself only" instruction. That instruction could by itself tell the model to set the statements aside, and the review's D8 point 3 named both. Add them: "…(the '[rating recorded]' line, the turn-taking and the act of answering, together with the numbered list and rate-only opening that replaced them)…".
+  - **(b) Choose the sentence from the cleaned gate.** `sentence_key` picks fail-short from the *raw* qonly gate. If the raw gate passes only because of wrong-target answers (cleaned p ≥ 0.05), fail-short's "the questions alone do something" would be false. Key fail-short on `qonly_p_clean` (None counts as not passing), and the two "dies" sentences on the same.
+- **Recommended, not required.** The placeholder clause rests on non-detection (p ≥ 0.05), not on a shown small effect. Put Haiku's R_qonly/redacted, with its interval, in the same paragraph.
+
+### Fix 4 (D11, dry run): confirmed, except its wrong-target rows
+
+- I ran `dry_run()` by import, without writing into `results/`. The output is **identical** to the committed `results/gm2q-dry-run.json`, and every row matches D69's table.
+- The shrinkage is per item, sqrt(VC / var(means)), so each world's OE equals the measured OE.
+- The shuffled-items and 0.75 worlds match my own independent simulation: equal 0.822 here against my 0.78; shuffled, equal size, 0.005 against my 0.01.
+- The plain statement that a pass needs the effect on the same items, and the odds revised to 0.10 with both numbers kept, carry.
+- Only the wrong-target rows (0.000, 0.001, 0.040) must be redone after fix 1, with realistic answer SDs.
+
+### Fix 5 (D10, refusal machinery): confirmed, except one sub-item
+
+Results of the stubs, with `run(client)` called and the cache and refusal paths in scratch:
+
+| check | result |
+|---|---|
+| refusal at call 31 (8 workers, 50 ms calls) | **0** calls started after the refusal returned |
+| refusal at call 434 (8 workers) | **0** calls started after the refusal returned |
+| unfinished conversations | recorded under `_lost` (aborted and refused) |
+| recorded spend against billed | equal to the cent |
+| refusal file | written |
+| second run with the file present | exited with **0** calls |
+| cap at about $0.01 per conversation | stopped at $3.455 (≤ $3.50) |
+| `--analyse --seed 123` | the assert fires |
+| cache | written after every conversation |
+
+The open sub-item: the review asked that an *errored* conversation's cost also count. A stub error at call 31 records $0.01836, but $0.02040 was billed before the failed call. `except Exception` keeps no partial cost. The amount is small (one conversation, at most about $0.005) and the run stops on any error, but it is not yet done. Fix: catch the error inside `guarded`, attach `cost` to it, and record it under `_lost|key` the way `Refused` is recorded.
+
+### What remains before go
+
+1. The fix 1 flag rule and realistic wrong-target SDs, plus the redone dry-run rows.
+2. Fix 3 (a), the bundle wording, and (b), `sentence_key` from the cleaned gate.
+3. Fix 5's errored-conversation cost.
+
+All three are small and can go in one dated DEVIATIONS row amending D69, before any call. The reviewer then confirms in a second addendum.
