@@ -194,6 +194,8 @@ API tier P2-1 to P2-9 and P2-11: about $7.00 estimated, $8.70 in caps. Recommend
 - **Event and odds.** The label effect (own minus Sam, pooled over position) is at least 0.15 uptake, with the CI excluding 0, and larger than the position effect. **P = 0.35.** The engine leans toward position: the model is continuing the assistant turn whatever the label says.
 - **Odds revised before data (2026-11-04, lesson `ls-om-p2-6`, pre-registration `experiments/p2-6-position-or-label.md`, D11):** 0.35 → **0.25**, both kept (`engine_odds_first` 0.35, `engine_odds` 0.25). Reason from the ledger: om-p2-3b (audited, stands) found a planted answer labelled as Haiku's own, in its own turn, pulling less than the same answer credited to another reader in the user turn; program 2 is 0 hits in 3 scored bets.
 - **Source.** P1 (the caveat) + L (B13, B18, D34, B6, B16).
+- **Replication, P2-6r (added 2026-11-04 23:45, before any Sonnet or Opus call; invariant 7).** Haiku's audited result was fail (position): position +0.23 [+0.13, +0.34] against label +0.08. Does that pattern hold on `claude-sonnet-5-5` and `claude-opus-5-5`? Same 16 items at ±30, the same four 2 × 2 cells and the no-value baseline (the fifth, user's-own cell is dropped for budget), 3 repeats on Sonnet and 2 on Opus (Opus 5.5 cannot turn thinking off, so its calls cost about 100 times Haiku's). Cost about $3.25, cap **$4.00** in code. **Event:** on *both* models, the position effect P ≥ 0.15 with its 95% item-bootstrap CI above 0, the shift-invariant P_s likewise, and P > |L|. **Engine odds 0.40**: near the running base rate (9/21 = 0.43), a little below it because the event is a conjunction over two models and stronger models may weigh the label more (program 1's DM4: Opus's final answer moved *away* from planted values). No human odds.
+- **Odds revised before data (2026-11-05, lesson `ls-om-p2-6r`, pre-registration `experiments/p2-6r-replication.md`, D14):** 0.40 → **0.25**, both kept (`engine_odds_first` 0.40, `engine_odds` 0.25). Reason from the archive: in program 1's DM4 a planted earlier answer pulled the next rating 0.46 (Sonnet) and 0.15 (Opus) as much as on Haiku, and the dry run passes about 0% if uptake halves.
 
 ### P2-7. Shared format fingerprint — rank 7
 
@@ -209,6 +211,7 @@ API tier P2-1 to P2-9 and P2-11: about $7.00 estimated, $8.70 in caps. Recommend
   - the correlation between the per-claim-and-format deviations from one latent credence (the residuals of the one-credence model) for self and for Sam, relative to the split-half ceiling.
 - **Cost.** 4,800 calls ≈ $0.24 (cap $0.30).
 - **Event and odds.** The self and Sam residuals correlate at ≥ 0.5 of the ceiling. **P = 0.50.** Run after P2-1: if framing (d) is interchangeable there, this is likely; if not, less so.
+- **Three-model version, P2-7 (added 2026-11-04 23:45, before any call).** Run on Haiku, Sonnet and Opus at once, cap **$1.50** in code. At that cap the map's design (4,800 calls a model) does not fit: Opus's archived format calls cost about $0.004 each. So: the three graded formats only (0–100 rating, frequency out of 100, verbal 7-point; the yes/no, bet and pairwise formats need many repeats per statement to show a per-statement deviation), 34 statements (2 drawn by the beacon from each of the 17 items all three models' archives share), 2 repeats, 204 calls a model, about $1.07. Self data come from the archives (program 1's gm3b and mm-gm3b, 10 repeats). **Event:** on every model whose residuals are reliable enough to test (at least two), the self–Sam residual correlation reaches 0.5 of its ceiling *and* beats a generic-link responder built from Sam's own answers (which shares no per-statement deviation) by at least 0.10, its CI above 0. **Engine odds 0.25**, below the running base rate (0.43) for named reasons: a conjunction over two or three models, a margin over a dumb baseline (P3), and Opus's formats nearly agree (Kendall's W 0.87), so its residuals are small. No human odds.
 - **Source.** L (A8, A11, A13, A14, A5, B2, D17) + P1 (F4).
 
 ### P2-8. Order between self and other questions — rank 8
@@ -390,3 +393,37 @@ API tier P2-1 to P2-9 and P2-11: about $7.00 estimated, $8.70 in caps. Recommend
   - Lombardo et al. 2010; Baez et al. 2026; Cheng et al. 2026.
 
   The Kumaran attribution figure flagged in B18 needs checking against the source.
+
+## Follow-ups (remap 2026-11-05)
+
+Written 2026-11-05 04:45 America/Denver by the remap session (`operators/remap.md`), from every settled result in `ledger/bets.jsonl` and its audit, before any data for these directions. Nothing was run, pre-registered or called. Each follow-up's odds are the engine's P(pass) for the draft event, stated in one pass in id order before ranking, not in fresh v1 contexts: the betting session re-elicits under v1 before pre-registration (`operators/learn.md`). API follow-ups are costed on `claude-haiku-5-5`, `claude-sonnet-5-5` and `claude-opus-5-5` (CONTEXT.md §3 rule 12) unless the row says why not. Sean's question for each is on its cockpit card; `map/remap-2026-11-05-odds-form.md` lists them shuffled, without these odds.
+
+### In plain English
+
+Nothing in program 2 landed: six scored bets, six misses, and one untestable (a refusal). Only P2-4 came back undetermined, which the remap counts as mixed. Its two follow-ups are the auditor's larger re-run with a margin fixed in advance (P2-14, about $3.50 on the three models) and a free check that its predictions beat a guess of 'no effect' (P2-15). Three of the misses turned up effects running the other way from the bet (own answer pulled less than another reader's; Sam followed the planted answer more than the model did; the turn mattered more than the label). They stay killed. Two of them get an optional lead from their audit's cheapest test (P2-16, P2-17), labelled post hoc. Program 2 did not stop for lack of directions: P2-7 to P2-13 are still open and untried, and P2-6r is mapped above.
+
+### Follow-ups
+
+| id | grows from | direction | models | cost | engine P(pass) |
+|---|---|---|---|---|---|
+| P2-14 | P2-4, bet `om-p2-4` | Does the model predict its own quirks any better than an observer's, with enough repeats and a margin fixed in advance? | Haiku, Sonnet, Opus | about $3.50 (Haiku $0.15; Sonnet about $1.80; Opus about $1.50) | 20 |
+| P2-15 | P2-4, bet `om-p2-4` | Do the model's predictions of its own quirks beat a predictor that expects no quirk at all? | archive: Haiku | $0 (archive) | 55 |
+| P2-16 | P2-6, bet `om-p2-6` | Lead (post hoc): is 'position over label' about the turn, or about the message structure around the value? *(lead, post hoc)* | Haiku, Sonnet, Opus | about $3.70 (Haiku $0.25; Sonnet about $0.80; Opus about $2.60) | 40 |
+| P2-17 | P2-5, bet `om-p2-5` | Lead (post hoc): is 'Sam follows the planted answer more than the model does' just the wording of the self question? *(lead, post hoc)* | Haiku, Sonnet, Opus | about $3.50 | 45 |
+
+Test, event and the reason for each number:
+
+- **P2-14.** *Test:* om-p2-4's arms (a) self and (b) observer on the 192 own-source uptake cells only; Haiku 10 repeats, Sonnet 3, Opus 1 on half the cells; own-uptake block difference in error with BCa intervals and a +/-0.05 equivalence margin. *Event:* On Haiku, the BCa 95% interval of the own-uptake difference in error (self minus observer) lies inside +/-0.05: the model reads itself like a stranger. Sonnet and Opus reported. *Odds 20:* The audit's cheapest overturning test (om-p2-4 audit). The first run's point estimate was self error about half the observer's (0.054 against 0.097, a difference of -0.043), so an interval inside +/-0.05 needs the estimate to shrink toward 0. Program 2 is 0 hits in 6 scored bets. Well below the running base rate 8/19 = 0.42 (ledger/brier.md).
+- **P2-15.** *Test:* Archive only: om-p2-4's committed predictions; compare self-prediction error with an always-no-uptake predictor, BCa interval. *Event:* On Haiku, self-prediction error on the uptake cells is below the always-no-uptake predictor's, BCa 95% upper bound of the difference below 0. *Odds 55:* The audit showed the gate and r bar were met by a know-nothing predictor, which is a warning; but self error (0.054) is small, and the measured uptake (0.21-0.71 on own cells) is far from zero, so a no-uptake guess should do badly there. Above the running base rate 8/19 = 0.42 (ledger/brier.md).
+- **P2-16.** *Test:* om-p2-6's 16 items at +/-30 with the message structure matched in both positions, plus a cell quoting the value as the assistant's earlier output; Haiku 20 repeats, Sonnet 3, Opus 2. *Event:* On Haiku, with the message structure matched, the position effect falls below 0.10 (from +0.23), 95% item-bootstrap upper bound below 0.15. *Odds 40:* The audit of om-p2-6 names this as the cheapest test that could overturn 'position over label'. Message structure is a live rival: the user-position value sat inside the request turn. But the assistant-turn role marker may carry the pull by itself. Near the running base rate 8/19 = 0.42 (ledger/brier.md); program 2's 0 of 6 argues lower.
+- **P2-17.** *Test:* om-p2-5's design with the self question reworded to match Sam's, plus a recall question ('what rating did you give earlier?'); Haiku 20 repeats, Sonnet 3, Opus 2. *Event:* On Haiku, with matched wording, the Sam-minus-own uptake gap falls below 0.05 (from +0.14), 95% item-bootstrap upper bound below 0.10. *Odds 45:* The om-p2-5 audit names this rival and its test. Wording effects are large in this family (om-p2-1: framing moved 18 of 160 claims by over 30 points), which favours it. But the gap came mostly from upward plants, which wording alone may not explain. Near the running base rate 8/19 = 0.42 (ledger/brier.md).
+
+### Killed or untestable: what each rules out
+
+| direction | bet(s) | rules out |
+|---|---|---|
+| P2-1 | `om-p2-1` | Rules out, on Haiku and program 1's 160 claims, that 'how likely is this true' and 'how confident are you' are interchangeable: they share about 77% of reproducible item variation, below the 90% bar. |
+| P2-2 | `om-p2-2` | Rules out, on Haiku and BigToM stories, that attributing Noor's belief is just judging the world from her filtered evidence: the two share about half the item variance, almost none within condition. |
+| P2-3 | `om-p2-3`, `om-p2-3b` | Rules out, on Haiku and 581 lower-severity SimpleToM stories, that the 'stated but not used' gap is memory of the model's own answer: a planted own answer pulled less than another reader's (om-p2-3 itself was untestable: a refusal). |
+| P2-5 | `om-p2-5` | Rules out, on Haiku and program 1's 16 vignettes, that a planted own answer reaches Sam's rating only through the model's own revised view: Sam's rating followed it more (+0.14). |
+| P2-6 | `om-p2-6` | Rules out, on Haiku and program 1's 16 items at +/-30, that the 'yours' label carries the own-answer pull: the label added +0.08, the assistant-turn position +0.23. |

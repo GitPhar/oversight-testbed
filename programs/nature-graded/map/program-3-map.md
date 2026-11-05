@@ -461,3 +461,42 @@ Odds above are not revised. Outcomes, audited in round 2 (entangled-mind audit2 
   - The brief described several sources wrongly: Knee 2016's method, Nigg 2016's platform, the device in McKay 2023, the authors of 2407.08828.
   
   These count toward Q2's "overclaims caught" tally, as caught by reading rather than by an auditor.
+
+## Follow-ups (remap 2026-11-05)
+
+Written 2026-11-05 04:45 America/Denver by the remap session (`operators/remap.md`), from every settled result in `ledger/bets.jsonl` and its audit, before any data for these directions. Nothing was run, pre-registered or called. Each follow-up's odds are the engine's P(pass) for the draft event, stated in one pass in id order before ranking, not in fresh v1 contexts: the betting session re-elicits under v1 before pre-registration (`operators/learn.md`). API follow-ups are costed on `claude-haiku-5-5`, `claude-sonnet-5-5` and `claude-opus-5-5` (CONTEXT.md §3 rule 12) unless the row says why not. Sean's question for each is on its cockpit card; `map/remap-2026-11-05-odds-form.md` lists them shuffled, without these odds.
+
+### In plain English
+
+Program 3 landed one result: P3-5c (the saved chip data need both a rotation-type and a blur-type error term), a pass that is unreplicated and unscored by design. Its two follow-ups are P3-17, a free refit asking whether the chip misreading its own results could fake the blur (another session is already preparing it), and P3-18, the same measurement on a fresh chip job, about 18 QPU s. Every other bet was a miss or untestable, and each one's rules-out line is below. The 3 November question, which four bets have chased, closes after P3-16 (next section).
+
+### Follow-ups
+
+| id | grows from | direction | models | cost | engine P(pass) |
+|---|---|---|---|---|---|
+| P3-17 | P3-5, bet `ng-p3-5c` | Can extra readout error stand in for P3-5c's blur term? | none: archived chip data, no model | 0 QPU s, $0 (archive; laptop about 1 h) | 70 |
+| P3-18 | P3-5, bet `ng-p3-5c` | Do both error terms show up again when the three entangled pairs are measured in a fresh chip job? | none: the chip is the referee, no model | about 18 QPU s | 60 |
+
+Test, event and the reason for each number:
+
+- **P3-17.** *Test:* Refit P3-5c's models on the archive with four readout knobs per pair, bounded at 3x the binomial error of the job's own calibration; parametric bootstrap as P3-5c. Design files already being prepared by another session (experiments/p3_17_readout.py, uncommitted at remap time). *Event:* With readout knobs bounded at 3x each job's calibration error, the blur-type term is still needed (p < 0.01) on all three archived pairs. (Remap draft; if P3-17's pre-registration states a different event, it logs the change and both odds stay.) *Odds 70:* The ng-p3-5c audit found readout can absorb blur on h221 and h268 only with knobs of 2.7-5% per qubit, 3-20 times IBM's reported error; 3x the calibration's own binomial error is far tighter. Risk: h088 already misfits, and tight bounds may still help on the weakest pair. Above the running base rate 8/19 = 0.42 (ledger/brier.md); program 3 is 0 hits in 4 scored.
+- **P3-18.** *Test:* One new job: program 1's three witness circuits on their original qubits, 9 tomography settings x 2,000 shots each, plus readout calibration; P3-5c's fits, unchanged. *Event:* On the fresh job, the 16-knob model needs both the rotation-type and the blur-type term (each p < 0.01) on at least 2 of the 3 pairs. *Odds 60:* Invariant 7: P3-5c is pass-unreplicated. Both kinds of error are generic on superconducting chips, so a second job should need both; but half the shots widen the nulls, calibration drifts between days (P3-15's runs), and h221's rotation label was the weakest. Above the running base rate 8/19 = 0.42 (ledger/brier.md).
+
+### The 3 November question: closing after P3-16
+
+**What made 3 November different? (program 1's Stage 1 gap: the chip said yes 50% of the time, its simulator 25%).** Bets so far: `ng-p3-1`, `ng-p3-2`, `ng-p3-3`, `ng-p3-15`, `ng-p3-16`. It is down to its last bet, `ng-p3-16` (pre-registered, design review fixed, not yet run).
+
+- **If P3-16 misses, the question closes: the corrected simulator (P3-1), same-day reruns on three layouts (P3-2, P3-3), the barrier and the shot grouping (P3-15) and the lone job (P3-16) are everything about the circuit, simulator and job that we control, and every run since 3 November gave 0.25-0.32. The 0.50 was that afternoon's chip, not reproducible and not a property of our set-up. No more chip seconds go to it.**
+- If P3-16 passes, the question stays open with one follow-up only: the lone-job run repeated on another day (invariant 7), before anything is claimed about job scheduling.
+
+Marked in both JSONs as `closes_after: ng-p3-16` with this diagnosis (`question_line: "3 November"` on P3-1, P3-2, P3-3, P3-15, P3-16).
+
+### Killed or untestable: what each rules out
+
+| direction | bet(s) | rules out |
+|---|---|---|
+| P3-1 | `ng-p3-1` | Rules out our simulator's missing idle decay as the cause of the 3 November gap: scheduling the circuit correctly moved the prediction by about 0.000 (0.268 against 0.267). |
+| P3-5 | `ng-p3-5` (P3-5c passed: follow-ups above) | Rules out, on program 1's three archived pairs, a pure steady-twist account winning a 7-against-7 fit; the contest was decided by the reference state's purity, so P3-5c re-asked it (pass). |
+| P3-2 | `ng-p3-2` | Rules out nothing about twirling: the 3 November gap was absent on 4 November (0.246 against 0.269), so there was nothing to close; it set the defaults (twirl off, DD off). |
+| P3-3 | `ng-p3-3` | Rules out nothing about bad qubits: with no gap on 4 November, both alternative layouts also sat near the simulator (0.277 and 0.297 against 0.265 and 0.264). |
+| P3-15 | `ng-p3-15` | Rules out the pre-measurement barrier and the shot grouping as the cause of 3 November's 0.50: every arm in two runs gave 0.27-0.32. |

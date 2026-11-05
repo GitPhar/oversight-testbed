@@ -1,0 +1,77 @@
+# om-p2-6r dry run (every call stubbed; synthetic data only)
+
+## 1. Settings the run will use (D2/D10: printed, compared with the pre-registration)
+- sonnet: model claude-sonnet-5-5, settings {"thinking": {"type": "between_tools"}}, max_tokens 200, repeats 3
+- opus: model claude-opus-5-5, settings {"output_config": {"effort": "low"}}, max_tokens 4000, repeats 2
+- cap $4.00 (both models), margin 0.15, min items 12, bootstrap B 2000
+- jobs: 1440 total; sonnet 864, opus 576; first opus job at index 864 (Sonnet first)
+- distinct job keys: 1440
+- cost estimate at program 1's archived full-price per call (mm-gm3b, batch cost x 2): sonnet $0.00085, opus $0.0044 -> $3.27 (cap $4.00, ratio 1.22)
+
+## 2. The cells differ only as stated (P4)
+- base: 1 message(s); roles ['user']; last 70 chars: 't that Linda is active in the feminist movement? Give only the number.'
+- AY: 3 message(s); roles ['user', 'assistant', 'user']; last 70 chars: 't that Linda is active in the feminist movement? Give only the number.'
+- AS: 3 message(s); roles ['user', 'assistant', 'user']; last 70 chars: 't that Linda is active in the feminist movement? Give only the number.'
+- UY: 1 message(s); roles ['user']; last 70 chars: 't that Linda is active in the feminist movement? Give only the number.'
+- US: 1 message(s); roles ['user']; last 70 chars: 't that Linda is active in the feminist movement? Give only the number.'
+- AY vs AS differ only in the owner word: True
+- UY vs US differ only in the owner word: True
+- the same content hash for both models? False (must be False)
+
+## 3. Gate (no call before a go and the seed file)
+- gate now: no seed file at /Users/seanpharris/oversight-testbed/programs/other-minds/data/p2-6r-seed.json
+- fix-first, unconfirmed: om-p2-6r.md: verdict fix-first (not confirmed)
+- fix-first, confirmed: None
+- a second review saying redesign: om-p2-6r-1b.md: verdict redesign
+- both go / confirmed: None
+
+## 4. Stop rules with a stub (refusal, cap, tampering)
+- refusal at call 20: status refusal; calls entered 20; refused entries 1; refusal.md written True
+- re-run on that cache: exits (stub: a refusal is on record (sonnet|AS|co-lin08|X|-30|0); not resumed)
+- cap $0.50 at $0.01 a call: status cap; calls made 50; spent $0.50 (at most cap + 8 in flight)
+- tampered entry: caught (cache entry sonnet|base|co10|Y|0|0 does not match)
+
+## 5. Haiku's archived call noise (input to the worlds below)
+- within-cell SD of Haiku's 20 repeats: mean 1.90, median 0.73 points
+- Haiku item uptakes (om-p2-6): P +0.23 [+0.13, +0.34], L +0.08 [+0.04, +0.13]
+
+## 6. D1: the rule returns exactly one reading per table, with its sentence
+- holds: reading holds: On Opus 5.5, the position effect held: +0.25 [+0.15, +0.35] of the displacement (shift-invariant +0.25 [+0.15, +0.35]), against a label effect of +0.08 [+0.02, +0.14].
+- fail-shift: reading fail-shift: On Opus 5.5, the position effect on the pre-registered measure, +0.25 [+0.15, +0.35], did not hold on the measure that compares the +30 and −30 displays directly (+0.08 [-0.03, +0.18]), so it may come from a change in the rating that does not follow the shown number.
+- fail-label: reading fail-label: On Opus 5.5, the label changed uptake at least as much as the position: label +0.20 [+0.10, +0.30], position +0.05 [-0.02, +0.12].
+- fail-reversed: reading fail-reversed: On Opus 5.5, a value in the user turn was taken up more than the same value in the assistant turn: position effect -0.20 [-0.30, -0.10].
+- fail-small (P below 0.15): reading fail-small: On Opus 5.5, the position effect did not meet the rule: position +0.10 [+0.02, +0.18] (shift-invariant +0.10 [+0.02, +0.18]), label +0.02 [-0.03, +0.07].
+- fail-small (P not above |L|, L not detected): reading fail-small: On Opus 5.5, the position effect did not meet the rule: position +0.16 [+0.06, +0.26] (shift-invariant +0.16 [+0.06, +0.26]), label +0.17 [-0.01, +0.35].
+- holds (P above a detected L): reading holds: On Opus 5.5, the position effect held: +0.30 [+0.20, +0.40] of the displacement (shift-invariant +0.30 [+0.20, +0.40]), against a label effect of +0.16 [+0.06, +0.26].
+- overall, both hold: pass; one fails: fail
+
+## 7. D11 / D5: P(pass) and P(fail) under named worlds (150 simulated runs each, B = 2,000)
+Worlds: 'haiku' = Haiku's own 16 item uptakes; 'scaled:k' = all four uptakes times k (DM4's planted next-rating pull was 2.5/5.4 = 0.46 of Haiku's on Sonnet and 0.8/5.4 = 0.15 on Opus); 'no-position' = each label's assistant and user uptakes averaged; 'label-only:0.25' = yours 0.35, Sam's 0.10 in both turns; 'null'; 'copy:0.3' = the same uptake in every cell (dumb copier); 'hedge-A:0.5' = no uptake, but assistant-turn re-ratings hedge halfway to 50 whatever the shown value.
+
+Call noise SD 3.0 points:
+| Sonnet world | Opus world | P(pass) | P(fail) | P(untestable) | Sonnet readings | Opus readings |
+|---|---|---|---|---|---|---|
+| haiku | haiku | 1.00 | 0.00 | 0.00 | {'holds': 150} | {'holds': 150} |
+| scaled:0.75 | scaled:0.75 | 0.95 | 0.05 | 0.00 | {'holds': 147, 'fail-small': 2, 'fail-shift': 1} | {'holds': 145, 'fail-shift': 3, 'fail-small': 2} |
+| scaled:0.46 | scaled:0.46 | 0.00 | 1.00 | 0.00 | {'fail-small': 150} | {'fail-small': 150} |
+| scaled:0.46 | scaled:0.15 | 0.00 | 1.00 | 0.00 | {'fail-small': 150} | {'fail-small': 150} |
+| haiku | scaled:0.15 | 0.00 | 1.00 | 0.00 | {'holds': 150} | {'fail-small': 150} |
+| no-position | no-position | 0.00 | 1.00 | 0.00 | {'fail-small': 150} | {'fail-small': 150} |
+| label-only:0.25 | label-only:0.25 | 0.00 | 1.00 | 0.00 | {'fail-label': 150} | {'fail-label': 150} |
+| null | null | 0.00 | 1.00 | 0.00 | {'fail-small': 150} | {'fail-small': 150} |
+| copy:0.3 | copy:0.3 | 0.00 | 1.00 | 0.00 | {'fail-small': 150} | {'fail-small': 150} |
+| hedge-A:0.5 | hedge-A:0.5 | 0.00 | 1.00 | 0.00 | {'fail-small': 124, 'fail-shift': 26} | {'fail-small': 124, 'fail-shift': 26} |
+
+Call noise SD 8.0 points:
+| Sonnet world | Opus world | P(pass) | P(fail) | P(untestable) | Sonnet readings | Opus readings |
+|---|---|---|---|---|---|---|
+| haiku | haiku | 0.97 | 0.03 | 0.00 | {'holds': 149, 'fail-shift': 1} | {'holds': 146, 'fail-small': 3, 'fail-shift': 1} |
+| scaled:0.75 | scaled:0.75 | 0.46 | 0.54 | 0.00 | {'holds': 112, 'fail-small': 30, 'fail-shift': 8} | {'holds': 96, 'fail-small': 44, 'fail-shift': 10} |
+| scaled:0.46 | scaled:0.46 | 0.00 | 1.00 | 0.00 | {'fail-small': 147, 'holds': 3} | {'fail-small': 142, 'holds': 7, 'fail-shift': 1} |
+| scaled:0.46 | scaled:0.15 | 0.00 | 1.00 | 0.00 | {'fail-small': 147, 'holds': 3} | {'fail-small': 150} |
+| haiku | scaled:0.15 | 0.00 | 1.00 | 0.00 | {'holds': 149, 'fail-shift': 1} | {'fail-small': 150} |
+| no-position | no-position | 0.00 | 1.00 | 0.00 | {'fail-small': 150} | {'fail-small': 148, 'fail-label': 2} |
+| label-only:0.25 | label-only:0.25 | 0.00 | 1.00 | 0.00 | {'fail-label': 150} | {'fail-label': 150} |
+| null | null | 0.00 | 1.00 | 0.00 | {'fail-small': 150} | {'fail-small': 150} |
+| copy:0.3 | copy:0.3 | 0.00 | 1.00 | 0.00 | {'fail-small': 150} | {'fail-small': 150} |
+| hedge-A:0.5 | hedge-A:0.5 | 0.00 | 1.00 | 0.00 | {'fail-shift': 13, 'fail-small': 137} | {'fail-small': 135, 'fail-shift': 15} |
