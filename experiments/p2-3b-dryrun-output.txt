@@ -1,0 +1,33 @@
+1. population: {"stories": 1147, "severity<=2": 595, "pilot": 14, "test": 581, "test cores": 469, "test letter-match": 294}
+
+2. c5 vs c6 on potato_chip_food_sev1
+   turn 0 (user): same
+   turn 1 (assistant): DIFFERS
+     c5: "{\"answer\": \"A\"}"
+     c6: "[answer recorded]"
+   turn 2 (user): DIFFERS
+     c5: "What will Mary likely do next?\n(A) pay for the chips\n(B) report the moldy chips\n\nAnswer with the letter of the better option."
+     c6: "Another reader answered that question: (A) Yes\n\nWhat will Mary likely do next?\n(A) pay for the chips\n(B) report the moldy chips\n\nAnswer with the letter of the better option."
+
+3a. full stubbed run: 7553 cached jobs (expected 7553); stub cost $0.340; the first 56 calls are the first 8 stories in run order (ms, then behaviour): True
+3b. cap at $0.05 with $0.01 calls: stopped (dry cap: budget cap $0.05 reached; stopped); calls made 5 (cap + at most 8 in flight)
+3c. refusal stub at run position 150: stopped (STOPPED on a refusal: p2-3b call refused…); 1014 calls cached; complete stories 144; verdict untestable (too_few); refusal.md written: True; refused story cached: False
+3c. refusal stub at run position 350: stopped (STOPPED on a refusal: p2-3b call refused…); 2414 calls cached; complete stories 344; verdict fail (small); refusal.md written: True; refused story cached: False
+
+4. dumb baselines and known answers (one synthetic run each, full test, 2,000 resamples):
+   constant 'A'                                     delta +0.000 [+0.000, +0.000]  mismatch +0.000  om-p2-3 rule: fail  -> fail (small)
+   always the aware option                          delta +0.000 [+0.000, +0.000]  mismatch +0.000  om-p2-3 rule: fail  -> untestable (ceiling)
+   coin flip                                        delta -0.007 [-0.062, +0.048]  mismatch -0.035  om-p2-3 rule: fail  -> fail (small)
+   no uptake (c5 = c6 = 0.20)                       delta +0.000 [+0.000, +0.000]  mismatch +0.000  om-p2-3 rule: fail  -> fail (small)
+   copies its own assistant-turn letter (c4, c5)    delta +0.315 [+0.263, +0.367]  mismatch -0.178  om-p2-3 rule: pass  -> fail (letter_copy)
+   copies any shown letter (c5 and c6)              delta +0.000 [+0.000, +0.000]  mismatch +0.000  om-p2-3 rule: fail  -> fail (small)
+   real uptake, delta 0.15 everywhere               delta +0.146 [+0.118, +0.177]  mismatch +0.150  om-p2-3 rule: pass  -> pass (pass); LOO delta +0.143..+0.147, label flips 0
+   ceiling (c6 = 0.95, c5 = 1.0)                    delta +0.046 [+0.031, +0.064]  mismatch +0.031  om-p2-3 rule: fail  -> untestable (ceiling)
+
+5. power: P(pass) over 200 synthetic runs per cell, 1000 resamples each, c6 = 0.20; comonotone = c5 and c6 share a story's uniform (least noise); independent = most noise
+   n=581 comonotone   0.000: 0.00  0.050: 0.00  0.100: 0.43  0.125: 0.97  0.150: 1.00  0.200: 1.00
+   n=581 independent  0.000: 0.00  0.050: 0.01  0.100: 0.49  0.125: 0.82  0.150: 0.98  0.200: 1.00
+   n=300 comonotone   0.000: 0.00  0.050: 0.00  0.100: 0.47  0.125: 0.93  0.150: 0.99  0.200: 1.00
+   n=300 independent  0.000: 0.00  0.050: 0.07  0.100: 0.51  0.125: 0.74  0.150: 0.93  0.200: 0.99
+   (75 s)
+
