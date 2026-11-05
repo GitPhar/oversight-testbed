@@ -147,3 +147,7 @@ This addendum supersedes the text above where they differ. Nothing above is dele
 ## Addendum D8 (2026-11-05, before any data)
 
 In every sentence of the D7 addendum that lists the four simple guesses, "the question's type" reads **"whether the question is SimpleQA trivia"**: that guess is one bit (SimpleQA against the other three types), while "question types" elsewhere means the four types (the sv-b3 review's confirmation addendum, D8). Nothing else changes.
+
+## Addendum D9 (2026-11-05, before any data)
+
+The not-run sentence becomes **"{model}: not run ({k} of {n} items complete; stopped by {cause})."**, where {cause} is the stop recorded for that run: a cap (written to `results/sv-run-log.md` by `run()`, naming the step or program cap and its amount) or an error (`results/sv-errors.md`); if none is recorded, "a stop with no logged cause". The D7 wording named this bet's cap whatever stopped the run (the sv-b3 review's second confirmation addendum). A not-run model's secondary statistics are not reported as its result.

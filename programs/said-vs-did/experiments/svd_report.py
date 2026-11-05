@@ -23,6 +23,19 @@ def f3(x):
     return "—" if x is None else f"{x:+.3f}" if isinstance(x, float) else str(x)
 
 
+def stop_cause(model):
+    """D9: the recorded cause of a stop, from results/sv-run-log.md (caps) and results/sv-errors.md (errors), naming
+    every logged stop that touched this model's steps; neutral if none is logged."""
+    causes = []
+    for f in ("sv-run-log.md", "sv-errors.md"):
+        p = C.RESULTS / f
+        if p.exists():
+            for ln in p.read_text().splitlines():
+                if model in ln or f == "sv-errors.md":
+                    causes.append(ln.lstrip("- ").split(" ", 1)[1])
+    return "; ".join(causes) if causes else "a stop with no logged cause (see the run's commits)"
+
+
 def sentences(step, res):
     out = []
     k = len(res["passing"])
@@ -44,7 +57,7 @@ def sentences(step, res):
         n = NAME[m]
         st = d["status"]
         if d.get("not_run"):
-            out.append(f"{n}: not run (the {W.CAPS[step]:.2f}-dollar cap was reached after {st['items'] - st['missing']} of {st['items']} items).")
+            out.append(f"{n}: not run ({st['items'] - st['missing']} of {st['items']} items complete; stopped by {stop_cause(m)}).")
             continue
         if not d["testable"]:
             word = {"b1": "too few changed answers to test", "b2": "too few declines to test",
@@ -96,6 +109,9 @@ def tables(step, res):
     L += ["", "**Secondary statistics** (reported, never the headline):", "",
           "| model | " + " | ".join(SEC_KEYS[step]) + " |", "|---|" + "---|" * len(SEC_KEYS[step])]
     for m, d in res["models"].items():
+        if d.get("not_run"):     # a not-run model's partial items are never reported as its result
+            L.append(f"| {NAME[m]} | " + " | ".join("not run" if i == 0 else "—" for i in range(len(SEC_KEYS[step]))) + " |")
+            continue
         s = d["secondary"]
         cells = []
         for k in SEC_KEYS[step]:

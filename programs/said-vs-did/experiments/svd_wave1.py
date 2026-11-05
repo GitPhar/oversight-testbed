@@ -138,7 +138,13 @@ def run(step):
         else:
             ok = caller.run(jobs_single(model, step))
         if ok is False:
-            print(f"sv-{step}: stopped by a cap during {model}; it and later models are reported as not run")
+            # D9: record what stopped the run, so a not-run sentence can name the cause
+            import datetime
+            with open(C.RESULTS / "sv-run-log.md", "a") as f:
+                f.write(f"- {datetime.datetime.now().astimezone().isoformat(timespec='seconds')} sv-{step} stopped "
+                        f"during {model}: the {caller.capped} cap ({'$%.2f' % (CAPS[step] if caller.capped == 'step' else C.PROGRAM_CAP)})"
+                        f" was reached; {len(caller.cache)} calls cached\n")
+            print(f"sv-{step}: stopped by the {caller.capped} cap during {model}; it and later models are reported as not run")
             break
 
 
