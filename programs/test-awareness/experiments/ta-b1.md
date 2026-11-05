@@ -62,7 +62,7 @@ Written and frozen 2026-11-05 05:04 (America/Denver), in its own commit, before 
   - Total: 140 × 4 + 16 × 4 + 30 = 654 calls per model, **1,962 calls**.
 - **Scale:** one direction, 0 = certainly false, 100 = certainly true, in the one graded prompt (the belief check).
 - **Seed** (`operators/hardware.md`): CURBY-Q's latest completed round is **28297**, result pulse 2025-08-22 13:42 America/Denver (checked 2026-11-05 04:37 with `@buff-beacon-project/curby-client@1.2.0`, `DIRNGClient.latest()`). That is more than 24 hours old: **CURBY-Q stalled (latest completed round 28297, 2025-08-22 13:42). Seed: the first CURBy-RNG pulse timestamped after this commit.** seed = the first 8 bytes of SHA-256(randomness ‖ bet-id), read as an unsigned big-endian integer; sub-seeds by `ledger/seed.py <randomness> ta-b1 --purpose <p>` for `items` (the draw), `order` (run order) and `boot` (bootstrap). The seed commit writes them to `experiments/ta-b1-seed.json` and fills in this block:
-  `chain:` ___ · `pulse_index:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seeds:` ___
+  `chain:` CURBy-RNG · `pulse_index:` 1592188 · `pulse_time:` 2026-11-05 05:04:00 America/Denver (2026-11-05T12:04:00.164Z; previous pulse 1592187 at 05:03:00, before this file's commit 532a271 at 05:03:56) · `randomness:` a1eb159fec780c616965a63e1dbee6ef1f0fe6169bc3ace90a363f93af3cc577fd8b1e80275f334452601c87a952a0010dd4c91694ea4e026ca6164bf5ea5364 · `client:` @buff-beacon-project/curby-client@1.2.0 (`Client.randomness(1592188)`) · `certificate_verified:` false (classical chain) · `seeds:` seed 14013311559708297756; items 9399308771405810595; order 3325818266359610096; boot 13832414299443371545
 
 ## 3. Calls
 
