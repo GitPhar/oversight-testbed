@@ -40,7 +40,7 @@ Rules:
 - **Name at least one pattern**, or say `none applies` and why. If you find a new pattern, add it as a new pattern line in the same commit as the lesson (next P number, with evidence and `do_this`).
 - **The design change must be checkable**: a power check added, a baseline added, a pilot run, a control shown to fail on a wrong set-up. "Be careful" is not a lesson.
 - **The odds move, or the line says why not.** Record the map's odds (`odds_before_lesson`) and the odds after the lesson (`odds_after_lesson`). If the lesson changes the odds, the change is a revision before data: both numbers are kept, as `engine_odds_first` and `engine_odds`, and the map is updated in the same commit. Moving toward the running base rate needs no extra reason. Moving away from it needs one from the ledger, not from the story.
-- Write the same sentence in the pre-registration's §0 table, row `lesson`, so it is committed **with** the pre-registration. The ledger line follows in the engine commit that appends the bet row.
+- Write the same sentence in the pre-registration's §0 table, row `lesson`, so it is committed **with** the pre-registration. If a design review later requires the lesson to change (before data), the §0 text and the ledger's `lesson` stay as frozen; the new text goes in `lesson_revised` with its DEVIATIONS row (`lesson_revised_by`). `check_prereg.py` always compares `lesson` against the frozen §0. The ledger line follows in the engine commit that appends the bet row.
 
 ## The ledger line: `ledger/lessons.jsonl`
 
