@@ -26,8 +26,12 @@ Two harness fixes, both inside this script (nothing in the program is changed):
     and the output says which comparison was made.
 
 Registered files (every one must be accounted for, or the run fails):
-  results/ta-b2-analysis.json, ta-b3-analysis.json   rebuilt by the bet's own --analyse step (see above)
-  results/ta-b2-results.md, ta-b3-results.md         one table each, rebuilt from the regenerated analysis JSON
+  results/ta-b1r2-analysis.json, ta-b2-analysis.json, ta-b3-analysis.json
+                                                     rebuilt by the bet's own --analyse step (see above)
+  results/ta-b1r2-results.md, ta-b2-results.md,      one table each, rebuilt from the regenerated analysis JSON
+  ta-b3-results.md                                   (ta-b1r2's Opus row: its belief-check mean E - R is not in the
+                                                     JSON, so it is recomputed from ta-b1r2-calls.json with
+                                                     ta_b1r2.draw_items and tables_from_cache)
   results/ta-b1-pilot.md, ta-b1r-pilot.md,           one table each, rebuilt from the design reviewer's pilot call
   ta-b2-pilot.md, ta-b3-pilot.md                     cache (results/<bet>-pilot-calls.json); see the notes below
   results/ta-b2-run.log                              a run log, not a table: skipped
@@ -52,11 +56,14 @@ How a table is compared: every number in it is recomputed. Descriptive cells (ro
 line, and the output counts both kinds per file. A "—" where a model has no estimate (untestable) is recomputed: it
 is printed when the analysis has no such statistic. Bold is the author's emphasis: a recomputed "0 (0%)" matches
 "**0 (0%)**". The prose of the write-ups is not compared; the analysis JSON it quotes from is.
-ta-b1 was withdrawn before any test call and re-bet as ta-b1r; neither has a test call cache or an analysis at HEAD,
-so only their design-review pilots are rebuilt. When ta-b1r's analysis lands it
+ta-b1 was withdrawn before any test call and re-bet as ta-b1r; ta-b1r2 is the next re-bet. ta-b1 and ta-b1r have no test call cache
+or analysis at HEAD, so only their design-review pilots are rebuilt. ta-b1r2's analysis reads no scipy, so it is
+compared byte for byte; its pilot cache (ta-b1r2-pilot-calls.json) feeds no write-up table (its pilot is reported in
+the design review file) and, like the other call caches, is an input, not a registered output. When ta-b1r's analysis lands it
 is rebuilt and compared automatically; its write-up's tables must be added here, or the run fails on the file. The cost probe's results/probe-calls.json feeds no table.
 """
 import json
+import math
 import random
 import re
 import statistics
@@ -71,7 +78,7 @@ PROGRAM = "test-awareness"
 P1_OLD = Path("/Users/seanpharris/entangled-mind")              # ta_common.P1 as committed (the old checkout)
 P1_REPO = "programs/entangled-mind"
 P1_FILES = [f"{P1_REPO}/experiments/questions-train.json", f"{P1_REPO}/experiments/questions-hard.json"]
-BETS = {"ta-b1": "ta_b1", "ta-b1r": "ta_b1r", "ta-b2": "ta_b2", "ta-b3": "ta_b3"}   # bets with an --analyse step;
+BETS = {"ta-b1": "ta_b1", "ta-b1r": "ta_b1r", "ta-b1r2": "ta_b1r2", "ta-b2": "ta_b2", "ta-b3": "ta_b3"}   # --analyse;
                                                                 # an analysis is rebuilt when one is committed
 T_FIELDS = ("t_upper_bonferroni_AB", "t90_AB")                  # ta-b3 fields computed from the t quantile
 T_TOL = 1e-12
@@ -172,9 +179,25 @@ class StudentT:
 
 # ----- formatting, as the write-ups print numbers ---------------------------------------------------------------
 
+TIES = {}    # printed number -> its other printing, for exact decimal ties (73.25 to one place); reset per table
+NUM = re.compile(r"([\u2212+-]?\d[\d,]*(?:\.\d+)?)")     # numbers inside a cell (split keeps them at odd indices)
+
+
 def n(x, dp, sign=False):
-    """x to dp decimals; '+' on non-negatives if sign; the write-ups' Unicode minus."""
-    return (f"{x:+.{dp}f}" if sign else f"{x:.{dp}f}").replace("-", MINUS)
+    """x to dp decimals; '+' on non-negatives if sign; the write-ups' Unicode minus. An exact tie (73.25 to one place)
+    has two faithful printings: Python rounds half to even on the binary value (73.2), a reader rounds half up (73.3);
+    the write-ups do both (ta-b1r2-results.md rounds up, ta-b1r-pilot.md's 1.625 is printed 1.6). The other printing
+    is registered in TIES so either matches; every such cell is counted and reported."""
+    spec = f"{'+' if sign else ''}.{dp}f"
+    out = format(x, spec).replace("-", MINUS)
+    sc = x * 10 ** dp
+    lo = math.floor(sc)
+    if abs((sc - lo) - 0.5) < 1e-7:
+        for y in (lo / 10 ** dp, (lo + 1) / 10 ** dp):
+            o = format(y, spec).replace("-", MINUS)
+            if o != out:
+                TIES[out] = o
+    return out
 
 
 def ci(v, dp, sign=True):
@@ -212,7 +235,7 @@ class Tables:
     def __init__(self, text):
         self.have = R.tables_of(text)
         self.regen = []
-        self.n = {"calc": 0, "kept": 0}
+        self.n = {"calc": 0, "kept": 0, "tie": 0}
         self.notes = []
 
     def _cell(self, got, committed):
@@ -221,7 +244,13 @@ class Tables:
             return committed if committed is not None else "<missing in committed table>"
         self.n["calc"] += 1
         bare = committed[2:-2] if committed and committed.startswith("**") and committed.endswith("**") else committed
-        return committed if bare == got else got        # bold is the author's emphasis
+        if bare == got:                                 # bold is the author's emphasis
+            return committed
+        g, c = NUM.split(got), NUM.split(bare or "")    # an exact tie printed the other way (see n)
+        if len(g) == len(c) and all(a == b or (k % 2 and TIES.get(a) == b) for k, (a, b) in enumerate(zip(g, c))):
+            self.n["tie"] += 1
+            return committed
+        return got
 
     def add(self, idx, rows):
         have = self.have[idx] if idx < len(self.have) else []
@@ -235,6 +264,7 @@ class Tables:
         lines = [have[0] if have else missing, have[1] if len(have) > 1 else missing]
         lines += [build(r, j + 2) for j, r in enumerate(rows)]
         self.n["kept"] += len(split_row(lines[1]))      # the header's cells (one per column of the |---| line)
+        TIES.clear()
         self.regen.append((idx, lines))
 
     def check(self, rep, name):
@@ -243,6 +273,7 @@ class Tables:
         rebuilt = [f"[{len(self.regen)} table(s) in the file]"] + ["\n".join(l) for _, l in self.regen]
         what = (f"{len(self.regen)} table(s): {self.n['calc']} cells recomputed, "
                 f"{self.n['kept']} descriptive cells copied (labels and headers)"
+                + (f"; {self.n['tie']} exact tie(s) printed rounded the other way" if self.n["tie"] else "")
                 + "".join(f"; {x}" for x in self.notes))
         rep.compare(name, "\n\n".join(committed), "\n\n".join(rebuilt), what=what)
 
@@ -446,6 +477,30 @@ def table_ta_b2_results(tab, a, b2):
     tab.add(0, rows)
 
 
+def table_ta_b1r2_results(tab, a, b1r2, root):
+    """From the regenerated analysis; Opus, gated before phase 2, has only check_n there, so its belief-check mean
+    E - R is recomputed from the call cache with ta_b1r2's own draw_items and tables_from_cache (as its gate does)."""
+    rows = []
+    for m in b1r2.MODELS:
+        s, lab = a["stats"][m], a["labels"][m]
+        if "gate" in s:
+            seed = b1r2.load_seed()
+            items = b1r2.draw_items(seed["items"])
+            bel = b1r2.tables_from_cache(json.loads((root / "results/ta-b1r2-calls.json").read_text()), items)[m]["belief"]
+            d = [bel["E"][i] - bel["R"][i] for i in bel["E"] if i in bel["R"]]
+            if len(d) != s["check_n"]:
+                raise RuntimeError(f"ta-b1r2: {m} has {len(d)} belief pairs in the cache, the analysis {s['check_n']}")
+            rows.append([K, "—", "—", "—", "—", "—", "—",
+                         f"({s['check_n']} items) E − R {n(statistics.mean(d), 1, True)}",
+                         f"below {b1r2.CHECK_MIN:g}", f"{lab} (gated before phase 2)"])
+            continue
+        rows.append([K, str(s["n_items"]), n(s["mean_E"], 2), n(s["mean_P"], 2), n(s["mean_R"], 2),
+                     f"{n(s['D_EP'], 2, True)} {ci(s['ci95_EP'], 2)}", f"{n(s['D_ER'], 2, True)} {ci(s['ci95_ER'], 2)}",
+                     " / ".join(n(s[f"belief_{x}"], 1) for x in "NERP"),
+                     f"{n(s['check_E_minus_R'], 1, True)} {ci(s['check_ci'], 1)}", lab])
+    tab.add(0, rows)
+
+
 def table_ta_b3_results(tab, a, b3):
     rows = []
     for m in b3.MODELS:
@@ -495,6 +550,7 @@ def main():
             "results/ta-b3-pilot.md": lambda t: table_ta_b3_pilot(t, root, b3.MODELS, b3, mods["ta_common"]),
             "results/ta-b2-results.md": lambda t: table_ta_b2_results(t, analyses["ta-b2"], b2),
             "results/ta-b3-results.md": lambda t: table_ta_b3_results(t, analyses["ta-b3"], b3),
+            "results/ta-b1r2-results.md": lambda t: table_ta_b1r2_results(t, analyses["ta-b1r2"], mods["ta_b1r2"], root),
         }
         for name, build in writeups.items():
             if not (root / name).exists():
