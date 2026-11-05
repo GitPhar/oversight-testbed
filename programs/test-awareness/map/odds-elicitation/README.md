@@ -14,4 +14,6 @@ Written 2026-11-05 (America/Denver), after the reads (eb3b40d) and before any pr
 
 ## The random half
 
-(filled in by the seed commit)
+`chain:` CURBy-RNG · `pulse_index:` 1592176 · `pulse_time:` 2026-11-05 04:52:00 America/Denver (11:52:00.152Z; previous pulse 1592175 at 04:51:00, before the rows commit f9136a9 at 04:51:57) · `randomness:` 198b86b6b26e2c55ad7a10f4a958d1bde543f82e8a66310056999dcef970a2c582e1ff4c88f1f1c8dc91be63976d6d88edb6bdc7a8c0805da82af5bf93cdf731 · `client:` @buff-beacon-project/curby-client@1.2.0 (`Client.randomness(1592176)`) · `certificate_verified:` false (classical chain) · `seed:` 13088965802074220129 (`--purpose elicit-half`).
+
+Ids in numeric order (ta-d1 … ta-d11); `random.Random(13088965802074220129).sample(ids, 6)` → **ta-d2, ta-d3, ta-d4, ta-d5, ta-d7, ta-d8**.
