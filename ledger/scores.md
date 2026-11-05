@@ -29,17 +29,19 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-1 audit prepared with a sealed plant line: 0 still sealed, 1 revealed, of which 1 carried a plant. 
+2 audits prepared with a sealed plant line: 0 still sealed, 2 revealed, of which 2 carried a plant. 
 
-**Catch rate: 1/1 = 1.00, 95% Wilson interval [0.21, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 1 is below that, so the arm is untestable for now.
+**Catch rate: 2/2 = 1.00, 95% Wilson interval [0.34, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 2 is below that, so the arm is untestable for now.
 
 | class / subclass | planted | caught | missed: expected checklist line |
 |---|---|---|---|
+| miscount / total | 1 | 1 | — |
 | overclaim / scope | 1 | 1 | — |
 
 | plant | bet | class | caught | where (from the audit) | planter model |
 |---|---|---|---|---|---|
 | pl-001 | om-p2-1 | overclaim/scope | yes | ledger/audits/om-p2-1-blind-pl-001.md (from entangled-mind audit2 842e7af): Checklist C13 'Hole. L24: "is not supported in its simplest form on Claude models". One model (claude-haiku-5-5) was tested.'; Claims row 16; Required cut 4 | claude-opus-5-5 |
+| pl-002 | om-p2-3b | miscount/total | yes | ledger/audits/om-p2-3b.md: Holes found 1 and Required cut 1, 'severity 2 (438)' -> 'severity 2 (428)', proved from the dataset, pre-registration 2, the design review and the JSON (-0.0444 = -19/428); 153 + 438 = 591, not 581 | claude-opus-5-5 |
 
 **Limits, stated with the number:**
 
@@ -49,18 +51,18 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-9 of 30 bets carry an engine pre-mortem; 6 of those have failed and been scored. 21 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+9 of 30 bets carry an engine pre-mortem; 7 of those have failed and been scored. 21 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
-| engine: named the main reason | 3/6 = 0.50 [0.19, 0.81] |
-| engine: named it or its kind | 5/6 = 0.83 [0.44, 0.97] |
-| lazy baseline: failures whose reason was 'the effect is not there' | 5/9 = 0.56 [0.27, 0.81] |
+| engine: named the main reason | 3/7 = 0.43 [0.16, 0.75] |
+| engine: named it or its kind | 6/7 = 0.86 [0.49, 0.97] |
+| lazy baseline: failures whose reason was 'the effect is not there' | 6/9 = 0.67 [0.35, 0.88] |
 | human: named the main reason | — |
 
 | stated kind \ actual kind | world | design | execution | artefact |
 |---|---|---|---|---|
-| world | 3 | 1 | 0 | 0 |
+| world | 4 | 1 | 0 | 0 |
 | design | 0 | 0 | 0 | 0 |
 | execution | 0 | 0 | 1 | 0 |
 | artefact | 0 | 1 | 0 | 0 |
@@ -99,16 +101,16 @@ Design reviews: 0 go, 2 fix-first, 0 redesign; 0 later found by the post-result 
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
-| P1 | Odds too high where the engine had a story | 2 | 0 of 0 scored |
+| P1 | Odds too high where the engine had a story | 2 | 0 of 1 scored |
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 0 | 0 of 0 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 2 | 0 of 0 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 2 | 0 of 1 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 1 | 0 of 0 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 1 | 0 of 0 scored |
 | P6 | A control that cannot fail | 1 | 0 of 0 scored |
-| P7 | A foreseeable execution risk run without a pilot | 1 | 0 of 0 scored |
+| P7 | A foreseeable execution risk run without a pilot | 1 | 0 of 1 scored |
 | P8 | Comparing across conditions that differ in more than the factor named | 1 | 0 of 0 scored |
 | P9 | The right rule, then the wrong noun | 1 | 0 of 0 scored |
 | P10 | A label that hangs on one item | 2 | 0 of 0 scored |
 
-**Does the loop help?** Not measurable yet: no bet with a lesson has a scored outcome. The test is Brier with the odds before the lesson against after it, paired.
+**Does the loop help?** On 1 scored bets, Brier with the odds before the lesson is 0.490, after it 0.160.
 

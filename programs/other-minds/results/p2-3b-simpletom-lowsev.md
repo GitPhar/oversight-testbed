@@ -22,7 +22,7 @@ Pre-registered in `experiments/p2-3b-simpletom-lowsev.md` (D8), commit `26ee5d2`
 
 **Secondary results (pre-registered, reported, never promoted).**
 - On the judgment question ("Mary's behaviour is reasonable / not reasonable") the difference runs the other way, **Δ = +0.108 [+0.070, +0.147]**. The primary was fixed on the behaviour question, and this does not change the verdict.
-- Showing the model its own correct awareness answer (c4) brought behaviour errors from 24.1% (not asked) down to 5.2%. Asking the question with the answer hidden (c3) already brought them to 8.8%, so R_MS on behaviour is 0.81 [0.71, 0.90]. The engine's secondary bet was that R_MS < 0.5 (engine P = 40). It did not occur.
+- Showing the model its own awareness answer (c4; correct in 567 of 581 stories) brought behaviour errors from 24.1% (not asked) down to 5.2%. Asking the question with the answer hidden (c3) already brought them to 8.8%, so R_MS on behaviour is 0.81 [0.71, 0.90]. The engine's secondary bet was that R_MS < 0.5 (engine P = 40). It did not occur.
 - The model answered its own awareness question correctly in 97.6% of stories.
 
 **The pre-mortem** named "Haiku overrides a planted 'Yes, aware' … so both planted conditions stay near the redacted rate". The pulls from the redacted condition (c3, 8.8%) were +0.060 for the own answer and +0.114 for the other reader's. The auditor scores the pre-mortem; this file only records the numbers.
