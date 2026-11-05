@@ -293,7 +293,7 @@
    "human_prompt": "Would you spend about 60 cents to find out whether the model can tell which way new research about AI models' own psychology came out, its weakest area so far? Will it come back a hit (here, a hit means it clearly beats a coin flip there too)?",
    "engine_only": [],
    "kind": "follow-up",
-   "status": "open",
+   "status": "parked",
    "remap": "2026-11-05",
    "engine_odds_at": "2026-11-05T10:47",
    "odds_template": "v2",
@@ -326,7 +326,12 @@
     "engine_odds": 0.15,
     "odds_adjustment": -0.17,
     "note": "a first context for ss-b15 was handed, by the session's mistake, ss-b14's design-review estimate of P(pass); before either answer was seen the session fixed a second, clean context's number as the odds; both kept"
-   }
+   },
+   "parked_note": "parked 2026-11-05 (D76): two bets withdrawn before data (ss-b14: 9 candidates; ss-b15: widened pool mostly off-field). A fair test needs at least 50 on-field template items (about 100 on-field candidates at the measured 51% keep rate); the 2026-07-01 to 11-04 window does not hold them. Reopens with a later window or another item route, by an on-field rule fixed before building.",
+   "bets_withdrawn": [
+    "ss-b14",
+    "ss-b15"
+   ]
   },
   {
    "id": "ss-f3",
