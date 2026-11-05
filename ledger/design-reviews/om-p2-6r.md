@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: holds, D4: holds, D5: holds, D6: holds, D7: h
 flaws: 4
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 05:05 America/Denver
 ---
 
 # Design review of om-p2-6r
@@ -182,3 +182,32 @@ Every call was stubbed and run with `env -u ANTHROPIC_API_KEY` in the scratch di
   - **Still to do:** append the clause only when |P| < 0.15, or drop it.
 
 Both residuals are wording-only fixes before data, each needing a DEVIATIONS row. `confirmed_at` stays null, so the gate stays closed.
+
+## Confirmation addendum 2 (2026-11-05 05:05 America/Denver): confirmed
+
+Checked: commit `791657e` (DEVIATIONS D14e, `p2_6r_replication.py`, dry run §9). Every call was stubbed, and nothing was written under `results/`.
+
+The scoring code is unchanged since `ddb6c92`:
+- the functions that decide the verdict (`model_reading`, `p_meets`, `overall`);
+- the bar, the cap and the minimum-items rule;
+- the repeats, the model settings and max_tokens.
+
+The fix touches only secondary sentences and when they are printed.
+
+- **F3: holds.** I ran each fail-small table below through `analyse_model()`.
+
+  | P − L interval | sentence printed | example |
+  |---|---|---|
+  | wholly below 0 | `smaller_below` ("smaller than the label effect") | −0.05 [−0.09, −0.01] |
+  | includes 0 | `smaller_unordered` ("could not be told apart") | +0.02 [−0.03, +0.07] |
+  | wholly above 0 | `smaller_ordered` | +0.07 [+0.02, +0.12] |
+
+  Each sentence is true for its interval.
+- **F2: holds.** The clause "The position effect there has little to split." is now appended only when |P| < 0.15:
+  - It is absent on the holds table (P +0.25), the fail-shift table (P +0.25) and the fail-reversed table (P −0.25).
+  - It is present on the fail-small and fail-label tables (|P| ≤ 0.10), where it is true.
+- **F1 and F4** still hold:
+  - `main()` with `--analyse`, using the real Haiku reference file, writes the tables in a temp directory.
+  - The run order was not touched by this commit.
+
+All four fixes are confirmed. `confirmed_at` is set, so the gate opens on this review (the seed file exists).
