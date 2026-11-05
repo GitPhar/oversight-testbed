@@ -29,7 +29,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-11 audits prepared with a sealed plant line: 0 still sealed, 11 revealed, of which 6 carried a plant. 
+12 audits prepared with a sealed plant line: 1 still sealed, 11 revealed, of which 6 carried a plant. 
 
 **Catch rate: 6/6 = 1.00, 95% Wilson interval [0.61, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 6 is below that, so the arm is untestable for now.
 
@@ -56,7 +56,7 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-21 of 44 bets carry an engine pre-mortem; 11 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+22 of 45 bets carry an engine pre-mortem; 11 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
@@ -85,40 +85,40 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 | Brier on tiebreaks, engine (n = 0) | — |
 | Brier on tiebreaks, human (n = 0) | — |
 | QPU seconds used by tiebreaks | 0 |
-| bets by seed source: curby-rng | 21 |
+| bets by seed source: curby-rng | 22 |
 | bets by seed source: inherited (ss-b4 seed e8f921e; no new draw) | 2 |
 | bets by seed source: none recorded | 21 |
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
 
-Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 12 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 14 lesson lines written.
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 12 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 15 lesson lines written.
 
 | | count |
 |---|---|
-| pre-registrations since the rule | 14 |
-| with a lesson line | 11 |
-| with a design review verdict | 11 |
-| awaiting their design review (nothing may run yet) | 3: ng-p3-16, om-p2-6r, sg-b1 |
+| pre-registrations since the rule | 15 |
+| with a lesson line | 12 |
+| with a design review verdict | 12 |
+| awaiting their design review (nothing may run yet) | 3: ng-p3-16, sg-b1, ta-b1 |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 3 |
 
-Design reviews: 0 go, 11 fix-first, 3 redesign; 8 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 12 fix-first, 3 redesign; 8 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
 | P1 | Odds too high where the engine had a story | 8 | 5 of 7 scored |
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 3 | 2 of 2 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 10 | 6 of 8 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 11 | 6 of 8 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 3 | 1 of 2 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 1 | 0 of 1 scored |
 | P6 | A control that cannot fail | 2 | 1 of 1 scored |
 | P7 | A foreseeable execution risk run without a pilot | 1 | 0 of 1 scored |
-| P8 | Comparing across conditions that differ in more than the factor named | 8 | 4 of 5 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 9 | 4 of 5 scored |
 | P9 | The right rule, then the wrong noun | 8 | 6 of 6 scored |
 | P10 | A label that hangs on one item | 8 | 6 of 6 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 1 | 1 of 1 scored |
-| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 3 | 1 of 1 scored |
+| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 4 | 1 of 1 scored |
 
 **Does the loop help?** On 8 scored bets, Brier with the odds before the lesson is 0.277, after it 0.241.
 
