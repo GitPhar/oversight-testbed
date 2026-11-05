@@ -164,7 +164,8 @@ def regenerate(write):
 # ---------- 3. the Brier scores, recomputed independently ----------
 def brier_check(bets):
     print("3. Brier scores, recomputed from bets.jsonl with separate code")
-    sc = [b for b in bets if b.get("scored") and b.get("engine_odds") is not None and b.get("outcome") in (0, 1)]
+    sc_all = [b for b in bets if b.get("scored") and b.get("engine_odds") is not None and b.get("outcome") in (0, 1)]
+    sc = [b for b in sc_all if not b.get("secondary_of")]   # rule 15: one scored bet per run
     if not sc:
         fail("no scored bets")
         return
@@ -181,7 +182,17 @@ def brier_check(bets):
     elif abs(stated - round(eng, 3)) > 1e-9:
         fail(f"brier.md says engine Brier {stated}, recomputed {eng:.3f}")
     else:
-        ok(f"engine Brier {eng:.3f} on {len(sc)} scored bets ({hits} hits); hit-rate baseline {clim:.3f}; matches brier.md")
+        ok(f"engine Brier {eng:.3f} on {len(sc)} scored bets ({hits} hits), one per run (rule 15); hit-rate baseline {clim:.3f}; matches brier.md")
+    if len(sc_all) != len(sc):
+        ea = sum((b["engine_odds"] - b["outcome"]) ** 2 for b in sc_all) / len(sc_all)
+        m2 = re.search(r"all scored bets, secondary included \(every row counted, as before rule 15\) \| ([0-9]+) \| ([0-9]+\.[0-9]+) \|", md)
+        if not m2 or int(m2.group(1)) != len(sc_all) or abs(float(m2.group(2)) - round(ea, 3)) > 1e-9:
+            fail(f"brier.md: the secondary-included sensitivity row does not match {ea:.3f} on {len(sc_all)}")
+        else:
+            ok(f"engine Brier, secondary bets included: {ea:.3f} on {len(sc_all)}; matches brier.md's sensitivity row")
+    for b in sc_all:
+        if b.get("secondary_of") and not any(x["id"] == b["secondary_of"] for x in sc):
+            fail(f"{b['id']}: secondary_of {b['secondary_of']} is not a primary scored bet")
     if hum:
         h = sum((b["human_odds"] - b["outcome"]) ** 2 for b in hum) / len(hum)
         ok(f"human Brier {h:.3f} on {len(hum)} bets")

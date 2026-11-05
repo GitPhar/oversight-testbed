@@ -222,7 +222,9 @@ def main():
     bets = load_jsonl(HERE / "bets.jsonl")
     bets_by_id = {b["id"]: b for b in bets}
     engine_maps, own_maps = load_maps()
-    scored = [b for b in bets if b.get("scored") and b.get("outcome") in (0, 1) and b.get("engine_odds") is not None]
+    scored = [b for b in bets if b.get("scored") and b.get("outcome") in (0, 1) and b.get("engine_odds") is not None
+              and not b.get("secondary_of")]   # rule 15: one scored bet per run
+    secondary = [b for b in bets if b.get("scored") and b.get("secondary_of")]
     n, hits = len(scored), sum(b["outcome"] for b in scored)
     ci = wilson(hits, n)
     rate = hits / n if n else None
@@ -359,7 +361,9 @@ def main():
     w("")
     notsc = [b for b in bets if b not in scored]
     w(f"{len(notsc)} of the {len(bets)} bets in the ledger are not in these tables: they are open, withdrawn before data, "
-      "untestable, undetermined after audit, or stated no odds (`ledger/brier.md`, \"What is not scored, and why\").")
+      "untestable, undetermined after audit, or stated no odds (`ledger/brier.md`, \"What is not scored, and why\")"
+      + (f", or are scored secondary bets on a run an earlier bet was already scored on (rule 15, one scored bet per run: "
+         + ", ".join(f"{b['id']} on {b['secondary_of']}'s run" for b in secondary) + ")" if secondary else "") + ".")
     (HERE / "prior.md").write_text("\n".join(L) + "\n")
     print(f"prior {rate:.2f} ({hits}/{n}, 95% {fmt_ci(ci)}); closing reviews due: "
           + (", ".join(p for p, *_, due, _w in closing_reviews(bets, bets_by_id, engine_maps) if due != "no") or "none"))

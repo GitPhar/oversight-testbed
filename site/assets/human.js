@@ -36,7 +36,7 @@ function rowsFrom(lines, bets, maps) {
     if (engine == null || o.human_odds == null) { noEngine.push(o); continue; }
     const r = bet?.raw;
     const settled = bet && bet.status !== "running" && bet.status !== "open";
-    const outcome = r && r.scored === true && (r.outcome === 0 || r.outcome === 1) ? r.outcome : null;
+    const outcome = r && r.scored === true && !r.secondary_of && (r.outcome === 0 || r.outcome === 1) ? r.outcome : null;   // rule 15: one scored bet per run
     out.push({
       o, bet, dir, prog, engine, human: +o.human_odds, mapOdds,
       engineFrom: bet ? `bet ${bet.id}, pre-registered ${fmtDate(parseDate(r.prereg_time))}` : `the map's odds for ${o.direction} (no bet yet)`,
@@ -121,7 +121,7 @@ function rowHTML(r, maps) {
   const scored = rows.filter((r) => r.counts);
   const carrying = bets.filter((b) => b.human != null);
   const missed = rows.filter((r) => r.bet && r.carries === false);
-  const eAll = bets.filter((b) => b.raw.scored === true && b.engine != null && (b.raw.outcome === 0 || b.raw.outcome === 1));
+  const eAll = bets.filter((b) => b.raw.scored === true && !b.raw.secondary_of && b.engine != null && (b.raw.outcome === 0 || b.raw.outcome === 1));
   const eAllB = eAll.length ? eAll.reduce((a, b) => a + (b.engine - b.raw.outcome) ** 2, 0) / eAll.length : null;
 
   let scoreHTML;
