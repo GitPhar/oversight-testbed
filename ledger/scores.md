@@ -51,7 +51,7 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-12 of 33 bets carry an engine pre-mortem; 7 of those have failed and been scored. 21 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+12 of 35 bets carry an engine pre-mortem; 7 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
@@ -80,36 +80,36 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 | Brier on tiebreaks, engine (n = 0) | — |
 | Brier on tiebreaks, human (n = 0) | — |
 | QPU seconds used by tiebreaks | 0 |
-| bets by seed source: curby-rng | 12 |
+| bets by seed source: curby-rng | 14 |
 | bets by seed source: none recorded | 21 |
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
 
-Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 10 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 4 lesson lines written.
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 10 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 5 lesson lines written.
 
 | | count |
 |---|---|
-| pre-registrations since the rule | 6 |
+| pre-registrations since the rule | 7 |
 | with a lesson line | 4 |
-| with a design review verdict | 6 |
+| with a design review verdict | 7 |
 | awaiting their design review (nothing may run yet) | 0 |
-| **violations** (no lesson, or a result without a review) | 2: ss-b2, ss-b3 |
+| **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
-| withdrawn after a design review said redesign | 0 |
+| withdrawn after a design review said redesign | 1 |
 
-Design reviews: 0 go, 6 fix-first, 0 redesign; 1 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 7 fix-first, 1 redesign; 1 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
-| P1 | Odds too high where the engine had a story | 2 | 1 of 2 scored |
+| P1 | Odds too high where the engine had a story | 3 | 1 of 2 scored |
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 0 | 0 of 0 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 2 | 1 of 2 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 3 | 1 of 2 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 1 | 0 of 0 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 1 | 0 of 0 scored |
 | P6 | A control that cannot fail | 1 | 0 of 0 scored |
 | P7 | A foreseeable execution risk run without a pilot | 1 | 0 of 1 scored |
 | P8 | Comparing across conditions that differ in more than the factor named | 1 | 0 of 0 scored |
-| P9 | The right rule, then the wrong noun | 1 | 1 of 1 scored |
+| P9 | The right rule, then the wrong noun | 2 | 1 of 1 scored |
 | P10 | A label that hangs on one item | 2 | 1 of 1 scored |
 
 **Does the loop help?** On 2 scored bets, Brier with the odds before the lesson is 0.325, after it 0.205.
