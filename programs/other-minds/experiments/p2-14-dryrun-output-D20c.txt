@@ -1,0 +1,11 @@
+# p2-14 dry run after D20c (O1, O2, program 2's $13.75 limit), 2026-11-05 16:16 America/Denver
+$ python experiments/p2_14_self_vs_observer.py plan
+haiku: 3840 calls; est $0.21 (cap $0.30)
+sonnet: 1824 calls; est $1.94 (cap $2.90)
+opus: 416 calls; est $1.60 (cap $2.40)
+total est $3.75 (cap $5.60; run cap $3.91 under program 2's $13.75, D20c); own cells 192
+$ python experiments/p2_14_self_vs_observer.py --dry-run
+  as archived                         self_better 1.00
+  null (labels exchangeable)          pass 0.89, pass_small_gap 0.10, undetermined 0.02
+  Sam's error halved toward self      self_better 0.75, undetermined 0.25
+  boundary checks: hold
