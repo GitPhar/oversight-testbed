@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
-"""Regenerate the engine's ledger tables, brier.md, scores.md and the site data from archived files, and check them.
+"""Regenerate the engine's ledger tables, brier.md, scores.md, the site data and every program's results tables from
+archived files, and check them.
 
     python3 reproduce.py                  # regenerate in a scratch folder, compare with what is committed
     python3 reproduce.py --write          # also write brier.md and scores.md in place
     python3 reproduce.py --site-out DIR   # keep the laid-out site in DIR (default: a temporary folder, deleted)
+    python3 reproduce.py --ledger-only    # skip step 6 (the programs' tables), for a quick check before a ledger commit
     python3 reproduce.py --program-1 PY   # also run programs/entangled-mind/experiments/reproduce.py with interpreter PY
                                           #   (it needs that program's environment, e.g. /Users/seanpharris/entangled-mind/.venv/bin/python)
 
 In plain English: every number the engine publishes about itself is computed from files in this repository. This
 script recomputes all of them from those files, with no API key, no network and nothing but the Python standard
-library, and says whether what is committed matches. It changes nothing unless asked to (--write).
+library and numpy, and says whether what is committed matches. It changes nothing unless asked to (--write).
 
 What it does, in order:
   1. Reads every ledger file (bets, steers, human odds, shadows, plants, lessons, spend) and checks that each line
@@ -21,7 +23,14 @@ What it does, in order:
   4. Runs `ledger/plants.py verify` (every revealed plant matches its sealed hash).
   5. Lays out the site with site/assemble.sh and checks that every data file the pages read is a byte-identical copy
      of its source (links followed), that the manifest lists what was copied, and that every bet's audit link resolves.
-Exit 0 if everything reproduces, 1 otherwise. The last line says which.
+  6. Runs each program's own programs/<name>/reproduce.py (other-minds, nature-graded, settled-science, self-grading,
+     test-awareness, said-vs-did), each in a clean environment from a copy of the program at git HEAD, and prints one
+     line per program: ALL TABLES REPRODUCED, PARTLY REPRODUCED (a table needs a file the archive lacks; the program's
+     README lists it under "Reproducibility"), or NOT REPRODUCED with the first mismatch. Needs numpy.
+  7. Only with --program-1: program 1's own reproduce.py, which needs that program's environment (qiskit, qiskit-aer,
+     scipy, anthropic); its last run printed ALL TABLES REPRODUCED.
+Exit 0 if everything reproduces (a program with documented gaps counts, and is named on the last line), 1 otherwise.
+The last line says which. .github/workflows/reproduce.yml runs this on every push to main and daily.
 """
 import argparse
 import filecmp
@@ -246,8 +255,47 @@ def site_check(out_dir, bets):
             print(f"  kept  {out}")
 
 
+# ---------- 6. every program's own tables ----------
+PROGRAMS = ["other-minds", "nature-graded", "settled-science", "self-grading", "test-awareness", "said-vs-did"]
+partial = []
+
+
+def programs_check(program_1_follows=False):
+    print("6. Programs' own tables (programs/<name>/reproduce.py, each from its archived JSON at git HEAD)")
+    try:
+        import numpy  # noqa: F401
+    except ImportError:
+        fail(f"numpy is not installed for {sys.executable}; the programs' tables need it (pip install numpy)")
+        return
+    for name in PROGRAMS:
+        script = ROOT / "programs" / name / "reproduce.py"
+        if not script.is_file():
+            fail(f"{name}: programs/{name}/reproduce.py is missing")
+            continue
+        try:
+            r = subprocess.run([sys.executable, str(script)], cwd=ROOT, env=CLEAN_ENV, capture_output=True, text=True,
+                               timeout=900)
+        except subprocess.TimeoutExpired:
+            fail(f"{name}: reproduce.py ran past 15 minutes")
+            continue
+        lines = [l for l in (r.stdout + r.stderr).strip().splitlines() if l.strip()]
+        last = lines[-1] if lines else "(no output)"
+        if r.returncode == 0 and last.startswith("ALL TABLES REPRODUCED"):
+            ok(f"{name}: {last}")
+        elif r.returncode == 2 and last.startswith("PARTLY REPRODUCED"):
+            partial.append(name)
+            print(f"  part  {name}: {last}")
+        else:
+            fail(f"{name}: exit {r.returncode}: {last}")
+            for l in [l for l in lines if l.lstrip().startswith(("DIFF", "FAIL"))][:5]:
+                print(f"          {l.strip()[:200]}")
+    if not program_1_follows:
+        print("  skip  entangled-mind (program 1): needs its own environment (qiskit, qiskit-aer, scipy); "
+              "run with --program-1 PYTHON")
+
+
 def program_1(py):
-    print("6. Program 1's own tables (programs/entangled-mind/experiments/reproduce.py)")
+    print("7. Program 1's own tables (programs/entangled-mind/experiments/reproduce.py)")
     em = ROOT / "programs" / "entangled-mind"
     env = dict(CLEAN_ENV, PYTHONPATH=str(em / "src"))
     r = subprocess.run([py, "experiments/reproduce.py"], cwd=em, env=env, capture_output=True, text=True)
@@ -260,6 +308,7 @@ def main():
     ap.add_argument("--write", action="store_true", help="write regenerated brier.md and scores.md in place")
     ap.add_argument("--site-out", help="keep the laid-out site in this folder")
     ap.add_argument("--program-1", metavar="PYTHON", help="also run program 1's reproduce.py with this interpreter")
+    ap.add_argument("--ledger-only", action="store_true", help="skip the programs' own tables (step 6)")
     a = ap.parse_args()
     leaked = [k for k in os.environ if re.search(r"API_KEY|TOKEN|SECRET", k)]
     print(f"reproduce.py at {ROOT.name}, no network, no keys (child processes run with a clean environment"
@@ -269,13 +318,23 @@ def main():
     brier_check(rows["bets"])
     plants_check()
     site_check(a.site_out, rows["bets"])
+    if not a.ledger_only:
+        programs_check(bool(a.program_1))
     if a.program_1:
         program_1(a.program_1)
     print()
     if problems:
         print(f"NOT REPRODUCED: {len(problems)} problem(s), {len(notes)} note(s)")
         sys.exit(1)
-    print(f"ALL LEDGER TABLES AND SITE DATA REPRODUCED ({len(notes)} note(s))")
+    if a.ledger_only:
+        print(f"ALL LEDGER TABLES AND SITE DATA REPRODUCED ({len(notes)} note(s); programs not run: --ledger-only)")
+    elif partial:
+        print(f"ALL LEDGER TABLES AND SITE DATA REPRODUCED; PROGRAM TABLES: {len(PROGRAMS) - len(partial)} of "
+              f"{len(PROGRAMS)} programs fully, {', '.join(partial)} partly (documented gaps, see each README) "
+              f"({len(notes)} note(s))")
+    else:
+        print(f"ALL LEDGER TABLES AND SITE DATA REPRODUCED; ALL TABLES REPRODUCED in all {len(PROGRAMS)} programs "
+              f"({len(notes)} note(s))")
 
 
 if __name__ == "__main__":
