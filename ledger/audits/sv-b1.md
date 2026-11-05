@@ -171,3 +171,5 @@ The cheapest new test is to run Sonnet's challenge and re-ask on the other 150 h
 With Haiku testable and failing, that would make the bet decidable. It would be a fail unless Sonnet *and* Haiku both passed, and Haiku has already missed. Sonnet's exploratory margin here is +0.031 against length (0.79), so a pass looks unlikely.
 
 This is a new bet with its own pre-registration (a re-bet of SV-1), not a resumption of sv-b1.
+
+Revealed 2026-11-05: pl-019, clean; nothing planted, so no catch is scored. Every finding above is the real audit of the real result.
