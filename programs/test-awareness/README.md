@@ -22,6 +22,15 @@ One command, from the repository root, with Python 3 and numpy installed (no key
 
     python3 programs/test-awareness/reproduce.py
 
-The root `python3 reproduce.py` runs it too and prints one line for this program. It takes a copy of the program as committed, runs each bet's own `--analyse` step (`experiments/ta_b1.py`, `ta_b2.py`, `ta_b3.py`) on its archived call cache (`results/<bet>-calls.json`), and checks that `results/<bet>-analysis.json` comes out byte for byte the same.
+The root `python3 reproduce.py` runs it too and prints one line for this program. It takes a copy of the program as committed, with keys removed, the network blocked and every package except numpy stubbed out. Then it checks two things.
 
-Today there is nothing to rebuild: no bet has run, and the only archived calls are the cost probe's (`results/probe-calls.json`), which feed no table. When a bet's analysis or a results write-up (`results/*.md`) lands, the script picks the analysis up by name; a write-up's tables are added to `reproduce.py` in the same commit, or the script fails on the unregistered file. Nothing is missing from the archive.
+- **The analyses.** It runs the `--analyse` step of `experiments/ta_b2.py` and `ta_b3.py` on the archived calls (`results/<bet>-calls.json`) and compares the `results/<bet>-analysis.json` it writes with the committed one. ta-b2's matches byte for byte. ta-b2 reads program 1's questions, so `programs/entangled-mind/experiments/questions-train.json` and `questions-hard.json` are in the copy too. `ta_common.py` names program 1 by an old absolute path; the script points it into the copy, and checks that nothing is read from outside it.
+- **The tables.** Every table in the five write-ups (`ta-b1-pilot.md`, `ta-b2-pilot.md`, `ta-b3-pilot.md`, `ta-b2-results.md`, `ta-b3-results.md`) is rebuilt and compared line for line. The results tables come from the regenerated analysis. The pilot tables come from the pilot call caches (`results/<bet>-pilot-calls.json`). Every number is recomputed. Row labels and column headers are copied, and the output counts both. The prose is not compared. The run log `ta-b2-run.log` is not a table and is skipped.
+
+Three things to know:
+
+- ta-b3 uses scipy's t quantile, which the clean copy does not have. The script computes it itself with the standard library. Its value is correctly rounded; scipy's differs in the last one or two binary digits. So the four fields built from it (`t_upper_bonferroni_AB` and `t90_AB`, Sonnet and Opus) are compared to 1e-12 relative, not byte for byte. They agree to 5e-16. Every other field matches exactly.
+- The ta-b3 pilot ran on the question generator as pre-registered (979ec5d), before fix T5 changed it. Today's generator gives different questions from the same seed. The script uses the pre-registered generator and checks each of the 9 rebuilt prompts against the hash stored in the pilot cache.
+- In `ta-b1-pilot.md`, Opus's "median" output tokens (93) is the upper of the two middle values of 16 calls. The usual median, their average, is 63.5. The script checks 93 as the upper median and says so in its output.
+
+Nothing is missing from the archive: there are no gaps. ta-b1 was withdrawn and ta-b1r has no calls yet. When a new analysis or write-up lands, the script fails on it until its tables are added to `reproduce.py`.
