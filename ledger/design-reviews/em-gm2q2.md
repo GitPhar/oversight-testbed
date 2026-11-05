@@ -184,7 +184,7 @@ Notes, not counted as flaws:
    - **Request hash:** all 1,520 cached records carry `req_sha256`. Resuming after changing Sonnet's `max_tokens` exits with "built from different requests; not resumed".
 3. **World B (F3): fixed.**
    - `world()` and `archived_secondaries()` now read complete chains only. The archived Opus order effect is 4.44, em-dm4's published 4.4. Opus within-order SD is 3.49.
-   - The re-run dry run (`dry.py`, into scratch) matches the committed `results/gm2q2-dry-run.json` row for row: all eight Opus worlds, and Sonnet's null 0.00, half 0.06 and 0.75 0.86. Sonnet's last five worlds were still running when I wrote this; the committed values for them are equal 0.99, redacted 0.02, shuffled 0.01, one-item 0.02, and 20% first- or last-line answers 0.37.
+   - The re-run dry run (`dry.py`, into scratch) matches the committed `results/gm2q2-dry-run.json` exactly, in every Opus and Sonnet world and in the bet rows.
    - At the fixed design the bet passes with probability 0.61 in the equal world and 0.37 at 0.75. It is 0.00 in the null, shuffled-items, one-item and redacted worlds. So D11 holds without world B.
    - D82 withdraws the §6 and §8 world-B sentences and the stated reason for the flag-reference change. The lesson revision and the odds change (0.06 to 0.07) are both kept, before data.
 4. **Prior work (F4): fixed.**
