@@ -10,8 +10,10 @@ Pre-registered in `experiments/bm9f2-dog-shape.md`. Archive only (em-bm9's run-1
 
 **What we found.** No: **fail.**
 - The human-shaped curve (a derivative of a Gaussian) fits the 80 pairs no better than a straight line: ΔAIC +0.46, where the rule needed +4. It also does no better than an equally flexible curve that only levels off: ΔAIC −0.16, where the rule needed +2.
-- Its best-fitting peak sits at a gap of 69 points, far out, so over most of the observed gaps the fitted curve is close to a line. The levelling-off curve fits slightly best of the three.
+- Its best-fitting peak sits at a gap of 69 points, far out, so over most of the observed gaps the fitted curve is close to a line. The levelling-off curve has the lowest AIC of the three, but it beats the straight line by only 0.62 AIC (bootstrap 95% [−2.05, +14.78]; a comparison that was not pre-registered), so these pairs do not show that the shift levels off either.
 - Under resampling of items, about 10% of resamples would pass. No single item changes the verdict.
+
+**Audit.** `ledger/audits/em-bm9f2.md`: the fail stands. Its one required cut was the planted sentence (pl-029), which never existed in this record; its more exact wording for the real sentence it sat beside is applied above (D74). Intercept and content terms of the three fits (the audit's re-run): linear a −5.39, c +7.73; DoG a −6.15, c +6.87; tanh a −6.19, c +6.87.
 
 **What it means.** On these 80 pairs, Haiku's shift after a sub-question is described as well by a straight line or a levelling-off curve as by the human serial-dependence shape. That matches the bet's low odds (8%). The design review measured that this test could detect a human-sized curve only 8–19% of the time at these gaps. A fail is therefore weak evidence against the human shape, and stronger evidence that 80 pairs cannot separate the shapes. em-bm9's caveat stands: much of the shift is the main rating becoming less extreme after a sub-question. One model, 80 pairs.
 
