@@ -96,7 +96,7 @@ Tick each box when it's done.
 | `research-interest.md` | 384-word answer naming Model Psychology and Model Internals, plus its source table | Claude draft; S6 |
 | `research-proposal.md` | one-page proposal (TL;DR, H1–H5 table, plan, outcomes, risks, resources, mentor fit) | numbers current to 2026-11-05 |
 | `why-anthropic-outline.md` | beats and facts for Sean's own essay | outline only, by design; S3 |
-| `walkthrough-script.md` | ten-minute script: the 3 November chip question closed (four tries), the st-16 steer, program 4's audited passes and the flattery-rule reversal, the engine at 0.223 on 24, the human column | ready to record, current to `dafca10`; E1 keeps it current |
+| `walkthrough-script.md` | ten-minute script: the 3 November chip question closed (four tries), the st-16 steer, program 4's audited passes and the flattery-rule reversal, the engine at 0.217 on 26, the human column | ready to record, current to `dafca10`; E1 keeps it current |
 | `checklist.md` | this file | — |
 | `../paper/review-anthropic.md` | a panel-style review of the whole submission, with twelve ranked changes and ten interview questions | written 2026-11-05 |
 | `../paper/novelty.md` | has this project found anything not already in print? Ten findings checked against the literature: most known, three partly new, none new and replicated | written 2026-11-05 |

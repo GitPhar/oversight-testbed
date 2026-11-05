@@ -769,7 +769,7 @@ Read together, in plain English:
 
 **Audit round 3** (`ledger/audits/SUMMARY-3.md`, `9d4dd23`) was run by `claude-fable-5-1`, a stronger model than the Opus 5.5 that did the work and the first two rounds, over the 20 bets scored at 05:00 plus ng-p3-5c. Every headline number reproduced with independent code. One verdict was reversed: **ss-b6, pass → undetermined** (`60940b1`), because in the null world matched to the data, where the bettor knows only what the flattery rater knows, its rule passes about 53% of the time. One label changed with no score change: om-p2-5, null → mixed (`0fe3316`). Nineteen stood, fifteen of them with cuts. The round's Brier bookkeeping: 0.249 on 20 at its start, 0.240 on 19 after the reversal, 0.220 on 21 once sg-b1 and ng-p3-16 were scored by other sessions. Its three largest holes bear on this paper: six of the engine's eight hits were two bettor runs scored as six bets (one per run, the Brier is 0.205 on 16; without program 4, 0.177 on 14); several rules were met in letter by tests that could not decide them (ss-b6, ng-p3-1, ng-p3-5, em-gm5), which is P12 reaching the ledger past design-review check D11; and em-gm5's DP2 data exist only on an unmerged branch of the old checkout, so the record is not fully reproducible from this repository.
 
-**The ledger now** (`ledger/brier.md`, `bc9b77e`):
+**The ledger now** (`ledger/brier.md`, `dafca10`):
 
 | measure | value |
 |---|---|
@@ -791,7 +791,7 @@ H1's minimum n (20 scored, at least 4 hits and 4 misses) is now reached (26, 8 a
 
 ### 6.11 The human hand: Sean's 26 recorded odds beside the engine's
 
-*Sources: `ledger/human-odds.jsonl` at `9a75cc2` (26 lines, all `saw_engine_odds: false`, all "would spend"); the engine's odds from the committed maps (`map/entangled-mind.json` `bc9b77e`, `map/other-minds.json` `a42a149`, `map/nature-graded.json` `ab5a96f`, `map/settled-science.json` `2f99876`, `map/self-grading.json` `9551b74`, `map/test-awareness.json` `a1f8751`, `map/said-vs-did.json` `d567a70`); bet rows from `ledger/bets.jsonl` at `dafca10`; steer st-18 in `ledger/steers.jsonl`. No outcome below is scored for either side.*
+*Sources: `ledger/human-odds.jsonl` at `9a75cc2` (26 lines, all `saw_engine_odds: false`, all "would spend"); the engine's odds from the committed maps (`map/entangled-mind.json` `dafca10`, `map/other-minds.json` `a42a149`, `map/nature-graded.json` `ab5a96f`, `map/settled-science.json` `cb121d7`, `map/self-grading.json` `9551b74`, `map/test-awareness.json` `a1f8751`, `map/said-vs-did.json` `c4bdf4a`); bet rows from `ledger/bets.jsonl` at `dafca10`; steer st-18 in `ledger/steers.jsonl`. No outcome below is scored for either side.*
 
 The cockpit (`site/cockpit.html`) shows Sean one plain question per direction, its cost, and what a hit would mean; it never shows the engine's odds. He answered twelve cards at 05:11:40 on 5 November and fourteen more at 06:11:52. The engine's odds in the table are the map's for the same direction, stated before data by a fresh context (first batch) or by the remap of 04:45 (second batch); where a bet on the direction carries different odds, the note says so.
 
@@ -988,13 +988,13 @@ Every file this paper cites is listed with the commit that last changed it as of
 | `programs/nature-graded/map/program-3-map.md` ("After P3-16") | `a394a25` |
 | `ledger/audits/SUMMARY-3.md` | `9d4dd23` |
 | `paper/novelty.md` | `93f47af` |
-| `map/entangled-mind.json` | `bc9b77e` |
+| `map/entangled-mind.json` | `dafca10` |
 | `map/other-minds.json` | `a42a149` |
 | `map/nature-graded.json` | `ab5a96f` |
-| `map/settled-science.json` | `2f99876` |
+| `map/settled-science.json` | `cb121d7` |
 | `map/self-grading.json` | `9551b74` |
 | `map/test-awareness.json` | `a1f8751` |
-| `map/said-vs-did.json` | `d567a70` |
+| `map/said-vs-did.json` | `c4bdf4a` |
 | `programs/self-grading/results/sg-b1-placement.md`, `sg-b2-label.md`, `sg-b3-flaw.md` | `835de8b`, `320ca3e`, `8fc9289` |
 | `programs/test-awareness/results/ta-b2-results.md`, `ta-b3-results.md` | `b3d1fb4`, `6052ea6` |
 | `programs/said-vs-did/results/sv-b1-pushback.md`, `sv-b2-decline.md`, `sv-b3-ask.md` | `20ad07e` |

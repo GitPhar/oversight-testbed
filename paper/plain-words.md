@@ -79,7 +79,7 @@ Sean entered 26 odds in the cockpit on 5 November, in two batches (12 at 05:11, 
 - Most of what the record shows is already in print, some of it from Anthropic staff. Three findings are partly new; none is new and repeated.
 - Sean's own odds: none on any scored bet. Three open bets carry them.
 - One model family does nearly everything: Claude writes, checks, plants mistakes and is studied. The best belief finding is mostly Haiku, and Opus partly contradicts it.
-- 56 bets in three days can look like volume. The numbers to defend are 26 scored, 48 checked, 4 reversed, 5 withdrawn before data.
+- 57 bets in three days can look like volume. The numbers to defend are 26 scored, 48 checked, 4 reversed, 5 withdrawn before data.
 
 ## What it needs before 22 November
 
