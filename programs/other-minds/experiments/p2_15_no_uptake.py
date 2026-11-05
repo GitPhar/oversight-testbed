@@ -40,12 +40,13 @@ NAMES = {"a": "self-prediction (a)", "b": "Sam (b)", "c": "one-line observer (c)
 SENTENCES = {
     "pass": ("The pre-registered event occurred. On Haiku, across the {n} uptake cells, the model's predictions of its own "
              "re-ratings missed its measured re-ratings by {ea:.2f} rating points on average, against {ez:.2f} for a guess "
-             "that the shown number has no pull; the difference is {d:+.2f}, 95% BCa interval [{lo:+.2f}, {hi:+.2f}], wholly below 0. "
+             "that the shown number has no pull; the difference is {d:+.2f}, 95% BCa interval [{lo:+.2f}, {hi:+.2f}] and 95% jackknife-t interval [{jlo:+.2f}, "
+             "{jhi:+.2f}], both wholly below 0. "
              "Its self-predictions carry information about how far a shown number moves it, beyond assuming no effect."),
     "fail": ("The pre-registered event did not occur. On Haiku, across the {n} uptake cells, the model's predictions of its "
              "own re-ratings missed its measured re-ratings by {ea:.2f} rating points on average, against {ez:.2f} for a "
-             "guess that the shown number has no pull; the difference is {d:+.2f}, 95% BCa interval [{lo:+.2f}, {hi:+.2f}], not wholly "
-             "below 0. This test did not show that its self-predictions beat assuming no effect. This is about its "
+             "guess that the shown number has no pull; the difference is {d:+.2f}, 95% BCa interval [{lo:+.2f}, {hi:+.2f}] and 95% "
+             "jackknife-t interval [{jlo:+.2f}, {jhi:+.2f}], not both wholly below 0. This test did not show that its self-predictions beat assuming no effect. This is about its "
              "cell-by-cell shifts, not the average pattern of shifts across conditions."),
     "untestable": ("The test could not be run as pre-registered: {why}."),
     "loo_flip": ("Leaving out one vignette changes the label: without any one of {items}, the rule reads {other}. The "
@@ -231,7 +232,7 @@ def sentence(out):
         s = SENTENCES["untestable"].format(why=out["why"])
     else:
         s = SENTENCES[out["label"]].format(n=p["n_cells"], ea=p["mae_pred"], ez=p["mae_vs"], d=p["diff"],
-                                           lo=p["bca"][0], hi=p["bca"][1])
+                                           lo=p["bca"][0], hi=p["bca"][1], jlo=p["jack_t"][0], jhi=p["jack_t"][1])
     if "loo_flips" in out:
         f = out["loo_flips"]
         s += " " + (SENTENCES["loo_flip"].format(items=", ".join(x["dropped"] for x in f),
