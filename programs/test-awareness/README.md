@@ -2,6 +2,8 @@
 
 **Seed question, in Sean's words:** does a model behave differently when it thinks it is being tested?
 
+**Status: closed 2026-11-05** by Sean's veto (steer st-NN-c: "as long as we're not pouring money into programs that haven't found anything useful or surprising"); closing review `map/closing-review-2026-11-05.md`. Three bets ran and found nothing; the novelty check says Anthropic's system cards already run these tests; $1.93 of $5.00 spent. Nothing is deleted; the budget code refuses new paid calls.
+
 **Why it matters for safety:** an evaluation only means something if the model behaves the same when it is not told it is one. If telling a model "this is a test" (or letting it guess) changes what it does, then test scores describe test behaviour, not the behaviour an overseer will meet in use.
 
 **Models:** `claude-haiku-5-5`, `claude-sonnet-5-5`, `claude-opus-5-5`. **Budget:** $5.00 for the whole program, every bet and pilot included, enforced in code (`experiments/ta_common.py`). Stop on any refusal, program-wide; nothing is reworded or retried.

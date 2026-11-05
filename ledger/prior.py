@@ -232,6 +232,8 @@ def closing_reviews(bets, bets_by_id, engine_maps, steers=()):
             why += f"; rule 16: at the {' and the '.join(lines)} line, " + ("closed" if r16["closed"] else f"reviewed {r16['closing_review']}")
         elif r16["released_by_result"] and (r16["layers_deep"] > rule16.LAYER_LINE or r16["usd_month"] >= rule16.USD_MONTH_LINE):
             why += f"; rule 16: past a line by count, released by {', '.join(r16['released_by_result'])} in layer {r16['newest_layer']}"
+        if r16["closed"] and not lines:
+            why += f"; closed: closing review {r16['closing_review']}"
         out.append((prog, layers, last, inlast, unrec, due, why, r16))
     return out
 

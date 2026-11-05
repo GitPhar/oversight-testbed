@@ -115,3 +115,11 @@ ta-d1 and ta-d2 stay closed with their diagnoses; ta-d4 stays open and undecided
 Both stay on the map as `parked` (invariant 4). Only Sean reopens them, from the cockpit (a new steer). Their cockpit cards are already answered, so the cockpit no longer shows them.
 
 The program is not due a closing review: its settled bets sit in one layer, and the rule needs three (`ledger/prior.md`, "Closing reviews due").
+
+## Closing review (2026-11-05)
+
+**Closed**, by Sean's veto (steer st-NN-c, planning chat 2026-11-05 16:04): "as long as we're not pouring money into programs that haven't found anything useful or surprising". The review is `map/closing-review-2026-11-05.md`, written by a session that wrote none of this program's results, pre-registrations or audits.
+
+**Diagnosis.** Program 6 ruled out, on Meinke and colleagues' no-goal prompt with 20 arithmetic trials, Sonnet 5.5 (thinking off) and Opus 5.5 (low effort) lowering their score by 10 points or more when told a high score triggers unlearning; it could not rule out that being told, or shown by an exam-like format, that a conversation is a test changes how far a model goes along with a user or how often it says "not sure", because those designs could see only large effects and the belief checks failed on Haiku (and on Opus in ta-b1r2); and the novelty check found every question it asked already covered by Anthropic's system cards and the papers they cite, so a hit would have replicated known work.
+
+Three bets ran (ta-b1r2 null, ta-b2 untestable, ta-b3 null), two were withdrawn before data (ta-b1, ta-b1r); nothing landed or came back partly new. $1.93 of the $5.00 cap was spent. The seven open directions (ta-d3, ta-d4, ta-d5, ta-d6, ta-d7, ta-d9, ta-d11) are now parked, "parked: program closed 2026-11-05", with their costs and odds unchanged; ta-d8 and ta-d10 stay parked by Sean; the kills keep their diagnoses. Nothing is deleted. The map's `status` is `closed`, the seed question is in `questions_closed`, and the program's budget code refuses any paid call while it is (rule 16). It reopens only on a new reason the diagnosis does not cover, or a steer from Sean.

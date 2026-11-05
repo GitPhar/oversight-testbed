@@ -97,7 +97,7 @@ A program whose last three layers with settled bets hold no landed bet and no fi
 | said-vs-did | 1, 2 | 1, 2 | 5 | 3 | 2 | 4.35 | no | 2 layers with settled bets; the rule needs three |
 | self-grading | 1, 2, 3, 4 | 2, 3, 4 | 6 | 1 | 4 | 7.15 | no | landed: sg-b3, sg-b4; partly new or new: sg-b4, sg-b8, sg-b6, sg-b7 |
 | settled-science | 1, 2, 3, 4, 5, 6 | 4, 5, 6 | 4 | 1 | 6 | 11.57 | no | landed: ss-b7, ss-b10c; partly new or new: ss-b6, ss-b7, ss-b10c; rule 16: past a line by count, released by ss-b10c in layer 6 |
-| test-awareness | 1 | 1 | 3 | 3 | 1 | 1.58 | no | 1 layer with settled bets; the rule needs three |
+| test-awareness | 1 | 1 | 3 | 3 | 1 | 1.58 | no | 1 layer with settled bets; the rule needs three; closed: closing review 2026-11-05 (closed) |
 
 ## What is not counted
 

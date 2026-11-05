@@ -67,7 +67,7 @@
    "parent": null,
    "title": "Does a test-looking format change behaviour, with no word 'test' anywhere?",
    "short": "Exam format, no 'test' word",
-   "status": "open",
+   "status": "parked",
    "opened": "2026-11-05T04:53",
    "rank": 2,
    "engine_odds": 0.1,
@@ -113,7 +113,8 @@
    },
    "rules_out_at": "2026-11-05T10:00",
    "remap": "2026-11-05",
-   "re_bet": "A re-bet exists (ta-b2's audit): a $0.01 belief-check probe on Haiku with a prompt not framed as evaluation, then an Opus arm (about $1.10 on 90 items, or $2.40 on all). Not mapped as a follow-up: the novelty check (finding 9) says the test-format question is already covered by Anthropic's release testing and by Needham et al. 2025, so a re-bet would add a replication only. The direction stays open, undecided, for Sean to veto or fund."
+   "re_bet": "A re-bet exists (ta-b2's audit): a $0.01 belief-check probe on Haiku with a prompt not framed as evaluation, then an Opus arm (about $1.10 on 90 items, or $2.40 on all). Not mapped as a follow-up: the novelty check (finding 9) says the test-format question is already covered by Anthropic's release testing and by Needham et al. 2025, so a re-bet would add a replication only. The direction stays open, undecided, for Sean to veto or fund.",
+   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-NN-c)"
   },
   {
    "id": "ta-d2",
@@ -207,7 +208,7 @@
    "parent": null,
    "title": "Telling the AI what result the experimenters expect (demand characteristics)",
    "short": "Telling it the hypothesis",
-   "status": "open",
+   "status": "parked",
    "opened": "2026-11-05T04:53",
    "rank": 5,
    "engine_odds": 0.33,
@@ -245,14 +246,15 @@
     "Gao and Kreiss 2025, Measuring Bias or Measuring the Task, arXiv 2509.04373 (evaluation framing shifts measured bias; abstract only, no numbers)"
    ],
    "prior_work_search": "reads; WebSearch 'LLM demand characteristics telling the model the experimenter's hypothesis' (hits 2604.27633, 2605.23055, 2509.04373; none discloses a hypothesis to an LLM and measures the effect change)",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-NN-c)"
   },
   {
    "id": "ta-d3",
    "parent": null,
    "title": "Can the AI tell an exam-style prompt from a real user's message?",
    "short": "Spotting the test",
-   "status": "open",
+   "status": "parked",
    "opened": "2026-11-05T04:53",
    "rank": 6,
    "engine_odds": 0.8,
@@ -291,14 +293,15 @@
     "Salecha et al. 2024, arXiv 2405.06058 (five items identify a personality survey above 90%, GPT-4 and Claude 3)"
    ],
    "prior_work_search": "reads only",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-NN-c)"
   },
   {
    "id": "ta-d11",
    "parent": "ta-d1",
    "title": "Does behaviour change most where the AI most believes it is tested?",
    "short": "Belief tracks behaviour?",
-   "status": "open",
+   "status": "parked",
    "opened": "2026-11-05T04:53",
    "rank": 7,
    "engine_odds": 0.08,
@@ -334,7 +337,8 @@
     "Aranguri and Bloom 2026, Verbalized eval awareness inflates measured safety, LessWrong (not peer reviewed)"
    ],
    "prior_work_search": "reads only",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-NN-c)"
   },
   {
    "id": "ta-d8",
@@ -385,7 +389,7 @@
    "parent": null,
    "title": "'Your confidence will be checked against a readout' (bogus pipeline)",
    "short": "Fake lie detector",
-   "status": "open",
+   "status": "parked",
    "opened": "2026-11-05T04:53",
    "rank": 9,
    "engine_odds": 0.1,
@@ -419,14 +423,15 @@
     "Cundy and Gleave 2025, Preference Learning with Lie Detectors can Induce Honesty or Evasion, arXiv 2505.13787 (search hit, not on topic)"
    ],
    "prior_work_search": "reads; WebSearch 'LLM bogus pipeline OR lie detector told its stated confidence will be checked against internal readout calibration' (no match)",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-NN-c)"
   },
   {
    "id": "ta-d5",
    "parent": null,
    "title": "'Used for training' vs 'never used', with the label's meaning removed",
    "short": "Monitored vs unmonitored",
-   "status": "open",
+   "status": "parked",
    "opened": "2026-11-05T04:53",
    "rank": 10,
    "engine_odds": 0.08,
@@ -462,14 +467,15 @@
     "Mitrani Hadida et al. 2026, Behavioural Analysis of Alignment Faking, arXiv 2605.27681"
    ],
    "prior_work_search": "reads only",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-NN-c)"
   },
   {
    "id": "ta-d7",
    "parent": null,
    "title": "Is 'this is a test' just 'do your best'? (label × effort)",
    "short": "Test label = try harder?",
-   "status": "open",
+   "status": "parked",
    "opened": "2026-11-05T04:53",
    "rank": 11,
    "engine_odds": 0.05,
@@ -504,7 +510,8 @@
     "Rethans et al. 1991, Does competence of general practitioners predict their performance?, BMJ 303:1377 (abstract)"
    ],
    "prior_work_search": "reads and paper/novelty.md item 9; WebSearch 'LLM accuracy framing this is a test OR you are being evaluated capability prompt effect arithmetic accuracy' (no match)",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "parked": "parked: program closed 2026-11-05 (closing review, programs/test-awareness/map/closing-review-2026-11-05.md; Sean's veto, steer st-NN-c)"
   },
   {
    "id": "ta-d12",
@@ -618,5 +625,52 @@
   "landed_or_mixed": [],
   "follow_ups_owed": 0,
   "note": "No settled bet in program 6 landed or came back mixed, so the remap owes no follow-ups and no re-scout (operators/remap.md Steps 1, 1b); each bet has its rules-out sentence. ta-d8 and ta-d10 parked by Sean (st-22, st-23)."
+ },
+ "status": "closed",
+ "questions_closed": [
+  {
+   "id": "q-seed",
+   "question": "does a model behave differently when it thinks it is being tested?",
+   "closed_at": "2026-11-05",
+   "diagnosis": "Program 6 ruled out, on Meinke and colleagues' no-goal prompt with 20 arithmetic trials, Sonnet 5.5 (thinking off) and Opus 5.5 (low effort) lowering their score by 10 points or more when told a high score triggers unlearning; it could not rule out that being told, or shown by an exam-like format, that a conversation is a test changes how far a model goes along with a user or how often it says 'not sure', because those designs could see only large effects and the belief checks failed on Haiku (and on Opus in ta-b1r2); and the novelty check found every question it asked already covered by Anthropic's system cards and the papers they cite, so a hit would have replicated known work.",
+   "bets": [
+    "ta-b1",
+    "ta-b1r",
+    "ta-b1r2",
+    "ta-b2",
+    "ta-b3"
+   ],
+   "steer": "st-NN-c",
+   "reopen_if": "a new reason the diagnosis does not cover, or a steer from Sean from the cockpit"
+  }
+ ],
+ "closing_review": {
+  "date": "2026-11-05",
+  "by": "rule16 session (claude-opus-5-5, worktree oversight-testbed-rule16), operators/remap.md 'Closing a program'; wrote none of the program's results, pre-registrations or audits",
+  "decision": "closed",
+  "diagnosis": "Program 6 ruled out, on Meinke and colleagues' no-goal prompt with 20 arithmetic trials, Sonnet 5.5 (thinking off) and Opus 5.5 (low effort) lowering their score by 10 points or more when told a high score triggers unlearning; it could not rule out that being told, or shown by an exam-like format, that a conversation is a test changes how far a model goes along with a user or how often it says 'not sure', because those designs could see only large effects and the belief checks failed on Haiku (and on Opus in ta-b1r2); and the novelty check found every question it asked already covered by Anthropic's system cards and the papers they cite, so a hit would have replicated known work.",
+  "reason": "Sean's veto (steer st-NN-c, planning chat 2026-11-05 16:04): \"as long as we're not pouring money into programs that haven't found anything useful or surprising\". Three bets ran, nothing landed or came back partly new, the novelty check (paper/novelty.md finding 9) found the questions covered by Anthropic's system cards, and $1.93 of $5.00 was spent.",
+  "file": "programs/test-awareness/map/closing-review-2026-11-05.md",
+  "layers_reviewed": [
+   1
+  ],
+  "bets_reviewed": [
+   "ta-b1",
+   "ta-b1r",
+   "ta-b1r2",
+   "ta-b2",
+   "ta-b3"
+  ],
+  "parked": [
+   "ta-d4",
+   "ta-d6",
+   "ta-d3",
+   "ta-d11",
+   "ta-d9",
+   "ta-d5",
+   "ta-d7"
+  ],
+  "spent_usd": 1.9285,
+  "cap_usd": 5.0
  }
 }
