@@ -8,6 +8,7 @@
 #   <out>/data/ledger/           the engine's ledger/   (bets.jsonl, steers.jsonl, brier.md, audits/)
 #   <out>/data/map/              the engine's map/      (one JSON per program)
 #   <out>/data/engine/           README.md, proposal.md and CONTEXT.md (front page; the instruments page reads the budget line)
+#   <out>/data/engine/paper/     the engine's figures, paper/*.svg (the home page's architecture diagram)
 #   <out>/data/programs/entangled-mind/paper/   that repo's paper/ folder (papers, record, figures)
 #   <out>/data/programs/entangled-mind/audits/SUMMARY.md, results/ibm-usage.json, results/api-usage.md  (instruments page)
 #   <out>/data/programs/nature-graded/map/      program 3's map JSON and odds-elicitation README, if a checkout is given
@@ -30,6 +31,8 @@ rm -f "$out/assemble.sh"
 [ -d "$ledger" ] && cp -RL "$ledger/." "$out/data/ledger/"   # -L: ledger/audits/em-*.md are links into programs/entangled-mind/audits/
 [ -d "$map" ] && cp -R "$map/." "$out/data/map/"
 cp "$root/README.md" "$root/proposal.md" "$root/CONTEXT.md" "$out/data/engine/"
+# The engine's figures (the home page shows the architecture diagram).
+mkdir -p "$out/data/engine/paper" && for f in "$root"/paper/*.svg; do [ -f "$f" ] && cp "$f" "$out/data/engine/paper/"; done
 [ -d "$em/paper" ] && cp -R "$em/paper/." "$out/data/programs/entangled-mind/paper/"
 # The instruments page: program 1's audit summary and its two usage ledgers (API dollars, QPU seconds).
 emd="$out/data/programs/entangled-mind"

@@ -2,6 +2,8 @@
 
 A scalable-oversight testbed for AI-driven research. The AI proposes, bets, runs and audits; a human steers from a map; both are scored. Built for trust, not volume.
 
+The diagram, as built on 2026-11-04: [`paper/figures-architecture-v2.svg`](paper/figures-architecture-v2.svg) (also on the site's home page). This file is the authority where the two differ.
+
 ## Objects
 
 ```
