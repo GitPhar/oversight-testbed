@@ -4,13 +4,13 @@ Pre-registered in `experiments/sg-b8-wait.md` (`98d403a`, 2026-11-05 12:20 Ameri
 - **Design review** (`ledger/design-reviews/sg-b8.md`): fix-first with 1 flaw (`06bbb46`), no pilot. The fix is D28 (`8b65ee9`), confirmed go at 12:32, before the first call.
 - **Run:** 2026-11-05, 12:33:09 to 12:37:18 America/Denver. **900 calls, complete, no refusal, $1.219** of the $1.40 cap. The program has spent **$7.15 of $7.65** (budget ruling br-019, D19).
 - **Odds:** engine 12 (v2; the map stated none). No human odds.
-- **Audit:** pending.
+- **Audit:** `ledger/audits/sg-b8.md` (`9bbca4a`). The verdict stands as fail, with 4 required cuts, all applied under D30 (plant pl-043: clean).
 
 ## In plain English
 
 **Pre-registered verdict: fail.** In the pre-registered words (§5.2, as D28 reads them):
 
-> On Haiku and Opus 5.5, starting the grading request with 'Wait.' changed the penalty in their own conversation by less than half of their sg-b3 blunting (the 95% domain-cluster CI lies below Haiku 6.3 and Opus 3.0 points of 100) (in this run W was −0.34 of Haiku's G0 = +13.0 and 0.14 of Opus's G0 = +6.0): on this design, Tsui's correction marker placed in the user's request does not take away half of the blunting sg-b3 measured; this test does not say whether it would at the end of the model's own turn, where Tsui places it. Haiku docked the overclaim less, not more, with 'Wait.' (W = −4.45 [−8.07, −0.73]).
+> On Haiku and Opus 5.5, starting the grading request with 'Wait.' changed the penalty in their own conversation by less than half of their sg-b3 blunting (the 95% domain-cluster CI lies below Haiku 6.3 and Opus 3.0 points of 100) (in this run W was −0.34 of Haiku's G0 = +13.0 [+9.9, +16.2] and 0.14 of Opus's G0 = +6.0 [+4.9, +7.1]): on this design, Tsui's correction marker placed in the user's request does not take away half of the blunting sg-b3 measured; this test does not say whether it would at the end of the model's own turn, where Tsui places it. Haiku docked the overclaim less, not more, with 'Wait.' (W = −4.45 [−8.07, −0.73]).
 
 **What was done.**
 - sg-b3 found that Haiku and Opus went easier on an exaggerated sentence added to their own conclusion when they graded it in the conversation that wrote it than when they saw it fresh. That was already in print, and Tsui 2025 reported that adding "Wait" after a model's own mistake removes most of this kind of blind spot.
@@ -26,10 +26,10 @@ Pre-registered in `experiments/sg-b8-wait.md` (`98d403a`, 2026-11-05 12:20 Ameri
 **How strong it is.**
 - Neither reading is fragile: no single study or domain changes either. Haiku's median W is −3.0 (9 ties), Opus's 0.0 (4 ties).
 - Both readings are the same on the study bootstrap.
-- The spread of W across studies is larger than the dry run's measured noise implied (SD 11.6 on Haiku against about 8.3; 4.4 on Opus against about 2.9): the studies differ in how "Wait." moves them, not only in grading noise. Both intervals still lie wholly below their bars.
+- The spread of W across studies is larger than the dry run's measured noise implied (SD 11.6 on Haiku against about 8.3; 4.4 on Opus against about 2.9): either the studies differ in how "Wait." moves them, or the wait cells are noisier than the own-turn repeats the dry run borrowed for them (no repeat of a wait cell is archived); this test cannot tell which. Both intervals still lie wholly below their bars.
 - Opus's grades with "Wait." cost the same as without it ($0.0039 against $0.0038 per flawed call), so "Wait." did not set it thinking longer.
 
-**So, on this test:** a "Wait." at the start of the grading request did not take away the own-conversation blunting on either model. On Opus it barely moved the penalty, and on Haiku it moved it the wrong way: Haiku went easier on the exaggeration with "Wait." than without it. This is the placement Tsui's paper did not test: the word came from the user, not as a continuation of the model's own reply, and the flawed text stayed in the model's own turn. That fits Chen et al. 2026, who found a "Wait," prefix added nothing beyond moving the text out of the model's turn.
+**So, on this test:** a "Wait." at the start of the grading request did not take away half of the own-conversation blunting on either model (Opus's interval runs from none to about a third of this run's blunting, +2.15 of +6.0; Haiku's lies wholly on the wrong side of zero). On Opus it barely moved the penalty, and on Haiku it moved it the wrong way: Haiku went easier on the exaggeration with "Wait." than without it. This is the placement Tsui's paper did not test: the word came from the user, not as a continuation of the model's own reply, and the flawed text stayed in the model's own turn. Opus's near-zero change agrees with Chen et al. 2026, who found a "Wait," prefix added nothing beyond moving the claim out of the model's turn (a different placement: there the claim itself moved into the user's message); Haiku's move to more leniency fits neither Chen nor Tsui, and this test, which never moves the text, cannot say why either model responded as it did.
 
 **What this does not show** (§6, D28):
 - "Wait." was placed at the start of the user's request, not after the model's own output where Tsui places it: this says nothing about Tsui's placement.
