@@ -29,14 +29,14 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-33 audits prepared with a sealed plant line: 1 still sealed, 32 revealed, of which 12 carried a plant. 
+33 audits prepared with a sealed plant line: 0 still sealed, 33 revealed, of which 13 carried a plant. 
 
-**Catch rate: 12/12 = 1.00, 95% Wilson interval [0.76, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
+**Catch rate: 13/13 = 1.00, 95% Wilson interval [0.77, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
 
 | class / subclass | planted | caught | missed: expected checklist line |
 |---|---|---|---|
 | miscount / cell | 1 | 1 | — |
-| miscount / total | 5 | 5 | — |
+| miscount / total | 6 | 6 | — |
 | overclaim / mechanism | 2 | 2 | — |
 | overclaim / plain_vs_table | 1 | 1 | — |
 | overclaim / rank | 1 | 1 | — |
@@ -56,6 +56,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 | pl-023 | ta-b1r2 | miscount/total | yes | Required cuts, item 1: replace 'Phase 2 (behaviour) ran 840 calls ...' with '... ran 810 calls: 540 on Haiku (two per arm) and 270 on Sonnet.' | claude-opus-5-5 |
 | pl-029 | em-bm9f2 | overclaim/rank | yes | Required cuts 1: quotes the planted sentence and calls it unsupported (C14, C15) | claude-opus-5-5 |
 | pl-030 | em-gm2q | overclaim/scope | yes | Claims checked row 14 and Required cuts 4: 'The main paper can say: question order moves Claude models' answers ...' — hole: scope drift and an unreplicated one-model pass stated as general | claude-opus-5-5 |
+| pl-037 | ss-b13 | miscount/total | yes | Required cuts, cut 1 (round-1 table, Haiku n 106 -> 116) and A/B reproduce: 'NOT REPRODUCED ... Haiku's n' | claude-opus-5-5 |
 
 **Limits, stated with the number:**
 
@@ -65,18 +66,18 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-48 of 71 bets carry an engine pre-mortem; 28 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+48 of 71 bets carry an engine pre-mortem; 29 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
-| engine: named the main reason | 11/28 = 0.39 [0.24, 0.58] |
-| engine: named it or its kind | 21/28 = 0.75 [0.57, 0.87] |
-| lazy baseline: failures whose reason was 'the effect is not there' | 17/30 = 0.57 [0.39, 0.73] |
+| engine: named the main reason | 12/29 = 0.41 [0.26, 0.59] |
+| engine: named it or its kind | 22/29 = 0.76 [0.58, 0.88] |
+| lazy baseline: failures whose reason was 'the effect is not there' | 18/31 = 0.58 [0.41, 0.74] |
 | human: named the main reason | — |
 
 | stated kind \ actual kind | world | design | execution | artefact |
 |---|---|---|---|---|
-| world | 13 | 6 | 0 | 0 |
+| world | 14 | 6 | 0 | 0 |
 | design | 2 | 5 | 0 | 0 |
 | execution | 0 | 0 | 1 | 0 |
 | artefact | 0 | 1 | 0 | 0 |
@@ -119,7 +120,7 @@ Design reviews: 0 go, 35 fix-first, 9 redesign; 22 later found by the post-resul
 |---|---|---|---|
 | P1 | Odds too high where the engine had a story | 13 | 9 of 13 scored |
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 4 | 4 of 4 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 27 | 15 of 24 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 27 | 15 of 25 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 5 | 3 of 5 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 3 | 0 of 2 scored |
 | P6 | A control that cannot fail | 3 | 1 of 3 scored |
@@ -130,10 +131,10 @@ Design reviews: 0 go, 35 fix-first, 9 redesign; 22 later found by the post-resul
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 2 | 2 of 2 scored |
 | P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 17 | 8 of 15 scored |
 | P13 | A boundary the rule names, compared in plain floating point | 2 | 2 of 2 scored |
-| P14 | Items that share a template or domain bootstrapped as if independent | 5 | 0 of 2 scored |
+| P14 | Items that share a template or domain bootstrapped as if independent | 5 | 0 of 3 scored |
 | P15 | A dry run built on assumed spreads or base rates, not measured ones | 2 | 0 of 1 scored |
 | P16 | A dumb baseline that is an item property, in dry-run worlds where item properties reach the outcome only through the predictor | 0 | 0 of 0 scored |
 | P17 | A design-review fix that replaces a guard can loosen it on the real data | 0 | 0 of 0 scored |
 
-**Does the loop help?** On 26 scored bets, Brier with the odds before the lesson is 0.181, after it 0.151.
+**Does the loop help?** On 27 scored bets, Brier with the odds before the lesson is 0.182, after it 0.147.
 
