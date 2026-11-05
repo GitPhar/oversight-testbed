@@ -59,7 +59,9 @@ def state(node, program, bets):
 
 def main():
     quiet = "--quiet" in sys.argv
-    bets = [json.loads(l) for l in (ROOT / "ledger" / "bets.jsonl").read_text().splitlines() if l.strip()]
+    sys.path.insert(0, str(ROOT / "ledger"))
+    from merge_inbox import effective   # rows still in ledger/inbox/ count
+    bets = effective("bets")
     errors, warnings, closed, checked = [], [], [], 0
     for f in sorted((ROOT / "map").glob("*.json")):
         m = json.loads(f.read_text())

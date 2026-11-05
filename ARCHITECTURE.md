@@ -107,7 +107,8 @@ loop(program):
 
     # 6. LEDGER — score both sides
     ledger.record(bet.engine_odds, bet.human_odds, bet.verdict)
-    publish(brier(engine), brier(human))
+    publish(brier(engine), brier(human))                                                   # one scored bet per run (rule 15); every row in a sensitivity row
+    if bet.reads_same_run_as(earlier_scored): bet.secondary_of = earlier_scored    # same result file, same raw data, or an audit says so
     publish(brier(bets.odds_prior) vs brier(bets.engine_odds), on bets carrying both)          # the adjustment's value, a number
     rewrite(ledger/prior.md)                                                                   # the next bet starts from this outcome
 
@@ -193,6 +194,7 @@ oversight_test:
 12. No map ends at a landed bet with no follow-up: every landed or mixed bet has at least one not-yet-run follow-up on the map (operators/remap.md; `ledger/check_remap.py`).
 13. The engine knows what it is testing against: no direction without a Prior work line (what published work predicts for this exact test, with citations, or a described search that found none), no pre-registration whose design review skipped D12, and no landed or mixed result called final before a fresh session that searched the literature has written its Novelty line (known, partly new or new), which the audit checks (F27) and the map and the site show. A known result is reported as a replication of the paper that found it (CONTEXT.md §3 rule 13; `paper/informed-engine.md`).
 14. Odds start from the record: every odds elicitation is a fresh context holding `ledger/prior.md` and the bet's own description, nothing of its history, and writes prior, adjustment and a one-line reason; the ledger keeps all three and `ledger/brier.md` scores the prior alone against the adjusted odds (CONTEXT.md §3 rule 14).
+15. One scored bet per run: a bet that re-scores a run an earlier scored bet was scored on (same program and result file, or the same raw data with nothing new, or an audit says so) carries `secondary_of`; the primary Brier counts each run once and `ledger/brier.md` shows every row in a Sensitivity row beside it (CONTEXT.md §3 rule 15).
 
 ## Repositories
 
