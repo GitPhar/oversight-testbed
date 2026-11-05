@@ -19,16 +19,16 @@ import p2_7_format_fingerprint as T  # noqa: E402
 sys.path.insert(0, str(T.P1X))
 sys.path.insert(0, str(T.P1 / "src"))
 recs = T.records()
-STAND_IN = 424242
-stmts = T.draw_statements(STAND_IN)
+SEED = json.loads(T.SEEDF.read_text())                  # D15a: the dry run uses the beacon draw (data/p2-7-seed.json)
+stmts = T.draw_statements(SEED["seed32_items"])
 
 print("# om-p2-7 dry run (every call stubbed; synthetic Sam data only)\n")
 print("## 1. Settings, statements, calls, cost (D2/D10)")
 for mk in T.ORDER:
     print(f"- {mk}: {T.MODELS[mk]}, {json.dumps(T.SETTINGS[mk])}, max_tokens {T.MAX_TOKENS[mk]}, repeats {T.REPEATS}")
 print(f"- shared items: {len(T.shared_items())} ({', '.join(T.shared_items())})")
-print(f"- statements drawn with a stand-in seed: {len(stmts)} ({T.PER_ITEM} per item)")
-J = T.jobs(stmts, 7)
+print(f"- statements drawn with the beacon's items sub-seed {SEED['seed32_items']}: {len(stmts)} ({T.PER_ITEM} per item)")
+J = T.jobs(stmts, SEED["seed32_order"])
 print(f"- jobs: {len(J)}; per model " + ", ".join(f"{mk} {sum(j[1] == mk for j in J)}" for mk in T.ORDER)
       + f"; distinct keys {len(set(j[0] for j in J))}")
 est = {"haiku": 0.000043, "sonnet": 0.00086, "opus": 0.0044}
@@ -111,6 +111,36 @@ with tempfile.TemporaryDirectory() as t:
         print(f"- tampered entry: caught ({str(e)[:50]})")
 T.RESULTS = old
 
+# D15b (F2): a slow refusal on Haiku's last job sends no Sonnet or Opus call
+import time
+with tempfile.TemporaryDirectory() as t:
+    T.RESULTS = Path(t)
+    n = {"i": 0, "later": 0}
+    last_haiku = [j for j in J if j[1] == "haiku"][-1][0]
+
+    def slow(mk, msgs, schema):
+        n["i"] += 1
+        if mk != "haiku":
+            n["later"] += 1
+        if n["i"] == 204:
+            time.sleep(0.2)
+            raise FakeRefusal()
+        time.sleep(0.002)
+        return ({"answer": "likely"} if "answer" in schema["properties"] else {next(iter(schema["properties"])): 50}), 0.0, f"r{n['i']}"
+    slow.refusal_error = FakeRefusal
+    c = T.GuardedCaller(Path(t) / "c.json", 99, "stub", slow, recs)
+    st = T.run_all(c, J)
+    print(f"- slow refusal on Haiku's 204th call: status {st}; Sonnet + Opus calls sent {n['later']} (must be 0); "
+          f"record {T.REFUSAL_FILES[0]} written {(Path(t) / T.REFUSAL_FILES[0]).exists()}; shared refusal.md written {(Path(t) / 'refusal.md').exists()}")
+    (Path(t) / T.REFUSAL_FILES[0]).unlink()
+    (Path(t) / "refusal.md").write_text("another bet's refusal")
+    try:
+        T.GuardedCaller(Path(t) / "e.json", 99, "stub", stub()[0], recs)
+        print("- start with the shared refusal.md present: STARTED (wrong)")
+    except SystemExit as e:
+        print(f"- start with the shared refusal.md present: exits ({e})")
+T.RESULTS = old
+
 print("\n## 5. The archived self data the worlds are built from (34 stand-in statements)")
 SELF, NOISE = {}, {}
 for mk in T.ORDER:
@@ -185,7 +215,13 @@ for name, st, dl in (("boundary: rel 0.5, rho 0.5, delta 0.10 exactly (computed 
                      ("just below: delta 0.0999", {"rel_self": 0.8, "rel_sam": 0.8, "rho": 0.7, "delta": 0.0999}, 0.01),
                      ("just below: rel_sam 0.4999", {"rel_self": 0.8, "rel_sam": 0.4999, "rho": 0.7, "delta": 0.3}, 0.1)):
     print(f"- P13 {name}: {T.model_reading(st, {'delta': [dl, 1.0]})}   (0.3 - 0.2 = {0.3 - 0.2!r})")
-print(f"- unreliable: {T.model_reading({'rel_self': 0.3, 'rel_sam': 0.9, 'rho': 0.9, 'delta': 0.5}, {'delta': [0.2, 0.8]})}")
+print(f"- unreliable (self): {T.model_reading({'rel_self': 0.3, 'rel_sam': 0.9, 'rho': 0.9, 'delta': 0.5}, {'delta': [0.2, 0.8]})}")
+print(f"- flat Sam (rel_sam 0.3): {T.model_reading({'rel_self': 0.9, 'rel_sam': 0.3, 'rho': 0.9, 'delta': 0.5}, {'delta': [0.2, 0.8]})}; "
+      f"undefined Sam (nan): {T.model_reading({'rel_self': 0.9, 'rel_sam': float('nan'), 'rho': float('nan'), 'delta': float('nan')}, {'delta': [-np.inf, 0.8]})}")
+lo0 = 0.3 - 0.1 - 0.2
+print(f"- CI > 0 boundary (D15c): lower end computed as 0.3 - 0.1 - 0.2 = {lo0!r}: {T.model_reading({'rel_self': 0.9, 'rel_sam': 0.9, 'rho': 0.9, 'delta': 0.3}, {'delta': [lo0, 0.8]})}; "
+      f"lower end +1e-4: {T.model_reading({'rel_self': 0.9, 'rel_sam': 0.9, 'rho': 0.9, 'delta': 0.3}, {'delta': [1e-4, 0.8]})}")
+print(f"- sentences carry 3 decimals (D15c): {T.SENTENCES['fail-ceiling'].format(M='Opus 5.5', rho=T.fmt3([0.4951, 0.30, 0.70]))}")
 print(f"- overall: all hold {T.overall({'haiku': 'holds', 'sonnet': 'holds', 'opus': 'holds'})}; one unreliable, two hold "
       f"{T.overall({'haiku': 'holds', 'sonnet': 'holds', 'opus': 'unreliable'})}; two unreliable "
       f"{T.overall({'haiku': 'holds', 'sonnet': 'unreliable', 'opus': 'unreliable'})}; one fails {T.overall({'haiku': 'holds', 'sonnet': 'fail-generic', 'opus': 'holds'})}")
@@ -210,10 +246,14 @@ print("| world | " + " | ".join(T.ORDER) + " |")
 print("|---|" + "---|" * len(T.ORDER))
 for w in worlds:
     print(f"| {w} | " + " | ".join(str(table[(mk, w)]) for mk in T.ORDER) + " |")
-print("\nOverall P(pass) if every model is in the same world (readings assumed independent across models):")
-for w in worlds:
-    ph = {mk: table[(mk, w)].get("holds", 0) / 60 for mk in T.ORDER}
-    pu = {mk: table[(mk, w)].get("unreliable", 0) / 60 for mk in T.ORDER}
+print("\nOverall P(pass) per combination of worlds (readings assumed independent across models; 'unreliable' means the "
+      "model's own residuals, which come from the archive and do not depend on the world):")
+combos = [(w, w, w) for w in worlds] + [("shared", "shared", "no-deviation"), ("shared", "shared", "shared-hedged"),
+                                        ("mix:0.7", "mix:0.7", "shared-hedged")]
+for combo in combos:
+    w = " / ".join(combo)
+    ph = {mk: table[(mk, cw)].get("holds", 0) / 60 for mk, cw in zip(T.ORDER, combo)}
+    pu = {mk: table[(mk, cw)].get("unreliable", 0) / 60 for mk, cw in zip(T.ORDER, combo)}
     # exact over the 3^3 reading patterns: holds / unreliable / other
     import itertools
     pp = pt = 0.0
