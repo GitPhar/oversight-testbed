@@ -149,6 +149,10 @@ class Caller:
         self.path, self.cap, self.label = Path(cache_path), step_cap, label
         if refusal_on_record():
             sys.exit(f"{label}: results/refusal.md exists; no new call starts (stop-on-refusal, program-wide)")
+        errlog = RESULTS / "sv-errors.md"       # D7/D8: at most two resumes after an error stop, per step
+        stops = sum(1 for ln in errlog.read_text().splitlines() if f" {label}: " in ln) if errlog.exists() else 0
+        if stops > 2:
+            sys.exit(f"{label}: {stops} error stops logged; the two allowed resumes are used up (D7)")
         self.cache = json.loads(self.path.read_text()) if self.path.exists() else {}
         self.others = program_spent(exclude=self.path)
         self.lock, self.stop = threading.Lock(), threading.Event()

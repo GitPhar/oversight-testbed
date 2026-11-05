@@ -143,3 +143,7 @@ This addendum supersedes the text above where they differ. Nothing above is dele
 - **Shuffle controls.** The number shuffled across all items is relabelled a code check (it cannot fail). Added: the number shuffled within each of the four question types (seed 7002). For a model that passes and whose within-type-shuffled margin is still ≥ 0.10, this sentence is added (reported only): "{model}'s margin rests partly on differences between question types (it stays at {m} when the number is shuffled within each type)."
 - **Wording.** In §2, the model's turn 1 is replayed as compact JSON re-serialised from its parsed value, not "verbatim". The said step runs only after all three wave-1 reviews are go or confirmed; if one bet is withdrawn, a DEVIATIONS row may release the gate for the other two.
 - **Not-run sentence:** "{model}: not run (the {cap} cap was reached after {k} of {n} items)."
+
+## Addendum D8 (2026-11-05, before any data)
+
+In every sentence of the D7 addendum that lists the four simple guesses, "the question's type" reads **"whether the question is SimpleQA trivia"**: that guess is one bit (SimpleQA against the other three types), while "question types" elsewhere means the four types (the sv-b3 review's confirmation addendum, D8). Nothing else changes.
