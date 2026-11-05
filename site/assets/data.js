@@ -102,6 +102,22 @@ export function joinHumanOdds(programs, entries) {
   return programs;
 }
 
+// What the cockpit asks next: per program, its open directions with no bet yet, not carried into another program,
+// not waiting on an opens_when condition and not parked, in the map's own rank order (unranked last, then map
+// order), skipping any already answered in ledger/human-odds.jsonl. Programs take turns, top of each map first.
+export function nextToAsk(programs, answered = new Set(), max = 12) {
+  const queues = programs.map((p) => p.directions
+    .map((d, i) => ({ d, i }))
+    .filter(({ d }) => d.status === "open" && !d.bet && !d.raw.moved_to && !d.raw.opens_when && !d.raw.parked
+      && d.raw.status !== "parked" && !answered.has(`${p.id}|${d.id}`))
+    .sort((a, b) => (a.d.raw.rank ?? Infinity) - (b.d.raw.rank ?? Infinity) || a.i - b.i)
+    .map(({ d }, n) => ({ p, d, place: n + 1 })));
+  const out = [];
+  for (let round = 0; out.length < max && queues.some((q) => q.length > round); round++)
+    for (const q of queues) if (q[round] && out.length < max) out.push(q[round]);
+  return out;
+}
+
 // The engine's odds on a path that is still open stay hidden until the human has given theirs, so the public
 // pages cannot anchor the human before the cockpit asks. Once a bet lands, or the human's odds are in, they show.
 export function engineOddsVisible(d) {

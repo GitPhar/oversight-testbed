@@ -4,12 +4,11 @@
 // line already committed, plus the new ones. The next session picks the file up from ~/Downloads with
 // ledger/pickup_human_odds.py and commits it. The engine's odds are never shown here (CONTEXT.md §3 rule 11).
 //
-// Which cards: per program, its open directions that have no bet yet, are not carried into another program, not
-// waiting on an opens_when condition and not parked, in the map's own rank order (unranked last), skipping any the
-// human has already answered in the ledger. Programs take turns, top of each map first, until 12.
+// Which cards: nextToAsk() in data.js (each map's open, un-bet directions in rank order, programs taking turns,
+// skipping any already answered in the ledger), until 12.
 // The plain sentence for each card comes from map/plain-questions.jsonl; the cost from the map's own cost field.
 import { header, esc, SITE, DATA, getText, getJSONL } from "./common.js";
-import { loadBets, loadMaps, joinBets } from "./data.js";
+import { loadBets, loadMaps, joinBets, nextToAsk } from "./data.js";
 
 header();
 
@@ -67,18 +66,9 @@ function hitMeans(d, plain) {
 // ---------- choosing the cards ----------
 function choose(programs, plainRows, answered) {
   const plainBy = new Map(plainRows.map((r) => [`${r.program}|${r.direction}`, r]));
-  const queues = programs.map((p) => p.directions
-    .map((d, i) => ({ d, i }))
-    .filter(({ d }) => d.status === "open" && !d.bet && !d.raw.moved_to && !d.raw.opens_when && !d.raw.parked && d.raw.status !== "parked"
-      && !answered.has(`${p.id}|${d.id}`))
-    .sort((a, b) => (a.d.raw.rank ?? Infinity) - (b.d.raw.rank ?? Infinity) || a.i - b.i)
-    .map(({ d }, n) => ({ p, d, n })));
-  const out = [];
-  for (let round = 0; out.length < MAX && queues.some((q) => q.length > round); round++)
-    for (const q of queues) if (q[round] && out.length < MAX) out.push(q[round]);
-  return out.map(({ p, d, n }) => {
+  return nextToAsk(programs, answered, MAX).map(({ p, d, place }) => {
     const key = `${p.id}|${d.id}`, plain = plainBy.get(key);
-    return { key, program: p.id, programTitle: p.title, id: d.id, place: n + 1, test: plainTest(d, plain), hit: hitMeans(d, plain),
+    return { key, program: p.id, programTitle: p.title, id: d.id, place, test: plainTest(d, plain), hit: hitMeans(d, plain),
       spend: spend(d.cost), event: d.raw.odds_event || null };
   });
 }

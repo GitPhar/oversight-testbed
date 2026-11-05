@@ -547,3 +547,9 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
 .savebtn:disabled { opacity: .55; cursor: default; }
 .savenote { margin: 0; flex: 1 1 20rem; font-size: 15px; color: var(--text-2); line-height: 1.45; }
 .savebox #savestate { flex-basis: 100%; margin: 0; }
+
+/* ---------- home: what we have found so far ---------- */
+.findings { list-style: none; counter-reset: f; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); gap: 12px; }
+.findings li { counter-increment: f; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px 12px; display: flex; flex-direction: column; gap: 8px; }
+.findings .f-said { font-size: 17px; line-height: 1.5; color: var(--text); }
+.findings .f-on { margin-top: auto; font-size: 14px; color: var(--text-2); border-top: 1px solid var(--line); padding-top: 8px; }
