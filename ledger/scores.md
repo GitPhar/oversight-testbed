@@ -56,7 +56,7 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-22 of 45 bets carry an engine pre-mortem; 11 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+29 of 52 bets carry an engine pre-mortem; 11 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
@@ -85,20 +85,21 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 | Brier on tiebreaks, engine (n = 0) | — |
 | Brier on tiebreaks, human (n = 0) | — |
 | QPU seconds used by tiebreaks | 0 |
-| bets by seed source: curby-rng | 22 |
+| bets by seed source: curby-rng | 27 |
 | bets by seed source: inherited (ss-b4 seed e8f921e; no new draw) | 2 |
+| bets by seed source: inherited (sv-b1's CURBy-RNG pulse; no new draw) | 2 |
 | bets by seed source: none recorded | 21 |
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
 
-Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 12 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 15 lesson lines written.
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 12 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 22 lesson lines written.
 
 | | count |
 |---|---|
-| pre-registrations since the rule | 15 |
-| with a lesson line | 12 |
+| pre-registrations since the rule | 22 |
+| with a lesson line | 19 |
 | with a design review verdict | 12 |
-| awaiting their design review (nothing may run yet) | 3: ng-p3-16, sg-b1, ta-b1 |
+| awaiting their design review (nothing may run yet) | 10: ng-p3-16, sg-b1, ta-b1, ta-b2, sv-b1, sv-b2, sv-b3, ta-b3, sg-b2, sg-b3 |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 3 |
@@ -107,18 +108,18 @@ Design reviews: 0 go, 12 fix-first, 3 redesign; 8 later found by the post-result
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
-| P1 | Odds too high where the engine had a story | 8 | 5 of 7 scored |
-| P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 3 | 2 of 2 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 11 | 6 of 8 scored |
-| P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 3 | 1 of 2 scored |
+| P1 | Odds too high where the engine had a story | 10 | 5 of 7 scored |
+| P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 4 | 2 of 2 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 17 | 6 of 8 scored |
+| P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 4 | 1 of 2 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 1 | 0 of 1 scored |
-| P6 | A control that cannot fail | 2 | 1 of 1 scored |
-| P7 | A foreseeable execution risk run without a pilot | 1 | 0 of 1 scored |
-| P8 | Comparing across conditions that differ in more than the factor named | 9 | 4 of 5 scored |
-| P9 | The right rule, then the wrong noun | 8 | 6 of 6 scored |
-| P10 | A label that hangs on one item | 8 | 6 of 6 scored |
+| P6 | A control that cannot fail | 3 | 1 of 1 scored |
+| P7 | A foreseeable execution risk run without a pilot | 2 | 0 of 1 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 13 | 4 of 5 scored |
+| P9 | The right rule, then the wrong noun | 10 | 6 of 6 scored |
+| P10 | A label that hangs on one item | 10 | 6 of 6 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 1 | 1 of 1 scored |
-| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 4 | 1 of 1 scored |
+| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 10 | 1 of 1 scored |
 
 **Does the loop help?** On 8 scored bets, Brier with the odds before the lesson is 0.277, after it 0.241.
 

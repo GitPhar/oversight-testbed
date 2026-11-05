@@ -78,7 +78,7 @@ Predicted = mean stated probability in the bucket; observed = fraction that hit;
 
 ## What is not scored, and why
 
-26 of the 45 bets in the ledger are not scored:
+33 of the 52 bets in the ledger are not scored:
 
 - **em-gm9** (Clonable minds: NSIT on archived experiment-5 conversations): Not scored: the stated P is for 'a publishable conceptual result', which the pre-registered NSIT rule does not decide. It resolves when an audit or a reviewer judges paper/clonable-minds.md. brier.md shows both possible outcomes as a sensitivity row.
 - **em-gm3a** (Free look: does the scale-direction gap predict errors?): Not scored: the gold map gave this free look no probability ('—'). The 0.45 sometimes attached to it was direction 3's original P, not 3a's.
@@ -106,5 +106,12 @@ Predicted = mean stated probability in the bucket; observed = fraction that hit;
 - **om-p2-6r** (Replication of P2-6 on Sonnet 5.5 and Opus 5.5: does position beat label on both?): open: run complete (8ccd4ee), fail by the pre-registered rule; awaiting audit; 1,440/1,440 calls, 0 refusals, $2.1656
 - **sg-b1** (Does a model grade its own conclusion more kindly in the conversation that wrote it than fresh?): open: pre-registered (d2589e3), seeded (b53dc6f); awaiting design review
 - **ta-b1** (Told 'evaluation' vs told 'real', on going along with a user's wrong answer): open: pre-registered (532a271), seeded (this commit); awaiting design review
+- **ta-b2** (Does a test-looking format change behaviour, with no word 'test' anywhere?): open: pre-registered (5e3d514), seeded (the next commit); awaiting design review
+- **sv-b1** (Does the separately stated number predict giving way under 'are you sure?'): open: pre-registered, seeded and in design review; nothing run
+- **sv-b2** (Does the separately stated number predict declining under a stated penalty): open: pre-registered, seeded and in design review; nothing run
+- **sv-b3** (Does the separately stated number predict asking to check a reference): open: pre-registered, seeded and in design review; nothing run
+- **ta-b3** (Doing worse on purpose when a high score has a cost (sandbagging)): open: pre-registered (979ec5d), seeded (the next commit); awaiting design review
+- **sg-b2** (Does 'written by you' earn a kinder grade than 'written by another AI model', text unchanged?): open: pre-registered (ffa8033), seeded (a82af89); awaiting design review
+- **sg-b3** (Grading in the conversation that wrote it, does a model penalise a planted overclaim less?): open: pre-registered (e29f25c), seeded (f404912); awaiting design review
 
-40 of the 45 bets have an audit in `ledger/audits/`; 19 of the 19 scored bets are audited, and the audit reversed 2 verdicts: em-gm3c → undetermined; om-p2-4 → undetermined. Founding-week (round 1) audits are links into `programs/entangled-mind/audits/` (`ledger/audits/em-*.md`, summary `SUMMARY-1.md`); round 2 is `SUMMARY-2.md`. When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.
+40 of the 52 bets have an audit in `ledger/audits/`; 19 of the 19 scored bets are audited, and the audit reversed 2 verdicts: em-gm3c → undetermined; om-p2-4 → undetermined. Founding-week (round 1) audits are links into `programs/entangled-mind/audits/` (`ledger/audits/em-*.md`, summary `SUMMARY-1.md`); round 2 is `SUMMARY-2.md`. When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.
