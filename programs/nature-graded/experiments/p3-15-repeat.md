@@ -103,6 +103,7 @@ A pass is reported as **pass, unreplicated** until run 2 agrees (invariant 7).
 
 - `run_hardware` refuses at 420 s. `--submit` refuses without a DEVIATIONS row recording Sean's budget ruling ("F6 ruling:", D16), without a design-review go, without committed predictions, if the run already ran, above a 5 s estimate, under the reserve rule, or (for run 2) before 3.0 h.
 - Each run is submitted once. If a run fails, it is not resubmitted this session.
+- *(Added D17, F9.)* A row lifting the resubmission block may rely on `job_id_existed` only when it is false from two successful listings, and only after checking IBM's job list for the run's time window. A null value means unknown.
 
 ## 8. Ledger entry (filled now, completed after audit)
 

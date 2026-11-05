@@ -250,14 +250,17 @@ def submit(k: int):
         counts, usage = backends.run_hardware(pubs, purpose=f"Program 3 P3-15 run {k}: barrier x grouping repeat ({len(pubs)} pubs, 5,000 shots)",
                                               shots=PIECE)
     except Exception as e:  # job error: recorded, never resubmitted (section 5.3)
-        new_job = None
-        try:   # D16: record whether a job id existed (refused before submission, or failed after it)
-            after = [j for j in backends.service().jobs(limit=5) if before is not None and j.job_id() not in before]
-            new_job = after[0].job_id() if after else None
-        except Exception:
-            pass
+        # D16/D17: whether a job id existed. True/False only from two successful listings; otherwise None (unknown).
+        new_job, existed = None, None
+        if before is not None:
+            try:
+                after = [j for j in backends.service().jobs(limit=5) if j.job_id() not in before]
+                new_job = after[0].job_id() if after else None
+                existed = new_job is not None
+            except Exception:
+                existed = None
         raw_path(k).write_text(json.dumps({"run": k, "submitted_at": t0, "job_error": repr(e),
-                                           "job_id_existed": new_job is not None, "job_id": new_job}, indent=1))
+                                           "job_id_existed": existed, "job_id": new_job}, indent=1))
         raise
     rec = {"run": k, "submitted_at": t0, "usage": usage, "counts": counts}
     raw_path(k).write_text(json.dumps(rec, indent=1))            # F5 (D15): saved at once, before anything else
