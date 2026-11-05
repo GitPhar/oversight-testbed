@@ -200,12 +200,20 @@ def already_logged(k: int) -> bool:
     return any(str(e.get("purpose", "")).startswith(f"Program 3 P3-15 run {k}") for e in led)
 
 
+def f6_ruled() -> bool:
+    """D16: Sean's budget ruling for ng-p3-15 must be recorded in a DEVIATIONS row containing 'F6 ruling:'."""
+    dev = (ROOT / "DEVIATIONS.md").read_text()
+    return any("F6 ruling:" in line and "ng-p3-15" in line for line in dev.splitlines() if line.startswith("|"))
+
+
 def submit(k: int):
     from entangled_mind import backends
     if raw_path(k).exists() or already_logged(k):
         raise SystemExit(f"run {k} already ran (raw file or QPU ledger entry); nothing is resubmitted")
     if not design_review_go():
         raise SystemExit("no design-review go (or confirmed fix-first) at " + str(DESIGN_REVIEW))
+    if not f6_ruled():
+        raise SystemExit("no 'F6 ruling:' row for ng-p3-15 in DEVIATIONS.md (Sean's budget ruling, D16)")
     chk = subprocess.run(["python3", str(ROOT.parents[1] / "ledger" / "check_prereg.py"), "ng-p3-15",
                           str(ROOT.parents[1]), "programs/nature-graded/experiments/p3-15-repeat.md", "--before-run"],
                          capture_output=True, text=True)
@@ -235,10 +243,21 @@ def submit(k: int):
     pubs = [(c, None, s) for c, s in zip(circs, pred["shots"])]
     t0 = dt.datetime.now(dt.timezone.utc).isoformat()
     try:
+        before = {j.job_id() for j in backends.service().jobs(limit=5)}
+    except Exception:
+        before = None
+    try:
         counts, usage = backends.run_hardware(pubs, purpose=f"Program 3 P3-15 run {k}: barrier x grouping repeat ({len(pubs)} pubs, 5,000 shots)",
                                               shots=PIECE)
     except Exception as e:  # job error: recorded, never resubmitted (section 5.3)
-        raw_path(k).write_text(json.dumps({"run": k, "submitted_at": t0, "job_error": repr(e)}, indent=1))
+        new_job = None
+        try:   # D16: record whether a job id existed (refused before submission, or failed after it)
+            after = [j for j in backends.service().jobs(limit=5) if before is not None and j.job_id() not in before]
+            new_job = after[0].job_id() if after else None
+        except Exception:
+            pass
+        raw_path(k).write_text(json.dumps({"run": k, "submitted_at": t0, "job_error": repr(e),
+                                           "job_id_existed": new_job is not None, "job_id": new_job}, indent=1))
         raise
     rec = {"run": k, "submitted_at": t0, "usage": usage, "counts": counts}
     raw_path(k).write_text(json.dumps(rec, indent=1))            # F5 (D15): saved at once, before anything else
