@@ -79,7 +79,7 @@ For each surviving candidate, write a `Direction`:
 | `what_our_data_say` | anything already in our archives that bears on it, with file paths |
 | `cheapest_test` | the design in two lines |
 | `cost` | dollars of API, QPU seconds, hours of laptop |
-| `engine_odds` | see below |
+| `engine_odds` | see below: prior, adjustment and reason (`odds_prior`, `odds_adjustment`, `odds_reason`) |
 | `source` | `literature` (came from a read's next steps), `engine` (the scout's own idea), or `human` (a logged steer). Feeds Q5. |
 | `parent` | the direction it branched from, if any (the site draws the map as paths from this) |
 | `weight` | rank, from surprise potential, cost, odds and neighbourhood heat; say how you set it |
@@ -88,15 +88,26 @@ For each surviving candidate, write a `Direction`:
 - State `P(pass)`: the probability, from 0 to 100, that the bet's pre-registered pass rule will be met. Not "probability the idea is interesting", not "probability of a real effect in the world": the pass rule, as it will be written.
 - One scale direction: 0 = certainly will not pass, 100 = certainly will pass.
 - Write the odds for all candidates in one pass, in the order of their `id`s, before ranking them, and do not revise them after ranking. A later revision is allowed only with a dated reason, and both numbers stay on the record (the founding week revised two bets; both originals are kept).
-- Timestamp the odds (`engine_odds_at`) and record the template version (`odds_template: v1`). The v1 template is: a fresh context, holding only the direction's row from the table below and its draft pass rule; a rationale of at most 100 words, then the number; one integer from 1 to 99; no access to the human's odds or to other bets' outcomes.
-- **Elicitation check, without waiting for outcomes.** On a random half of the directions (seed written in the map), re-elicit in two more fresh contexts: once with the pass rule paraphrased, and once negated ("the probability, from 0 to 100, that the pass rule will **not** be met"). Record both, the spread, and |P(pass) + P(not pass) − 100|. The headline odds stay the v1 number. The spread is published next to them, because LLM forecasters are known to break negation coherence (`related-work/forecaster-calibration.md`: Pratt et al. 2024; Paleka et al. 2024).
+- **Start from the record (template v2, CONTEXT.md §3 rule 14, from 2026-11-05).** Every odds elicitation, here and everywhere else in the loop (remap, lesson, re-elicitation), runs in a fresh context that holds exactly two things:
+  1. `ledger/prior.md` as committed (run `python3 ledger/prior.py` first; record the commit it was read at as `odds_prior_commit`);
+  2. the direction's own description: its title, assumption at stake, cheapest test, models, cost, draft pass rule, and which row it falls in on each of prior.md's tables (program, referee, cost tier, source, layer). A follow-up may say in one sentence what its parent found, because that is what its question is.
+
+  It gets **nothing about this bet's history**: no odds stated for this direction before (on the map, by a lesson, for an earlier bet on it), no earlier bet on this direction and no outcome of one, no audit or design-review notes about it, no human odds, and no other direction's odds from the same pass.
+- **The odds are written as prior, adjustment and reason**, in that order, and nothing else:
+  - `prior`: the hit rate of all scored bets, as printed at the top of prior.md (for example `0.30`);
+  - `adjustment`: a signed number in hundredths (for example `-0.12`); the engine's odds are prior + adjustment, kept between 0.01 and 0.99;
+  - `reason`: one line, at most 30 words, naming the prior.md rows (or the feature of the design) that justify the adjustment. An adjustment that moves away from the hit rates of the rows the bet falls in must say why in that line.
+- Store all of them on the map node and, when the bet is pre-registered, on its ledger row: `engine_odds` (prior + adjustment), `odds_prior`, `odds_adjustment`, `odds_reason`, `odds_prior_commit`, `engine_odds_at`, `odds_template: v2`. `ledger/brier.py` scores the prior alone against the adjusted odds on every scored bet that carries them; that row is the published value of the adjustment step.
+- Template v1 (before 2026-11-05: a fresh context with only the direction's row and draft pass rule, a rationale of at most 100 words, then one integer from 1 to 99, no other bets' outcomes) stays on the record for the odds it produced; it is no longer used for new odds.
+- **Elicitation check, without waiting for outcomes.** On a random half of the directions (seed written in the map), re-elicit in two more fresh contexts: once with the pass rule paraphrased, and once negated ("the probability, from 0 to 100, that the pass rule will **not** be met"). Each of those contexts also holds `ledger/prior.md` and writes prior, adjustment and reason. Record both, the spread, and |P(pass) + P(not pass) − 100|. The headline odds stay the first v2 number. The spread is published next to them, because LLM forecasters are known to break negation coherence (`related-work/forecaster-calibration.md`: Pratt et al. 2024; Paleka et al. 2024).
 
 Write the map twice: `map/<program>.md` (plain English first, then the table) and `map/<program>.json`:
 
 ```json
 {"program": "<program>", "seed_question": "<verbatim>", "scouted": "<date>",
  "directions": [{"id": "", "title": "", "parent": null, "status": "open",
-   "engine_odds": 0.00, "engine_odds_at": "", "source": "literature",
+   "engine_odds": 0.00, "odds_prior": 0.00, "odds_adjustment": 0.00, "odds_reason": "", "odds_prior_commit": "",
+   "engine_odds_at": "", "odds_template": "v2", "source": "literature",
    "cost": "", "assumption_at_stake": "", "cheapest_test": "", "prior_work": [], "diagnosis": null}]}
 ```
 

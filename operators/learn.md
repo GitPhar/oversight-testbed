@@ -21,12 +21,13 @@ Every new pre-registration, in every program, from 2026-11-04 17:00 America/Denv
 
 ## Step 1: read (before writing the pre-registration)
 
-Read all four, as committed on the engine's `main`:
+Read all five, as committed on the engine's `main`:
 
 1. **`ledger/bets.jsonl`**: every resolved bet, with its odds, its outcome, and its `failure_reason` and `failure_kind` where audited. Look at bets in the same program, with the same referee, and with odds near yours.
 2. **`ledger/brier.md`**: the current Brier score, the running base rate, and where the odds sat against the outcomes.
 3. **`ledger/audits/`**: every audit's "Required cuts" and "What would break it next", and the latest `SUMMARY-*.md` "Cross-cutting findings".
 4. **`ledger/lessons.jsonl`**: the pattern lines (`kind: pattern`, P1 onward), and earlier lesson lines with their scores. Did a correction help last time?
+5. **`ledger/prior.md`** (run `python3 ledger/prior.py` first): the hit rate of every scored bet, by program, referee, cost tier, source and layer. It is what the fresh odds context in Step 2 starts from.
 
 Proof of reading goes in the lesson line: the number of resolved bets, the Brier score and the running base rate as they stood, and the newest audit file read. The auditor checks these against the ledger at the pre-registration commit (E25).
 
@@ -40,8 +41,10 @@ Rules:
 - **Name at least one pattern**, or say `none applies` and why. If you find a new pattern, add it as a new pattern line in the same commit as the lesson (next P number, with evidence and `do_this`).
 - **The design change must be checkable**: a power check added, a baseline added, a pilot run, a control shown to fail on a wrong set-up. "Be careful" is not a lesson.
 - **The bet must be able to go either way.** Before betting, check that P(pass) and P(fail) are each at least about 10% under plausible worlds (design-review D11). Extreme odds on a bet that cannot pass are not judgment; they are a free Brier point.
-- **The odds move, or the line says why not.** Record the map's odds (`odds_before_lesson`) and the odds after the lesson (`odds_after_lesson`). If the lesson changes the odds, the change is a revision before data: both numbers are kept, as `engine_odds_first` and `engine_odds`, and the map is updated in the same commit. Moving toward the running base rate needs no extra reason. Moving away from it needs one from the ledger, not from the story.
+- **The odds after the lesson come from a fresh context, not from this session (CONTEXT.md §3 rule 14).** This session has read the bet's history, so it does not state the bet's odds. Once the design is final (the lesson's design change applied), it opens a fresh context holding only `ledger/prior.md` and the bet's own description: title, assumption at stake, design, models, cost, the pass rule as it will be frozen, and its row on each of prior.md's tables. Nothing about the bet's history goes in: not the map's odds, not the lesson sentence, not an earlier bet on the direction or its outcome, not the audits or design reviews of this bet, not the human's odds. The fresh context writes **prior** (the all-bets hit rate printed in prior.md), **adjustment** (signed, in hundredths) and a one-line **reason** (at most 30 words, naming the prior.md rows or the design feature behind it), and nothing else (operators/scout.md, Step 4, template v2). Prior + adjustment, kept between 0.01 and 0.99, is `odds_after_lesson` and the bet's `engine_odds`.
+- **The odds move, or the line says why not.** Record the map's odds (`odds_before_lesson`) and the fresh context's (`odds_after_lesson`). If they differ, the change is a revision before data: both numbers are kept, as `engine_odds_first` and `engine_odds`, and the map is updated in the same commit. The lesson sentence's "<n>%" is the fresh context's number, and its "because" may quote the fresh context's reason; this session never edits the number. An adjustment away from the hit rates of the bet's prior.md rows needs its reason to say why.
 - Write the same sentence in the pre-registration's §0 table, row `lesson`, so it is committed **with** the pre-registration. If a design review later requires the lesson to change (before data), the §0 text and the ledger's `lesson` stay as frozen; the new text goes in `lesson_revised` with its DEVIATIONS row (`lesson_revised_by`). `check_prereg.py` always compares `lesson` against the frozen §0. The ledger line follows in the engine commit that appends the bet row.
+- **The bet row stores the odds' three parts**: `odds_prior`, `odds_adjustment`, `odds_reason`, with `odds_prior_commit` (the commit prior.md was read at) and `odds_template: "v2"`, beside `engine_odds`. A bet pre-registered without them (before 2026-11-05, or with odds from template v1) leaves them out; `ledger/brier.py` then scores it only in the primary rows, not in the prior-against-adjusted row.
 
 ## The ledger line: `ledger/lessons.jsonl`
 
@@ -54,6 +57,7 @@ Rules:
  "lesson": "<the sentence, exactly as in the pre-registration's §0>",
  "design_change": "<what is checkable: e.g. 'equivalence margin 0.03 and power 0.8 from the gm2b archive'>",
  "odds_before_lesson": 0.60, "odds_after_lesson": 0.35,
+ "odds_prior": 0.30, "odds_adjustment": 0.05, "odds_reason": "<the fresh context's one line>", "odds_prior_commit": "<sha>",
  "design_review": "ledger/design-reviews/<bet-id>.md",
  "scored": null, "recurred": null, "scored_note": null}
 ```
@@ -72,6 +76,7 @@ For each lesson, once its bet's audit is in:
 - Pre-registrations since the rule: with a lesson; with a design review; **violations listed by bet id**.
 - The patterns cited, and how often each recurred after being cited.
 - Brier with the odds before the lesson against after it, paired, with n.
+- In `ledger/brier.md`'s Sensitivity table: Brier with the prior alone (`odds_prior`) against the adjusted odds (`engine_odds`), on the same scored bets, with n. That is the published value of the adjustment: if the adjusted odds do not beat the prior, the engine's reasoning about a bet is not adding to its record.
 
 ## Enforcement
 

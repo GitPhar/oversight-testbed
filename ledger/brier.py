@@ -58,6 +58,11 @@ def main():
     gm9 = next(b for b in bets if b["id"] == "em-gm9")
     gm1 = next(b for b in scored if b["id"] == "em-gm1")
     alt_gm1 = [(0.30 if b is gm1 else b["engine_odds"], b["outcome"]) for b in scored]
+    # Rule 14 (template v2): odds written as prior + adjustment + reason. The prior alone against the adjusted odds,
+    # on the same bets, is the published value of the adjustment step.
+    pri = [b for b in scored if b.get("odds_prior") is not None]
+    pri_alone = [(b["odds_prior"], b["outcome"]) for b in pri]
+    pri_adj = [(b["engine_odds"], b["outcome"]) for b in pri]
 
     L = []
     w = L.append
@@ -100,6 +105,17 @@ def main():
             pr = [(b["engine_odds"], b["outcome"]) for b in scored if (b.get("referee") or "model") == r]
             parts.append(f"{r}-graded {fmt(brier(pr))} on {len(pr)}")
         w("- **By referee** (what decided the outcome): " + "; ".join(parts) + ". Too few to compare yet (`ARCHITECTURE.md`, referee_test).")
+    if pri:
+        gap = brier(pri_alone) - brier(pri_adj)
+        w(f"- **The adjustment's value (rule 14).** On the {len(pri)} scored bet{'s' if len(pri) != 1 else ''} whose odds were "
+          f"written as prior + adjustment, the prior alone (the record's hit rate) scores {fmt(brier(pri_alone))} and the "
+          f"adjusted odds {fmt(brier(pri_adj))}: the adjustment "
+          + (f"helped by {gap:.3f}." if gap > 0 else f"did not help ({-gap:.3f} worse)." if gap < 0 else "made no difference.")
+          + (" Too few bets to tell from noise." if len(pri) < 20 else ""))
+    else:
+        w("- **The adjustment's value (rule 14) is not measured yet.** From 2026-11-05 every new bet's odds are written as "
+          "a prior from `ledger/prior.md` plus an adjustment with a one-line reason; no scored bet carries them yet. "
+          "The Sensitivity table scores the prior alone against the adjusted odds as they arrive.")
     if not hum:
         w("- **The human column is empty, honestly.** No scored bet carries Sean's odds: they were not recorded in the founding week, "
           "and later bets were pre-registered with the form blank. Each bet's `human_odds_note` says why.")
@@ -149,6 +165,8 @@ def main():
     w("|---|---|---|")
     w(f"| primary (odds in force at the pre-registration) | {n} | {fmt(brier(eng))} |")
     w(f"| odds as first written down | {n} | {fmt(brier(first))} |")
+    w(f"| prior alone (`odds_prior`, the record's hit rate from `ledger/prior.md`), on the bets whose odds carry one (rule 14) | {len(pri)} | {fmt(brier(pri_alone))} |")
+    w(f"| adjusted odds (prior + `odds_adjustment`, the engine's odds), on the same bets | {len(pri)} | {fmt(brier(pri_adj))} |")
     w(f"| direction 1 at 0.30 (its 0.15 was committed one minute after its pre-registration; see the bet's note) | {n} | {fmt(brier(alt_gm1))} |")
     w(f"| add direction 9 at {gm9['engine_odds']:.2f}, if its conceptual result is judged publishable | {n + 1} | {fmt(brier(eng + [(gm9['engine_odds'], 1)]))} |")
     w(f"| add direction 9 at {gm9['engine_odds']:.2f}, if it is judged not publishable | {n + 1} | {fmt(brier(eng + [(gm9['engine_odds'], 0)]))} |")

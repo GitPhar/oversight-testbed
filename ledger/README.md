@@ -12,7 +12,7 @@ Everything in it was built on 2026-11-04 from the `entangled-mind` repository: `
 
 A **bet** is one pre-registered test. Each line says:
 - what was tested, and which map direction it came from;
-- **the engine's odds**: the probability it wrote down before data, and what exactly that probability was *for* (`odds_event`). If the odds were revised before the test, both numbers are kept (`engine_odds_first`, `engine_odds`), with the commits where each was written;
+- **the engine's odds**: the probability it wrote down before data, and what exactly that probability was *for* (`odds_event`). If the odds were revised before the test, both numbers are kept (`engine_odds_first`, `engine_odds`), with the commits where each was written; from 2026-11-05 (CONTEXT.md §3 rule 14) the odds are written in three parts by a fresh context handed `prior.md`: `odds_prior` (the record's hit rate), `odds_adjustment` (signed) and `odds_reason` (one line), with `odds_prior_commit` and `odds_template: "v2"`, and `engine_odds` is prior + adjustment;
 - **Sean's odds**: empty (`null`) for every founding-week bet, because they were not recorded. That is the honest entry, not a gap to fill in from memory;
 - **the pre-registration commit**: where the pass rule was frozen, before any data. Every one was checked to be an ancestor of its result commit;
 - **the result file** and its commit;
@@ -46,6 +46,8 @@ The founding week: the engine scored **0.256 on 5 bets**, about the same as a co
 The **calibration table** groups bets by stated odds and compares the average stated probability with how often those bets actually came true. A well-calibrated guesser's 20% bets come true about 20% of the time. The human columns are empty for the founding week.
 
 `brier.md` is generated: run `python3 ledger/brier.py` after any change to `bets.jsonl`. Do not edit it by hand.
+
+`prior.md` is generated the same way: `python3 ledger/prior.py` counts the hit rate of every scored bet by program, referee, cost tier, source and layer depth (with Wilson intervals), and lists programs due a closing review (`operators/remap.md`). Every odds elicitation is handed this file. Do not edit it by hand.
 
 ### `audits/`: every audit, one file per bet
 

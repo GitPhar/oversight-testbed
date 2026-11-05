@@ -9,7 +9,7 @@ The diagram, as built on 2026-11-04: [`paper/figures-architecture-v2.svg`](paper
 ```
 Program      = { question, repo, seed_date, status: open|closed, map: [Direction], ledger: [Bet], kills: [Kill] }
 Direction    = { id, assumption_at_stake, prior_work: [Read], what_our_data_say, cheapest_test, cost, weight }
-Bet          = { direction, pass_rule, statistic, budget, engine_odds, human_odds, prereg_commit,
+Bet          = { direction, pass_rule, statistic, budget, engine_odds, odds_prior, odds_adjustment, odds_reason, human_odds, prereg_commit,
                  premortem: "If this fails, the most likely reason is …", premortem_kind: world|design|execution|artefact,
                  premortem_score: named|kind_only|other|not_failed|unclear,              # operators/premortem.md
                  result, audit, verdict: pass|classical|tie|null|untestable, scored: bool }
@@ -22,7 +22,8 @@ Shadow       = { steer, direction, engine_odds_at_veto, human_odds_at_veto, veto
 Audit        = { auditor_session (has not seen the work), claims_checked, holes_found, overclaims_cut, verdict_stands: bool, plant_id }
 Plant        = { audit, planter (never the auditor), planted: bool (p = 1/2, secret draw), class: overclaim|miscount,
                  commitment = sha256(plaintext + salt), revealed_after_audit, caught: bool }   # operators/plant.md; ledger/plants.jsonl
-Ledger       = engine and human odds vs outcomes; Brier score per side; published
+Ledger       = engine and human odds vs outcomes; Brier score per side; prior alone vs adjusted odds; published
+Prior        = { hit rate of every scored bet, Wilson interval, by program | referee | cost tier | source | layer }   # ledger/prior.py → ledger/prior.md; handed to every odds elicitation
 Lesson       = { bet, patterns: [P-id], lesson (one sentence, also in the prereg's §0), design_change,
                  odds_before_lesson, odds_after_lesson, read: {resolved, brier, base_rate, newest_audit}, recurred }  # operators/learn.md; ledger/lessons.jsonl
 Pattern      = { id: P<n>, class, evidence from past misses and audit cuts, do_this, cited_by }                  # ledger/lessons.jsonl
@@ -47,7 +48,10 @@ loop(program):
     for c in candidates:
         d = Direction(c)
         d.cheapest_test, d.cost = cheapest_falsifier(d)           # cents before dollars; archives before API; API before hardware
-        d.engine_odds = engine.P(real_result | d)                 # written down
+        prior.md = run(ledger/prior.py)                            # the engine's own record, counted (rule 14)
+        d.odds_prior, d.odds_adjustment, d.odds_reason = fresh_context(prior.md, d.description).P(pass)
+                                                                  # fresh context: prior.md + this direction only; nothing of its history
+        d.engine_odds = clamp(d.odds_prior + d.odds_adjustment, 0.01, 0.99)   # written down, all three parts
         d.human_odds  = first_line(ledger/human-odds.jsonl, d) or "no human odds"   # cockpit downloads only; never asked in a terminal
         d.weight      = f(surprise_potential, cost, odds, neighbourhood_heat)
     program.map = rank(candidates by weight)
@@ -57,6 +61,7 @@ loop(program):
     # 3a. LEARN (mandatory) — read the ledger's misses and the audits' cuts first
     read(ledger/bets.jsonl, ledger/brier.md, ledger/audits/, ledger/lessons.jsonl)
     bet.lesson = one_sentence(pattern corrected, design change, odds before → after)            # in §0, committed with the prereg
+    bet.lesson.odds_after = fresh_context(prior.md, bet.final_design).P(pass)                       # prior, adjustment, reason; never this session's own number
     bet.engine_odds = bet.lesson.odds_after                                                        # a revision before data; both kept
     bet.premortem = one_sentence("If this fails, the most likely reason is")   # written before the run, never revised
     bet.prereg_commit = commit(pass_rule, statistic, split, seed_rule = first pulse after this commit (CURBY-Q if live, else CURBy-RNG), budget, stop_rules, premortem)
@@ -85,6 +90,8 @@ loop(program):
     # 6. LEDGER — score both sides
     ledger.record(bet.engine_odds, bet.human_odds, bet.verdict)
     publish(brier(engine), brier(human))
+    publish(brier(bets.odds_prior) vs brier(bets.engine_odds), on bets carrying both)          # the adjustment's value, a number
+    rewrite(ledger/prior.md)                                                                   # the next bet starts from this outcome
 
     # 7. RE-WEIGHT — surprise raises the neighbourhood; a null closes with a diagnosis
     if bet.verdict in {pass} and bet.audit.verdict_stands:
@@ -134,6 +141,8 @@ learning_test:
     Brier(odds before the lesson) vs Brier(odds after it), paired over scored bets with lessons
     recurrence of each pattern after it is cited; design reviews: flaws found, and flaws missed per later audit
     if the after-lesson odds are no better, the engine is not learning from its own record
+    Brier(prior alone) vs Brier(prior + adjustment), paired, on bets whose odds were written in three parts (rule 14)
+    if the adjusted odds are no better, the engine's reasoning about a bet adds nothing to its own hit rate
 
 auditor_test:
     catch rate = plants caught / plants planted, Wilson interval, by class; vs 82% (Luo et al. 2025, logs + code)
@@ -160,6 +169,7 @@ oversight_test:
 10. No pre-registration without a lesson from the ledger and a fresh design review that says go before the first call.
 11. No session asks the human for odds or decisions in a terminal. Human odds come only from `ledger/human-odds.jsonl` (cockpit downloads); without them a bet proceeds marked "no human odds". The human's judgment is recorded and scored as steers.
 12. No map ends at a landed bet with no follow-up: every landed or mixed bet has at least one not-yet-run follow-up on the map (operators/remap.md; `ledger/check_remap.py`).
+14. Odds start from the record: every odds elicitation is a fresh context holding `ledger/prior.md` and the bet's own description, nothing of its history, and writes prior, adjustment and a one-line reason; the ledger keeps all three and `ledger/brier.md` scores the prior alone against the adjusted odds (CONTEXT.md §3 rule 14).
 
 ## Repositories
 
@@ -171,7 +181,7 @@ oversight-testbed/           # the engine (placeholder slug until the title is c
   ARCHITECTURE.md            # this file
   proposal.md                # the research proposal for the engine itself
   ledger/                    # bets.jsonl (engine odds, human odds, verdicts), steers.jsonl, shadows.jsonl, plants.jsonl (sealed), lessons.jsonl (patterns + lessons), audits/, design-reviews/;
-                             # brier.py → brier.md (calibration), scores.py → scores.md (vetoes, catch rate, pre-mortems, tiebreaks),
+                             # brier.py → brier.md (calibration), scores.py → scores.md (vetoes, catch rate, pre-mortems, tiebreaks), prior.py → prior.md (the record as the prior; closing reviews due),
                              # plants.py (seal/reveal/verify), seed.py (beacon → seed), check_prereg.py (lesson + review gate)
   map/                       # per-program maps as markdown + json
   operators/                 # morning brief, nightly updater, auditor, plant, scout, veto, premortem, hardware, learn, design-review, pre-registration template

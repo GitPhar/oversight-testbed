@@ -32,7 +32,7 @@ cd /Users/seanpharris/oversight-testbed && claude --model opus "Read operators/r
 4. `ledger/lessons.jsonl` (patterns P1 onward) and `ledger/brier.md` (the running base rate, which anchors the odds).
 5. `ledger/steers.jsonl`: a vetoed direction is never re-proposed by the remap; a killed one is never re-proposed unless a result gives a reason its diagnosis does not cover (scout.md, Inputs).
 6. Uncommitted files of other sessions are not read beyond their first lines and are never committed (CONTEXT.md §2). If one is plainly a follow-up in preparation, map it under its own id and say whose it is.
-7. Not read: `ledger/human-odds.jsonl` and the human-odds forms' answers. The engine's odds are stated without the human's (scout.md, v1 template).
+7. Not read: `ledger/human-odds.jsonl` and the human-odds forms' answers. The engine's odds are stated without the human's (scout.md, template v2).
 
 ## Step 1 — Classify every settled bet, by the ledger, never by preference
 
@@ -80,11 +80,11 @@ Each follow-up is a `Direction` (scout.md, Step 4) with these fields:
 | `models` | the three ids, or `"none: <reason>"` (a chip test, an archive with no model in it, an open-weight model on the laptop) |
 | `cost` | dollars of API on the named models, QPU s, or laptop hours |
 | `odds_event` | the draft pass rule, scoreable yes or no; the pre-registration locks it or logs a deviation |
-| `engine_odds`, `engine_odds_at`, `odds_template`, `odds_rationale` | see below |
+| `engine_odds`, `odds_prior`, `odds_adjustment`, `odds_reason`, `odds_prior_commit`, `engine_odds_at`, `odds_template`, `odds_rationale` | see below |
 | `question`, `known` (two lines), `human_prompt`, `engine_only` | the cockpit card (Step 4) |
 | `source` | `literature` (an audit or read named it), `engine`, or `human` (a steer) |
 
-**Engine odds, the scout's format.** P(pass) for the draft pass rule, one scale (0 = certainly will not pass, 100 = certainly will), an integer 1–99, stored 0–1. All follow-ups of one remap are given odds **in one pass, in id order, before they are ranked**, each with a rationale of at most 100 words that names the running base rate from `ledger/brier.md` and any pattern it corrects. They are never revised after ranking; a later revision needs a dated reason, and both numbers stay. If the odds were not elicited in fresh v1 contexts (scout.md), say so in `odds_template` (`"remap one pass, not v1; re-elicit under v1 before pre-registration"`); the betting session re-elicits at pre-registration (operators/learn.md).
+**Engine odds, the scout's format (template v2, CONTEXT.md §3 rule 14).** P(pass) for the draft pass rule, one scale (0 = certainly will not pass, 100 = certainly will), stored 0–1. Each follow-up's odds are elicited in its own fresh context holding only `ledger/prior.md` (run `python3 ledger/prior.py` first) and the follow-up's own row (title, assumption at stake, cheapest test, models, cost, draft pass rule, its row on each prior.md table, and one sentence on what its parent found), and nothing about its history: no earlier odds on the direction, no earlier bet on it, no human odds, no other follow-up's odds. The context writes **prior** (the all-bets hit rate in prior.md), **adjustment** (signed, in hundredths) and a one-line **reason** naming the prior.md rows or design feature behind it; prior + adjustment, kept between 0.01 and 0.99, is `engine_odds`, and all of `odds_prior`, `odds_adjustment`, `odds_reason`, `odds_prior_commit` go on the node with `odds_template: "v2"`. All follow-ups of one remap are given odds **in one pass, in id order, before they are ranked**. They are never revised after ranking; a later revision needs a dated reason, and both numbers stay. If a follow-up's odds were not elicited this way, say so in `odds_template` (`"remap one pass, not v2; re-elicit under v2 before pre-registration"`); the betting session re-elicits at pre-registration (operators/learn.md). `odds_rationale` may hold the re-scout's effect on the odds ("re-scout changed nothing"); the reason line is the odds' justification.
 
 ## Step 3 — One sentence for each killed bet
 
