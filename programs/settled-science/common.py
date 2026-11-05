@@ -38,7 +38,8 @@ CACHES = [ROOT / "items" / "leakage-cache.json", ROOT / "bettor" / "bettor-cache
           ROOT / "items" / "f2" / "leakage-cache.json", ROOT / "bettor" / "f2-cache.json",       # ss-b14 (D64; withdrawn D67, never used)
           ROOT / "items" / "f2b" / "leakage-cache.json", ROOT / "bettor" / "f2b-cache.json",     # ss-b15 (D74)
           ROOT / "bettor" / "bbb-cache.json", ROOT / "bettor" / "bbb-opus-cache.json",           # ss-b10b (D65)
-          ROOT / "bettor" / "bbo-cache.json", ROOT / "bettor" / "bbv2-cache.json"]                # ss-b16, ss-b17 (br-020)
+          ROOT / "bettor" / "bbo-cache.json", ROOT / "bettor" / "bbv2-cache.json",                # ss-b16, ss-b17 (br-020)
+          ROOT / "bettor" / "bbv2-pilot-cache.json"]                                               # ss-b17 review pilot (br-023, D82)
 
 
 def key_of(*parts) -> str:
