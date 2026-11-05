@@ -155,6 +155,13 @@ def main() -> int:
             step(md, lambda mod=mod: importlib.import_module(mod).analyse())
     if "probe-dissociation.md" in committed:     # DP1: the verdict from the archived probe runs (no model needed)
         step("probe-dissociation.json", lambda: importlib.import_module("probe_dissociation").cmd_analyse("llama3-8b"))
+    def run_with_args(mod, args):
+        sys.argv = [mod + ".py"] + args
+        importlib.import_module(mod).main()
+    # 2026-11-05 remap follow-ups (D61-D63+), each from its archive with its beacon seed
+    for mod, md, args in (("dm6f2_flag_overlap", "dm6f2-flag-overlap.md", ["--seed", "3958117464482761837"]),):
+        if md in committed:
+            step(md, lambda mod=mod, args=args: run_with_args(mod, args))
     if "mm-gm3b-opus-completion-with-h291.md" in committed:     # D49a sensitivity
         step("mm-gm3b-opus-completion-with-h291.md", lambda: importlib.import_module("mm_gm3b_opus_complete").analyse_with_h291())
 
