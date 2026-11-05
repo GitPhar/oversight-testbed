@@ -11,7 +11,7 @@ checks: {D1: flaw, D2: holds, D3: holds, D4: holds, D5: flaw, D6: holds, D7: hol
 flaws: 6
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-04 17:43 America/Denver
 ---
 
 # Design review of om-p2-3b
@@ -148,3 +148,35 @@ Each fix goes in one dated DEVIATIONS row in `programs/other-minds/DEVIATIONS.md
 **Pilot.** Approved as specified (`python experiments/p2_3b_simpletom_lowsev.py pilot`, 14 held-out stories, 182 calls, $0.10 cap). Run it after the fixes are confirmed and before the first test call, using the F3(a) refusal guard. Read zero refusals as weak evidence only, and leave the population as it is whatever the pilot shows. The reviewer did not run it (pilot_usd 0.00).
 
 **Confirmation.** After the author commits the fixes and the DEVIATIONS row, the reviewer re-runs `p2_3b_dryrun.py`, `review_synth.py` and `review_d1.py` under the stub, and adds a short addendum here with `confirmed_at`.
+
+## Confirmation of fixes (2026-11-04 17:43 America/Denver)
+
+Checked against fix commit `9d0d2fb` (other-minds DEVIATIONS **D9**) and the ledger rows at `HEAD`. The working tree's `programs/other-minds/experiments` is identical to `9d0d2fb`, and the frozen pre-registration (`26ee5d2`) is untouched; D9 and the code govern where they differ. I worked under the same limits: no paid calls, no pilot, no `.env` read (`noenv.py` stub, sockets blocked). I re-ran the author's `p2_3b_dryrun.py --quick` and wrote my own check, `review_confirm.py`, alongside the other review scripts in the scratchpad. Its letter-avoider generator is independent of the author's.
+
+- **F1, symmetric guard: holds.** `rule()` now requires Δ_match > 0 as well, with a fail reason `letter_avoid`. Its sentence is the one this review proposed, in D9 and in `SENTENCES`, and leave-one-out reads `delta_match` (it was added to `LOO_KEYS`).
+  - My avoider at 100% / 50% / 40% (Δ +0.308 / +0.167 / +0.124) gives **fail (letter_avoid)**, where om-p2-3's rule passes all three. The author's generator gives the same labels.
+  - The 40% copier still fails (letter_copy), and real uptake of 0.15 still passes.
+  - The 40% avoider shows no leave-one-out flips.
+  - Power is unchanged in the author's re-run: 0.82 at Δ = 0.125 with n = 581.
+  - `odds_event` in `ledger/bets.jsonl` names both subsets.
+- **F2, exact bar: holds.** 34/300 − 4/300 (0.0999…) now passes, and so does the om-p2-3 comparison (`True`, against `False` raw). 0.0999 still fails (small). y₆ of exactly 0.90 is testable and 0.901 is ceiling, so the 1e-9 tolerances keep each bar on its stated side.
+- **F3, refusal across runs and gates: holds.**
+  - A stubbed refusal stops run 1 (59 calls). A refused key goes into the cache.
+  - Run 2 makes **0 calls**. Run 3, with `refusal.md` deleted and the refused key still in the cache, also makes **0 calls**.
+  - Only deleting both by hand lets a run re-send the call (run 4). That is outside what code can prevent, and git history would show it.
+  - The stop record gives `completed_after_stop`, and the author's latency stub counted 3 such calls.
+  - §7's no-resume sentence is in D9.
+  - **Gates:** against the real review file while unconfirmed, the pilot and the test were both shut ("fix-first (not confirmed)"). With a confirmed copy, the pilot gate opens. The test gate stays shut without `results/p2-3b-pilot.json` and opens with 182/182 calls and 0 refusals. A redesign verdict shuts both.
+- **F4, content hash: holds.**
+  - Changing an entry's `sha256` is caught on the cache hit and again at analysis.
+  - Changing a story's text is caught at analysis.
+  - The hash covers model, max_tokens and messages. So an edited *answer* with an untouched hash is not caught. That is the expected scope of a content-keyed cache, not a gap.
+- **F5, ceiling scoring: holds.** D9 and the bet row's `ceiling_scoring` record that untestable (ceiling) is scored as not-pass, outcome 0, for both the 0.40 and 0.70 odds, and that untestable (too few) stays unscored. The analysis writes the same `scoring_note`. `ledger/brier.py` scores from each row's `scored` and `outcome`, so the ledger session applies this rule when the result comes in.
+- **F6, lesson row: holds.** `ls-om-p2-3b` now has `read.newest_audit: ledger/audits/om-p2-1-blind-pl-001.md`, and its `design_change` is §8's text verbatim.
+- **Timing: holds.** D9's typed time is 17:40, while its commit `9d0d2fb` has author time 17:39:17. The typed minute is 43 s late, not a rounding of the commit time. That does not matter here: the commit time is the record, and both come before any call. `results/` holds no p2-3b file, and the gates were shut until this confirmation.
+
+**New gaps: none.** Two notes:
+- The gate reads this file from the working tree, so it opens as soon as `confirmed_at` is set. Run the pilot only after the engine session has committed this addendum and `check_prereg.py --before-run` passes.
+- `design_review.commit` in the bet row is still null, for the ledger session to fill.
+
+**The pilot may now run**, once this addendum is committed. The test gate opens only on a complete pilot with no refusal (182/182 calls, 0 refusals), and that is enforced in code.
