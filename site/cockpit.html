@@ -4,40 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The cockpit</title>
-<meta name="description" content="Where the human steers: odds before data on every open question, vetoes with reasons, and new questions, saved as JSON lines to commit.">
+<meta name="description" content="The questions the maps say are next to run, each asked one plain way: would you spend this on it, and will it come back a hit?">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-<script src="vendor/marked.min.js"></script>
 </head>
-<body class="widepage">
+<body>
 <main>
   <h1>The cockpit</h1>
-  <section class="nextrun" id="nextrun" aria-label="Next to run"></section>
-  <div class="cockpit-two">
-    <section class="humancol" id="humancol" aria-label="The human column"></section>
-    <section class="p2path" id="p2path" aria-label="Path-dependence counter"></section>
-  </div>
-  <p class="how">One card per open direction, asked one plain way: is it worth what it costs, and will it come back a hit? The technical test and its pass rule are engine-only; you are not asked about them. Give your odds first; the engine's number stays hidden until you do. A direction already pre-registered without your number shows as closed. Veto a direction with a reason, or add a question. Nothing is sent anywhere: you download what you entered and commit it to the ledger.</p>
-
-  <div class="cockpit-bar" id="bar"></div>
-  <div class="filters" id="filters"></div>
-  <div class="cards" id="cards"><div class="empty">Loading the open questions…</div></div>
-
-  <section class="export" id="addq">
-    <h2>Add a new question</h2>
-    <p class="muted small" style="margin:0 0 10px">A question that does not grow from any card above. It goes into the ledger as a steer; the next scout session maps it.</p>
-    <div class="panelbox">
-      <label class="lbl" for="newprog">Which program</label>
-      <select id="newprog" class="because"></select>
-      <label class="lbl" for="newq">Your question, in your own words</label>
-      <textarea id="newq" placeholder="e.g. Does the model treat a user's stated belief the way it treats its own?"></textarea>
-      <div class="actions"><button class="btn primary" id="newqbtn" type="button" disabled>Add this question</button></div>
-    </div>
+  <p class="how" id="intro">These are the questions the maps say are next to run. For each one, say whether you would spend what it costs, and whether you think it will come back a hit. Your odds are optional. Then press <b>Save my answers</b> at the bottom. Answer as many or as few as you like.</p>
+  <div class="qcards" id="cards"><div class="empty">Loading the next questions…</div></div>
+  <section class="savebox" id="savebox">
+    <button class="btn primary savebtn" id="save" type="button" disabled>Save my answers</button>
+    <p class="savenote" id="savenote">This saves <code>human-odds.jsonl</code> in the ledger's format to your Downloads folder. The next session picks the file up and adds it to the ledger. You do not need to do anything else.</p>
+    <p class="muted small" id="savestate" role="status"></p>
   </section>
-
-  <section class="export" id="export"></section>
 </main>
 <script type="module" src="assets/cockpit.js"></script>
 </body>

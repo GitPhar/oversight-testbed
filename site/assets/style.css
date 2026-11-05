@@ -524,3 +524,26 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
   .ev-card dl { grid-template-columns: 1fr; gap: 2px; }
   .ev-card dd { margin-bottom: 6px; }
 }
+
+/* ---------- the cockpit, 12 plain cards (2026-11-05) ---------- */
+.qcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr)); gap: 16px; align-items: start; margin-top: 8px; }
+.qcard { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: var(--radius); padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }
+.qcard.answered { border-left-color: var(--accent); }
+.qcard.saved { border-left-color: var(--hit); }
+.q-top { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; font-size: 14px; color: var(--text-2); }
+.q-n { display: inline-grid; place-items: center; min-width: 26px; height: 26px; border-radius: 50%; background: var(--surface-2); color: var(--text); font-weight: 700; font-size: 14px; }
+.q-test { margin: 0; font-size: 20px; line-height: 1.4; }
+.q-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; border-top: 1px solid var(--line); padding-top: 12px; }
+.q-ask { margin: 0; flex: 1 1 14rem; font-size: 17px; line-height: 1.45; font-weight: 700; }
+.q-hit { display: block; font-weight: 400; color: var(--text-2); font-size: 15px; margin-top: 2px; }
+.yn { display: inline-flex; gap: 6px; }
+.yn-b { min-width: 4.2rem; }
+.yn-b[aria-checked="true"] { color: var(--bg); background: var(--text); border-color: var(--text); font-weight: 700; }
+.q-odds label { font-size: 16px; color: var(--text-2); flex: 1 1 14rem; }
+.q-odds input { width: 5.6rem; font: inherit; font-size: 18px; padding: 4px 8px; background: var(--bg); color: var(--text); border: 1px solid #47505b; border-radius: 8px; font-variant-numeric: tabular-nums; }
+.q-odds input[aria-invalid="true"] { border-color: var(--kill); }
+.savebox { position: sticky; bottom: 0; background: var(--bg); border-top: 1px solid var(--line); margin-top: 24px; padding: 14px 0 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; z-index: 5; }
+.savebtn { font-size: 19px; padding: 8px 22px; }
+.savebtn:disabled { opacity: .55; cursor: default; }
+.savenote { margin: 0; flex: 1 1 20rem; font-size: 15px; color: var(--text-2); line-height: 1.45; }
+.savebox #savestate { flex-basis: 100%; margin: 0; }
