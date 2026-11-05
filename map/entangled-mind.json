@@ -1,7 +1,8 @@
 {
   "program": "entangled-mind",
   "title": "Program 1: The Entangled Mind",
-  "repo": "https://github.com/GitPhar/entangled-mind",
+  "repo": "https://github.com/GitPhar/oversight-testbed/tree/main/programs/entangled-mind",
+  "history_repo": "https://github.com/GitPhar/entangled-mind",
   "seed_question": "Does encoding a language model's competing claims as an entangled quantum state flag its wrong answers better than classical controls?",
   "seed_date": "2026-11-03T12:54",
   "note": "Structure and open paths only. Where a node lists bets, its verdict, odds and dates come from ledger/bets.jsonl, never from this file. Phase A nodes (before the ledger began) carry their outcome here, taken from entangled-mind paper/record.md. Sources: paper/record.md, paper/gold-map.md (eae3975), paper/biomimetic-map.md (144f07e, f824e14). Open nodes carry cockpit fields (question, known, cheapest_test, odds_event) for site/cockpit.html. moved_to marks a direction carried into another program's map, which the cockpit shows there instead.",

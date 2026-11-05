@@ -1,7 +1,7 @@
 {
   "program": "nature-graded",
   "title": "Program 3: Nature-Graded",
-  "repo": null,
+  "repo": "https://github.com/GitPhar/oversight-testbed/tree/main/programs/nature-graded",
   "seed_question": "Are the engine's odds on its own experiments still well calibrated when a quantum chip, not a language model, decides whether each bet passed?",
   "seed_date": "2026-11-04T14:13",
   "qpu": {"used_s": 46, "hard_stop_s": 420, "remaining_s": 374, "cost_rule": "0.28 ms x shots + ~2 s/job; x1.5 for mid-circuit measurement"},

@@ -6,14 +6,15 @@ export const SITE = {
   titleNote: "working title",
   engineRepo: "https://github.com/GitPhar/oversight-testbed",
   operator: "Sean Pharris",              // the human whose odds and steers the cockpit records
-  programs: {
-    "entangled-mind": {
-      repo: "https://github.com/GitPhar/entangled-mind",
-      raw: "https://raw.githubusercontent.com/GitPhar/entangled-mind/main/",
-    },
-    "other-minds": { repo: null },       // local only so far; its map is copied into map/other-minds.json
-    "nature-graded": { repo: null },     // local only so far; its map is copied into map/nature-graded.json
-  },
+  // Every program lives inside the engine repo as programs/<name>/, with its history imported (git subtree),
+  // so commit hashes in the ledger resolve in the engine repo. Program 1's standalone repo is its historical record.
+  programs: Object.fromEntries(["entangled-mind", "other-minds", "nature-graded", "settled-science"].map((name) => [name, {
+    commit: "https://github.com/GitPhar/oversight-testbed/commit/",
+    blob: `https://github.com/GitPhar/oversight-testbed/blob/main/programs/${name}/`,
+    raw: `https://raw.githubusercontent.com/GitPhar/oversight-testbed/main/programs/${name}/`,
+    home: `https://github.com/GitPhar/oversight-testbed/tree/main/programs/${name}`,
+  }])),
+  history: { "entangled-mind": "https://github.com/GitPhar/entangled-mind" },   // left untouched; history to 795dadb
 };
 
 export const DATA = "data/";
@@ -43,7 +44,8 @@ export function header() {
   const f = document.createElement("footer");
   f.innerHTML = `Every number on this site is read from the repositories' own files. Nothing is typed in by hand. ·
     <a href="${SITE.engineRepo}">engine repository</a> ·
-    <a href="${SITE.programs["entangled-mind"].repo}">program 1</a>`;
+    <a href="${SITE.engineRepo}/tree/main/programs">programs</a> ·
+    <a href="${SITE.history["entangled-mind"]}">program 1's original repository (historical record)</a>`;
   document.body.append(f);
 }
 

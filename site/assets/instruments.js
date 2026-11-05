@@ -21,7 +21,8 @@ const EM = "programs/entangled-mind/";
 const NG = "programs/nature-graded/";
 const REPO = {
   engine: "https://github.com/GitPhar/oversight-testbed/blob/main/",
-  em: "https://github.com/GitPhar/entangled-mind/blob/main/",
+  em: "https://github.com/GitPhar/oversight-testbed/blob/main/programs/entangled-mind/",
+  ng: "https://github.com/GitPhar/oversight-testbed/blob/main/programs/nature-graded/",
 };
 
 // ---------- small helpers ----------

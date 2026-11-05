@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Lays out the static site for GitHub Pages. Copies files only: there is no build step.
 #
-#   site/assemble.sh <out-dir> <entangled-mind-checkout> [<nature-graded-checkout>]
+#   site/assemble.sh <out-dir> [<entangled-mind-dir>] [<nature-graded-dir>]     (defaults: programs/entangled-mind, programs/nature-graded)
 #
 # Result:
 #   <out>/                       the pages in site/
@@ -13,14 +13,14 @@
 #   <out>/data/programs/nature-graded/map/      program 3's map JSON and odds-elicitation README, if a checkout is given
 #   <out>/data/manifest.json     what was copied, because Pages cannot list a folder
 #
-# Local preview:  site/assemble.sh /tmp/site ../entangled-mind && python3 -m http.server -d /tmp/site 8000
+# Local preview:  site/assemble.sh /tmp/site && python3 -m http.server -d /tmp/site 8000
 # LEDGER_DIR and MAP_DIR override where ledger/ and map/ are read from (for previewing another branch's data).
 set -euo pipefail
 
-out="${1:?usage: site/assemble.sh <out-dir> <entangled-mind-checkout>}"
-em="${2:?usage: site/assemble.sh <out-dir> <entangled-mind-checkout>}"
-ng="${3:-}"
+out="${1:?usage: site/assemble.sh <out-dir> [<entangled-mind-dir>] [<nature-graded-dir>]}"
 root="$(cd "$(dirname "$0")/.." && pwd)"
+em="${2:-$root/programs/entangled-mind}"
+ng="${3:-$root/programs/nature-graded}"
 ledger="${LEDGER_DIR:-$root/ledger}"
 map="${MAP_DIR:-$root/map}"
 

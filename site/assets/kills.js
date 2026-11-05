@@ -6,14 +6,14 @@ header();
 const main = document.getElementById("main");
 
 function commitLink(program, hash) {
-  const repo = SITE.programs[program]?.repo;
+  const p = SITE.programs[program];
   if (!hash) return "";
-  return repo ? `<a href="${repo}/commit/${esc(hash)}"><code>${esc(hash)}</code></a>` : `<code>${esc(hash)}</code>`;
+  return p ? `<a href="${p.commit}${esc(hash)}"><code>${esc(hash)}</code></a>` : `<code>${esc(hash)}</code>`;
 }
 function resultLink(program, file) {
-  const repo = SITE.programs[program]?.repo;
-  if (!file || !repo) return "";
-  return `<a href="${repo}/blob/main/${esc(file)}">${esc(file.split("/").pop())}</a>`;
+  const p = SITE.programs[program];
+  if (!file || !p) return "";
+  return `<a href="${p.blob}${esc(file)}">${esc(file.split("/").pop())}</a>`;
 }
 
 (async () => {

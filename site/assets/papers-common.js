@@ -36,7 +36,7 @@ export async function loadPaper(name) {
     text = await getText(`${prog.raw}paper/${name}.md`);
     usedBase = `${prog.raw}paper/`;
   }
-  return { text, base: usedBase, repo: prog.repo, blobBase: `${prog.repo}/blob/main/paper/` };
+  return { text, base: usedBase, repo: prog.home, blobBase: `${prog.blob}paper/` };
 }
 
 // Short commit hashes in code spans become links to the commit.

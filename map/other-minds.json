@@ -1,7 +1,7 @@
 {
   "program": "other-minds",
   "title": "Program 2: Other Minds",
-  "repo": null,
+  "repo": "https://github.com/GitPhar/oversight-testbed/tree/main/programs/other-minds",
   "seed_question": "Does a model's account of another mind behave like its account of its own?",
   "seed_date": "2026-11-04T10:19",
   "note": "Converted from other-minds map/program-2-map.md (commit a20824d, 2026-11-04 10:19 America/Denver). Engine odds stated before any data. No bets yet.",
