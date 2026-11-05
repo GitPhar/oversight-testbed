@@ -1,4 +1,5 @@
-"""Score ss-b10b (experiments/ss-b10b.md): the flattery rule on BrainBench's 200 items, both option orders. numpy only.
+"""Score ss-b10c (experiments/ss-b10c.md): the flattery rule on BrainBench's 200 items, both option orders. numpy only.
+(Written for ss-b10b, withdrawn before any call, D68. ss-b10c reads the rule on the items ss-b10 rated in one order only.)
 
     python3 scoring/score_bbb.py                       # bettor/bbb-ratings.jsonl -> scoring/bbb-scores.json, bbb-tables.md
     python3 scoring/score_bbb.py --synthetic <world>   # dry run: coin | position (Option 1 always) | strong | haikulike | split
@@ -7,7 +8,9 @@ Per item and prompt, p_avg = the mean of the two calls' probabilities on the ori
 shown second). An item scores 1 if p_avg > 0.5, 0.5 if p_avg = 0.5, else 0 (ss-b10's rule, applied to p_avg). Accuracy =
 the mean over items. 95% interval: percentile item bootstrap (10,000, default_rng(20261104)), the bar; a bootstrap over
 the five journal sections (P14) is reported beside it. Every threshold is compared with tolerance EPS (P13).
-Pass: on both Haiku and Sonnet, the orders-averaged flattery accuracy's item-bootstrap lower bound is above 0.634.
+Pass: on both Haiku and Sonnet, the orders-averaged flattery accuracy's item-bootstrap lower bound is above 0.634, read on the
+SCORED items: those whose flattery rating ss-b10's archive holds in exactly one order (Haiku 100, Sonnet 126). The full 200
+and the half already rated both ways in ss-b10 are reported rows.
 """
 import json
 import sys
@@ -27,7 +30,8 @@ OUT_JSON, OUT_MD = ROOT / "scoring" / "bbb-scores.json", ROOT / "scoring" / "bbb
 MODELS = ("claude-haiku-5-5", "claude-sonnet-5-5")
 OPUS = "claude-opus-5-5"
 NAME = {"claude-haiku-5-5": "Haiku", "claude-sonnet-5-5": "Sonnet", OPUS: "Opus"}
-MIN_N = 150            # items with both flattery orders, per model; fewer -> untestable
+MIN_FRAC = 0.9         # of a model's scored items, the share that must end with both flattery orders; fewer -> untestable
+MIN_N = 150            # the full-200 rows (reported) need at least this many items with both orders
 EXPERTS, LLMS, EPS = SB.EXPERTS, SB.LLMS, SB.EPS
 r3 = SB.r3
 
@@ -62,15 +66,32 @@ def clears(hits):
     return bool(SB.boot(hits)[0] > EXPERTS + EPS)
 
 
+def archived_orders(rows, model):
+    """Items -> how many flattery orders ss-b10's archive holds (decided before any ss-b10c call)."""
+    c = {}
+    for r in rows:
+        if r["model"] == model and r["task"] == "flattery" and r.get("source") == "ss-b10 archive":
+            c[r["id"]] = c.get(r["id"], 0) + 1
+    return c
+
+
 def model_block(items, rows, model):
     F, B = pairs(rows, model, "flattery"), pairs(rows, model, "bettor")
-    out = {"model": model, "n_flattery": len(F), "n_bettor": len(B)}
-    if len(F) < MIN_N:
+    arch = archived_orders(rows, model)
+    scored_set = sorted(i for i in items if arch.get(i, 0) == 1)
+    out = {"model": model, "n_flattery": len(F), "n_bettor": len(B), "n_scored_set": len(scored_set)}
+    ids = [i for i in scored_set if i in F]
+    out["n_scored"] = len(ids)
+    if not scored_set or len(ids) < MIN_FRAC * len(scored_set) - EPS:
         out["label"] = "untestable"
         return out
-    ids = sorted(F)
     out["flattery"] = acc_block(items, F, ids)
     out["clears_experts"] = clears(out["flattery"]["hits"])
+    allids = sorted(F)
+    if len(allids) >= MIN_N:
+        A = acc_block(items, F, allids)
+        out["flattery_all"] = {k: v for k, v in A.items() if k != "hits"}
+        out["flattery_all"]["clears"] = clears(A["hits"])
     out["label"] = "clears" if out["clears_experts"] else "does not clear"
     h = out["flattery"]["hits"]
     out["loo_flips"] = [ids[k] for k in range(len(ids)) if clears(h[:k] + h[k + 1:]) != out["clears_experts"]]
@@ -81,8 +102,8 @@ def model_block(items, rows, model):
     for r in rows:
         if r["model"] == model and r["task"] == "flattery":
             src.setdefault(r["id"], set()).add(r.get("source"))
-    old = [i for i in ids if src.get(i) == {"ss-b10 archive"}]
-    new = [i for i in ids if i not in set(old)]
+    old = [i for i in allids if src.get(i) == {"ss-b10 archive"}]
+    new = [i for i in allids if i not in set(old)]
     out["archive_split"] = {"both_orders_archived": {"n": len(old), "acc": r3(np.mean([SB.hit(sum(F[i]) / 2) for i in old])) if old else None},
                             "one_order_new": {"n": len(new), "acc": r3(np.mean([SB.hit(sum(F[i]) / 2) for i in new])) if new else None}}
     both = [i for i in ids if i in B]
@@ -159,12 +180,13 @@ def sentences(out):
     ms, v = out["models"], out["verdict"]
     s = []
     if v == "untestable":
-        bad = [f"{NAME[m]}: {ms[m]['n_flattery']} of 200 items with both orders" for m in MODELS if ms[m]["label"] == "untestable"]
-        s.append(f"Too few items were rated in both orders to test it ({'; '.join(bad)}; at least {MIN_N} needed).")
+        bad = [f"{NAME[m]}: {ms[m].get('n_scored', 0)} of its {ms[m].get('n_scored_set', 0)} scored items with both orders" for m in MODELS if ms[m]["label"] == "untestable"]
+        s.append(f"Too few items were rated in both orders to test it ({'; '.join(bad)}; at least 90% needed).")
         return s
     H, S_ = ms[MODELS[0]]["flattery"], ms[MODELS[1]]["flattery"]
-    lead = ("On BrainBench's 200 expert-written abstract pairs, with each item shown in both orders and the two ratings "
-            "averaged, a model asked only which version is better news for the paper's own idea")
+    lead = (f"On the BrainBench abstract pairs that ss-b10 had rated in one order only (Haiku {H['n']}, Sonnet {S_['n']} of 200), "
+            "with each now shown in both orders and the two ratings averaged, a model asked only which version is better news for "
+            "the paper's own idea")
     if v == "pass":
         s.append(f"{lead} picked the published abstract more often than the 171 neuroscientists in the original study did "
                  f"(63.4%), on both Haiku ({pct(H['acc'])} {cis(H['ci'])}) and Sonnet ({pct(S_['acc'])} {cis(S_['ci'])}); the "
@@ -185,6 +207,10 @@ def sentences(out):
                  "original study, other models scored by perplexity, reached 81.4%.")
     for m in MODELS:
         M = ms[m]
+        if "flattery_all" in M:
+            A = M["flattery_all"]
+            s.append(f"On all {A['n']} items in both orders (a reported row; half of it was in ss-b10's archive), {NAME[m]}'s "
+                     f"flattery accuracy was {pct(A['acc'])} {cis(A['ci'])}, which {'clears' if A['clears'] else 'does not clear'} the experts' 63.4%.")
         if "bettor" in M:
             d = M["bettor_minus_flattery"]
             sh = M.get("share_matched")
@@ -227,7 +253,8 @@ def sentences(out):
 
 
 def tables(out):
-    L = ["| model | prompt | n | accuracy, orders averaged | item 95% CI | section-cluster CI | original first | original second | Option-1 pull (points) | right both / first only / second only | clears 0.634 | vs 0.814 |",
+    L = ["Rows 'flattery' and 'bettor' for Haiku and Sonnet are on the scored items (rated in one order only in ss-b10).\n",
+         "| model | prompt | n | accuracy, orders averaged | item 95% CI | section-cluster CI | original first | original second | Option-1 pull (points) | right both / first only / second only | clears 0.634 | vs 0.814 |",
          "|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for m in MODELS:
         M = out["models"][m]
@@ -238,6 +265,12 @@ def tables(out):
                          f"[{X['section_ci'][0]:.3f}, {X['section_ci'][1]:.3f}] | {X['acc_orig_first']:.3f} | {X['acc_orig_second']:.3f} | "
                          f"{X['option1_pull']:+.1f} | {X['both_right']} / {X['first_only']} / {X['second_only']} | "
                          f"{('yes' if M['clears_experts'] else 'no') if k == 'flattery' else '—'} | {X['vs_llms']} |")
+    for m in MODELS:
+        X = out["models"][m].get("flattery_all")
+        if X:
+            L.append(f"| {NAME[m]} | flattery, all 200 (reported) | {X['n']} | {X['acc']:.3f} | [{X['ci'][0]:.3f}, {X['ci'][1]:.3f}] | "
+                     f"[{X['section_ci'][0]:.3f}, {X['section_ci'][1]:.3f}] | {X['acc_orig_first']:.3f} | {X['acc_orig_second']:.3f} | "
+                     f"{X['option1_pull']:+.1f} | {X['both_right']} / {X['first_only']} / {X['second_only']} | {'yes' if X['clears'] else 'no'} | {X['vs_llms']} |")
     O = out["opus"]
     for k, lab in (("flattery", "flattery"), ("bettor_same_items", "bettor")):
         if k in O:
@@ -290,7 +323,7 @@ def synthetic(world, seed=11):
                     p1 = p_orig if oi == 1 else 100 - p_orig
                     p1 = int(min(99, max(1, p1 + skill[2])))
                     rows.append({"id": i, "model": m, "task": task, "order": order, "original_is_option": oi, "p_option_1": p1,
-                                 "rationale": "", "source": "ss-b10 archive" if int(i[3:]) <= 100 else "ss-b10b"})
+                                 "rationale": "", "source": "ss-b10 archive" if (int(i[3:]) <= 100 or order == ("orig-first" if int(i[3:]) % 2 else "orig-second")) else "ss-b10c"})
     return items, rows
 
 

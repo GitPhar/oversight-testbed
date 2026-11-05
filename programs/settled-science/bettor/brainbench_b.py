@@ -1,4 +1,6 @@
-"""ss-b10b (experiments/ss-b10b.md; direction ss-f8): the flattery rule on all 200 BrainBench items in BOTH option orders.
+"""ss-b10c (experiments/ss-b10c.md; direction ss-f8): the flattery rule on all 200 BrainBench items in BOTH option orders,
+scored on the items ss-b10 rated in one order only. (Written for ss-b10b, which was withdrawn before any call, D68; its
+frozen code is at 1181659. Changed for ss-b10c by its review: flattery steps first, Opus with 2 workers.)
 
 ss-b10 rated every item once in a beacon-drawn order and found Haiku puts about 12 points on whichever abstract is shown
 first. This bet completes both orders for every item, so each item's two ratings can be averaged and the position habit
@@ -9,8 +11,8 @@ written); only the missing calls are made, into this bet's own caches.
     python bettor/brainbench_b.py --dry-run   # the plan: archived vs new calls per step, cost estimate; no call
     python bettor/brainbench_b.py             # the run, in the pre-registered order (§3) -> bettor/bbb-ratings.jsonl
 
-Steps (§3): 1 Haiku flattery, 2 Haiku bettor, 3 Sonnet flattery, 4 Sonnet bettor (each: every item in both orders, missing
-calls only); 5 Opus, both prompts in both orders, item by item in the beacon order `opus-order`, until its $1.50 cap.
+Steps (§3): 1 Haiku flattery, 2 Sonnet flattery, 3 Haiku bettor, 4 Sonnet bettor (each: every item in both orders, missing
+calls only; the two flattery steps, which carry the rule, first: ss-b10b review D10-a); 5 Opus, both prompts in both orders, item by item in the beacon order `opus-order`, until its $1.50 cap.
 Caps, all checked before every call (common.Caller): this bet's BET_CAP $3.20 across both new caches (budget ruling
 br-009), Opus's OPUS_CAP $1.50 inside it, and the program cap. Stop on any refusal or error.
 """
@@ -27,7 +29,7 @@ import brainbench as BB  # noqa: E402  (FLATTERY, BETTOR, job, fn, load, ITEMS: 
 ARCHIVE = ROOT / "bettor" / "bb-cache.json"           # ss-b10's calls; read only
 CACHE = ROOT / "bettor" / "bbb-cache.json"            # this bet's Haiku and Sonnet calls
 OPUS_CACHE = ROOT / "bettor" / "bbb-opus-cache.json"  # this bet's Opus calls
-SEED = ROOT / "bettor" / "bbb-seed.json"
+SEED = ROOT / "bettor" / "bbc-seed.json"
 OUT = ROOT / "bettor" / "bbb-ratings.jsonl"
 STATUS = ROOT / "bettor" / "bbb-run-status.json"
 BET_CAP, OPUS_CAP = 3.20, 1.50
@@ -52,8 +54,8 @@ def plan():
     items = BB.load(BB.ITEMS)
     assert len(items) == 200, len(items)
     steps = []
-    for model in MODELS:
-        for task in ("flattery", "bettor"):
+    for task in ("flattery", "bettor"):          # flattery (the rule) on both models before either secondary (D10-a)
+        for model in MODELS:
             steps.append((f"{model.split('-')[1]} {task}", [j for it in items for j in both_orders(it, model, task)]))
     order = sorted(it["id"] for it in items)
     seeds = json.loads(SEED.read_text())["seeds"] if SEED.exists() else {"opus-order": 1}
@@ -71,11 +73,11 @@ def set_status(step, value, detail=""):
     STATUS.write_text(json.dumps(st, indent=1) + "\n")
 
 
-def run(name, jobs, cache, cap):
+def run(name, jobs, cache, cap, workers=6):
     arch = archive()
     todo = [j for j in jobs if j["key"] not in arch]
     try:
-        Caller(cache, f"bbb {name}", cap=cap).run(todo, BB.fn, workers=6)
+        Caller(cache, f"bbb {name}", cap=cap).run(todo, BB.fn, workers=workers)
         set_status(name, "complete")
     except SystemExit as e:
         msg = str(e)
@@ -127,11 +129,11 @@ def main():
               f"spent so far ${spent_total():.3f}; first Opus items {order[:5]}")
         return
     if not SEED.exists():
-        sys.exit("no bettor/bbb-seed.json: the seed commit must come first")
+        sys.exit("no bettor/bbc-seed.json: the seed commit must come first")
     try:
         for name, js in steps:
             if js[0]["model"] == OPUS:
-                run(name, js, OPUS_CACHE, cap_opus())
+                run(name, js, OPUS_CACHE, cap_opus(), workers=2)   # D10-b: at most 2 Opus calls in flight past the cap check
             else:
                 run(name, js, CACHE, cap_hs())
     except SystemExit as e:
