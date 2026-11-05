@@ -29,7 +29,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-10 audits prepared with a sealed plant line: 0 still sealed, 10 revealed, of which 6 carried a plant. 
+11 audits prepared with a sealed plant line: 1 still sealed, 10 revealed, of which 6 carried a plant. 
 
 **Catch rate: 6/6 = 1.00, 95% Wilson interval [0.61, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 6 is below that, so the arm is untestable for now.
 
