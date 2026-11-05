@@ -171,3 +171,48 @@ All fixes go in one dated DEVIATIONS row in `programs/other-minds/DEVIATIONS.md`
 **Pilot.** None required (D6). pilot_usd 0.00.
 
 **Confirmation.** After the author commits the fixes and the DEVIATIONS row, the reviewer re-runs `p2_5_dryrun.py` and this review's scripts under the stub: `d1_rule.py`, `d2_knobs.py`, `d3d5_responders.py`, `d5_more.py`, `power.py` and `d10_machinery.py`, which sit in `/private/tmp/claude-501/review-om-p2-5/` and are re-creatable from this file. The reviewer then checks that responder G fails (not inherited), that the parse stub writes a stop record, and that the LOO edge no longer flags all 12 vignettes. It then adds a short addendum here with `confirmed_at`.
+
+## Confirmation addendum (2026-11-04 20:35 America/Denver)
+
+**Not confirmed.** Five fixes hold. F1 is done exactly as this review specified, but the way it was specified is wrong, and it must change once more. `confirmed_at` stays null.
+
+**What was run.** The worktree was checked out at `6558a73` (design review `5546770`; fixes in other-minds D12). Everything ran under the same stubs: no `.env`, no `ANTHROPIC_*` variables, sockets blocked, no paid call.
+- `p2_5_dryrun.py` re-ran with **output identical** to the committed `p2-5-dryrun-output.txt`, apart from temporary paths.
+- `plan` prints "distinct prompts: 1328; duplicate cells (clipping): 18".
+- New checks were in `confirm.py`, `confirm2.py` and `tie.py`, in `/private/tmp/claude-501/review-om-p2-5/`.
+
+**Fix by fix.**
+- **F1 (not inherited): implemented as specified, but a new fix is required (F1′).**
+  - Responder G (self 0.017, Sam 0.145) now fails (not inherited). A clean leaker (Sam 0.11, self 0.45) still passes. The sentence and `odds_event` are as specified.
+  - **The flaw is in this review's own wording.** I asked for a *point* comparison, U_sam(OWN) ≤ U_self(OWN). When Sam's uptake equals the model's own, that comparison is decided by noise. `tie.py` ran a full leaker (λ = 1, informed Sam +0.3): it fails 5b in **52%** of runs under both the moderate and the bm0-like noise. At λ = 0.9 under bm0-like noise it fails 12% of runs.
+  - The dry run shows the same coin flip. Its fixed-nudge and turn-anchor rows have Sam = self (+0.242 against +0.238), and both are labelled "not inherited".
+  - In those runs the sentence would say Sam was pulled "more than ... the model's own re-rating, so the pull on Sam cannot be the model's own shifted rating carried over". That is false when the gap is noise (+0.004). It would also score 0 for a model whose own view carried over to Sam in full. **F1′ fixes this:**
+    - In `stats_of`, add `"sam_minus_self": U[("OWN","sam_p")] - U[("OWN","self")]`.
+    - In `rule()`, 5b becomes `if ci["sam_minus_self"][0] > EPS: return "fail", "not_inherited"`. That is, fail only when Sam is *detectably* pulled more than the model's own re-rating.
+    - In the pass sentence, change "Sam's rating moved no more than the model's own re-rating" to "Sam's rating was not detectably moved more than the model's own re-rating".
+    - In `fail_not_inherited`, change "more than it pulled" to "detectably more (95% interval above 0) than it pulled".
+    - Make the same change to §5b's text and to the `odds_event` conjunct: "and the CI of U_sam(OWN) − U_self(OWN) is not above 0".
+    - Re-run the dry run. G must still fail: its gap of +0.128 has an interval far above 0. Under the CI form, the full leaker fails 5b in 0% of runs (`tie.py`).
+    - The turn-anchor and fixed-nudge rows will then pass. The bundle sentence (F3) already covers that.
+    - This is still a tightening against the frozen `a29d6ab` rule, which had no 5b. The odds may be re-stated before data, with all numbers kept.
+    - Record it in a new dated DEVIATIONS row before any call, for example D12a, "om-p2-5 F1′ (design review addendum)".
+- **F2 (power): holds.** D12 withdraws "can see a ΔU of about 0.06 or more". §3 of the dry run now has the archive-calibrated grid. Its numbers agree with mine to within the simulation noise: 0.94 / 0.50 at α = 0, λ = 0.25; 0.64 / 0.30 at α = 0.1, λ = 0.35; 0.98 / 0.52 at α = 0.1, λ = 0.5. The odds moved 0.33 → 0.25 before data, with all numbers kept in `bets.jsonl`. One note: D12's copy-guard failures at λ = 0.75 come from the simulation's informed-Sam model (0.9 × own). They are not a property of the design.
+- **F3 (the bundle): holds.** `BUNDLE` names whose number it is, its turn, its format and its place in the conversation. D12 strikes the §6 claim about points 2–4 and replaces it with the text I gave.
+- **F4 (scope in the sentences): holds.**
+  - Every Sam sentence names Alex's answer. `fail_anchoring` names Alex in its own words.
+  - `PPP` says "averaged over the 10-, 30- and 60-point classes".
+  - D12 renames `map_rule`'s reading to "the map's event measured on this design".
+- **F5 (machinery): holds.**
+  - (a) A malformed value now stops the run cleanly. In my test, 5 calls ran, 4 were cached, and a stop record was written with `resumable: true`.
+  - (b) D12 took 1b's alternative: analyse the k leading complete repeats. **I agree with that choice.** The subset is fixed by the stop position alone and never by the data, and it does what §3 and §7 intended. I checked four cases:
+    - a stop at 90% gives k = 4 and 16 complete vignettes;
+    - a stop at 10% gives k = 0, untestable;
+    - a refusal in repeat 2 gives k = 2, a testable run;
+    - a refused cell inside a complete repeat removes only its own vignette (15 left).
+
+    Note that a refusal after the first repeat now yields a scored result. D12 says so.
+  - (c) With 12 complete vignettes, leave-one-out now gives 0 flips (it gave 12 before).
+  - The gate now reads both review files. It stays closed while either is unconfirmed or a redesign, and on today's ledger it is closed.
+- **F6 (the record): holds.** 1,328 distinct prompts, 18 duplicate cells, nominal classes, the anchor sources, Alex's slot as the archived anchor, and REF as the REF re-rating are all stated in D12. The dedup and real-displacement-band secondaries are added and never promoted.
+
+**What remains:** F1′ only. After it is committed under its DEVIATIONS row, the reviewer re-runs `p2_5_dryrun.py` and `tie.py` and sets `confirmed_at`.
