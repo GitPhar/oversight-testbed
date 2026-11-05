@@ -148,3 +148,37 @@ Each fix goes in a dated DEVIATIONS.md row in programs/other-minds, written befo
   - A refusal in either bet silently blocks the other.
   - If both run at once, one refusal record can overwrite the other.
   - *Fix:* write `results/refusal-p2-6r.md`, keep the check for `refusal.md`, and add a check for `refusal-p2-6r.md` on start.
+
+## Confirmation addendum (2026-11-05 05:02 America/Denver): not confirmed
+
+Checked: fix commit `af4905b`, DEVIATIONS rows D14a–D14d, `p2_6r_replication.py`, the dry run's §8 and its output.
+
+Every call was stubbed and run with `env -u ANTHROPIC_API_KEY` in the scratch directory. Nothing was written under `results/` (`git status` checked). The scored rule, the 0.15 bar, the cap and the odds are unchanged.
+
+- **F1 (D14a): holds.**
+  - `write_md()` prints "—" for keys missing from the Haiku file.
+  - My own end-to-end run of `main()` with `--analyse`, using the real Haiku reference file in a temp directory, now writes `p2-6r-tables.md`, and the P − L row shows "—" for Haiku.
+  - The dry run's §8 shows the same.
+- **F4 (D14d): holds.**
+  - `run_all()` runs Sonnet, then Opus only if Sonnet returned `complete`.
+  - My stub with a slow refused call at Sonnet call 858, 862 or 863 of 864 sent 0 Opus calls each time (it sent 43–48 before the fix).
+  - The record goes to `results/refusal-p2-6r.md`, and a start is refused if that file or the shared `refusal.md` exists.
+  - The §6 note on the planted turn without a thinking block is recorded in D14d.
+- **F3 (D14c): does not hold in one branch.**
+  - Parts (i) and (iii) hold.
+  - `smaller_ordered` is true wherever it fires.
+  - The defect is in the `smaller_unordered` sentence:
+    - **What it says:** the position effect "could not be told apart from the label effect at this n".
+    - **When the code prints it:** whenever the lower end of P − L's CI is ≤ 0. That includes intervals lying wholly below 0.
+    - **What the fix asked for:** this sentence only where P − L's CI includes 0.
+    - **Reproduced:** P +0.08 [+0.02, +0.14] and L +0.13 [+0.08, +0.18] give a fail-small reading, and the code prints "could not be told apart … (position minus label −0.05 [−0.09, −0.01])". That is false for its own interval, the same class of fault as om-p2-6's audit miss.
+  - **Still to do:** branch on the upper end of P − L's CI being < 0, with the sentence "On {M}, the position effect, {P}, was below the 0.15 bar and smaller than the label effect (position minus label {PmL})." Keep `smaller_unordered` only where the CI includes 0.
+- **F2 (D14b): does not hold, and part of the cause is my wording of the fix.**
+  - The main sentence is fixed ("did not detect").
+  - My condition, "only when the reading is not holds", was too loose. The appended clause "The position effect there has little to split." is still attached on fail-shift tables (P ≥ 0.15) and fail-reversed tables (P ≤ −0.15).
+  - **Reproduced:**
+    - fail-shift: AY +0.10 [−0.02, +0.22], P +0.25 [+0.14, +0.36]. The clause is false.
+    - fail-reversed: P −0.25. The clause is false.
+  - **Still to do:** append the clause only when |P| < 0.15, or drop it.
+
+Both residuals are wording-only fixes before data, each needing a DEVIATIONS row. `confirmed_at` stays null, so the gate stays closed.
