@@ -89,17 +89,34 @@ def git(*a):
     return subprocess.check_output(["git", "-C", str(ENGINE), *a], text=True).strip()
 
 
+def cz_pairs():
+    isa = base_isa()
+    return sorted({tuple(isa.find_bit(q).index for q in i.qubits) for i in isa.data if i.operation.num_qubits == 2})
+
+
 def calibration(be):
-    """Live target values plus IBM's measurement date for each value (audit ng-p3-15, B9: last_update_date alone is not enough)."""
+    """IBM's values with their measurement dates (audit ng-p3-15, B9), from a refreshed properties read; also the
+    target's values (what the simulator uses) and every CZ pair the circuit uses (design review ng-p3-16, O1)."""
     t, props = be.target, be.properties(refresh=True)
     qs = []
     for q in ORIG:
         qp = props.qubit_property(q)
-        qs.append({"qubit": q, "T1_us": t.qubit_properties[q].t1 * 1e6, "T2_us": t.qubit_properties[q].t2 * 1e6,
-                   "readout_error": t["measure"][(q,)].error,
+        qs.append({"qubit": q, "T1_us": qp["T1"][0] * 1e6, "T2_us": qp["T2"][0] * 1e6,
+                   "readout_error": qp["readout_error"][0] if "readout_error" in qp else None,
                    "T1_date": str(qp["T1"][1]), "T2_date": str(qp["T2"][1]),
-                   "readout_date": str(qp.get("readout_error", (None, None))[1])})
-    return {"read_at": dt.datetime.now(dt.timezone.utc).isoformat(), "last_update_date": str(props.last_update_date), "qubits": qs}
+                   "readout_date": str(qp["readout_error"][1]) if "readout_error" in qp else None,
+                   "target_T1_us": t.qubit_properties[q].t1 * 1e6, "target_T2_us": t.qubit_properties[q].t2 * 1e6,
+                   "target_readout_error": t["measure"][(q,)].error})
+    cz = []
+    for a, b in cz_pairs():
+        try:
+            gp = props.gate_property("cz", [a, b])
+            cz.append({"pair": [a, b], "error": gp["gate_error"][0], "date": str(gp["gate_error"][1]),
+                       "target_error": t["cz"][(a, b)].error})
+        except Exception as e:
+            cz.append({"pair": [a, b], "error": None, "note": repr(e)})
+    return {"read_at": dt.datetime.now(dt.timezone.utc).isoformat(), "last_update_date": str(props.last_update_date),
+            "qubits": qs, "cz": cz}
 
 
 def predict():
@@ -186,6 +203,9 @@ def submit():
     approved = approved_qpu_s()
     if approved is None:
         raise SystemExit("no budget_ruling row for ng-p3-16 (resource qpu_s, under st-16, approved_qpu_s) in ledger/spend.jsonl")
+    if subprocess.run(["git", "-C", str(ENGINE), "ls-files", "--error-unmatch", str(SPEND)], capture_output=True).returncode \
+            or git("status", "--porcelain", "--", str(SPEND)):
+        raise SystemExit("ledger/spend.jsonl (the budget ruling) must be committed, unchanged, before submission (design review O2)")
     chk = subprocess.run(["python3", str(ENGINE / "ledger" / "check_prereg.py"), "ng-p3-16", str(ENGINE),
                           "programs/nature-graded/experiments/p3-16-lone-job.md", "--before-run"], capture_output=True, text=True)
     if chk.returncode != 0:
@@ -214,7 +234,14 @@ def submit():
         labs = [l for l in pred["labels"] if l["job"] == j]
         rest = sum(est[x] for x in pred["job_order"][n:])
         if billed + rest > approved:     # D29: never past the approved seconds, counting what earlier jobs billed
-            raise SystemExit(f"billed {billed} s + remaining estimate {rest:.2f} s > approved {approved} s; job {j} and later not submitted")
+            msg = f"billed {billed} s + remaining estimate {rest:.2f} s > approved {approved} s; job {j} and later not submitted"
+            for x in pred["job_order"][n:]:                             # F2 (D32): the stop is recorded, and is untestable
+                raw_path(x).write_text(json.dumps({"job": x, "not_submitted": msg}, indent=1))
+            raise SystemExit(msg)
+        try:
+            cal = calibration(backends.backend())                       # O1 (D35): IBM's values at each submission
+        except Exception as e:
+            cal = {"error": repr(e)}
         pubs = [(circs[k + i], None, l["shots"]) for i, l in enumerate(labs)]
         k += len(labs)
         t0 = dt.datetime.now(dt.timezone.utc).isoformat()
@@ -223,10 +250,10 @@ def submit():
                                                                 f"({len(pubs)} pub{'s' if len(pubs) > 1 else ''}, {sum(l['shots'] for l in labs)} shots)",
                                                   shots=SHOTS)
         except Exception as e:      # recorded, never resubmitted; the remaining jobs are not submitted (section 5.3)
-            raw_path(j).write_text(json.dumps({"job": j, "submitted_at": t0, "job_error": repr(e)}, indent=1))
+            raw_path(j).write_text(json.dumps({"job": j, "submitted_at": t0, "job_error": repr(e), "calibration": cal}, indent=1))
             raise SystemExit(f"job {j} failed: {e!r}; remaining jobs not submitted")
         billed += float(usage["quantum_seconds"] or 0)
-        rec = {"job": j, "arms": [l["arm"] for l in labs], "submitted_at": t0, "usage": usage, "counts": counts}
+        rec = {"job": j, "arms": [l["arm"] for l in labs], "submitted_at": t0, "usage": usage, "counts": counts, "calibration": cal}
         raw_path(j).write_text(json.dumps(rec, indent=1))           # saved at once, before anything else
         try:
             jb = backends.service().job(usage["job_id"])
@@ -249,6 +276,8 @@ def untestable(pred) -> str | None:
         raw = json.loads(raw_path(j).read_text())
         if "job_error" in raw:
             return f"job {j} error: {raw['job_error']}"
+        if "not_submitted" in raw:
+            return f"job {j} not submitted: {raw['not_submitted']}"
         labs = [l for l in pred["labels"] if l["job"] == j]
         got = [sum(c.values()) for c in raw["counts"]]
         if len(got) != len(labs) or any(g != l["shots"] for g, l in zip(got, labs)):
@@ -259,6 +288,106 @@ def untestable(pred) -> str | None:
 def _ts(raw, key):
     v = raw.get("timestamps", {}).get(key)
     return dt.datetime.fromisoformat(v.replace("Z", "+00:00")) if v else None
+
+
+def evaluate(arms, job_order, c_spans=None, spread_min=None):
+    """The scored rule and the section 5 reading (amended D31-D34), from the four arms' P(yes) and SE."""
+    A, B, CB, CN = arms["A"], arms["B"], arms["CB"], arms["CN"]
+    prim, rep = _diff(A, CB), _diff(B, CN)
+    comps = {"A_minus_CB (primary: alone vs shared, barrier)": prim,
+             "B_minus_CN (in-evening replicate: alone vs shared, no barrier)": rep,
+             "A_minus_B (barrier effect, alone)": _diff(A, B),
+             "CB_minus_CN (barrier effect, shared)": _diff(CB, CN)}
+    passed = A["p_yes"] >= HIGH and prim["diff"] >= BIG and prim["z"] >= ZMIN
+    pa, pb, pcb, pcn = A["p_yes"], B["p_yes"], CB["p_yes"], CN["p_yes"]
+    d, z = prim["diff"], prim["z"]
+    within = prim["within_equiv"]                       # F2 (D32): the 90% CI of A - CB lies inside (-0.05, +0.05)
+    when = "earlier" if job_order.index("C") < job_order.index("A") else "later"
+    f = lambda x: f"{x:+.3f}"
+    S, keys = [], []
+    if passed:
+        keys.append("pass")
+        S.append("Run alone in its own job, the 3 November circuit again said 'yes' at least 40% of the time, clearly more than "
+                 f"the same circuit sharing a job with one other circuit, in a separate job minutes {when}. The 3 November surprise came "
+                 "at least partly from the circuit running alone in its job, not only from that afternoon.")
+        if rep["big"]:                                  # F4 (D34)
+            keys.append("pass: replicate agrees")
+            S.append("Both lone jobs (with and without the barrier) came back, and both were clearly above their shared-job twins.")
+        else:
+            keys.append("pass: rests on one job")
+            S.append(f"Only the lone barrier job came back (B − CN = {f(rep['diff'])}). The pass rests on one job, so a passing "
+                     "state of the chip during that job is not ruled out.")
+    elif pa < HIGH:
+        if within:
+            keys.append("fail: within")
+            S.append("Running the 3 November circuit (with its barrier) alone in its own job did not bring back 3 November's result, and for the barrier circuit, "
+                     "running alone or sharing a job made no difference larger than 0.05. This evening, running the barrier circuit "
+                     "alone in its own job did not raise its rate by more than 0.05 (assuming IBM's servers handled a one-circuit job "
+                     "the same way on 3 November).")
+        elif d >= BIG and z >= ZMIN:
+            keys.append("fail: alone raised, below 0.40")
+            S.append(f"Run alone, the barrier circuit said 'yes' clearly more often than sharing a job (Δ = {f(d)}), but not the 40% of "
+                     "3 November. Running alone raised the rate without bringing back 3 November's result.")
+        elif d > 0:
+            keys.append("fail: smaller positive")
+            S.append("Running the 3 November circuit (with its barrier) alone in its own job did not bring back 3 November's result. Running alone may make a "
+                     f"smaller difference (Δ = {f(d)}), which this test cannot pin down.")
+        else:
+            clear = d <= -BIG and z <= -ZMIN
+            keys.append("fail: alone lower" + (", clear" if clear else ""))
+            S.append("Running the 3 November circuit (with its barrier) alone in its own job did not bring back 3 November's result. Run alone, it said "
+                     f"'yes' less often than sharing a job (Δ = {f(d)})" + (", a clear difference." if clear else ", a difference this test cannot pin down."))
+        if pb < HIGH and pcb < HIGH and pcn < HIGH:      # F1 (D31): only when no arm came back
+            keys.append("add: none brought back")
+            S.append("Of the things the 4 November runs and this one varied (the barrier, the shot grouping, running alone), none "
+                     "brought back 3 November's result. The chip on that afternoon remains the main candidate among them, not a "
+                     "demonstrated cause.")
+        if pb >= HIGH:
+            keys.append("add: B came back")
+            S.append(f"Run alone without the barrier, the circuit said 'yes' at least 40% of the time (B = {pb:.3f}), but with the "
+                     "barrier it did not. One lone job came back and the other did not.")
+        if pcb >= HIGH or pcn >= HIGH:
+            keys.append("add: shared came back")
+            S.append(f"The shared job came back (CB = {pcb:.3f}, CN = {pcn:.3f}) while the lone barrier job did not.")
+    else:                                               # A >= 0.40, not a pass
+        if pcb >= HIGH:
+            if within:
+                keys.append("fail: both high, within")
+                S.append("The chip again said 'yes' about 40% of the time or more, alone or sharing a job. A large part of "
+                         "3 November's result came back, and running alone was not what caused it.")
+            elif d > 0:
+                keys.append("fail: both high, alone adds")
+                S.append("The chip again said 'yes' about 40% of the time or more, alone or sharing a job. A large part of "
+                         "3 November's result came back alone or sharing a job; running alone may add a smaller amount "
+                         f"(Δ = {f(d)}), which this test cannot pin down.")
+            else:
+                keys.append("fail: both high, alone lower")
+                S.append("The chip again said 'yes' about 40% of the time or more, alone or sharing a job. A large part of "
+                         f"3 November's result came back alone or sharing a job; running alone did not add to it (Δ = {f(d)}).")
+        else:
+            keys.append("fail: A high, CB not clearly lower")
+            S.append("Run alone, the circuit again said 'yes' at least 40% of the time, but the shared-job version was not clearly "
+                     f"lower (Δ = {f(d)}, below the 0.10 bar or z < 3). Running alone may contribute, but this test cannot show that "
+                     "it caused 3 November's result.")
+    ab = comps["A_minus_B (barrier effect, alone)"]
+    if ab["big"]:
+        keys.append("barrier alone: raised"); S.append(f"Run alone, the barrier raised the 'yes' rate by {ab['diff']:.3f}.")
+    elif ab["within_equiv"]:
+        keys.append("barrier alone: within"); S.append("Run alone, the barrier made no difference larger than 0.05.")
+    else:
+        keys.append("barrier alone: smaller"); S.append(f"Run alone, the barrier may make a smaller difference ({f(ab['diff'])}), "
+                                                        "which this test cannot pin down.")
+    ctrl = abs(pcb - P315_BB) <= CONTROL_TOL
+    if not ctrl:
+        keys.append("add: control moved")
+        S.append(f"The chip itself had moved since P3-15: the shared-job barrier circuit now gives {pcb:.3f}.")
+    if spread_min is not None and spread_min > BACK_TO_BACK_MIN:
+        keys.append("add: not back to back"); S.append(f"The three jobs ran over {spread_min:.0f} minutes, not back to back.")
+    if c_spans is not None and len(c_spans) > 1:        # O3 (D35)
+        keys.append("add: C separate spans"); S.append("The two shared-job circuits ran in separate spans.")
+    return {"verdict": "pass" if passed else "fail", "comparisons": comps, "classes": {k: _class(v) for k, v in comps.items()},
+            "control_CB_vs_p3_15": {"CB": pcb, "p3_15_BB_pooled": P315_BB, "within_0.05": ctrl},
+            "sentence_keys": keys, "sentences": S}
 
 
 def analyse():
@@ -274,30 +403,48 @@ def analyse():
     for j, raw in raws.items():
         for a, c in zip(raw["arms"], raw["counts"]):
             arms[a] = _p(c, web)
-    A, B, CB, CN = arms["A"], arms["B"], arms["CB"], arms["CN"]
-    prim = _diff(A, CB)
-    passed = A["p_yes"] >= HIGH and prim["diff"] >= BIG and prim["z"] >= ZMIN
-    comps = {"A_minus_CB (primary: alone vs shared, barrier)": prim,
-             "B_minus_CN (alone vs shared, no barrier)": _diff(B, CN),
-             "A_minus_B (barrier effect, alone)": _diff(A, B),
-             "CB_minus_CN (barrier effect, shared)": _diff(CB, CN)}
     starts = [_ts(r, "running") for r in raws.values()]
     ends = [_ts(r, "finished") for r in raws.values()]
     spread_min = (max(ends) - min(starts)).total_seconds() / 60 if all(starts) and all(ends) else None
-    out |= {"arms": arms, "comparisons": comps, "classes": {k: _class(v) for k, v in comps.items()},
-            "verdict": "pass" if passed else "fail",
-            "control_CB_vs_p3_15": {"CB": CB["p_yes"], "p3_15_BB_pooled": P315_BB,
-                                    "within_0.05": abs(CB["p_yes"] - P315_BB) <= CONTROL_TOL},
-            "C_same_span": (len(raws["C"].get("execution_spans") or []) == 1) if raws["C"].get("execution_spans") else None,
+    ev = evaluate(arms, pred["job_order"], raws["C"].get("execution_spans") or None, spread_min)
+    out |= {"arms": arms, **ev,
+            "C_same_span": (len(raws["C"]["execution_spans"]) == 1) if raws["C"].get("execution_spans") else None,
             "execution_spans": {j: r.get("execution_spans") for j, r in raws.items()},
             "timestamps": {j: r.get("timestamps") for j, r in raws.items()},
             "spread_minutes": spread_min, "back_to_back": (spread_min is not None and spread_min <= BACK_TO_BACK_MIN),
             "qpu_s": {j: r["usage"]["quantum_seconds"] for j, r in raws.items()},
             "predictions": {n: v["p_yes"] for n, v in pred["predictions"].items()},
-            "calibration": pred["calibration"]}
+            "calibration_predict": pred["calibration"], "calibration_submit": {j: r.get("calibration") for j, r in raws.items()}}
     OUT.write_text(json.dumps(out, indent=1))
     print(json.dumps({k: out[k] for k in ("verdict", "classes", "control_CB_vs_p3_15", "C_same_span", "spread_minutes", "qpu_s")}, indent=1))
     print({a: (round(v["p_yes"], 3), round(v["se"], 3)) for a, v in arms.items()})
+    print("\n".join(out["sentences"]))
+
+
+def worlds(n=200):
+    """F1 (D31) dry run: the reviewer's eleven worlds, binomial draws of the four arms, through evaluate()."""
+    W = {"W0 nothing": (.30, .30, .30, .30), "W1 alone causes it": (.50, .50, .30, .30), "W2 lone barrier job only": (.50, .30, .30, .30),
+         "W3 half return": (.40, .40, .30, .30), "W4 back everywhere": (.50, .50, .50, .50), "W5 big alone effect, A < 0.40": (.38, .38, .26, .26),
+         "W6 lone no-barrier only": (.30, .50, .30, .30), "W7 shared comes back": (.30, .30, .48, .48), "W8 small alone effect": (.35, .35, .30, .30),
+         "W9 alone adds 0.08": (.48, .48, .40, .40), "W10 alone lowers": (.24, .24, .30, .30)}
+    order = json.loads(PRED.read_text())["job_order"] if PRED.exists() else ["C", "B", "A"]
+    rng = np.random.default_rng(20261105)
+    res = {}
+    for name, ps in W.items():
+        tally = {}
+        for _ in range(n):
+            arms = {}
+            for a, p in zip(("A", "B", "CB", "CN"), ps):
+                ph = rng.binomial(SHOTS, p) / SHOTS
+                arms[a] = {"p_yes": ph, "se": math.sqrt(max(ph * (1 - ph), 1e-12) / SHOTS)}
+            ev = evaluate(arms, order)
+            k = (ev["verdict"],) + tuple(x for x in ev["sentence_keys"] if not x.startswith("barrier alone"))
+            tally[k] = tally.get(k, 0) + 1
+        res[name] = {" | ".join(k): v / n for k, v in sorted(tally.items(), key=lambda kv: -kv[1])}
+        print(f"\n{name} {ps}")
+        for k, v in res[name].items():
+            print(f"   {v:6.3f}  {k}")
+    return res
 
 
 if __name__ == "__main__":
@@ -309,5 +456,8 @@ if __name__ == "__main__":
         submit()
     elif "--analyse" in sys.argv:
         analyse()
+    elif "--worlds" in sys.argv:
+        r = worlds()
+        (D / "p3-16-worlds.json").write_text(json.dumps(r, indent=1))
     else:
         print(__doc__)
