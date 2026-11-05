@@ -162,7 +162,7 @@ def main():
     w(f"{len(unscored)} of the {len(bets)} bets in the ledger are not scored:")
     w("")
     for b in unscored:
-        w(f"- **{b['id']}** ({b['title']}): {b['scoring_note']}")
+        w(f"- **{b['id']}** ({b.get('title', '?')}): {b.get('scoring_note') or '(no scoring_note in this ledger row; the bet owner should add one)'}")
     w("")
     audited = [b for b in bets if b.get("audit_path")]
     reversed_ = [b for b in audited if b.get("verdict_stands") is False]
