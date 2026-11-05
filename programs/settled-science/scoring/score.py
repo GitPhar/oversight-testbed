@@ -757,12 +757,16 @@ def score_b7(items, bets, rater, retest, seed_check=True):
                 f"{L1['d']:.3f} {f3(L1['ci'])}; recalibrated with the up word d₂ {L2['d']:.3f} {f3(L2['ci'])}, against the rater's call-to-call "
                 f"noise margin {m:.4f}). Round 2's pass may reduce to picking the more striking version, or the rater, being the same model, may "
                 "have used the same judgment of which version is real; this test cannot tell those apart")
-    if seed_check and out["seeds_other"]:
+    if seed_check and out["seeds_other"]:          # D46 (review addendum R1): the seed check goes into the sentence, before the fragile clause
         out["label_reported"] = f"{out['label']}, at the margin ({out['seeds_other']} of {N_SEEDS} seeds give {other})"
+        sent += (f"; this label sits at the margin: under {N_SEEDS} other bootstrap and null-simulation seeds, "
+                 f"{out['seeds_other']} gave {other}")
     if flips or out["bucket_flips"]:
         out["label_reported"] = (out.get("label_reported") or out["label"]) + ", fragile"
         if flips and len(flips) > 5:
-            sent += f"; this label sits at the margin: {len(flips)} of {n} single-item removals would make it {other}"
+            bf = out["bucket_flips"]
+            sent += (f"; this label sits at the margin: {len(flips)} of {n} single-item removals would make it {other}"
+                     + (f", and so would removing the query bucket{'s' if len(bf) > 1 else ''} {', '.join(bf)}" if bf else ""))
         else:
             parts = []
             if flips:
@@ -772,7 +776,8 @@ def score_b7(items, bets, rater, retest, seed_check=True):
             many = len(flips) + len(out["bucket_flips"]) > 1
             sent += f"; this label rests on {' and '.join(parts)}: without {'any one of them' if many else 'it'} the label would be {other}"
     out["sentence"] = sent + "."
-    out["verdict_reported"] = ("pass, unreplicated" if full else "null") + (" (" + out["label_reported"] + ")" if out.get("label_reported") else "")
+    qual = (out.get("label_reported") or "").split(", ", 1)[1] if ", " in (out.get("label_reported") or "") else ""
+    out["verdict_reported"] = ("pass, unreplicated" if full else "null") + (f"; {qual}" if qual else "")   # D46: no "null (null, …)"
     return out
 
 
