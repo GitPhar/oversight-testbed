@@ -1145,3 +1145,17 @@ Details in `results/probe-dissociation.md`.
 - `ledger/design-reviews/em-qwalk-1b.md` (3244dbb, fresh subagent launched by the engine session): **fix-first, 7 flaws**. The rule passes a walk that is below chance but less wrong than PageRank (the dry run's "quantum wins" case was exactly that), and the dumb baselines were reported, not ruled on. Other flaws: edges made after and because of outcomes; a false-pass rate measured on the wrong topology (about 4% on the real graph against the stated 2.7%); no leave-one-cluster-out; wrong nouns ("claim graph"); a review gate reading one file.
 
 **What follows.** em-qwalk is `withdrawn` in `ledger/bets.jsonl` (counted, not scored). Its pre-registration (680f128), code and seed (34bad77) stay as committed. A new bet, em-qwalk2, takes both reviews' fixes, with its own lesson, pre-registration, seed and design reviews. Like em-qwalk, it does not revive the quantum error-prediction encoding.
+
+## D57 — em-qwalk2 pre-registered: the re-bet of em-qwalk with both design reviews' fixes
+
+**Date:** 2026-11-04, before any score on the real labels. Recorded in `experiments/qwalk2.md`, code `experiments/qwalk2.py`. Laptop only: $0 API, 0 QPU s.
+
+**What changed from em-qwalk** (each review flaw is mapped to its answer in qwalk2.md §10):
+- Both arms now use one-seed walks from every settled direction, summed with weights centred on the others' hit rate, so they differ only in the kernel.
+- Every verdict is read against a label-permutation null on the frozen graph, which carries the leave-one-out leak (new pattern P11).
+- A pass must beat chance, and the four oriented dumb rules (phase bit, neighbour vote, degree, child count).
+- Added: a prospective-edges sensitivity, leave-one-cluster-out, the stated 80%-power gap (about 0.19 AUROC), seeds and inputs pinned in code, and a gate that requires both reviews.
+
+**Inputs stay at 680f128.** The bmq scout's 18 new directions (af3266b) are reading-stage labels that postdate the question.
+
+**Odds:** 0.05 → 0.01. Labels planted from the quantum kernel itself pass only 1–2%.

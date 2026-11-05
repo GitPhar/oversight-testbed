@@ -87,7 +87,7 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
 
-Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 10 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 9 lesson lines written.
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 11 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 9 lesson lines written.
 
 | | count |
 |---|---|
@@ -113,6 +113,7 @@ Design reviews: 0 go, 7 fix-first, 2 redesign; 2 later found by the post-result 
 | P8 | Comparing across conditions that differ in more than the factor named | 4 | 0 of 0 scored |
 | P9 | The right rule, then the wrong noun | 4 | 2 of 2 scored |
 | P10 | A label that hangs on one item | 5 | 1 of 1 scored |
+| P11 | Leave-one-out leak: a held-out item's own label shapes its score | 0 | 0 of 0 scored |
 
 **Does the loop help?** On 3 scored bets, Brier with the odds before the lesson is 0.357, after it 0.278.
 
