@@ -1,0 +1,47 @@
+{
+ "branch": "fail, part (a) holds",
+ "loo_flip_groups": [],
+ "loo_rule": "exact (re-bootstrapped per drop)",
+ "n_science_usable": 63,
+ "n_ponly": 18,
+ "n_both": 7,
+ "share_no_ponly": 1.0,
+ "share_no_all": 0.6349206349206349,
+ "share_no_both": 0.8571428571428571,
+ "D1": 0.3650793650793651,
+ "D1_ci": [
+  0.25396825396825395,
+  0.4920634920634921
+ ],
+ "D2": 0.1428571428571429,
+ "D2_ci": [
+  0.0,
+  0.5
+ ],
+ "verdict": "fail",
+ "sentence": "On Sonnet's science questions with a yes/no guess, the answers that only the probability format put under 70% were mostly ones where Sonnet's guess rejected the proposed answer, more often than among all such science answers, but not shown to be more often than among the answers both formats put under 70% (n = 7). The design cannot tell whether that is because 'no' answers carry lower numbers in every format or because the proposed-answer reading also occurs in the frequency format.",
+ "loo_flips": [],
+ "counts_before_parse": {
+  "matched": 94,
+  "P-only": 24,
+  "both": 10,
+  "other": 60
+ },
+ "counts_usable": {
+  "usable": 63,
+  "P-only": 18,
+  "both": 7,
+  "other": 38
+ },
+ "secondary_share_no_both_F_ge_0.2": 0.8,
+ "secondary_n_both_F_ge_0.2": 5,
+ "seed": 8073910693128109651,
+ "archive_sha256": {
+  "cal-sonnet-conversations.json": "76e2e55ccf91f52b526f50e3e1875a35fc851e92b74a6287a0233a73e333302a",
+  "pool-run-3.json": "8011ae79b4c12c6ac9b95dd751b68c891aeb3c7c47a5d5afb2d7c465b4db2b56"
+ },
+ "n_by_category": {
+  "science-chemistry": 34,
+  "science-physics": 29
+ }
+}
