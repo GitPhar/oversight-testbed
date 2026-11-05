@@ -11,7 +11,7 @@ checks: {D1: flaw, D2: holds, D3: flaw, D4: holds, D5: holds, D6: holds, D7: hol
 flaws: 5
 pilot_usd: 0.0686
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 05:14 America/Denver
 ---
 
 # Design review of sg-b1
@@ -153,3 +153,33 @@ Each fix gets its own DEVIATIONS row, dated, written before any data, naming `le
 5. **Verdict wording (D8).** Pass: "graded … more kindly on average (mean difference at least 3 points, 95% CI above 0)". Fail-harsher: the same, mirrored. Fail-same: "graded … the same on average (mean difference within 3 points)", not "gave … the same grade".
 
 The reviewer confirms the five fixes in an addendum here before the first non-pilot call.
+
+## Addendum: confirmation of the fixes (2026-11-05 05:14 America/Denver)
+
+The fixes are in commit 5a173cb, DEVIATIONS rows D5a–D5f, all dated before any test call. I re-ran `sg_b1_placement.py dryrun` and ran my own checks (scratch script `confirm.py`, in the same scratchpad). No paid call was made. **All five fixes hold, and D5e is sound. Confirmed.**
+
+1. **Budget (D5a): holds.**
+   - The caps are now write $0.65 and grade $1.15, against pilot projections of $0.52 and $0.85: 25% and 35% headroom.
+   - Workers dropped from 8 to 4, so the in-flight overshoot is about $0.03 or less.
+   - The jobs now run model by model, with arms and studies shuffled within each model. I drove the real `Caller` with stub costs at the pilot's per-call rates and a $0.40 cap. It stopped with Haiku 180/180, Sonnet 180/180 and Opus 32/180, so a cap stop now leaves whole models, as §3 needs. The stub run also prints "run order is model by model: True".
+2. **Missing model (D5b): holds.** In the real `analyse()`, with Opus given no grades, the readings were `{'haiku': 'kinder', 'sonnet': 'kinder', 'opus': 'untestable'}` (Opus usable 0), and the verdict was pass.
+3. **Gate restated and shown to fire (D5c): holds.** The dry run prints the gate firing in 1.00 of 200 draws with fresh2 shifted +3, and the power table is recomputed with the gate live. *Note:* the dry run is seeded (`default_rng(1)`), and its output does not reproduce every share quoted in row D5c:
+   - null at SD 6: fail-same 0.943, mixed 0.033, untestable 0.023, where the row says 0.97 / 0.02 / 0.01;
+   - −4 at SD 10: fail-harsher 0.827, where the row's range starts at 0.85.
+
+   The conclusions are unchanged (D11 still holds: null fails at least 0.99, +5 passes 0.97–1.00), but the author should append a row that quotes the committed output.
+4. **Robustness in code (D5d): holds.**
+   - The fragile flag fires on a one-item case I built (dropping the single 9 changes undetermined to same).
+   - Ties-excluded, D by design, the pooled D and spend per model are all reported.
+   - The conclusion-hash check refuses a tampered write cache ("3 grade records do not match").
+   - The frozen-prompt check passes, and `SCALE`, which it takes from the current module, equals d2589e3's.
+   - Minor: the hash check skips records with no `conclusion_sha`, which here are only the pilot cache. Every main-run record writes one. The robustness readings do not apply the usable-share rule, but they are reported only.
+5. **Verdict wording (D5f): holds.** "On average (mean difference …)" replaces the key phrases. The frozen text stands beside the row.
+
+**D5e, the author's gate floor (fires only if the D0 CI excludes 0 and |D0| ≥ 1): sound, and it does not lower a bar.**
+- The pass bar (D ≥ 3, CI above 0), the ±3 equivalence margin and the two-of-three rule are unchanged.
+- The gate is a validity check, not the bar. With synthetic fresh2 shifts through the real `analyse()`, it fired 0/40 at 0, 31/40 at +1, and 40/40 at +2 and +3. It still catches a systematic fault of a point or more. It stops firing only on sub-point same-sign wobbles, which a near-deterministic grader produces by chance.
+- The cost: a systematic fresh-versus-fresh2 artefact under 1 point would now pass. That is a third of the margin. And since the two arms send identical messages in shuffled order, no known mechanism makes one.
+- Using the pilot's near-determinism to set the floor is what the pilot is for. The author's `analyse --pilot` re-run on my cache reads no test data. It did rewrite the committed `results/sg-b1-analysis-pilot.json` in the working tree, which is left uncommitted; the in-memory pilot readings match the original (haiku undetermined, sonnet same, opus harsher).
+
+The run may start once `check_prereg.py --before-run` passes.
