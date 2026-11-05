@@ -10,7 +10,9 @@ by where the bet came from (source) and by how deep in its program's map the bet
 thing every odds elicitation is handed (CONTEXT.md section 3 rule 14; operators/scout.md, operators/learn.md).
 
 It also lists, per program, whether a closing review is due (operators/remap.md, "Closing a program"): a program
-whose last three layers with settled bets hold no landed bet and no finding labelled partly new or new.
+whose last three layers with settled bets hold no landed bet and no finding labelled partly new or new; or, under
+rule 16 (ledger/rule16.py), a program at five layers deep or $15 in a month with no landed partly-new or new result
+in its newest layer and no steer from Sean. The table reports both rule-16 counts for every program.
 
 Inputs: ledger/bets.jsonl; map/*.json (layer depth and, where the bet row has none, source); programs/*/map/*.json
 (source only). The root folder is the parent of this file's folder, or the first argument.
@@ -176,10 +178,12 @@ def table(rows, label, order=None, total=None):
     return out, stats
 
 
-def closing_reviews(bets, bets_by_id, engine_maps):
+def closing_reviews(bets, bets_by_id, engine_maps, steers=()):
     """Per program: the three deepest layers holding a settled bet, and whether any of them holds a landed bet or a
     finding labelled partly new or new. A closing review on the map (closing_review, with bets_reviewed) answers the
-    flag until a settled bet it did not see appears in those layers."""
+    flag until a settled bet it did not see appears in those layers. Then rule 16's two counts (ledger/rule16.py)."""
+    import rule16   # here, not at the top: rule16 imports this module
+    month = rule16.ledger_month(bets)
     out = []
     for prog in sorted({b["program"] for b in bets}):
         settled = [b for b in bets if b["program"] == prog and verdict(b) not in UNSETTLED]
@@ -214,12 +218,28 @@ def closing_reviews(bets, bets_by_id, engine_maps):
             why = "no landed bet and no partly-new or new finding in the last three layers"
             if rev:
                 why += f"; settled since the {rev.get('date', '?')} review: {', '.join(unseen)}"
-        out.append((prog, layers, last, inlast, unrec, due, why))
+        # Rule 16 (ledger/rule16.py): five layers deep or $15 in a month without a landed partly-new or new result in
+        # the newest layer, or a steer from Sean. "This month" is the month of the newest dated bet row, so this file
+        # stays reproducible; the budget code reads the clock.
+        r16 = rule16.status(prog, bets, steers, engine_maps, month=month)
+        lines = (["five layers"] if r16["past_layer_line"] else []) + ([f"${r16['usd_line']:.0f} this month"] if r16["past_dollar_line"] else [])
+        if lines and not r16["closed"] and not r16["reviewed_since_line"]:
+            three = why if due != "no" else None
+            due = "**yes**"
+            why = ("rule 16: at the " + " and the ".join(lines) + " line with no landed partly-new or new result in the "
+                   f"newest layer ({r16['newest_layer']}) and no steer from Sean" + (f"; and {three}" if three else ""))
+        elif lines:
+            why += f"; rule 16: at the {' and the '.join(lines)} line, " + ("closed" if r16["closed"] else f"reviewed {r16['closing_review']}")
+        elif r16["released_by_result"] and (r16["layers_deep"] > rule16.LAYER_LINE or r16["usd_month"] >= rule16.USD_MONTH_LINE):
+            why += f"; rule 16: past a line by count, released by {', '.join(r16['released_by_result'])} in layer {r16['newest_layer']}"
+        out.append((prog, layers, last, inlast, unrec, due, why, r16))
     return out
 
 
 def main():
+    import rule16   # rule 16's two counts, in the closing-review table
     bets = load_jsonl(HERE / "bets.jsonl")
+    steers = load_jsonl(HERE / "steers.jsonl")
     bets_by_id = {b["id"]: b for b in bets}
     engine_maps, own_maps = load_maps()
     scored = [b for b in bets if b.get("scored") and b.get("outcome") in (0, 1) and b.get("engine_odds") is not None
@@ -350,11 +370,19 @@ def main():
       "Settled means a verdict other than open or withdrawn; landed means pass, pass-unreplicated or hit; novelty is the "
       "bet's `novelty` field (rule 13), else its map node's.")
     w("")
-    w("| program | layers with settled bets | last three | settled bets in them | novelty not recorded | due | why |")
-    w("|---|---|---|---|---|---|---|")
-    for prog, layers, last, inlast, unrec, due, why in closing_reviews(bets, bets_by_id, engine_maps):
+    month = rule16.ledger_month(bets)
+    w(f"**Rule 16** (CONTEXT.md §3; `ledger/rule16.py`): a program runs at most {rule16.LAYER_LINE} layers deep and at most "
+      f"${rule16.USD_MONTH_LINE:.0f} of API a month without a landed result labelled partly new or new in its newest layer, "
+      "or a steer from Sean; past either line its next action is a closing review. The two columns before *due* are those "
+      f"counts: the deepest layer holding a bet that was not withdrawn, and the dollars of the program's bet rows dated "
+      f"{month} (pilots and probes outside the ledger are not in it; the budget code counts them too and enforces the "
+      "line before every paid call). A count past its line with a release names the release.")
+    w("")
+    w(f"| program | layers with settled bets | last three | settled bets in them | novelty not recorded | layers deep (line {rule16.LAYER_LINE}) | $ in {month} (line ${rule16.USD_MONTH_LINE:.0f}) | due | why |")
+    w("|---|---|---|---|---|---|---|---|---|")
+    for prog, layers, last, inlast, unrec, due, why, r16 in closing_reviews(bets, bets_by_id, engine_maps, steers):
         w(f"| {prog} | {', '.join(map(str, layers)) or '—'} | {', '.join(map(str, last)) or '—'} | {len(inlast)} | "
-          f"{len(unrec)} | {due} | {why} |")
+          f"{len(unrec)} | {r16['layers_deep']} | {r16['ledger_usd_month']:.2f} | {due} | {why} |")
     w("")
 
     w("## What is not counted")
@@ -369,7 +397,7 @@ def main():
       + json.dumps({"prior_rate": f"{rate:.2f}", "prior_hits": hits, "prior_n": n, "prior_ci": fmt_ci(ci)}, sort_keys=True) + " -->")
     (HERE / "prior.md").write_text("\n".join(L) + "\n")
     print(f"prior {rate:.2f} ({hits}/{n}, 95% {fmt_ci(ci)}); closing reviews due: "
-          + (", ".join(p for p, *_, due, _w in closing_reviews(bets, bets_by_id, engine_maps) if due != "no") or "none"))
+          + (", ".join(p for p, *_, due, _w, _r in closing_reviews(bets, bets_by_id, engine_maps, steers) if due != "no") or "none"))
 
 
 if __name__ == "__main__":
