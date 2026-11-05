@@ -31,6 +31,8 @@ jobs:
       TZ: America/Denver
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0        # full history: assemble.sh reads each ledger commit's time (data/commit-times.json)
       - name: Regenerate the ledger summaries
         run: python3 ledger/brier.py && python3 ledger/scores.py
       - name: Lay out the site

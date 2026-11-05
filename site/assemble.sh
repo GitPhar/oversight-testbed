@@ -100,6 +100,38 @@ def convert_program_map(name):
 for name in sorted(os.listdir(os.path.join(root, "programs"))) if os.path.isdir(os.path.join(root, "programs")) else []:
     convert_program_map(name)
 
+# When each commit the ledger names was made, America/Denver wall-clock, so the replay and the record can place a
+# bet whose row has no result_time (ss-b5 to ss-b7, ng-p3-5c) or that was withdrawn on a design review. Read from
+# git, not typed. The deploy checks out full history for this (pages.yml, fetch-depth 0); a shallow checkout
+# finds no hashes and the pages say "landing time not recorded" instead.
+def commit_times():
+    hashes = set()
+    def walk(v):
+        if isinstance(v, dict):
+            for k, x in v.items():
+                if k.endswith("commit") and isinstance(x, str) and re.fullmatch(r"[0-9a-f]{7,40}", x):
+                    hashes.add(x)
+                walk(x)
+        elif isinstance(v, list):
+            for x in v: walk(x)
+    bets_path = d("ledger", "bets.jsonl")
+    if os.path.isfile(bets_path):
+        for line in open(bets_path):
+            try: walk(json.loads(line))
+            except ValueError: pass
+    env = dict(os.environ, TZ="America/Denver")
+    out = {}
+    for h in sorted(hashes):
+        try:
+            t = subprocess.check_output(["git", "-C", root, "show", "-s", "--format=%cd", "--date=format-local:%Y-%m-%dT%H:%M", h + "^{commit}"],
+                                        text=True, env=env, stderr=subprocess.DEVNULL).strip()
+            if t: out[h] = t
+        except Exception:
+            pass
+    json.dump(out, open(d("commit-times.json"), "w"), indent=0, sort_keys=True)
+    return len(out), len(hashes)
+ct = commit_times()
+
 ls = lambda p, ext: sorted(f for f in os.listdir(p) if f.endswith(ext)) if os.path.isdir(p) else []
 def head(repo):
     try:
@@ -118,5 +150,5 @@ m = {
     "nature_graded_commit": head(sys.argv[4]) if len(sys.argv) > 4 and sys.argv[4] else None,
 }
 json.dump(m, open(d("manifest.json"), "w"), indent=1)
-print(f"assembled {out}: {len(m['map'])} map file(s), {len(m['papers'])} paper file(s), {len(m['audits'])} audit(s)")
+print(f"assembled {out}: {len(m['map'])} map file(s), {len(m['papers'])} paper file(s), {len(m['audits'])} audit(s), {ct[0]} of {ct[1]} ledger commit times")
 PY
