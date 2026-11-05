@@ -256,3 +256,6 @@ On this argument, Sonnet shows a questions-only order effect about as large as t
 Pass only if the end-position flag beats the placebo. This tells "rating a listed line" apart from "answering at a different level". If Sonnet passes there, the em-gm2q2 Sonnet fail is a property of the check, not of the model.
 
 **The cheapest test of the Opus reading (about $1.5).** Opus on gm2b's items with mid-scale turn-by-turn answers (if any exist), so the yardstick does not rest on two items. Write it as its own pre-registration, with a pilot to find those items first.
+
+
+Revealed 2026-11-05: pl-039, planted overclaim/rank at §In plain English, "Model by model", Opus bullet, sentence 5; caught (Checklist C14, Claims checked row 6, Required cuts 1). Cut 1 is marked plant: not applied to the real record, whose sentence reads "Here, unlike em-gm2q, the two effects sat on the same items and orders (pattern correlation 0.63)." Every other finding stands as the real audit.
