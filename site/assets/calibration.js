@@ -3,7 +3,7 @@
 // The buckets and the prose come from brier.md. brier.md's per-bet table is not parsed for dots: bets' event text can
 // hold "|" characters, which shift its columns (that is how a false "human" dot once appeared).
 import { header, esc, inline, num, wrapTables, outcomeOf, REFEREE, refMark, refKey } from "./common.js";
-import { loadBets, loadBrierMd, loadPriorMd } from "./data.js";
+import { loadBets, loadBrierMd, loadPriorMd, loadMaps, loadPlainQuestions } from "./data.js";
 
 header();
 const el = (id) => document.getElementById(id);
@@ -237,6 +237,27 @@ async function drawPrior() {
   wrapTables(box);
 }
 
+// ---------- the human column: Sean's scored bets, each with its plain question, his odds, the engine's and the outcome ----------
+async function drawHuman(bets, humanPts, secondary) {
+  const box = el("human");
+  if (!humanPts.length) { box.innerHTML = `<p class="how">No scored bet carries Sean's odds yet.</p>`; return; }
+  const maps = await loadMaps();
+  const pq = await loadPlainQuestions(bets, maps);
+  const pc = (p) => `${Math.round(p * 100)}%`;
+  const closer = (r) => { const dh = (r.p - r.o) ** 2, de = (r.bet.engine - r.o) ** 2; return dh < de - 1e-9 ? "Sean" : de < dh - 1e-9 ? "engine" : "tie"; };
+  const rows = [...humanPts].sort((a, b) => String(a.bet.raw.result_time || "").localeCompare(String(b.bet.raw.result_time || "")));
+  const ok = rows.filter((r) => closer(r) === "Sean").length;
+  const sec = bets.filter((b) => b.human != null && b.raw?.secondary_of && b.raw?.scored === true);
+  box.innerHTML = `<p class="how">Sean writes his own odds in the cockpit, before the bet and without seeing the engine's. ${rows.length} scored bet${rows.length === 1 ? "" : "s"} carry them. Each row is the plain question he answered, his odds, the engine's, and what happened. He was closer on ${ok} of ${rows.length}, which is far too few bets to tell judgment from luck.</p>
+    <div class="tablewrap"><table class="hcol"><thead><tr><th>the bet, in plain words</th><th class="num">Sean</th><th class="num">engine</th><th>outcome</th><th>closer</th></tr></thead><tbody>${
+      rows.map((r) => { const q = pq.get(r.id); const c = closer(r);
+        return `<tr><td><span class="hc-q">${esc(q?.q || r.bet.title)}</span><span class="muted small hc-id">${esc(r.id)}</span></td>
+          <td class="num" style="color:${SIDE.human.hex}"><b>${pc(r.p)}</b></td><td class="num">${pc(r.bet.engine)}</td>
+          <td>${r.o ? `<b style="color:var(--hit)">came true</b>` : `<b style="color:var(--kill)">did not</b>`}</td><td>${c}</td></tr>`; }).join("")
+    }</tbody></table></div>
+    ${sec.length ? `<p class="muted small">${sec.map((b) => `${esc(b.id)} also carries his odds (${pc(b.human)}) but re-scored ${esc(b.raw.secondary_of)}'s run, so it counts only in the sensitivity row`).join("; ")}.</p>` : ""}`;
+}
+
 // ---------- page ----------
 drawPrior();
 (async () => {
@@ -247,17 +268,26 @@ drawPrior();
   const fmt = (v, d = 3) => (v == null ? "—" : v.toFixed(d));
   const enginePts = points.filter((p) => p.side === "engine"), humanPts = points.filter((p) => p.side === "human");
   const engineN = enginePts.length;
+  const all = enginePts.map((p) => ({ p: p.p, o: p.o })).concat(data.secondary);
+  // The headline numbers are brier.md's own (its Scores table); the dots are recounted from bets.jsonl and checked below.
+  const prim = { brier: e?.brier ?? brierOf(enginePts), n: e?.n ?? engineN };
+  const sens = { brier: scores.engineAll?.brier ?? brierOf(all), n: scores.engineAll?.n ?? all.length };
+  const half = e?.half ?? 0.25;
   el("stats").innerHTML = [
-    stat("Engine's Brier score", fmt(e?.brier), `Lower is better. Always saying 50% scores ${fmt(e?.half ?? 0.25)}.`),
+    stat("Engine's Brier score, one per run", fmt(prim.brier), `On ${prim.n} scored bets. Lower is better; always saying 50% scores ${fmt(half)}.`),
     stat("Hits expected → got", e?.expected != null ? `${fmt(e.expected, 2)} → ${e.observed}` : "—", `Over ${engineN} scored bet${engineN === 1 ? "" : "s"}.`),
-    stat("Human's Brier score", humanPts.length ? fmt(brierOf(humanPts)) : "—", humanPts.length ? `Over ${humanPts.length} bets.` : `No human odds on any of the ${enginePts.length} scored bets.`),
+    stat("Sean's Brier score", humanPts.length ? fmt(h?.brier ?? brierOf(humanPts)) : "—", humanPts.length ? `On the ${humanPts.length} scored bets that carry his odds (<a href="#human-h">the bets</a>).` : `No human odds on any of the ${enginePts.length} scored bets.`),
     stat("Bets in the ledger", String(bets.length || "—"), `${enginePts.length} have both stated odds and an outcome decided by their pre-registered rule.`),
   ].join("");
-  // Rule 15: both numbers, one plain sentence.
-  if (data.secondary.length) {
-    const all = enginePts.map((p) => ({ p: p.p, o: p.o })).concat(data.secondary);
-    el("stats").insertAdjacentHTML("afterend", `<p class="how">Some tests were scored more than once on the same run, so one lucky run counted several times; counting each run once, the engine's Brier score is ${fmt(brierOf(enginePts))} on ${engineN} bets, and counting every scored row as before it is ${fmt(brierOf(all))} on ${all.length} (the ${data.secondary.length} repeats: ${data.secondary.map((x) => `${esc(x.id)} on ${esc(x.of)}'s run`).join(", ")}).</p>`);
-  }
+  // Rule 15, shown plainly: the primary number, the sensitivity row beside it, and one sentence a stranger can follow.
+  const secN = data.secondary.length;
+  el("rule15").innerHTML = `<div class="tablewrap"><table><thead><tr><th>how the scored bets are counted</th><th class="num">bets</th><th class="num">Brier</th></tr></thead><tbody>
+    <tr><td><b>Primary</b>: one scored bet per run of an experiment (rule 15)</td><td class="num">${prim.n}</td><td class="num"><b>${fmt(prim.brier)}</b></td></tr>
+    <tr><td>Sensitivity: every scored row, including the ${secN} bet${secN === 1 ? "" : "s"} that re-scored a run an earlier bet was already scored on</td><td class="num">${sens.n}</td><td class="num">${fmt(sens.brier)}</td></tr>
+    </tbody></table></div>
+    <p class="how">Some experiments were scored more than once, as separate bets on the same data, so one lucky run could count several times; the primary score counts each run once and gives ${fmt(prim.brier)} on ${prim.n} bets, and counting every bet anyway gives ${fmt(sens.brier)} on ${sens.n}${secN ? ` (the ${secN} repeats are ${data.secondary.map((x) => `${esc(x.id)}, on ${esc(x.of)}'s run`).join("; ")})` : ""}.</p>`;
+  if (sens.n !== all.length || Math.abs(sens.brier - brierOf(all)) > 0.0006)
+    el("rule15").insertAdjacentHTML("beforeend", `<p class="muted small">Note: <code>brier.md</code>'s sensitivity row and <code>bets.jsonl</code> disagree (${sens.n} against ${all.length} bets); <code>brier.md</code> is regenerated on the next deploy.</p>`);
   // brier.md is generated from the same file; if the two disagree, say so rather than pick one silently.
   if (e?.n != null && e.n !== enginePts.length)
     el("stats").insertAdjacentHTML("afterend", `<p class="muted small">Note: <code>brier.md</code> counts ${e.n} scored bets and <code>bets.jsonl</code> ${enginePts.length}; <code>brier.md</code> is regenerated on the next deploy.</p>`);
@@ -268,6 +298,7 @@ drawPrior();
       <div class="note">Brier on ${pts.length} bet${pts.length === 1 ? "" : "s"}; ${hitsN} came true, ${fmt(exp, 2)} expected. ${esc(REFEREE[k].what[0].toUpperCase() + REFEREE[k].what.slice(1))}.</div></div>`;
   }).join("");
   el("hitsline").innerHTML = hitsSentence(enginePts);
+  drawHuman(bets, humanPts, data.secondary);
 
   if (points.length) {
     drawChart(data);

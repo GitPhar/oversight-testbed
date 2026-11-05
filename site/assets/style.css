@@ -685,3 +685,11 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
 .hh-vtable th, .hh-vtable td { text-align: left; vertical-align: top; padding: 0.35rem 0.5rem; border-bottom: 1px solid #2c3238; }
 .hh-vtable th { color: #8d8a82; font-weight: 700; }
 .hh-vtable td:first-child { white-space: nowrap; }
+
+/* Calibration: rule 15 shown plainly, and the human column (site walk 2026-11-05) */
+.rule15 { margin: 16px 0 20px; }
+.rule15 .tablewrap { margin-bottom: 10px; }
+.rule15 td:first-child { max-width: 560px; }
+table.hcol td { vertical-align: top; }
+.hc-q { display: block; max-width: 560px; }
+.hc-id { display: block; margin-top: 2px; }
