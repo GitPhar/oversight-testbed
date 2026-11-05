@@ -29,26 +29,20 @@ P3-5 asked whether program 1's chip errors were *steering* (small systematic rot
 
 - **Archive** (the same fields as P3-5 §2): `programs/entangled-mind/results/witness-run-1.json`, `items[*].hardware_counts[0:9]` and `hardware.assignment_matrix`; the as-run setting circuits `programs/entangled-mind/window/data/hardware/dbl6e1d8mdtc73d5gesg-{0..38}.json`; the calibration snapshot `results/ibm-calibration.json`, entry `dbl6e1d8mdtc73d5gesg`.
 - **Reference state ρ_ref per item:** the P3-1 construction with the D8 fix. T1/T2 are loaded and **asserted** equal to the snapshot (`reference_states_fixed`). The circuit is ALAP-scheduled, simulated exactly as a density matrix with readout excluded, and the state is taken by linear inversion.
-- **Models:**
-  - **coh** (7 knobs): P3-5's family (i).
-  - **inc** (7 knobs): P3-5's family (ii), reparametrised with direct, bounded probabilities: p_X, p_Y, p_Z ∈ [0, 0.25] per qubit and p ∈ [0, 0.5]. P3-5's softmax start at −8 had vanishing gradients and under-fitted in the first synthetic dry run (D10).
-  - **full** (14 knobs): inc applied after coh. Each nested model is full with the other's knobs at zero.
-  - Fits are L-BFGS-B, 1 zero start + 10 random starts, plus warm starts from the nested optima, so that logL_full ≥ max(logL_coh, logL_inc).
+- **Models** *(amended D19, design review `ledger/design-reviews/ng-p3-5c.md` F1)*:
+  - **coh** (7 knobs, *rotation-type*): P3-5's family (i), local rotations and a ZZ phase.
+  - **inc9** (9 knobs, *blur-type*): amplitude damping γ_i, γ_j ∈ [0, 0.2] (energy decay beyond the simulator's), then Pauli flips p_X, p_Y, p_Z ∈ [0, 0.25] per qubit, then uniform mixing p ∈ [0, 0.5]. The frozen version had no damping. Damping is non-unital, and a rotation could partly imitate it, so the review's synthetic decay at γ = 0.03 was falsely flagged as steering in 6 of 24 draws.
+  - **full16** (16 knobs): inc9 applied after coh. Each nested model is full16 with the other's knobs at zero.
+  - **Secondary**, for continuity with the frozen design: inc7 (no damping) and full14.
+  - Fits: L-BFGS-B, 1 zero start + 10 random starts, plus warm starts from the nested optima.
 - **Tests per item:**
-  - **steering given blur:** LR_c = 2(logL_full − logL_inc), with a null from B = 100 parametric bootstrap samples drawn from the fitted inc state.
-  - **blur given steering:** LR_i = 2(logL_full − logL_coh), with a null from the fitted coh state.
-  - p = (1 + #{LR* ≥ LR}) / (B + 1). Refits are warm-started from the full-data optima, plus 2 random starts.
+  - **rotation given blur:** LR_c = 2(logL_full16 − logL_inc9), null from the fitted inc9 state.
+  - **blur given rotation:** LR_i = 2(logL_full16 − logL_coh), null from the fitted coh state.
+  - Parametric bootstrap: **B = 100, extended to B = 1,000 whenever p ≤ 0.05** *(amended D20, F2)*, parallelised. Every p is reported with its floor 1/(B + 1) (0.0099 or 0.0010). The Bonferroni line 0.01/6 = 0.0017 is reachable only at B = 1,000.
 - **Seed** (operators/hardware.md): CURBY-Q latest completed round **28297, result pulse 2025-08-22 13:42 America/Denver** (checked 2026-11-04 17:30), so it is **stalled**. **Seed: the first CURBy-RNG pulse timestamped after this commit**, by `ledger/seed.py --purpose boot`. Its `seed32` seeds numpy's `default_rng` for every start, bootstrap and CV draw. *Filled in by the seed commit:*
   `chain:` CURBy-RNG · `pulse index:` 1591496 · `pulse_time:` 2026-11-04 17:32:00 America/Denver · `previous pulse:` index 1591495 at 2026-11-04 17:31:00 (before the commit at 2026-11-04 17:31:33) · `randomness:` 27bba9e6c499e9a8a5647a0fcbdfd2947575e32c8a466e1f8b3daf80b95adeee2ba5836c348be9e0714f139e1b0edd4011d11494400f87c3729e7d1892e9731a · `client:` @buff-beacon-project/curby-client@1.2.0 via `experiments/curby_seed.mjs` · `certificate_verified:` false · `seed (boot):` 10131417812182473074 · `seed32 (boot):` 1446222194. Record: `data/p3-5c-seed.json`.
-- **Code:** `experiments/p3_5c_fits.py` (`--synthetic [--fast]`, `--run`).
-- **Synthetic dry run before this commit (D4; no archive).** Four known truths on a mixed reference, B = 20 (so p ≥ 0.048):
-  - blur only: LR_c 4.2, p 0.71, so steering correctly not flagged; LR_i 2,118.
-  - steering only: LR_c 114; LR_i 0.0, p 0.71, so blur correctly not flagged.
-  - both: LR_c 46.5, LR_i 1,802.
-  - neither: LR_c 5.0, LR_i 0.1.
-  - Leave-one-setting-out CV gain for steering was −112 (blur only), +57 (steering only), **−13.8 (both)** and −2.7 (neither).
-  - A full B = 100 synthetic run was started before this commit. Its output (`data/p3-5c-synthetic-B100.json`) is committed when it finishes, before `--run`, for the reviewer.
-
+- **Code:** `experiments/p3_5c_fits.py` (`--recovery`, `--run`). `--run` refuses without the seed file, without a design-review go, and unless `ledger/check_prereg.py ng-p3-5c … --before-run` passes *(D25)*.
+- **Dry-run record, corrected** *(D21, F3)*. The first synthetic dry run (B = 20, then B = 100, `data/p3-5c-synthetic-B100.json`) used a reference that is a ZZ eigenstate, on which the ZZ phase does nothing. It is **replaced as the D4 evidence by the D19 recovery study** (`data/p3-5c-recovery.json`). That study uses the **three real reference states** (T1/T2 loaded), synthetic counts (4,000 × 9 settings, a generic assignment matrix, no archive counts), and six truths: neither; blur only; rotation only; both; an XX rotation of 0.15 rad (outside the rotation family); and amplitude damping γ = 0.03 per qubit (outside the frozen blur family). It also has 8-draw false-flag rates for decay, and power at blur 0.25%, 0.5%, 1% per qubit and rotation norms 0.025, 0.05, 0.1 rad. **D10's reason for demoting CV is restated:** CV is a noisy single-draw quantity (−13.8 and +18.7 on two draws of the same truth). It is not shown to penalise the 16-knob model.
 ## 3. Calls
 
 | step | what | cost |
@@ -59,31 +53,50 @@ P3-5 asked whether program 1's chip errors were *steering* (small systematic rot
 
 ## 4. Statistics
 
-- **Primary, per item and per kind:** "present" iff the bootstrap p < 0.01; otherwise "not detected".
+- **Primary, per item and per kind:** "present" iff the bootstrap p < 0.01 (B adaptive, D20); otherwise "not detected".
 - **Secondary, reported, not gates:**
-  - **Leave-one-setting-out CV** gain of full over inc (steering) and over coh (blur). *Demoted from co-primary before data* (D10): the synthetic dry run showed it penalises the 14-knob model when a whole basis is held out. It gave −13.8 on data that truly contain steering, so requiring it would miss steering exactly when both kinds are present.
-  - The old 7-v-7 ΔlogL, for comparison with P3-5.
-  - Negativity and purity of each fitted state against ρ_ref; fitted parameters.
-  - **Spectator check** (the audit's second $0 check), on h088 and h268. Re-simulate the as-run circuits with 0.1 rad ZZ added only on CZ pairs that do not touch the measured pair, sample 4,000 shots per setting through the item's assignment matrix, and refit. Report whether LR_c exceeds the 99th percentile of that item's real bootstrap null. If it does not, this design cannot tell spectator steering from blur on the pair.
-- **One-item fragility** (P10): per-item labels are reported separately. The CV table gives each held-out setting's contribution, so a label resting on one setting (as h088's did on XX in P3-5) is visible.
-- **Multiple comparisons:** 6 tests (3 items × 2 kinds) at α = 0.01 each. Also reported against Bonferroni α = 0.01/6.
+  - **Goodness of fit** *(D22, F4)*: the full16 deviance against the saturated likelihood, 2(logL_sat − logL_full16), on 27 − 16 = 11 df, compared with χ²₁₁'s 99th percentile (24.7). The 14-knob version uses 13 df.
+  - **Per-setting shares** *(D24, F6)*: each setting's contribution to LR_c and LR_i at the fitted optima. If one setting carries more than half of an LR labelled present, the sentence adds "This rests mostly on setting <S>", and the bet refits with that setting dropped and reports whether the LR still exceeds the item's null 99th percentile (in-sample, not a gate).
+  - **Spectator check** *(D23, F5)*, h088 and h268. 0.1 rad ZZ is added only on CZ pairs not touching the measured pair. Report the trace distance between that state and ρ_ref, and 20 synthetic draws through the item's assignment matrix, each classified with the item's real-data bootstrap 99th percentiles (q99_c, q99_i) into exactly one outcome:
+    - **detected as rotation:** LR_c > q99_c;
+    - **absorbed as blur:** LR_c ≤ q99_c and LR_i > q99_i;
+    - **invisible:** neither.
+    - The share of each outcome is reported.
+  - **CV** *(D21)*: leave-one-setting-out held-out gain, a noisy secondary.
+  - **The P3-5 comparison, three ways** *(D25, F7)*:
+    - P3-5's own families and fit on the legacy (T1/T2-bug) reference, which should reproduce −43.5, −34.9, +63.0;
+    - the same on the fixed reference (isolating the T1/T2 fix);
+    - the bounded 7-knob blur family on the fixed reference (isolating the reparametrisation);
+    - also the 9-knob family (adding decay).
+  - The 14-knob secondary set's labels; negativity of each fitted state.
+- **Multiple comparisons:** 6 tests (3 items × 2 kinds) at α = 0.01 each, also reported against Bonferroni 0.0017.
 
-## 5. Pre-registered reading (sentences written now, P9)
+## 5. Pre-registered reading (sentences written now, P9; amended D22, F4)
 
 Per item:
-- **both present:** "On pair <id>, the chip's errors need both a steering and a blurring part; neither kind alone explains the counts."
-- **steering only:** "On pair <id>, steering is needed and blurring adds nothing detectable once steering is allowed."
-- **blur only:** "On pair <id>, blurring is needed and steering adds nothing detectable once blurring is allowed."
-- **neither:** "On pair <id>, neither kind is detectably needed beyond the simulator's state."
-- **Overall:** report the count of pairs in each class. Never "blur, not steering" or "steering, not blur" unless every pair says so. If the spectator check shows spectator steering absorbed as blur, add: "A blurring label here can also come from steering on other qubits in the circuit."
-- **Untestable:** ρ_ref cannot be built, or an optimiser returns a non-finite likelihood on an item. That item is reported untestable.
+- **both present:** "On pair <id>, the counts need both a rotation-type term (local rotations and a ZZ phase) and a blur-type term (random Pauli flips, uniform mixing and energy decay) beyond the simulator's state; neither alone fits as well."
+- **rotation only:** "On pair <id>, a rotation-type term is needed; once rotations are allowed, a blur-type term adds nothing this test could detect (in synthetic checks on these reference states it detected blur of 1% per qubit in only 2 to 6 of 8 draws, and blur of 0.25% per qubit in none, so this does not rule out blur of about 1% per qubit)."
+- **blur only:** "On pair <id>, a blur-type term is needed; once blur is allowed, a rotation-type term adds nothing this test could detect (in synthetic checks on these reference states it detected rotations of 0.1 rad in every draw, and rotations of 0.025 rad in only 1 to 3 of 8)."
+- **neither:** "On pair <id>, neither term is detectably needed beyond the simulator's state."
+- Appended to every per-pair sentence: "These are terms in a 16-knob model fitted to these counts, not identified physical mechanisms."
+- **CV disagrees** with a label: "On pair <id>, the <kind> term improves the in-sample fit (p = …) but not the prediction of a held-out setting (CV gain …); read the label as weaker."
+- **One setting dominates** (D24): add "This rests mostly on setting <S>."
+- **Misfit** (deviance above χ²₁₁'s 99th percentile): "Even both terms together leave a misfit the model cannot explain (deviance … on … df), so part of what each term absorbs may be neither kind."
+- **Spectator "absorbed as blur"** (the majority of the 20 draws): "A blur-type label here can also come from rotations on other qubits in the circuit." **"Invisible":** "At 0.1 rad, spectator rotations were too small to see on this pair, so this check cannot rule them out."
+- **Overall:** the count of pairs in each class, then, once: "This re-analysis was specified before it ran, but the archive had already been analysed by this program and its auditor, who saw both kinds of term on every pair; it is not a blind test." Never "blur, not steering" or the reverse unless every pair says so.
+- **Untestable:** ρ_ref cannot be built, or an optimiser returns a non-finite likelihood on an item.
 
-Not scored. P3-5's scored verdict (fail, "incoherent better" as its §5.2 count) stands as recorded. This re-analysis is reported beside it, never in place of it (SUMMARY-2, cross-cutting finding 4).
+Not scored. P3-5's scored verdict stands as recorded. This re-analysis is reported beside it, never in place of it.
 
 ## 6. What it cannot do
 
-- It describes three pairs on one afternoon (3 November, which P3-15 asks about), with the noise model's reference state. "Present" means "needed by this 14-knob model on these counts", not a physical mechanism.
+- It describes three pairs on one afternoon (3 November, which P3-15 asks about), with the noise model's reference state. "Present" means "needed by this 16-knob model on these counts", not a physical mechanism. (The §0 lesson's "14-knob" describes the design as frozen at 930efe8; D19 made the primary model 16 knobs.)
 - Steering on spectators may still pass as blur. That is what the spectator check measures.
+- **Recovery study limits** (`data/p3-5c-recovery.json`, one draw per cell, 8 per rate; recorded before `--run`, D26):
+  - Amplitude damping of 0.03 per qubit was **not** read as rotation by the primary test on any pair (1 false flag in 24 draws, against 6 in 24 for the frozen design). It was not detected as blur either (p 0.13, 0.09, 0.03), so decay of that size is invisible here, not mislabelled. The 14-knob secondary still labelled it rotation on h221, which is why it stays secondary.
+  - An XX rotation of 0.15 rad, outside the rotation family, was labelled rotation on every pair, and also blur on h088 (p = 0.010). So a blur label beside a rotation label can partly be a rotation the family does not contain.
+  - Power (8 draws per level, against the matching null's 99th percentile): blur 0.25% / 0.5% / 1% per qubit detected in 0 / 1 / 2–6 of 8; rotation norms 0.025 / 0.05 / 0.1 rad in 1–3 / 3–7 / 8 of 8. Blur power is lower than the design review's estimate (about 1% almost surely), because the blur family now includes decay.
+  - The four in-family truths (neither, blur only, rotation only, both) were labelled correctly on every pair.
 
 ## 7. Stop rules
 

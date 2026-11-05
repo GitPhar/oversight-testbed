@@ -1,0 +1,372 @@
+{
+ "note": "D18: synthetic recovery on the three real reference states (T1/T2 loaded); counts are synthetic (4,000 shots x 9 settings, generic assignment matrix); no archive counts read. Primary model set (coh / inc9 / full16) with the adaptive bootstrap; secondary 14-knob set without extras.",
+ "cells": {
+  "h221 | neither": {
+   "rotation": "not detected",
+   "blur": "not detected",
+   "LR_rot": 5.271191963212914,
+   "p_rot": 0.297029702970297,
+   "B_rot": 100,
+   "q99_rot": 16.82056929490762,
+   "LR_blur": 5.273405498766806,
+   "p_blur": 0.06930693069306931,
+   "B_blur": 100,
+   "q99_blur": 9.309759846893336,
+   "secondary14": {
+    "rotation": "not detected",
+    "blur": "not detected",
+    "p_rot": 0.31683168316831684,
+    "p_blur": 0.06930693069306931
+   }
+  },
+  "h221 | blur only": {
+   "rotation": "not detected",
+   "blur": "present",
+   "LR_rot": 1.2595501268369844,
+   "p_rot": 0.9504950495049505,
+   "B_rot": 100,
+   "q99_rot": 15.889526889259455,
+   "LR_blur": 1792.0608292156976,
+   "p_blur": 0.000999000999000999,
+   "B_blur": 1000,
+   "q99_blur": 9.539283908044016,
+   "secondary14": {
+    "rotation": "not detected",
+    "blur": "present",
+    "p_rot": 0.7029702970297029,
+    "p_blur": 0.000999000999000999
+   }
+  },
+  "h221 | rotation only": {
+   "rotation": "present",
+   "blur": "not detected",
+   "LR_rot": 702.3003096110187,
+   "p_rot": 0.000999000999000999,
+   "B_rot": 1000,
+   "q99_rot": 16.555765733545698,
+   "LR_blur": 2.1221227185160387,
+   "p_blur": 0.297029702970297,
+   "B_blur": 100,
+   "q99_blur": 9.17352971180867,
+   "secondary14": {
+    "rotation": "present",
+    "blur": "not detected",
+    "p_rot": 0.000999000999000999,
+    "p_blur": 0.2079207920792079
+   }
+  },
+  "h221 | both": {
+   "rotation": "present",
+   "blur": "present",
+   "LR_rot": 218.43387467993307,
+   "p_rot": 0.000999000999000999,
+   "B_rot": 1000,
+   "q99_rot": 17.375765183268232,
+   "LR_blur": 1967.6517126542167,
+   "p_blur": 0.000999000999000999,
+   "B_blur": 1000,
+   "q99_blur": 9.010847903922695,
+   "secondary14": {
+    "rotation": "present",
+    "blur": "present",
+    "p_rot": 0.000999000999000999,
+    "p_blur": 0.000999000999000999
+   }
+  },
+  "h221 | XX rotation 0.15 rad": {
+   "rotation": "present",
+   "blur": "not detected",
+   "LR_rot": 234.21339101054764,
+   "p_rot": 0.000999000999000999,
+   "B_rot": 1000,
+   "q99_rot": 15.110860285838863,
+   "LR_blur": 3.7324852188903606,
+   "p_blur": 0.18811881188118812,
+   "B_blur": 100,
+   "q99_blur": 8.769346676600986,
+   "secondary14": {
+    "rotation": "present",
+    "blur": "not detected",
+    "p_rot": 0.000999000999000999,
+    "p_blur": 0.09900990099009901
+   }
+  },
+  "h221 | amplitude damping 0.03": {
+   "rotation": "not detected",
+   "blur": "not detected",
+   "LR_rot": 3.169685942470096,
+   "p_rot": 0.7425742574257426,
+   "B_rot": 100,
+   "q99_rot": 12.705548967129435,
+   "LR_blur": 4.205090149684111,
+   "p_blur": 0.12871287128712872,
+   "B_blur": 100,
+   "q99_blur": 8.721097778144914,
+   "secondary14": {
+    "rotation": "present",
+    "blur": "not detected",
+    "p_rot": 0.006993006993006993,
+    "p_blur": 0.13861386138613863
+   }
+  },
+  "h088 | neither": {
+   "rotation": "not detected",
+   "blur": "not detected",
+   "LR_rot": 1.9677665536728455,
+   "p_rot": 0.8514851485148515,
+   "B_rot": 100,
+   "q99_rot": 16.26401611170004,
+   "LR_blur": 0.9754620226885891,
+   "p_blur": 0.5247524752475248,
+   "B_blur": 100,
+   "q99_blur": 10.900182344240603,
+   "secondary14": {
+    "rotation": "not detected",
+    "blur": "not detected",
+    "p_rot": 0.8316831683168316,
+    "p_blur": 0.504950495049505
+   }
+  },
+  "h088 | blur only": {
+   "rotation": "not detected",
+   "blur": "present",
+   "LR_rot": 2.475972008134704,
+   "p_rot": 0.8910891089108911,
+   "B_rot": 100,
+   "q99_rot": 16.44008542870318,
+   "LR_blur": 633.6435603116115,
+   "p_blur": 0.000999000999000999,
+   "B_blur": 1000,
+   "q99_blur": 10.45104077056283,
+   "secondary14": {
+    "rotation": "not detected",
+    "blur": "present",
+    "p_rot": 0.9207920792079208,
+    "p_blur": 0.000999000999000999
+   }
+  },
+  "h088 | rotation only": {
+   "rotation": "present",
+   "blur": "not detected",
+   "LR_rot": 288.38842317365925,
+   "p_rot": 0.000999000999000999,
+   "B_rot": 1000,
+   "q99_rot": 17.975542655427414,
+   "LR_blur": 0.00023142846475820988,
+   "p_blur": 0.9108910891089109,
+   "B_blur": 100,
+   "q99_blur": 9.201562411764913,
+   "secondary14": {
+    "rotation": "present",
+    "blur": "not detected",
+    "p_rot": 0.000999000999000999,
+    "p_blur": 0.8118811881188119
+   }
+  },
+  "h088 | both": {
+   "rotation": "present",
+   "blur": "present",
+   "LR_rot": 114.77857332256099,
+   "p_rot": 0.000999000999000999,
+   "B_rot": 1000,
+   "q99_rot": 17.032099055482536,
+   "LR_blur": 510.0959491379472,
+   "p_blur": 0.000999000999000999,
+   "B_blur": 1000,
+   "q99_blur": 10.088998467494088,
+   "secondary14": {
+    "rotation": "present",
+    "blur": "present",
+    "p_rot": 0.000999000999000999,
+    "p_blur": 0.000999000999000999
+   }
+  },
+  "h088 | XX rotation 0.15 rad": {
+   "rotation": "present",
+   "blur": "present",
+   "LR_rot": 30.143074014034937,
+   "p_rot": 0.000999000999000999,
+   "B_rot": 1000,
+   "q99_rot": 16.94151251893956,
+   "LR_blur": 8.744349916407373,
+   "p_blur": 0.00999000999000999,
+   "B_blur": 1000,
+   "q99_blur": 8.616060425489268,
+   "secondary14": {
+    "rotation": "present",
+    "blur": "not detected",
+    "p_rot": 0.000999000999000999,
+    "p_blur": 0.10891089108910891
+   }
+  },
+  "h088 | amplitude damping 0.03": {
+   "rotation": "not detected",
+   "blur": "not detected",
+   "LR_rot": 5.992254197204602,
+   "p_rot": 0.37623762376237624,
+   "B_rot": 100,
+   "q99_rot": 13.049372850413203,
+   "LR_blur": 5.114550441940082,
+   "p_blur": 0.0891089108910891,
+   "B_blur": 100,
+   "q99_blur": 8.785646660342621,
+   "secondary14": {
+    "rotation": "not detected",
+    "blur": "not detected",
+    "p_rot": 0.02097902097902098,
+    "p_blur": 0.0594059405940594
+   }
+  },
+  "h268 | neither": {
+   "rotation": "not detected",
+   "blur": "not detected",
+   "LR_rot": 7.609904874276253,
+   "p_rot": 0.1485148514851485,
+   "B_rot": 100,
+   "q99_rot": 11.706307761204084,
+   "LR_blur": 2.455879442830337,
+   "p_blur": 0.31683168316831684,
+   "B_blur": 100,
+   "q99_blur": 6.214268670627936,
+   "secondary14": {
+    "rotation": "not detected",
+    "blur": "not detected",
+    "p_rot": 0.4158415841584158,
+    "p_blur": 0.9405940594059405
+   }
+  },
+  "h268 | blur only": {
+   "rotation": "not detected",
+   "blur": "present",
+   "LR_rot": 13.199461079158937,
+   "p_rot": 0.024975024975024976,
+   "B_rot": 1000,
+   "q99_rot": 15.695466089376277,
+   "LR_blur": 940.0542459202989,
+   "p_blur": 0.000999000999000999,
+   "B_blur": 1000,
+   "q99_blur": 11.001169995898817,
+   "secondary14": {
+    "rotation": "not detected",
+    "blur": "present",
+    "p_rot": 0.027972027972027972,
+    "p_blur": 0.000999000999000999
+   }
+  },
+  "h268 | rotation only": {
+   "rotation": "present",
+   "blur": "not detected",
+   "LR_rot": 425.81996565805457,
+   "p_rot": 0.000999000999000999,
+   "B_rot": 1000,
+   "q99_rot": 16.198849338901635,
+   "LR_blur": 0.1398144621634856,
+   "p_blur": 0.7326732673267327,
+   "B_blur": 100,
+   "q99_blur": 11.219438374012537,
+   "secondary14": {
+    "rotation": "present",
+    "blur": "not detected",
+    "p_rot": 0.000999000999000999,
+    "p_blur": 0.6435643564356436
+   }
+  },
+  "h268 | both": {
+   "rotation": "present",
+   "blur": "present",
+   "LR_rot": 165.31167003746668,
+   "p_rot": 0.000999000999000999,
+   "B_rot": 1000,
+   "q99_rot": 16.83007805301953,
+   "LR_blur": 916.9655746851495,
+   "p_blur": 0.000999000999000999,
+   "B_blur": 1000,
+   "q99_blur": 9.04944157769481,
+   "secondary14": {
+    "rotation": "present",
+    "blur": "present",
+    "p_rot": 0.000999000999000999,
+    "p_blur": 0.000999000999000999
+   }
+  },
+  "h268 | XX rotation 0.15 rad": {
+   "rotation": "present",
+   "blur": "not detected",
+   "LR_rot": 103.11999623433803,
+   "p_rot": 0.000999000999000999,
+   "B_rot": 1000,
+   "q99_rot": 15.929823340618313,
+   "LR_blur": 3.4091726381448098,
+   "p_blur": 0.18811881188118812,
+   "B_blur": 100,
+   "q99_blur": 8.214242953181252,
+   "secondary14": {
+    "rotation": "present",
+    "blur": "not detected",
+    "p_rot": 0.000999000999000999,
+    "p_blur": 0.13861386138613863
+   }
+  },
+  "h268 | amplitude damping 0.03": {
+   "rotation": "not detected",
+   "blur": "not detected",
+   "LR_rot": 4.595721018893528,
+   "p_rot": 0.5346534653465347,
+   "B_rot": 100,
+   "q99_rot": 13.624491523884355,
+   "LR_blur": 6.830746073828777,
+   "p_blur": 0.03396603396603397,
+   "B_blur": 1000,
+   "q99_blur": 10.322020250150379,
+   "secondary14": {
+    "rotation": "not detected",
+    "blur": "not detected",
+    "p_rot": 0.060939060939060936,
+    "p_blur": 0.03496503496503497
+   }
+  }
+ },
+ "decay_false_flags": {
+  "h221": {
+   "flagged": 0,
+   "of": 8,
+   "q99_used": 12.705548967129435
+  },
+  "h088": {
+   "flagged": 0,
+   "of": 8,
+   "q99_used": 13.049372850413203
+  },
+  "h268": {
+   "flagged": 1,
+   "of": 8,
+   "q99_used": 13.624491523884355
+  }
+ },
+ "power": {
+  "h221": {
+   "blur 0.0025 per qubit": 0.0,
+   "blur 0.0050 per qubit": 0.125,
+   "blur 0.0100 per qubit": 0.75,
+   "rotation norm 0.025 rad": 0.375,
+   "rotation norm 0.05 rad": 0.875,
+   "rotation norm 0.1 rad": 1.0
+  },
+  "h088": {
+   "blur 0.0025 per qubit": 0.0,
+   "blur 0.0050 per qubit": 0.125,
+   "blur 0.0100 per qubit": 0.25,
+   "rotation norm 0.025 rad": 0.125,
+   "rotation norm 0.05 rad": 0.5,
+   "rotation norm 0.1 rad": 1.0
+  },
+  "h268": {
+   "blur 0.0025 per qubit": 0.0,
+   "blur 0.0050 per qubit": 0.125,
+   "blur 0.0100 per qubit": 0.5,
+   "rotation norm 0.025 rad": 0.125,
+   "rotation norm 0.05 rad": 0.375,
+   "rotation norm 0.1 rad": 1.0
+  }
+ }
+}
