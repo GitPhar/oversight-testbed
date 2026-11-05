@@ -9,10 +9,13 @@ the archived call caches (results/*-calls.json), so the statistics themselves ar
 Each analysis also rewrites its results JSON inside the snapshot; that JSON is compared, number by number (relative
 tolerance 1e-9), with the committed one.
 
-  p2-6-tables.md, p2-6r-tables.md   written whole by write_md() in p2_6_position_label.py / p2_6r_replication.py.
-                                    Regenerated from p2-6-calls.json / p2-6r-calls.json and compared byte for byte.
+  p2-6-tables.md, p2-6r-tables.md,  written whole by write_md() in p2_6_position_label.py / p2_6r_replication.py /
+  p2-7-tables.md                    p2_7_format_fingerprint.py. Regenerated from p2-6-calls.json / p2-6r-calls.json /
+                                    p2-7-calls.json (with program 1's gm3b and mm-gm3b archives) and compared byte for
+                                    byte.
   p2-6-position-or-label.md,        hand-written write-ups that reproduce those generated tables under "## Tables".
-  p2-6r-replication.md              Every regenerated table must appear, line for line, in the write-up. The prose
+  p2-6r-replication.md,             Every regenerated table must appear, line for line, in the write-up. The prose
+  p2-7-format-fingerprint.md
                                     (and an audit note added to one bullet of p2-6r) is hand-written and not compared.
   p2-1-framing.md, p2-2-perspective.md, p2-3b-simpletom-lowsev.md, p2-3b-pilot.md, p2-4-interpersonal.md,
   p2-5-egocentric.md                hand-written write-ups whose tables were filled in from the analysis JSON. Each
@@ -148,7 +151,8 @@ def load_modules(tmp, root):
     om.P1 = p1                                   # harness path fix: program 1 lives at programs/entangled-mind here
     mods = {"om": om}
     for m in ("p2_1_framing", "p2_1_exploratory", "p2_2_perspective", "p2_3_simpletom", "p2_3b_simpletom_lowsev",
-              "p2_4_interpersonal", "p2_5_egocentric", "p2_6_position_label", "p2_6r_replication"):
+              "p2_4_interpersonal", "p2_5_egocentric", "p2_6_position_label", "p2_6r_replication",
+              "p2_7_format_fingerprint"):
         mods[m] = importlib.import_module(m)
     for name, mod in list(sys.modules.items()):  # nothing of either program may come from outside the snapshot
         f = getattr(mod, "__file__", None) or ""
@@ -558,7 +562,9 @@ def main():
                 ("p2_6_position_label", "results/p2-6-tables.md", "results/p2-6-position-or-label.md",
                  "results/p2-6-position-or-label.json"),
                 ("p2_6r_replication", "results/p2-6r-tables.md", "results/p2-6r-replication.md",
-                 "results/p2-6r-replication.json")):
+                 "results/p2-6r-replication.json"),
+                ("p2_7_format_fingerprint", "results/p2-7-tables.md", "results/p2-7-format-fingerprint.md",
+                 "results/p2-7-format-fingerprint.json")):
             ok = rep.run(tables_md, lambda mod=mod: run_main(mods[mod], "--analyse") or True)
             if ok is None:
                 rep.error(writeup, RuntimeError(f"not compared: {tables_md} could not be regenerated (see above)"))

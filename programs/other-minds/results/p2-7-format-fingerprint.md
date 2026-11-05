@@ -1,6 +1,6 @@
 # P2-7. Shared format fingerprint: does a credence attributed to Sam deviate across formats the way the model's own does? (result)
 
-Pre-registered in `experiments/p2-7-format-fingerprint.md` (commit `34182b6`, 2026-11-05 05:29:59 America/Denver; DEVIATIONS D15), seeded from CURBy-RNG pulse 1592214 (`2a958ae`). Design review (oversight-testbed `ledger/design-reviews/om-p2-7.md`): fix-first with 5 flaws (`2407d37`); fixes D15a–D15e (`1e13a58`) and D15f (`c630b0f`), confirmed at 06:14 (`1de9d49`), before the first call. The run went 06:14:52–06:17:41 America/Denver (`results/p2-7-run.log`). Engine odds 0.15 (map 0.25, lesson 0.20, D15a 0.15, all before data); human odds 0.70 (Sean's cockpit line `ho-20261105-051140-gfv`, for the map's original one-model event).
+Pre-registered in `experiments/p2-7-format-fingerprint.md` (commit `34182b6`, 2026-11-05 05:29:59 America/Denver; DEVIATIONS D15), seeded from CURBy-RNG pulse 1592214 (`2a958ae`). Design review (oversight-testbed `ledger/design-reviews/om-p2-7.md`): fix-first with 5 flaws (`2407d37`); fixes D15a–D15e (`1e13a58`) and D15f (`c630b0f`), confirmed at 06:14 (`1de9d49`), before the first call. The run went 06:14:52–06:17:41 America/Denver (`results/p2-7-run.log`). Engine odds 0.15 (map 0.25, lesson 0.20, D15a 0.15, all before data); human odds 0.70 (Sean's cockpit line `ho-20261105-051140-gfv`, for the map's original one-model event). **Audited** (oversight-testbed `ledger/audits/om-p2-7.md`, `399df63`): the verdict stands; required cuts 2–4 are applied under D15g; cut 1 was the sealed plant pl-022 (caught), and the real table already reads 0.0560.
 
 ## In plain English
 
@@ -17,8 +17,8 @@ The per-model readings, as frozen:
 - **The setup.** Program 1 found that each model's 0–100 rating, its "how many of 100 like this" count and its verbal answer disagree with each other in a way that depends on the statement. That is the model's own format fingerprint.
 - **The question.** Here each model was asked the same three formats about what "Sam, a person who has read exactly what you have read here" thinks.
 - **Sam's answers have a fingerprint of their own.** The statement-by-format quirks in the Sam answers came back in the second repeat: split-half reliability 0.89 (Haiku), 0.70 (Sonnet) and 0.71 (Opus). So the Sam ratings were not flat.
-- **But it is not the model's own.** On every model the two fingerprints lined up far less than the noise allows. The correlation was +0.21, −0.10 and +0.24 of its ceiling, against the 0.5 bar, and none of the three intervals reaches 0.5.
-- **What the bet asked, and what it found.** The bet asked whether the quirks of the model's own ratings come back when it rates for someone else. On this design they mostly do not.
+- **But it is not the model's own.** On every model the two fingerprints lined up far less than the noise allows. The correlation was +0.21, −0.10 and +0.24 of its ceiling, against the 0.5 bar. Haiku's and Sonnet's intervals stay below 0.5; Opus's reaches +0.56.
+- **What the bet asked, and what it found.** The bet asked whether the quirks of the model's own archived ratings come back when, in a new session and with the question reworded for Sam, it rates for someone else. On this design they mostly do not; the design cannot say whether the holder, the new session or the rewording is what changed them (see 'What it cannot say').
 - **How strong the "not" is.** The upper ends (0.44, 0.22, 0.56) mean a weak shared component, of up to about half the ceiling on Opus, is not ruled out.
 
 **Beside the verdict, never in its place** (D15d, secondary, not scored):
@@ -26,7 +26,7 @@ The per-model readings, as frozen:
 - "ρ ≥ 0.5 on every tested model (no margin over the rival): no."
 
 **The pre-mortem** named Sam's ratings hedged toward 50 so that, on Opus, the match would not beat the generic-link rival.
-- **The hedge happened, on every model.** Sam's ratings sat nearer 50 than the model's own. The mean distance from 0.5 per (statement, format) cell, self against Sam, was 0.29 against 0.21 on Haiku, 0.26 against 0.20 on Sonnet, and 0.30 against 0.22 on Opus. This is computed from the archived matrices in `results/p2-7-format-fingerprint.json`; it is descriptive and not pre-registered.
+- **The hedge happened cell by cell, but not in the format means the pre-mortem named.** Sam's individual ratings sat nearer 50 than the model's own. The pre-mortem's stated check, Sam's format means nearer 0.5 than self's, came out the other way on every model: the mean distance of the three format means from 0.5 was 0.025 (self) against 0.073 (Sam) on Haiku, 0.074 against 0.102 on Sonnet, and 0.091 against 0.135 on Opus. The mean distance from 0.5 per (statement, format) cell, self against Sam, was 0.29 against 0.21 on Haiku, 0.26 against 0.20 on Sonnet, and 0.30 against 0.22 on Opus. This is computed from the archived matrices in `results/p2-7-format-fingerprint.json`; it is descriptive and not pre-registered.
 - **But it did not make Sam flat.** Sam's residuals were reproducible on every model.
 - **The fail came one step earlier.** Every model failed at the 0.5 bar, before the comparison with the rival.
 

@@ -1,0 +1,20 @@
+{
+ "bet": "ss-b10",
+ "chain": "CURBy-RNG",
+ "pulse_index": 1592278,
+ "pulse_time": "2026-11-05 06:34:00 America/Denver",
+ "pulse_time_utc": "2026-11-05T13:34:00.185Z",
+ "previous_index": 1592277,
+ "previous_time_utc": "2026-11-05T13:33:00.179Z",
+ "prereg_commit": "ef2fa6b",
+ "prereg_commit_time": "2026-11-05 06:33:09 America/Denver",
+ "randomness": "ea28e12474c477f802184b929f1daf877c67bcd2be8b59c4fdfbf790a3d6ef91f49aa4b1f5027803b9476c5382884a2f876546536753005b6204cb93995c7679",
+ "client": "@buff-beacon-project/curby-client@1.2.0",
+ "certificate_verified": false,
+ "curby_q_status": "stalled (round 28297, 2025-08-22 13:42 America/Denver; checked 2026-11-05 06:31)",
+ "derivation": "python3 ledger/seed.py <randomness> ss-b10 --purpose <p>",
+ "seeds": {
+  "order": 11639161481964073238,
+  "order-check": 17576409040787437905
+ }
+}

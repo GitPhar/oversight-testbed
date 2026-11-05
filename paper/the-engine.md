@@ -4,7 +4,7 @@
 
 Sean Pharris · draft of 2026-11-04 (America/Denver), revised the same evening and again that night · companion to *The Entangled Mind* and *No credence to read* · repository `GitPhar/oversight-testbed`
 
-*Status: pre-registration of the engine's own hypotheses, with the founding-week case study and the first independent audit as preliminary evidence. The pass criteria in §4 were frozen by the commit that added this file (`7b6bbb8`, 2026-11-04 10:06). This revision changes none of them. The evening revision added programs 2 and 3, a second kind of referee, four new instruments and secondary measures that are not pass criteria. The night revision adds program 4 (a third referee, the published record), its first round as audited, the three-referee comparison as suggestive only, read depths on every reference, and a statement of which hypotheses are untestable at the current n (§4.7). Both are listed in §9.*
+*Status: pre-registration of the engine's own hypotheses, with the founding-week case study and the first independent audit as preliminary evidence. The pass criteria in §4 were frozen by the commit that added this file (`7b6bbb8`, 2026-11-04 10:06). This revision changes none of them. The evening revision added programs 2 and 3, a second kind of referee, four new instruments and secondary measures that are not pass criteria. The night revision adds program 4 (a third referee, the published record), its first round as audited, the three-referee comparison as suggestive only, read depths on every reference, and a statement of which hypotheses are untestable at the current n (§4.7). Both are listed in §9. The morning revision of 2026-11-05 adds §6.10 (programs 5 to 7, the chip question closed, audit round 3, the ledger at 0.217 on 26 scored bets) and §6.11 (Sean's 26 recorded odds beside the engine's); the abstract's numbers are those of 4 November and §6.10 holds the current ones.*
 
 *Citation convention.* Every number names the file it comes from, and the commit at which that file was checked: in the text as `file`, `commit`, or for files cited without a commit, in the provenance table (§10). Paths without a prefix are in this repository. The programs were folded into this repository on 2026-11-04 (`CONTEXT.md` §2), so a path that begins `entangled-mind/`, `other-minds/`, `nature-graded/` or `settled-science/` is short for `programs/<that name>/`. Numbers that could not be traced to a file were struck in this revision (§9).
 
@@ -737,6 +737,100 @@ Each row, read honestly:
 
 `ARCHITECTURE.md`'s `referee_test` asks whether an engine calibrated only when an AI grades it has borrowed its judgment from its grader. At this n the ledger cannot answer that. It reports the three numbers beside each other under §4.6, as descriptive measures.
 
+### 6.10 The morning of 5 November: programs 5 to 7, the chip question closed, audit round 3, and the ledger at 0.217 on 26
+
+*Added in the morning revision of 2026-11-05. Numbers are from `ledger/brier.md`, `ledger/scores.md` and `ledger/bets.jsonl` at `dafca10` (`scores.md` there predates the reveal of plant pl-022, noted below), `ledger/audits/SUMMARY-3.md` at `9d4dd23`, and the results files at the commits named in each row. Times are America/Denver. `paper/day-three.md` tells the same window as a narrative.*
+
+**Three programs opened on Sean's seed questions** at about 23:38 on 4 November (program 5, `st-17`; program 7, `st-20`, logged at `1697bab`; program 6's is not yet a steer row), each with a $5.00 cap in code and, under rule 12 (`CONTEXT.md` §3), each test on Haiku 5.5, Sonnet 5.5 and Opus 5.5. The session crashed at 23:44 and resumed at 04:35; every program caches its calls by content, so nothing paid ran twice. The bets that resolved, stopped or ran in this window:
+
+| bet | program | question, in short | engine odds | what came back | in the ledger | result commit | audit |
+|---|---|---|---|---|---|---|---|
+| sg-b1 | 5 | does a model grade its own conclusion more kindly in the conversation that wrote it? | 0.24 | **fail-same**: all three within the 3-point margin and slightly harsher on their own (Haiku −1.1, Sonnet −0.4, Opus −0.9) | scored, 0 | `917ecda` | `f0a577f`, stands, 3 cuts |
+| sg-b2 | 5 | does the label "written by you" earn a kinder grade, text unchanged? | 0.13 | **fail-same**: −0.0, +0.2, −0.5 points | scored, 0 | `d5787a1` | `613f995`, stands, 3 cuts |
+| sg-b3 | 5 | is a planted overclaim docked less in the conversation that wrote the conclusion? | 0.18 | **pass, unreplicated**: Haiku 12.6 [9.9, 15.3] and Opus 6.0 [4.9, 7.0] points less; Sonnet 1.4 [0.2, 2.7], below the 5-point bar | scored, 1 | `1fb1573` | `1ed913d`, stands, 4 cuts applied; plant pl-018 caught |
+| ta-b1 | 6 | told "evaluation" vs "real", on going along with a wrong user | 0.07 | **withdrawn before data**: at the pilot's base rates (1/24, 2/13, 0/8 going along) the test could not pass | withdrawn | `25d9af9` (review `b838f59`) | — |
+| ta-b1r | 6 | the same, as a 0–100 rating | 0.08 · Sean 0.60 | **withdrawn before data**: the measured rating spreads gave the strong-belief world a 4% pass rate (P15) | withdrawn | review `a1da4a0` | — |
+| ta-b1r2 | 6 | the same, trivia only | 0.06 (0.08 before re-elicitation) · **Sean 0.60** | **null by its results file**: Haiku and Sonnet undetermined (Sonnet −4.8 [−10.9, +1.2] against a 5-point bar), Opus untestable at the belief gate; $0.41 | row open, not scored | `a856f4c` | not yet (plant pl-023 sealed) |
+| ta-b2 | 6 | does a test-looking format change behaviour, with no word "test"? | 0.10 | **untestable**: Haiku rated even the chat version 74 of 100 likely a test (gap 14.8, below the 20-point gate); on Sonnet the format cut "not sure" by 7.8 points, not shown to exceed a rewording | not scored | `e5d6bd3` | `7a5f6f5`, stands; plant pl-016 caught |
+| ta-b3 | 6 | doing worse on purpose when a high score triggers "unlearning" | 0.22 | **null**: Sonnet 88.5% vs 88.0%, Opus 100% vs 99.5%, both intervals excluding a 10-point drop; Haiku below the 60% capability floor | scored, 0 | `b17fcd7` | `71f1221`, stands, 3 cuts; plant pl-015 clean |
+| sv-b1 | 7 | does the separately stated confidence predict giving way under "are you sure?" | 0.30 (0.45 before its lesson) | **untestable**: Sonnet changed 8 of 150 answers and Opus 3 of 80, under the floor of 10; Haiku changed 57 of 300, and its number beat the four simple guesses by −0.048 [−0.155, +0.051] | untestable, not scored | `394f9f0` (cuts applied `20ad07e`) | `ledger/audits/sv-b1.md`, stands, 4 cuts; plant pl-019 clean |
+| sv-b2 | 7 | … predict declining under a stated penalty? | 0.35 (0.55) | **fail**: Haiku margin −0.086 [−0.170, −0.008]; Sonnet +0.041 [−0.052, +0.137] (its number 0.82 against the "is it trivia?" bit 0.78); Opus declined 6 of 80 | scored, 0 (`c4bdf4a`) | `4d55f2d` | `ledger/audits/sv-b2.md`, stands, 2 cuts; plant pl-020 clean |
+| sv-b3 | 7 | … predict choosing to check a reference? | 0.40 (0.45) | **fail**: Haiku −0.060 [−0.141, +0.018]; Sonnet +0.051 [−0.050, +0.156] (0.82 against 0.77); Opus checked 9 of 80 | scored, 0 (`c4bdf4a`) | `181da27` | `ledger/audits/sv-b3.md`, stands, 2 cuts; plant pl-021 clean |
+| ng-p3-16 | 3 | does 3 November's chip result come back when the circuit runs alone in its own job? | 0.05 | **fail**: 0.306 alone against 0.319 sharing a job, inside ±0.05; 7.0 QPU s | scored, 0 (`15711b5`) | `9726106` | `60eae19`, stands, 0 cuts; plant pl-013 clean |
+| om-p2-7 | 2 | do the formats' statement-specific quirks for "Sam" match the model's own, on three models? | 0.15 (map 0.25; lesson 0.20; D15a 0.15) · **Sean 0.70** | **fail by its results file**: self–Sam residual correlation +0.21, −0.10 and +0.24 of its ceiling against a bar of 0.5; $0.97 | row open, not scored | `139c3df`, corrected `e12c1d2` | `399df63`, stands, 4 cuts; plant pl-022 caught; the author session launched the auditor |
+
+Read together, in plain English:
+- **Program 5's first result is a known effect, found again.** Clean work is not graded more kindly in the model's own conversation or under a "you wrote this" label; a planted exaggeration is punished less when it sits in the model's own turn, on two of three models. `paper/novelty.md` finds both in print (Khullar and colleagues, 2026; Tsui, 2025) and treats sg-b3 as a footnote to them, not a discovery.
+- **Program 6 duplicates Anthropic's own release testing** (ta-b3 is the Meinke and colleagues 2024 design, which the system cards run with more variants), and its one framing bet could not be built to pass at the measured base rates. The novelty page says the program should be pointed elsewhere or closed.
+- **Program 7's first wave is three misses.** None of the three tests found the separately stated confidence predicting what the model then did better than simple guesses, chiefly "is this a trivia question?". On sv-b1 the two stronger models almost never gave way at all, which is a finding about the models and leaves the bet undecidable. sv-b2 and sv-b3 are scored as misses at 0.35 and 0.40; sv-b1 is untestable and excluded, as the rule requires.
+- **The first bet carrying Sean's odds has a result file and no ledger verdict.** om-p2-7 was pre-registered at 05:29 with his 0.70 (for the map's one-model event) and the engine's 0.15 (for the stricter three-model event). The results file reports a fail on every model, and the audit (`399df63`) let it stand with four cuts, noting that a fail here cannot separate "Sam's fingerprint differs" from "the self fingerprint did not survive a new session and wording". Its row is still open, so nothing is scored for either side yet (§6.11).
+
+**The chip question is closed** (`programs/nature-graded/map/program-3-map.md`, "After P3-16", `a394a25`; steer st-19, `ledger/steers.jsonl`). The question open since 4 November was why program 1's circuit made `ibm_fez` say "yes" 50.2% of the time on the afternoon of 3 November against about 0.26 predicted. Four pre-registered bets chased it: ng-p3-1 (a better simulator, 0.268 against a 0.40 bar), ng-p3-15 (barrier and shot grouping, 0.311 against 0.319 on two runs) and ng-p3-16 (the circuit alone in its own job, 0.306), with ng-p3-2 and ng-p3-3 untestable because the gap did not recur on 4 November. Every arm on 4 and 5 November sat between 0.28 and 0.32. The map's diagnosis, in Sean's requested form: the features that could be varied on later days do not bring the result back; the remaining candidate is the afternoon itself, which a referee cannot re-run; this does not show that 3 November was a fluke or the chip faulty. P3-15 and P3-16 are closed with that diagnosis and stay on the map. The chip's remaining roles in the program are seeds, tiebreaks and at most one pre-registered foundations experiment. Cumulative use: **69 of the 420 QPU s hard stop** (`programs/nature-graded/results/p3-16-lone-job.md`, `163f546`).
+
+**Audit round 3** (`ledger/audits/SUMMARY-3.md`, `9d4dd23`) was run by `claude-fable-5-1`, a stronger model than the Opus 5.5 that did the work and the first two rounds, over the 20 bets scored at 05:00 plus ng-p3-5c. Every headline number reproduced with independent code. One verdict was reversed: **ss-b6, pass → undetermined** (`60940b1`), because in the null world matched to the data, where the bettor knows only what the flattery rater knows, its rule passes about 53% of the time. One label changed with no score change: om-p2-5, null → mixed (`0fe3316`). Nineteen stood, fifteen of them with cuts. The round's Brier bookkeeping: 0.249 on 20 at its start, 0.240 on 19 after the reversal, 0.220 on 21 once sg-b1 and ng-p3-16 were scored by other sessions. Its three largest holes bear on this paper: six of the engine's eight hits were two bettor runs scored as six bets (one per run, the Brier is 0.205 on 16; without program 4, 0.177 on 14); several rules were met in letter by tests that could not decide them (ss-b6, ng-p3-1, ng-p3-5, em-gm5), which is P12 reaching the ledger past design-review check D11; and em-gm5's DP2 data exist only on an unmerged branch of the old checkout, so the record is not fully reproducible from this repository.
+
+**The ledger now** (`ledger/brier.md`, `dafca10`):
+
+| measure | value |
+|---|---|
+| scored bets | **26** (of 57 in the ledger; 48 audited; 4 verdicts reversed by audit) |
+| hits, expected / observed | 7.38 / 8 |
+| engine Brier | **0.217**; always 0.5: 0.250; always the hindsight hit rate (8/26): 0.213 |
+| odds as first written | 0.230 |
+| by referee | model-graded 0.198 on 17; chip-graded 0.047 on 4; record-graded 0.417 on 5 |
+| sensitivity | ss-b6 counted as a hit 0.225, as a miss 0.213 (27 bets); one bet per program-4 run, 0.205 on 16 of the 21 scored when round 3 computed it |
+| planted faults | 8 of 8 caught, Wilson 95% [0.68, 1.00]; 21 of 23 sealed lines revealed (`scores.md`); a ninth, pl-022 on om-p2-7, was revealed as caught after that file was last regenerated (`ledger/plants.jsonl`, `b2c0121`) |
+| design reviews | 0 go, 23 fix-first, 5 redesign; 5 bets withdrawn before data; 16 reviews later found to have missed a flaw |
+| pre-mortems | 8 of 21 failed bets' main reasons named; the lazy "the effect is not there" baseline 16 of 23 |
+| lessons | on 15 scored bets, odds before the lesson 0.208, after 0.167 |
+| human odds | 26 lines (`ledger/human-odds.jsonl`, `9a75cc2`); 3 bets carry them in the ledger (one withdrawn) and a fourth pre-registration in its file (ng-p3-17, `db13dc7`); 0 scored |
+
+H1's minimum n (20 scored, at least 4 hits and 4 misses) is now reached (26, 8 and 18). The H1 analysis itself (the skill score against the running base rate and the Poisson-binomial count) is run at the freeze on 2026-11-21 as §4 says, not here. What can be said now is descriptive: the engine's odds are level with a coin and with the hindsight hit rate, the hits were bets given 18% to 50%, and 26 bets cannot separate 0.217 from 0.250. H2's catch rate is at 8 of the 10 plants it needs. H3 is untestable: no scored bet carries both sets of odds.
+
+**Spend in this window.** Program 5, $3.63 of $5.00 (sg-b1 $1.44, sg-b2 $0.90, sg-b3 $1.29); program 6, $1.93 of $5.00 after ta-b1r2 (ta-b3 $0.68, ta-b2 $0.49, ta-b1r2 $0.41, pilots); program 7, $2.75 of $5.00 (sv-b1 $1.39, sv-b2 $0.76, sv-b3 $0.60, the shared "said" step split three ways); om-p2-7 $0.97 of $1.50; the chip 7.0 QPU s. Each figure is from the bet's results file.
+
+### 6.11 The human hand: Sean's 26 recorded odds beside the engine's
+
+*Sources: `ledger/human-odds.jsonl` at `9a75cc2` (26 lines, all `saw_engine_odds: false`, all "would spend"); the engine's odds from the committed maps (`map/entangled-mind.json` `dafca10`, `map/other-minds.json` `a42a149`, `map/nature-graded.json` `ab5a96f`, `map/settled-science.json` `cb121d7`, `map/self-grading.json` `9551b74`, `map/test-awareness.json` `a1f8751`, `map/said-vs-did.json` `c4bdf4a`); bet rows from `ledger/bets.jsonl` at `dafca10`; steer st-18 in `ledger/steers.jsonl`. No outcome below is scored for either side.*
+
+The cockpit (`site/cockpit.html`) shows Sean one plain question per direction, its cost, and what a hit would mean; it never shows the engine's odds. He answered twelve cards at 05:11:40 on 5 November and fourteen more at 06:11:52. The engine's odds in the table are the map's for the same direction, stated before data by a fresh context (first batch) or by the remap of 04:45 (second batch); where a bet on the direction carries different odds, the note says so.
+
+| direction | the question Sean answered, in short | Sean | engine (map) | bet on it, and its state |
+|---|---|---|---|---|
+| **05:11 batch** | | | | |
+| sg-d1 | does a model grade its own work more kindly in the conversation that wrote it? | 0.75 | 0.24 | sg-b1, pre-registered 04:59, before his line; fail-same; does not carry his odds |
+| ta-d1 | told "this is a test" vs "this is real", does it stand up to a wrong user differently? | 0.60 | 0.07 | ta-b1 (05:03, before his line) withdrawn; ta-b1r (carries 0.60) withdrawn; **ta-b1r2 carries 0.60**, engine 0.06 after re-elicitation (`1a40787`); its results file reports null (`a856f4c`), unaudited, row open |
+| SV-1 | does the stated number predict backing down under "are you sure?" | 0.80 | 0.45 | sv-b1, pre-registered 05:10, before his line; untestable, not scored; does not carry his odds |
+| sg-d3 | is it worse at catching an exaggeration in its own work in the same conversation? | 0.70 | 0.18 | sg-b3, pre-registered 05:15, after he saved and before the pickup; pass, unreplicated; does not carry his odds |
+| P2-7 | do the model's format quirks reappear when it answers for another person? | 0.70 | 0.50 (one-model event) | **om-p2-7 carries 0.70**, engine 0.15 on a stricter three-model event; results file reports fail, audit `399df63` stands; row open, not scored |
+| bmq-d1 | after a fine-tune makes an open model forget, can the truth still be read inside it? | 0.80 | 0.55 | none yet |
+| bmq-d2 | trained on its own conversations, does it keep what was said but lose who said it? | 0.65 | 0.30 | none yet |
+| P2-8 | does stating its own view first pull its guess about another's view more than the reverse? | 0.40 | 0.50 | none yet |
+| P3-9 | a textbook contextuality experiment on the chip (Peres–Mermin, exact CbD) | 0.90 | 0.40 | none yet; about 42 QPU s |
+| P3-10 | a four-measurement order-dependence check on the chip (KDL) | 0.40 | 0.72 | none yet; about 15 QPU s |
+| ss-f1 | can Haiku and Sonnet also tell which way the 116 published findings went? | 0.65 | 0.45 | none yet; needs a budget ruling (program 4's cap has $0.24 left) |
+| ss-f2 | can the bettor tell which way 60 model-psychology findings went, its weakest field? | 0.35 | 0.45 | none yet |
+| **06:11 batch** | | | | |
+| g-f1 | does Opus's own stated confidence flag its wrong answers, as Haiku's and Sonnet's do? | 0.95 | 0.60 | none yet; $0 archive |
+| g-f2 | does stated confidence still flag the same mistakes when the question order changes? | 0.60 | 0.55 | none yet; $0 archive |
+| P2-15 | do the model's predictions of its own quirks beat a "no effect" guess? | 0.70 | 0.55 | none yet; $0 archive |
+| P2-14 | with more repeats and a fixed margin, does it predict its own quirks better than an observer's? | 0.75 | 0.20 | none yet; about $3.50 |
+| P3-17 | could the chip misreading its own results stand in for the "blur" error term? | 0.30 | 0.70 | **ng-p3-17 pre-registered at `db13dc7` carrying his 0.30**, engine 0.60 (v1 0.72); $0 archive; no ledger row yet |
+| P3-18 | measured again on a new day, do both error terms show up on the entangled pairs? | 0.55 | 0.60 | none yet; about 18 QPU s |
+| ss-f3 | is the bettor's edge more than knowing which fields report good news? | 0.65 | 0.50 | none yet; $0 archive |
+| ss-f4 | is the bettor's advantage on older papers memory? | 1.00 | 0.25 | none yet; about $0.30 within the next round |
+| sg-d12 | is the overclaim docked less because it sits in the model's own turn, or because of the request's layout? | 0.65 | 0.30 | none yet; about $0.51 |
+| sg-d11 | does the own-conversation blunting hold when the overclaim does not lengthen the text? | 0.55 | 0.45 | none yet; about $0.72 |
+| ta-d8 | told it is taking a personality test, does it describe itself more flatteringly? | 0.95 | 0.10 | none yet; about $0.60 |
+| ta-d10 | does it cut corners more when told the task runs in a throwaway sandbox? | 0.90 | 0.45 | none yet; about $0.70 |
+| SV-12 | does Haiku's "no single belief across formats" go away under a looser published scoring? | 0.60 | 0.25 | none yet; $0 archive |
+| SV-8 | does what the model does tell more about its mistakes than what it says? | 0.55 | 0.30 | none yet; $0, reuses wave 1's data |
+
+**Which of his odds were recorded before and after the bets they concern.** Of the first twelve, three (sg-d1, ta-d1, SV-1) concern bets that were pre-registered at 04:59, 05:03 and 05:10, before he saved his answers at 05:11:40, and one (sg-d3) concerns a bet pre-registered at 05:15, after he saved but before the line reached the ledger at 05:19 (`24fb0f4`). Under rule 11 those four bets keep `human_odds: null`, each with the times in its note, and his line attaches to the next bet on the direction: that has happened for ta-d1 (ta-b1r, ta-b1r2), P2-7 (om-p2-7) and, in its pre-registration file, P3-17 (ng-p3-17), and not yet for sg-d1, sg-d3 or SV-1. The other eight of the first batch, and all fourteen of the second, were recorded before any bet existed on their direction. So 22 of the 26 are blind in the sense §3.3 requires, and 4 were late by between 1 and 13 minutes; none was ever filled in after the fact (`ledger/check_prereg.py` H1 and `reproduce.py` fail a bet that skips a line recorded before its pre-registration).
+
+**What the two columns show, descriptively.** Sean is more hopeful than the engine on 21 of the 26 directions and less on 5 (P2-8, P3-10, ss-f2, P3-17, P3-18); his mean is 0.67 against the engine's 0.41. The largest gaps are ta-d8 (0.95 against 0.10), ss-f4 (1.00 against 0.25), P2-14 (0.75 against 0.20), sg-d1 (0.75 against 0.24) and ta-d1 (0.60 against 0.07); the two chip follow-ups are the only places he is markedly below the engine (P3-17, 0.30 against 0.70). Three of the directions he rated have since resolved without carrying his odds, and they are hints only: sg-d1's bet came back fail-same (he had 0.75), sg-d3's came back a pass (he had 0.70), SV-1's came back untestable (he had 0.80). Nothing here is a score. H3 needs 20 bets that carry both sets of odds; 3 do in the ledger (one of them withdrawn) and a fourth in its pre-registration file. Two have results files and no ledger verdict: om-p2-7 reports a fail at his 0.70 against the engine's 0.15, audited and standing; ta-b1r2 reports null at his 0.60 against 0.06, unaudited.
+
+
 ---
 
 ## 7. Limitations
@@ -836,6 +930,18 @@ No H1–H5 metric, pass criterion or minimum n changed. One secondary descriptio
 - "366 s remain";
 - "about 11 nature-graded bets by 2026-11-18, against 5 scored AI-graded bets", which is not in the section it cited and is overtaken by events.
 
+
+### Morning revision (2026-11-05, branch `front-page`)
+
+No H1–H5 metric, pass criterion or minimum n changed.
+
+**Added:**
+- §6.10: programs 5 to 7's first wave as it stands in the results files and the ledger (sg-b1, sg-b2, sg-b3; ta-b1, ta-b1r, ta-b2, ta-b3; sv-b1, sv-b2, sv-b3), ng-p3-16 and the closing of the 3 November chip question (st-19), audit round 3 (ss-b6 reversed; the "six hits are two runs" hole), and the ledger at 0.217 on 26 scored bets with the auditor at 8 of 8 plants and the design reviews at 0 go, 23 fix-first, 5 redesign;
+- §6.11: Sean's 26 recorded odds beside the engine's map odds, with which of them were recorded before and after the bets they concern, and the three open bets that carry them;
+- a sentence in the status note saying that the abstract's numbers are 4 November's.
+
+**Not changed, and stale on purpose:** the abstract, §4.7, §6.5–§6.9 and §8 report the ledger as it stood on 4 November at the commits they name. §6.10 supersedes their counts (14 scored → 26; 46 or 58 QPU s → 69; four programs → seven; H1's minimum n reached). They are left as the dated record they are; a reader wanting today's number reads §6.10 or `ledger/brier.md`.
+
 ---
 
 ## 10. Provenance: the commit at which each cited file was checked
@@ -873,6 +979,27 @@ Every file this paper cites is listed with the commit that last changed it as of
 | `programs/settled-science/experiments/ss-b1.md` | `1f5c1bf` (pre-registered in `ebd2c80`) |
 | `programs/settled-science/experiments/ss-b4.md` | `e8f921e` (pre-registered in `29e8769`) |
 | `programs/settled-science/DEVIATIONS.md` | `4cdd8e4` |
+| **Morning revision, 2026-11-05 (§6.10–6.11):** `ledger/brier.md`, `ledger/scores.md`, `ledger/bets.jsonl` | `dafca10` |
+| `ledger/plants.jsonl`, `ledger/audits/om-p2-7.md` | `b2c0121` |
+| `programs/test-awareness/results/ta-b1r2-results.md` | `a856f4c` |
+| `programs/nature-graded/experiments/p3-17-bounded-readout.md` (ng-p3-17 pre-registration) | `db13dc7` |
+| `ledger/human-odds.jsonl` (26 lines) | `9a75cc2` |
+| `ledger/steers.jsonl` (st-18, st-19, st-20) | `1697bab` |
+| `programs/nature-graded/map/program-3-map.md` ("After P3-16") | `a394a25` |
+| `ledger/audits/SUMMARY-3.md` | `9d4dd23` |
+| `paper/novelty.md` | `93f47af` |
+| `map/entangled-mind.json` | `dafca10` |
+| `map/other-minds.json` | `a42a149` |
+| `map/nature-graded.json` | `ab5a96f` |
+| `map/settled-science.json` | `cb121d7` |
+| `map/self-grading.json` | `9551b74` |
+| `map/test-awareness.json` | `a1f8751` |
+| `map/said-vs-did.json` | `c4bdf4a` |
+| `programs/self-grading/results/sg-b1-placement.md`, `sg-b2-label.md`, `sg-b3-flaw.md` | `835de8b`, `320ca3e`, `8fc9289` |
+| `programs/test-awareness/results/ta-b2-results.md`, `ta-b3-results.md` | `b3d1fb4`, `6052ea6` |
+| `programs/said-vs-did/results/sv-b1-pushback.md`, `sv-b2-decline.md`, `sv-b3-ask.md` | `20ad07e` |
+| `programs/nature-graded/results/p3-16-lone-job.md` | `163f546` |
+| `programs/other-minds/results/p2-7-format-fingerprint.md` | `e12c1d2` |
 
 ---
 

@@ -26,12 +26,13 @@ import anthropic  # noqa: E402
 from entangled_mind import llm  # noqa: E402
 
 load_dotenv(P1 / ".env")
-BUDGET_USD = 5.00  # protocol/fixed-rules.md, lowered from 6.00 to the engine record's $5 (TASKS.md) before any call: DEVIATIONS D3
+BUDGET_USD = 7.50  # $6.00 (protocol/fixed-rules.md) -> $5.00 before any call (D3) -> $7.50 by budget ruling br-004 for ss-b10 (ledger/spend.jsonl, D51)
 ADAPTIVE_LOW = {"claude-opus-5-5"}  # D18: thinking cannot be disabled on this model
 THINKING_OFF = {}  # model -> the thinking setting that turns thinking off for it
 CACHES = [ROOT / "items" / "leakage-cache.json", ROOT / "bettor" / "bettor-cache.json", ROOT / "bettor" / "pilot-cache.json",
           ROOT / "items" / "r2" / "leakage-cache.json", ROOT / "bettor" / "r2-bettor-cache.json",
-          ROOT / "bettor" / "r2-valence-cache.json", ROOT / "bettor" / "r2-striking-cache.json"]
+          ROOT / "bettor" / "r2-valence-cache.json", ROOT / "bettor" / "r2-striking-cache.json",
+          ROOT / "bettor" / "bb-cache.json", ROOT / "bettor" / "bb-pilot-cache.json"]   # ss-b10 (D51)
 
 
 def key_of(*parts) -> str:

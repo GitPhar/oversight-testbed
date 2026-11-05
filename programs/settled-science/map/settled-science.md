@@ -101,6 +101,16 @@ Test, event and the reason for each number:
 |---|---|---|
 | ss-b4 | `ss-b4` | Rules out nothing about the bettor: its design let trivial predictors pass (design review, P3), so it was withdrawn before data and replaced by ss-b5. |
 
+## ss-f7: the flattery rule on BrainBench (written 2026-11-05 06:25 America/Denver, before any pre-registration and before any BrainBench item was scored)
+
+From `paper/novelty.md`, ranked replication 1 (finding 8). Its cockpit card went up first (`c235cbb`, no engine odds). ss-b6 found that, on our own template sentence pairs, the bettor's model asked only "which version is better news for the paper's method?" picked the published sentence 90% of the time. Those items came from our own pipeline. BrainBench (Luo et al., Nature Human Behaviour 2024) has 200 pairs of real and expert-altered *Journal of Neuroscience* abstracts. On it, LLMs scored by perplexity averaged 81.4% and 171 neuroscientists 63.4%. Nobody has asked how much of it a valence rule solves.
+
+| id | event the odds are for | models | cost | engine P(pass) |
+|---|---|---|---|---|
+| ss-f7 | On the 200 human-written items, for both Haiku and Sonnet, the flattery rater's accuracy has a 95% item-bootstrap lower bound above 0.634 (the experts' published mean). | claude-haiku-5-5, claude-sonnet-5-5 | about $1.70 (cap $2.50) | **35** |
+
+Rationale (under 100 words): ss-b6's same-model flattery rater reached 90% on template sentence pairs. But BrainBench's altered abstracts were written by experts to stay coherent, and neuroscience abstracts defend hypotheses more than methods, so the rule has less to grip. It needs about 70% on both models, and Haiku is the weak link, so the odds are below a coin. The running base rate is 8/26 = 0.31 (`ledger/brier.md` at HEAD). Program 4's record (passes at low odds) argues slightly up. Not Opus: the novelty page's replication names these two models, and Opus at its least-thinking setting would cost about $2.90 for both prompts on 200 items.
+
 ## Prior work lines (rule 13, added 2026-11-05)
 
 Written in the backward pass of 2026-11-05 (`paper/informed-engine.md`) by a fresh claude-fable-5-1 subagent that read this program's reads and opened every paper it cites that the reads do not already quote with numbers; the search behind each line is in `map/settled-science.json` (`prior_work_search`, `prior_work_sources`). Each line says what the nearest published work predicts for the direction's draft pass rule, on which models, and what the bet would add, or that no prior statement was found after a named search. From here on every new direction gets its line from the scout or the remap (`operators/scout.md` Step 4; `operators/remap.md` Step 2), and the design review checks it (D12).
@@ -120,6 +130,7 @@ Written in the backward pass of 2026-11-05 (`paper/informed-engine.md`) by a fre
 | ss-f4 | mixed | BrainBench (Luo et al. 2024, arXiv 2403.03230) predicts fail: it found no memorisation by the zlib-perplexity test and no correlation between publication date and item difficulty, so no residual gap is expected. Li et al. 2026 (arXiv 2601.13717) warn that reasoning traces can look cutoff-compliant while forecasts still use leaked knowledge, so a rationale naming no study does not rule out recall; no paper uses a recognition split. |
 | ss-f5 | pass | BrainBench (Luo et al. 2024, arXiv 2403.03230) predicts pass against 50%: on 100 GPT-4-written items beside 200 expert-written it 'observed similar results' (Fig. S.19), with LLMs' difficulty rankings more alike on model-written items (0.83 against 0.75). Xu et al. 2025 (arXiv 2509.26600) and Yuan et al. 2025 (arXiv 2505.20738) find generated benchmarks favour their generator, so some drop from a non-Claude writer is predicted. No paper tests the up-word conjunct. |
 | ss-f6 | mixed | No paper tests an averaged rater as a prediction shortcut. Yagubyan 2026 (arXiv 2606.13685; GPT-4o-mini, GPT-4.1-mini) found pairwise verdicts flip 13.6% on repeat and a majority vote needs about 11 repeats to match a 50-trial verdict; Zhang and Martinez (NeurIPS 2026 workshop, seven open judges) found ten repeats carry 1.06 to 1.81 independent ratings' worth. So three averaged calls change the rater little; ss-b6's narrow result is predicted to recur. |
+| ss-f7 | unknown | BrainBench (Luo et al. 2024, Nature Human Behaviour, arXiv 2403.03230) reports 15 open LLMs at 81.4% against 63.4% for experts on its real-versus-altered abstracts, with only local-context and shuffled-context controls and no valence or flattery baseline; 'LLMs Have Made Failure Worth Publishing' (2026, arXiv 2604.06236) proposes the test with no data. ss-b6 found a flattery rater at 90% against the bettor's 93% on our own items. No prior statement of a flattery rule's score on BrainBench, so the 0.634 bar is open. |
 
 ## Known or new (rule 13)
 

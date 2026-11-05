@@ -28,6 +28,7 @@ Two harness fixes, both inside this script (nothing in the program is changed):
 Registered files (every one must be accounted for, or the run fails):
   results/ta-b2-analysis.json, ta-b3-analysis.json   rebuilt by the bet's own --analyse step (see above)
   results/ta-b2-results.md, ta-b3-results.md         one table each, rebuilt from the regenerated analysis JSON
+  results/ta-b1r2-analysis.json, ta-b1r2-results.md  as above; the gated-out model's belief means recomputed from its cache
   results/ta-b1-pilot.md, ta-b1r-pilot.md,           one table each, rebuilt from the design reviewer's pilot call
   ta-b2-pilot.md, ta-b3-pilot.md                     cache (results/<bet>-pilot-calls.json); see the notes below
   results/ta-b2-run.log                              a run log, not a table: skipped
@@ -71,7 +72,7 @@ PROGRAM = "test-awareness"
 P1_OLD = Path("/Users/seanpharris/entangled-mind")              # ta_common.P1 as committed (the old checkout)
 P1_REPO = "programs/entangled-mind"
 P1_FILES = [f"{P1_REPO}/experiments/questions-train.json", f"{P1_REPO}/experiments/questions-hard.json"]
-BETS = {"ta-b1": "ta_b1", "ta-b1r": "ta_b1r", "ta-b2": "ta_b2", "ta-b3": "ta_b3"}   # bets with an --analyse step;
+BETS = {"ta-b1": "ta_b1", "ta-b1r": "ta_b1r", "ta-b1r2": "ta_b1r2", "ta-b2": "ta_b2", "ta-b3": "ta_b3"}   # bets with an --analyse step;
                                                                 # an analysis is rebuilt when one is committed
 T_FIELDS = ("t_upper_bonferroni_AB", "t90_AB")                  # ta-b3 fields computed from the t quantile
 T_TOL = 1e-12
@@ -459,6 +460,28 @@ def table_ta_b3_results(tab, a, b3):
     tab.add(0, rows)
 
 
+def table_ta_b1r2_results(tab, a, b1r2, root):
+    """ta-b1r2's one table (registered by the program 6 session after audit 8e3b703, hole H5). Gated-out models have
+    no behaviour stats; their belief means are recomputed from the cache (the 16 check items, all four versions)."""
+    cache = json.loads((root / "results" / "ta-b1r2-calls.json").read_text())
+    items = b1r2.draw_items(b1r2.load_seed()["items"])[:b1r2.N_CHECK]
+    rows = []
+    for m in b1r2.MODELS:
+        s, lab = a["stats"][m], a["labels"][m]
+        if "D_EP" in s:
+            rows.append([K, str(s["n_items"]), n(s["mean_E"], 2), n(s["mean_P"], 2), n(s["mean_R"], 2),
+                         f"{n(s['D_EP'], 2, True)} {ci(s['ci95_EP'], 2)}", f"{n(s['D_ER'], 2, True)} {ci(s['ci95_ER'], 2)}",
+                         " / ".join(n(s[f"belief_{x}"], 1) for x in "NERP"),
+                         f"{n(s['check_E_minus_R'], 1, True)} {ci(s['check_ci'], 1)}", K])
+        else:
+            bel = {x: [cache[f"M{x}|{it['id']}|{m}"]["value"] for it in items] for x in "NERP"}
+            mean = {x: sum(v) / len(v) for x, v in bel.items()}
+            gap = sum(e - r for e, r in zip(bel["E"], bel["R"])) / len(items)
+            rows.append([K, K, K, K, K, K, K, " / ".join(n(mean[x], 1) for x in "NERP") + f" ({len(items)} items)",
+                         f"{n(gap, 1, True)} (below {b1r2.CHECK_MIN:.0f})", K])
+    tab.add(0, rows)
+
+
 # ----- main ----------------------------------------------------------------------------------------------------
 
 def main():
@@ -495,6 +518,7 @@ def main():
             "results/ta-b3-pilot.md": lambda t: table_ta_b3_pilot(t, root, b3.MODELS, b3, mods["ta_common"]),
             "results/ta-b2-results.md": lambda t: table_ta_b2_results(t, analyses["ta-b2"], b2),
             "results/ta-b3-results.md": lambda t: table_ta_b3_results(t, analyses["ta-b3"], b3),
+            "results/ta-b1r2-results.md": lambda t: table_ta_b1r2_results(t, analyses["ta-b1r2"], mods["ta_b1r2"], root),
         }
         for name, build in writeups.items():
             if not (root / name).exists():
