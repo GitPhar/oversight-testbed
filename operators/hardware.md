@@ -33,7 +33,7 @@ Never call it to make a result look stronger. It is called to decide.
 2. A pre-registration (`operators/prereg-template.md`, bet type `tiebreak`) fixes the circuit (a file and its hash), the simulator and noise model (backend name and calibration snapshot date), the statistic and its tolerance, the number of shots, and the QPU budget.
 3. The simulator's prediction is computed and committed *before* the chip runs, in the pre-registration or the commit right after it. A prediction written after the chip has run is worthless.
 
-**Who approves.** Budget rulings under the 420 s hard stop are the engine's call (Sean, 2026-11-04, steer st-16). The pre-registration states the QPU budget, the design review checks it against the estimate (0.28 ms per shot plus about 2 s per job), and the engine records its approval as a steer citing st-16. Nothing may cross the hard stop; `run_hardware` refuses in code.
+**Who approves.** Budget rulings under the 420 s hard stop are the engine's call (Sean, 2026-11-04, steer st-16). The pre-registration states the QPU budget, the design review checks it against the estimate (0.28 ms per shot plus about 2 s per job), and the engine records its approval as a `budget_ruling` row in `ledger/spend.jsonl` citing st-16 (not in `steers.jsonl`, whose rows are Sean's own judgment and are shown and scored as his). The same row records engine rulings on API budgets inside a program's cap. Nothing may cross the hard stop; `run_hardware` refuses in code.
 
 **Budget.** At most 60 QPU s per tiebreak and 120 s a month on tiebreaks, all inside the 420 s project hard stop. Each run records the backend's calibration data (T1, T2, readout and two-qubit error rates) at submission time.
 
