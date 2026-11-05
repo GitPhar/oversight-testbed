@@ -1,0 +1,1290 @@
+{
+ "n_scored": 92,
+ "summary": {
+  "n": 92,
+  "brier": 0.06972934782608696,
+  "brier_ci": [
+   0.04972065217391304,
+   0.0930728260869565
+  ],
+  "accuracy": 0.9347826086956522,
+  "mean_p_true": 0.7879347826086956,
+  "headline_brier": 0.1766304347826087,
+  "minus_headline": -0.10690108695652173,
+  "minus_headline_ci": [
+   -0.15135760869565218,
+   -0.06363152173913042
+  ]
+ },
+ "pair_rule": {
+  "brier": 0.16500922826086956,
+  "bettor_minus_pair": -0.09527988043478261,
+  "ci": [
+   -0.1474765652173913,
+   -0.04601976086956521
+  ]
+ },
+ "bets": {
+  "ss-b4": {
+   "label": "pass",
+   "fragile_items": [],
+   "status": "withdrawn before data (design review: redesign, P3); descriptive secondary only",
+   "leave_one_field_out": {
+    "interpretability": {
+     "n": 65,
+     "label": "pass"
+    },
+    "model-psychology": {
+     "n": 62,
+     "label": "pass"
+    },
+    "quantum-devices": {
+     "n": 78,
+     "label": "pass"
+    },
+    "scalable-oversight": {
+     "n": 71,
+     "label": "pass"
+    }
+   },
+   "field_flips": []
+  },
+  "ss-b5": {
+   "label": "pass",
+   "fragile_items": [],
+   "leave_one_field_out": {
+    "interpretability": {
+     "n": 65,
+     "label": "pass"
+    },
+    "model-psychology": {
+     "n": 62,
+     "label": "pass"
+    },
+    "quantum-devices": {
+     "n": 78,
+     "label": "pass"
+    },
+    "scalable-oversight": {
+     "n": 71,
+     "label": "pass"
+    }
+   },
+   "field_flips": []
+  }
+ },
+ "by_field": {
+  "interpretability": {
+   "n": 27,
+   "brier": 0.07224444444444444,
+   "brier_ci": [
+    0.04846666666666667,
+    0.10010370370370371
+   ],
+   "accuracy": 0.9629629629629629,
+   "mean_p_true": 0.7637037037037038,
+   "headline_brier": 0.21064814814814814,
+   "minus_headline": -0.1384037037037037,
+   "minus_headline_ci": [
+    -0.23626296296296298,
+    -0.04804074074074074
+   ]
+  },
+  "model-psychology": {
+   "n": 30,
+   "brier": 0.08463666666666667,
+   "brier_ci": [
+    0.04311666666666667,
+    0.13895000000000002
+   ],
+   "accuracy": 0.9,
+   "mean_p_true": 0.7743333333333333,
+   "headline_brier": 0.14583333333333334,
+   "minus_headline": -0.06119666666666666,
+   "minus_headline_ci": [
+    -0.12082666666666664,
+    -0.012616666666666655
+   ]
+  },
+  "quantum-devices": {
+   "n": 14,
+   "brier": 0.03495714285714285,
+   "brier_ci": [
+    0.01607142857142857,
+    0.057207142857142866
+   ],
+   "accuracy": 1.0,
+   "mean_p_true": 0.8457142857142858,
+   "headline_brier": 0.24107142857142858,
+   "minus_headline": -0.20611428571428572,
+   "minus_headline_ci": [
+    -0.33327142857142855,
+    -0.09096428571428572
+   ]
+  },
+  "scalable-oversight": {
+   "n": 21,
+   "brier": 0.06838095238095238,
+   "brier_ci": [
+    0.02459047619047619,
+    0.12683333333333333
+   ],
+   "accuracy": 0.9047619047619048,
+   "mean_p_true": 0.8,
+   "headline_brier": 0.13392857142857142,
+   "minus_headline": -0.06554761904761905,
+   "minus_headline_ci": [
+    -0.14945238095238095,
+    0.010438095238095229
+   ]
+  }
+ },
+ "calibration": [
+  {
+   "bucket": "0.5-0.6",
+   "n": 4,
+   "mean_conf": 0.5675,
+   "hit_rate": 0.25
+  },
+  {
+   "bucket": "0.6-0.7",
+   "n": 15,
+   "mean_conf": 0.6453333333333333,
+   "hit_rate": 0.9333333333333333
+  },
+  {
+   "bucket": "0.7-0.8",
+   "n": 18,
+   "mean_conf": 0.7433333333333333,
+   "hit_rate": 0.9444444444444444
+  },
+  {
+   "bucket": "0.8-0.9",
+   "n": 32,
+   "mean_conf": 0.8396875,
+   "hit_rate": 0.96875
+  },
+  {
+   "bucket": "0.9-1.0",
+   "n": 23,
+   "mean_conf": 0.9534782608695652,
+   "hit_rate": 1.0
+  }
+ ],
+ "order_check": {
+  "n": 46,
+  "mean_incoherence": 4.173913043478261,
+  "mean_first_shown_bonus": 1.1304347826086956,
+  "first_shown_bonus_ci": [
+   0.32608695652173914,
+   1.9456521739130435
+  ],
+  "same_side_rate": 0.9782608695652174
+ },
+ "rows": [
+  {
+   "id": "r2-001",
+   "field": "quantum-devices",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.92,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-002",
+   "field": "quantum-devices",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.96,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-003",
+   "field": "quantum-devices",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.95,
+   "headline_p": 0.75,
+   "pair": "increase",
+   "clipped": false,
+   "pair_p": 0.789
+  },
+  {
+   "id": "r2-004",
+   "field": "quantum-devices",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.85,
+   "headline_p": 0.25,
+   "pair": "higher/lower",
+   "clipped": false,
+   "pair_p": 0.366
+  },
+  {
+   "id": "r2-005",
+   "field": "quantum-devices",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.97,
+   "headline_p": 0.75,
+   "pair": "faster/slower",
+   "clipped": false,
+   "pair_p": 0.759
+  },
+  {
+   "id": "r2-006",
+   "field": "quantum-devices",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.85,
+   "headline_p": 0.75,
+   "pair": "larger/smaller",
+   "clipped": false,
+   "pair_p": 0.621
+  },
+  {
+   "id": "r2-007",
+   "field": "quantum-devices",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.8,
+   "headline_p": 0.25,
+   "pair": "higher/lower",
+   "clipped": false,
+   "pair_p": 0.366
+  },
+  {
+   "id": "r2-008",
+   "field": "quantum-devices",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.65,
+   "headline_p": 0.75,
+   "pair": "longer/shorter",
+   "clipped": false,
+   "pair_p": 0.863
+  },
+  {
+   "id": "r2-009",
+   "field": "quantum-devices",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.78,
+   "headline_p": 0.25,
+   "pair": "longer/shorter",
+   "clipped": false,
+   "pair_p": 0.137
+  },
+  {
+   "id": "r2-010",
+   "field": "quantum-devices",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.97,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-011",
+   "field": "quantum-devices",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.68,
+   "headline_p": 0.25,
+   "pair": "larger/smaller",
+   "clipped": false,
+   "pair_p": 0.379
+  },
+  {
+   "id": "r2-012",
+   "field": "quantum-devices",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.7,
+   "headline_p": 0.75,
+   "pair": "larger/smaller",
+   "clipped": false,
+   "pair_p": 0.621
+  },
+  {
+   "id": "r2-013",
+   "field": "quantum-devices",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.88,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-014",
+   "field": "quantum-devices",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.88,
+   "headline_p": 0.25,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.15000000000000002
+  },
+  {
+   "id": "r2-015",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.78,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-016",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.38,
+   "headline_p": 0.25,
+   "pair": "higher/lower",
+   "clipped": false,
+   "pair_p": 0.366
+  },
+  {
+   "id": "r2-017",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.85,
+   "headline_p": 0.75,
+   "pair": "outperform",
+   "clipped": false,
+   "pair_p": 0.938
+  },
+  {
+   "id": "r2-018",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.8,
+   "headline_p": 0.75,
+   "pair": "stronger/weaker",
+   "clipped": false,
+   "pair_p": 0.914
+  },
+  {
+   "id": "r2-019",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.92,
+   "headline_p": 0.75,
+   "pair": "improve",
+   "clipped": false,
+   "pair_p": 0.975
+  },
+  {
+   "id": "r2-020",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.88,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-021",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.96,
+   "headline_p": 0.75,
+   "pair": "higher/lower",
+   "clipped": false,
+   "pair_p": 0.634
+  },
+  {
+   "id": "r2-022",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.97,
+   "headline_p": 0.75,
+   "pair": "faster/slower",
+   "clipped": false,
+   "pair_p": 0.759
+  },
+  {
+   "id": "r2-023",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.7,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-024",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.88,
+   "headline_p": 0.75,
+   "pair": "higher/lower",
+   "clipped": false,
+   "pair_p": 0.634
+  },
+  {
+   "id": "r2-025",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.96,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-026",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.75,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-027",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.78,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-028",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.77,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-029",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.8,
+   "headline_p": 0.25,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.15000000000000002
+  },
+  {
+   "id": "r2-030",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.98,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-031",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.88,
+   "headline_p": 0.75,
+   "pair": "higher/lower",
+   "clipped": false,
+   "pair_p": 0.634
+  },
+  {
+   "id": "r2-032",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.78,
+   "headline_p": 0.75,
+   "pair": "improve",
+   "clipped": false,
+   "pair_p": 0.975
+  },
+  {
+   "id": "r2-033",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.88,
+   "headline_p": 0.25,
+   "pair": "longer/shorter",
+   "clipped": false,
+   "pair_p": 0.137
+  },
+  {
+   "id": "r2-034",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.30000000000000004,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-035",
+   "field": "scalable-oversight",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.8,
+   "headline_p": 0.75,
+   "pair": "increase",
+   "clipped": false,
+   "pair_p": 0.789
+  },
+  {
+   "id": "r2-036",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.19999999999999996,
+   "headline_p": 0.25,
+   "pair": "longer/shorter",
+   "clipped": false,
+   "pair_p": 0.137
+  },
+  {
+   "id": "r2-037",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.62,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-038",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.78,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-039",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.97,
+   "headline_p": 0.75,
+   "pair": "outperform",
+   "clipped": false,
+   "pair_p": 0.938
+  },
+  {
+   "id": "r2-040",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.82,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-041",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.8200000000000001,
+   "headline_p": 0.75,
+   "pair": "increase",
+   "clipped": false,
+   "pair_p": 0.789
+  },
+  {
+   "id": "r2-042",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.97,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-043",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.68,
+   "headline_p": 0.75,
+   "pair": "larger/smaller",
+   "clipped": false,
+   "pair_p": 0.621
+  },
+  {
+   "id": "r2-044",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.8,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-046",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.88,
+   "headline_p": 0.25,
+   "pair": "longer/shorter",
+   "clipped": false,
+   "pair_p": 0.137
+  },
+  {
+   "id": "r2-047",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.57,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-049",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.6,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-050",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.78,
+   "headline_p": 0.75,
+   "pair": "stronger/weaker",
+   "clipped": false,
+   "pair_p": 0.914
+  },
+  {
+   "id": "r2-051",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.85,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-052",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.85,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-054",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.95,
+   "headline_p": 0.75,
+   "pair": "outperform",
+   "clipped": false,
+   "pair_p": 0.938
+  },
+  {
+   "id": "r2-055",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.8,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-056",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.8,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-057",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.85,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-058",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.8,
+   "headline_p": 0.75,
+   "pair": "outperform",
+   "clipped": false,
+   "pair_p": 0.938
+  },
+  {
+   "id": "r2-059",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.43000000000000005,
+   "headline_p": 0.25,
+   "pair": "better/worse",
+   "clipped": false,
+   "pair_p": 0.13
+  },
+  {
+   "id": "r2-060",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.95,
+   "headline_p": 0.75,
+   "pair": "faster/slower",
+   "clipped": false,
+   "pair_p": 0.759
+  },
+  {
+   "id": "r2-061",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.92,
+   "headline_p": 0.75,
+   "pair": "higher/lower",
+   "clipped": false,
+   "pair_p": 0.634
+  },
+  {
+   "id": "r2-062",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.97,
+   "headline_p": 0.75,
+   "pair": "improve",
+   "clipped": false,
+   "pair_p": 0.975
+  },
+  {
+   "id": "r2-063",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.43999999999999995,
+   "headline_p": 0.25,
+   "pair": "higher/lower",
+   "clipped": false,
+   "pair_p": 0.366
+  },
+  {
+   "id": "r2-065",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.96,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-066",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.62,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-068",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.97,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-069",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.88,
+   "headline_p": 0.25,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.15000000000000002
+  },
+  {
+   "id": "r2-070",
+   "field": "model-psychology",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.7,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-071",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.8,
+   "headline_p": 0.75,
+   "pair": "higher/lower",
+   "clipped": false,
+   "pair_p": 0.634
+  },
+  {
+   "id": "r2-072",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.85,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-073",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.9299999999999999,
+   "headline_p": 0.25,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.15000000000000002
+  },
+  {
+   "id": "r2-074",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.62,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-075",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.9,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-076",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.65,
+   "headline_p": 0.75,
+   "pair": "better/worse",
+   "clipped": false,
+   "pair_p": 0.87
+  },
+  {
+   "id": "r2-077",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.75,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-078",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.62,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-079",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.88,
+   "headline_p": 0.25,
+   "pair": "larger/smaller",
+   "clipped": false,
+   "pair_p": 0.379
+  },
+  {
+   "id": "r2-080",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.7,
+   "headline_p": 0.25,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.15000000000000002
+  },
+  {
+   "id": "r2-081",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.65,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-082",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.66,
+   "headline_p": 0.75,
+   "pair": "stronger/weaker",
+   "clipped": false,
+   "pair_p": 0.914
+  },
+  {
+   "id": "r2-083",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.88,
+   "headline_p": 0.25,
+   "pair": "better/worse",
+   "clipped": false,
+   "pair_p": 0.13
+  },
+  {
+   "id": "r2-084",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.97,
+   "headline_p": 0.25,
+   "pair": "higher/lower",
+   "clipped": false,
+   "pair_p": 0.366
+  },
+  {
+   "id": "r2-085",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.95,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-086",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.6799999999999999,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-087",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.8,
+   "headline_p": 0.25,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.15000000000000002
+  },
+  {
+   "id": "r2-088",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.43000000000000005,
+   "headline_p": 0.75,
+   "pair": "higher/lower",
+   "clipped": false,
+   "pair_p": 0.634
+  },
+  {
+   "id": "r2-089",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.75,
+   "headline_p": 0.75,
+   "pair": "higher/lower",
+   "clipped": false,
+   "pair_p": 0.634
+  },
+  {
+   "id": "r2-090",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.7,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-091",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.68,
+   "headline_p": 0.25,
+   "pair": "larger/smaller",
+   "clipped": false,
+   "pair_p": 0.379
+  },
+  {
+   "id": "r2-092",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.8,
+   "headline_p": 0.75,
+   "pair": "better/worse",
+   "clipped": false,
+   "pair_p": 0.87
+  },
+  {
+   "id": "r2-093",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.78,
+   "headline_p": 0.75,
+   "pair": "outperform",
+   "clipped": false,
+   "pair_p": 0.938
+  },
+  {
+   "id": "r2-094",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.65,
+   "headline_p": 0.25,
+   "pair": "larger/smaller",
+   "clipped": false,
+   "pair_p": 0.379
+  },
+  {
+   "id": "r2-095",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.7,
+   "headline_p": 0.75,
+   "pair": "higher/lower",
+   "clipped": false,
+   "pair_p": 0.634
+  },
+  {
+   "id": "r2-096",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.96,
+   "headline_p": 0.75,
+   "pair": "more/less",
+   "clipped": false,
+   "pair_p": 0.85
+  },
+  {
+   "id": "r2-097",
+   "field": "interpretability",
+   "side": "post",
+   "year": "2026-post",
+   "headline": "n/a",
+   "p_true": 0.88,
+   "headline_p": 0.75,
+   "pair": "better/worse",
+   "clipped": false,
+   "pair_p": 0.87
+  }
+ ]
+}

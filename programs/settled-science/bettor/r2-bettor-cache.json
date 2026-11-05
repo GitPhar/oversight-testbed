@@ -1,0 +1,2348 @@
+{
+"2f031d7d6ee54f09084fb0c6": {
+"id": "r2-006",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 15,
+"rationale": "Abstracts usually highlight positive findings. Saying that additional channels (likely HH\u2013LH or other subband transitions) can outperform the standard HH\u2013HH transition is the more noteworthy claim, so \"larger\" is the more likely wording.",
+"cost": 0.004228,
+"request_id": "req_011Cgj2E6y9qVB467GQ91D3g",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 572,
+"output_tokens": 97,
+"cost_usd": 0.004228,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"6d8da26f6d3da2e11101b148": {
+"id": "r2-005",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 3,
+"rationale": "Femtosecond gates are faster than superconducting qubit gates, which take nanoseconds. Superconducting gates are not laser-driven, but the comparison clearly favours the femtosecond gates being faster, so 'faster' is the consistent reading.",
+"cost": 0.00474,
+"request_id": "req_011Cgj2E6xR8puHKFKrKbmwF",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 685,
+"output_tokens": 100,
+"cost_usd": 0.00474,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"d67b832d5c8a2e96883673eb": {
+"id": "r2-003",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 95,
+"rationale": "\"A hierarchy of algorithms with increasing complexity\" is the standard way to describe a progression of demonstrations. \"Decreasing complexity\" would be an unusual framing for showing off the advantages of a new platform, so Option 1 is very likely the original wording.",
+"cost": 0.004596,
+"request_id": "req_011Cgj2E7193M9PXVPWTHBH7",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 614,
+"output_tokens": 107,
+"cost_usd": 0.004596,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"d5c4f7233442654ebfe3d829": {
+"id": "r2-001",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 8,
+"rationale": "Abstracts typically highlight strong positive results. Phrasing like 'predict more than an order-of-magnitude improvement' is the typical claim, while 'less than' would be an odd way to frame a result in a proposal paper.",
+"cost": 0.004392,
+"request_id": "req_011Cgj2E6xuQF44FuXW2Tghr",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 643,
+"output_tokens": 91,
+"cost_usd": 0.004392,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"c0fa9a0423b7daecd0ed803f": {
+"id": "r2-004",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 85,
+"rationale": "Longer continuous records improve sensitivity to low-frequency 1/f noise, so they can detect noise of lower spectral density than the split records. Calling this 'detecting noise at lower spectral density' expresses improved sensitivity, which is the natural selling point for such a method. 'Higher' would imply worse sensitivity and is unlikely to be the abstract's claim.",
+"cost": 0.005208,
+"request_id": "req_011Cgj2E6wAhuiPVSCC8ybjm",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 607,
+"output_tokens": 139,
+"cost_usd": 0.005208,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"2fdf5238dcaa9a47dacf26d5": {
+"id": "r2-002",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 4,
+"rationale": "Abstracts tend to present their own method as an advance, and the causal clause supports that reading. One electron sweeping an extended region suggests an efficiency gain over methods needing separate probes, so it should scale more favourably. That makes Option 2 the likelier sentence.",
+"cost": 0.004308,
+"request_id": "req_011Cgj2E6wvUmFSCdRZP1GLx",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 557,
+"output_tokens": 104,
+"cost_usd": 0.004308,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"40735f9086a05611ffa3929c": {
+"id": "r2-007",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "Sweet spots are designed to reduce sensitivity to noise, so the expected result is lower noise at the sweet spot. The phrasing 'neighboring qubit' is odd, though. It may refer to a non-sweet-spot qubit nearby, which makes 'lower' the natural reading. A surprising 'higher' result is possible but less likely.",
+"cost": 0.00502,
+"request_id": "req_011Cgj2EGCnDbwQ33NZrZMCB",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 595,
+"output_tokens": 132,
+"cost_usd": 0.00502,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"520a6b5905294b2a8beaca19": {
+"id": "r2-009",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 22,
+"rationale": "Papers usually report improvements in their abstracts, so 'shorter' is the expected wording for a new method. Still, one could frame the result as a tradeoff, for example longer circuits in exchange for higher fidelity. On balance, 'shorter' is more likely.",
+"cost": 0.004356,
+"request_id": "req_011Cgj2EHzgC6SfXC1cjQsns",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 574,
+"output_tokens": 103,
+"cost_usd": 0.004356,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"ac788546d7ac6ef91953c40f": {
+"id": "r2-010",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 97,
+"rationale": "Logically, holograms must be computed faster than the SLM refresh rate so the display isn't bottlenecked. 'Less rapidly' makes no sense for fast rearrangement.",
+"cost": 0.004128,
+"request_id": "req_011Cgj2EJK2gB7MvFypM1v3z",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 647,
+"output_tokens": 77,
+"cost_usd": 0.004128,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"9f9c2e79de2c7cf49daa8d98": {
+"id": "r2-011",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 68,
+"rationale": "Quantum computers draw roughly constant power (cryogenics), whereas classical energy grows with runtime and hardware. Papers about quantum energy advantage usually claim the energy advantage arrives earlier than the time advantage. Quantum hardware is slow per operation but uses fixed power, while classical HPC power scales up for large FFTs. So the energy crossover likely occurs at smaller problem sizes, though the reverse is plausible if quantum power overhead is large.",
+"cost": 0.006016,
+"request_id": "req_011Cgj2EKDcHT9cef3aMSXCN",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 644,
+"output_tokens": 172,
+"cost_usd": 0.006016,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"5197aae925c4742f945651ea": {
+"id": "r2-008",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 35,
+"rationale": "Multi-vacancy (e.g., V2, larger clusters) have higher spin (S=1) or clustered spins; clustering often leads to shorter? Actually spin clusters within a defect are strongly coupled internally, which may suppress flip-flops with distant spins (energy mismatch from zero-field splitting), giving longer T2. With fixed paramagnetic spin density, clustering means fewer independent centers, and S=1 with ZFS detuned from flip-flops with the central spin, so the bath is weaker. The phrasing \"at a fixed spin density\" suggests a surprising result, which points to longer coherence.",
+"cost": 0.00702,
+"request_id": "req_011Cgj2EHVRk5UCwyJ5Vao79",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 640,
+"output_tokens": 223,
+"cost_usd": 0.00702,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"87d3559fdaed517dfc441a05": {
+"id": "r2-012",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 30,
+"rationale": "Papers emphasizing scalability usually claim progress on larger subsystem sizes, and a phrase like 'building on prior work' suggests extending earlier results to bigger systems. Demonstrations on quantum hardware would plausibly push toward larger sizes. 'Smaller' could fit if the protocol were only validated on small cases, but 'larger' seems more likely.",
+"cost": 0.005388,
+"request_id": "req_011Cgj2ENcF1m7UsvDB5Uk8H",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 652,
+"output_tokens": 139,
+"cost_usd": 0.005388,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"e0c192e144f904aad51e96e5": {
+"id": "r2-013",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "Abstracts typically highlight large improvements; 'more than an order of magnitude reduction' is the usual phrasing, while 'less than an order of magnitude' would undersell the result.",
+"cost": 0.003864,
+"request_id": "req_011Cgj2ES95RnWRtu7kitZzu",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 581,
+"output_tokens": 77,
+"cost_usd": 0.003864,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"4edc4b9a7f9d9d96dddfdd0c": {
+"id": "r2-014",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "Papers typically highlight an advantage. Detecting the force with the same reliability in less time than a non-EP reference is a natural illustration of EP-enhanced sensing. 'More time' would be a disadvantage, which an abstract is unlikely to frame with 'As an illustration, we show... that we can'.",
+"cost": 0.004728,
+"request_id": "req_011Cgj2ETdNdvu9tcJGb44XX",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 597,
+"output_tokens": 117,
+"cost_usd": 0.004728,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"e47abf9638b278aeb62f0e64": {
+"id": "r2-016",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 38,
+"rationale": "Self-preference or in-group bias is the more likely headline. A paper on scalable oversight would probably flag that Claude rates its own company more favorably, for example a higher probability of good outcomes or trustworthiness. But it depends on what the probability measures: if it is the probability of something bad, such as misalignment, the bias would show up as a lower number. That ambiguity tempers my confidence, though I still lean toward 'higher'.",
+"cost": 0.005408,
+"request_id": "req_011Cgj2EVCsFQrKDohYLjuEs",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 572,
+"output_tokens": 156,
+"cost_usd": 0.005408,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"0a7d4f9e1872f093c4e5e373": {
+"id": "r2-015",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 22,
+"rationale": "Non-monotonic findings are typically framed as intermediate ionization being most disruptive, e.g. the line-driven force peaking at moderate ionization and disrupting the accretion stream. The phrase 'can be more disruptive' sounds like a surprising, notable result, and it fits 'new mechanism regulating accretion' better than 'less disruptive' does.",
+"cost": 0.005152,
+"request_id": "req_011Cgj2EUoZe9Di5jfPcWF1n",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 608,
+"output_tokens": 136,
+"cost_usd": 0.005152,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"c0a17fb9bd97c5bd30951712": {
+"id": "r2-017",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 85,
+"rationale": "Papers on LLM-as-judge typically report LLM judges outperform reference-based metrics like BLEU/ROUGE. 'Moderate positive alignment' fits with outperforming weak baselines. Underperforming all reference-based baselines would be surprising.",
+"cost": 0.004488,
+"request_id": "req_011Cgj2EXSKcDKbLuApXKGLd",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 602,
+"output_tokens": 104,
+"cost_usd": 0.004488,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"61743b7a8d4dcb4fc35432d2": {
+"id": "r2-019",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 92,
+"rationale": "Papers typically report that their proposed reasoning-level annotations help. Saying they 'improve' bias detection fits that motivation, and the earlier clause about subtle reasoning behaviours supports annotating reasoning. 'Worsen' would be an unusual, counterintuitive claim.",
+"cost": 0.004668,
+"request_id": "req_011Cgj2Eb6L9h3VYE25J2HBS",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 607,
+"output_tokens": 112,
+"cost_usd": 0.004668,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"a680280b25e6a2d8636de5e0": {
+"id": "r2-018",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "Quiet-Sun inversion studies (e.g., Hinode, Lites et al.) commonly find that horizontal fields are stronger than vertical ones in internetwork regions. The phrasing 'substantially stronger horizontal' matches that well-known result. Some studies argue the opposite, attributing it to noise bias, but an agreement between two independent methods most likely confirmed horizontal dominance.",
+"cost": 0.00552,
+"request_id": "req_011Cgj2EZsf4XEcsT5uDuBwp",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 630,
+"output_tokens": 150,
+"cost_usd": 0.00552,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"655eee9faf79ea2200821934": {
+"id": "r2-021",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 96,
+"rationale": "Abstracts typically report that the proposed method achieves higher performance with fewer updates. Option 2's claim of lower performance would be an odd thing to highlight, so Option 1 is very likely the original sentence.",
+"cost": 0.004088,
+"request_id": "req_011Cgj2EfU1iqKGE6QiM9jZ9",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 592,
+"output_tokens": 86,
+"cost_usd": 0.004088,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"0cd7febff025b60372e1956e": {
+"id": "r2-020",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 12,
+"rationale": "Papers on multimodal deception (e.g., Among Us-style VLM agents) typically highlight the novelty of non-verbal channels as the more decisive contributors. The phrase 'emerging as the ... decisive winning contributors' reads naturally with 'more', since 'less decisive' would be an odd thing to emphasize in an abstract.",
+"cost": 0.005176,
+"request_id": "req_011Cgj2EeCMpoApqHAErwoE5",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 644,
+"output_tokens": 130,
+"cost_usd": 0.005176,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"36845dfcde2204d4da727cee": {
+"id": "r2-022",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 3,
+"rationale": "LLM-as-a-Judge is commonly described as faster and cheaper than human evaluation. Calling it \"slower\" contradicts the standard framing, so Option 1 is very unlikely to be the original sentence.",
+"cost": 0.004012,
+"request_id": "req_011Cgj2EgUHCf9bs83sbnUeE",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 558,
+"output_tokens": 89,
+"cost_usd": 0.004012,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"4fbbf4319f5fae3e057ccc93": {
+"id": "r2-024",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "Papers typically report their proposed method (matrix-level selection) outperforming baselines. The phrasing names matrix-level selection first and the others as baselines, which suggests it is the proposed method and was rated higher.",
+"cost": 0.003984,
+"request_id": "req_011Cgj2EjLvRiG7bYYrUGzW8",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 566,
+"output_tokens": 86,
+"cost_usd": 0.003984,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"11676a8fb1bb15c3628fd1cd": {
+"id": "r2-023",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 70,
+"rationale": "The likely surprising finding is that tailored rubrics written by generators are exploited even more often than a generic rubric, which suggests that rubric generation itself introduces vulnerabilities. Phrasing like 'exploited ... while writing a rubric tailored to each one' implies a surprise. If tailored rubrics were exploited less often, that would be the expected result and less notable. 'More often' is more probable.",
+"cost": 0.005504,
+"request_id": "req_011Cgj2EgVmcX663rErvuaGo",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 636,
+"output_tokens": 148,
+"cost_usd": 0.005504,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"4bee831cb337c42a727a931d": {
+"id": "r2-028",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 77,
+"rationale": "Phrasing 'what the judge was shown mattered more than which judge it was' reads like a typical punchline in which information or protocol design beats model choice, and the price emphasis suggests cheap judges suffice. Option 1 is more likely.",
+"cost": 0.00418,
+"request_id": "req_011Cgj2EqN5CC7QSfgwwhbXR",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 570,
+"output_tokens": 95,
+"cost_usd": 0.00418,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"bdb976cf051c5f54e7834684": {
+"id": "r2-025",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 4,
+"rationale": "Layered (defense-in-depth) controls in a multiplicative risk model would almost always reduce incident probability more than any single control used alone, so the 'more' wording is the expected and natural finding. Option 1's claim that layering helps less would be counterintuitive and hard to produce in such a model.",
+"cost": 0.004864,
+"request_id": "req_011Cgj2EnNzUmCiNJvZ9EvMq",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 656,
+"output_tokens": 112,
+"cost_usd": 0.004864,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"bf4476214a97fd0580c9b582": {
+"id": "r2-026",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 25,
+"rationale": "The paper is about audio LLM judges and the biases they show. The sentence lists reward for louder audio and mapping emotion into quality, which are framed as biases. A third bias fits best as over-preference: the judges prefer content-rich speech more strongly than humans do. LLM judges being text-heavy and over-weighting content also makes Option 2 plausible.",
+"cost": 0.005012,
+"request_id": "req_011Cgj2Ep6frxZPAbUmEBNNF",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 588,
+"output_tokens": 133,
+"cost_usd": 0.005012,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"1f98582dca61c44292bc53a4": {
+"id": "r2-027",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 22,
+"rationale": "HNC likely stands for something like 'Hidden Network Change' or adversarial representation manipulation \u2014 showing that representations can be changed drastically while preserving behavior, i.e., representation similarity metrics are fragile. The point of such a paper would be that HNC finds representations differing MORE than independently trained different architectures, while keeping outputs the same. That is the striking claim.",
+"cost": 0.00512,
+"request_id": "req_011Cgj2EpoqHdiuBdDriS3GJ",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 590,
+"output_tokens": 138,
+"cost_usd": 0.00512,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"898c8cd852c07faea9fcfa9a": {
+"id": "r2-029",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "Abstracts usually highlight a cost advantage, so a phrase like 'while costing less' reads as a selling point. 'While costing more' would be an odd admission to put in an abstract, though an honest trade-off statement is possible. The construction 'while costing ...' suggests a positive contrast, which favours 'less'.",
+"cost": 0.004996,
+"request_id": "req_011Cgj2ErxZrjEh3VwRPDMq2",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 644,
+"output_tokens": 121,
+"cost_usd": 0.004996,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"3230c633d61f396b75f4fb8d": {
+"id": "r2-030",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 98,
+"rationale": "Option 1 is the sentence that fits how papers describe their own contributions. Authors present new rubrics as improvements, so \"more interpretable and actionable\" is what an abstract would say. A claim that their rubrics are \"less interpretable\" would be self-undermining and implausible.",
+"cost": 0.004728,
+"request_id": "req_011Cgj2EtRsPREFcSnog3vaD",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 632,
+"output_tokens": 110,
+"cost_usd": 0.004728,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"060574bde44429cab4b6afee": {
+"id": "r2-031",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 12,
+"rationale": "Papers that introduce a dialogue generation method usually report that their outputs beat existing benchmarks, which favors 'higher'. A 'lower' score would be odd to put in an abstract unless the point was that existing benchmarks are flawed, and that seems less likely.",
+"cost": 0.004432,
+"request_id": "req_011Cgj2Ey99KYyFztpxwkLj3",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 588,
+"output_tokens": 104,
+"cost_usd": 0.004432,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"199960844af657028f464ad9": {
+"id": "r2-032",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 22,
+"rationale": "Abstracts more commonly report that frontier research agents improve target systems, which fits benchmark framing around automated agent improvement. Still, \"substantially worsen\" would be a surprising finding that a scalable-oversight paper could plausibly headline, so Option 1 is not ruled out. On balance Option 2 is more likely.",
+"cost": 0.00468,
+"request_id": "req_011Cgj2EyN2cTQwoqU5rv632",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 545,
+"output_tokens": 125,
+"cost_usd": 0.00468,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"287a9352dbe96c5b84fab233": {
+"id": "r2-033",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "Fluid approximations (collisional hydrodynamics, magnetized/gyrotropic regimes, quasineutral plasma) apply when collision time, cyclotron period, and plasma period are much shorter than the flow time scales. That makes sense as describing the regions where each reduced model is valid, so 'shorter' is the physically consistent word.",
+"cost": 0.004892,
+"request_id": "req_011Cgj2F1EQM35rkFEAVACYn",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 573,
+"output_tokens": 130,
+"cost_usd": 0.004892,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"793296de4ee77af76b4276b1": {
+"id": "r2-036",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 80,
+"rationale": "LLM-generated text is typically more verbose than real user messages, which tend to be terse, so generated records are more likely longer than real ones.",
+"cost": 0.003848,
+"request_id": "req_011Cgj2F4zN7Q8SxmpzB3TdH",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 657,
+"output_tokens": 61,
+"cost_usd": 0.003848,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"fd51da4be457dbce1fddbf76": {
+"id": "r2-034",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 70,
+"rationale": "Scalable-oversight papers usually report surprising, concerning behavior, and \"less often\" fits that framing: models withholding help when another agent would gain score suggests competitive or spiteful tendencies. \"More often\" would be the expected, unremarkable result, which is less likely to be singled out in an abstract. The specific 24.6-point figure also reads like a highlighted anomaly. This is an inference from framing conventions, not knowledge of the paper.",
+"cost": 0.0058,
+"request_id": "req_011Cgj2F2tcmbb9UVjPj6wzU",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 620,
+"output_tokens": 166,
+"cost_usd": 0.0058,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"83db28b6d3544e23164fd844": {
+"id": "r2-035",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "Spatial structure is usually reported as beneficial in abstracts like this. The sentence lists positive effects (promotes coexistence, synergistic benefit), so 'increases resilience' fits the pattern better than 'decreases'. A contrasting result would more likely be phrased with 'but' or 'however'.",
+"cost": 0.00482,
+"request_id": "req_011Cgj2F3f1WGucqk5BY1XDE",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 615,
+"output_tokens": 118,
+"cost_usd": 0.00482,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"1f48bd8b4ffdd76e971137a6": {
+"id": "r2-038",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 22,
+"rationale": "Prior sycophancy research usually finds models cave more under pushback, after they have already answered, than when a false premise appears in the first query. The phrase 'nearly three times more common' also reads more naturally than 'three times less common'. So Option 2 is the likelier abstract sentence.",
+"cost": 0.004464,
+"request_id": "req_011Cgj2FBdj6UURY716sZ4C6",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 576,
+"output_tokens": 108,
+"cost_usd": 0.004464,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"3da8dc4cec3923ac1508b514": {
+"id": "r2-037",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 62,
+"rationale": "Intuitively, sycophancy toward authority would correspond to more attention on authority cues, which makes \"more\" the expected finding. However, abstracts sometimes headline counterintuitive results, and \"consistently direct less attention\" could be framed as a surprising discovery. With no further information, the intuitive direction is somewhat more likely to be the reported one.",
+"cost": 0.005056,
+"request_id": "req_011Cgj2F8k6GEupxMtgeoork",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 594,
+"output_tokens": 134,
+"cost_usd": 0.005056,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"b564de62f78cae3e82d434b3": {
+"id": "r2-039",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 97,
+"rationale": "Papers that propose a named method almost always report that it outperforms baselines. An abstract claiming the method underperforms by an average margin would be highly unusual, so Option 1 is very likely the reported sentence.",
+"cost": 0.003968,
+"request_id": "req_011Cgj2FBkRPW8VERiHukBLa",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 572,
+"output_tokens": 84,
+"cost_usd": 0.003968,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"5fa60157c24fb324a9cc9aba": {
+"id": "r2-040",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 82,
+"rationale": "Intuitively, propositions near the decision boundary are the most uncertain, so partner assertions should shift them more easily. That makes 'more susceptible' the natural finding. 'Less' would be a counterintuitive result worth highlighting, but it seems less likely.",
+"cost": 0.004356,
+"request_id": "req_011Cgj2FD1pQbbAXCZDa4rDe",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 564,
+"output_tokens": 105,
+"cost_usd": 0.004356,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"6b6b723f3a197454158367f6": {
+"id": "r2-041",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 18,
+"rationale": "The likely context is diversity interventions in multi-agent LLM collectives that aim to counter homogenization by increasing output dispersion. The paper would then test whether greater surface diversity reflects genuine stance revision or mere rephrasing of the same premises. 'Increases' fits that framing much better than 'decreases'.",
+"cost": 0.005048,
+"request_id": "req_011Cgj2FEQuTvG4TpKJbCK2w",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 657,
+"output_tokens": 121,
+"cost_usd": 0.005048,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"1b379cdf5cc93aeb7f8aa519": {
+"id": "r2-042",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 3,
+"rationale": "The sentence structure 'external verification, rather than model self-report, as a ... foundation' only makes sense if it presents external verification as the more reliable option. Calling it 'less reliable' would contradict the 'rather than' contrast and the benchmark's likely purpose of showing that model self-report is untrustworthy. Option 2 is therefore almost certainly the original wording.",
+"cost": 0.005024,
+"request_id": "req_011Cgj2FFVtnwMMPFHhK2chQ",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 566,
+"output_tokens": 138,
+"cost_usd": 0.005024,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"202b38f1bd7968562f39a71c": {
+"id": "r2-043",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 68,
+"rationale": "Neither word changes the meaning: if some groups get larger gains, others necessarily get smaller ones. Abstracts tend to phrase this as some groups receiving \"larger gains\", which is the more conventional wording. That makes Option 1 somewhat more likely, but the evidence is only stylistic.",
+"cost": 0.004892,
+"request_id": "req_011Cgj2FLdU1r9NqrV7xdjFi",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 643,
+"output_tokens": 116,
+"cost_usd": 0.004892,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"7cc11d6270531d65d0e5328d": {
+"id": "r2-046",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "Under the name 'tedium aversion', models would naturally choose shorter tasks when the work is tedious, which matches Option 1. Option 2 would be a surprising, counterintuitive finding, and it is unlikely the authors would label that 'aversion'.",
+"cost": 0.004688,
+"request_id": "req_011Cgj2FM4WRmviyvNEGX1E2",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 667,
+"output_tokens": 101,
+"cost_usd": 0.004688,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"582abbe6aca59a73b4db731f": {
+"id": "r2-047",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 57,
+"rationale": "Without context, the sentence is likely about how LLM or human deviations from rational or expected responses replicate across occasions. Abstracts usually emphasize stable, trait-like variance, which favors Option 1, though a reliability study could just as plausibly stress noise and favor Option 2. My lean towards Option 1 is slight.",
+"cost": 0.004612,
+"request_id": "req_011Cgj2FMFBMk5dfFUAY5Tke",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 538,
+"output_tokens": 123,
+"cost_usd": 0.004612,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"b8015c419d83378fa2b985f1": {
+"id": "r2-044",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "Typical finding in agent-memory benchmarks is that models can detect or recognize conflicts, but then struggle to act on them, for example calibrating their actions or asking targeted clarifying questions. That recognition-versus-action gap fits Option 1, the 'more reliably' wording, and is the more common narrative.",
+"cost": 0.004628,
+"request_id": "req_011Cgj2FLmtoCt2GpCCbc3cv",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 562,
+"output_tokens": 119,
+"cost_usd": 0.004628,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"f5e8850cb47439bae31028fd": {
+"id": "r2-049",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 60,
+"rationale": "The sentence is framed as a notable interaction effect, which suggests a counterintuitive finding: agents reporting strong agreement switch more often than those leaning disagree. Under the intuitive expectation, strongly agreeing members would switch less, and that would hardly need highlighting. LLMs are also known for sycophantic conformity, where stated confidence is decoupled from behaviour. Still, the less-often version is plausible as a plain report of the data.",
+"cost": 0.005676,
+"request_id": "req_011Cgj2FRAK6rJWUcjUwzznr",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 604,
+"output_tokens": 163,
+"cost_usd": 0.005676,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"7f22a7ff19becbf84c80803d": {
+"id": "r2-054",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 95,
+"rationale": "Papers that propose a method such as MLCP almost always report that it beats the baseline. An abstract saying the proposed method consistently underperforms is very unlikely, though a negative-result framing is not impossible.",
+"cost": 0.003952,
+"request_id": "req_011Cgj2FXmSJhXQzWPvPAK31",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 568,
+"output_tokens": 84,
+"cost_usd": 0.003952,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"7374d1177e13ccb270fe8687": {
+"id": "r2-051",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 85,
+"rationale": "Academic contexts plausibly call for more formality and transparency, so 'more' is the intuitive direction and fits the phrase 'transparent and formal'. 'Less' would be a surprising finding, and abstracts usually report the expected pattern for this kind of calibration result.",
+"cost": 0.004328,
+"request_id": "req_011Cgj2FWptYSUgizguGNdBX",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 552,
+"output_tokens": 106,
+"cost_usd": 0.004328,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"ca23439f235a291bdfae3cd4": {
+"id": "r2-050",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 22,
+"rationale": "This likely concerns speech or role-play models, where text-based LLM backbones handle semantic role content well but struggle to express emotion in voice. The finding would then be that systems are stronger at semantic adherence than at vocal emotion, which matches Option 2. Phrasing such as 'substantially stronger at X than at Y' typically flags the expected gap.",
+"cost": 0.004832,
+"request_id": "req_011Cgj2FRaNKzrjcQQuERynw",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 548,
+"output_tokens": 132,
+"cost_usd": 0.004832,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"04ec5804542cd25f42376363": {
+"id": "r2-055",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "Option 1 matches the familiar finding that AI over-infers or stereotypes from limited cues, attributing more to a person than they actually disclosed. That makes it the more natural abstract claim. Option 2 is plausible but less typical.",
+"cost": 0.003992,
+"request_id": "req_011Cgj2FYUc68mBHKAcxWfxg",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 528,
+"output_tokens": 94,
+"cost_usd": 0.003992,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"fd27e03112662ca0d1e910a6": {
+"id": "r2-052",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 85,
+"rationale": "SycEval (Fanous et al. 2025) reported that preemptive rebuttals produced higher sycophancy rates than in-context rebuttals: 61.75% vs 56.52%, a statistically significant difference. So the abstract most likely says the preemptive objections \"cause more caving.\"",
+"cost": 0.004684,
+"request_id": "req_011Cgj2FXmBsFgKCGZA3Kd8R",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 596,
+"output_tokens": 115,
+"cost_usd": 0.004684,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"49e10de27fd28b5d6f1b978e": {
+"id": "r2-057",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 85,
+"rationale": "\"To show this\" implies a surprising claim. The likely thesis is that the base model matters, which makes simulations powered by a single model problematic. The finding that engagement depends more on the base model than on the persona supports that thesis.",
+"cost": 0.0042,
+"request_id": "req_011Cgj2FfAvb8PEbZhNako6E",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 600,
+"output_tokens": 90,
+"cost_usd": 0.0042,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"eddbadb121809eb1f3090fc7": {
+"id": "r2-058",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "Papers on LLM user simulation or personalization often find that behavioral history (comment history) beats explicit persona descriptions. The phrase \"exemplifying interaction behavior\" frames the history positively, which fits a finding that it outperforms. \"Consistently outperforms\" is also a more typical headline result than \"consistently underperforms.\"",
+"cost": 0.004852,
+"request_id": "req_011Cgj2FfEf5uZ6174Mu9coK",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 558,
+"output_tokens": 131,
+"cost_usd": 0.004852,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"6babfb907ac93b6aa71e5f71": {
+"id": "r2-060",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 5,
+"rationale": "In the context of AI-accelerated coding, the more natural claim is that organizations can build software faster than they can decide what should be built. That makes the version with 'faster' the likely abstract wording, not the one with 'slower'.",
+"cost": 0.003968,
+"request_id": "req_011Cgj2FhpfuC44XhBwXY9jS",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 552,
+"output_tokens": 88,
+"cost_usd": 0.003968,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"ff74a50744a49b482aef7c8d": {
+"id": "r2-056",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "The sentence sets up a contrast: geometric agreement survived shuffled answers, so it reflects generic structure rather than the individual. Person-paired scores, which do depend on the individual, would most plausibly reflect general distress (a broad severity factor) rather than specific symptoms. That reading fits Option 1's 'more than' and is a typical caveat in this kind of study. 'Less than' would describe symptom specificity, which seems less likely given the critical tone of the sentence.",
+"cost": 0.005796,
+"request_id": "req_011Cgj2FespoCgQede3pLrtU",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 584,
+"output_tokens": 173,
+"cost_usd": 0.005796,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"8ba573c9c678f4bd5b3c1db1": {
+"id": "r2-061",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 8,
+"rationale": "Papers that propose a gating method such as SEF usually report that it improves downstream results. The natural reading is that SEF-gated data elicits more search and trains students to higher accuracy. A paper reporting lower accuracy for its own proposed method would be unusual.",
+"cost": 0.004452,
+"request_id": "req_011Cgj2FkJ1KXyxqejCGraET",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 608,
+"output_tokens": 101,
+"cost_usd": 0.004452,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"06d688806f9dc8e0f6ec8d38": {
+"id": "r2-059",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 57,
+"rationale": "The paper probably compares steering vectors with standard learning (supervised learning or subliminal learning?) as a low-dimensional intervention. The 'matches ... but' construction points to a contrast, and either direction is plausible. Papers often frame steering vectors as more constrained, so they may generalize better because they overfit less. Alternatively, the finding could be that steering vectors fail to capture the full effect. My guess is that 'generalizes better' is slightly more likely to be the reported, more interesting result.",
+"cost": 0.005808,
+"request_id": "req_011Cgj2FhiDoZMXTgn3CbU63",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 557,
+"output_tokens": 179,
+"cost_usd": 0.005808,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"c21a7df55a7f114a942ba3e7": {
+"id": "r2-062",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 3,
+"rationale": "Abstracts typically report a proposed method's improvements, and the efficiency claim (\"while using fewer tokens\") is framed as an added advantage. That pairing fits \"improves\" far better than \"worsens\", so Option 1 is very unlikely to be the original.",
+"cost": 0.004676,
+"request_id": "req_011Cgj2FpWWCmRWGy6BPBmkQ",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 639,
+"output_tokens": 106,
+"cost_usd": 0.004676,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"3c79b262fc732ccfcb10aba3": {
+"id": "r2-065",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 4,
+"rationale": "Target specificity logically requires that a condition built to elicit a given belief selects that belief more often than the conditions built for other beliefs. Selecting it less often would contradict the criterion's purpose. Option 2 is the coherent sentence.",
+"cost": 0.004344,
+"request_id": "req_011Cgj2FrJAhRTLgwu7MjizV",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 616,
+"output_tokens": 94,
+"cost_usd": 0.004344,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"cf23c8f56f8d9afbddf6451f": {
+"id": "r2-068",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 97,
+"rationale": "Option 1 makes sense: in an educational context, good tutoring needs more than just a correct final answer, e.g. pedagogy and scaffolding. Option 2 is semantically odd, so Option 1 is almost certainly the sentence in the abstract.",
+"cost": 0.004156,
+"request_id": "req_011Cgj2FvAagkfzckC9ZyDsv",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 534,
+"output_tokens": 101,
+"cost_usd": 0.004156,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"e2a96faf60381216f0451606": {
+"id": "r2-066",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 62,
+"rationale": "Both options say the same thing. 'Representing some groups more accurately than others' is the more common, natural phrasing, and it flows into 'unfair to certain groups'. 'Less accurately than others' is also plausible but reads a bit less naturally. This is a slight lean toward Option 1.",
+"cost": 0.004692,
+"request_id": "req_011Cgj2FtAnJrRFvYXktVFMM",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 618,
+"output_tokens": 111,
+"cost_usd": 0.004692,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"636ad308e296289a8a011b64": {
+"id": "r2-071",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "Weight-sparse transformers are generally expected to be more interpretable, and an abstract would most naturally report that sparse models have a higher fraction of interpretable weights. A surprising reversal is possible, but the expected direction is more likely.",
+"cost": 0.004396,
+"request_id": "req_011Cgj2G1VJrCuWRNBbCtKaG",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 629,
+"output_tokens": 94,
+"cost_usd": 0.004396,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"e007f3f6d135925c9a814004": {
+"id": "r2-069",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 12,
+"rationale": "FDA-approved cessation medications such as varenicline and bupropion are not approved for adolescents. Models would therefore plausibly name them less often to teen personas, which fits the paper's theme of personas changing responses. The large 32\u201367 point gap also fits teens being steered away from these drugs. The finding that expert personas received fewer facts suggests a paper about unwarranted tailoring, but 'less often to teens' still fits naturally.",
+"cost": 0.005764,
+"request_id": "req_011Cgj2FwF53C4uFowctUGhX",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 646,
+"output_tokens": 159,
+"cost_usd": 0.005764,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"18f7615854df26e9faa63ae2": {
+"id": "r2-070",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 70,
+"rationale": "Model-psychology papers likely argue that LLM 'personality' is context-dependent, drawing on the classic person-situation debate (Mischel), where within-person variation across situations is large, often larger than between-person variation. That framing makes Option 1 the more natural claim, motivating context-sensitive evaluation of models. Option 2 would support a trait-stability view, which is less typical in this framing.",
+"cost": 0.005036,
+"request_id": "req_011Cgj2FzCvBfh14bh7kCaH9",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 534,
+"output_tokens": 145,
+"cost_usd": 0.005036,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"7488ddbabd10c42c8892df04": {
+"id": "r2-072",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 85,
+"rationale": "Frozen-backbone adaptation is typically reported as cheaper with competitive performance, so 'more favourable' trade-off is the natural claim. The 'can provide' phrasing also fits a positive finding.",
+"cost": 0.004316,
+"request_id": "req_011Cgj2G3eHa7QJkdpwSr4mw",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 649,
+"output_tokens": 86,
+"cost_usd": 0.004316,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"24c5aea4ae3f50ae0fa91a35": {
+"id": "r2-063",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 56,
+"rationale": "Comparing persuasion success across benchmarks could cut either way. A new attack or multi-turn setup would likely report higher success. A harder, more realistic benchmark might report lower success. Papers more often stress that their setting reveals greater persuadability, so I lean slightly toward Option 1.",
+"cost": 0.009368,
+"request_id": "req_011Cgj2FqfxcCUvBJrrbKJMS",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 552,
+"output_tokens": 358,
+"cost_usd": 0.009368,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"b85fdde4e6cfffb0ec41276d": {
+"id": "r2-073",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 7,
+"rationale": "Option 2 is almost certainly the original. A \"recovers X but proves...\" construction signals a contrast, so a weakness must follow, which fits \"less consistent.\" It is also common for SAE features to be found less reliable than supervised probes.",
+"cost": 0.004276,
+"request_id": "req_011Cgj2G3qT8hi7iCWbU7jgK",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 579,
+"output_tokens": 98,
+"cost_usd": 0.004276,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"06465c645115acf741f9168c": {
+"id": "r2-075",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 10,
+"rationale": "Abstracts typically report positive findings for the proposed method. A self-supervised or similar pretraining approach (SAP) with linear probing is likely framed as more effective under limited labeled data, so Option 2 is the more probable sentence. Also, the phrase \"can be less effective and reliable\" reads awkwardly as a conclusion.",
+"cost": 0.00494,
+"request_id": "req_011Cgj2G9qMJwQE7RXzWNCaC",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 595,
+"output_tokens": 128,
+"cost_usd": 0.00494,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"6f52b350affe9b3f3e2b4787": {
+"id": "r2-074",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 62,
+"rationale": "Rust is lower-resource and its constructs (ownership, lifetimes) are unique, so they may need dedicated circuitry. Python, being dominant, may be handled by general features. 'More' sounds like the finding that gets highlighted. Still, the alternative reading, that low-resource languages get less specialized circuitry, is also plausible. I lean toward 'more'.",
+"cost": 0.005004,
+"request_id": "req_011Cgj2G9n8jk16HQ7ssQvKw",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 561,
+"output_tokens": 138,
+"cost_usd": 0.005004,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"0a98f92b0524db3edabf9851": {
+"id": "r2-076",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 65,
+"rationale": "\"Their\" likely refers to a learned or proposed probe (e.g., sparse autoencoder features, or a new method) being compared against a concept vector. The phrasing \"their mean-pooled score\" suggests the paper is advocating for the method in question, so it probably tracks concept-sentence count better. However, if the paper is critiquing those features (e.g., SAE features), \"worse\" is plausible. On balance, \"better\" seems more likely.",
+"cost": 0.005648,
+"request_id": "req_011Cgj2GBP858TAXsqGeh6XE",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 582,
+"output_tokens": 166,
+"cost_usd": 0.005648,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"193b3a0eddb15298d47e7c77": {
+"id": "r2-077",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 25,
+"rationale": "Abstracts usually present findings positively, so the restructured, linearly separable representation would most naturally be described as transferring more reliably than base model representations. A 'less reliably' twist is possible but reads oddly after the positive framing of linear separability.",
+"cost": 0.004484,
+"request_id": "req_011Cgj2GCWLNNStWZwSDDHSF",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 641,
+"output_tokens": 96,
+"cost_usd": 0.004484,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"212c0ad1c0f5a5984a39d879": {
+"id": "r2-079",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "Averaging across experts tends to shrink the signal, which fits 'smaller'. A dense MLP sums contributions, while weighted averaging with gate weights that sum to about 1 dilutes it. 'Larger' would make no sense as a consequence of averaging.",
+"cost": 0.004536,
+"request_id": "req_011Cgj2GFDK5vSeGWsjXYiUm",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 614,
+"output_tokens": 104,
+"cost_usd": 0.004536,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"0fcc97813b1ebbd080c05f92": {
+"id": "r2-078",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 38,
+"rationale": "Feature migration across layers during training. The phrase 'occurs more often toward earlier layers' reads like a notable finding, since features may shift to shallower layers as the network learns more efficient computations. That fits observations that features become computed earlier over training. The 'less often' version is the more expected default and so less likely to be highlighted in an abstract. I lean slightly toward Option 2.",
+"cost": 0.00516,
+"request_id": "req_011Cgj2GEYNUU9hDVDgDTSAP",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 595,
+"output_tokens": 139,
+"cost_usd": 0.00516,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"fdb0e267db607db74b5d40d3": {
+"id": "r2-080",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 30,
+"rationale": "The abstract's framing is critical: LLMs claim bugs in bug-free code. The striking finding to pair with that would be that they damage correct programs more often than they repair buggy ones, so 'less' fits. 'More' would soften the critique, though it could appear in a nuanced framing. Option 2 seems more likely.",
+"cost": 0.004912,
+"request_id": "req_011Cgj2GJXjktxyDuFqJFGA4",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 623,
+"output_tokens": 121,
+"cost_usd": 0.004912,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"1a22c5a1cbdc254c2216b706": {
+"id": "r2-081",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 35,
+"rationale": "Language-specific encoders, trained on a single language, plausibly match traditional linguistic models more clearly than the multilingual XLM-R. Writing \"more clearly\" also reads as the more natural finding to report. Still, a surprising \"less clearly\" result is possible, so the evidence is not decisive.",
+"cost": 0.004652,
+"request_id": "req_011Cgj2GLnv6v6pAKBQD7gKj",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 573,
+"output_tokens": 118,
+"cost_usd": 0.004652,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"f7254308d1fa59fc13d3242c": {
+"id": "r2-084",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 97,
+"rationale": "Established theory says tree-like structures embed in hyperbolic space with low distortion, which matches Option 1. Option 2 contradicts well-known results and would be an odd claim for an abstract to make.",
+"cost": 0.003876,
+"request_id": "req_011Cgj2GQVujKBotYgfNUkyW",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 559,
+"output_tokens": 82,
+"cost_usd": 0.003876,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"c93f73d15e71f29bc62816cd": {
+"id": "r2-082",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 66,
+"rationale": "Interpretability work on ViTs often reports that register-like or massive-activation artifacts and component cancellations are more prominent in vision models. 'Substantially stronger in ViTs' reads like a novel highlighted finding, and it fits the known high-norm token artifacts in ViTs. Still, there's uncertainty about the direction.",
+"cost": 0.004732,
+"request_id": "req_011Cgj2GMS79HiWHMSKAUKRz",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 553,
+"output_tokens": 126,
+"cost_usd": 0.004732,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"90df6561b48aa2c19dfc7777": {
+"id": "r2-083",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "Bias papers typically report worse performance for AAL than WME. A surprising 'better' finding would be framed differently, so the expected 'worse' direction is more likely what the abstract reports.",
+"cost": 0.004128,
+"request_id": "req_011Cgj2GPJyU5KFFoXNJDTFx",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 642,
+"output_tokens": 78,
+"cost_usd": 0.004128,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"367b6ef6e611be17a3069496": {
+"id": "r2-085",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 5,
+"rationale": "Abstracts typically highlight positive results, so the claim that the inferred parameters track brain-state changes more sensitively than traditional network statistics is far more likely to be the original sentence. The 'less sensitively' wording reads like the altered version.",
+"cost": 0.004228,
+"request_id": "req_011Cgj2GRJXyKTWXF8CpoQ8K",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 577,
+"output_tokens": 96,
+"cost_usd": 0.004228,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"c62bea3c7b07d45c7213ae7f": {
+"id": "r2-087",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "This is likely a subliminal learning / trait transmission paper. The sentence 'needed less to reveal the trait than to suppress label noise' reads as the surprising, natural claim: large datasets are needed mainly to suppress noise, not to reveal the trait. Option 2 is grammatically awkward, and its contrast is less insightful.",
+"cost": 0.00484,
+"request_id": "req_011Cgj2GWwbjWrVavXNkSNQt",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 575,
+"output_tokens": 127,
+"cost_usd": 0.00484,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"cf7cd25d99815c41907c1fab": {
+"id": "r2-086",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 32,
+"rationale": "Likely about tokenization of neural or EEG data, i.e., which representation (token) is used when generalizing across sessions. The phrasing 'the token matters more than the model on top' reads as a punchy finding that emphasizes tokenization. 'Matters less' would also be a finding, but abstracts tend to highlight their own focus, and this paper's focus appears to be tokens.",
+"cost": 0.004916,
+"request_id": "req_011Cgj2GVjBRpD71VaXzciAv",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 529,
+"output_tokens": 140,
+"cost_usd": 0.004916,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"74caa30e361d1c6ab9d020da": {
+"id": "r2-089",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 25,
+"rationale": "Intuitively, points near the decision boundary are easier to rescue, so 'higher' is the expected finding and the more natural thing to report. An abstract could still highlight a surprising 'lower' result, but the plain wording 'generally have higher rescue rates' reads like a confirmation of intuition.",
+"cost": 0.004812,
+"request_id": "req_011Cgj2GZGG86EYymH39qdsc",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 633,
+"output_tokens": 114,
+"cost_usd": 0.004812,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"3457bb10bdecaaaba5298f4f": {
+"id": "r2-088",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 57,
+"rationale": "Abstracts usually report the comparison that favors the proposed method. If the metric is the change in KL or loss from intervening, \"lower than native\" would be the favorable result. But the context is ambiguous: \"mean change\" could also be an effect size the method aims to increase, which would make \"higher\" the favorable outcome. Lower seems slightly more likely to be the claim.",
+"cost": 0.004976,
+"request_id": "req_011Cgj2GYwexk8dygV9GBrWc",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 549,
+"output_tokens": 139,
+"cost_usd": 0.004976,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"9a5953ff953103d90f91765b": {
+"id": "r2-091",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 68,
+"rationale": "The likely finding is that KL calibration, which matches the full output distribution, leaves smaller gaps than crude total-norm matching. A surprising result (larger) is possible, but abstracts typically report that the principled method works better.",
+"cost": 0.004364,
+"request_id": "req_011Cgj2GbeNkJNABWVrR7kCi",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 646,
+"output_tokens": 89,
+"cost_usd": 0.004364,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"466e02eb0d626cc0d284454a": {
+"id": "r2-090",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 70,
+"rationale": "This is likely a paper on recovering knowledge, perhaps unlearned or latent, via fine-tuning or another method. A finding that recovered answers are less often among the model's own top answers than among the probe's would fit a story of latent knowledge the model holds but doesn't output. The phrasing \"more often among the linear probe's top answers... than among the pretrained model's own\" reads naturally as that claim. Option 2 seems less natural to highlight in an abstract.",
+"cost": 0.005604,
+"request_id": "req_011Cgj2GZTAPLgzNaTo58dji",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 561,
+"output_tokens": 168,
+"cost_usd": 0.005604,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"508d4d7b13c3d14aedd1719a": {
+"id": "r2-092",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "This looks like an interpretability study of a weather or cyclone forecasting model. A finding worth putting in the abstract would be that deeper layers encode future states, i.e. the feature aligns better with the position six hours ahead. That points to Option 1, the word 'better'.",
+"cost": 0.00432,
+"request_id": "req_011Cgj2Gg2o2AWyLQ84Kxa12",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 560,
+"output_tokens": 104,
+"cost_usd": 0.00432,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"a175bfd18fde33331e924c07": {
+"id": "r2-093",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 22,
+"rationale": "Papers typically present their proposed representation positively. A paper that introduces MusicXML tokenisation would most likely report that it outperforms MIDI and text-based alternatives. The 'interpretability' field label leaves some room for a negative-finding study, but the positive result is more probable.",
+"cost": 0.004452,
+"request_id": "req_011Cgj2GhnU1RC7MoemWreyj",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 573,
+"output_tokens": 108,
+"cost_usd": 0.004452,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"74ce970cbb4b10be64e5e804": {
+"id": "r2-096",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 4,
+"rationale": "Abstracts typically report positive results for their proposed design; 'more clearly' fits the pattern of 'preserves performance while improving interpretability'.",
+"cost": 0.003716,
+"request_id": "req_011Cgj2GkLGbeRgw7VDRLV7d",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 599,
+"output_tokens": 66,
+"cost_usd": 0.003716,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"65723975aac0c4067dbf3c1d": {
+"id": "r2-095",
+"kind": "primary",
+"option_1_is": "b",
+"p_option_1": 30,
+"rationale": "Trained networks typically use more distributed, redundant representations than minimal handcrafted constructions, so their complexes would plausibly be higher-dimensional. Handcrafted references are usually built to be minimal, which makes a lower-dimensional result for trained networks less likely.",
+"cost": 0.00454,
+"request_id": "req_011Cgj2Gk58mVHxVyifrhLkp",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 605,
+"output_tokens": 106,
+"cost_usd": 0.00454,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"7dab7ce7b435ea47ca15fe6e": {
+"id": "r2-094",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 65,
+"rationale": "Fitting probes on off-policy data from smaller models is the more surprising and practically useful claim, since small-model data is cheap to generate. Using data from larger models is plausible too, for example when a stronger model's rollouts give better outcomes, but 'smaller' fits the usual efficiency framing that 'Furthermore' introduces in an abstract.",
+"cost": 0.004812,
+"request_id": "req_011Cgj2GjQCcMg2WYH8V1Ntc",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 548,
+"output_tokens": 131,
+"cost_usd": 0.004812,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"fe15d7b69a168c9edaa802af": {
+"id": "r2-097",
+"kind": "primary",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "Fine-tuning for state decoding transforming embeddings toward macro-state hierarchies would most plausibly improve state decoding. That is the natural framing for an abstract, whereas 'worse' would be counterintuitive and phrased differently.",
+"cost": 0.004412,
+"request_id": "req_011Cgj2GohRNb8Y2i6LxLaKN",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 618,
+"output_tokens": 97,
+"cost_usd": 0.004412,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"9d40b437c51daf8c2e23c308": {
+"id": "r2-012",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 82,
+"rationale": "Building on prior work typically means extending to larger subsystem sizes; demonstrations scaling up nonlocality on quantum hardware. 'Larger' is more natural.",
+"cost": 0.004068,
+"request_id": "req_011Cgj2GycEL5NSkjvkZyoSN",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 652,
+"output_tokens": 73,
+"cost_usd": 0.004068,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"480b8a93b773d3140d3b55e8": {
+"id": "r2-006",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 85,
+"rationale": "Abstracts usually highlight positive findings: alternative channels (e.g., HH-LH or other transitions) that outperform the standard HH-HH transition. Calling them 'additional channels' and noting they 'can produce' a result implies an advantage, i.e., larger figures of merit.",
+"cost": 0.004508,
+"request_id": "req_011Cgj2GydDdaG3A9P88K62E",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 572,
+"output_tokens": 111,
+"cost_usd": 0.004508,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"c477e0c249d5a1e972def65a": {
+"id": "r2-003",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 12,
+"rationale": "Papers usually describe implementing a hierarchy of algorithms of increasing complexity, which builds progressively from simple to harder tasks. That phrasing is far more conventional than \"decreasing complexity.\"",
+"cost": 0.004196,
+"request_id": "req_011Cgj2Gydy6JTfS2NE4yFBY",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 614,
+"output_tokens": 87,
+"cost_usd": 0.004196,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"df637571952f8d65e4a76ad5": {
+"id": "r2-009",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 85,
+"rationale": "Abstracts typically emphasize improvements, so a new method's circuits being about one-third shorter than the previous direct QSP approach is the natural claim. A trade-off framing, longer circuits in exchange for some other benefit, is possible but less common in an abstract.",
+"cost": 0.004356,
+"request_id": "req_011Cgj2GygC9NVdPRmmXLZb3",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 574,
+"output_tokens": 103,
+"cost_usd": 0.004356,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"7c43a40155e4b33af9c727f4": {
+"id": "r2-007",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 25,
+"rationale": "Sweet spots are designed to suppress noise sensitivity, so lower noise at the sweet spot is the expected result. Some papers do report surprising excess low-frequency noise at sweet spots, for example from second-order coupling or TLS effects. Still, \"neighboring qubit\" most plausibly means a qubit away from its sweet spot, which favours \"lower\".",
+"cost": 0.00518,
+"request_id": "req_011Cgj2GydThsBg3Z2cWgEKt",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 595,
+"output_tokens": 140,
+"cost_usd": 0.00518,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"e184464e38ff9ed22472f115": {
+"id": "r2-014",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 12,
+"rationale": "Papers on exceptional points usually tout an advantage, which favors \"less time\". However, some papers argue that EP sensing gives no fundamental benefit once noise is accounted for. Even so, the phrase \"As an illustration, we show... we can detect\" reads as a positive claim of enhancement. \"Less time\" is therefore much more likely.",
+"cost": 0.005028,
+"request_id": "req_011Cgj2GydDqcmFe1urEH1w9",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 597,
+"output_tokens": 132,
+"cost_usd": 0.005028,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"7a58fac4b9db0bf8747757b3": {
+"id": "r2-015",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "Saying moderate ionization is more disruptive than both weak and strong is a surprising non-monotonic result, and that kind of finding would justify calling it a new mechanism. Physically, moderate ionization can suppress line driving while leaving X-ray heating weak, which could disrupt the flow, so Option 1 is more plausible.",
+"cost": 0.004932,
+"request_id": "req_011Cgj2H7p69P8E1vubritMy",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 608,
+"output_tokens": 125,
+"cost_usd": 0.004932,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"20f097c64cc6d6fc31dc803b": {
+"id": "r2-024",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 12,
+"rationale": "Papers typically report that their proposed method (matrix-level selection) beats baselines, so the judge most likely rated it higher than random and independent cell-level selection.",
+"cost": 0.003644,
+"request_id": "req_011Cgj2HAT5tDM2eAbjEsAXU",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 566,
+"output_tokens": 69,
+"cost_usd": 0.003644,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"418745b0f0eef072ae5b0dc2": {
+"id": "r2-022",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 96,
+"rationale": "LLM-as-a-Judge is generally described as both faster and cheaper than human evaluation. 'Slower and cheaper' would be an unusual claim and doesn't fit the standard framing that motivates using LLM judges, so Option 1 is very likely the original sentence.",
+"cost": 0.004372,
+"request_id": "req_011Cgj2H9zKJXpcddvvjPJyw",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 558,
+"output_tokens": 107,
+"cost_usd": 0.004372,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"e06e0ab2540c147c26654716": {
+"id": "r2-018",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 25,
+"rationale": "In the quiet-Sun literature, inversions of Hinode and similar data usually find horizontal fields stronger than vertical ones, with inclinations clustered near 90\u00b0. Some studies that correct for noise bias argue for more isotropic distributions instead. Two methods agreeing on a 'substantially' different component most plausibly confirms the familiar horizontal dominance, so Option 2 looks more likely.",
+"cost": 0.00552,
+"request_id": "req_011Cgj2H8N5rZMYsiQFUkqsN",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 630,
+"output_tokens": 150,
+"cost_usd": 0.00552,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"37db4ff30afafb43e62def20": {
+"id": "r2-016",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 68,
+"rationale": "Sentences like this one usually turn up in work on self-favoring bias, the worry being that a model judges its own developer more generously. That framing points to a higher probability for Anthropic. A paper could instead report an overcorrection or a surprising reversal, but the bias framing seems more likely. I can't actually recognise this paper, and 'Claude Opus 4.8' doesn't match any model I know of, so this is a judgement about typical framing rather than knowledge of the result.",
+"cost": 0.005668,
+"request_id": "req_011Cgj2H8MaRiYcVmK8W31UY",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 572,
+"output_tokens": 169,
+"cost_usd": 0.005668,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"f5e060237449a963dc98b9e8": {
+"id": "r2-025",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 96,
+"rationale": "Layered controls (defense in depth) combining isolation and monitoring would logically reduce incident probability more than either alone; Option 2 would be counterintuitive and nearly impossible in a multiplicative model.",
+"cost": 0.004324,
+"request_id": "req_011Cgj2HCNgVjTG1mY1r33nz",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 656,
+"output_tokens": 85,
+"cost_usd": 0.004324,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"21fd05c1da792ff3bc429688": {
+"id": "r2-026",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 75,
+"rationale": "Audio LLM judges, being text-heavy, likely overweight semantic content relative to humans. 'More strongly' fits the narrative of the judges having biases.",
+"cost": 0.003752,
+"request_id": "req_011Cgj2HGgszVsSFVf7rmPSM",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 588,
+"output_tokens": 70,
+"cost_usd": 0.003752,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"78d639698b7c6c46d98a7555": {
+"id": "r2-031",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 85,
+"rationale": "Papers that propose a dialogue-generation method usually report that their dialogues score higher than those in existing benchmarks, since that is the result they would choose to highlight in the abstract. A lower score is possible if the authors frame the method as producing harder or more realistic dialogues, but that framing is less common.",
+"cost": 0.004612,
+"request_id": "req_011Cgj2HHsptSx7FnyNuKnUT",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 588,
+"output_tokens": 113,
+"cost_usd": 0.004612,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"8911a25598accdc9d8c13f83": {
+"id": "r2-028",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 32,
+"rationale": "Mentioning 10-17x price differences suggests the finding is that cheaper judges do comparably well, so judge identity matters less than the information shown. That reading favors 'mattered more' (Option 2). Yet the alternative, that judge identity dominated, is also plausible, so the evidence only leans one way.",
+"cost": 0.00462,
+"request_id": "req_011Cgj2HHcgz2Job5ArBbaeE",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 570,
+"output_tokens": 117,
+"cost_usd": 0.00462,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"ea6f4116357a37ad4ff7a1b4": {
+"id": "r2-039",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 3,
+"rationale": "Abstracts that introduce a named method like PICTURE nearly always report that it beats the existing baselines. Option 2, where PICTURE outperforms existing prompting methods, is therefore far more likely to be the original sentence.",
+"cost": 0.004108,
+"request_id": "req_011Cgj2HQJmt1Bhsv8PrmquG",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 572,
+"output_tokens": 91,
+"cost_usd": 0.004108,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"1827570cda869b65ff44bbae": {
+"id": "r2-038",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 68,
+"rationale": "Prior literature generally finds sycophancy rises under user pushback once the model has committed to an answer, as in the 'are you sure?' studies. However, abstracts often highlight surprising findings, and models may be more likely to accept a false premise embedded in the initial query than to abandon an answer they have already given. Still, 'more common' under challenge fits the typical framing better.",
+"cost": 0.005024,
+"request_id": "req_011Cgj2HNMD4hdNDgKbVfEVo",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 576,
+"output_tokens": 136,
+"cost_usd": 0.005024,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"7ffa26d9c02a81e154c144cb": {
+"id": "r2-032",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 68,
+"rationale": "Option 1 reads like a typical abstract claim, but it is ambiguous. Papers on automated agent improvement, such as ones that use research agents to optimize other agents, usually report gains. Still, a benchmark paper could make the surprising finding that research agents fail and often degrade performance. 'Substantially worsen' is an unusual phrasing, while 'substantially improve' is common. Many such benchmarks, though, say agents 'struggle', which supports neither option. Weighing this, I lean toward improve.",
+"cost": 0.00586,
+"request_id": "req_011Cgj2HM2aCTZR8YfSRkrQS",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 545,
+"output_tokens": 184,
+"cost_usd": 0.00586,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"4a583d37a764acffb879b988": {
+"id": "r2-040",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 15,
+"rationale": "Intuitively, propositions near the decision boundary are those the model is uncertain about, so assertions from a partner should shift them more easily. That makes 'more susceptible' the expected finding. A surprising 'less' result is possible but less likely to be the one reported.",
+"cost": 0.004276,
+"request_id": "req_011Cgj2HSTkrMiQKQHz8c7LL",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 564,
+"output_tokens": 101,
+"cost_usd": 0.004276,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"6d42fe23befbd43ddb7a29c1": {
+"id": "r2-034",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 32,
+"rationale": "An abstract would more likely highlight the surprising result: models help less when the other agent stands to gain, suggesting competitive or spiteful behaviour. Helping more when the other agent benefits is the expected, unremarkable direction and less likely to be featured.",
+"cost": 0.00746,
+"request_id": "req_011Cgj2HMh26YJNrec6nKXHh",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 620,
+"output_tokens": 249,
+"cost_usd": 0.00746,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"907e3cb432a500a13e5ae811": {
+"id": "r2-041",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "The setup concerns interventions meant to diversify collective outputs, such as countering homogenization in multi-agent LLMs. The natural question is whether an increase in embedding dispersion reflects genuine stance revision or merely surface-level reformulation that keeps the same premises. That framing fits 'increases' far better than 'decreases'.",
+"cost": 0.005148,
+"request_id": "req_011Cgj2HTCubnFP6TCMTy84H",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 657,
+"output_tokens": 126,
+"cost_usd": 0.005148,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"b4202ffe936e9d2bef3c52ad": {
+"id": "r2-044",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 22,
+"rationale": "Abstracts of this kind usually report a recognition-action gap: models can recognize a conflict but fail to act on it, by calibrating their actions or asking for targeted clarification. That pattern matches Option 2, where recognition is more reliable than action.",
+"cost": 0.004208,
+"request_id": "req_011Cgj2HZpGp1g5qoxCG7TED",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 562,
+"output_tokens": 98,
+"cost_usd": 0.004208,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"029e2f034f4b36c4788b44e9": {
+"id": "r2-042",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 97,
+"rationale": "Saying that external verification, rather than model self-report, is the \"more reliable\" foundation fits the logic of the sentence. Option 2's \"less reliable\" reading would contradict the framing that external verification is preferred, so Option 1 is very likely the original wording.",
+"cost": 0.004344,
+"request_id": "req_011Cgj2HZdromr1RohownCpG",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 566,
+"output_tokens": 104,
+"cost_usd": 0.004344,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"d8217528ea06263890e551a1": {
+"id": "r2-054",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 3,
+"rationale": "MLCP is the paper's proposed method, and abstracts nearly always report that their proposed method outperforms the baseline. The sentence is therefore much more likely to say MLCP outperforms vanilla role-play prompting, which makes Option 1 very unlikely.",
+"cost": 0.004352,
+"request_id": "req_011Cgj2Hd8hZf9GkRSyafkT4",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 568,
+"output_tokens": 104,
+"cost_usd": 0.004352,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"e7ccaa45d983e5e375bf5aee": {
+"id": "r2-050",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "Speech/role-play benchmarks for voice agents typically find that models follow semantic content and role instructions well, but struggle with paralinguistic expression such as vocal emotion. The phrase \"substantially stronger at semantic role adherence than at vocal emotion\" fits that pattern, so Option 1 seems more likely.",
+"cost": 0.004672,
+"request_id": "req_011Cgj2HbSFuR1CfQNh7vrJs",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 548,
+"output_tokens": 124,
+"cost_usd": 0.004672,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"97a03300ae097b12b3ed327d": {
+"id": "r2-049",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 42,
+"rationale": "Intuitively, strongly agreeing members should be more resistant to change than members already leaning toward disagreement, which makes 'less often' the expected result. But the phrasing 'depend on the interaction' hints at something notable, and a surprising 'more often' finding is the kind of result papers tend to highlight. On the other hand, those leaning disagree already hold the same position as the peer, so they may have little reason to switch. Strong agreers are the ones facing actual disagreement, which could plausibly make them switch more. That reasoning moves me slightly toward Option 2.",
+"cost": 0.006416,
+"request_id": "req_011Cgj2Hahr4traBCVTTmuRc",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 604,
+"output_tokens": 200,
+"cost_usd": 0.006416,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"f1daedb8ffc40c7a3c3cd07c": {
+"id": "r2-052",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 22,
+"rationale": "SycEval (Fanous et al. 2025) reported that preemptive rebuttals produced higher sycophancy rates than in-context rebuttals (61.75% vs 56.52%, or similar). I recall they found preemptive rebuttals yielded more sycophancy, especially for computational tasks. So Option 2, 'more caving', is the likely reported result.",
+"cost": 0.005104,
+"request_id": "req_011Cgj2HcoMk4xxunTevsepj",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 596,
+"output_tokens": 136,
+"cost_usd": 0.005104,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"38086056a3fe017fae1d6a46": {
+"id": "r2-056",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 27,
+"rationale": "The sentence contrasts geometric agreement, which survived shuffled answers and so seems artifactual, with person-paired scores. The typical critique of LLM-based psychological assessment is that scores reflect general distress or severity rather than specific symptoms, i.e. poor discriminant validity. So 'captured distress more than specific symptoms' fits a cautionary abstract. Option 2 is more likely.",
+"cost": 0.005316,
+"request_id": "req_011Cgj2Hjj59TrM4SyFNeDnq",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 584,
+"output_tokens": 149,
+"cost_usd": 0.005316,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"30c1e3f12d1ed8cd73c4a2ed": {
+"id": "r2-057",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 35,
+"rationale": "The phrase 'To show this' suggests the paper argues that base model matters, such as model identity or biases shaping social dynamics. A finding that engagement depends more on the base model than on the assigned persona would be the surprising, publishable result. Still, a claim that persona dominates is also plausible. On balance I lean toward Option 2.",
+"cost": 0.00488,
+"request_id": "req_011Cgj2HkMXRSnXkC3SRB7Cc",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 600,
+"output_tokens": 124,
+"cost_usd": 0.00488,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"d0d2fc36d92ef3f4722c6a31": {
+"id": "r2-060",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 95,
+"rationale": "In the context of AI and LLMs speeding up coding, the plausible claim is that implementation outpaces the ability to decide what should be built, which is Option 1. Option 2 reverses that and reads as the odd variant.",
+"cost": 0.003968,
+"request_id": "req_011Cgj2HnV2h5WhsgxtYgqCU",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 552,
+"output_tokens": 88,
+"cost_usd": 0.003968,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"b236d8badbe48b2a3066ae63": {
+"id": "r2-065",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 95,
+"rationale": "Target specificity logically means a condition built for a belief selects that belief more often than other conditions in the same pole do. Option 1 states this; Option 2 reverses the logic.",
+"cost": 0.003924,
+"request_id": "req_011Cgj2Hp33NauN4hYfB4ERz",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 616,
+"output_tokens": 73,
+"cost_usd": 0.003924,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"a788156f214802bd39606bc1": {
+"id": "r2-069",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "FDA-approved cessation meds (varenicline, bupropion, NRT) are mostly not approved for under-18s, so models would plausibly name them less often to teens. Option 2 would also be odd. The second clause shows the paper is framed around models giving different information to different personas, and the teen-versus-adult gap fits that framing more naturally in the 'less often' direction.",
+"cost": 0.005324,
+"request_id": "req_011Cgj2HpCiV8WhgNzQYQTbK",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 646,
+"output_tokens": 137,
+"cost_usd": 0.005324,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"f6f23d2974e76ee1ed6bc980": {
+"id": "r2-059",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 55,
+"rationale": "This likely comes from a paper on subliminal learning (SL), where the steering vector is used as a mechanistic proxy. The phrase 'matches SL in distribution but...' leaves either direction possible. A steering vector is a low-rank intervention, so it plausibly generalizes worse than full fine-tuning. Then again, papers often report the surprising result, and steering vectors are known to generalize broadly. On balance, 'worse' seems somewhat more natural for a paper arguing that SL is not merely a steering vector.",
+"cost": 0.005968,
+"request_id": "req_011Cgj2HnFtPvi7bC9Q6bvwv",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 557,
+"output_tokens": 187,
+"cost_usd": 0.005968,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"5fb3b1ae785113c5d9e2f05e": {
+"id": "r2-071",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 22,
+"rationale": "The expected finding, consistent with work like OpenAI's weight-sparse transformers, is that sparse models are more interpretable. Reporting that the gap widens once unreliable descriptions are discarded fits a positive result favoring sparsity. A surprising negative result is possible, but higher in sparse models is more likely.",
+"cost": 0.004916,
+"request_id": "req_011Cgj2HvtHf9Xi9bAGmu2jG",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 629,
+"output_tokens": 120,
+"cost_usd": 0.004916,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"245755e59e7107911819cb7d": {
+"id": "r2-073",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 92,
+"rationale": "The sentence uses \"but,\" which signals a contrast with the positive \"recovers interpretable features.\" A drawback like \"less consistent\" fits that contrast. \"More consistent\" would read as a second positive, so \"but\" would be odd. SAEs being less consistent than supervised probes is also the common finding in this literature.",
+"cost": 0.004856,
+"request_id": "req_011Cgj2HworeFeVQdV8uVzwL",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 579,
+"output_tokens": 127,
+"cost_usd": 0.004856,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"d1045c7287fc7e3d296dd1b3": {
+"id": "r2-070",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 40,
+"rationale": "The sentence most likely sets up a contrast with LLMs. The paper probably argues that LLMs show more cross-context variability than inter-model differences, while in humans traits are fairly stable within a person compared with differences between people. Personality psychology often stresses individual differences, which fits Option 1. However, situationism (Mischel) holds that within-person variability across situations is large, which fits Option 2. Fleeson's density distributions found within-person variability comparable to or larger than between-person variability, so the call is uncertain.",
+"cost": 0.005816,
+"request_id": "req_011Cgj2Hvq4eTP6LrWd21fq6",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 534,
+"output_tokens": 184,
+"cost_usd": 0.005816,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"e5463effbf015e6d81745a31": {
+"id": "r2-076",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 30,
+"rationale": "\"Their\" most likely refers to the paper's proposed method, perhaps SAE features or a new technique, which would be reported as tracking concept count better than the concept-vector baseline. It is possible the paper critiques an existing method instead, but abstracts usually highlight positive results for their own approach.",
+"cost": 0.004588,
+"request_id": "req_011Cgj2J1CzjysT2FNVFLVV2",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 582,
+"output_tokens": 113,
+"cost_usd": 0.004588,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"6e40ea1ee3545b73e629cc02": {
+"id": "r2-077",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 70,
+"rationale": "Abstracts usually report positive findings. Phrasing like \"restructures pre-existing uncertainty geometry into a linearly separable representation\" points to an improvement, so \"transfers more reliably\" is the more natural continuation. A caveat is still possible, and the phrase \"base model representations alone\" fits either reading, which keeps this from being near-certain.",
+"cost": 0.005284,
+"request_id": "req_011Cgj2J2D2EFgCU7qa1pQvg",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 641,
+"output_tokens": 136,
+"cost_usd": 0.005284,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"d572794a7f2e35dd643df4a9": {
+"id": "r2-078",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 62,
+"rationale": "Features migrating toward earlier layers sounds like the notable finding. Layer-wise feature formation often shifts features earlier as the network learns to compute them more efficiently, and an abstract would likely highlight that asymmetry. Still, this is uncertain.",
+"cost": 0.0044,
+"request_id": "req_011Cgj2J7FPRnEptVzau8xAs",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 595,
+"output_tokens": 101,
+"cost_usd": 0.0044,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"c17455c3ae1ed78edd896789": {
+"id": "r2-074",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 42,
+"rationale": "Rust has distinctive constructs (ownership, lifetimes, borrow checker) with less training data. A finding could be either: less circuitry because less data, or more because complexity needs dedicated features. Abstract phrasing \"receive 2-3x more\" sounds like a surprising finding worth headlining; but \"less\" fits a data-scarcity narrative (e.g., models reuse Python circuitry for Rust). Papers on cross-language transfer often find low-resource languages piggyback on shared representations. Yet the phrase \"concept-specific circuitry\" suggests that Rust concepts like borrowing get dedicated features. I lean slightly toward \"more\".",
+"cost": 0.007024,
+"request_id": "req_011Cgj2Hy6zoZ7sLNUdB8f3r",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 561,
+"output_tokens": 239,
+"cost_usd": 0.007024,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"ddc975e257c3c070f388b50f": {
+"id": "r2-081",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 70,
+"rationale": "Language-specific encoders, which are trained on a single language, plausibly align with traditional linguistic models more closely than a multilingual model such as XLM-R, whose representations are shared across languages. Writing 'more clearly' also follows the usual way abstracts are phrased. The reverse finding would be surprising, but it is possible.",
+"cost": 0.004752,
+"request_id": "req_011Cgj2JA63CWoRpbXnMreYb",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 573,
+"output_tokens": 123,
+"cost_usd": 0.004752,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"c06866450350ecff2e8f8b1d": {
+"id": "r2-082",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 38,
+"rationale": "Likely a paper on norm/attention sinks or massive activations cancellation, or on cancellations of components in the residual stream (e.g., registers). Phrasing 'substantially stronger in ViTs' seems plausible as novel finding motivating study of ViTs; ViTs often show more redundancy and cancellation. Slight lean toward stronger.",
+"cost": 0.004852,
+"request_id": "req_011Cgj2JCPSvAHeqDoBGibez",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 553,
+"output_tokens": 132,
+"cost_usd": 0.004852,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"5731f307663c210833d6a688": {
+"id": "r2-090",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 30,
+"rationale": "This likely concerns knowledge that is suppressed after fine-tuning or unlearning but still recoverable. The probe reads the representations directly, so recovered answers plausibly appear more often among its top answers than among the model's own outputs. That reading would mean the knowledge is latent in the activations but not expressed. Option 2 fits the typical narrative better.",
+"cost": 0.004884,
+"request_id": "req_011Cgj2JCjYPGafChWTcDY2M",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 561,
+"output_tokens": 132,
+"cost_usd": 0.004884,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"3cac7a910560bb2407bc9d73": {
+"id": "r2-086",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 78,
+"rationale": "Phrasing like 'the token matters more than the model on top' is a typical punchy finding, plausibly from EEG/neural tokenization work, where the representation is shown to drive generalization. 'Matters less' is a less surprising and less quotable claim.",
+"cost": 0.004096,
+"request_id": "req_011Cgj2JCQShP9oJeDHwnYAL",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 529,
+"output_tokens": 99,
+"cost_usd": 0.004096,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"8280922e0f6d434a19416f06": {
+"id": "r2-092",
+"kind": "order-check",
+"option_1_is": "b",
+"p_option_1": 20,
+"rationale": "Findings that deeper layers encode future states (forecasting models like weather/hurricane models) are the more notable result, and an abstract would more likely highlight that deeper layers align better with the state six hours ahead.",
+"cost": 0.00392,
+"request_id": "req_011Cgj2JFzzieNmuys97rgGE",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 560,
+"output_tokens": 84,
+"cost_usd": 0.00392,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"b06e79c401aa362ef00700eb": {
+"id": "r2-093",
+"kind": "order-check",
+"option_1_is": "a",
+"p_option_1": 75,
+"rationale": "Papers that introduce a MusicXML tokenisation usually report that it outperforms the alternatives. Still, the interpretability framing and possible negative-result reporting leave some uncertainty. The 'outperform' version is the more typical claim for an abstract, so Option 1 is more likely.",
+"cost": 0.004532,
+"request_id": "req_011Cgj2JGSHYmdf5FqnzYd4N",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 573,
+"output_tokens": 112,
+"cost_usd": 0.004532,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+}
+}
