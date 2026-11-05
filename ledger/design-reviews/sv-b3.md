@@ -154,3 +154,19 @@ Checked against 933e38e: DEVIATIONS D8, "Addendum D8" in `sv-b3.md`, the new `sv
 - **New flaw (D8/D10), the not-run sentence names the wrong cause.** `svd_report.sentences` fills the not-run sentence with the bet's own cap: "the 0.80-dollar cap was reached after {k} of {n} items". `rows()` marks a model not run for any missing item, including a missing said rating (the said step has its own $0.85 cap) and a step ended by an error. In a synthetic said-step stop during Sonnet (100 of 300 said ratings), the report printed "Sonnet: not run (the 0.80-dollar cap was reached after 100 of 150 items)". That is false: the b3 cap was never reached. **Fix:** under a dated DEVIATIONS row, before any data, make the not-run sentence neutral: "{model}: not run (the run stopped after {k} of {n} items had both a stated rating and a choice; the cause is recorded in `results/`)". Alternatively, have `svd_report.py` name the actual cause (the said, bet or program cap, or the error logged in `results/sv-errors.md`), and print the bet's cap only when that cap is what stopped the run.
 
 Everything else re-checked holds. The pass, untestable and type-only sentences and the tables render from synthetic analyses, the leave-one-out and within-type sentences fire as pre-registered, and the review-gate, cap and refusal results are unchanged. `confirmed_at` stays null until the not-run sentence is fixed.
+
+## Addendum 3: confirmation (2026-11-05 05:46 America/Denver)
+
+Checked against cbce911: DEVIATIONS D9–D11, "Addendum D9" in `sv-b3.md`, `svd_report.stop_cause`, and the cap log in `svd_wave1.run`. I used stubbed runs in a scratch RESULTS folder. No API calls were made, and `programs/said-vs-did/results/` is still empty.
+
+- **The case Addendum 2 found is fixed.** The said step was stopped by its cap during Sonnet (stub cap $0.40, 400 calls). The report now says "Sonnet: not run (100 of 150 items complete; stopped by sv-said stopped during claude-sonnet-5-5: the step cap ($0.40) was reached; …)".
+- **Still wrong (1): the later model.** In that same run, Opus never started, because "it and later models are reported as not run". Its sentence reads "Opus: not run (0 of 80 items complete; stopped by a stop with no logged cause …)". That is false, since the cap stop is logged; it is logged under Sonnet's name. This is the most likely not-run case for Opus, which runs last.
+- **Still wrong (2): stops from other bets.** `stop_cause` matches log lines by model name alone, in every step and every bet. In a run where sv-b1 stopped on an error on `b1first|opus|h269` and sv-b3 was later stopped by its own cap during Opus, sv-b3's sentence read "Opus: not run (20 of 80 items complete; stopped by sv-b3 … the step cap ($0.47) was reached …; sv-b1: 1 error(s); first: job `b1first|opus|h269` …)". That names another bet's error as a cause of this stop.
+- **Fix:** in `stop_cause(model)`, called for bet step `s`:
+  - (a) Keep only log lines for this bet's step (`sv-{s}`), the said step (`sv-said`) and the program cap. Keep only error keys that start with `{s}|`, or with `said|`.
+  - (b) For a cap or error stop logged during model M in one of those steps, give it as the cause for M and for every model after M in `C.MODELS`.
+
+  Record both under a dated DEVIATIONS row before any data.
+- **Nothing else changed.** The other D7/D8 fixes are as confirmed in Addenda 1 and 2.
+
+`confirmed_at` stays null.

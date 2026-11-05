@@ -242,3 +242,33 @@ On a synthetic run whose said step stopped after Sonnet's first 150 ratings, wit
 The b1 and b3 branches of the same line have the same problem. That is outside this review, but probably the same fix.
 
 **Not confirmed.** `confirmed_at` is back to null. Flaws 1–4 stand fixed, so only the new not-run sentence is open, and I will confirm once it is corrected.
+
+## Addendum: confirmation against cbce911 (2026-11-05 05:46 America/Denver)
+
+I checked DEVIATIONS D9–D11 and Addendum D9 in `sv-b2.md`. In the code, I checked `run()` in `svd_wave1.py`, which now logs cap stops to `results/sv-run-log.md`, and `svd_report.stop_cause`. `programs/said-vs-did/experiments/` at HEAD is identical to cbce911.
+
+What I ran: `d9_confirm.py` in my scratch folder, no paid calls. It drives the real `run("said")` and `run("b2")` with a stubbed `call`, with review files set to go in the scratch folder only, then runs `analyse("b2")` and `svd_report.sentences`.
+
+**What is fixed:**
+- My case is fixed. When the said step's cap stops it during Sonnet, Sonnet's sentence now reads "not run (40 of 300 items complete; stopped by sv-said stopped during claude-sonnet-5-5: the step cap ($0.85) was reached …)".
+- A not-run model's secondary statistics are no longer reported (its table row reads "not run").
+- Flaws 1–4 and everything else checked above are unchanged.
+
+**The not-run sentence is still wrong in two ways:**
+1. **It names stops from other bets.** `stop_cause(model)` collects every line in the program-wide logs that mentions the model, whatever the step.
+   - (c) sv-b1 had hit its $2.20 cap during Opus, and sv-b2's own cap then stopped it during Opus. sv-b2's sentence was "Opus: not run (60 of 80 items complete; stopped by sv-b1 stopped during claude-opus-5-5: the step cap ($2.20) was reached …; sv-b2 stopped during claude-opus-5-5: the step cap ($0.95) …)". sv-b1's cap did not stop sv-b2.
+   - (d) An sv-b1 error on an Opus job (already resumed and cleared) was given as the reason sv-b2's Opus was not run, when sv-b2's own error had stopped the run before Opus.
+2. **It says "a stop with no logged cause" when the cause is logged.** A cap or error stop during one model also stops every later model in that step. But the log names only the model being run, so the later models get "no logged cause". This happened for Opus in (a) and (b), and for Sonnet and Opus in (d).
+
+**Exact fix**, with a DEVIATIONS row before any data: make `stop_cause(model, step)`:
+- read only lines whose label is `sv-said` or `sv-{step}` (the cap log's "sv-{step} stopped during …" and the error log's "{label}: …");
+- for each of those two steps, take the last logged stop, with the model it happened during (for an error, read the model from the job key). It is the cause for that model and for every model after it in `C.MODELS` order;
+- keep the refusal clause as it is.
+
+In the four cases above, the corrected sentences are:
+- (a) Sonnet and Opus: the said cap;
+- (b) Sonnet and Opus: the b2 cap;
+- (c) Opus: the b2 cap only;
+- (d) Haiku, Sonnet and Opus: sv-b2's error.
+
+**Not confirmed.** `confirmed_at` stays null.

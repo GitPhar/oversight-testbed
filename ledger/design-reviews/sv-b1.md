@@ -200,3 +200,30 @@ At 933e38e and in the working tree, `svd_wave1.py`, `svd_common.py` and `svd_sta
 - The same applies to sv-b2 and sv-b3, which share the sentence.
 
 The reviewer confirms in a further addendum, and `confirmed_at` is set then.
+
+## Addendum 2: confirmation (2026-11-05 05:47 America/Denver)
+
+Checked against **cbce911** (DEVIATIONS D9-D11, Addendum D9 in `sv-b1.md`, `svd_wave1.run`'s cap log, `svd_report.stop_cause`). At cbce911 and in the working tree, `svd_wave1.py`, `svd_common.py`, `svd_stats.py` and `svd_report.py` are identical. `svd_common.py` is unchanged since 933e38e, and `analyse()`, `worlds()` and the prompts are unchanged since 83a4c82. No paid call. The scratch scripts are `d9_check.py` plus a stubbed `run("said")` and `run("b1")`, with the review gate pointed at scratch go files, `C.call` stubbed and the b1 cap set to $1.00.
+
+**N1: not fixed.** The model during which the stop happened now gets a true cause:
+- b1 cap during Sonnet: "Sonnet: not run (90 of 150 items complete; stopped by sv-b1 stopped during claude-sonnet-5-5: the step cap ($2.20) was reached…)".
+- A `max_tokens` error on a Sonnet job, the said cap during Opus, and a refusal also print the right cause.
+- The two cases from the first confirmation (an error stop, and the said step stopping) are now true.
+
+Two cases still print a sentence that is not true:
+1. **Models after the one that was stopped.** D7 reports these as not run too, and §3 names them ("later models are reported as not run"). `stop_cause` keeps only log lines naming *that* model, so these models get "stopped by a stop with no logged cause (see the run's commits)", although the cause is logged.
+   - Reproduced on the real code path: a stubbed `run("b1")` with a $1.00 cap logged "sv-b1 stopped during claude-haiku-5-5: the step cap ($1.00) was reached". `svd_report` then printed "Sonnet: not run (0 of 150 items complete; stopped by a stop with no logged cause …)" and the same for Opus.
+   - Addendum D9's own text says {cause} is "the stop recorded for that run", which the code does not follow.
+   - This is the most likely not-run case: a cap during Haiku or Sonnet.
+2. **Stops in another bet's step are attributed to this bet.** `stop_cause` does not filter lines by step. An sv-b2 step-cap stop during Opus is listed in sv-b1's Opus sentence, next to the sv-b1 error that actually stopped it: "Opus: not run (50 of 80 items complete; stopped by sv-b2 stopped during claude-opus-5-5: the step cap ($0.95) was reached…; sv-b1: 1 error(s)…)".
+
+**Fix.** `stop_cause(model, step)` should:
+- read only lines for `sv-{step}` and `sv-said`;
+- for a model with no line of its own, use the stop logged for the earliest model before it in `C.MODELS` order, worded "{cause} during {earlier model}; this model was not started";
+- under a DEVIATIONS row.
+
+The same applies to sv-b2 and sv-b3, which share `svd_report.py`.
+
+**Nothing else broke.** The D9-D11 changes touch only `run()`'s logging and `svd_report.py`. Earlier results stand: the gate, the not-run rule, the one-item ids, the resume limit, and the dry run that reproduces `sv-wave1-worlds-d7.txt`. The not-run models' secondaries are now shown as "not run" in the tables, which is correct.
+
+`confirmed_at` stays null.
