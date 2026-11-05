@@ -1125,3 +1125,13 @@ D46 re-analyses direction 3's six-format calls (D38), which had already been ope
 - **Exploratory:** the rating follows the last sub-claim's lean (r = +0.54); the probe does not (+0.14).
 
 Details in `results/probe-dissociation.md`.
+
+## D55 — qwalk (bet em-qwalk) pre-registered: a simulated quantum walk against PageRank on program 1's claim graph
+
+**Date:** 2026-11-04 19:50 America/Denver, before the claim graph was opened for analysis. Recorded in `experiments/qwalk.md`, analysis in `experiments/qwalk.py`. Laptop only: $0 API, 0 QPU s, no chip; the walk is a numpy simulation.
+
+**What it is.** Sean's entangled-claims question (steer st-13): program 1's research directions (`map/entangled-mind.json`) as nodes, parent, same-record-row and ledger links as edges, kills and hits as labels; a continuous-time quantum walk and personalised PageRank (damping 0.85, its exact classical twin at the matched exponential stopping time τ = 5.667) each score every settled direction leave-one-node-out. Pass only if the quantum walk's AUROC beats PageRank's with a stratified bootstrap 95% interval above 0; beating chance does not count.
+
+**What it is not.** It does not revive the quantum error-prediction encoding (closed; CONTEXT §3 rule 6). No model answer, claim web or circuit from program 1 is used.
+
+**Disclosed.** The author had read the map, the record and brier.md (outcomes visible) before writing the rules; no predictor was computed on the real graph and the dry run used synthetic forests only. Engine odds: map 0.04, v1 re-elicitation 0.07, in force 0.05 (lesson ls-em-qwalk). No human odds.
