@@ -74,7 +74,7 @@ Predicted = mean stated probability in the bucket; observed = fraction that hit;
 
 ## What is not scored, and why
 
-24 of the 39 bets in the ledger are not scored:
+25 of the 40 bets in the ledger are not scored:
 
 - **em-gm9** (Clonable minds: NSIT on archived experiment-5 conversations): Not scored: the stated P is for 'a publishable conceptual result', which the pre-registered NSIT rule does not decide. It resolves when an audit or a reviewer judges paper/clonable-minds.md. brier.md shows both possible outcomes as a sensitivity row.
 - **em-gm3a** (Free look: does the scale-direction gap predict errors?): Not scored: the gold map gave this free look no probability ('—'). The 0.45 sometimes attached to it was direction 3's original P, not 3a's.
@@ -100,5 +100,6 @@ Predicted = mean stated probability in the bucket; observed = fraction that hit;
 - **om-p2-5** (Egocentric leakage: does the model's own planted answer pull the rating it attributes to Sam, who never saw it?): Not scored yet: open, pre-registered a29d6ab, seeded fcd1909; design review pending; no call made.
 - **om-p2-6** (Is "own" a position or a label? Assistant turn vs user turn x "yours" vs "Sam's", plus the user's): open: pre-registered 9590b92, seeded 482f4e4; design review pending; no call made
 - **ss-b6** (Round 2b: the bettor beats a valence comparator ('which sentence makes the paper look better')): open: pre-registered (c9787f9); awaiting design review; no valence call before go
+- **em-qwalk2** (Entangled claims, re-bet: a simulated quantum walk against PageRank on program 1's direction graph): Open. Re-bet of em-qwalk (withdrawn, D56). Not program 1's error-prediction encoding (closed); a question about the research record.
 
-32 of the 39 bets have an audit in `ledger/audits/`; 14 of the 15 scored bets are audited, and the audit reversed 2 verdicts: em-gm3c → undetermined; om-p2-4 → undetermined. Founding-week (round 1) audits are links into `programs/entangled-mind/audits/` (`ledger/audits/em-*.md`, summary `SUMMARY-1.md`); round 2 is `SUMMARY-2.md`. When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.
+32 of the 40 bets have an audit in `ledger/audits/`; 14 of the 15 scored bets are audited, and the audit reversed 2 verdicts: em-gm3c → undetermined; om-p2-4 → undetermined. Founding-week (round 1) audits are links into `programs/entangled-mind/audits/` (`ledger/audits/em-*.md`, summary `SUMMARY-1.md`); round 2 is `SUMMARY-2.md`. When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.
