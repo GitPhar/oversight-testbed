@@ -1,0 +1,51 @@
+{
+ "haiku": {
+  "within_sd_shown": 10.42595585812426,
+  "within_sd_redacted": 11.487577831921072,
+  "null (no order effect)": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "half of shown": {
+   "pass": 0.08,
+   "fail": 0.92,
+   "untestable": 0.0
+  },
+  "equal to shown": {
+   "pass": 1.0,
+   "fail": 0.0,
+   "untestable": 0.0
+  },
+  "archived redacted pattern": {
+   "pass": 1.0,
+   "fail": 0.0,
+   "untestable": 0.0
+  }
+ },
+ "sonnet": {
+  "within_sd_shown": 9.415302261035844,
+  "within_sd_redacted": 11.199144312550551,
+  "null (no order effect)": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "half of shown": {
+   "pass": 0.15,
+   "fail": 0.85,
+   "untestable": 0.0
+  },
+  "equal to shown": {
+   "pass": 0.93,
+   "fail": 0.07,
+   "untestable": 0.0
+  },
+  "archived redacted pattern": {
+   "pass": 0.99,
+   "fail": 0.01,
+   "untestable": 0.0
+  }
+ },
+ "_note": "python experiments/gm2q_questions_only.py --dry-run (100 simulated runs per world, 400 permutations and bootstraps); worlds from results/gm2-conversations.json (Haiku) and results/mm-gm2-sonnet-conversations.json (Sonnet), shown chains"
+}
