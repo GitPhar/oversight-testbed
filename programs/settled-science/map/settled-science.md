@@ -170,3 +170,16 @@ Reasons (the fresh contexts' lines): ss-f1 "Below settled-science (0.75) and pub
 **ss-f1 → ss-b13: mixed (audited, stands; 2026-11-05).** Sonnet as bettor was not shown different from Opus (Brier 0.168 against 0.163) and beat the good-news rule; Haiku beat a coin (0.208) but not the good-news rule by the margin. Novelty: partly new. The audit's cheapest overturning test: Opus's flattery rater on round 1's 116 items (about $0.30), scoring Sonnet against it. Follow-ups are for a fresh remap session (`operators/remap.md`); this session wrote the result.
 
 **ss-f8 → ss-b10c: pass, unreplicated (audited, stands; 2026-11-05). Novelty: new.** With each BrainBench pair shown both ways round and the two ratings averaged, on the items whose second rating was new, "which version is better news for the paper's own idea?" picked the real abstract 77.5% on Haiku and 89.7% on Sonnet, above the neuroscientists' 63.4%. Scored by both picks instead (the auditor's re-analysis), Haiku is 67.0% and not shown to beat the experts. Follow-ups (two, after a re-scout) are for a fresh remap session; this session wrote the result.
+
+## Wave 5 (written 2026-11-05 16:26 America/Denver): two replications of ss-b10c, ss-f9 and ss-f10
+
+ss-b10c is the ledger's only result with Novelty "new", and it is unreplicated: one wording of the question, and Opus on only 41 items. Sean approved about $8 for its replication (budget ruling br-020). Both cards went on the cockpit first (6ee9bb7), with no engine odds; the second wording was frozen by hash before anything else (4173f67); the run code and a committed dry run followed (06b990c). Odds come next, from fresh contexts (rule 14).
+
+| direction | parent bet | test | models | cost | engine odds |
+|---|---|---|---|---|---|
+| ss-f9 | ss-b10c | Opus, both prompts, all 200 items in both orders: the flattery accuracy's lower bound above the published 81.4% for LLMs, and the forecasting prompt no more than 5 points better | Opus (Haiku and Sonnet reported from ss-b10c) | about $5.80 | not yet stated |
+| ss-f10 | ss-b10c | the flattery question in a second wording (bettor/prompts/flattery-v2.txt), Haiku and Sonnet, all 200 items in both orders: each model's lower bound above 63.4% and within 5 points of its first-wording accuracy on the same items | Haiku, Sonnet | about $2.10 | not yet stated |
+
+**Prior work, ss-f9.** BrainBench's 81.4% is for open models scored by perplexity; its authors avoided prompting and found chat-tuned models worse than base models. No paper reports a prompted Claude model or a valence question on BrainBench (predicts: unknown).
+
+**Prior work, ss-f10.** The prompt-paraphrase literature points both ways: single-prompt results are brittle (Mizrahi et al. 2024; Sclar et al. 2023, up to 76 points from formatting on LLaMA-2-13B), but with model-judged answers the spread across paraphrases shrinks (arXiv 2509.01790). Nothing tests a valence question or BrainBench (predicts: mixed).

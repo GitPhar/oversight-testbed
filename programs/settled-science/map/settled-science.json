@@ -604,6 +604,77 @@
    "novelty": "new",
    "novelty_line": "**Novelty:** new. No published work I found reports that a valence question (\"which version is better news for the paper's own idea?\") solves BrainBench or any real-versus-altered results task. BrainBench (Luo et al., 2024, arXiv 2403.03230, *Nature Human Behaviour*) ran local-context, swapped-sentence, zlib-perplexity memorisation, publication-date, calibration and GPT-4-item controls, and found \"no indication that BrainBench was memorized\". It tests no valence, positive-result or publication-bias shortcut, and neither do its follow-ups (Luo, Sun and Love, 2024, arXiv 2405.09395; Luo, Ramscar and Love, 2024, arXiv 2411.11061) or Wen et al. (2025, arXiv 2506.00794, which checks \"superficial features like idea complexity\"). Lee (2026, arXiv 2604.06236) is not this test, and it does not mention BrainBench, valence or shortcuts. It proposes, without running anything (§5.5: \"does not include empirical validation\"), three things. §4.1: give LLMs only the starting information of 200–500 completed ClinicalTrials.gov trials, ask for a probability of success, and score with AUC-ROC and with the probabilities given to failed trials, hypothesising that \"LLMs systematically overestimate the probability of experimental success\". §4.2: compare five context conditions (none, successes only, failures only, both, failures classified by cause), with a dose-response at 10, 50, 100 and 200 failure records. §5.3: correlate \"the published positive-result ratio and the actual success ratio (obtainable from trial registries)\" across medical subfields, plus a peer-review test on OpenReview. So this project's earlier statement that ours is \"the test an April 2026 paper asked for\" (paper/novelty.md finding 8, ranked replication 1) overstates the link. The swap-both-orders-and-average fix and the first-position pull are known: Zheng et al. (2023, arXiv 2306.05685) found Claude-v1 consistent on swapped order 23.8% of the time and favouring the first answer 75.0%; Wang et al. (2023, arXiv 2305.17926, Balanced Position Calibration) average the scores over both orders. LLMs swayed by favourable framing is in print in another form (Yun et al., CHIL 2025, arXiv 2502.07963, spin in medical abstracts), but not as a rule for picking real results. What is new is only the headline, a one-line valence question beating the 63.4% for experts on BrainBench, and it cannot be told apart from memory or plausibility. Search: \"BrainBench\" with shortcut, valence, positive result, publication bias, memorization, contamination, follow-up; \"LLMs predict scientific results publication bias\"; \"LLM spin medical abstracts\"; \"position bias swap LLM judge\"; general web search and arxiv.org abstract and HTML pages, 2026-11-05. Model: claude-opus-5-5 (a fresh subagent that did not run ss-b10c).",
    "what_would_break_it_next": "see ledger/audits/ss-b10c.md, 'What would break it next'"
+  },
+  {
+   "id": "ss-f9",
+   "parent": "ss-f8",
+   "from_bet": "ss-b10c",
+   "kind": "follow-up",
+   "referee": "model",
+   "source": "engine",
+   "source_note": "the replication invariant 7 owes ss-b10c (paper/novelty.md, re-ranked item 1: 'the valence shortcut on BrainBench, replicated where it can be overturned'); design given in the planning chat's launch message, funded by Sean's budget steer (br-020)",
+   "short": "BrainBench flattery, Opus all 200",
+   "title": "On all 200 BrainBench pairs in both orders, does Opus's 'better news for the paper's own idea' answer beat the 81.4% published for language models, and stay within 5 points of asking which version is real?",
+   "assumption_at_stake": "ss-b10c's Opus row (97.6% on 41 items) is Opus's level on BrainBench, not a lucky subset, and the valence question alone does as well as asking directly which abstract was published.",
+   "cheapest_test": "ss-b10c's flattery and forecasting prompts, unchanged, on Opus at effort low, all 200 items in both orders (its 162 calls reused by content hash, 638 new), in ss-b10c's beacon order; rule on all 200.",
+   "models": "claude-opus-5-5 only: it completes ss-b10c's Opus secondary; Haiku and Sonnet already have all 200 items in both orders from ss-b10c (reported rows, no new calls)",
+   "cost": "about $5.80 at ss-b10c's measured $0.0091 per Opus call; cap $5.95 in code",
+   "odds_event": "On BrainBench's 200 human-written items, each rated in both option orders and the two ratings averaged, claude-opus-5-5's flattery accuracy has a 95% item-bootstrap lower bound above 0.814 (the published LLM mean), and its forecasting-prompt accuracy on the same items exceeds its flattery accuracy by at most 0.05.",
+   "question": "Asked only which version is better news for the paper's own idea, does Opus pick the real BrainBench abstract more often than the published language models (81.4%), on all 200 pairs, about as often as when asked which version is real?",
+   "known": [
+    "With both orders averaged, ss-b10c's flattery question picked the real abstract 89.7% on Sonnet and 77.5% on Haiku (scored items), 97.6% on Opus's 41 beacon-drawn items (ss-b10c, audited, pass-unreplicated).",
+    "BrainBench reports 81.4% for LLMs scored by perplexity and 63.4% for 171 neuroscientists, and tests no valence shortcut."
+   ],
+   "human_prompt": "Would you spend about $6 to find out whether the strongest Claude model, asked only which version is better news for the paper's idea, beats the language models in the BrainBench study on all 200 pairs? Will it come back a hit?",
+   "engine_only": [],
+   "status": "open",
+   "opened": "2026-11-05T16:26",
+   "prior_work_line": "BrainBench (Luo et al. 2024, Nature Human Behaviour, arXiv 2403.03230): LLMs averaged 81.4% against 63.4% for experts, scored by perplexity, not by asking; chat or instruction-tuned models did worse than base models, and the authors avoided prompting because it 'may yield less reliable judgments'. No paper reports a prompted Claude model, or a valence question, on BrainBench (predicts: unknown). Adds: ss-b10c's 41-item Opus row completed to 200, against the stricter 81.4% bar.",
+   "prior_work_predicts": "unknown",
+   "prior_work_sources": [
+    "Luo et al. 2024, arXiv 2403.03230 v4 HTML, opened 2026-11-05 (81.4% vs 63.4%; perplexity scoring; 'Chat or instruction-optimized models performed worse than their base model counterparts'; 'Prompting in natural language may yield less reliable judgments'; Phi-3 82.5%)",
+    "ss-b10c results and audit (this repository)"
+   ],
+   "prior_work_search": "web search 'BrainBench Claude Opus prompted accuracy neuroscience results prediction frontier models' (no Claude result found); arXiv 2403.03230 v4 HTML re-read, 2026-11-05",
+   "prior_work_at": "2026-11-05T16:26",
+   "diagnosis": null,
+   "remap": null
+  },
+  {
+   "id": "ss-f10",
+   "parent": "ss-f8",
+   "from_bet": "ss-b10c",
+   "kind": "follow-up",
+   "referee": "model",
+   "source": "engine",
+   "source_note": "the replication invariant 7 owes ss-b10c ('one wording of each prompt', ss-b10c's own limits); design given in the planning chat's launch message, funded by Sean's budget steer (br-020)",
+   "short": "BrainBench flattery, second wording",
+   "title": "With the flattery question in a second wording, frozen before any call, do Haiku and Sonnet still beat the neuroscientists' 63.4% on all 200 BrainBench pairs in both orders, each within 5 points of the first wording?",
+   "assumption_at_stake": "ss-b10c's result is about the shortcut (picking the version that is better for the paper's own idea), not about the one sentence it used.",
+   "cheapest_test": "bettor/prompts/flattery-v2.txt (SHA-256 72c5be33…, 4173f67) in place of ss-b10c's flattery instruction, everything else unchanged, on Haiku and Sonnet, all 200 items in both orders (800 new calls); compared item by item with ss-b10c's first-wording ratings on the same items.",
+   "models": "claude-haiku-5-5 and claude-sonnet-5-5, not Opus: the question is whether the two models that carried ss-b10c's rule keep it under another sentence; Opus with the first wording is ss-f9's own bet",
+   "cost": "about $2.10 at ss-b10c's measured per-call costs; cap $2.25 in code",
+   "odds_event": "With a second flattery wording frozen by SHA-256 before any call, on BrainBench's 200 items in both orders with ratings averaged, for both claude-haiku-5-5 and claude-sonnet-5-5 the accuracy has a 95% item-bootstrap lower bound above 0.634 and lies within 0.05 of the same model's accuracy with ss-b10c's wording on the same 200 items.",
+   "question": "Asked in different words which version's findings make the authors' own idea look better supported, do both smaller Claude models still beat the neuroscientists on BrainBench, and score about what they scored with the first wording?",
+   "known": [
+    "With the first wording, both orders, all 200 pairs: Haiku 76.2%, Sonnet 88.2% (ss-b10c, audited, pass-unreplicated; 77.5% and 89.7% on its scored items)."
+   ],
+   "human_prompt": "Would you spend about $2 to find out whether the 'better news' shortcut on BrainBench survives being asked in different words, on both smaller Claude models? Will it come back a hit?",
+   "engine_only": [],
+   "status": "open",
+   "opened": "2026-11-05T16:26",
+   "prior_work_line": "Prompt-paraphrase studies predict some movement: single-instruction results are brittle across 20 LLMs (Mizrahi et al. 2024, TACL, arXiv 2401.00595), and formatting alone moved LLaMA-2-13B by up to 76 points (Sclar et al. 2023, arXiv 2310.11324); but with model-judged answers, variance across 12 paraphrased templates drops sharply (arXiv 2509.01790). None tests a valence question, BrainBench or Claude 5 models (predicts: mixed). Adds: the first paraphrase test of ss-b10c's shortcut.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Mizrahi et al. 2024, TACL, arXiv 2401.00595 (abstract: single-prompt results brittle across 6.5M instances, 20 LLMs, 39 tasks)",
+    "Sclar et al. 2023, arXiv 2310.11324 (abstract: up to 76 accuracy points from formatting changes, LLaMA-2-13B, few-shot)",
+    "arXiv 2509.01790, 'Flaw or Artifact? Rethinking Prompt Sensitivity in Evaluating LLMs' (abstract: 7 LLMs, 6 benchmarks, 12 templates; much sensitivity comes from heuristic answer matching; with LLM judges, variance drops)",
+    "ss-b10c results (this repository)"
+   ],
+   "prior_work_search": "web search 'LLM sensitivity to prompt paraphrase instruction wording accuracy multi-prompt evaluation Mizrahi Sclar'; abstracts of 2401.00595, 2310.11324 and 2509.01790 opened, 2026-11-05",
+   "prior_work_at": "2026-11-05T16:26",
+   "diagnosis": null,
+   "remap": null
   }
  ]
 }
