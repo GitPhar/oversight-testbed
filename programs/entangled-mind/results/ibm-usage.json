@@ -174,5 +174,49 @@
         "end_time": "2026-11-05T01:28:44.675Z"
       }
     }
+  },
+  {
+    "when": "2026-11-05 04:31:42",
+    "purpose": "Program 3 P3-15 run 2: barrier x grouping repeat (32 pubs, 5,000 shots)",
+    "backend": "ibm_fez",
+    "job_id": "dbm0d9d8ft8s738tta70",
+    "batch_id": "f441d993-5001-484c-aec7-69bd31121c15",
+    "circuits": 32,
+    "shots": 100,
+    "quantum_seconds": 4.0,
+    "job_metrics_usage": {
+      "qpu_charge_time_seconds": 4,
+      "value": 0.051396,
+      "unit": "resource_units",
+      "status": "pending",
+      "details": [
+        {
+          "value": 0.051396,
+          "unit": "resource_units",
+          "metric": {
+            "id": "caffe3ca-729c-5750-8777-df63bbf8bfd9",
+            "value": 4
+          }
+        }
+      ]
+    },
+    "service_before": {
+      "usage_consumed_seconds": 58,
+      "usage_limit_seconds": 600,
+      "usage_remaining_seconds": 542,
+      "usage_period": {
+        "start_time": "2026-10-08T04:31:31.575Z",
+        "end_time": "2026-11-05T04:31:31.575Z"
+      }
+    },
+    "service_after": {
+      "usage_consumed_seconds": 58,
+      "usage_limit_seconds": 600,
+      "usage_remaining_seconds": 542,
+      "usage_period": {
+        "start_time": "2026-10-08T04:31:42.396Z",
+        "end_time": "2026-11-05T04:31:42.396Z"
+      }
+    }
   }
 ]
