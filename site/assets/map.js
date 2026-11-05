@@ -455,6 +455,32 @@ function renderTimeLabel(all) {
   const parts = [[counts.hit, "landed"], [counts.mixed, "mixed"], [counts.killed, "killed"], [counts.running, "running"], [counts.open, "open"]]
     .filter(([n]) => n).map(([n, w]) => `${n} ${w}`);
   el("whenout").innerHTML = `<b>${latest ? "Now" : esc(fmtDate(times[tIndex]))}</b> · ${parts.join(" · ")}`;
+  renderLandedLine(all.filter((n) => n.view === "hit"), latest);
+}
+// What "landed" counts, in the legend (panel review, Part 4 item 11): every path whose pre-registered test passed,
+// split into scored passes (in the Brier score), unscored passes and, across both, pass-unreplicated. From the ledger
+// row on each node (scored, secondary_of, verdict_after_audit); a landed node with no bet predates the ledger.
+function renderLandedLine(hits, latest) {
+  const k = { scored: 0, secondary: 0, unscored: 0, before: 0, unrep: 0 };
+  for (const n of hits) {
+    const b = n.bet;
+    if (!b) { k.before++; continue; }
+    if (b.raw?.secondary_of) k.secondary++;
+    else if (b.raw?.scored === true) k.scored++;
+    else k.unscored++;
+    if (/unreplicated/i.test(`${b.verdictAfterAudit} ${b.verdictRaw}`)) k.unrep++;
+  }
+  const pl = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+  const un = [k.unscored ? pl(k.unscored, "with no odds to score or unscored by design", "with no odds to score or unscored by design") : null,
+    k.secondary ? pl(k.secondary, "that re-scored a run already scored, rule 15", "that re-scored a run already scored, rule 15") : null,
+    k.before ? pl(k.before, "from before the ledger began", "from before the ledger began") : null].filter(Boolean);
+  const unN = k.unscored + k.secondary + k.before;
+  el("landedline").innerHTML = `<b>What landed counts.</b> Every path whose pre-registered test passed. ` +
+    (hits.length ? `On this tab${latest ? "" : " at this point in the replay"}, ${hits.length} landed: ` +
+      `<b>${pl(k.scored, "scored pass", "scored passes")}</b> (in the engine's score)` +
+      `${unN ? ` and <b>${pl(unN, "unscored pass", "unscored passes")}</b> (${un.join("; ")})` : ""}. ` +
+      `${k.unrep ? `${k.unrep === hits.length ? (k.unrep === 1 ? "It is" : `All ${k.unrep} are`) : `<b>${k.unrep}</b> of the ${hits.length} ${k.unrep === 1 ? "is" : "are"}`} <b>pass, unreplicated</b>: the audit let the pass stand, but it has held once, on one set of models and items, and has not been repeated.` : "None is marked pass, unreplicated."}`
+      : `Nothing has landed on this tab${latest ? "" : " yet at this point in the replay"}.`);
 }
 function stopPlay() { clearInterval(playTimer); playTimer = null; el("play").textContent = "▶ Replay"; }
 el("when").addEventListener("input", (e) => { stopPlay(); tIndex = +e.target.value; hideTip(); paint(); });
