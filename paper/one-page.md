@@ -29,9 +29,9 @@ Here, the engine is the driver and its judgment is the driving. In most programs
   - 30% of the 560 claims checked failed.
   - No verdict was reversed.
   - Three quarters of the overclaims were in the READMEs and papers, not the results files. Write-ups get bolder the further they travel from the table.
-- **The AI's odds were no better than a coin.** On 20 scored bets they scored 0.249 against 0.250 for always saying 50%. Twenty bets cannot tell those apart (`ledger/brier.md`). The human's odds: none on any scored bet yet.
+- **The AI's odds were no better than a coin.** On 21 scored bets they scored 0.220 against 0.250 for always saying 50% and 0.222 for always saying the pass rate. Twenty-one bets cannot tell those apart (`ledger/brier.md`). The human's odds: none on any scored bet yet.
 - **The AI's odds move with wording.** When the engine was asked "will it fail?" instead of "will it pass?", its odds shifted by 11 points on average and by up to 30. Program 1 found this in the model it studied; the engine has the same habit (`nature-graded/map/odds-elicitation/README.md`).
-- **Comparing the referees is suggestive, not clean.** Model-graded 0.208 on 11, chip-graded 0.062 on 3, record-graded 0.418 on 6; the bets are about different kinds of things and the wording noise alone is 11 points (`ledger/brier.md`; `paper/the-engine.md` §6.8).
+- **Comparing the referees is suggestive, not clean.** Model-graded 0.195 on 12, chip-graded 0.047 on 4, record-graded 0.417 on 5; the bets are about different kinds of things and the wording noise alone is 11 points (`ledger/brier.md`; `paper/the-engine.md` §6.8).
 
 **Four additions** (`paper/the-engine.md` §3.7–3.10), where they stand on 2026-11-05:
 1. **A scored veto.** Built; no veto of a research direction has been logged, so none is scored (`ledger/scores.md`).

@@ -18,7 +18,7 @@ Model Psychology. No model showed a detectable advantage at judging its own erro
 
 Model Internals. On Llama-3-8B, a Marks–Tegmark-style truth probe moved with question order more than the stated rating did, but not in step with it; with only three gate items, the "not in step" half is undetermined. Whether an internal representation holds still while the words move is where Samuel Marks's probes and Belinda Li's work on what models represent meet my result. I want to test it properly.
 
-The second thread is method. I ran all of this as a scored oversight system. The engine's odds on its own 20 scored bets are no better than a coin (Brier 0.249, against 0.250 for always saying 50%). In one place, stated probabilities did carry judgment: on 116 findings published after its stated knowledge cutoff, the model's probabilities about which way each went scored Brier 0.163 [0.139, 0.190]. They beat a publication-bias shortcut too. The audit let that stand as unreplicated, with the item-writer from the same model family still open, and a one-line "which version flatters the paper" rule scored 90% to the bettor's 93% on the harder round.
+The second thread is method. I ran all of this as a scored oversight system. The engine's odds on its own 21 scored bets are no better than a coin (Brier 0.220, against 0.250 for always saying 50% and 0.222 for guessing the pass rate). In one place, stated probabilities did carry judgment: on 116 findings published after its stated knowledge cutoff, the model's probabilities about which way each went scored Brier 0.163 [0.139, 0.190]. They beat a publication-bias shortcut too. The audit let that stand as unreplicated, with the item-writer from the same model family still open, and a one-line "which version flatters the paper" rule scored 90% to the bettor's 93% on the harder round.
 
 My background is psychology, philosophy and four years leading AI pipeline engineering, not ML research. The record of what I killed, and why, is my evidence.
 
@@ -40,7 +40,7 @@ My background is psychology, philosophy and four years leading AI pipeline engin
 | Lindsey: introspective access real but narrow (about 20%) | `related-work/self-evaluation-goodhart-introspection.md` (Lindsey 2025, Transformer Circuits Thread); `proposal.md`, related work |
 | probe moves with order more than the rating, not in step; three gate items, one non-tracking (h191); verdict mixed, scored 0 | ledger row em-gm5; `ledger/audits/probe-dissociation-dp2.md` (DP2 verified DP1; verdict stands) |
 | probe built after Marks & Tegmark 2023 | `CONTEXT.md` §1; `application/research-proposal.md`, mentor fit |
-| 20 scored bets, Brier 0.249 (always 0.5: 0.250; hindsight base rate 0.240) | `ledger/brier.md` |
+| 21 scored bets, Brier 0.220 (always 0.5: 0.250; hindsight base rate 0.222) | `ledger/brier.md` |
 | 116 post-cutoff findings, Brier 0.163 [0.139, 0.190]; beat the headline baseline by 0.068 [0.036, 0.099] | `programs/settled-science/results/ss-b1-results.md` (`230cbe4`, cuts applied `a585a88`) |
 | pass-unreplicated; same-family writer open; flattery rule 90% vs 93% | `ledger/audits/ss-b1.md` (`cdce1ba`); `programs/settled-science/results/ss-b6-results.md` |
 | background | `CONTEXT.md` §1 |
@@ -51,7 +51,7 @@ My background is psychology, philosophy and four years leading AI pipeline engin
 - "There is no stored credence to read out" (proposal.md). This holds for Haiku and is contradicted on Opus (D50).
 - "Eleven pre-registered tests overnight." Five of them re-analysed data that had already been opened (D54, D54a).
 - "The probe is unverified." That was true at 14:39 (D53). DP2 has since verified the probe run, with the verdict mixed. The answer says what DP2 found.
-- The audit counts from program 1 (0 of 39 verdicts reversed, 166 of 560 claims failed). They are still true, but the ledger now has a wider view: 41 of 52 bets audited, 2 verdicts reversed (`ledger/brier.md`). Neither fits in 400 words alongside program 4.
+- The audit counts from program 1 (0 of 39 verdicts reversed, 166 of 560 claims failed). They are still true, but the ledger now has a wider view: 43 of 53 bets audited, 4 verdicts reversed (`ledger/brier.md`). Neither fits in 400 words alongside program 4.
 - **"The model's confidence was too low."** The ss-b1 audit cut it to an exploratory reading; its interval touches zero.
 - **The model-psychology field in program 4** (not shown to beat a coin, Brier 0.235 [0.181, 0.293] on 29 items). It touches Model Psychology directly, but it is a descriptive split of one run.
 - The stage-by-stage quantum readout (0.63 → 0.49 against 0.68). It is exploratory, not pre-registered.

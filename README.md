@@ -16,10 +16,10 @@ For the working files, read in this order: `CONTEXT.md` (the rules and the curre
 
 ## Where it stands (5 November 2026)
 
-- 52 bets in the ledger, 20 scored, 41 audited, 2 verdicts reversed by audit.
-- The AI's odds score 0.249 on the 20 scored bets, where always saying 50% scores 0.250: no better than a coin so far (`ledger/brier.md`).
+- 53 bets in the ledger, 21 scored, 43 audited, 4 verdicts reversed by audit.
+- The AI's odds score 0.220 on the 21 scored bets, where always saying 50% scores 0.250: no better than a coin so far (`ledger/brier.md`).
 - Three kinds of referee decide bets: another Claude model's behaviour (programs 1, 2, 5, 6, 7), an IBM quantum chip used only as a judge whose outcomes a model cannot argue with (program 3; 69 of 420 chip seconds used), and the published scientific record (program 4).
-- 6 planted faults, 6 caught by the auditor (too few to be a rate). Every auditor, reviewer and bettor so far is a Claude model; a check by a non-Claude model has not yet been run.
+- 6 planted faults, 6 caught by the auditor (too few to be a rate). Every auditor, reviewer and bettor so far is a Claude model (Opus 5.5, with a third audit round by Fable 5.1 on 5 November); a check by a non-Claude model has not yet been run.
 
 ## Programs
 
@@ -28,7 +28,7 @@ Every program lives in this repository under `programs/`, with its git history i
 - Program 1, [The Entangled Mind](programs/entangled-mind/): can a quantum-style encoding of a model's competing beliefs flag its wrong answers? Closed, negative, with a diagnosis. It left a live question: does a model's stated confidence report a fixed belief? (On Haiku, mostly not; on Opus, partly yes.) Its original repository, [GitPhar/entangled-mind](https://github.com/GitPhar/entangled-mind), is kept untouched as the historical record.
 - Program 2, [Other Minds](programs/other-minds/): does a model reason about another mind the way it reasons about its own? Six tests on Haiku, none passed.
 - Program 3, [Nature-Graded](programs/nature-graded/): the same AI's odds, graded by a real quantum chip instead of by a language model. The chip is a referee, never a computing resource (`operators/hardware.md`).
-- Program 4, [Settled Science](programs/settled-science/): can the AI tell which way published findings came out? Six passes, none yet repeated.
+- Program 4, [Settled Science](programs/settled-science/): can the AI tell which way published findings came out? Five scored passes, none yet repeated; a sixth was reversed to undetermined by audit.
 - Program 5, [Self-Grading](programs/self-grading/): does a model grade its own work more kindly than someone else's? Opened 5 November.
 - Program 6, [Test Awareness](programs/test-awareness/): does a model behave differently when it thinks it is being tested? Opened 5 November.
 - Program 7, [Said vs Did](programs/said-vs-did/): does the confidence a model states predict what it then does? Opened 5 November.

@@ -14,7 +14,7 @@ An AI (Claude) runs small research projects, and before each test it writes down
 2. **Other Minds:** does a model reason about someone else's mind the way it reasons about its own?
 3. **Nature-Graded:** can a real quantum chip (IBM's), instead of another AI, grade the AI's odds?
 4. **Settled Science:** can a Claude model with no internet tell which way published findings came out?
-5. **Self-Grading** (opened 5 November, nothing run yet): does a model grade its own work more kindly than someone else's?
+5. **Self-Grading** (opened 5 November): does a model grade its own work more kindly than someone else's? First test (sg-b1): no, on all three models it was if anything slightly harsher on its own. Fail.
 6. **Test Awareness** (opened 5 November, nothing run yet): does a model behave differently when it thinks it is being tested?
 7. **Said vs Did** (opened 5 November, nothing run yet): does the confidence a model states predict what it then does?
 
@@ -46,22 +46,22 @@ An AI (Claude) runs small research projects, and before each test it writes down
 - Does its own planted answer leak into its guess about another person (om-p2-5)? Yes, more than into its own rating: not simple carry-over. Fail.
 - Does an earlier answer pull because it is labelled "yours" or because of where it sits (om-p2-6)? Mostly where it sits, on Haiku. Fail. Repeated on Sonnet and Opus (om-p2-6r): neither showed the Haiku pull; fail.
 
-**Program 3 (IBM chip; no scored pass)**
+**Program 3 (IBM chip; four fails, no scored pass; the question closed on 5 November)**
 - On 3 November the chip said "yes" 50% of the time where its own description predicted 25%. A set-up mistake in our laptop copy of the chip (ng-p3-1)? No (26.8% against a 40% bar). Fail, also after two bug fixes.
 - Steady twists or random blur in the chip's errors (ng-p3-5)? Blur fitted better on 2 of 3 pairs (fail); a later look at the same data found both on all 3 (unscored by design).
 - Two follow-ups (ng-p3-2, ng-p3-3) could not run: next day the gap was gone.
 - Did restoring one circuit detail bring 50% back (ng-p3-15)? No (31.1% vs 31.9%). Fail; same when repeated.
-- Does 50% return when the circuit runs alone in its own job (ng-p3-16)? No (30.6%), on 5 November. Fail; the check by a fresh session has not run yet, and the ledger row was not yet updated when this was written.
+- Does 50% return when the circuit runs alone in its own job (ng-p3-16)? No (30.6%), on 5 November. Fail, scored; the check by a fresh session has not run yet. Sean then closed the 3 November question (steer st-19): the chip's state that afternoon is the one explanation left, and it cannot be tested.
 
-**Program 4 (the bettor is Opus; no pass repeated yet)**
+**Program 4 (the bettor is Opus; five passes, none repeated; one reversed)**
 - On 116 findings posted after its training data ends, it was right 76% of the time (ss-b1). Pass.
 - It beat the shortcut "papers always say their idea worked" (ss-b2). Pass.
 - It did better on older papers (ss-b3): memory, or easier items; it rests on one field. Pass.
 - On 92 machine-made pairs (real sentence vs one word flipped) it picked the real one 86 times, beating simple word rules (ss-b5). Pass.
-- The same model asked only "which version flatters the paper?" scored 90% to its 93% (ss-b6), so that edge is fragile. Pass, weak.
+- The same model asked only "which version flatters the paper?" scored 90% to its 93% (ss-b6), so that edge is fragile. First a weak pass; the third round of checks reversed it to undecided, because a world with no real edge passes that rule about half the time.
 - A "which is more striking?" rater was near a coin; the bettor beat it (ss-b7). Pass.
 - One test (ss-b4) was withdrawn before data: a dumb word rule could pass it.
-- All six passes were on one model, one prompt and one set of items written by the same model family that placed the bets. The check named a non-Claude item writer as the cheapest test that could overturn them.
+- All five remaining passes were on one model, one prompt and one set of items written by the same model family that placed the bets. The check named a non-Claude item writer as the cheapest test that could overturn them.
 
 ## What we have found so far, one line each
 
@@ -80,26 +80,26 @@ The findings above, one sentence each, with the models each was shown on. The si
 - The quantum chip said "yes" 50% of the time where its own description predicted 25%, and three later tries neither brought it back nor explained it. (Shown on: IBM's ibm_fez chip)
 - On 116 findings posted after its training data ends, the bettor picked which way the result came out 76% of the time, beating the shortcut "papers always say their idea worked". (Shown on: Opus; items written by the same model family)
 - A rater asked only "which version flatters the paper?" scored 90% to the bettor's 93%, so that edge is fragile. (Shown on: Opus)
-- The AI's own odds score 0.249 on 20 scored tests, no better than always saying 50-50 (0.250). (Shown on: the engine's bets across programs 1 to 4)
+- The AI's own odds score 0.220 on 21 scored tests, no better than always saying 50-50 (0.250). (Shown on: the engine's bets across programs 1 to 4)
 
 ## The AI's score, and why it is a coin flip
 
-The score measures how far the odds were from what happened: 0 is perfect, always saying 50-50 scores 0.250. On 20 scored tests the AI scores **0.249**, a coin. Always guessing the share that passed (8 of 20) scores 0.240, and nobody knew that share in advance. Why:
+The score measures how far the odds were from what happened: 0 is perfect, always saying 50-50 scores 0.250. On 21 scored tests the AI scores **0.220**, about a coin. Always guessing the share that passed (7 of 21) scores 0.222, and nobody knew that share in advance. Why:
 
 - **Its odds don't sort winners from losers.** Passes got 25–50%, the same range as misses.
-- **It erred both ways.** It gave model-behaviour bets 40–60%, and all missed; it gave published-record bets 25–50%, and all six passed.
+- **It erred both ways.** It gave model-behaviour bets 40–60%, and all missed; it gave published-record bets 25–50%, and all five that stayed scored passed.
 - **Its odds wobble with wording.** Reworded or flipped, they moved 11 points on average, up to 30.
-- **20 is too few.** The rules need 20 before judging at all, and 20 cannot tell 0.249 from 0.250.
+- **21 is too few.** The rules need 20 before judging at all, and 21 cannot tell 0.220 from 0.250.
 
 ## What the independent checks caught
 
 - **Round one, 39 results:** every number recomputed, but 38 of 39 write-ups said more than the data showed; 166 of 560 claims failed; no verdict reversed.
 - **Round two, 14 results:** 133 sentences cut, 3 verdicts changed.
-- **Across the ledger:** 41 of 52 bets checked; 2 verdicts reversed to "undecided".
+- **Across the ledger:** 43 of 53 bets checked; 4 verdicts reversed (three to "undecided", one to "mixed").
 - **Real catches:** a chip simulation that never loaded that day's settings; a "repeat" replaying the same 500 conversations; program 2's only pass; a contest decided by how its sides were built; Opus's "single belief" cut to "single verdict".
 - **Checking the checkers:** another session secretly planted a known mistake in 6 checks; all 6 were caught (10 are needed to mean much, and one of the six was placed by hand rather than drawn at random).
-- **Before spending,** a reviewer dry-runs each test: "go" first time 0 of 15 times; 3 tests withdrawn as unanswerable; 9 reviews missed flaws found later.
-- **Who did the checking:** every checker, reviewer, planter and bettor so far is a Claude Opus model, and a few checks were started by the same session that wrote the result. No check by a non-Claude model has been run.
+- **Before spending,** a reviewer dry-runs each test: "go" first time 0 of 18 times; 4 tests withdrawn before data; 11 reviews missed flaws found later.
+- **Who did the checking:** every checker, reviewer, planter and bettor so far is a Claude model (Opus, plus a third round of checks by a newer Claude model on 5 November), and a few checks were started by the same session that wrote the result. No check by a non-Claude model has been run.
 
 ## What a reader would find strong
 
@@ -114,12 +114,12 @@ The score measures how far the odds were from what happened: 0 is perfect, alway
 - Every headline question is still too small to answer, including whether the odds or checks are any good.
 - Sean's own odds: none on any scored bet. His first 12 answers, saved on 5 November, came minutes after their tests were registered, so they will not count either. "Does the human add anything?", the question closest to his role, has no data.
 - One model family does nearly everything: Claude writes, checks, plants mistakes and is studied. The best belief finding is mostly Haiku, and Opus partly contradicts it.
-- 52 bets in three days can look like volume, and Sean's own judgments are hard to see: one logged decision in his words, and the twelve cockpit answers.
+- 53 bets in three days can look like volume, and Sean's own judgments are hard to see: one logged decision in his words, and the twelve cockpit answers.
 
 ## What it needs before 22 November
 
 1. Sean's odds on at least 20 bets, entered in the cockpit before each bet is registered.
 2. More scored bets, so the odds can be judged, and four more planted mistakes, so the checkers can.
 3. One check by a non-Claude model, and program 4 repeated with questions written by a non-Claude model.
-4. Programs 2–4 at 10 scored bets each (now 6, 3 and 6).
+4. Programs 2–4 at 10 scored bets each (now 6, 4 and 5).
 5. Sean's own pieces: the "Why Anthropic?" essay, the recorded ten-minute walkthrough, the title, public registration of the test plans, and the support ticket about the refusals.
