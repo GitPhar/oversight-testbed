@@ -80,6 +80,57 @@
   "bettor_right": 2,
   "one_sided_sign_p": 0.25
  },
+ "secondaries": {
+  "bettor_brier_ci": [
+   0.04972065217391304,
+   0.0930728260869565
+  ],
+  "valence_brier_ci": [
+   0.08107391304347826,
+   0.13245978260869565
+  ],
+  "valence_accuracy_ci": [
+   0.8315217391304348,
+   0.9565217391304348
+  ],
+  "leg1_up_word": {
+   "n": 71,
+   "d": -0.04145352112676054,
+   "ci": [
+    -0.06272112676056338,
+    -0.023238028169014085
+   ]
+  },
+  "leg1_down_word": {
+   "n": 21,
+   "d": -0.018366666666666673,
+   "ci": [
+    -0.07639047619047619,
+    0.040361904761904766
+   ]
+  },
+  "opposite_sides": {
+   "items": [
+    "r2-008",
+    "r2-016",
+    "r2-049",
+    "r2-056",
+    "r2-095"
+   ],
+   "bettor_right": 4,
+   "rater_at_50": [
+    "r2-066"
+   ],
+   "share_of_leg1_gap": 0.2934903421550662
+  },
+  "leg2_without_near50_term": {
+   "d": -0.02228967405772416,
+   "ci": [
+    -0.051189816616927064,
+    0.005215349173031182
+   ]
+  }
+ },
  "label_reported": "pass, fragile",
  "sentence": "On 92 round-2 sentence pairs, the bettor picked the published sentence better than the same model asked only which version is better news for the paper's own method (raw: d\u2081 -0.036 [-0.057, -0.016], valence rule Brier 0.106), and better than that rating combined with the up word once both were recalibrated the same way (d\u2082 -0.027 [-0.054, -0.002]). Round 2's pass is not only picking the flattering version, as this rater judged it, or the up word, though this does not separate knowing the result from reasoning within the sentence, and the rater was the same model as the bettor; removing 1 chosen item (an up-word item) would flip it; this label rests on the items r2-056, r2-059, r2-063 and the query buckets interpretability, model-psychology: without any one of them the label would be null.",
  "rows": [
@@ -1114,6 +1165,13 @@
     5.478260869565218
    ],
    "same_side": 0.9782608695652174
+  },
+  "paired_incoherence_diff": {
+   "d": 0.8260869565217391,
+   "ci": [
+    -0.8043478260869565,
+    2.5869565217391304
+   ]
   }
  }
 }

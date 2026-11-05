@@ -25,7 +25,7 @@ Round 1 (`results/ss-b1-results.md`; audited, passes stand): on 116 findings fir
 
 Round 2 (`experiments/ss-b4.md`): items written by a fixed template, with no model writing. **ss-b4 was withdrawn before data:** trivial rules pass its bar on these items (DEVIATIONS D23). ss-b5, which must beat both the up-word and swap-pair rules, **passed** (`results/ss-b5-results.md`, unaudited). The bettor picked the published sentence on 86 of 92 items (Brier 0.070), but the test cannot separate knowing the result from reading the sentence.
 
-Round 2b (`results/ss-b6-results.md`, unaudited): asked only which version flatters the paper, the same model picks the published sentence 90% of the time, against the bettor's 93%. The bettor's edge clears the bar narrowly and is **fragile**: one item, or one query bucket, flips it. So most of round 2 is explained by picking the flattering version.
+Round 2b (`results/ss-b6-results.md`, unaudited): asked only which version flatters the paper, the same model picks the published sentence 90% of the time, against the bettor's 93%. The bettor's edge clears the bar narrowly and is **fragile**: one item, or one query bucket, flips it. So a same-model rater asked only which version flatters the paper matches most of round 2's result.
 
 ## Where things are
 

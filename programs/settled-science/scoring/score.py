@@ -508,6 +508,24 @@ def score_b6(items, bets, valence):
     from math import comb
     p_sign = sum(comb(disc, j) for j in range(b_right, disc + 1)) / 2 ** disc if disc else None
     out["discordant"] = {"n": disc, "bettor_right": b_right, "one_sided_sign_p": p_sign}
+    # D39 (audit ss-b6 cut 8 and recommendation): pre-registered secondaries regenerated here, not copied
+    acc = lambda vs: [1.0 if v > 0.5 else 0.5 if v == 0.5 else 0.0 for v in vs]  # noqa: E731
+    out["secondaries"] = {
+        "bettor_brier_ci": boot_ci([(1 - r["p_true"]) ** 2 for r in rows]),
+        "valence_brier_ci": boot_ci([(1 - r["v_true"]) ** 2 for r in rows]),
+        "valence_accuracy_ci": boot_ci(acc([r["v_true"] for r in rows])),
+        "leg1_up_word": {"n": int((~dn).sum()), "d": mean(d1[~dn]), "ci": boot_ci(list(d1[~dn]))},
+        "leg1_down_word": {"n": int(dn.sum()), "d": mean(d1[dn]), "ci": boot_ci(list(d1[dn]))}}
+    opp = [r["id"] for r in rows if r["pv"] != 50 and r["pb"] != 50 and (r["pb"] > 50) != (r["pv"] > 50)]
+    half = [r["id"] for r in rows if r["pv"] == 50]
+    sel = np.array([r["id"] in set(opp) | set(half) for r in rows])
+    out["secondaries"]["opposite_sides"] = {
+        "items": opp, "bettor_right": sum(1 for r in rows if r["id"] in opp and (r["pb"] > 50) == (r["y"] == 1)),
+        "rater_at_50": half, "share_of_leg1_gap": float(d1[sel].sum() / d1.sum()) if d1.sum() else None}
+    Xb2 = np.array([_feats(r["pb"], r["up"])[:2] for r in rows])
+    Xv2 = np.array([_feats(r["pv"], r["up"])[:2] for r in rows])
+    d2b = (y - _loo(Xb2, y)) ** 2 - (y - _loo(Xv2, y)) ** 2
+    out["secondaries"]["leg2_without_near50_term"] = {"d": mean(d2b), "ci": boot_ci(list(d2b))}
     # F5 sentences with qualifiers in the order G2, G3, down-word, greedy, fragile
     f3 = lambda c: f"[{c[0]:.3f}, {c[1]:.3f}]"  # noqa: E731
     if full:
@@ -585,7 +603,10 @@ def rater_noise(bets):
                 "incoherence_ci": boot_ci(inc) if inc else None,
                 "same_side": sum(1 for x, y in pairs if (x - 50) * (50 - y) > 0) / len(pairs) if pairs else None}
     ids = sorted(set(val) & set(ret))
-    return {"rater": stats(val, ret, ids), "bettor_same_items": stats(prim, chk, [i for i in ids if i in prim and i in chk])}
+    both = [i for i in ids if i in prim and i in chk]
+    diff = [abs(val[i]["p_option_1"] + ret[i]["p_option_1"] - 100) - abs(prim[i]["p_option_1"] + chk[i]["p_option_1"] - 100) for i in both]
+    return {"rater": stats(val, ret, ids), "bettor_same_items": stats(prim, chk, both),
+            "paired_incoherence_diff": {"d": sum(diff) / len(diff) if diff else None, "ci": boot_ci(diff) if diff else None}}  # D39
 
 
 def main_b6():
