@@ -165,7 +165,7 @@ Every landed or mixed bet of this program carries a Novelty line in its results 
 
 ## Wave 3, program 1 (2026-11-05, Tab I): one new node and three Prior work lines
 
-Added 2026-11-05 10:20 America/Denver by the program 1 wave-3 session, before any data for these directions. The cockpit cards for all three were posted first (`9da5349`, 09:58, no engine odds) and pushed to the live site at about 10:00. Engine odds are not on these nodes: each is elicited in a fresh v2 context (`ledger/prior.md`, rule 14) when its bet is pre-registered, and written here by that commit.
+Added 2026-11-05 10:02 America/Denver (commit 7bb7821; first written as 10:20, a guessed time) by the program 1 wave-3 session, before any data for these directions. The cockpit cards for all three were posted first (`9da5349`, 09:58, no engine odds) and pushed to the live site at about 10:00. Engine odds are not on these nodes: each is elicited in a fresh v2 context (`ledger/prior.md`, rule 14) when its bet is pre-registered, and written here by that commit.
 
 | id | grows from | direction | models | cost | prior work predicts |
 |---|---|---|---|---|---|
@@ -176,3 +176,5 @@ Added 2026-11-05 10:20 America/Denver by the program 1 wave-3 session, before an
 - **gm2q-f3, Prior work.** Order inside one prompt is known to move model outputs (Chen et al. 2024, arXiv:2402.08939, premise order, over 30% accuracy drop; Guan et al. 2025, arXiv:2502.04134; Hamalainen 2025, arXiv:2504.20444, list order and candidate ratings, Claude among the models), so the questions-only gate is predicted to pass. No paper found compares that effect with a turn-by-turn chain on graded credences or asks whether it spreads across items; em-gm2q is the only one. The ratio and leave-one-item-out parts are unpredicted.
 - **dm6f2-f2, Prior work.** Kim and Kang 2026 (arXiv:2605.27752, open models, no Claude): changing the confidence instruction shifts calibration in most settings, which predicts that wording moves the threshold list; nothing found on whether a format gap survives a referent-fixing wording.
 - **gm2bf1-f1, Prior work.** No prior statement found (gm2b-f1's search); Zhu and Griffiths 2024 and Temkit 2026 predict that mid-scale claims move more under both manipulations, which the two noise guards are built to remove.
+
+- **gm2q-f3 bet.** Pre-registered as `em-gm2q2` (`1e0c9c1`, seed `74b63b1`), engine odds 0.06 (v2: prior 0.23, adjustment −0.17), no human odds.
