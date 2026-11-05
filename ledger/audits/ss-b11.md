@@ -185,3 +185,6 @@ The status line "**Unaudited.**" becomes a link to this audit, as `operators/aud
 - **Real test (about $1–3; ss-f1's job).** Run the same rule against another bettor (Haiku or Sonnet) on the same items, or against Opus on round 2's items, where field up-rates may differ more.
   - On these items the fields carry no signal, so this bet could not have found a field-habit explanation even if one existed for other papers.
   - Only a set where the fields do differ can test "more than field habits".
+
+
+Revealed 2026-11-05: pl-025, clean; nothing to set aside.

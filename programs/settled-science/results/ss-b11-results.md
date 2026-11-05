@@ -1,12 +1,12 @@
 # ss-b11 results: does the round-1 bettor beat a rule that knows each field's habits?
 
-Pre-registration `3fd6037` (`experiments/ss-b11.md`, D52). Design review `ledger/design-reviews/ss-b11.md`: fix-first (1422610), fixes D55 (386d462), confirmed (e19586f, 06:57). Before scoring, at 06:58:31, `git diff --quiet HEAD -- bettor/bets.jsonl items/items.jsonl` passed, and `items/SHA256SUMS` checked OK. Archive only: $0, no model call. **Unaudited.**
+Pre-registration `3fd6037` (`experiments/ss-b11.md`, D52). Design review `ledger/design-reviews/ss-b11.md`: fix-first (1422610), fixes D55 (386d462), confirmed (e19586f, 06:57). Before scoring, at 06:58:31, `git diff --quiet HEAD -- bettor/bets.jsonl items/items.jsonl` passed, and `items/SHA256SUMS` checked OK. Archive only: $0, no model call. **Audited** (`ledger/audits/ss-b11.md`, 52b8f73): the pass stands as pass-unreplicated; its four required cuts are applied here (DEVIATIONS D59).
 
 ## In plain English
 
 In round 1, the strongest Claude model said which way 116 newly published findings went, and it beat a shortcut that only knows "papers usually report that their own method works" (ss-b2). This test tried a cleverer shortcut. For each of the four research fields, the shortcut knows two things: how often papers' own claims held there, and how often the "higher / more" version of a finding was the real one. It was given an unfair advantage: those rates were worked out from the very findings it was then scored on.
 
-**The model still clearly beat it.** Its Brier score was 0.163 against the shortcut's 0.223 (lower is better; always saying 50-50 scores 0.25). The difference is 0.059, with a 95% interval of 0.024 to 0.093. No single finding and no single field changes that. Without the unfair advantage (each finding's own answer left out of the rates), the gap is larger: 0.085 [0.048, 0.123]. **So the model's edge in round 1 is more than knowing which fields usually report good news, or which way results in a field tend to go.**
+**The model still beat it.** Its Brier score was 0.163 against the shortcut's 0.223 (lower is better; always saying 50-50 scores 0.25). The difference is 0.059, with a 95% interval of 0.024 to 0.093. No single finding and no single field changes that. Leaving each finding's own answer out of the rates does not make the rule fair. It turns the advantage into a handicap (P11), and the gap is then 0.085 [0.048, 0.123]. A rule that knew the true field rates would sit between the two. **So, on these items, the model's edge in round 1 is more than knowing each field's rate of papers' own claims holding and of "higher / more" results.** The four fields barely differ here: the rule fits no better with the real field labels than with shuffled ones (69% of 2,000 shuffles fit as well or better; audit ss-b11), so in effect the model beat pooled rates, not field habits. On the 38 headline-tagged items alone, the gap is 0.053, with an interval of −0.008 to 0.117, so the edge over the good-news rate by itself is not shown.
 
 The field split is the one weak spot, as in round 1. In model psychology the shortcut did slightly better than the model (0.223 against 0.235). The model's whole edge comes from the other three fields.
 
@@ -57,7 +57,7 @@ Leave-one-item-out flips: 0
 - **"Field" means round 1's four query buckets.** A finer split could make a stronger shortcut, but four fields of about 29 items cannot carry one.
 - **The rule's inputs are fallible.** The headline tags were written by the item-writer. The up-word list leaves 4 items at 0.5 ("raised/lowered" is not on it, for example).
 - **Prior work** (D55): the ss-b1 audit's leave-one-out rules on these items (a per-field up-direction prior, 0.263; headline tag plus question order, 0.241; a logistic, 0.233, with the bettor −0.070 [−0.104, −0.035]) already showed most of this. A pass here adds little beyond them.
-- The field jackknife interval uses ±1.96 on four clusters. A t multiplier with 3 degrees of freedom would be wider (design review remark). It is a secondary.
+- The field jackknife interval uses ±1.96 on four clusters. With a t multiplier for 3 degrees of freedom (±3.18) it is [−0.142, +0.024], which includes zero: at the level of fields, four clusters cannot show the edge. It is a secondary.
 
 ## Process and spend
 
