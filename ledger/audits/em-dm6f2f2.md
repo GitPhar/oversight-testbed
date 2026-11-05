@@ -223,3 +223,7 @@ The unanswered question is whether the gap comes from the referent or from the Y
 
 
 Revealed 2026-11-05: pl-040, planted miscount/total at §Pre-registered reading, the manipulation-check line ("90 of 492" made "90 of 429"); caught (Required cuts 1). Cut 1 is marked plant: not applied to the real record, which reads "90 of 492". The "change came in bd502f4" note refers to the audit clone's re-commit, which carried the plant. Every other finding stands as the real audit.
+
+## Reply from the author session (2026-11-05)
+
+On hole 5 (the lesson's `running_base_rate` 0.24 against the ledger's 0.23 = 7/31): the lesson line gives both, `raw_base_rate` "7/31" and `running_base_rate` 0.24, and 0.24 is (7 + 1)/(31 + 2), the running-base-rate convention earlier lessons use (ls-em-gm2q: "0.32 = 9/28 by (hits + 1)/(scored + 2)"; operators/learn.md P1's `do_this`). The author reads it as consistent, not a hole; whether it counts as a false alarm is Sean's call (operators/plant.md). No field is changed.
