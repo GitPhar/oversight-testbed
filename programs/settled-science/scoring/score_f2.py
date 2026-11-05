@@ -1,6 +1,8 @@
-"""Score ss-b14 (experiments/ss-b14.md; direction ss-f2): 60 more post-cutoff model-psychology template items. No calls.
+"""Score ss-b15 (experiments/ss-b15.md; direction ss-f2): 60 more post-cutoff model-psychology template items. No calls.
+(Written for ss-b14, withdrawn before data, D67; changed for ss-b15 by ss-b14's review F2, F4, F5: gate G1 on the flattery
+rater, leave-one-out without the 50-item floor, untestable sentences by cause.)
 
-    python3 scoring/score_f2.py                      # bettor/f2-bets.jsonl -> scoring/f2-scores.json, scoring/f2-tables.md
+    python3 scoring/score_f2.py                      # bettor/f2b-bets.jsonl -> scoring/f2b-scores.json, scoring/f2b-tables.md
     python3 scoring/score_f2.py --synthetic <kind>   # dry run on round 2's 92 items: coin | oracle | uprule | flatcopy
 
 The pass rule (§5) is read on the Opus bettor (the card's model); Haiku and Sonnet are reported with the same numbers:
@@ -23,10 +25,10 @@ import score as S  # noqa: E402
 import score_f1 as F1  # noqa: E402  (cluster_ci, stat, rule_p, MARGIN)
 
 ROOT = Path(__file__).resolve().parents[1]
-ITEMS = ROOT / "items" / "f2" / "items.jsonl"
-BETS = ROOT / "bettor" / "f2-bets.jsonl"
-STATUS = ROOT / "bettor" / "f2-run-status.json"
-OUT_JSON, OUT_MD = ROOT / "scoring" / "f2-scores.json", ROOT / "scoring" / "f2-tables.md"
+ITEMS = ROOT / "items" / "f2b" / "items.jsonl"
+BETS = ROOT / "bettor" / "f2b-bets.jsonl"
+STATUS = ROOT / "bettor" / "f2b-run-status.json"
+OUT_JSON, OUT_MD = ROOT / "scoring" / "f2b-scores.json", ROOT / "scoring" / "f2b-tables.md"
 MODELS = ("claude-opus-5-5", "claude-sonnet-5-5", "claude-haiku-5-5")
 PRIMARY = "claude-opus-5-5"
 NAME = F1.NAME
@@ -61,8 +63,8 @@ def legs(rows):
     return out
 
 
-def passes(L):
-    if L["n"] < MIN_ITEMS or L["C3"]["n"] < MIN_ITEMS:
+def passes(L, floor=True):
+    if floor and (L["n"] < MIN_ITEMS or L["C3"]["n"] < MIN_ITEMS):
         return False
     ok1 = all(L["C1"][k][1] < 0.25 - S.EPS for k in ("item_ci", "cluster_ci"))
     ok23 = all(L[c][k][1] < -MARGIN - S.EPS for c in ("C2", "C3") for k in ("item_ci", "cluster_ci"))
@@ -73,8 +75,9 @@ def model_result(rows):
     L = legs(rows)
     L["pass"] = passes(L)
     L["card_event"] = L["n"] >= MIN_ITEMS and L["C1"]["item_ci"][1] < 0.25 - S.EPS
-    L["loo_item_flips"] = [rows[i]["id"] for i in range(len(rows)) if passes(legs(rows[:i] + rows[i + 1:])) != L["pass"]]
-    L["loco"] = {p: passes(legs([r for r in rows if r["pair"] != p])) for p in sorted({r["pair"] for r in rows})}
+    L["loo_item_flips"] = [rows[i]["id"] for i in range(len(rows)) if passes(legs(rows[:i] + rows[i + 1:]), floor=False) != L["pass"]]
+    L["loco"] = {p: passes(legs([r for r in rows if r["pair"] != p]), floor=False) for p in sorted({r["pair"] for r in rows})}
+    L["loco_n"] = {p: sum(r["pair"] != p for r in rows) for p in L["loco"]}
     L["loco_flips"] = [p for p, v in L["loco"].items() if v != L["pass"]]
     return L
 
@@ -94,7 +97,8 @@ def score(items, bets, status=None):
     out["flattery_rater"] = {"n": len(fl), "brier": S.brier(fl), "accuracy": S.acc(fl),
                              "up_word_share": (sum(1 for i in flat if i in items and (flat[i]["p_option_1"] - 50) *
                                                    (1 if flat[i]["option_1_is"] == items[i]["up_side"] else -1) > 0) /
-                                               max(1, sum(1 for i in flat if flat[i]["p_option_1"] != 50)))}
+                                               max(1, sum(1 for i in flat if i in items and flat[i]["p_option_1"] != 50)))}
+    out["gate_g1"] = out["flattery_rater"]["up_word_share"] >= 0.5 - S.EPS if fl else None   # ss-b6 D34 G1 (ss-b14 review F2)
     out["pairs"] = dict(Counter(S.swap_pair(it) for it in items.values()))
     out["up_word_true_share"] = (sum(it["up_side"] == it["true_option"] for it in items.values()) / len(items)) if items else None
     out["verdict"] = verdict(out)
@@ -105,6 +109,8 @@ def score(items, bets, status=None):
 def verdict(out):
     st = out["status"]
     if any(v in ("refusal", "error") for v in st.values()):
+        return "untestable"
+    if out.get("gate_g1") is False:
         return "untestable"
     P = out["models"][PRIMARY]
     if out["n_items"] < MIN_ITEMS or P.get("n", 0) < MIN_ITEMS or P["C3"]["n"] < MIN_ITEMS:
@@ -120,10 +126,16 @@ def sentences(out):
     v, P = out["verdict"], out["models"][PRIMARY]
     s = []
     if v == "untestable":
-        why = [f"{k}: {x}" for k, x in out["status"].items() if x in ("refusal", "error")]
-        s.append(f"Too few model-psychology findings were scored to test the bettor (items {out['n_items']}; Opus bettor "
-                 f"{P.get('n', 0)}; flattery rater {P.get('C3', {}).get('n', 0)}; at least {MIN_ITEMS} needed"
-                 f"{'; ' + '; '.join(why) if why else ''}).")
+        why = [f"the {k.replace('-', ' ')} step ended in {'a refusal' if x == 'refusal' else 'an error'}" for k, x in out["status"].items() if x in ("refusal", "error")]
+        if why:   # F5: a refusal or error in any step, including a reported model's, voids the bet (stop-on-refusal)
+            s.append(f"The run stopped before the test could be read: {'; '.join(why)}, so the bet is untestable (nothing was reworded or retried).")
+        elif out.get("gate_g1") is False:
+            fr = out["flattery_rater"]
+            s.append(f"The flattery rater favoured the up word on only {fr['up_word_share']:.2f} of its non-50 ratings, which suggests "
+                     "it misread the scale, so the comparison was not run as a test.")
+        else:
+            s.append(f"Too few model-psychology findings were scored to test the bettor (items {out['n_items']}; Opus bettor "
+                     f"{P.get('n', 0)}; flattery rater {P.get('C3', {}).get('n', 0)}; at least {MIN_ITEMS} needed).")
         return s
     nums = (f"Brier {P['brier']:.3f} {ci(P['C1']['item_ci'])}; against the up-word rule {F1.f3(P['C2']['mean'])} "
             f"{ci(P['C2']['item_ci'])}; against the flattery rater {F1.f3(P['C3']['mean'])} {ci(P['C3']['item_ci'])}")
@@ -132,8 +144,10 @@ def sentences(out):
                  "its one-word flip, chosen by a fixed template; a Claude leakage checker dropped the ones whose wording gave the "
                  "answer away), the Opus bettor beat always saying 50%, the up-word rule and a same-model rater asked only which "
                  f"version is better news for the paper's own method, the last two by more than 0.01 in Brier ({nums}). In its "
-                 "weakest field the bettor's skill is more than these shortcuts; this does not separate knowing the result from "
-                 "reasoning within the sentence or recognising the published wording.")
+                 "weakest field the bettor's skill is more than these shortcuts, as this rater judged flattery; a bettor that knew "
+                 "only what the rater knows, with less noise, would pass this rule about 3% of the time on model-psychology rows "
+                 "(16% on all-field rows; design review ss-b14 F3); this does not separate knowing the result from reasoning "
+                 "within the sentence or recognising the published wording.")
     else:
         s.append(f"On {P['n']} post-cutoff model-psychology findings (template sentence pairs), the Opus bettor was not shown to "
                  "beat always saying 50%, the up-word rule and a same-model flattery rater by the pre-registered margin "
@@ -146,7 +160,8 @@ def sentences(out):
         s.append(f"The label rests on {len(fl)} single item(s) ({', '.join(fl[:5])}{', ...' if len(fl) > 5 else ''}): "
                  "removing any one of them changes it.")
     if P["loco_flips"]:
-        s.append(f"Leaving out the swap pair(s) {', '.join(P['loco_flips'])} changes the label.")
+        s.append("Leaving out the swap pair(s) " + ", ".join(f"{p} ({P['loco_n'][p]} items remain)" for p in P["loco_flips"]) +
+                 " changes the label, read on the bounds without the 50-item floor.")
     for m in MODELS[1:]:
         R = out["models"][m]
         if R.get("n"):
