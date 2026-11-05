@@ -75,7 +75,9 @@ def main():
     files = a.files or sorted(glob.glob(os.path.expanduser("~/Downloads/human-odds*.jsonl")))
     odds_path, steers_path = os.path.join(a.ledger, "human-odds.jsonl"), os.path.join(a.ledger, "steers.jsonl")
     have = {r.get("id") for r in read_jsonl(odds_path)}
-    steers = read_jsonl(steers_path)
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from merge_inbox import effective
+    steers = effective("steers", a.ledger)   # a veto still waiting in ledger/inbox/ counts, so it is never written twice
     cited = {s.get("from_human_odds") for s in steers if s.get("from_human_odds")}
     if not files:
         print("No cockpit file in ~/Downloads (human-odds*.jsonl). Nothing to add.")
@@ -102,11 +104,17 @@ def main():
     with open(odds_path, "a", encoding="utf-8") as fh:
         for r in rows:
             fh.write(json.dumps(r, ensure_ascii=False) + "\n")
+    inbox = None
     if vetoes:
-        with open(steers_path, "a", encoding="utf-8") as fh:
-            for s in vetoes:
-                fh.write(json.dumps(s, ensure_ascii=False) + "\n")
-    print("Appended. Now commit: git commit -m \"Cockpit answers from <file>\" -- ledger/human-odds.jsonl ledger/steers.jsonl")
+        # From 2026-11-05 no session writes steers.jsonl directly (ledger/inbox/README.md): each veto goes to this
+        # session's inbox file, which ledger/merge_inbox.py folds into steers.jsonl.
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from merge_inbox import append, ROOT as INBOX_ROOT
+        for s in vetoes:
+            inbox = append({"op": "add", "file": "steers", "row": s})
+        inbox = os.path.relpath(inbox, INBOX_ROOT)
+    print("Appended. Now commit: git commit -m \"Cockpit answers from <file>\" -- ledger/human-odds.jsonl"
+          + (f" {inbox}; then python3 ledger/merge_inbox.py --commit" if inbox else ""))
     return 0
 
 
