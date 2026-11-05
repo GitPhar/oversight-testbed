@@ -24,6 +24,7 @@ PRE_BETS = ROOT / "bettor" / "f4-bets.jsonl"
 POST_ITEMS = ROOT / "items" / "r2" / "items.jsonl"
 POST_BETS = ROOT / "bettor" / "r2-bets.jsonl"
 OUT_JSON = ROOT / "scoring" / "f4-scores.json"
+STATUS = ROOT / "bettor" / "f4-run-status.json"   # D57 F4: written by bettor/f4.py (leak and bet: complete|cap|refusal|error)
 OUT_MD = ROOT / "scoring" / "f4-tables.md"
 BOOT_SEED, BOOT_N, EPS, MIN_PRE = 20261104, 10000, 1e-12, 30
 RECOG = re.compile(
@@ -32,6 +33,33 @@ RECOG = re.compile(
     r"sentence|result)|this (?:paper|study|work) (?:is|was) (?:known|published|from)|known (?:paper|study|result) (?:from|by)|"
     r"the (?:original|actual) (?:paper|abstract|study) (?:says|said|states|stated|reported|reports)|I(?: have|'ve) seen "
     r"(?:this|the))\b", re.I)
+
+
+# D57 (design review ss-b12 F1): the binding rule. First-person recall, or a citation (et al; a year 2019-2026 not in
+# the item's own text; "well-known/famous ... paper|study|result|finding|benchmark"); a match does not count if a negator
+# appears within the four words before it in the same sentence. The frozen RECOG above is reported as a secondary.
+RECALL2 = re.compile(
+    r"\b(I recall|I remember|as I recall|from my memory|I(?: am|'m) familiar with (?:this|the) (?:paper|study|work|result|"
+    r"abstract|finding)|I recogni[sz]e (?:this|the) (?:paper|study|work|abstract|sentence|result)|I know (?:this|the) "
+    r"(?:paper|study|result)|the (?:original|actual) (?:paper|abstract|study) (?:says|said|states|stated|reported|reports)|"
+    r"et al\b|(?:well-known|famous)(?:\s+[\w-]+){0,2}\s+(?:paper|study|result|finding|benchmark))", re.I)
+YEAR = re.compile(r"\b(20(?:19|2[0-6]))\b")
+NEGATOR = re.compile(r"\b(not|no|never|cannot|can't|don't|didn't|isn't|without)\b|n't\b", re.I)
+
+
+def recognised2(rationale, item_text=""):
+    t = rationale or ""
+    for sent in re.split(r"(?<=[.!?])\s+", t):
+        for m in RECALL2.finditer(sent):
+            before = sent[:m.start()].split()[-4:]
+            if not NEGATOR.search(" ".join(before)):
+                return True
+        for m in YEAR.finditer(sent):
+            if m.group(1) not in item_text:
+                before = sent[:m.start()].split()[-4:]
+                if not NEGATOR.search(" ".join(before)):
+                    return True
+    return False
 
 
 def load(p):
@@ -69,10 +97,41 @@ def rows_of(items, bets, side):
             continue
         it = by[b["id"]]
         pt = p_true(b, it)
+        itext = " ".join(str(it.get(k, "")) for k in ("question", "option_a", "option_b"))
+        up = it.get("up_side")
+        p_up = 0.75 if up == it["true_option"] else 0.25           # the up-word rule's p on the published option (ss-b5)
         out.append({"id": b["id"], "side": side, "field": it["field"], "window": it.get("window", "post"),
                     "b": (1 - pt) ** 2, "right": 1.0 if pt > 0.5 else 0.5 if pt == 0.5 else 0.0,
-                    "recognised": bool(RECOG.search(b.get("rationale") or ""))})
+                    "recognised": recognised2(b.get("rationale"), itext),
+                    "recognised_frozen": bool(RECOG.search(b.get("rationale") or "")),
+                    "published_has_up": up == it["true_option"], "b_up": (1 - p_up) ** 2, "b_swap": swap_brier(it)})
     return out
+
+
+def swap_brier(it):
+    """The swap-pair rule's Brier on this item (score.py SWAP_PAIR_P, D24), or None if the pair is unknown."""
+    try:
+        import score as SC
+    except Exception:  # noqa: BLE001
+        return None
+    pair = SC.swap_pair(it)
+    pu = SC.SWAP_PAIR_P.get(pair, SC.PAIR_PRIOR)
+    p = pu if it.get("up_side") == it["true_option"] else 1 - pu
+    return (1 - p) ** 2
+
+
+def perm_p(a, b, n=BOOT_N, seed=BOOT_SEED):
+    """One-sided label-permutation p for mean(a) - mean(b) <= observed (D57, F5)."""
+    a, b = np.asarray(a, float), np.asarray(b, float)
+    obs = a.mean() - b.mean()
+    pool = np.concatenate([a, b])
+    rng = np.random.default_rng(seed)
+    k = 0
+    for _ in range(n):
+        q = rng.permutation(pool)
+        if q[:len(a)].mean() - q[len(a):].mean() <= obs + EPS:
+            k += 1
+    return (k + 1) / (n + 1)
 
 
 def gap(pre, post):
@@ -133,6 +192,19 @@ def score(pre, post):
     k = len(jk)
     se = float(np.sqrt((k - 1) / k * sum((x - np.mean(jk)) ** 2 for x in jk)))
     s["field_jackknife"] = {"clusters": k, "ci": [r6(d - 1.96 * se), r6(d + 1.96 * se)]}
+    # D57 secondaries (design review ss-b12 F1, F3, F5)
+    s["perm_p"] = r6(perm_p([r["b"] for r in pu], [r["b"] for r in qu]))
+    fz_pu = [r for r in pre if not r["recognised_frozen"]]
+    fz_qu = [r for r in post if not r["recognised_frozen"]]
+    g, c = gap(fz_pu, fz_qu)
+    s["frozen_rule"] = {"n_pre_flagged": sum(r["recognised_frozen"] for r in pre), "n_post_flagged": sum(r["recognised_frozen"] for r in post),
+                        "d": r6(g), "ci": [r6(x) for x in c]}
+    s["up_share"] = {"pre": r6(np.mean([r["published_has_up"] for r in pre])), "post": r6(np.mean([r["published_has_up"] for r in post]))}
+    for key, fld in (("up_word_rule", "b_up"), ("swap_pair_rule", "b_swap")):
+        a = [r[fld] for r in pu if r[fld] is not None]
+        b = [r[fld] for r in qu if r[fld] is not None]
+        if a and b:
+            s[key] = {"pre": r6(np.mean(a)), "post": r6(np.mean(b)), "d": r6(np.mean(a) - np.mean(b)), "ci": [r6(x) for x in boot2(a, b)]}
     s["sentence"] = sentence(s)
     s["verdict_reported"] = s["label"] + (", unreplicated" if s["label"] == "pass" else "")
     return s
@@ -142,24 +214,40 @@ def c3(c):
     return f"[{c[0]:.3f}, {c[1]:.3f}]"
 
 
+BUNDLE = (" The two sides differ in more than date: the older items are the latest 100 papers of each window and were "
+          "leakage-checked by a Claude model that may know them; the newer are up to 600 papers over four months.")
+NEWER = "papers first posted after its stated knowledge cutoff of June 2026 (34 of them in July–August)"
+OLDER = "papers first posted between January 2024 and June 2026"
+
+
 def sentence(s):
+    """§5 as amended by D57 (design review ss-b12 F2, F3, F5)."""
     pu, qu = s["pre_unrecognised"], s["post_unrecognised"]
     if s["label"] == "pass":
-        t = (f"On {pu['n']} older papers whose abstracts it showed no sign of recognising, the bettor still scored better than on "
-             f"{qu['n']} papers posted after its training cutoff (Brier {pu['brier']:.3f} against {qu['brier']:.3f}; difference "
-             f"{s['d']:.3f} {c3(s['d_ci'])}), so its advantage on older papers is not only papers it says it remembers. It may "
-             f"still be memory it does not mention, or older findings being easier.")
+        t = (f"On {pu['n']} {OLDER} whose rationales showed no sign of recognising the study, the bettor still scored better "
+             f"than on {qu['n']} {NEWER} (Brier {pu['brier']:.3f} against {qu['brier']:.3f}; difference {s['d']:.3f} "
+             f"{c3(s['d_ci'])}), so its advantage on older papers is not only papers it says it remembers. It may still be "
+             f"memory it does not mention, or older findings being easier.")
+        if s.get("perm_p") is not None and s["perm_p"] >= 0.025:
+            t += f" A permutation test does not confirm it (p = {s['perm_p']:.3f})."
     else:
-        t = (f"On {pu['n']} older papers whose abstracts it showed no sign of recognising, the bettor was not shown to score "
-             f"better than on {qu['n']} papers posted after its training cutoff (Brier {pu['brier']:.3f} against "
-             f"{qu['brier']:.3f}; difference {s['d']:.3f} {c3(s['d_ci'])}), so this test finds no advantage on older papers "
-             f"beyond recall.")
+        t = (f"On {pu['n']} {OLDER} whose rationales showed no sign of recognising the study, the bettor was not shown to "
+             f"score better than on {qu['n']} {NEWER} (Brier {pu['brier']:.3f} against {qu['brier']:.3f}; difference "
+             f"{s['d']:.3f} {c3(s['d_ci'])}), so this test finds no advantage on older papers beyond recall; an advantage "
+             f"smaller than about 0.05 in Brier could not reliably have been seen.")
+    t += BUNDLE
+    uw = s.get("up_word_rule")
+    if uw and uw["ci"][1] < 0 - EPS:
+        t += (f" A rule that reads only the comparative word also scores better on the older items (d_up {uw['d']:.3f} "
+              f"{c3(uw['ci'])}).")
     if s["loo_flips"]:
         t += (f" This label rests on single items: without any one of {', '.join(s['loo_flips'][:5])}"
               f"{' …' if len(s['loo_flips']) > 5 else ''} it would be {'null' if s['label'] == 'pass' else 'pass'}.")
     fo = [f for f, v in s["field_out"].items() if v["label"] != s["label"]]
     if fo:
         t += f" Leaving out the {', '.join(fo)} query bucket would make it {'null' if s['label'] == 'pass' else 'pass'}."
+    if s.get("missing_buckets"):
+        t += f" The cap stopped the bettor before any older item in: {', '.join(s['missing_buckets'])}."
     t += (f" Recognition was coded from the rationale by a fixed word rule ({s['n_pre_recognised']} of {s['n_pre']} older and "
           f"{s['n_post_recognised']} of {s['n_post']} newer items flagged); a model can remember without saying so. "
           f"One bettor (claude-opus-5-5 at effort low), template-written sentence pairs only.")
@@ -181,7 +269,20 @@ def tables(s):
           f"| **not recognised (primary)** | **{s['d']:+.3f}** | {c3(s['d_ci'])} |",
           f"| all items (secondary) | {s['d_all']:+.3f} | {c3(s['d_all_ci'])} |",
           f"| field-cluster jackknife on the primary (secondary) | {s['d']:+.3f} | {c3(s['field_jackknife']['ci'])} |",
-          "", "| older window (not recognised) | n | Brier | difference vs newer | 95% CI |", "|---|---|---|---|---|"]
+          f"| primary, one-sided permutation p (secondary, D57) | p = {s['perm_p']:.4f} | — |",
+          f"| primary with the frozen word rule instead (secondary, D57; flagged {s['frozen_rule']['n_pre_flagged']} older, {s['frozen_rule']['n_post_flagged']} newer) | {s['frozen_rule']['d']:+.3f} | {c3(s['frozen_rule']['ci'])} |",
+          "", "| item mix (D57) | older | newer |", "|---|---|---|",
+          f"| share of published sentences with the up word | {s['up_share']['pre']:.2f} | {s['up_share']['post']:.2f} |"]
+    for key, lab in (("up_word_rule", "up-word rule (0.75), Brier on the unrecognised items"), ("swap_pair_rule", "swap-pair rule (D24), Brier on the unrecognised items")):
+        v = s.get(key)
+        if v:
+            L.append(f"| {lab} | {v['pre']:.3f} | {v['post']:.3f} |")
+    L += ["", "| rule gap, older − newer (D57) | value | 95% CI |", "|---|---|---|"]
+    for key, lab in (("up_word_rule", "up-word rule"), ("swap_pair_rule", "swap-pair rule")):
+        v = s.get(key)
+        if v:
+            L.append(f"| {lab} | {v['d']:+.3f} | {c3(v['ci'])} |")
+    L += ["", "| older window (not recognised) | n | Brier | difference vs newer | 95% CI |", "|---|---|---|---|---|"]
     for w, v in s["by_window"].items():
         if v["n"] > 1:
             L.append(f"| {w} | {v['n']} | {v['brier']:.3f} | {v['d']:+.3f} | {c3(v['ci'])} |")
@@ -209,7 +310,9 @@ def synthetic(world, seed=5):
             m = 0.01 if (recog and world == "memory") else mean
             b = float(min(0.95, rng.exponential(m)))
             out.append({"id": f"{side}-{i}", "side": side, "field": fields[i % 4], "window": ["2024", "2025", "2026H1"][i % 3] if side == "pre" else "post",
-                        "b": b, "right": 1.0 if b < 0.25 else 0.0, "recognised": recog})
+                        "b": b, "right": 1.0 if b < 0.25 else 0.0, "recognised": recog, "recognised_frozen": recog,
+                        "published_has_up": bool(rng.random() < 0.78), "b_up": 0.0625 if rng.random() < 0.78 else 0.5625,
+                        "b_swap": float(rng.uniform(0.02, 0.4))})
         return out
     return mk(52, "pre", pb[0], pb[2]), mk(92, "post", pb[1], 0.0)
 
@@ -222,7 +325,21 @@ def main():
         return
     pre = rows_of(load(PRE_ITEMS), load(PRE_BETS), "pre") if PRE_BETS.exists() else []
     post = rows_of(load(POST_ITEMS), load(POST_BETS), "post")
-    s = score(pre, post)
+    st = json.loads(STATUS.read_text()) if STATUS.exists() else {}
+    n_items = len(load(PRE_ITEMS)) if PRE_ITEMS.exists() else 0
+    if st.get("leak") in ("refusal", "error") or st.get("bet") in ("refusal", "error"):      # D57 F4
+        s = {"bet": "ss-b12", "label": "untestable", "verdict_reported": "untestable",
+             "sentence": f"The run stopped on a {st.get('bet') if st.get('bet') in ('refusal', 'error') else st.get('leak')} "
+                         f"({st.get('detail', '')}), so the bet is untestable whatever was written."}
+    elif PRE_BETS.exists() and len(pre) < n_items and st.get("bet") != "cap":
+        s = {"bet": "ss-b12", "label": "untestable", "verdict_reported": "untestable",
+             "sentence": f"Only {len(pre)} of {n_items} older items have a bet and no cap stop is recorded, so the bet is untestable."}
+    else:
+        s = score(pre, post)
+        if st.get("bet") == "cap" and s.get("label") != "untestable":
+            have = {r["field"] for r in pre}
+            s["missing_buckets"] = sorted({it["field"] for it in load(PRE_ITEMS)} - have)
+            s["sentence"] = sentence(s)
     OUT_JSON.write_text(json.dumps(s, indent=1, ensure_ascii=False))
     OUT_MD.write_text(tables(s))
     print(tables(s))

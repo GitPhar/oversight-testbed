@@ -38,6 +38,27 @@ LEAK_CACHE = F4 / "leakage-cache.json"
 BET_CACHE = ROOT / "bettor" / "f4-bettor-cache.json"
 BETS_OUT = ROOT / "bettor" / "f4-bets.jsonl"
 BET_CAP = 0.75
+STATUS = ROOT / "bettor" / "f4-run-status.json"   # D57 F4: {"leak": ..., "bet": ...}: complete | cap | refusal | error
+
+
+def set_status(step, value, detail=""):
+    st = json.loads(STATUS.read_text()) if STATUS.exists() else {}
+    st[step] = value
+    if detail:
+        st["detail"] = detail
+    STATUS.write_text(json.dumps(st, indent=1) + "\n")
+
+
+def run_caller(c, jobs, fn, step):
+    """Run, then record how the step ended: a refusal or error makes the bet untestable (D57 F4)."""
+    try:
+        c.run(jobs, fn)
+        set_status(step, "complete")
+    except SystemExit as e:
+        msg = str(e)
+        kind = "refusal" if "refusal" in msg.lower() else "cap" if "budget cap" in msg else "error"
+        set_status(step, kind, msg[:300])
+        raise
 PER_FIELD = 30
 WINDOWS = [("2024", "submittedDate:[202401010000 TO 202412312359]"),
            ("2025", "submittedDate:[202501010000 TO 202512312359]"),
@@ -156,7 +177,7 @@ def leak():
                 "cost": cost, "request_id": rid, "usage": usage, "model": LC.MODEL}
     c = Caller(LEAK_CACHE, "f4-leakage-check", cap=cap())
     try:
-        c.run(jobs, fn)
+        run_caller(c, jobs, fn, "leak")
     finally:
         rows = [{"key": j["key"], **{k: v for k, v in c.cache[j["key"]].items() if k not in ("usage",)},
                  "item": {k: j["it"][k] for k in LC.MASKED_FIELDS}} for j in jobs if j["key"] in c.cache]
@@ -195,11 +216,12 @@ def bet():
         sys.exit(f"{len(items)} clean pre-cutoff items < 30: untestable before any bettor call (§5)")
     rng = random.Random(seeds()["order"])
     swap = {it["id"]: rng.random() < 0.5 for it in items}
-    jobs = []
+    jobs = []   # D57 F4: after the order draw, the same rng shuffles the job order, so a cap stop drops a random subset
     for it in items:
         u = B.user_text(it, swap[it["id"]])
         jobs.append({"key": key_of("bettor-v1", B.MODEL, B.SYSTEM, u), "id": it["id"], "kind": "primary",
                      "option_1_is": "b" if swap[it["id"]] else "a", "user": u})
+    rng.shuffle(jobs)
 
     def fn(job):
         out, cost, rid, usage = structured(B.MODEL, B.SYSTEM, job["user"], B.SCHEMA, "bettor", max_tokens=4000)
@@ -207,7 +229,7 @@ def bet():
                 "rationale": out["rationale"], "cost": cost, "request_id": rid, "usage": usage, "model": B.MODEL}
     c = Caller(BET_CACHE, "f4-bettor", cap=cap())
     try:
-        c.run(jobs, fn)
+        run_caller(c, jobs, fn, "bet")
     finally:
         rows = [c.cache[j["key"]] for j in jobs if j["key"] in c.cache]
         BETS_OUT.write_text("".join(json.dumps(r) + "\n" for r in rows))
@@ -217,8 +239,8 @@ def bet():
 def dry():
     print(f"plan: 12 arXiv requests ({len(T.QUERIES)} queries x {len(WINDOWS)} windows x {PER_REQUEST}); template; sample <= "
           f"{PER_FIELD}/field; leakage check (Sonnet, about $0.003 each, <= {4 * PER_FIELD} calls, about ${0.003 * 4 * PER_FIELD:.2f}); "
-          f"Opus bettor on the clean ones (about $0.0048 each; at a round-2-like 44% drop about {int(4 * PER_FIELD * 0.44)} calls, "
-          f"about ${0.0048 * 4 * PER_FIELD * 0.44:.2f}); bet cap ${BET_CAP}")
+          f"Opus bettor on the clean ones (about $0.0048 each; at round 2's keep rate of 40-44% and its per-field yields, about 44 "
+          f"clean and about 38 unrecognised items (design review ss-b12, measured-world table), about $0.21); bet cap ${BET_CAP}")
     print("selftest of the template writer:"); T.selftest()
 
 
