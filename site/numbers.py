@@ -3,6 +3,7 @@
     python3 site/numbers.py            # rewrite every stale placeholder in place
     python3 site/numbers.py --check    # exit 1 if any placeholder is stale or names an unknown number (CI runs this)
     python3 site/numbers.py --list     # print every number and its value
+    python3 site/numbers.py --json [--ledger DIR]   # print every number as JSON (site/assemble.sh writes data/numbers.json)
 
 Why: on 2026-11-05 the front-page numbers, typed by hand, drifted from the ledger within hours (README said 26 scored
 bets and Brier 0.217 when the ledger said 37 and 0.188). So the documents below no longer type a ledger number. Each
@@ -44,10 +45,13 @@ LINE = re.compile(r"<!-- numbers \(generated; read by site/numbers\.py\): (\{.*\
 PH = re.compile(r"<!--n:([a-z0-9_]+)-->(.*?)<!--/n-->", re.S)
 
 
-def load_numbers(root=ROOT):
+def load_numbers(root=ROOT, ledger=None):
+    """Every number, from the numbers line of each source. `ledger` reads the three files from another ledger/ folder
+    (assemble.sh's LEDGER_DIR), so the site's numbers come from the same ledger as the rest of its data."""
     nums = {}
     for s in SOURCES:
-        m = LINE.search((Path(root) / s).read_text(encoding="utf-8"))
+        path = Path(ledger) / Path(s).name if ledger else Path(root) / s
+        m = LINE.search(path.read_text(encoding="utf-8"))
         if not m:
             raise SystemExit(f"{s}: no numbers line (regenerate it with python3 ledger/{Path(s).stem}.py)")
         for k, v in json.loads(m.group(1)).items():
@@ -116,9 +120,14 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--list", action="store_true")
+    ap.add_argument("--json", action="store_true", help="print every number as one JSON object")
+    ap.add_argument("--ledger", help="with --json or --list: read brier.md, scores.md and prior.md from this folder")
     a = ap.parse_args()
+    if a.json:
+        print(json.dumps(load_numbers(ledger=a.ledger), indent=1, sort_keys=True))
+        return 0
     if a.list:
-        for k, v in sorted(load_numbers().items()):
+        for k, v in sorted(load_numbers(ledger=a.ledger).items()):
             print(f"{k:20} {v}")
         return 0
     code, _ = run(check=a.check)

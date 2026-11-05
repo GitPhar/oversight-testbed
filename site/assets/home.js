@@ -53,12 +53,21 @@ header();
 })();
 
 // What we have found so far: one sentence per finding, with the models it was shown on, read from the
-// "What we have found so far" section of paper/plain-words.md. If the section is missing, the block stays hidden.
+// "What we have found so far" section of paper/plain-words.md. A ledger number in that file is a placeholder,
+// <!--n:key-->value<!--/n-->; its value here is taken from data/numbers.json (site/numbers.py, run by the deploy on
+// this deploy's ledger), never from the value last written into the file, so the list cannot show a stale score.
+// If the section is missing, the block stays hidden.
+const fillNumbers = (md, nums) => md.replace(/<!--n:([a-z0-9_]+)-->([\s\S]*?)<!--\/n-->/g, (m, k, old) => (nums && k in nums ? String(nums[k]) : old));
 (async () => {
-  const md = await getText(DATA + "engine/paper/plain-words.md");
+  const [md, nums] = await Promise.all([getText(DATA + "engine/paper/plain-words.md"), getJSON(DATA + "numbers.json")]);
+  if (nums) {
+    let all = true;
+    document.querySelectorAll("#score [data-n]").forEach((e) => { const v = nums[e.dataset.n]; if (v == null) all = false; else e.textContent = String(v); });
+    if (all) { document.getElementById("score").hidden = false; document.getElementById("score-src").hidden = false; }
+  }
   const sec = md && md.split(/\n##\s+/).find((x) => /^what we have found so far/i.test(x));
   if (!sec) return;
-  const items = [...sec.matchAll(/^-\s+(.+?)\s*\(Shown on:\s*(.+?)\)\s*$/gm)];
+  const items = [...fillNumbers(sec, nums).matchAll(/^-\s+(.+?)\s*\(Shown on:\s*(.+?)\)\s*$/gm)];
   if (!items.length) return;
   document.getElementById("findings").innerHTML = items.map(([, said, on]) =>
     `<li><span class="f-said">${inline(said)}</span><span class="f-on">Shown on: ${esc(on)}</span></li>`).join("");

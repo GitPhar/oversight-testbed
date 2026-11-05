@@ -685,3 +685,30 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
 .hh-vtable th, .hh-vtable td { text-align: left; vertical-align: top; padding: 0.35rem 0.5rem; border-bottom: 1px solid #2c3238; }
 .hh-vtable th { color: #8d8a82; font-weight: 700; }
 .hh-vtable td:first-child { white-space: nowrap; }
+
+/* Calibration: rule 15 shown plainly, and the human column (site walk 2026-11-05) */
+.rule15 { margin: 16px 0 20px; }
+.rule15 .tablewrap { margin-bottom: 10px; }
+.rule15 td:first-child { max-width: 560px; }
+table.hcol td { vertical-align: top; }
+.hc-q { display: block; max-width: 560px; }
+.hc-id { display: block; margin-top: 2px; }
+.found .score-h { margin: 28px 0 10px; }
+/* Record: the ledger's two labelled blocks (settled, open) */
+.rec-block { margin: 32px 0 4px; font-size: 1.25rem; }
+.rec-block .rec-n { font-size: .9rem; font-weight: 400; margin-left: 6px; }
+.rec-how { margin-bottom: 14px; }
+/* Plain words (assets/plain.js): a bet id's plain question on first use, and the four glossary lines */
+.pq { color: var(--text-2); font-style: italic; }
+.gloss { display: block; margin: 6px 0 10px; padding: 6px 10px; border-left: 3px solid var(--line); color: var(--text-2); font-size: .88rem; line-height: 1.45; font-weight: 400; font-style: normal; max-width: 46rem; }
+.gloss b { color: var(--text); }
+h1 + .gloss, h2 + .gloss, h3 + .gloss { margin-top: -4px; }
+/* Sean's table on a phone: each bet becomes a small card, the question across the top and the four numbers under it */
+@media (max-width: 640px) {
+  table.hcol thead { display: none; }
+  table.hcol tr { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px 8px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  table.hcol td { border: 0; padding: 0 12px; text-align: left; }
+  table.hcol td:first-child { grid-column: 1 / -1; padding-bottom: 6px; }
+  table.hcol td[data-l]::before { content: attr(data-l); display: block; font-size: .75rem; color: var(--text-2); font-weight: 400; }
+  .tablewrap:has(table.hcol) { width: 100%; }
+}

@@ -14,6 +14,7 @@
 #   <out>/data/programs/entangled-mind/audits/SUMMARY.md, results/ibm-usage.json, results/api-usage.md  (instruments page)
 #   <out>/data/programs/nature-graded/map/      program 3's map JSON and odds-elicitation README, if a checkout is given
 #   <out>/data/manifest.json     what was copied, because Pages cannot list a folder
+#   <out>/data/numbers.json      every ledger number, from site/numbers.py (the home page's score and findings read it)
 #
 # Local preview:  site/assemble.sh /tmp/site && python3 -m http.server -d /tmp/site 8000
 # LEDGER_DIR and MAP_DIR override where ledger/ and map/ are read from (for previewing another branch's data).
@@ -28,7 +29,7 @@ map="${MAP_DIR:-$root/map}"
 
 mkdir -p "$out/data/ledger" "$out/data/map" "$out/data/engine" "$out/data/programs/entangled-mind/paper"
 cp -R "$root/site/." "$out/"
-rm -f "$out/assemble.sh"
+rm -f "$out/assemble.sh" "$out/numbers.py"
 [ -d "$ledger" ] && cp -RL "$ledger/." "$out/data/ledger/"   # -L: ledger/audits/em-*.md are links into programs/entangled-mind/audits/
 [ -d "$map" ] && cp -R "$map/." "$out/data/map/"
 cp "$root/README.md" "$root/proposal.md" "$root/CONTEXT.md" "$out/data/engine/"
@@ -49,6 +50,9 @@ if [ -n "$ng" ] && [ -f "$ng/map/program-3-map.json" ]; then
   cp "$ng/map/program-3-map.json" "$out/data/programs/nature-graded/map/"
   [ -f "$ng/map/odds-elicitation/README.md" ] && cp "$ng/map/odds-elicitation/README.md" "$out/data/programs/nature-graded/map/odds-elicitation/"
 fi
+
+# The ledger's numbers, through the same reader the front-page documents use, so no page types one.
+python3 "$root/site/numbers.py" --json --ledger "$ledger" > "$out/data/numbers.json"
 
 python3 - "$out" "$em" "$root" "$ng" <<'PY'
 import json, os, re, subprocess, sys, datetime
