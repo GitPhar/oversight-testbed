@@ -61,7 +61,7 @@ What it does:
 - It copies the program's files as they are in the last commit into a temporary folder, so unfinished work cannot leak in. Program 1's files (`programs/entangled-mind`) come too, because this program's code reads them.
 - For each test it runs the test's own analysis code on the saved model answers (`results/p2-*-calls.json`). The statistics are worked out again, not just copied.
 - It rebuilds every table in `results/` from those numbers and checks it against the committed file, line by line.
-  - `p2-6-tables.md` and `p2-6r-tables.md` are written whole by code, so they must match byte for byte.
+  - `p2-6-tables.md`, `p2-6r-tables.md` and `p2-7-tables.md` are written whole by code, so they must match byte for byte.
   - The other results files are hand-written reports. Their tables must match; their prose is not checked.
   - Each analysis also writes its summary file again (`results/p2-*.json`), and every number in it must match the committed one.
 - P2-3 stopped after 26 answers. Its one table (calls planned and made at each step) is rebuilt from the item list, the 26 saved answers and the refusal record.
