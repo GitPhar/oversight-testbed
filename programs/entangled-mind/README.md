@@ -26,7 +26,7 @@ Eleven analyses, six from `paper/gold-map.md` and five from `paper/biomimetic-ma
 - On Haiku, six ways of asking the same 160 statements fit held-out repeats better with one credence per format than with one per statement (86% of claims), and, in an exploratory re-analysis of the same calls (D46, not a frozen test), one credence recovers only 39% [30%, 50%] of a left-out format. The formats put 11–25% of statement pairs in opposite orders, against 1–5% between halves of one format's repeats (a baseline computed after the run).
 - A number planted as the model's own earlier answer pulls its re-rating (slope +0.42); the same number credited to another person, under different wording, barely does (+0.05).
 
-**No self-advantage in judging errors (Haiku and Sonnet).** With each judge's overall skill cancelled, authorship gives no advantage: the judge × author interaction is −0.055 [−0.103, −0.007], and Sonnet judges Haiku's errors better than Haiku does (0.93 against 0.85).
+**No self-advantage in judging errors (Haiku and Sonnet).** With each judge's overall skill cancelled, authorship gives no detectable advantage: the judge × author interaction is −0.055 [−0.103, −0.007], and Sonnet judges Haiku's errors better than Haiku does (0.93 against 0.85).
 
 **Gold-map direction 5, run later on a local model: unverified.** A truth probe in Llama-3-8B moves with chain order, and whether it moves in step with the rating is undetermined (DP1, [`results/probe-dissociation.md`](results/probe-dissociation.md)). The result is marked **unverified** (D53): its test step replayed the gate's conversations exactly, and a fresh run on new seeds is queued.
 
