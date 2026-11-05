@@ -1,6 +1,6 @@
 # P3-18 result: in a fresh chip job on 5 November, both error terms came back on 2 of the 3 entangled pairs (pass, unreplicated)
 
-Pre-registration: `experiments/p3-18-fresh-job.md` (commit `036a70d`, 06:31; seed `4535457`, CURBy-RNG 1592276). Design review `ledger/design-reviews/ng-p3-18.md`: fix-first (5, `0ebf95b`), fixes D44 (`bb37564`) and D45 (`4f0bc54`), confirmed 07:49 (`6a72fea`). Budget ruling br-006 (24 QPU s, under st-16, `01e8ebe`). Prepared snapshot and circuits committed before submission (`6fe09e1`). Job `dbm9gcm74qds73drshgg` on ibm_fez, run 07:52:35–07:53:01 America/Denver, **20.0 QPU s** billed (estimate 20.48; cap 24); raw counts committed at once (`465262a`). Analysis `experiments/p3_18_fresh.py --analyse`, $0. Unaudited.
+Pre-registration: `experiments/p3-18-fresh-job.md` (commit `036a70d`, 06:31; seed `4535457`, CURBy-RNG 1592276). Design review `ledger/design-reviews/ng-p3-18.md`: fix-first (5, `0ebf95b`), fixes D44 (`bb37564`) and D45 (`4f0bc54`), confirmed 07:49 (`6a72fea`). Budget ruling br-006 (24 QPU s, under st-16, `01e8ebe`). Prepared snapshot and circuits committed before submission (`6fe09e1`). Job `dbm9gcm74qds73drshgg` on ibm_fez, run 07:52:35–07:53:01 America/Denver, **20.0 QPU s** billed (estimate 20.48; cap 24); raw counts committed at once (`465262a`). Analysis `experiments/p3_18_fresh.py --analyse`, $0. Audited: `ledger/audits/ng-p3-18.md` (4f07a2f; stands; pl-032 clean; three cuts applied in D47).
 
 The chip is a referee here, never a computational resource: its counts decide a pre-registered bet about the chip, and nothing here uses them as an estimate of anything else.
 
@@ -18,7 +18,7 @@ Overall: both terms came back on 2 of 3 pairs in a fresh job on 5 November, so P
 
 Under the reference prepared before submission (IBM's calibration read at preparation; nulls at B = 100 only), the labels are h221: blur only; h088: both; h268: both. Reported, not scored.
 
-*What this does and does not say.* The bet passes by its rule (both terms on at least 2 of 3 pairs). It is not a clean repeat of 3 November: there, all three pairs needed both terms; here, h221's rotation-type term, P3-5c's weakest label (LR 38.5 then), was not detected (LR 11.6, p = 0.069). The pre-run worlds put the chance of missing it at 2,000 shots, if 3 November's terms were the truth, at about 2 in 6 draws (`data/p3-18-worlds.json`), so this miss is not out of line with half the shots; it is also consistent with a smaller rotation on that pair today. The fresh job differs from 3 November's in a bundle (another day and time, IBM's newer calibration, half the tomography shots and a quarter of the calibration shots, possibly server-side handling), so nothing here says which of those matters. IBM's `last_update_date` moved between preparation (07:13:02) and the run (07:47:01); the reference states built from the two reads agree to 1e-15 in negativity, and the labels are the same under both.
+*What this does and does not say.* The bet passes by its rule (both terms on at least 2 of 3 pairs). Six primary tests were run (3 pairs × 2 terms). All five present labels have p = 0.001, below the Bonferroni line of 0.0017, so the labels and the verdict are the same with that correction. It is not a clean repeat of 3 November: there, all three pairs needed both terms; here, h221's rotation-type term, P3-5c's weakest label (LR 38.5 then), was not detected (LR 11.6, p = 0.069). The pre-run worlds put the chance of missing it at 2,000 shots, if 3 November's terms were the truth, at about 2 in 6 draws (`data/p3-18-worlds.json`), so this miss is not out of line with half the shots; it is also consistent with a smaller rotation on that pair today. The fresh job differs from 3 November's in a bundle (another day and time, IBM's newer calibration, half the tomography shots and a quarter of the calibration shots, possibly server-side handling), so nothing here says which of those matters. IBM's `last_update_date` moved between preparation (07:13:02) and the run (07:47:01), but every property the reference uses (T1, T2, readout, sx and CZ error for the job's 14 qubits and 12 CZ pairs) was identical in the prepared, submission-time and run-time reads. The two reference states are therefore the same (agreeing to 1e-15), and the secondary table repeats the analysis with fresh bootstrap draws. It is not a check against a different calibration.
 
 ## Tables
 
@@ -29,6 +29,8 @@ Under the reference prepared before submission (IBM's calibration read at prepar
 | h221 (10, 9) | 11.6 | 18.5 | 0.069 (100) | 54.5 | 9.2 | 0.001 (1000) | blur only | 38.5 / 128.8 |
 | h088 (44, 37) | 250.8 | 17.7 | 0.001 (1000) | 84.0 | 8.4 | 0.001 (1000) | both present | 183.6 / 242.3 |
 | h268 (4, 16) | 271.5 | 17.8 | 0.001 (1000) | 38.5 | 9.4 | 0.001 (1000) | both present | 237.6 / 72.0 |
+
+The largest null LRs drawn were, for rotation and blur: h221 21.6 and 14.0, h088 28.1 and 14.2, h268 22.8 and 13.7. Every present LR exceeds its null's maximum (by 2.8 to 11.9 times), and h221's rotation LR (11.6) does not.
 
 **Fit diagnostics** (secondary):
 
