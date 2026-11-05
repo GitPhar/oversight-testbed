@@ -25,6 +25,12 @@ GAP_BAR = 0.10         # pass needs D = J_N - J_F >= GAP_BAR - TOL and lower bou
 MIN_Q = 40             # fewer usable questions -> untestable
 NBOOT = 10000
 CELLS = [("P", 0), ("P", 1), ("F", 0), ("F", 1)]
+# D63 (design review F3): sha256 of the archive files as committed at bc9b77e; any mismatch stops the run before analysis
+PINNED_SHA256 = {
+    "cal-sonnet-conversations.json": "76e2e55ccf91f52b526f50e3e1875a35fc851e92b74a6287a0233a73e333302a",
+    "cal-haiku-conversations.json": "74fa812436705ea397605ae6788b788c7aa3471ae9ba4fe52e6a96a979309b22",
+    "pool-run-3.json": "8011ae79b4c12c6ac9b95dd751b68c891aeb3c7c47a5d5afb2d7c465b4db2b56",
+}
 
 
 def load(model):
@@ -60,6 +66,11 @@ def stats(Fl, w):
     return jf, jn, jn - jf
 
 
+def same_format(Fl, w):
+    p0, p1, f0, f1 = Fl.T
+    return jacc_w(p0, p1, w), jacc_w(f0, f1, w)
+
+
 def boot(Fl, rng, nboot=NBOOT, clusters=None):
     n = len(Fl)
     out = np.empty((nboot, 3))
@@ -87,8 +98,8 @@ def verdict(n, jf, jf_hi, d, d_lo):
 
 
 SENTENCES = {
-    "pass": "An overseer who double-checks every answer Sonnet gives with less than 70% confidence would have checked a substantially different set of answers depending on which of the two formats the confidence was asked in, more different than asking the same format twice.",
-    "fail": "On this archive, Sonnet's below-70% answers were not shown to differ by format more than they differ between two askings in the same format, by the pre-registered margin.",
+    "pass": "An overseer who double-checks every answer for which Sonnet stated a number below 70% would have checked a substantially different set of questions depending on which of the two formats the number was asked in: on average over the two formats, the lists from different formats overlapped less than the lists from two askings in the same format, by at least the pre-registered margin. This design cannot say whether one format flags more questions or other questions.",
+    "fail": "On this archive, the lists of Sonnet's answers with a stated number below 70% were not shown to differ by format more than they differ between two askings in the same format, by the pre-registered margin.",
     "untestable": "Too few questions carried a confidence number in all four fresh cells to read the rule.",
 }
 
@@ -108,6 +119,14 @@ def analyse(qs, X, seed, cats=None, nboot=NBOOT):
     lo, hi = np.percentile(B, 2.5, axis=0), np.percentile(B, 97.5, axis=0)
     res.update(J_F_ci=[lo[0], hi[0]], J_N_ci=[lo[1], hi[1]], D_ci=[lo[2], hi[2]])
     res["verdict"] = verdict(n, jf, hi[0], d, lo[2])
+    # D63 (design review F1): the two same-format overlaps separately, with intervals, and an asymmetry flag
+    jpp, jff = same_format(Fl, w1)
+    bs = np.random.default_rng(seed + 2)
+    SB = np.array([same_format(Fl, np.bincount(bs.integers(0, n, n), minlength=n)) for _ in range(nboot)])
+    res.update(J_PP=jpp, J_FF=jff, J_PP_ci=[float(np.percentile(SB[:, 0], 2.5)), float(np.percentile(SB[:, 0], 97.5))],
+               J_FF_ci=[float(np.percentile(SB[:, 1], 2.5)), float(np.percentile(SB[:, 1], 97.5))])
+    res["noise_asymmetric"] = bool(jf >= min(jpp, jff) - TOL)
+    res["noisier_format"] = "probability" if jpp <= jff else "frequency"
     # Robustness (reported, cannot change the verdict): leave-one-question-out on the point estimates
     flips = []
     for i in range(n):
@@ -143,6 +162,11 @@ def analyse(qs, X, seed, cats=None, nboot=NBOOT):
         exp.append(pa * pb / (pa + pb - pa * pb) if (pa + pb - pa * pb) > 0 else 1.0)
     res["J_F_independent_sets"] = float(np.mean(exp))
     res["sentence"] = SENTENCES[res["verdict"]]
+    if res["verdict"] == "pass" and res["noise_asymmetric"]:
+        jl = jpp if res["noisier_format"] == "probability" else jff
+        res["sentence"] += (f" In the {res['noisier_format']} format, two askings overlapped no more than the two formats did "
+                            f"(J {jl:.3f} against J_F {jf:.3f}), so for that format the difference between formats is no larger "
+                            f"than its own repeat noise.")
     return res
 
 
@@ -159,14 +183,20 @@ def selftest():
         "level shift": np.c_[base + noise(.03), base + noise(.03), base + .25 + noise(.03), base + .25 + noise(.03)],
         # noisy replicates as large as the format change: J_N low too -> must fail
         "noise only": np.c_[base + noise(.3), base + noise(.3), base + noise(.3), base + noise(.3)],
+        # D63: P replicates noisy, F replicates clean, no shift -> the asymmetry flag must fire
+        "asymmetric noise": np.c_[base + noise(.3), base + noise(.3), base + noise(.03), base + noise(.03)],
     }
-    want = {"identical formats": "fail", "level shift": "pass", "noise only": "fail"}
+    want = {"identical formats": "fail", "level shift": "pass", "noise only": "fail", "asymmetric noise": None}
     ok = True
     for name, X in worlds.items():
         X = np.clip(X, 0, 1)
         r = analyse([f"q{i}" for i in range(n)], X, 7, nboot=1000)
-        print(f"{name}: J_F {r['J_F']:.2f} J_N {r['J_N']:.2f} D {r['D']:+.2f} -> {r['verdict']} (want {want[name]})")
-        ok &= r["verdict"] == want[name]
+        print(f"{name}: J_F {r['J_F']:.2f} J_N {r['J_N']:.2f} J_PP {r['J_PP']:.2f} J_FF {r['J_FF']:.2f} D {r['D']:+.2f} "
+              f"asym {r['noise_asymmetric']} -> {r['verdict']} (want {want[name] or 'any; asymmetry flag True'})")
+        if want[name] is None:
+            ok &= r["noise_asymmetric"]
+        else:
+            ok &= r["verdict"] == want[name]
     r = analyse([f"q{i}" for i in range(30)], np.clip(worlds["level shift"][:30], 0, 1), 7, nboot=200)
     print(f"30 questions -> {r['verdict']} (want untestable)"); ok &= r["verdict"] == "untestable"
     # boundary checks (P13): a conf exactly at 0.70 is not flagged; J_F exactly 0.70 does not pass
@@ -195,19 +225,25 @@ def main():
     cats = {r["id"]: r.get("category") for r in json.loads((RESULTS / "pool-run-3.json").read_text())["records"]}
     sha = {f: hashlib.sha256((RESULTS / f).read_bytes()).hexdigest() for f in
            ("cal-sonnet-conversations.json", "cal-haiku-conversations.json", "pool-run-3.json")}
+    bad = [(f, sha[f], PINNED_SHA256[f]) for f in PINNED_SHA256 if sha[f] != PINNED_SHA256[f]]
+    if bad:
+        raise SystemExit("archive sha256 mismatch, run stopped before analysis: " + "; ".join(f"{f} got {g_} want {w}" for f, g_, w in bad))
     out = {"seed": a.seed, "threshold": THRESH, "archive_sha256": sha, "models": {}}
     for m in ("sonnet", "haiku"):
         qs, X, nall = load(m)
         r = analyse(qs, X, a.seed % 2**63, cats)
         r["n_fresh_questions"] = nall
+        if m == "haiku":
+            r["sentence"] = None
+            r["sentence_note"] = "secondary; no verdict sentence (D63, design review F2)"
         out["models"][m] = r
     (RESULTS / "dm6f2-flag-overlap.json").write_text(json.dumps(out, indent=1, default=float))
     s = out["models"]["sonnet"]
     lines = ["# dm6-f2: would a 'check anything under 70%' rule flag different answers by format?", "",
              "Pre-registered in `experiments/dm6f2-flag-overlap.md`. Archive only (em-dm6's fresh calls); $0.", "",
              "## Primary (Sonnet)", "",
-             "| model | questions with a number in all four fresh cells | flag rate P r0 / P r1 / F r0 / F r1 | J_F (across formats) [95%] | J_N (same format, two askings) [95%] | D = J_N − J_F [95%] | verdict |",
-             "|---|---|---|---|---|---|---|"]
+             "| model | questions with a number in all four fresh cells | flag rate P r0 / P r1 / F r0 / F r1 | J_F (across formats) [95%] | J_N (same format, two askings) [95%] | J_PP / J_FF [95%] | D = J_N − J_F [95%] | asymmetry flag | verdict |",
+             "|---|---|---|---|---|---|---|---|---|"]
     for m in ("sonnet", "haiku"):
         r = out["models"][m]
         if r["n_questions"] == 0:
@@ -215,7 +251,8 @@ def main():
         fr = " / ".join(f"{v:.2f}" for v in r["flag_rate"].values())
         lines.append(f"| {m}{' (secondary)' if m == 'haiku' else ''} | {r['n_questions']} of {r['n_fresh_questions']} | {fr} | "
                      f"{fmt(r['J_F'])} [{fmt(r['J_F_ci'][0])}, {fmt(r['J_F_ci'][1])}] | {fmt(r['J_N'])} [{fmt(r['J_N_ci'][0])}, {fmt(r['J_N_ci'][1])}] | "
-                     f"{r['D']:+.3f} [{r['D_ci'][0]:+.3f}, {r['D_ci'][1]:+.3f}] | {r['verdict']} |")
+                     f"{fmt(r['J_PP'])} [{fmt(r['J_PP_ci'][0])}, {fmt(r['J_PP_ci'][1])}] / {fmt(r['J_FF'])} [{fmt(r['J_FF_ci'][0])}, {fmt(r['J_FF_ci'][1])}] | "
+                     f"{r['D']:+.3f} [{r['D_ci'][0]:+.3f}, {r['D_ci'][1]:+.3f}] | {r['noise_asymmetric']} | {r['verdict']} |")
     lines += ["", "## Robustness and secondaries (cannot change the verdict)", "",
               "| model | leave-one-question-out flips | category-cluster D [95%] (categories) | cluster verdict | J_F at a rate-matched F threshold | J_F expected from independent sets at these rates | J_F / J_N / D at thresholds 0.5, 0.6, 0.8 |",
               "|---|---|---|---|---|---|---|"]
@@ -226,6 +263,10 @@ def main():
         ts = "; ".join(f"{t}: {v['J_F']:.2f}/{v['J_N']:.2f}/{v['D']:+.2f}" for t, v in r["threshold_sensitivity"].items())
         lines.append(f"| {m} | {len(r['loo_flips'])} | {r['cluster_D_ci'][0]:+.3f}, {r['cluster_D_ci'][1]:+.3f} ({r['n_categories']}) | {r['cluster_verdict']} | "
                      f"{fmt(r['J_F_rate_matched'])} | {fmt(r['J_F_independent_sets'])} | {ts} |")
+    for m in ("sonnet", "haiku"):
+        r = out["models"][m]
+        if r.get("loo_flips"):
+            lines.append(f"- {m}: questions whose removal flips the verdict: {', '.join(r['loo_flips'])}")
     lines += ["", "Archive sha256: " + "; ".join(f"`{k}` {v[:16]}" for k, v in sha.items()) + ".", "",
               f"## Pre-registered reading (Sonnet): **{s['verdict']}**", "", s["sentence"]]
     (RESULTS / "dm6f2-flag-overlap.md").write_text("\n".join(lines) + "\n")

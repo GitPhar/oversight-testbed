@@ -1220,3 +1220,21 @@ Details in `results/probe-dissociation.md`.
 ## D61 — em-dm6f2 pre-registered (remap follow-up dm6-f2, archive only, $0)
 
 2026-11-05 06:15 America/Denver, before the archive is opened for this analysis. Follow-up `dm6-f2` of `em-dm6` (remap `9773f6a`): does a fixed "flag anything under 70% confidence" rule flag different answers by format, beyond same-format repeat noise? Pre-registration `experiments/dm6f2-flag-overlap.md`, code `experiments/dm6f2_flag_overlap.py`. Two departures from the remap's row, both before data: (1) em-dm6 holds Haiku and Sonnet, not Sonnet and Opus, so Haiku is the secondary and Opus is not reported; (2) the event adds a same-format replicate baseline (D = J_N − J_F ≥ 0.10, lower bound above 0), per the lesson (P3), and restricts every overlap to questions with a number in all four fresh cells (P8). Engine odds: map 0.55, v1 0.76, after the lesson 0.55. No human odds. The same session parked g-f1, g-f2, dm6-f1 and gm3c-f2 before betting (`experiments/remap-free-check.md`, `fe80338`).
+
+## D62 — em-gm3cf1 pre-registered (remap follow-up gm3c-f1, archive only, $0)
+
+2026-11-05 America/Denver (commit author time is the record), before `results/gm3b-calls.json` is opened for this analysis. Follow-up `gm3c-f1` of `em-gm3c` (audited pass → undetermined): Haiku's held-out format recovery with a converged one-credence fit (gm3b's block ascent copied, stop at |Δobjective| < 1e-3, cap 2,000 rounds), predictions averaged over 10 beacon-drawn fold assignments, and a 10,000-resample BCa interval. Pre-registration `experiments/gm3cf1-heldout-bca.md`, code `experiments/gm3cf1_heldout_bca.py`. Departure from the remap's row, before data: the pass also needs a link-free least-squares predictor's mean Q under 0.5 (the lesson's P3 guard). Engine odds: map 0.45, v1 0.25, after the lesson 0.30. No human odds.
+
+## D63 — em-dm6f2 design-review fixes (review `19bdf22`, fix-first, 3 flaws), before any data
+
+2026-11-05 06:26 America/Denver, before the archive is opened for the primary analysis. Named review: `ledger/design-reviews/em-dm6f2.md` (`19bdf22`). The rule, thresholds, n floor and seed are unchanged; no bar is lowered.
+- **F1 (D8).** The code now reports the two same-format overlaps J_PP = J(P0, P1) and J_FF = J(F0, F1) separately, with question-bootstrap intervals, and a flag `noise_asymmetric` (J_F ≥ min(J_PP, J_FF) − 1e-9). The pre-registration's §5 pass and fail sentences are replaced by the review's wording:
+  - pass: "An overseer who double-checks every answer for which Sonnet stated a number below 70% would have checked a substantially different set of questions depending on which of the two formats the number was asked in: on average over the two formats, the lists from different formats overlapped less than the lists from two askings in the same format, by at least the pre-registered margin. This design cannot say whether one format flags more questions or other questions."
+  - If the flag fires, this is appended: "In the <probability|frequency> format, two askings overlapped no more than the two formats did (J <J_PP or J_FF> against J_F <J_F>), so for that format the difference between formats is no larger than its own repeat noise."
+  - fail: "On this archive, the lists of Sonnet's answers with a stated number below 70% were not shown to differ by format more than they differ between two askings in the same format, by the pre-registered margin."
+  - The untestable sentence is unchanged.
+  - The self-test adds an asymmetric-noise world, which must raise the flag.
+- **F2 (D8).** Haiku's entry (secondary) carries no verdict sentence.
+- **F3 (D10).** The §7 stop rule now reads: "If any archive file's sha256 differs from the value pinned in the code (from the committed files at bc9b77e), the run stops before any analysis and the mismatch is reported." The three hashes are pinned in `PINNED_SHA256`.
+- **Recommendation taken:** the leave-one-question-out flip ids are printed in the results file. The others (leave-one-category-out, rate-matched tie handling) are not taken; both are secondary.
+- **Erratum to D61:** "2026-11-05 06:15" there is a guessed time; the pre-registration commit's author time is 06:06:43.
