@@ -33,7 +33,10 @@ CACHES = [ROOT / "items" / "leakage-cache.json", ROOT / "bettor" / "bettor-cache
           ROOT / "items" / "r2" / "leakage-cache.json", ROOT / "bettor" / "r2-bettor-cache.json",
           ROOT / "bettor" / "r2-valence-cache.json", ROOT / "bettor" / "r2-striking-cache.json",
           ROOT / "bettor" / "bb-cache.json", ROOT / "bettor" / "bb-pilot-cache.json",   # ss-b10 (D51)
-          ROOT / "items" / "f4" / "leakage-cache.json", ROOT / "bettor" / "f4-bettor-cache.json"]   # ss-b12 (D53)
+          ROOT / "items" / "f4" / "leakage-cache.json", ROOT / "bettor" / "f4-bettor-cache.json",   # ss-b12 (D53)
+          ROOT / "bettor" / "f1-cache.json",                                                     # ss-b13 (D62)
+          ROOT / "items" / "f2" / "leakage-cache.json", ROOT / "bettor" / "f2-cache.json",       # ss-b14 (D63)
+          ROOT / "bettor" / "bbb-cache.json", ROOT / "bettor" / "bbb-opus-cache.json"]           # ss-b10b (D64)
 
 
 def key_of(*parts) -> str:
