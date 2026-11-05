@@ -244,7 +244,7 @@
    "odds_adjustment": -0.14,
    "odds_reason": "Below settled-science (0.75) and published-record (1.00) rows despite them: Haiku and Sonnet must both clear good-news by 0.01 upper bound; Opus itself margined only 0.036.",
    "odds_prior_commit": "bd3bbb5",
-   "engine_odds_revised_at": "2026-11-05T10:45",
+   "engine_odds_revised_at": "2026-11-05T10:12",
    "revision_reason": "re-elicited before pre-registration in a fresh v2 context (rule 14; prior.md at bd3bbb5); the remap's 0.45 was one pass, not v2; the pass rule now adds the up-word and good-news/flattery baselines at a 0.01 margin and a cluster bootstrap (P3, P14)"
   },
   {
@@ -293,7 +293,7 @@
    "odds_adjustment": -0.05,
    "odds_reason": "Settled-science (0.75) and published-record (1.00) rows pull up, but C3 cleared -0.01 by only 0.006 on 92 pairs; 60 items with 8-10 clusters widen that bound. Literature row 0.13.",
    "odds_prior_commit": "bd3bbb5",
-   "engine_odds_revised_at": "2026-11-05T10:45",
+   "engine_odds_revised_at": "2026-11-05T10:12",
    "revision_reason": "re-elicited before pre-registration in a fresh v2 context (rule 14; prior.md at bd3bbb5); the remap's 0.45 was one pass, not v2; the pass rule now adds the up-word and good-news/flattery baselines at a 0.01 margin and a cluster bootstrap (P3, P14)"
   },
   {
@@ -535,7 +535,7 @@
    "odds_reason": "Settled-science row 0.75 and parent data (Sonnet lower bound 76.5; Haiku orders-averaged 75.0%) outweigh the literature 0.13 and model-referee 0.22 rows; Haiku's lower bound clearing 0.634 is the main risk.",
    "odds_prior_commit": "bd3bbb5",
    "odds_template": "v2",
-   "engine_odds_at": "2026-11-05T10:45",
+   "engine_odds_at": "2026-11-05T10:12",
    "question": "When each pair of real and doctored neuroscience abstracts is shown both ways round, does 'which version is better news for the paper's idea' beat the neuroscientists on both smaller Claude models?",
    "known": [
     "Asked once per pair, Sonnet's flattery answer was right 81.8% and Haiku's 68.0%; Haiku was right 92.9% with the original first and 44.1% with it second (ss-b10, audited, mixed).",
@@ -544,7 +544,7 @@
    "human_prompt": "Would you spend about $3 to find out whether, with each pair of real and doctored abstracts shown both ways round, picking the version that is better news for the paper's own idea beats the neuroscientists on both smaller Claude models? Will it come back a hit (here, a hit means both clearly beat the neuroscientists' published score)?",
    "engine_only": [],
    "status": "open",
-   "opened": "2026-11-05T10:45",
+   "opened": "2026-11-05T10:12",
    "prior_work_line": "BrainBench (Luo et al. 2024, Nature Human Behaviour, arXiv 2403.03230): 15 open LLMs at 81.4% against 63.4% for experts, with local-context and shuffled-context controls and no valence, flattery or option-order control (models were scored by perplexity, so there is no option order). Lee 2026, 'LLMs Have Made Failure Worth Publishing' (arXiv 2604.06236, read 2026-11-05) proposes clinical-trial-registry tests of whether LLMs overestimate success, reports no data, and does not mention BrainBench or a valence shortcut. No prior statement of an order-balanced flattery rule's score on BrainBench, so the 0.634 bar is open (predicts: unknown). Adds: the ss-b10 audit's overturning test, with position bias removed.",
    "prior_work_predicts": "unknown",
    "prior_work_sources": [
@@ -553,7 +553,7 @@
     "ss-b10 results and audit (this repository)"
    ],
    "prior_work_search": "arXiv 2604.06236 HTML read in full for its protocols; BrainBench controls as read for ss-b10, 2026-11-05",
-   "prior_work_at": "2026-11-05T10:45",
+   "prior_work_at": "2026-11-05T10:12",
    "diagnosis": null,
    "remap": null
   }
