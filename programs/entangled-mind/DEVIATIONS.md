@@ -1454,3 +1454,7 @@ What changed, said plainly: the 30% wrong-target world now passes the bet 0.005 
 ## D89 — em-dm6f2f2: Opus chunks ordered by question (design review confirmation, 11:33)
 
 2026-11-05 (commit author time is the record), before any call. The confirmation addendum of `ledger/design-reviews/em-dm6f2f2.md` found that the Opus wave's 40-call chunks were whole cells in key order, so a chunk skipped by the worst-case check would leave Opus no question with all four cells. Fix: the Opus keys are sorted by question, then format, then replicate, so each chunk is 10 whole questions. Reported Opus arm only; the Sonnet rule, the score and the odds are unchanged.
+
+## D90 — budget-ruling ids renumbered at the merge with main
+
+2026-11-05, at the merge of p1-wave3 into main. The rulings written on this branch as br-011 (em-gm2q2), br-012 (em-gm2bf1f1) and br-013 (em-dm6f2f2) collided with other-minds' br-011 to br-013 on main. They are renumbered **br-016**, **br-017** and **br-018** in `ledger/spend.jsonl` (each row says so in `renumbered`). Where D80, D82, D83, D84 and D87 name br-011, br-012 or br-013, read br-016, br-017 and br-018. Amounts and reasons are unchanged.

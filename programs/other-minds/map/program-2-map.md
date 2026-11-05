@@ -428,6 +428,9 @@ Test, event and the reason for each number:
 | P2-3 | `om-p2-3`, `om-p2-3b` | Rules out, on Haiku and 581 lower-severity SimpleToM stories, that the 'stated but not used' gap is memory of the model's own answer: a planted own answer pulled less than another reader's (om-p2-3 itself was untestable: a refusal). |
 | P2-5 | `om-p2-5` | Rules out, on Haiku and program 1's 16 vignettes, that a planted own answer reaches Sam's rating only through the model's own revised view: Sam's rating followed it more (+0.14). |
 | P2-6 | `om-p2-6` | Rules out, on Haiku and program 1's 16 items at +/-30, that the 'yours' label carries the own-answer pull: the label added +0.08, the assistant-turn position +0.23. |
+| P2-15 | `om-p2-15` | Rules out, on Haiku and om-p2-4's 324 archived uptake cells, that its self-predictions beat a no-effect guess cell by cell (+0.33 rating points, [−3.08, +4.07]); they beat it on own-answer cells and lose on another person's number (audit `ledger/audits/om-p2-15.md`). |
+| P2-5r | `om-p2-5r` | Rules out, on Sonnet 5.5 and Opus 5.5 and program 1's 16 vignettes at 2 repeats, that the rating attributed to Sam moves further toward the model's planted answer than its own re-rating, in either direction (both read none; audit `ledger/audits/om-p2-5r.md`). |
+| P2-path | `om-p2-path`, `om-p2-path2` | Rules out nothing about path dependence: both bets were withdrawn before any tag (D19a, D21b). By a fresh origin coding, 11 of the engine's 17 recorded traps were already in program 1's pre-gate work, so program 2's failures cannot be tied to program 1's traps rather than to the generic ones every program shares; a test needs an origin-specific pattern list or two seeds run in parallel. |
 
 ## Prior work lines (rule 13, added 2026-11-05)
 

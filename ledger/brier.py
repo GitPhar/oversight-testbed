@@ -57,7 +57,7 @@ def calib_rows(pairs):
 
 def main():
     bets = [json.loads(l) for l in (HERE / "bets.jsonl").read_text().splitlines() if l.strip()]
-    scored_all = [b for b in bets if b["scored"]]
+    scored_all = [b for b in bets if b.get("scored")]   # a withdrawn row may carry no "scored" (sv-b4)
     secondary = [b for b in scored_all if b.get("secondary_of")]
     scored = [b for b in scored_all if not b.get("secondary_of")]
     seen, unmarked = {}, []
@@ -213,7 +213,7 @@ def main():
     w("")
     w("## What is not scored, and why")
     w("")
-    unscored = [b for b in bets if not b["scored"]]
+    unscored = [b for b in bets if not b.get("scored")]
     w(f"{len(unscored)} of the {len(bets)} bets in the ledger are not scored:")
     w("")
     for b in unscored:
