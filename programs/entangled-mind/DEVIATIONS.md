@@ -1135,3 +1135,13 @@ Details in `results/probe-dissociation.md`.
 **What it is not.** It does not revive the quantum error-prediction encoding (closed; CONTEXT §3 rule 6). No model answer, claim web or circuit from program 1 is used.
 
 **Disclosed.** The author had read the map, the record and brier.md (outcomes visible) before writing the rules; no predictor was computed on the real graph and the dry run used synthetic forests only. Engine odds: map 0.04, v1 re-elicitation 0.07, in force 0.05 (lesson ls-em-qwalk). No human odds.
+
+## D56 — em-qwalk withdrawn before data (design review: redesign); re-bet as em-qwalk2
+
+**Date:** 2026-11-04, before any score, AUROC or Δ was computed on the real graph. Laptop only throughout: $0 API, 0 QPU s.
+
+**Two reviews, the stricter binds** (agreed with the engine session before either verdict was known):
+- `ledger/design-reviews/em-qwalk.md` (6635276, fresh subagent launched by the author's session): **redesign**. Under leave-one-node-out a hidden direction's class has one seed fewer, so its own label shapes its score. The coherent quantum superposition's mass grows with the seed count, while PageRank averages over its seeds, so the two leak in opposite directions. The leak is worst around a labelled hub, and program 1's graph is mostly one (`oe`, 19 neighbours, 29 of 41 nodes). On a star with random labels the frozen rule said "classical" in 200 of 200 graphs. "Exact classical twin (same generator, seeds, stopping time)" was also wrong on the seeding.
+- `ledger/design-reviews/em-qwalk-1b.md` (3244dbb, fresh subagent launched by the engine session): **fix-first, 7 flaws**. The rule passes a walk that is below chance but less wrong than PageRank (the dry run's "quantum wins" case was exactly that), and the dumb baselines were reported, not ruled on. Other flaws: edges made after and because of outcomes; a false-pass rate measured on the wrong topology (about 4% on the real graph against the stated 2.7%); no leave-one-cluster-out; wrong nouns ("claim graph"); a review gate reading one file.
+
+**What follows.** em-qwalk is `withdrawn` in `ledger/bets.jsonl` (counted, not scored). Its pre-registration (680f128), code and seed (34bad77) stay as committed. A new bet, em-qwalk2, takes both reviews' fixes, with its own lesson, pre-registration, seed and design reviews. Like em-qwalk, it does not revive the quantum error-prediction encoding.

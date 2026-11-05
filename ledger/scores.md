@@ -90,15 +90,15 @@ Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denv
 
 | | count |
 |---|---|
-| pre-registrations since the rule | 10 |
-| with a lesson line | 7 |
+| pre-registrations since the rule | 9 |
+| with a lesson line | 6 |
 | with a design review verdict | 7 |
-| awaiting their design review (nothing may run yet) | 3: em-qwalk, om-p2-5, om-p2-6 |
+| awaiting their design review (nothing may run yet) | 2: om-p2-5, om-p2-6 |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
-| withdrawn after a design review said redesign | 1 |
+| withdrawn after a design review said redesign | 2 |
 
-Design reviews: 0 go, 7 fix-first, 1 redesign; 2 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 7 fix-first, 2 redesign; 2 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
