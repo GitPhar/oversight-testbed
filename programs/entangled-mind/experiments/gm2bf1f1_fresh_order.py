@@ -85,6 +85,9 @@ def run(client=None):
         import anthropic
         from dotenv import load_dotenv
         load_dotenv(Path("/Users/seanpharris/entangled-mind/.env"))
+        sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "ledger"))
+        import rule16                     # rule 16's dollar line (ledger/rule16.py), before the first paid client
+        rule16.DollarLine("entangled-mind", 0.0, root=Path(__file__).resolve().parents[3])
         client = anthropic.Anthropic(max_retries=4)
     recs, cc = chains()
     its = item_sets()
