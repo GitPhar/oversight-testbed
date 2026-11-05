@@ -1,0 +1,17 @@
+{
+ "bet": "sv-b5",
+ "purpose": "bootstrap",
+ "beacon": {
+  "chain": "CURBy-RNG",
+  "pulse_index": 1592604,
+  "pulse_time_utc": "2026-11-05T19:00:00.224Z",
+  "previous_index": 1592603,
+  "previous_time_utc": "2026-11-05T18:59:00.220Z",
+  "commit_time_utc": "2026-11-05T18:59:19.000Z",
+  "randomness": "a9ffdbb49cfbda5346ec27fc33e710f820acc66b0a83a896494b6f3deccdb0b8219813026f8f66b1b987295619dfad768895dbc9a9a034f826e902dfc71311ec",
+  "client": "@buff-beacon-project/curby-client@1.2.0",
+  "certificate_verified": false
+ },
+ "seed": 3592009445655241519,
+ "seed32": 1042342703
+}
