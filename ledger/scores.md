@@ -29,7 +29,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-31 audits prepared with a sealed plant line: 1 still sealed, 30 revealed, of which 12 carried a plant. 
+32 audits prepared with a sealed plant line: 1 still sealed, 31 revealed, of which 12 carried a plant. 
 
 **Catch rate: 12/12 = 1.00, 95% Wilson interval [0.76, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
 
@@ -65,19 +65,19 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-43 of 66 bets carry an engine pre-mortem; 27 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+43 of 66 bets carry an engine pre-mortem; 28 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
-| engine: named the main reason | 10/27 = 0.37 [0.22, 0.56] |
-| engine: named it or its kind | 20/27 = 0.74 [0.55, 0.87] |
-| lazy baseline: failures whose reason was 'the effect is not there' | 17/29 = 0.59 [0.41, 0.74] |
+| engine: named the main reason | 11/28 = 0.39 [0.24, 0.58] |
+| engine: named it or its kind | 21/28 = 0.75 [0.57, 0.87] |
+| lazy baseline: failures whose reason was 'the effect is not there' | 17/30 = 0.57 [0.39, 0.73] |
 | human: named the main reason | — |
 
 | stated kind \ actual kind | world | design | execution | artefact |
 |---|---|---|---|---|
 | world | 13 | 6 | 0 | 0 |
-| design | 2 | 4 | 0 | 0 |
+| design | 2 | 5 | 0 | 0 |
 | execution | 0 | 0 | 1 | 0 |
 | artefact | 0 | 1 | 0 | 0 |
 
@@ -107,19 +107,19 @@ Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denv
 |---|---|
 | pre-registrations since the rule | 33 |
 | with a lesson line | 30 |
-| with a design review verdict | 32 |
-| awaiting their design review (nothing may run yet) | 1: em-dm6f2f1 |
+| with a design review verdict | 33 |
+| awaiting their design review (nothing may run yet) | 0 |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 6 |
 
-Design reviews: 0 go, 32 fix-first, 6 redesign; 21 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 33 fix-first, 6 redesign; 21 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
 | P1 | Odds too high where the engine had a story | 13 | 9 of 13 scored |
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 4 | 4 of 4 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 24 | 14 of 23 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 24 | 15 of 24 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 5 | 3 of 5 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 3 | 0 of 2 scored |
 | P6 | A control that cannot fail | 3 | 1 of 3 scored |
@@ -135,5 +135,5 @@ Design reviews: 0 go, 32 fix-first, 6 redesign; 21 later found by the post-resul
 | P16 | A dumb baseline that is an item property, in dry-run worlds where item properties reach the outcome only through the predictor | 0 | 0 of 0 scored |
 | P17 | A design-review fix that replaces a guard can loosen it on the real data | 0 | 0 of 0 scored |
 
-**Does the loop help?** On 24 scored bets, Brier with the odds before the lesson is 0.177, after it 0.149.
+**Does the loop help?** On 25 scored bets, Brier with the odds before the lesson is 0.182, after it 0.151.
 
