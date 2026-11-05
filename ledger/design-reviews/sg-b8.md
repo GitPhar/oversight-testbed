@@ -13,7 +13,7 @@ papers_opened: 4                     # Tsui arXiv 2507.02778v3 (HTML, read and g
 flaws: 1
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 12:32 America/Denver
 ---
 
 # Design review of sg-b8
@@ -178,3 +178,22 @@ Recommended, not required:
 
 ---
 **Verdict: fix-first (1 flaw: D8, the pass and fail sentences overstate the bar ("most"), read it against sg-b3's blunting rather than this run's, and §6 omits the user-doubt reading of a user-written "Wait.").**
+
+## Confirmation addendum
+
+Written 2026-11-05 12:32 America/Denver (system clock), by the same reviewer subagent, in `/Users/seanpharris/oversight-testbed-review-sg-b8` detached at `8b65ee9`. It covers D28. No paid call was made.
+
+- **Fix 1 (D8): confirmed.** D28 is dated 2026-11-05, written before any call, and names this review. It adopts each required part word for word:
+  - **Pass:** "takes away most of the own-conversation blunting" is read as "at least half of the blunting sg-b3 measured", with this run's G0 and W's share of it.
+  - **Fail:** the G0 and share clause is added after the CI clause. "does not take away most" is read as "does not take away half of the blunting sg-b3 measured".
+  - **Item 5:** W is reported as a share of this run's G0, with G0 and its CI in every scored sentence. The extra clause applies when the share lies on the other side of one half from the reading.
+  - **§6:** the user-doubt sentence is added.
+  - **§1:** the sentence is narrowed to "If both clearly fall short of that ...; other outcomes give no single answer."
+- **Numbering:** D26 had been taken by sg-b7's after-data row, so the fix sits at D28. That has no effect on the fix.
+- **Nothing else moved: confirmed.**
+  - `git diff d271e9b 8b65ee9 --stat -- programs/self-grading/experiments programs/self-grading/data` is empty. So the pre-registration file, `sg_b8_wait.py`, `sg_samerun.py`, `sg_prompts.py`, `sg_common.py`, the seed file, H (6.3, 3.0), GATE 10, the Fw guard, CAP 1.40 and the seeds are unchanged.
+  - `check_frozen()` and `check_noise()` still pass at `8b65ee9`.
+  - The other changes since `d271e9b` belong to sg-b6 and sg-b7: audits, results wording, D26, D27, inbox rows and map links. None touches sg-b8 or sg-d15. The committed review (`06bbb46`) matches the text above.
+- **Recommended items:** the two write-up reports were taken (W's within-run SD; Opus wait-cell cost). Monteiro et al. 2015 was not added. It was recommended, not required, so this is not a flaw.
+
+No flaw remains. **Verdict: go (fix confirmed).**
