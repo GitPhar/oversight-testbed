@@ -1,51 +1,123 @@
 {
+ "_note": "200 simulated runs per world; 400 permutations, 400 bootstraps; order deviations shrunk to the variance-corrected OE; wrong-target answers set to the 4th statement's archived mean rating",
  "haiku": {
   "within_sd_shown": 10.42595585812426,
-  "within_sd_redacted": 11.487577831921072,
-  "null (no order effect)": {
+  "oe_shown_measured": 8.727864063510104,
+  "null": {
    "pass": 0.0,
    "fail": 1.0,
    "untestable": 0.0
   },
-  "half of shown": {
-   "pass": 0.08,
-   "fail": 0.92,
+  "half": {
+   "pass": 0.105,
+   "fail": 0.895,
    "untestable": 0.0
   },
-  "equal to shown": {
+  "0.75": {
+   "pass": 0.78,
+   "fail": 0.22,
+   "untestable": 0.0
+  },
+  "equal": {
+   "pass": 0.99,
+   "fail": 0.01,
+   "untestable": 0.0
+  },
+  "redacted pattern": {
    "pass": 1.0,
    "fail": 0.0,
    "untestable": 0.0
   },
-  "archived redacted pattern": {
-   "pass": 1.0,
-   "fail": 0.0,
+  "shuffled items, equal": {
+   "pass": 0.13,
+   "fail": 0.87,
+   "untestable": 0.0
+  },
+  "shuffled items, 1.5x": {
+   "pass": 0.675,
+   "fail": 0.325,
+   "untestable": 0.0
+  },
+  "wrong-target 0.1": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "wrong-target 0.2": {
+   "pass": 0.01,
+   "fail": 0.99,
+   "untestable": 0.0
+  },
+  "wrong-target 0.3": {
+   "pass": 0.165,
+   "fail": 0.835,
    "untestable": 0.0
   }
  },
  "sonnet": {
   "within_sd_shown": 9.415302261035844,
-  "within_sd_redacted": 11.199144312550551,
-  "null (no order effect)": {
+  "oe_shown_measured": 6.081563669539822,
+  "null": {
    "pass": 0.0,
    "fail": 1.0,
    "untestable": 0.0
   },
-  "half of shown": {
-   "pass": 0.15,
-   "fail": 0.85,
+  "half": {
+   "pass": 0.125,
+   "fail": 0.875,
    "untestable": 0.0
   },
-  "equal to shown": {
-   "pass": 0.93,
-   "fail": 0.07,
+  "0.75": {
+   "pass": 0.585,
+   "fail": 0.415,
    "untestable": 0.0
   },
-  "archived redacted pattern": {
-   "pass": 0.99,
-   "fail": 0.01,
+  "equal": {
+   "pass": 0.83,
+   "fail": 0.17,
+   "untestable": 0.0
+  },
+  "redacted pattern": {
+   "pass": 0.995,
+   "fail": 0.005,
+   "untestable": 0.0
+  },
+  "shuffled items, equal": {
+   "pass": 0.04,
+   "fail": 0.96,
+   "untestable": 0.0
+  },
+  "shuffled items, 1.5x": {
+   "pass": 0.105,
+   "fail": 0.895,
+   "untestable": 0.0
+  },
+  "wrong-target 0.1": {
+   "pass": 0.0,
+   "fail": 1.0,
+   "untestable": 0.0
+  },
+  "wrong-target 0.2": {
+   "pass": 0.09,
+   "fail": 0.91,
+   "untestable": 0.0
+  },
+  "wrong-target 0.3": {
+   "pass": 0.24,
+   "fail": 0.76,
    "untestable": 0.0
   }
  },
- "_note": "python experiments/gm2q_questions_only.py --dry-run (100 simulated runs per world, 400 permutations and bootstraps); worlds from results/gm2-conversations.json (Haiku) and results/mm-gm2-sonnet-conversations.json (Sonnet), shown chains"
+ "bet": {
+  "null": 0.0,
+  "half": 0.013125,
+  "0.75": 0.4563,
+  "equal": 0.8217,
+  "redacted pattern": 0.995,
+  "shuffled items, equal": 0.005200000000000001,
+  "shuffled items, 1.5x": 0.07087500000000001,
+  "wrong-target 0.1": 0.0,
+  "wrong-target 0.2": 0.0009,
+  "wrong-target 0.3": 0.0396
+ }
 }

@@ -1266,3 +1266,47 @@ Not scored; counted as a withdrawal. The 0.5 bar is not moved. gm3c-f1 is parked
 - the seed commit `6520400` made two more time edits to the frozen pre-registration besides the header ("06:10" → "06:05" for the human-odds check; "06:05" → "about 06:02" for the v1 elicitation). Both correct guessed times; no rule, number or bar changed;
 - after the run, `dm6f2_flag_overlap.py` gained one output-only line (the placeholder plain-English heading for program 1's reproduce.py). It was re-run with the same seed, and the JSON was byte-identical (`f9d77e8`);
 - the same-format intervals added under D63 use the stream seed + 2, which §2 did not name. They feed reported intervals only.
+
+## D69 — em-gm2q design-review fixes (review `927cdb4`, fix-first, 5 flaws), before any call
+
+2026-11-05, before any call. No API call has been made for em-gm2q. The pre-registration (`2f30696`, seed `1ba7f8c`) stays frozen; this row is the binding amendment, and where it and the pre-registration differ, this row wins. Code: `experiments/gm2q_questions_only.py` as committed with this row. None of the fixes lowers the bar; fixes 1 and 3 tighten it or narrow what a verdict may say.
+
+**Fix 1 (D5, a wrong-target responder could pass).** A qonly conversation is **wrong-target** if its rating is within 5 points of today's mean shown rating of the statement placed 4th in that order, and more than 20 points from that item's mean shown final rating (every boundary with tolerance 1e-9). The same flag is computed on the shown final ratings as the chance baseline; both shares are reported per model. **A model's pass now also needs the qonly permutation gate p < 0.05 with the flagged qonly conversations dropped** (seed + 6). If dropping leaves any cell with fewer than 2 ratings, the model fails. `--selftest` now includes a no-effect world with 30% of answers set to the 4th statement's rating: raw qonly gate p = 0.0002, after dropping the 28% flagged p = 0.42, label fail. Limit, stated plainly: a wrong-target answer to a statement rated within 20 points of the item's final rating cannot be flagged; the dry run's wrong-target worlds below use the archived statement ratings to show how much that matters.
+
+**Fix 1b (D1 note, an unregistered route to untestable).** §5's untestable rule also covers a shown or qonly cell with fewer than 2 usable ratings (the code always did this).
+
+**Fix 2 (D7, the primary comparison's differences).** §6 listed only qonly against redacted. R compares qonly with **shown**, which differs from qonly in seven ways: in shown the model (1) sees its own four real answers; (2) produces four sub-ratings itself, the act of rating; (3) gets five user turns, not one message; (4) gets unnumbered questions, not a 1–5 list; (5) gets the opening "I will ask you to rate several statements, one at a time…" rather than "…Think about each statement in turn, then give a rating for the question itself only…"; (6) gives five structured outputs, not one; (7) meets the main question as its own final turn, not as line 5 of a list. Matched: model, settings, items, orders, R, date, call path and scale. R compares qonly with the whole turn-by-turn bundle, so a fail cannot be laid on any one of these.
+
+**Fix 3 (D8, the fail and mixed sentences).** §5's fail sentence is replaced by three, chosen in code (`sentence_key`):
+- **fail-dies-placeholder** (qonly gate p ≥ 0.05 on both models, and today's Haiku redacted/shown ratio has a lower bound ≥ 0.5): "With nothing in the transcript but the questions, their order did not detectably move the final rating on either model, though it did turn by turn, and on Haiku it still did with the placeholder in place today: the gm2 pass was the placeholder, meaning the answer turns gm2's redacted chain kept (the '[rating recorded]' line, the turn-taking and the act of answering), and the main paper must say so and must not cite gm2 as showing that the questions alone build the number."
+- **fail-dies-no-repeat** (qonly gate p ≥ 0.05 on both models, and today's Haiku redacted lower bound < 0.5): "With nothing in the transcript but the questions, their order did not detectably move the final rating on either model, and today's Haiku redacted chain did not repeat gm2's result either: gm2's questions-only reading did not replicate today, this test cannot say whether the placeholder caused it, and the main paper must say so and must not cite gm2 as showing that the questions alone build the number."
+- **fail-short** (qonly gate p < 0.05 on at least one model, but R's bound short): "With nothing in the transcript but the questions, their order still moved the final rating on <model(s)>, but not by a margin shown to be at least half the turn-by-turn effect on these 10 items: the questions alone do something, and this test cannot say how much."
+- **mixed:** "depends on the model" becomes "depends on the model or on the items".
+- The pass sentence is unchanged, with "item by item" understood (fix 4).
+- Why the placeholder sentence survives at all: the job that ordered this replication requires the sentence "if it dies, the gm2 pass was the placeholder and the main paper must say so". It is kept only where the data can carry it: the questions-only effect undetectable on both models while today's Haiku redacted chain still shows the effect. "The placeholder" means the answer-turn bundle, as in §5.
+- §1's plain English and `paper/novelty.md`'s ranked item 2 will use these sentences when the result is written.
+
+**Fix 4 (D11, the dry run).** `dry_run` now shrinks each item's archived order deviations to its variance-corrected order effect, so the archives' sampling noise is not treated as the truth. It adds the 0.75 world, a shuffled-items world (shown's item effects reassigned to other items, at equal and 1.5 × size) and wrong-target worlds (f = 0.1, 0.2, 0.3). It runs 200 simulated runs per world, with 400 permutations and 400 bootstraps, and applies the amended rule, fix 1 included. `results/gm2q-dry-run.json` is recommitted with this row. P(pass):
+
+| world | Haiku P(pass) | Sonnet P(pass) | bet, both (independent) |
+|---|---|---|---|
+| null: no order effect | 0.000 | 0.000 | 0.000 |
+| half: shown's (shrunk) order deviations × 0.5 | 0.105 | 0.125 | 0.013 |
+| 0.75 × shown | 0.780 | 0.585 | 0.456 |
+| equal: shown's (shrunk) deviations | 0.990 | 0.830 | 0.822 |
+| the archived redacted pattern (shrunk) | 1.000 | 0.995 | 0.995 |
+| shuffled items: shown's item effects on other items, equal size | 0.130 | 0.040 | 0.005 |
+| shuffled items, 1.5 × size | 0.675 | 0.105 | 0.071 |
+| no effect, 10% of answers wrong-target | 0.000 | 0.000 | 0.000 |
+| no effect, 20% wrong-target | 0.010 | 0.090 | 0.001 |
+| no effect, 30% wrong-target | 0.165 | 0.240 | 0.040 |
+
+Measured: within-order SD shown Haiku 10.4, Sonnet 9.4; OE shown Haiku 8.7, Sonnet 6.1. Every world can fail; the aligned worlds can pass (D11 holds where the effect sits on the same items). The wrong-target fix brings the 30% world from the review's 0.71 to 0.04 for the bet, though one model alone still passes 17–24% there.
+
+What the bet tests, said plainly (this replaces §8's "real power at equal is lower" and adds to §1): **a pass needs the questions-only order effect to land on the same items as the turn-by-turn one, at about its full size.** An effect of the same size on other items almost never passes. So a fail does not show that order has no effect without answer turns; fix 3's sentences say only what each case carries.
+
+**Odds, revised before data** (both numbers kept): map v1 0.10 → after the lesson 0.15 (pre-registration §0) → **0.10** now. The corrected table says a pass needs the questions-only effect at about 0.75 × the turn-by-turn size or more, on the same items, on both models (0.46 at 0.75, 0.82 at equal; 0.005 on other items). The lesson's move toward the base rate leaned on the redacted-pattern world passing; that world is one gm2 itself left in doubt (the placeholder), so the move is undone. The bet row keeps all three numbers.
+
+**Fix 5 (D10, refusal machinery).** `converse` checks the stop flag before every call, so a conversation in flight ends before its next call, uncached, once any refusal or error is seen. `run()` exits at once if `results/refusal-gm2q.md` exists. The cost of an unfinished or refused conversation is kept in the cache under a `_lost|` key and counted in the spend. The cache is written after every conversation. `--analyse` asserts that the seed is 17882636728661590601. Stub tests (scratch, no network; refusal at call 31 and at call 433, inside the shown chains): 0 calls started after the refusal returned; a second run exited without a call; the refused conversation's cost was recorded. The statistics are vectorised (same statistic and estimator, same seeds; the individual permutation and bootstrap draws differ from the loop version's). §3's estimate is corrected: Haiku shown $0.105, Haiku redacted $0.105, Haiku qonly about $0.02, Sonnet qonly about $0.46, Sonnet shown $2.10, total about $2.79 of the $3.40 usable under the cap.
+
+**Text slips:** §2's opening differs from gm2's in its third and fourth sentences, not its second and third; the script's docstring now names D64 and D69.

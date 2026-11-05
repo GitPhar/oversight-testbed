@@ -1,18 +1,20 @@
 """em-gm2q (map gm2-f1): does question order still move the final rating when the four sub-questions sit in one user
-message, with no answer turns and no placeholder? Pre-registered in experiments/gm2q-questions-only.md (D62).
+message, with no answer turns and no placeholder? Pre-registered in experiments/gm2q-questions-only.md (D64); design-review
+fixes D69 (review ledger/design-reviews/em-gm2q.md, fix-first, 5 flaws).
 
     python experiments/gm2q_questions_only.py --print-prompts      # the exact messages, one item, all conditions; no calls
-    python experiments/gm2q_questions_only.py --selftest           # estimator, verdict and boundary checks; no calls, no archive
+    python experiments/gm2q_questions_only.py --selftest           # estimator, verdict, target-check and boundary checks; no calls
     python experiments/gm2q_questions_only.py --dry-run            # P(pass)/P(fail) in worlds built from the gm2 and em-dm4 archives
     python experiments/gm2q_questions_only.py --run                # the paid run (cap $3.50 in code, stop on any refusal)
-    python experiments/gm2q_questions_only.py --analyse --seed S   # analysis of the cache with the beacon seed
+    python experiments/gm2q_questions_only.py --analyse --seed S   # analysis of the cache; S must be the recorded beacon seed
 
 Conditions (gm2's 10 items, chains O1-O4, anchor (a) only, R = 10):
 - shown:   gm2's turn-by-turn chain, the model sees its own real answers (the reference);
 - qonly:   ONE user message: the opening, the four sub-questions verbatim in the chain's order, then the main question;
            the model returns only the main rating. No answer turns, no placeholder;
 - redacted (Haiku only, secondary): gm2's "[rating recorded]" chain, re-run alongside for a same-day comparison.
-Calls cached by key in results/gm2q-conversations.json; refusal record results/refusal-gm2q.md; never results/refusal.md."""
+Calls cached by key in results/gm2q-conversations.json (written after every conversation); refusal record
+results/refusal-gm2q.md (never results/refusal.md); a run refuses to start while that record exists."""
 
 import hashlib
 import json
@@ -38,6 +40,8 @@ PRICES = {H: (0.10, 0.50), S: (2.00, 10.00)}                          # config.P
 N_PERM, N_BOOT = 5000, 2000
 ALPHA, BAR, TOL = 0.05, 0.5, 1e-9                                      # P13: every boundary compared with TOL
 USABLE_MIN = 0.90                                                      # per model x condition, else untestable
+WT_NEAR, WT_FAR = 5.0, 20.0                                            # D69 fix 1: the wrong-target flag
+SEED_RECORDED = 17882636728661590601                                   # beacon seed (1ba7f8c); --analyse asserts it
 RATING = {"type": "object", "properties": {"rating": {"type": "integer"}}, "required": ["rating"], "additionalProperties": False}
 ANCHOR = "0 = certainly false, 100 = certainly true"
 
@@ -82,6 +86,10 @@ def chain_turns(rec, claims, order):
     return list(zip(["S"] * 4 + ["M"], seq + [None], texts))
 
 
+def fourth(claims, order):
+    return claims[LATIN[int(order[1]) - 1][3]]
+
+
 def items():
     planted = json.loads(PLANTED.read_text())["items"]
     recs = {r["id"]: r for r in json.loads(POOL.read_text())["records"]}
@@ -91,10 +99,17 @@ def items():
 # --- calls ----------------------------------------------------------------------------------------------------------
 
 class Refused(Exception):
-    def __init__(self, model, resp):
-        self.model, self.request_id = model, getattr(resp, "_request_id", None)
+    def __init__(self, model, resp, cost):
+        self.model, self.request_id, self.cost = model, getattr(resp, "_request_id", None), cost
         self.stop_details = getattr(resp, "stop_details", None)
         super().__init__(f"refusal: model {model}, request {self.request_id}")
+
+
+class Aborted(Exception):
+    """The stop flag was set (refusal, error or cap elsewhere) before this conversation's next call: it ends unfinished."""
+    def __init__(self, cost):
+        self.cost = cost
+        super().__init__("aborted")
 
 
 def call(client, model, messages):
@@ -104,7 +119,7 @@ def call(client, model, messages):
     cost = (resp.usage.input_tokens * pin + resp.usage.output_tokens * pout) / 1e6
     rid = getattr(resp, "_request_id", None)
     if resp.stop_reason == "refusal":
-        raise Refused(model, resp)
+        raise Refused(model, resp, cost)
     if resp.stop_reason == "max_tokens":
         return None, None, cost, rid
     text = "".join(b.text for b in resp.content if b.type == "text")
@@ -114,18 +129,30 @@ def call(client, model, messages):
         return None, text, cost, rid
 
 
-def converse(client, model, rec, claims, order, cond):
+def converse(client, model, rec, claims, order, cond, stop):
     cost, rids = 0.0, []
+
+    def guarded(msgs):
+        nonlocal cost
+        if stop.is_set():                           # D69 fix 5: checked before every call, not only between conversations
+            raise Aborted(cost)
+        try:
+            r, raw, c, rid = call(client, model, msgs)
+        except Refused as e:
+            e.cost += cost
+            raise
+        cost += c
+        rids.append(rid)
+        return r, raw
+
     if cond == "qonly":
-        r, raw, c, rid = call(client, model, [{"role": "user", "content": qonly_message(rec, claims, order)}])
-        return {"turns": [{"kind": "M", "claim": None, "rating": r, "raw": raw}], "cost": c, "request_ids": [rid],
+        r, raw = guarded([{"role": "user", "content": qonly_message(rec, claims, order)}])
+        return {"turns": [{"kind": "M", "claim": None, "rating": r, "raw": raw}], "cost": cost, "request_ids": rids,
                 "missing": r is None}
     msgs, out = [], []
     for kind, k, text in chain_turns(rec, claims, order):
         msgs.append({"role": "user", "content": text})
-        r, raw, c, rid = call(client, model, msgs)
-        cost += c
-        rids.append(rid)
+        r, raw = guarded(msgs)
         out.append({"kind": kind, "claim": k, "rating": r, "raw": raw})
         if r is None:                               # no usable answer: the conversation stops and counts as missing
             return {"turns": out, "cost": cost, "request_ids": rids, "missing": True}
@@ -133,68 +160,89 @@ def converse(client, model, rec, claims, order, cond):
     return {"turns": out, "cost": cost, "request_ids": rids, "missing": False}
 
 
-def run():
-    import anthropic
-    from dotenv import load_dotenv
-    for env in (HERE.parent / ".env", Path("/Users/seanpharris/entangled-mind/.env")):   # the key is in the old checkout
-        if env.exists():
-            load_dotenv(env)
-    client = anthropic.Anthropic(max_retries=4)
+def spent_of(cache):
+    """Every recorded cost, including conversations that ended unfinished ('_lost|' keys, D69 fix 5)."""
+    return sum(v["cost"] for v in cache.values())
+
+
+def run(client=None):
+    if REFUSAL.exists():                            # D69 fix 5: a refusal on record stops every later run
+        sys.exit(f"gm2q: {REFUSAL.name} exists; a refused run is never resumed, reworded or retried")
+    if client is None:
+        import anthropic
+        from dotenv import load_dotenv
+        for env in (HERE.parent / ".env", Path("/Users/seanpharris/entangled-mind/.env")):   # the key is in the old checkout
+            if env.exists():
+                load_dotenv(env)
+        client = anthropic.Anthropic(max_retries=4)
     its = items()
     cache = json.loads(CACHE.read_text()) if CACHE.exists() else {}
     lock, stop = threading.Lock(), threading.Event()
     state = {"refusal": None, "error": None, "cap": False}
-    spent = lambda: sum(v["cost"] for v in cache.values())
+
+    def save():
+        CACHE.write_text(json.dumps(cache))
 
     def work(job):
         key, model, q, order, cond = job
         if key in cache or stop.is_set():
             return
         with lock:
-            if spent() + RESERVE >= CAP - TOL:      # cap in code: never start a conversation within $0.10 of $3.50
+            if spent_of(cache) + RESERVE >= CAP - TOL:   # cap in code: never start a conversation within $0.10 of $3.50
                 state["cap"] = True
                 stop.set()
                 return
         rec, claims = its[q]
         try:
-            res = converse(client, model, rec, claims, order, cond)
+            res = converse(client, model, rec, claims, order, cond, stop)
         except Refused as e:
-            state["refusal"] = state["refusal"] or (key, e)
             stop.set()
+            with lock:
+                state["refusal"] = state["refusal"] or (key, e)
+                cache[f"_lost|{key}"] = {"cost": e.cost, "lost": "refused"}
+                save()
+            return
+        except Aborted as e:
+            with lock:
+                if e.cost:
+                    cache[f"_lost|{key}"] = {"cost": e.cost, "lost": "aborted"}
+                    save()
             return
         except Exception as e:
-            state["error"] = state["error"] or (key, repr(e))
             stop.set()
+            with lock:
+                state["error"] = state["error"] or (key, repr(e))
             return
         with lock:
             cache[key] = res
-            if len(cache) % 50 == 0:
-                CACHE.write_text(json.dumps(cache))
-                print(f"gm2q: {len(cache)} done, ${spent():.3f}", flush=True)
+            save()                                  # D69 fix 5: after every conversation
+            n = sum(1 for k in cache if not k.startswith("_"))
+            if n % 50 == 0:
+                print(f"gm2q: {n} done, ${spent_of(cache):.3f}", flush=True)
 
     for model in MODELS:                            # Haiku first, then Sonnet; within a model qonly, shown, (redacted)
         for cond in CONDS[model]:
             jobs = [(f"{SHORT[model]}|{q}|{o}|{cond}|{r}", model, q, o, cond) for q in its for o in ORDERS for r in range(R)]
             with ThreadPoolExecutor(max_workers=WORKERS) as ex:
                 list(ex.map(work, jobs))
-            CACHE.write_text(json.dumps(cache))
-            print(f"gm2q: {SHORT[model]} {cond} finished; total ${spent():.4f}", flush=True)
+            save()
+            print(f"gm2q: {SHORT[model]} {cond} finished; total ${spent_of(cache):.4f}", flush=True)
             if stop.is_set():
                 break
         if stop.is_set():
             break
-    CACHE.write_text(json.dumps(cache))
+    save()
     if state["refusal"]:
         key, e = state["refusal"]
         REFUSAL.write_text(f"# em-gm2q stopped on a refusal\n\nJob `{key}`, model `{e.model}`\n\nRequest ID: `{e.request_id}`\n\n"
-                           f"Exact stop details:\n\n```\n{e.stop_details}\n```\n\nNothing was reworded or retried; no further call "
-                           "was started.\n")
+                           f"Exact stop details:\n\n```\n{e.stop_details}\n```\n\nNothing was reworded or retried; every "
+                           "conversation in flight ended before its next call, and no later run starts while this file exists.\n")
         sys.exit(f"STOPPED on a refusal: {e}")
     if state["error"]:
         sys.exit(f"gm2q: stopped on an error: {state['error']}")
     if state["cap"]:
-        sys.exit(f"gm2q: budget cap ${CAP} (reserve ${RESERVE}) reached; stopped. Spent ${spent():.4f}")
-    print(f"gm2q: complete, {len(cache)} conversations, ${spent():.4f}")
+        sys.exit(f"gm2q: budget cap ${CAP} (reserve ${RESERVE}) reached; stopped. Spent ${spent_of(cache):.4f}")
+    print(f"gm2q: complete, ${spent_of(cache):.4f}")
 
 
 # --- analysis -------------------------------------------------------------------------------------------------------
@@ -214,42 +262,45 @@ def oe(data, qs):
     return float(np.sqrt(np.mean([vc(data[q])[0] for q in qs])))
 
 
-def perm_p(data, qs, seed):
+def perm_p(data, qs, seed, n_perm=None):
+    """Permutation test of sum over items of MS_between, order labels shuffled within item (vectorised; same statistic as
+    gm2's loop). p = (1 + #{T* >= T - TOL}) / (n_perm + 1)."""
+    n_perm = n_perm or N_PERM
     rng = np.random.default_rng(seed)
     T = sum(vc(data[q])[1] for q in qs)
-    hits = 0
-    for _ in range(N_PERM):
-        t = 0.0
-        for q in qs:
-            g = data[q]
-            allv = rng.permutation(np.concatenate([np.asarray(x, float) for x in g]))
-            t += vc(np.split(allv, np.cumsum([len(x) for x in g])[:-1]))[1]
-        hits += t >= T - TOL
-    return (1 + hits) / (N_PERM + 1)
+    null = np.zeros(n_perm)
+    for q in qs:
+        g = [np.asarray(x, float) for x in data[q] if len(x)]
+        v, sizes = np.concatenate(g), np.array([len(x) for x in g])
+        pv = v[np.argsort(rng.random((n_perm, len(v))), axis=1)]
+        b = np.concatenate([[0], np.cumsum(sizes)])
+        means = np.stack([pv[:, b[i]:b[i + 1]].mean(1) for i in range(len(g))], 1)
+        null += (sizes * (means - v.mean()) ** 2).sum(1) / (len(g) - 1)
+    return float((1 + np.sum(null >= T - TOL)) / (n_perm + 1))
 
 
-def ratio_boot(dq, ds, qs, seed):
+def ratio_boot(dq, ds, qs, seed, n_boot=None):
     """R = OE(qonly)/OE(shown) and its 95% item-bootstrap percentile interval (items resampled with replacement;
     resamples where OE(shown) is 0 are dropped and counted)."""
+    n_boot = n_boot or N_BOOT
     rng = np.random.default_rng(seed)
-    point = oe(dq, qs) / oe(ds, qs) if oe(ds, qs) > 0 else float("nan")
-    vals, dropped = [], 0
-    for _ in range(N_BOOT):
-        s = list(rng.choice(qs, len(qs)))
-        den = oe(ds, s)
-        if den <= 0:
-            dropped += 1
-            continue
-        vals.append(oe(dq, s) / den)
-    lo, hi = (map(float, np.percentile(vals, [2.5, 97.5])) if vals else (float("nan"), float("nan")))
-    return {"R": point, "lo": lo, "hi": hi, "dropped": dropped}
+    vq, vs = np.array([vc(dq[q])[0] for q in qs]), np.array([vc(ds[q])[0] for q in qs])
+    point = float(np.sqrt(vq.mean()) / np.sqrt(vs.mean())) if vs.mean() > 0 else float("nan")
+    idx = rng.integers(0, len(qs), (n_boot, len(qs)))
+    num, den = np.sqrt(vq[idx].mean(1)), np.sqrt(vs[idx].mean(1))
+    ok = den > 0
+    vals = num[ok] / den[ok]
+    lo, hi = (map(float, np.percentile(vals, [2.5, 97.5])) if len(vals) else (float("nan"), float("nan")))
+    return {"R": point, "lo": lo, "hi": hi, "dropped": int((~ok).sum())}
 
 
-def model_label(gate_shown, p_q, r_lo, usable_ok):
-    """Pre-registered per-model reading (§5). Every comparison carries TOL (P13)."""
+def model_label(gate_shown, p_q, p_q_clean, r_lo, usable_ok):
+    """Pre-registered per-model reading (§5, with D69 fix 1). Every comparison carries TOL (P13).
+    p_q_clean is the qonly gate with wrong-target conversations dropped (None if a cell kept < 2 ratings: fail)."""
     if not usable_ok or not (gate_shown <= ALPHA - TOL):
         return "untestable"
-    if p_q <= ALPHA - TOL and r_lo == r_lo and r_lo >= BAR - TOL:
+    if (p_q <= ALPHA - TOL and p_q_clean is not None and p_q_clean <= ALPHA - TOL
+            and r_lo == r_lo and r_lo >= BAR - TOL):
         return "pass"
     return "fail"
 
@@ -267,44 +318,75 @@ def bet_verdict(labels):
     return "untestable"
 
 
-def finals(cache, model, q, order, cond):
+def sentence_key(res):
+    """Which pre-registered §5 sentence the write-up uses (D69 fix 3)."""
+    v, m = res["verdict"], res["models"]
+    if v != "fail":
+        return v
+    gate_any = any(x.get("qonly_p", 1) <= ALPHA - TOL for x in m.values())
+    if gate_any:
+        return "fail-short"
+    red = m.get("haiku", {}).get("ratio_redacted_shown")
+    return "fail-dies-placeholder" if red and red["lo"] == red["lo"] and red["lo"] >= BAR - TOL else "fail-dies-no-repeat"
+
+
+def cell(cache, model, q, order, cond):
     out = []
     for r in range(R):
         c = cache.get(f"{SHORT[model]}|{q}|{order}|{cond}|{r}")
         if c and not c["missing"]:
-            out.append(c["turns"][-1]["rating"])
+            out.append(c)
     return out
 
 
-def analyse_model(cache, model, qs, seed):
-    d = {cond: {q: [finals(cache, model, q, o, cond) for o in ORDERS] for q in qs} for cond in CONDS[model]}
+def wrong_target(rating, stmt_mean, final_mean):
+    """D69 fix 1: within 5 points of the 4th-placed statement's mean shown rating and more than 20 points from the
+    item's mean shown final rating."""
+    return abs(rating - stmt_mean) <= WT_NEAR + TOL and abs(rating - final_mean) > WT_FAR + TOL
+
+
+def analyse_model(cache, model, qs, claims, seed):
+    convs = {cond: {q: [cell(cache, model, q, o, cond) for o in ORDERS] for q in qs} for cond in CONDS[model]}
+    d = {cond: {q: [[c["turns"][-1]["rating"] for c in x] for x in convs[cond][q]] for q in qs} for cond in CONDS[model]}
     usable = {cond: sum(len(x) for q in qs for x in d[cond][q]) / (len(qs) * 4 * R) for cond in CONDS[model]}
     usable_ok = all(usable[c] >= USABLE_MIN - TOL for c in ("shown", "qonly"))
     if not usable_ok or any(len(x) < 2 for c in ("shown", "qonly") for q in qs for x in d[c][q]):
-        return {"usable": usable, "label": "untestable", "reason": "usable share below 0.90 or a cell with < 2 ratings"}
+        return {"usable": usable, "label": "untestable",
+                "reason": "usable share below 0.90, or a shown or qonly cell with fewer than 2 ratings"}
+    # today's shown means: each statement's sub-rating, and each item's final rating (D69 fix 1)
+    stmt = {q: {k: float(np.mean([t["rating"] for x in convs["shown"][q] for c in x for t in c["turns"]
+                                  if t["kind"] == "S" and t["claim"] == k])) for k in claims[q]} for q in qs}
+    fin = {q: float(np.mean([r for x in d["shown"][q] for r in x])) for q in qs}
+    flag = lambda cond: {q: [[wrong_target(r, stmt[q][fourth(claims[q], o)], fin[q]) for r in d[cond][q][j]]
+                             for j, o in enumerate(ORDERS)] for q in qs}
+    fq, fs = flag("qonly"), flag("shown")
+    share = lambda f: float(np.mean([b for q in qs for x in f[q] for b in x]))
+    clean = {q: [[r for r, b in zip(d["qonly"][q][j], fq[q][j]) if not b] for j in range(4)] for q in qs}
+    clean_ok = all(len(x) >= 2 for q in qs for x in clean[q])
     out = {"usable": usable,
            "gate_shown_p": perm_p(d["shown"], qs, seed + 1),
            "qonly_p": perm_p(d["qonly"], qs, seed + 2),
+           "qonly_p_clean": perm_p(clean, qs, seed + 6) if clean_ok else None,
+           "wrong_target_share": {"qonly": share(fq), "shown": share(fs)},
            "OE": {c: oe(d[c], qs) for c in CONDS[model]},
            "ratio": ratio_boot(d["qonly"], d["shown"], qs, seed + 3)}
-    out["label"] = model_label(out["gate_shown_p"], out["qonly_p"], out["ratio"]["lo"], usable_ok)
+    out["label"] = model_label(out["gate_shown_p"], out["qonly_p"], out["qonly_p_clean"], out["ratio"]["lo"], usable_ok)
     out["within_sd"] = {c: float(np.sqrt(np.mean([np.var(x, ddof=1) for q in qs for x in d[c][q] if len(x) > 1])))
                         for c in CONDS[model]}
     out["per_item"] = {q: {c: {"OE": float(np.sqrt(vc(d[c][q])[0])), "means": [float(np.mean(x)) for x in d[c][q]]}
                            for c in CONDS[model]} for q in qs}
-    # pattern agreement: correlation of order-mean deviations, shown vs qonly, pooled over items
     dev = lambda c: np.concatenate([np.array(out["per_item"][q][c]["means"]) - np.mean(out["per_item"][q][c]["means"]) for q in qs])
     out["pattern_r_shown_qonly"] = float(np.corrcoef(dev("shown"), dev("qonly"))[0, 1])
     if "redacted" in CONDS[model] and usable.get("redacted", 0) >= USABLE_MIN - TOL:
         out["ratio_redacted_shown"] = ratio_boot(d["redacted"], d["shown"], qs, seed + 4)
         out["ratio_qonly_redacted"] = ratio_boot(d["qonly"], d["redacted"], qs, seed + 5)
-    # leave-one-item-out: the label with each item dropped (same seeds)
     loo = {}
     for q in qs:
         s = [x for x in qs if x != q]
         g, p = perm_p(d["shown"], s, seed + 1), perm_p(d["qonly"], s, seed + 2)
+        pc = perm_p(clean, s, seed + 6) if clean_ok else None
         rb = ratio_boot(d["qonly"], d["shown"], s, seed + 3)
-        loo[q] = {"label": model_label(g, p, rb["lo"], True), "R": rb["R"], "lo": rb["lo"], "qonly_p": p, "gate": g}
+        loo[q] = {"label": model_label(g, p, pc, rb["lo"], True), "R": rb["R"], "lo": rb["lo"], "qonly_p": p, "gate": g}
     out["loo"] = loo
     out["loo_flips"] = [q for q, v in loo.items() if v["label"] != out["label"]]
     return out
@@ -325,13 +407,17 @@ def archived_secondaries(qs):
 
 
 def analyse(seed):
+    assert seed == SEED_RECORDED, f"--seed must be the recorded beacon seed {SEED_RECORDED}"
     cache = json.loads(CACHE.read_text())
-    qs = list(items())
+    its = items()
+    qs, claims = list(its), {q: v[1] for q, v in its.items()}
     seed = seed % (2 ** 63)
-    res = {"seed": seed, "n_conversations": len(cache), "cost_usd": sum(v["cost"] for v in cache.values()),
+    res = {"seed": seed, "n_conversations": sum(1 for k in cache if not k.startswith("_")),
+           "n_lost": sum(1 for k in cache if k.startswith("_")), "cost_usd": spent_of(cache),
            "cache_sha256": hashlib.sha256(CACHE.read_bytes()).hexdigest(),
-           "models": {SHORT[m]: analyse_model(cache, m, qs, seed) for m in MODELS}}
+           "models": {SHORT[m]: analyse_model(cache, m, qs, claims, seed) for m in MODELS}}
     res["verdict"] = bet_verdict({m: v["label"] for m, v in res["models"].items()})
+    res["sentence"] = sentence_key(res)
     res["archived"] = archived_secondaries(qs)
     OUT_JSON.write_text(json.dumps(res, indent=1))
     write_tables(res)
@@ -341,18 +427,21 @@ def analyse(seed):
 def write_tables(r):
     f = lambda x: f"{x:.2f}"
     L = ["# em-gm2q tables (generated by experiments/gm2q_questions_only.py --analyse; do not edit)", "",
-         f"{r['n_conversations']} conversations, ${r['cost_usd']:.4f}; seed {r['seed']}; cache sha256 `{r['cache_sha256']}`.", "",
-         "| model | usable shown / qonly | gate p (shown) | p (qonly) | OE shown | OE qonly | **R = qonly / shown** | label | LOO flips |",
-         "|---|---|---|---|---|---|---|---|---|"]
+         f"{r['n_conversations']} conversations ({r['n_lost']} unfinished), ${r['cost_usd']:.4f}; seed {r['seed']}; "
+         f"cache sha256 `{r['cache_sha256']}`.", "",
+         "| model | usable shown / qonly | gate p (shown) | p (qonly) | p (qonly, wrong-target dropped) | wrong-target share qonly / shown | OE shown | OE qonly | **R = qonly / shown** | label | LOO flips |",
+         "|---|---|---|---|---|---|---|---|---|---|---|"]
     for m, v in r["models"].items():
         if "OE" not in v:
-            L.append(f"| {m} | {v['usable']} | — | — | — | — | — | {v['label']} | — |")
+            L.append(f"| {m} | {v['usable']} | — | — | — | — | — | — | — | {v['label']} | — |")
             continue
-        ra = v["ratio"]
+        ra, wt = v["ratio"], v["wrong_target_share"]
+        pc = "— (a cell kept < 2)" if v["qonly_p_clean"] is None else f"{v['qonly_p_clean']:.4f}"
         L.append(f"| {m} | {v['usable']['shown']:.0%} / {v['usable']['qonly']:.0%} | {v['gate_shown_p']:.4f} | {v['qonly_p']:.4f} | "
-                 f"{v['OE']['shown']:.1f} | {v['OE']['qonly']:.1f} | **{f(ra['R'])} [{f(ra['lo'])}, {f(ra['hi'])}]** | {v['label']} | "
-                 f"{', '.join(v['loo_flips']) or 'none'} |")
-    L += ["", f"**Bet verdict (pre-registered rule): {r['verdict']}**", "", "## Secondary (reported, never promoted)", ""]
+                 f"{pc} | {wt['qonly']:.1%} / {wt['shown']:.1%} | {v['OE']['shown']:.1f} | {v['OE']['qonly']:.1f} | "
+                 f"**{f(ra['R'])} [{f(ra['lo'])}, {f(ra['hi'])}]** | {v['label']} | {', '.join(v['loo_flips']) or 'none'} |")
+    L += ["", f"**Bet verdict (pre-registered rule): {r['verdict']}**; §5 sentence: `{r['sentence']}`", "",
+          "## Secondary (reported, never promoted)", ""]
     for m, v in r["models"].items():
         if "OE" not in v:
             continue
@@ -381,8 +470,30 @@ def write_tables(r):
 
 # --- self-test and dry run (no calls) -------------------------------------------------------------------------------
 
+def synthetic_cache(rng, qs, claims, stmt_means, shown_means, q_means, sd, wt_frac=0.0, conds=("qonly", "shown")):
+    """A cache in the run's format for model H: shown chains with sub-ratings and finals; qonly finals, of which a share
+    wt_frac are replaced by the 4th-placed statement's rating (a wrong-target responder)."""
+    cache, rnd = {}, lambda m: int(np.clip(np.rint(rng.normal(m, sd)), 0, 100))
+    for q in qs:
+        for j, o in enumerate(ORDERS):
+            for r in range(R):
+                if "shown" in conds:
+                    seq = [claims[q][i] for i in LATIN[j]]
+                    turns = [{"kind": "S", "claim": k, "rating": int(np.clip(np.rint(rng.normal(stmt_means[q][k], 3)), 0, 100))}
+                             for k in seq] + [{"kind": "M", "claim": None, "rating": rnd(shown_means[q][j])}]
+                    cache[f"haiku|{q}|{o}|shown|{r}"] = {"turns": turns, "cost": 0, "missing": False}
+                if rng.random() < wt_frac:
+                    v = int(np.clip(np.rint(rng.normal(stmt_means[q][fourth(claims[q], o)], 2)), 0, 100))
+                else:
+                    v = rnd(q_means[q][j])
+                cache[f"haiku|{q}|{o}|qonly|{r}"] = {"turns": [{"kind": "M", "claim": None, "rating": v}], "cost": 0,
+                                                     "missing": False}
+    return cache
+
+
 def selftest():
     import exp5_run as er
+    global CONDS
     assert er.LATIN == LATIN and er.ANCHORS["a"] == ANCHOR
     rng = np.random.default_rng(0)
     qs = [f"q{i}" for i in range(10)]
@@ -393,73 +504,117 @@ def selftest():
     rb = ratio_boot(shifted, shifted, qs, 2)
     assert abs(rb["R"] - 1) < 1e-12 and rb["lo"] <= 1 + 1e-12
     # boundaries exactly on each bar (P13): p = 0.05 is not < 0.05; R lower bound = 0.5 passes
-    assert model_label(0.05, 0.01, 0.9, True) == "untestable"
-    assert model_label(0.01, 0.05, 0.9, True) == "fail"
-    assert model_label(0.01, 0.0499, 0.5, True) == "pass"
-    assert model_label(0.01, 0.0499, 0.5 - 1e-6, True) == "fail"
-    assert model_label(0.01, 0.01, float("nan"), True) == "fail"
-    assert model_label(0.01, 0.01, 0.9, False) == "untestable"
+    assert model_label(0.05, 0.01, 0.01, 0.9, True) == "untestable"
+    assert model_label(0.01, 0.05, 0.01, 0.9, True) == "fail"
+    assert model_label(0.01, 0.01, 0.05, 0.9, True) == "fail"
+    assert model_label(0.01, 0.01, None, 0.9, True) == "fail"
+    assert model_label(0.01, 0.0499, 0.0499, 0.5, True) == "pass"
+    assert model_label(0.01, 0.0499, 0.0499, 0.5 - 1e-6, True) == "fail"
+    assert model_label(0.01, 0.01, 0.01, float("nan"), True) == "fail"
+    assert model_label(0.01, 0.01, 0.01, 0.9, False) == "untestable"
+    assert wrong_target(55, 50, 20) and wrong_target(45, 50, 20) and not wrong_target(55.5, 50, 20)
+    assert not wrong_target(50, 50, 30) and wrong_target(50, 50, 29.5)
     for labels, want in [({"h": "pass", "s": "pass"}, "pass"), ({"h": "pass", "s": "fail"}, "mixed"),
                          ({"h": "untestable", "s": "pass"}, "mixed"), ({"h": "fail", "s": "fail"}, "fail"),
                          ({"h": "fail", "s": "untestable"}, "untestable"), ({"h": "untestable", "s": "untestable"}, "untestable")]:
         assert bet_verdict(labels) == want, (labels, want)
-    print("selftest: all checks hold")
+    for m, want in [({"haiku": {"qonly_p": 0.3, "ratio_redacted_shown": {"lo": 0.7}}, "sonnet": {"qonly_p": 0.4}}, "fail-dies-placeholder"),
+                    ({"haiku": {"qonly_p": 0.3, "ratio_redacted_shown": {"lo": 0.3}}, "sonnet": {"qonly_p": 0.4}}, "fail-dies-no-repeat"),
+                    ({"haiku": {"qonly_p": 0.01}, "sonnet": {"qonly_p": 0.4}}, "fail-short")]:
+        assert sentence_key({"verdict": "fail", "models": m}) == want
+    # D69 fix 1: a no-effect world where 30% of qonly answers are the 4th statement's rating must fail;
+    # the same world with a real, aligned order effect and no wrong-target answers must pass.
+    CONDS = {**CONDS, H: ["qonly", "shown"]}
+    claims = {q: [0, 1, 2, 3] for q in qs}
+    stmt = {q: {0: 5, 1: 15, 2: 85, 3: 95} for q in qs}       # two lean no, two lean yes, as the items do
+    nul = {q: [50] * 4 for q in qs}
+    eff = {q: [50 + 12 * (j - 1.5) * (1 if i % 2 else -1) for j in range(4)] for i, q in enumerate(qs)}
+    wt = analyse_model(synthetic_cache(np.random.default_rng(5), qs, claims, stmt, nul, nul, 4, 0.30), H, qs, claims, 11)
+    assert wt["qonly_p"] < 0.05 and wt["label"] == "untestable", wt["label"]   # shown has no effect -> untestable
+    wt2 = analyse_model(synthetic_cache(np.random.default_rng(6), qs, claims, stmt, eff, nul, 4, 0.30), H, qs, claims, 11)
+    assert wt2["qonly_p"] < 0.05, wt2["qonly_p"]
+    assert wt2["label"] == "fail", (wt2["label"], wt2["qonly_p_clean"], wt2["wrong_target_share"])
+    ok = analyse_model(synthetic_cache(np.random.default_rng(7), qs, claims, stmt, eff, eff, 4, 0.0), H, qs, claims, 11)
+    assert ok["label"] == "pass", (ok["label"], ok["ratio"], ok["qonly_p_clean"])
+    print("selftest: all checks hold (wrong-target world with 30%: qonly gate", f"{wt2['qonly_p']:.4f}", "raw,",
+          f"{wt2['qonly_p_clean']}", "after dropping", f"{wt2['wrong_target_share']['qonly']:.0%}", "flagged -> fail)")
 
 
 def archive_world(model):
-    """Measured per-item order means (shown and redacted) and the pooled within-order SD, from the archives (P15)."""
-    qs = list(json.loads(PLANTED.read_text())["items"])
+    """Measured numbers from the archives (P15): per item, the shown and redacted order deviations shrunk to the
+    variance-corrected order effect (D69 fix 4: sample means at R = 4 or 10 carry noise), each statement's mean shown
+    sub-rating, and the pooled within-order SD."""
+    its = json.loads(PLANTED.read_text())["items"]
+    qs, claims = list(its), {q: v["chain_claims"] for q, v in its.items()}
     if model == H:
         conv, reps = json.loads((RESULTS / "gm2-conversations.json").read_text()), 10
     else:
         conv, reps = json.loads((RESULTS / "mm-gm2-sonnet-conversations.json").read_text()), 4
-    w = {}
+    w = {"qs": qs, "claims": claims}
     for cond in ("shown", "redacted"):
         data = {q: [[conv[f"{q}|{o}|{cond}|{r}"]["turns"][-1]["rating"] for r in range(reps) if f"{q}|{o}|{cond}|{r}" in conv]
                     for o in ORDERS] for q in qs}
-        w[cond] = {"means": {q: [float(np.mean(x)) for x in data[q]] for q in qs},
-                   "sd": float(np.sqrt(np.mean([np.var(x, ddof=1) for q in qs for x in data[q]]))),
-                   "data": data}
-    return qs, w
+        grand, dev = {}, {}
+        for q in qs:
+            m = np.array([np.mean(x) for x in data[q]])
+            n = np.mean([len(x) for x in data[q]])
+            v_c, msb = vc(data[q])
+            shrink = np.sqrt(v_c / (msb / n)) if msb > 0 else 0.0
+            grand[q], dev[q] = float(m.mean()), list((m - m.mean()) * shrink)
+        w[cond] = {"grand": grand, "dev": dev, "oe": oe(data, qs),
+                   "sd": float(np.sqrt(np.mean([np.var(x, ddof=1) for q in qs for x in data[q]])))}
+    w["stmt"] = {q: {k: float(np.mean([t["rating"] for key, c in conv.items() if key.startswith(f"{q}|O") and "|shown|" in key
+                                         for t in c["turns"] if t["kind"] == "S" and t["claim"] == k])) for k in claims[q]}
+                 for q in qs}
+    return w
 
 
-def simulate(qs, shown_means, q_means, sd, rng):
-    draw = lambda m: list(np.clip(np.rint(rng.normal(m, sd, R)), 0, 100))
-    ds = {q: [draw(m) for m in shown_means[q]] for q in qs}
-    dq = {q: [draw(m) for m in q_means[q]] for q in qs}
-    return ds, dq
-
-
-def dry_run(n_sims=100):
-    """P(pass) per model and for the bet, in worlds built from measured archive numbers. Analysis seeds fixed (dry run)."""
+def dry_run(n_sims=200, n_perm=400, n_boot=400):
+    """P(pass) per model and for the bet, in worlds built from measured archive numbers (D69 fix 4)."""
+    global CONDS
+    saved = dict(CONDS)
+    CONDS = {H: ["qonly", "shown"], S: ["qonly", "shown"]}
     rng = np.random.default_rng(20261105)
-    worlds = ["null (no order effect)", "half of shown", "equal to shown", "archived redacted pattern"]
-    out = {}
+    out = {"_note": f"{n_sims} simulated runs per world; {n_perm} permutations, {n_boot} bootstraps; order deviations shrunk "
+                    "to the variance-corrected OE; wrong-target answers set to the 4th statement's archived mean rating"}
+    worlds = ["null", "half", "0.75", "equal", "redacted pattern", "shuffled items, equal", "shuffled items, 1.5x",
+              "wrong-target 0.1", "wrong-target 0.2", "wrong-target 0.3"]
     for model in MODELS:
-        qs, w = archive_world(model)
-        sm, sd = w["shown"]["means"], w["shown"]["sd"]
-        grand = {q: float(np.mean(sm[q])) for q in qs}
-        scale = lambda a: {q: [grand[q] + a * (x - grand[q]) for x in sm[q]] for q in qs}
-        qm = {worlds[0]: scale(0.0), worlds[1]: scale(0.5), worlds[2]: scale(1.0), worlds[3]: w["redacted"]["means"]}
-        out[SHORT[model]] = {"within_sd_shown": sd, "within_sd_redacted": w["redacted"]["sd"]}
-        for name, means in qm.items():
+        w = archive_world(model)
+        qs, claims, g, dev = w["qs"], w["claims"], w["shown"]["grand"], w["shown"]["dev"]
+        means = lambda a, d=dev: {q: [g[q] + a * x for x in d[q]] for q in qs}
+        shown = means(1.0)
+        res = {"within_sd_shown": w["shown"]["sd"], "oe_shown_measured": w["shown"]["oe"]}
+        for name in worlds:
             labs = []
             for i in range(n_sims):
-                ds, dq = simulate(qs, sm, means, sd, rng)
-                N_saved = globals()["N_PERM"], globals()["N_BOOT"]
-                globals()["N_PERM"], globals()["N_BOOT"] = 400, 400
-                try:
-                    g, p = perm_p(ds, qs, i), perm_p(dq, qs, i + 1)
-                    rb = ratio_boot(dq, ds, qs, i + 2)
-                finally:
-                    globals()["N_PERM"], globals()["N_BOOT"] = N_saved
-                labs.append(model_label(g, p, rb["lo"], True))
-            out[SHORT[model]][name] = {k: labs.count(k) / n_sims for k in ("pass", "fail", "untestable")}
-            print(f"dry run {SHORT[model]:6s} {name:28s} " + "  ".join(f"{k} {v:.2f}" for k, v in out[SHORT[model]][name].items()),
-                  flush=True)
+                if name.startswith("shuffled"):
+                    perm = list(rng.permutation(qs))
+                    a = 1.5 if "1.5" in name else 1.0
+                    qm = {q: [g[q] + a * x for x in dev[p]] for q, p in zip(qs, perm)}
+                elif name == "redacted pattern":
+                    qm = {q: [g[q] + x for x in w["redacted"]["dev"][q]] for q in qs}
+                else:
+                    qm = means({"null": 0.0, "half": 0.5, "0.75": 0.75, "equal": 1.0}.get(name, 0.0))
+                f = float(name.split()[-1]) if name.startswith("wrong") else 0.0
+                c = synthetic_cache(rng, qs, claims, w["stmt"], shown, qm, w["shown"]["sd"], f)
+                d = {cond: {q: [[cc["turns"][-1]["rating"] for cc in cell(c, H, q, o, cond)] for o in ORDERS] for q in qs}
+                     for cond in ("shown", "qonly")}
+                stmt = {q: {k: float(np.mean([t["rating"] for o in ORDERS for cc in cell(c, H, q, o, "shown") for t in cc["turns"]
+                                               if t["kind"] == "S" and t["claim"] == k])) for k in claims[q]} for q in qs}
+                fin = {q: float(np.mean([r for x in d["shown"][q] for r in x])) for q in qs}
+                clean = {q: [[r for r in d["qonly"][q][j] if not wrong_target(r, stmt[q][fourth(claims[q], o)], fin[q])]
+                             for j, o in enumerate(ORDERS)] for q in qs}
+                pc = perm_p(clean, qs, i + 3, n_perm) if all(len(x) >= 2 for q in qs for x in clean[q]) else None
+                rb = ratio_boot(d["qonly"], d["shown"], qs, i + 2, n_boot)
+                labs.append(model_label(perm_p(d["shown"], qs, i, n_perm), perm_p(d["qonly"], qs, i + 1, n_perm), pc, rb["lo"], True))
+            res[name] = {k: labs.count(k) / n_sims for k in ("pass", "fail", "untestable")}
+            print(f"dry run {SHORT[model]:6s} {name:24s} " + "  ".join(f"{k} {v:.3f}" for k, v in res[name].items()), flush=True)
+        out[SHORT[model]] = res
     for name in worlds:
-        ph, ps = out["haiku"][name]["pass"], out["sonnet"][name]["pass"]
-        print(f"dry run bet  {name:28s} P(pass, both, independent) {ph * ps:.2f}")
+        out.setdefault("bet", {})[name] = out["haiku"][name]["pass"] * out["sonnet"][name]["pass"]
+        print(f"dry run bet  {name:24s} P(pass, both, independent) {out['bet'][name]:.3f}")
+    CONDS = saved
     return out
 
 
@@ -482,7 +637,8 @@ if __name__ == "__main__":
     elif "--selftest" in a:
         selftest()
     elif "--dry-run" in a:
-        json.dump(dry_run(), sys.stdout, indent=1)
+        res = dry_run()
+        (RESULTS / "gm2q-dry-run.json").write_text(json.dumps(res, indent=1) + "\n")
     elif "--run" in a:
         run()
     elif "--analyse" in a:
