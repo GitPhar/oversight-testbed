@@ -21,10 +21,13 @@ if str(P1 / "src") not in sys.path:
 
 from dotenv import load_dotenv  # noqa: E402
 
+import anthropic  # noqa: E402
+
 from entangled_mind import llm  # noqa: E402
 
 load_dotenv(P1 / ".env")
 BUDGET_USD = 5.00  # protocol/fixed-rules.md, lowered from 6.00 to the engine record's $5 (TASKS.md) before any call: DEVIATIONS D3
+THINKING_OFF = {}  # model -> the thinking setting that turns thinking off for it
 CACHES = [ROOT / "items" / "leakage-cache.json", ROOT / "bettor" / "bettor-cache.json"]
 
 
@@ -96,11 +99,24 @@ class Caller:
 
 def structured(model, system, user, schema, call, max_tokens=400):
     """One call, thinking disabled, structured JSON output, no tools. Returns (parsed, cost, request id, usage)."""
-    resp = llm.client().messages.create(model=model, max_tokens=max_tokens, system=system,
-                                        messages=[{"role": "user", "content": user}],
-                                        thinking={"type": "disabled"},
-                                        output_config={"format": {"type": "json_schema", "schema": schema}})
+    kw = dict(model=model, max_tokens=max_tokens, system=system, messages=[{"role": "user", "content": user}],
+              output_config={"format": {"type": "json_schema", "schema": schema}})
+    # Thinking off. Some current models reject {"type": "disabled"} and ask for {"type": "between_tools"}, which with
+    # no tools in the request means no thinking at all. The setting each model needs is remembered (THINKING_OFF).
+    if model not in THINKING_OFF:
+        try:
+            resp = llm.client().messages.create(thinking={"type": "disabled"}, **kw)
+            THINKING_OFF[model] = "disabled"
+        except anthropic.BadRequestError as e:
+            if "between_tools" not in str(e):
+                raise
+            THINKING_OFF[model] = "between_tools"
+            resp = llm.client().messages.create(thinking={"type": "between_tools"}, **kw)
+    else:
+        resp = llm.client().messages.create(thinking={"type": THINKING_OFF[model]}, **kw)
+    if any(b.type == "thinking" for b in resp.content):
+        raise RuntimeError(f"{call}: a thinking block came back; thinking was meant to be off")
     llm._check_stop(resp, call)
     text = next(b.text for b in resp.content if b.type == "text")
     u = llm._usage(resp)
-    return json.loads(text), u.cost, getattr(resp, "_request_id", None), u.as_dict()
+    return json.loads(text), u.cost, getattr(resp, "_request_id", None), {**u.as_dict(), "thinking": THINKING_OFF[model]}

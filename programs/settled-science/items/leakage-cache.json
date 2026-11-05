@@ -1,0 +1,3410 @@
+{
+"2a593a0ce9397fda7581ab4f": {
+"cid": "c-2611.00420-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00209,
+"request_id": "req_011CgipYCjnVhQkM3pww3WWa",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 950,
+"output_tokens": 19,
+"cost_usd": 0.00209,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"64f0b67181bd01b808970e38": {
+"cid": "c-2611.00420-2",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002024,
+"request_id": "req_011CgipYCE2G3PufPEYdq6bX",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 917,
+"output_tokens": 19,
+"cost_usd": 0.002024,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"ed4db3c43c2bc9aab67f1a3e": {
+"cid": "c-2611.05278-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001948,
+"request_id": "req_011CgipYCcqSJ7stxTYn44qX",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 879,
+"output_tokens": 19,
+"cost_usd": 0.001948,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"6fd790f3720594550708ccb0": {
+"cid": "c-2611.05278-2",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001992,
+"request_id": "req_011CgipYCyuX9rAyVFB9shYs",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 901,
+"output_tokens": 19,
+"cost_usd": 0.001992,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"1cf7724f7da46a7972aaebb9": {
+"cid": "c-2610.18462-1",
+"leak": true,
+"cue": "which remove the singular-value gains of the model's readout",
+"fix": "Describe the canonicalized coordinates neutrally, e.g. 'readout-canonicalized decision-space coordinates (a transformation based on the model's readout singular values)', without implying which representation is better suited to reconstructing output logits.",
+"cost": 0.003004,
+"request_id": "req_011CgipYCsxjh4bNcYZZ3JHR",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 942,
+"output_tokens": 112,
+"cost_usd": 0.003004,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"9a24e60985de85f1f4ad186f": {
+"cid": "c-2610.03498-1",
+"leak": true,
+"cue": "continuously at every step",
+"fix": "Describe the two modes neutrally and symmetrically, e.g. 'Suppression was tested under two schedules on LIBERO-10: gated by a linear probe's attack detection, and applied at all steps.' Also rephrase the question to 'how did the all-steps schedule change performance relative to the no-suppression baseline?'",
+"cost": 0.003152,
+"request_id": "req_011CgipYCXsgEFccik5uwRyR",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 916,
+"output_tokens": 132,
+"cost_usd": 0.003152,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"484ae9b79022bac03633e40e": {
+"cid": "c-2610.24118-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002018,
+"request_id": "req_011CgipYQG54V6SfJkq8pfDK",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 914,
+"output_tokens": 19,
+"cost_usd": 0.002018,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"aeced4a78af5816807118b5b": {
+"cid": "c-2610.24118-2",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001988,
+"request_id": "req_011CgipYQm66JoPzYKKurAki",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 899,
+"output_tokens": 19,
+"cost_usd": 0.001988,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"2cf1e6582f01a8d6cbbdbe01": {
+"cid": "c-2610.40588-1",
+"leak": true,
+"cue": "Its behaviour was examined on calls that disclosed information the operator permitted as well as on calls that broke the rule.",
+"fix": "Replace with a neutral description of the evaluation, e.g. 'The probe was evaluated on a held-out set of calls labelled by whether they disclosed information and whether they violated the operator's rule.' Do not mention permitted disclosures specifically, since including that comparison set presupposes a disclosure-versus-violation dissociation.",
+"cost": 0.003482,
+"request_id": "req_011CgipYLe39FWFVKXTarb6M",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 921,
+"output_tokens": 164,
+"cost_usd": 0.003482,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"9404299c6694d292a09759f4": {
+"cid": "c-2610.37157-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002046,
+"request_id": "req_011CgipYSWWKQMMuwujE6CKd",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 928,
+"output_tokens": 19,
+"cost_usd": 0.002046,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d851ebb636121dcc34b641c8": {
+"cid": "c-2611.00602-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00205,
+"request_id": "req_011CgipYSwJ6EgGuporP3UFP",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 930,
+"output_tokens": 19,
+"cost_usd": 0.00205,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"a11e992cc58e443d1715de9d": {
+"cid": "c-2610.19907-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002124,
+"request_id": "req_011CgipYSwYuHUKRBqDBom2f",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 967,
+"output_tokens": 19,
+"cost_usd": 0.002124,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"33f98e4e17e5b818c469e564": {
+"cid": "c-2610.17898-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002078,
+"request_id": "req_011CgipYVttzFidoDhmUxQvZ",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 944,
+"output_tokens": 19,
+"cost_usd": 0.002078,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"fa830d337eb025e93c95e1c9": {
+"cid": "c-2610.32182-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002022,
+"request_id": "req_011CgipYXuCBBLhh7xL2ayeX",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 916,
+"output_tokens": 19,
+"cost_usd": 0.002022,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"88f344840a6f9273b81a2c8e": {
+"cid": "c-2610.10178-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00201,
+"request_id": "req_011CgipYYJWdZ5p8fta6mCus",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 910,
+"output_tokens": 19,
+"cost_usd": 0.00201,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"2ed1a2ad96ecccb9625405ae": {
+"cid": "c-2610.27724-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001962,
+"request_id": "req_011CgipYWxtQ7pYuiSt9ceu2",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 886,
+"output_tokens": 19,
+"cost_usd": 0.001962,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"fa71852ac32abb00d3ef2238": {
+"cid": "c-2610.20683-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002,
+"request_id": "req_011CgipYY29A8veh5KYPSGYB",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 905,
+"output_tokens": 19,
+"cost_usd": 0.002,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"a9745826a84a665347359c94": {
+"cid": "c-2610.03698-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001992,
+"request_id": "req_011CgipYWbKbH9fbpzkZEj2B",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 901,
+"output_tokens": 19,
+"cost_usd": 0.001992,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"06328a96327ab8b5546496f4": {
+"cid": "c-2610.06605-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00192,
+"request_id": "req_011CgipYe6GjWSMaoUPKksd4",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 865,
+"output_tokens": 19,
+"cost_usd": 0.00192,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"2341070658bc04a0b380594d": {
+"cid": "c-2609.37737-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001988,
+"request_id": "req_011CgipYctLzLr95ZuLVKwge",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 899,
+"output_tokens": 19,
+"cost_usd": 0.001988,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8f12c3baae3bcc6f6a1273ed": {
+"cid": "c-2610.32113-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002132,
+"request_id": "req_011CgipYdYnDwFWrwusRxHat",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 971,
+"output_tokens": 19,
+"cost_usd": 0.002132,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"0ad6b33d1eff180ed37de0c4": {
+"cid": "c-2609.36455-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00194,
+"request_id": "req_011CgipYdZmW2tZQJZSBoHvH",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 875,
+"output_tokens": 19,
+"cost_usd": 0.00194,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8a055d95984ffab1ed9c3b04": {
+"cid": "c-2610.21204-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002,
+"request_id": "req_011CgipYeHBL6EyvcX2yt1vA",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 905,
+"output_tokens": 19,
+"cost_usd": 0.002,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"a28fcd13ef13bc2b78a6ec1a": {
+"cid": "c-2610.28982-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001972,
+"request_id": "req_011CgipYesQHAtEh3sAL9T2z",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 891,
+"output_tokens": 19,
+"cost_usd": 0.001972,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"c489601e8485788ee6d6bd62": {
+"cid": "c-2610.30006-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00206,
+"request_id": "req_011CgipYk2xiYN6YnnTRSZxC",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 935,
+"output_tokens": 19,
+"cost_usd": 0.00206,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"fa75f8623fa86a9664c4d9b3": {
+"cid": "c-2610.15850-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001998,
+"request_id": "req_011CgipYirG1PbiNr9fz4PXM",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 904,
+"output_tokens": 19,
+"cost_usd": 0.001998,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f30f83be83ec24348972bfe7": {
+"cid": "c-2610.30474-1",
+"leak": true,
+"cue": "dominance-aware measures that weight each feature by its contribution to model computation",
+"fix": "Describe the evaluation neutrally, e.g. 'Hundreds of SAEs across several architectures and model families were evaluated with existing interpretability metrics, and features were ranked by their contribution to model computation. Interpretability and redundancy were compared between the top-ranked features and the rest.'",
+"cost": 0.00311,
+"request_id": "req_011CgipYkJKjeKvdud3d23pw",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 860,
+"output_tokens": 139,
+"cost_usd": 0.00311,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d7723ec796fc38a65894be2a": {
+"cid": "c-2611.05033-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001964,
+"request_id": "req_011CgipYk5RoSA3A58KmrwPa",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 887,
+"output_tokens": 19,
+"cost_usd": 0.001964,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"e9a9a31bbb95f2219ca5660b": {
+"cid": "c-2610.04905-1",
+"leak": true,
+"cue": "the token-layer state most influential for the prediction according to normalized gradient attribution",
+"fix": "Describe the training data neutrally, e.g. 'an SAE was trained on one token-layer state per token, chosen by normalized gradient attribution scores', without the phrase 'most influential for the prediction', which implies the reconstructions preserve prediction-relevant information and so favours lower cross-entropy.",
+"cost": 0.00325,
+"request_id": "req_011CgipYigqjwan4YLUSAkWm",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 910,
+"output_tokens": 143,
+"cost_usd": 0.00325,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"364497b285cde35acf07f48f": {
+"cid": "c-2610.37676-1",
+"leak": true,
+"cue": "a rule that never reads the explanation and says 'yes' whenever the centre token of the snippet is marked",
+"fix": "Describe both scorers neutrally and symmetrically, e.g. 'the stored LLM scorers' verdicts were compared with a baseline rule that uses only the position of the marked token (answering yes when the centre token is marked)', and drop the emphasis on the rule never reading the explanation.",
+"cost": 0.003396,
+"request_id": "req_011CgipYp634qVfnL8izqUm5",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 968,
+"output_tokens": 146,
+"cost_usd": 0.003396,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"e425c5756e934dedca2d58a7": {
+"cid": "c-2610.24521-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001964,
+"request_id": "req_011CgipYsqFxYdgKRQcqCJ9r",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 887,
+"output_tokens": 19,
+"cost_usd": 0.001964,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"571f127c857428e6b5121963": {
+"cid": "c-2609.35686-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002004,
+"request_id": "req_011CgipYsccHdp7vuDk4pAdJ",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 907,
+"output_tokens": 19,
+"cost_usd": 0.002004,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f2ed01f5da26b5e4fcac8c51": {
+"cid": "c-2412.11867-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001966,
+"request_id": "req_011CgipYtxjCmqxkdR2yJjqF",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 888,
+"output_tokens": 19,
+"cost_usd": 0.001966,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"32f6075fd7851216e1d16dcb": {
+"cid": "c-2411.04430-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002034,
+"request_id": "req_011CgipYur3pnwYNKDm8o1ve",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 922,
+"output_tokens": 19,
+"cost_usd": 0.002034,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"feac19dc588528f5da3bed93": {
+"cid": "c-2405.08366-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002004,
+"request_id": "req_011CgipYxt8A8p5MJ9soX1pq",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 907,
+"output_tokens": 19,
+"cost_usd": 0.002004,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"289d058302eb2efce8bcdb0f": {
+"cid": "c-2411.08745-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001916,
+"request_id": "req_011CgipYyVqC7xYD2gRVVKrb",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 863,
+"output_tokens": 19,
+"cost_usd": 0.001916,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"022ad87c9b7641314fc67f8e": {
+"cid": "c-2511.21399-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00197,
+"request_id": "req_011CgipZ15pW4rdwiH2y3CW4",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 890,
+"output_tokens": 19,
+"cost_usd": 0.00197,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"23cf14d741ab8f32e9a6d803": {
+"cid": "c-2505.03189-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001908,
+"request_id": "req_011CgipZ2YPA3Rp2vFg32Mbh",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 859,
+"output_tokens": 19,
+"cost_usd": 0.001908,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8e71ef8ddb96e998d6004b64": {
+"cid": "c-2411.03993-1",
+"leak": true,
+"cue": "did the interpretability advantage of dictionary-based over neuron-based representations grow larger or smaller",
+"fix": "In human psychophysics experiments, how did the difference in interpretability between dictionary-based and neuron-based representations change across network layers from early to deep? Options: the difference in favour of dictionary-based units grew with depth / the difference in favour of dictionary-based units shrank with depth.",
+"cost": 0.003292,
+"request_id": "req_011CgipYx6VXaUud4RSYLknr",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 936,
+"output_tokens": 142,
+"cost_usd": 0.003292,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8110a162b0341d2198f6f21e": {
+"cid": "c-2508.16989-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001996,
+"request_id": "req_011CgipZ5QX9cLWZDYA8bf3g",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 903,
+"output_tokens": 19,
+"cost_usd": 0.001996,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d75ae93f5568af1d5b747d74": {
+"cid": "c-2509.25596-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00199,
+"request_id": "req_011CgipZ6M63tmYXUEEKZz1M",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 900,
+"output_tokens": 19,
+"cost_usd": 0.00199,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"9b2690d12029e3f7ac4294ca": {
+"cid": "c-2510.18147-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002008,
+"request_id": "req_011CgipZ66wgnvPSMWN2YuQE",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 909,
+"output_tokens": 19,
+"cost_usd": 0.002008,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"69327f59ad93c989c44dcc70": {
+"cid": "c-2605.20337-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002006,
+"request_id": "req_011CgipZ7r7eRQNqpce6wvuw",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 908,
+"output_tokens": 19,
+"cost_usd": 0.002006,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d9eb70890ab6949151695175": {
+"cid": "c-2605.12225-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001982,
+"request_id": "req_011CgipZBPBzY44Z6okcUPY6",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 896,
+"output_tokens": 19,
+"cost_usd": 0.001982,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f56a1ef265b53d1592a45fde": {
+"cid": "c-2606.00356-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002078,
+"request_id": "req_011CgipZAbpCFHyoXfXd2m6x",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 944,
+"output_tokens": 19,
+"cost_usd": 0.002078,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d5d004af12406bf5f9c376d2": {
+"cid": "c-2605.07324-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002024,
+"request_id": "req_011CgipZBrj3C5s6umaCuqJj",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 917,
+"output_tokens": 19,
+"cost_usd": 0.002024,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"dd335909d18b41cbd552fb97": {
+"cid": "c-2606.09850-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001944,
+"request_id": "req_011CgipZBVeKCsgfzhPtnxKf",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 877,
+"output_tokens": 19,
+"cost_usd": 0.001944,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"129569f4215f5d8896aa31d2": {
+"cid": "c-2411.11296-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002002,
+"request_id": "req_011CgipYxQ6ZPQMif7iyktBv",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 906,
+"output_tokens": 19,
+"cost_usd": 0.002002,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"b45970caec2649163f1c433d": {
+"cid": "c-2610.30696-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002004,
+"request_id": "req_011CgipZHTZjhMHM1nSsmC5c",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 907,
+"output_tokens": 19,
+"cost_usd": 0.002004,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"b889d3f144a0ce9ac9209c27": {
+"cid": "c-2610.37788-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00198,
+"request_id": "req_011CgipZGv5KDGphdaCWDEFW",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 895,
+"output_tokens": 19,
+"cost_usd": 0.00198,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"200bb5a17868eb0aba27b047": {
+"cid": "c-2610.23525-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00201,
+"request_id": "req_011CgipZJngiESExEmmAPs6b",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 910,
+"output_tokens": 19,
+"cost_usd": 0.00201,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"fd5bbb269a9ccda224fd786f": {
+"cid": "c-2611.02318-1",
+"leak": true,
+"cue": "destroyed by user pushback ... repaired by it",
+"fix": "Use neutral terms: 'In instruction-tuned models, was the ratio of correct-to-wrong answer changes under user pushback to wrong-to-correct changes higher or lower at 7B than at 1B?' and in the methods and options replace 'destroyed'/'repaired' with 'changed from correct to wrong'/'changed from wrong to correct'.",
+"cost": 0.003364,
+"request_id": "req_011CgipZDo3reymV1WfNehud",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 917,
+"output_tokens": 153,
+"cost_usd": 0.003364,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"1bf068e11f469791724c87b7": {
+"cid": "c-2610.34013-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001982,
+"request_id": "req_011CgipZH1nDefb5ZHQQDmLL",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 896,
+"output_tokens": 19,
+"cost_usd": 0.001982,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"97037224a490a7d1a54dfe92": {
+"cid": "c-2610.28325-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001894,
+"request_id": "req_011CgipZJfkDAx4ydH3ErMa6",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 852,
+"output_tokens": 19,
+"cost_usd": 0.001894,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"2027667f01a5d8767e67a411": {
+"cid": "c-2610.18159-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001946,
+"request_id": "req_011CgipZPePrMR6fiz3KN1gr",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 878,
+"output_tokens": 19,
+"cost_usd": 0.001946,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"4c03588000f65066759b9ba7": {
+"cid": "c-2610.17989-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00201,
+"request_id": "req_011CgipZPwFJv7LPFFe2WKV4",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 910,
+"output_tokens": 19,
+"cost_usd": 0.00201,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"b7c4a3fa285fefc36700c348": {
+"cid": "c-2610.06522-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001992,
+"request_id": "req_011CgipZRQo6cdGRxqMSouTh",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 901,
+"output_tokens": 19,
+"cost_usd": 0.001992,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f430e821294f38a00e70ac52": {
+"cid": "c-2610.07186-1",
+"leak": true,
+"cue": "As fine-tuning on an implicit decision task produced accurate self-reports of learned preferences",
+"fix": "Remove the presupposition and ask neutrally: 'After fine-tuning on an implicit decision task, models were asked to report their learned preferences. Over the course of training, did the layers where preference representations were located shift earlier or later?'",
+"cost": 0.003002,
+"request_id": "req_011CgipZRKrBEs1ANPXGdTiT",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 881,
+"output_tokens": 124,
+"cost_usd": 0.003002,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f3eea7d409786f017fa2a3d3": {
+"cid": "c-2610.04914-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001976,
+"request_id": "req_011CgipZW6Ld7othFFasErMY",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 893,
+"output_tokens": 19,
+"cost_usd": 0.001976,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f89c5a6f38dd34ed80905a9e": {
+"cid": "c-2609.35591-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001996,
+"request_id": "req_011CgipZXxCQURNJ1z5wfwA9",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 903,
+"output_tokens": 19,
+"cost_usd": 0.001996,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"bcc79564f22b59572f391061": {
+"cid": "c-2610.15634-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00202,
+"request_id": "req_011CgipZRP4YE6Myz6hWngM7",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 915,
+"output_tokens": 19,
+"cost_usd": 0.00202,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"9867953ad431730e0329f931": {
+"cid": "c-2610.17703-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00199,
+"request_id": "req_011CgipZQxkyAvcXAt9UTTy1",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 900,
+"output_tokens": 19,
+"cost_usd": 0.00199,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"256b097a2e00faaff2e99d66": {
+"cid": "c-2610.08840-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002058,
+"request_id": "req_011CgipZXknp5BZB5A4cBi2E",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 934,
+"output_tokens": 19,
+"cost_usd": 0.002058,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8fb9c672f875d6bd252572c1": {
+"cid": "c-2610.22937-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002002,
+"request_id": "req_011CgipZd3YdLmhDmqXDTZCm",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 906,
+"output_tokens": 19,
+"cost_usd": 0.002002,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d69a1d930319ab5e10f4f340": {
+"cid": "c-2610.25522-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001994,
+"request_id": "req_011CgipZdFhKVdd6bowE4b8v",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 902,
+"output_tokens": 19,
+"cost_usd": 0.001994,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"da4204b6a13f3b9c1632c316": {
+"cid": "c-2609.35544-1",
+"leak": true,
+"cue": "either in the ordinary way or with a feature-injection training variant",
+"fix": "State the comparison neutrally, e.g. 'Three Qwen3.5 base models were fine-tuned on sycophantic target responses. Refusal of the same harmful intents was then evaluated under user pressure and compared with the models before fine-tuning.' Remove the 'ordinary' vs. 'feature-injection' framing, which implies ordinary SFT is the damaging baseline.",
+"cost": 0.003484,
+"request_id": "req_011CgipZcdzGJKjdyAgosYty",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 917,
+"output_tokens": 165,
+"cost_usd": 0.003484,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"400f7a03af635e543f0455be": {
+"cid": "c-2610.25846-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002044,
+"request_id": "req_011CgipZisnGhbp1UKemDThX",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 927,
+"output_tokens": 19,
+"cost_usd": 0.002044,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"95d81a51a5f9a3f4c7281481": {
+"cid": "c-2609.20541-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001982,
+"request_id": "req_011CgipZjhe31ndSUaiB6LMh",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 896,
+"output_tokens": 19,
+"cost_usd": 0.001982,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"4d367dff5daaf6aa39d4aa4d": {
+"cid": "c-2609.25447-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00193,
+"request_id": "req_011CgipZZWxkHDgznE2Ujqz1",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 870,
+"output_tokens": 19,
+"cost_usd": 0.00193,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"5de4d5541a62a1311cb67b5f": {
+"cid": "c-2608.28382-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001956,
+"request_id": "req_011CgipZnpApJRaTzuQAaJHp",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 883,
+"output_tokens": 19,
+"cost_usd": 0.001956,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d08e649c575761de13abfd66": {
+"cid": "c-2611.01059-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001956,
+"request_id": "req_011CgipZfwAk5goh6Z647Wdu",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 883,
+"output_tokens": 19,
+"cost_usd": 0.001956,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"139670738b62549aab55e9a1": {
+"cid": "c-2609.13841-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002086,
+"request_id": "req_011CgipZcEvhTn6hmSp92Xox",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 948,
+"output_tokens": 19,
+"cost_usd": 0.002086,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"66d581b4cea033e17fa5685b": {
+"cid": "c-2610.28105-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001986,
+"request_id": "req_011CgipZqf5Br51RjXe8Bv2M",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 898,
+"output_tokens": 19,
+"cost_usd": 0.001986,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f38308b6c1308e90df5cf165": {
+"cid": "c-2608.27340-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002044,
+"request_id": "req_011CgipZv5iTiyiTcm5sCsP1",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 927,
+"output_tokens": 19,
+"cost_usd": 0.002044,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"ecdda90090ebb5d6664d91c6": {
+"cid": "c-2610.03998-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002018,
+"request_id": "req_011CgipZqgomTUuKvBq29pmV",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 914,
+"output_tokens": 19,
+"cost_usd": 0.002018,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"ee4b51b583200ed375d0726c": {
+"cid": "c-2610.22333-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001926,
+"request_id": "req_011CgipZqj3Ex7WDuELfBZJR",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 868,
+"output_tokens": 19,
+"cost_usd": 0.001926,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"798722692456cc3f26000b6b": {
+"cid": "c-2608.00261-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001918,
+"request_id": "req_011CgipZyGTVvHKhwKpvHRas",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 864,
+"output_tokens": 19,
+"cost_usd": 0.001918,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"c78ac4f2174b9476800337ae": {
+"cid": "c-2608.21766-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00196,
+"request_id": "req_011CgipZybZ8voWuzvAHaLA7",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 885,
+"output_tokens": 19,
+"cost_usd": 0.00196,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"694e3f99df8c4bd1963ba612": {
+"cid": "c-2410.21195-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002008,
+"request_id": "req_011CgipZzxuvb3Qj9eNfjtpc",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 909,
+"output_tokens": 19,
+"cost_usd": 0.002008,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d69350c7303b1e1617c69666": {
+"cid": "c-2412.02802-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00199,
+"request_id": "req_011CgipZzb632jmSAwnHauzP",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 900,
+"output_tokens": 19,
+"cost_usd": 0.00199,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"ef03f057738225df46625991": {
+"cid": "c-2408.09656-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001984,
+"request_id": "req_011Cgipa1sVBhanucjgL5QEk",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 897,
+"output_tokens": 19,
+"cost_usd": 0.001984,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"24a20e7408366942c64eaebf": {
+"cid": "c-2410.13648-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002026,
+"request_id": "req_011Cgipa6bkFnjs4n5TzV7Rb",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 918,
+"output_tokens": 19,
+"cost_usd": 0.002026,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"30054e44ed55c5f0f22b5330": {
+"cid": "c-2412.01784-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00197,
+"request_id": "req_011Cgipa6bk3jReLegwKbxqb",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 890,
+"output_tokens": 19,
+"cost_usd": 0.00197,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"33c8e84613421920fe35530f": {
+"cid": "c-2502.08177-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002114,
+"request_id": "req_011Cgipa7HfBVtAY9cKFC6bM",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 962,
+"output_tokens": 19,
+"cost_usd": 0.002114,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"6faac07497365bbfffd39001": {
+"cid": "c-2510.01395-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001954,
+"request_id": "req_011Cgipa9nUwRgBxTccAYkpm",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 882,
+"output_tokens": 19,
+"cost_usd": 0.001954,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"1398e77f100927a01a410cd2": {
+"cid": "c-2506.18183-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.0019,
+"request_id": "req_011CgipaBn2wn4bcnmJd815T",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 855,
+"output_tokens": 19,
+"cost_usd": 0.0019,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"4844c3dc05812fe2b72ca409": {
+"cid": "c-2511.17085-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002,
+"request_id": "req_011CgipaESmxkLyVPisczMDc",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 905,
+"output_tokens": 19,
+"cost_usd": 0.002,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"108436b86afea56106e3048a": {
+"cid": "c-2602.23971-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001994,
+"request_id": "req_011CgipaMd7pHczdMFzxShAP",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 902,
+"output_tokens": 19,
+"cost_usd": 0.001994,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"7fd78bef6329fc07ce9d316c": {
+"cid": "c-2510.24797-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00196,
+"request_id": "req_011CgipaMG3svB3NFbveA1wY",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 885,
+"output_tokens": 19,
+"cost_usd": 0.00196,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"04f6998af557947a87ec72ee": {
+"cid": "c-2505.23840-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002012,
+"request_id": "req_011Cgipa9imTGrYDDYVEaHXr",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 911,
+"output_tokens": 19,
+"cost_usd": 0.002012,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"04bbe7ebc875676c816fc9fc": {
+"cid": "c-2603.16643-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001926,
+"request_id": "req_011CgipaRjB3wL9AMaDhN7Th",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 868,
+"output_tokens": 19,
+"cost_usd": 0.001926,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"3429150a03ef38df733cc9a9": {
+"cid": "c-2603.28925-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001988,
+"request_id": "req_011CgipaSADybfqiCGzUgjSd",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 899,
+"output_tokens": 19,
+"cost_usd": 0.001988,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"73c750adbe83463f8449f09c": {
+"cid": "c-2605.23055-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001934,
+"request_id": "req_011CgipaTaYoKPTKWwZfCGE9",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 872,
+"output_tokens": 19,
+"cost_usd": 0.001934,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"68e546dc7e083b7db2f5d0de": {
+"cid": "c-2606.23671-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002056,
+"request_id": "req_011CgipaSy6mNp1rUZn4SrfL",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 933,
+"output_tokens": 19,
+"cost_usd": 0.002056,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"a30fa9d631ab6aaf896e14a8": {
+"cid": "c-2610.35768-2",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002106,
+"request_id": "req_011CgipaYWyGEbUC6svADL7G",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 958,
+"output_tokens": 19,
+"cost_usd": 0.002106,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"9ae30b1ee0e4e1c9e40faa66": {
+"cid": "c-2610.35768-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00212,
+"request_id": "req_011CgipaWHmDXDwuA1YPpx4m",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 965,
+"output_tokens": 19,
+"cost_usd": 0.00212,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"54736ade5aaa1b84b71276c2": {
+"cid": "c-2610.34485-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001982,
+"request_id": "req_011CgipaViYQey1tSBwKTtY2",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 896,
+"output_tokens": 19,
+"cost_usd": 0.001982,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"7ad0494e15b7866a5b8c0949": {
+"cid": "c-2610.32154-2",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00199,
+"request_id": "req_011CgipaaCRhEHBonqXnndBG",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 900,
+"output_tokens": 19,
+"cost_usd": 0.00199,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"5fc1a189c44955ffd12f5934": {
+"cid": "c-2610.32154-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002062,
+"request_id": "req_011CgipaZ1yxHbZ2eKk5XGeu",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 936,
+"output_tokens": 19,
+"cost_usd": 0.002062,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"11bd711c70e356a9f44f8e94": {
+"cid": "c-2608.05426-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002046,
+"request_id": "req_011CgipafZsVAsyh376NvLXh",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 928,
+"output_tokens": 19,
+"cost_usd": 0.002046,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"0efbc3dfc9a4a4846acf941e": {
+"cid": "c-2611.04868-1",
+"leak": true,
+"cue": "operated with the readout mode tuned to remove intra-well excitations",
+"fix": "Rewrite the question neutrally: \"In a Kerr-cat qubit coupled to a lossy readout mode at specific operating points, did the measured bit-flip time increase or decrease as the cat photon number was raised?\" and drop the phrase about removing intra-well excitations.",
+"cost": 0.00311,
+"request_id": "req_011CgipacrfLp1VVmF2iE172",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 895,
+"output_tokens": 132,
+"cost_usd": 0.00311,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"25245efffcceb6e305299aa6": {
+"cid": "c-2610.21936-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002176,
+"request_id": "req_011CgipagMWQqUhM576QLwvz",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 993,
+"output_tokens": 19,
+"cost_usd": 0.002176,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8c5a40e65ad716ee50270806": {
+"cid": "c-2610.40329-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002058,
+"request_id": "req_011CgipadQeZh5Dob3FsBQVi",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 934,
+"output_tokens": 19,
+"cost_usd": 0.002058,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"92a47f86d6d71843b7ee71a8": {
+"cid": "c-2610.12227-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002016,
+"request_id": "req_011CgipaffLHiHN5KBkpTCeM",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 913,
+"output_tokens": 19,
+"cost_usd": 0.002016,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"2eac1a8bc18ad70115d2d4b3": {
+"cid": "c-2610.12227-2",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002056,
+"request_id": "req_011CgipafsUxBSoeCY6SvE3p",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 933,
+"output_tokens": 19,
+"cost_usd": 0.002056,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"89177e33f75c66f886d5d597": {
+"cid": "c-2610.10432-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002016,
+"request_id": "req_011CgipanGxCELGF43ABAcL9",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 913,
+"output_tokens": 19,
+"cost_usd": 0.002016,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"61d5959bb179c3d94e2722e6": {
+"cid": "c-2610.18124-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002072,
+"request_id": "req_011CgipamQ7xZ8euG81Q78YN",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 941,
+"output_tokens": 19,
+"cost_usd": 0.002072,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"77e0f8651db75099a4da9a90": {
+"cid": "c-2610.24167-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001936,
+"request_id": "req_011CgipamRMCoAL6fEQYqK9i",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 873,
+"output_tokens": 19,
+"cost_usd": 0.001936,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"4981b947fb5e4d4fe54897f8": {
+"cid": "c-2609.26714-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00196,
+"request_id": "req_011Cgipare8DN9AY86EZSY2J",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 885,
+"output_tokens": 19,
+"cost_usd": 0.00196,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"54150962c6bb1cd2e245dd22": {
+"cid": "c-2609.22002-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002104,
+"request_id": "req_011CgiparpYYvjBE1WmNxZcF",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 957,
+"output_tokens": 19,
+"cost_usd": 0.002104,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"58c58d2aabeea2373311daef": {
+"cid": "c-2609.07250-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00208,
+"request_id": "req_011CgipatAA8gXKJhGSmAhgP",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 945,
+"output_tokens": 19,
+"cost_usd": 0.00208,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"10d87935f2ded7603445be80": {
+"cid": "c-2608.28463-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002014,
+"request_id": "req_011CgipavP7bocR5NnVz2yZd",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 912,
+"output_tokens": 19,
+"cost_usd": 0.002014,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d5469918551e68ac5990ab2c": {
+"cid": "c-2608.29282-1",
+"leak": true,
+"cue": "compared with the standard two-level-system model",
+"fix": "Replace with neutral wording such as: 'Resonance frequency and loss rate were recorded as functions of temperature and readout power.' Remove the reference to the standard two-level-system model, since the standard TLS model predicts a frequency decrease (then increase) with temperature and so signals which direction would be anomalous.",
+"cost": 0.00305,
+"request_id": "req_011CgipauZVapQGXyLMQs7LW",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 865,
+"output_tokens": 132,
+"cost_usd": 0.00305,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"c242936d4acb70b57434fc42": {
+"cid": "c-2609.07250-2",
+"leak": true,
+"cue": "as amplifier dc power was raised above a device-dependent level ... for several of the devices; and 'up to and beyond typical operating points'",
+"fix": "Ask neutrally: 'How did readout assignment fidelity vary with amplifier dc power across the four devices?' and describe the methods as 'single-shot assignment fidelity was measured as a function of amplifier dc power over a range of values.' Make the options differ only in direction, e.g. 'Fidelity decreased at high dc power for at least some devices' vs 'Fidelity increased at high dc power for at least some devices', without the extra 'device-dependent' framing or 'beyond typical operating points' phrasing.",
+"cost": 0.004144,
+"request_id": "req_011CgipatH7UdhEbEJGokMJm",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 912,
+"output_tokens": 232,
+"cost_usd": 0.004144,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d4c2bf8278911ab804ce7ab7": {
+"cid": "c-2608.26018-1",
+"leak": true,
+"cue": "with one extra microwave tone creating a gain channel that counteracts single-photon loss between them",
+"fix": "Describe the setup neutrally, e.g. 'with one extra microwave tone applied to engineer a frequency-selective gain channel between them', without stating that it counteracts loss, so the methods do not presuppose a coherence improvement.",
+"cost": 0.003096,
+"request_id": "req_011Cgipax4K8VkmGiehXHiv3",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 928,
+"output_tokens": 124,
+"cost_usd": 0.003096,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"82128ca437c2ff58ad071aa2": {
+"cid": "c-2610.41890-1",
+"leak": true,
+"cue": "a high-performance device from a research cleanroom",
+"fix": "Replace with a neutral description: \"compared with a device from a research cleanroom\" (drop \"high-performance\"). This label presupposes the reference is a strong benchmark, making a result where the 300 mm devices exceed it read as a notable outcome, and it also unevenly characterizes the two device types.",
+"cost": 0.003186,
+"request_id": "req_011CgipazvhjW2MDD39puKEL",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 938,
+"output_tokens": 131,
+"cost_usd": 0.003186,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f061b29d03dc9bb09d6b1ad9": {
+"cid": "c-2610.23840-2",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001942,
+"request_id": "req_011Cgipb7bYDrYU9F5DzRQPX",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 876,
+"output_tokens": 19,
+"cost_usd": 0.001942,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"719de526285ceba291e227ce": {
+"cid": "c-2609.33229-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002048,
+"request_id": "req_011CgipbAds4wirMEEHfeWf7",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 929,
+"output_tokens": 19,
+"cost_usd": 0.002048,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"ab93501ec66a63f18296ad30": {
+"cid": "c-2609.15751-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002118,
+"request_id": "req_011Cgipb37BH2dn5b1UcebXL",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 964,
+"output_tokens": 19,
+"cost_usd": 0.002118,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"0d77d4494f3ea416e1a72603": {
+"cid": "c-2610.23840-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002046,
+"request_id": "req_011Cgipb3XUTXhdpVb4BDnob",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 928,
+"output_tokens": 19,
+"cost_usd": 0.002046,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"fea80828e6a6052ea7975501": {
+"cid": "c-2610.24077-1",
+"leak": true,
+"cue": "with circuit- and hardware-level leakage reduction",
+"fix": "Remove the success-advertising framing from the methods: write 'Triangular color-code memories at distances 3, 5 and 7 were run on a Quantinuum Helios trapped-ion processor, with and without leakage-handling techniques applied. Logical error rates were measured at each distance using algorithmic and neural-network decoders.' Also drop 'with leakage reduction' from the question.",
+"cost": 0.003406,
+"request_id": "req_011Cgipb8PAx99hzdDnmRcWT",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 898,
+"output_tokens": 161,
+"cost_usd": 0.003406,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"cb6cc3bb699a5134de6adbdc": {
+"cid": "c-2404.16697-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001996,
+"request_id": "req_011CgipbHGDU9K7Nw42QvZUk",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 903,
+"output_tokens": 19,
+"cost_usd": 0.001996,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"58bda128c2ed1a62b0b773df": {
+"cid": "c-2409.16097-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002052,
+"request_id": "req_011CgipbFKeFrdVeryGFapr9",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 931,
+"output_tokens": 19,
+"cost_usd": 0.002052,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"2c9ec74250666b50350ad5e3": {
+"cid": "c-2401.03537-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002102,
+"request_id": "req_011CgipbKLjJGTMBLU7zBmWb",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 956,
+"output_tokens": 19,
+"cost_usd": 0.002102,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"48812d33eb0e9957669a3af0": {
+"cid": "c-2609.17818-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001982,
+"request_id": "req_011CgipbDv4Mw9F7ydgVGVVa",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 896,
+"output_tokens": 19,
+"cost_usd": 0.001982,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"309b2d769356f4d9f0abeca1": {
+"cid": "c-2407.11964-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002076,
+"request_id": "req_011CgipbJpj18ePsfVvMvaKG",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 943,
+"output_tokens": 19,
+"cost_usd": 0.002076,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"4393961f1eaebce23fc9e6e0": {
+"cid": "c-2403.10217-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00204,
+"request_id": "req_011CgipbM4fKHnhDRYAipfW3",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 925,
+"output_tokens": 19,
+"cost_usd": 0.00204,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"5422404c51bb8ba5a0af3492": {
+"cid": "c-2512.18037-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002004,
+"request_id": "req_011CgipbQkvLiXDzpnvsJptb",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 907,
+"output_tokens": 19,
+"cost_usd": 0.002004,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"179573ed2750fb4718254a55": {
+"cid": "c-2507.11918-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002124,
+"request_id": "req_011CgipbUD3BcxM5Qnf1tkN6",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 967,
+"output_tokens": 19,
+"cost_usd": 0.002124,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"dfd9e71b265200321273e1a8": {
+"cid": "c-2512.18037-2",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00198,
+"request_id": "req_011CgipbRYYFvP4TXx39sXBh",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 895,
+"output_tokens": 19,
+"cost_usd": 0.00198,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"3a2042136285b5ccaa8e2cb2": {
+"cid": "c-2512.18171-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00201,
+"request_id": "req_011CgipbWL2HEc9PeAehLHoG",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 910,
+"output_tokens": 19,
+"cost_usd": 0.00201,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d2ead59b87307b1c17786fc3": {
+"cid": "c-2511.22930-1",
+"leak": true,
+"cue": "treat drive-induced quasiparticle generation across the junctions as the sole loss mechanism",
+"fix": "Describe the model neutrally, e.g. 'The measured loss rates were compared with the predictions of a Floquet-Markov model of drive-induced quasiparticle generation across the junctions.' Drop the 'sole loss mechanism' phrasing from both the question and the methods, since it presupposes the model is an incomplete (lower-bound) account and therefore favors the 'higher than predicted' framing.",
+"cost": 0.003696,
+"request_id": "req_011CgipbQFf4cWwjcZxkHkzM",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 943,
+"output_tokens": 181,
+"cost_usd": 0.003696,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"3ea46e302763759ec544af39": {
+"cid": "c-2602.05806-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00208,
+"request_id": "req_011CgipbadVBCJmwLZ9JYGRd",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 945,
+"output_tokens": 19,
+"cost_usd": 0.00208,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"54f7828ad77747dd70b86575": {
+"cid": "c-2505.08104-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00205,
+"request_id": "req_011CgipbTHDx6KGVaewRfieg",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 930,
+"output_tokens": 19,
+"cost_usd": 0.00205,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"e433f90956a5d3a34eb07a83": {
+"cid": "c-2605.06372-1",
+"leak": true,
+"cue": "Fourier-engineered cos(2phi) qubit ... a multi-junction interference circuit suppresses odd harmonics of the potential so that pairs of Cooper pairs tunnel",
+"fix": "Describe both devices neutrally and symmetrically, e.g. 'Compared with a fluxonium qubit with a similar energy spectrum and noise amplitude, how did the lifetime of a cos(2phi) qubit at its flux symmetry point depend on 1/f flux noise?', and in the methods drop the design-motivation clause, stating only that the cos(2phi) qubit was realised and its relaxation time and flux-noise sensitivity were measured and compared with the fluxonium.",
+"cost": 0.004402,
+"request_id": "req_011CgipbYdC1VR4m3UtaZKJA",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 991,
+"output_tokens": 242,
+"cost_usd": 0.004402,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"6036b9386864515b901e9d42": {
+"cid": "c-2603.13857-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002108,
+"request_id": "req_011CgipbeyvX5ezqX94sxk25",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 959,
+"output_tokens": 19,
+"cost_usd": 0.002108,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d09ab08eea8a96b1057598df": {
+"cid": "c-2603.23636-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00207,
+"request_id": "req_011CgipbdeZXwtRXHZCWPDcV",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 940,
+"output_tokens": 19,
+"cost_usd": 0.00207,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"fe05efb4ef464d31d2057cd9": {
+"cid": "c-2602.20002-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002044,
+"request_id": "req_011CgipbgPGXNFTYNhA2LvKj",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 927,
+"output_tokens": 19,
+"cost_usd": 0.002044,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"32b2dc1801636df70cacf4bd": {
+"cid": "c-2608.29464-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00209,
+"request_id": "req_011CgipbjSKsZTktpKmcvibp",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 950,
+"output_tokens": 19,
+"cost_usd": 0.00209,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"fcfbf1b1e917748886a3a921": {
+"cid": "c-2608.04735-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00218,
+"request_id": "req_011Cgipbgj6mpTy7dZ7QGRhr",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 995,
+"output_tokens": 19,
+"cost_usd": 0.00218,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"051e9b41f55e38300552e3d5": {
+"cid": "c-2608.00583-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002158,
+"request_id": "req_011CgipbkzLBGukGC88UPyhq",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 984,
+"output_tokens": 19,
+"cost_usd": 0.002158,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"2b4315ca66f29c952c4a9830": {
+"cid": "c-2609.00264-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002108,
+"request_id": "req_011CgipbkeVyFnxkCipvdjbJ",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 959,
+"output_tokens": 19,
+"cost_usd": 0.002108,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8e4e76df423b414d2ea7fcb2": {
+"cid": "c-2609.15989-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002076,
+"request_id": "req_011CgipbkpR4KoWZrCEQQi5V",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 943,
+"output_tokens": 19,
+"cost_usd": 0.002076,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"fb8bf2c974453474042d0254": {
+"cid": "c-2609.25366-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002164,
+"request_id": "req_011CgipbqZAzVKpv1UMQdHw8",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 987,
+"output_tokens": 19,
+"cost_usd": 0.002164,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"791edda027a58faf3feb2a78": {
+"cid": "c-2610.03509-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002084,
+"request_id": "req_011CgipbuJeWdezDpEU8v7xG",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 947,
+"output_tokens": 19,
+"cost_usd": 0.002084,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"7bf702f14c984dc278822b4a": {
+"cid": "c-2610.03818-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002104,
+"request_id": "req_011Cgipbx9nxFcWf7UYB4LK4",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 957,
+"output_tokens": 19,
+"cost_usd": 0.002104,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"edc7f94a87198866a6cedaa3": {
+"cid": "c-2609.39533-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002046,
+"request_id": "req_011CgipbrCNE5GUKfWMDDBw6",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 928,
+"output_tokens": 19,
+"cost_usd": 0.002046,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"efb3ae1d63dce49997fc2bc1": {
+"cid": "c-2609.27038-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002148,
+"request_id": "req_011Cgipbp29brhVhYTKWisNs",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 979,
+"output_tokens": 19,
+"cost_usd": 0.002148,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"e93d82ff977d531859e1e1b3": {
+"cid": "c-2609.38107-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002082,
+"request_id": "req_011CgipbveFpja7mfLrzUvW7",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 946,
+"output_tokens": 19,
+"cost_usd": 0.002082,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"1e5a0b1ae62181c0e1a09d2f": {
+"cid": "c-2609.39838-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002088,
+"request_id": "req_011Cgipbtw4jpio8SraSaT9S",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 949,
+"output_tokens": 19,
+"cost_usd": 0.002088,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"5f6a43f8163e13e28c3e3d72": {
+"cid": "c-2610.04914-2",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002008,
+"request_id": "req_011Cgipc4dUMU9THmH1pbg7N",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 909,
+"output_tokens": 19,
+"cost_usd": 0.002008,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"b0ffa18f41405cd7d0ad1c93": {
+"cid": "c-2610.13303-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002154,
+"request_id": "req_011Cgipc5kCTK5XZFyukrKJM",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 982,
+"output_tokens": 19,
+"cost_usd": 0.002154,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"5b0d029af5c753bdf48a9f33": {
+"cid": "c-2610.16911-1",
+"leak": true,
+"cue": "for pairs whose baseline was above the scale floor",
+"fix": "Remove the baseline-floor restriction from the methods summary, e.g. 'Reward-hacking scores were compared with and without this resource across the auditor-target pairs.' The floor condition is only sensible if scores could drop, which favors the 'lower' result.",
+"cost": 0.003114,
+"request_id": "req_011Cgipc6UbgRAzpvSneX4S3",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 962,
+"output_tokens": 119,
+"cost_usd": 0.003114,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"5ead2e2022d1fc1ccd529992": {
+"cid": "c-2610.19525-1",
+"leak": true,
+"cue": "Constraint satisfaction and the substantive quality of the responses to the underlying request were each measured.",
+"fix": "Rewrite the methods neutrally and drop the contrast-setting phrasing, e.g. 'For each checkpoint pair, we measured (a) the rate of format-constraint satisfaction and (b) response quality as rated by [specified judges/metric].' Also remove the loaded descriptors 'substantive' and 'underlying request' from both the question and methods, since they presuppose that quality could diverge from constraint satisfaction.",
+"cost": 0.003704,
+"request_id": "req_011Cgipc6sAxA579n2AnAfMg",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 897,
+"output_tokens": 191,
+"cost_usd": 0.003704,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"4d79b190c9d5babb9a49a5ba": {
+"cid": "c-2610.24495-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002028,
+"request_id": "req_011CgipcCzmdTuH8Ewhz9Hc8",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 919,
+"output_tokens": 19,
+"cost_usd": 0.002028,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"b49348fe7dd4d48e9ced690a": {
+"cid": "c-2610.10947-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00212,
+"request_id": "req_011Cgipc5cG71QtrsXEt1ARM",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 965,
+"output_tokens": 19,
+"cost_usd": 0.00212,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"cecd2ee251c22329819e9a94": {
+"cid": "c-2610.22841-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002082,
+"request_id": "req_011CgipcBHKmMYK2cwxG86uS",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 946,
+"output_tokens": 19,
+"cost_usd": 0.002082,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"784555b25af461372f15b011": {
+"cid": "c-2610.19832-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002058,
+"request_id": "req_011Cgipc8HkUmsGtR2GoDPfA",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 934,
+"output_tokens": 19,
+"cost_usd": 0.002058,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"e93029faa8560509b65080f8": {
+"cid": "c-2610.27735-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002078,
+"request_id": "req_011CgipcHGyxFR58XUYzSksU",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 944,
+"output_tokens": 19,
+"cost_usd": 0.002078,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"1349c4456d332400d596cea6": {
+"cid": "c-2610.30582-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002134,
+"request_id": "req_011CgipcKWw9JoPPomNC4WbS",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 972,
+"output_tokens": 19,
+"cost_usd": 0.002134,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"3688225859609f367d9d1783": {
+"cid": "c-2610.38433-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002118,
+"request_id": "req_011CgipcML5SZ4zfSoWisD4W",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 964,
+"output_tokens": 19,
+"cost_usd": 0.002118,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d81dd2b10ed4f1824df4d862": {
+"cid": "c-2611.01311-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002164,
+"request_id": "req_011CgipcMpabGCtS53Fpz7Za",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 987,
+"output_tokens": 19,
+"cost_usd": 0.002164,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"997289b9afa3a9604e078793": {
+"cid": "c-2611.04090-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002028,
+"request_id": "req_011CgipcQMeBrxYeGdbemjZj",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 919,
+"output_tokens": 19,
+"cost_usd": 0.002028,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"5c16e56bf44eb84a1478df9d": {
+"cid": "c-2611.01313-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002094,
+"request_id": "req_011CgipcRpT2SizyCbgKRAxn",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 952,
+"output_tokens": 19,
+"cost_usd": 0.002094,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"74f8012ee457df08d395f365": {
+"cid": "c-2611.04091-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002094,
+"request_id": "req_011CgipcR3ZbgRub39Caoq3H",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 952,
+"output_tokens": 19,
+"cost_usd": 0.002094,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"3aa6ecbcced3516fa3acdb6b": {
+"cid": "c-2611.00407-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002152,
+"request_id": "req_011CgipcTNDNdJgrD2dnxdaL",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 981,
+"output_tokens": 19,
+"cost_usd": 0.002152,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"38d75f6bce83f628cf330682": {
+"cid": "c-2610.38076-1",
+"leak": true,
+"cue": "the drop in agreement larger or smaller for LLM judges",
+"fix": "Ask neutrally and remove the presupposition of a drop: 'How did agreement change under paraphrased evaluation prompts for LLM judges compared with human annotators?' Also reword the methods sentence 'The degradation in agreement across paraphrases was compared' to 'The change in agreement across paraphrases was compared', and make the options 'Agreement changed more for LLM judges than for human annotators' / 'Agreement changed less for LLM judges than for human annotators'.",
+"cost": 0.00377,
+"request_id": "req_011CgipcKyUAguzaq1wnMuhZ",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 920,
+"output_tokens": 193,
+"cost_usd": 0.00377,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"199aeba7bdbcbbe2eed81c77": {
+"cid": "c-2406.07791-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002088,
+"request_id": "req_011CgipcaKffKuS1MD63Sg2o",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 949,
+"output_tokens": 19,
+"cost_usd": 0.002088,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"88d8045e84286b08c8c20b29": {
+"cid": "c-2610.38691-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002084,
+"request_id": "req_011CgipcWn6MpoAA96n8qje2",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 947,
+"output_tokens": 19,
+"cost_usd": 0.002084,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"5be403d23225afaa9bcf56ed": {
+"cid": "c-2610.41713-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002132,
+"request_id": "req_011CgipcMjsH2RjQ2PBL4iSz",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 971,
+"output_tokens": 19,
+"cost_usd": 0.002132,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"330f46973db02b82c19c3f06": {
+"cid": "c-2610.26496-1",
+"leak": true,
+"cue": "as the sole reward ... without any added penalties",
+"fix": "Remove the loaded framing. Rewrite the question as: 'In clinical-counselling and creative-writing RL with a preference reward model as the reward, how did performance on external benchmarks change as training continued?' and rewrite the methods as: 'Language models were trained with reinforcement learning on open-ended clinical-counselling and creative-writing tasks using a learned preference reward model. The reward-model score and external benchmark performance were tracked over training.'",
+"cost": 0.0036,
+"request_id": "req_011CgipcYdingJsqhZurreVt",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 900,
+"output_tokens": 180,
+"cost_usd": 0.0036,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"2dc526e4613b04bb478016a6": {
+"cid": "c-2406.11431-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00206,
+"request_id": "req_011CgipcfqZH51CNU7Lusrvp",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 935,
+"output_tokens": 19,
+"cost_usd": 0.00206,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f2e05b18dd3c4de9216db0fd": {
+"cid": "c-2412.12480-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00202,
+"request_id": "req_011Cgipcc4awRwDukjCYikqc",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 915,
+"output_tokens": 19,
+"cost_usd": 0.00202,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"deb0c03bfa6da3f855faebc5": {
+"cid": "c-2611.04289-1",
+"leak": true,
+"cue": "standard multi-agent debate with social-pressure cues",
+"fix": "Rewrite the question neutrally, e.g. 'was the rate of adopting unsafe guidance higher or lower under multi-agent debate (with manipulated majority, authority and confidence cues) than for the same models answering in isolation?' Likewise, in the methods remove loaded framing so the debate condition is described neutrally.",
+"cost": 0.00335,
+"request_id": "req_011CgipcZTq37EQgZnyBAwP1",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 965,
+"output_tokens": 142,
+"cost_usd": 0.00335,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"a7e290ce5b7242e103f544da": {
+"cid": "c-2410.21819-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002006,
+"request_id": "req_011CgipcikAsVTzvCUvZzdUz",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 908,
+"output_tokens": 19,
+"cost_usd": 0.002006,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f74d660114a7f4c65637e89a": {
+"cid": "c-2510.27338-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001902,
+"request_id": "req_011CgipcqcBL4RFogmVyyZKW",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 856,
+"output_tokens": 19,
+"cost_usd": 0.001902,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"60b3c3afd93caa8d4710fe39": {
+"cid": "c-2402.14897-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002098,
+"request_id": "req_011Cgipcgawyr16YeSQ8Ad9k",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 954,
+"output_tokens": 19,
+"cost_usd": 0.002098,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"a6dcf8bdfe64e48911a7cc5c": {
+"cid": "c-2509.26041-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002088,
+"request_id": "req_011CgipcritxoUD6o4scE3XC",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 949,
+"output_tokens": 19,
+"cost_usd": 0.002088,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"a5ffc41ad8aa519a4fdfc3fd": {
+"cid": "c-2605.27483-2",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002008,
+"request_id": "req_011CgipcwvBob9BhwRiNbnhw",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 909,
+"output_tokens": 19,
+"cost_usd": 0.002008,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"15272db3b6fee477d425d2d8": {
+"cid": "c-2505.23575-1",
+"leak": true,
+"cue": "a monitor that sees just the final actions and outputs",
+"fix": "Describe both monitors in parallel, neutral terms, e.g. 'one monitor reads the reasoning trace and the final actions; the other reads only the final actions' (or both described with equal detail and no minimizer like 'just'). Also keep both options structurally identical, which they already are.",
+"cost": 0.00314,
+"request_id": "req_011CgipcsTJUbagtufkhBGoW",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 940,
+"output_tokens": 126,
+"cost_usd": 0.00314,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"2710d7188dd15fcaf92cb033": {
+"cid": "c-2605.27483-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002022,
+"request_id": "req_011CgipcvxeN3DGyiGVQKdtt",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 916,
+"output_tokens": 19,
+"cost_usd": 0.002022,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"807ba82295f6b53aeb6d6617": {
+"cid": "c-2505.19477-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002018,
+"request_id": "req_011CgipcmzPae64qwQwUD9nP",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 914,
+"output_tokens": 19,
+"cost_usd": 0.002018,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"e16af3259dfcc44565decf47": {
+"cid": "c-2606.07810-1",
+"leak": true,
+"cue": "in which judges reflect on, critique and refine one another's verdicts",
+"fix": "Describe the protocol neutrally, e.g. 'a multi-agent debate protocol in which judges exchange and update their verdicts over several rounds', without the evaluatively loaded 'refine' (and ideally drop 'critique and refine' framing), keeping the two options identical except for 'higher'/'lower'.",
+"cost": 0.003266,
+"request_id": "req_011CgipcxomZR8UJXRoa7wq4",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 918,
+"output_tokens": 143,
+"cost_usd": 0.003266,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"2290742a7074eedfeb029517": {
+"cid": "c-2510.13912-1",
+"leak": true,
+"cue": "a judge persona designed to conflict with them",
+"fix": "Replace with neutral wording such as \"before a judge persona with its own stated beliefs on the questions\", so the methods do not describe the judge as built to oppose the debaters' priors, which hints at why misaligned arguments might score higher.",
+"cost": 0.00296,
+"request_id": "req_011CgipcoUvpfJkpgzjBVvDB",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 940,
+"output_tokens": 108,
+"cost_usd": 0.00296,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"b6ab06adba3c9e7c9782b26c": {
+"cid": "c-2601.13649-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001936,
+"request_id": "req_011Cgipd54JDTDMD6p8gUnBa",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 873,
+"output_tokens": 19,
+"cost_usd": 0.001936,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"a34b501083096f2ffe0566f4": {
+"cid": "c-2605.26047-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00205,
+"request_id": "req_011Cgipd3scyTChoWCQYSYyX",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 930,
+"output_tokens": 19,
+"cost_usd": 0.00205,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"9dbe6f8db98099f4e8d9b489": {
+"cid": "c-2603.22582-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002048,
+"request_id": "req_011Cgipd4Aiu5eFdxsYw1wmD",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 929,
+"output_tokens": 19,
+"cost_usd": 0.002048,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"84892acebc42cdb44b27d91a": {
+"cid": "c-2610.18462-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002076,
+"request_id": "req_011CgipktLrm6LTMbpAyqUuq",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 943,
+"output_tokens": 19,
+"cost_usd": 0.002076,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"437aca62288cbfd6af04f772": {
+"cid": "c-2610.04905-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001998,
+"request_id": "req_011CgipktbjA8imuKARg3FRr",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 904,
+"output_tokens": 19,
+"cost_usd": 0.001998,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"bded47c7ecdc5661d4396b6a": {
+"cid": "c-2610.30474-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001896,
+"request_id": "req_011CgipktghD8P9rpM5V3Pz8",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 853,
+"output_tokens": 19,
+"cost_usd": 0.001896,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"71879293e2aba1b6af9b7cd9": {
+"cid": "c-2610.40588-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002032,
+"request_id": "req_011CgipktQpna77AALuReqb2",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 921,
+"output_tokens": 19,
+"cost_usd": 0.002032,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"a39dc7ee026099a5f4bee6e9": {
+"cid": "c-2610.37676-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002118,
+"request_id": "req_011CgipktsMkfmU6MVPWdAcM",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 964,
+"output_tokens": 19,
+"cost_usd": 0.002118,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8287b70924cb571c2fd927d0": {
+"cid": "c-2411.03993-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00205,
+"request_id": "req_011Cgipkyn2hCgHLzt5oUhQu",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 930,
+"output_tokens": 19,
+"cost_usd": 0.00205,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d8bdacb7857f8c1127bc855e": {
+"cid": "c-2609.35544-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001984,
+"request_id": "req_011Cgipm14fkcobCTHrSSCmg",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 897,
+"output_tokens": 19,
+"cost_usd": 0.001984,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"8f9c338a4147ffa82c1125a2": {
+"cid": "c-2610.03498-1",
+"leak": true,
+"cue": "two schedules: gated by a linear probe's attack detection, and applied at every step",
+"fix": "Describe the setup without singling out the every-step schedule as a contrast to a more refined gated one; e.g. 'Suppressing this feature at inference time was tested on LIBERO-10 under intermittent patch attacks.' Alternatively present both schedules neutrally in the question, asking about each, so the every-step condition is not implied to be the naive baseline.",
+"cost": 0.003434,
+"request_id": "req_011Cgipkty3xA1p9UZU4SRyG",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 917,
+"output_tokens": 160,
+"cost_usd": 0.003434,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"dc3a6f8e9ffaa686eba8d6dd": {
+"cid": "c-2611.02318-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002058,
+"request_id": "req_011CgipkysEH5KruSSn96XQF",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 934,
+"output_tokens": 19,
+"cost_usd": 0.002058,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"37f8998ac871c935d6e65839": {
+"cid": "c-2609.07250-2",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002022,
+"request_id": "req_011Cgipm4p91GdwBWpshTEQc",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 916,
+"output_tokens": 19,
+"cost_usd": 0.002022,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"e79bc5d48cf1ddb63da31cbb": {
+"cid": "c-2608.29282-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001892,
+"request_id": "req_011Cgipm6HSX78bPQGhAZo4E",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 851,
+"output_tokens": 19,
+"cost_usd": 0.001892,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"cf38ddc77b7aa6dca69d14ac": {
+"cid": "c-2610.07186-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00196,
+"request_id": "req_011Cgipkz87iSAAxP6AZavLj",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 885,
+"output_tokens": 19,
+"cost_usd": 0.00196,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"651aac78aed1372f78db3d04": {
+"cid": "c-2611.04868-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001974,
+"request_id": "req_011Cgipm38hPJjYksd3eQuoy",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 892,
+"output_tokens": 19,
+"cost_usd": 0.001974,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"4d98b392fede9be66e203801": {
+"cid": "c-2608.26018-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002044,
+"request_id": "req_011Cgipm7AHSWdd8ha3qZAKc",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 927,
+"output_tokens": 19,
+"cost_usd": 0.002044,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"d56cb785be81a3ac184f9770": {
+"cid": "c-2610.41890-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002058,
+"request_id": "req_011CgipmAMWxoHAgFe4BB7Gb",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 934,
+"output_tokens": 19,
+"cost_usd": 0.002058,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"9210886c9d0a7e6c9c46bd67": {
+"cid": "c-2511.22930-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002032,
+"request_id": "req_011CgipmBPmbTaQdbvRHGwzc",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 921,
+"output_tokens": 19,
+"cost_usd": 0.002032,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"7cff7f278fc240ec4419c125": {
+"cid": "c-2605.06372-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00209,
+"request_id": "req_011CgipmEJe6Nn4soAoeuHpE",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 950,
+"output_tokens": 19,
+"cost_usd": 0.00209,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"aaef59991c7ed912eb54cbac": {
+"cid": "c-2610.38076-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00202,
+"request_id": "req_011CgipmGY5xiVZE2TyJeBTT",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 915,
+"output_tokens": 19,
+"cost_usd": 0.00202,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"84ccbb320ddd80afcd8c2c6b": {
+"cid": "c-2610.19525-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001944,
+"request_id": "req_011CgipmFcXH8G14knZyotpT",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 877,
+"output_tokens": 19,
+"cost_usd": 0.001944,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"1d2a50a93d4138b0098c3770": {
+"cid": "c-2610.24077-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.001932,
+"request_id": "req_011CgipmB4ScuE25GiUDpAcU",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 871,
+"output_tokens": 19,
+"cost_usd": 0.001932,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"f981e43f4f90d009282aa580": {
+"cid": "c-2610.16911-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002082,
+"request_id": "req_011CgipmEc1MEPamxcpE8MQc",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 946,
+"output_tokens": 19,
+"cost_usd": 0.002082,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"6bac22f42bed37238e7567c3": {
+"cid": "c-2606.07810-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002012,
+"request_id": "req_011CgipmNRom5CRefGz2zpsB",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 911,
+"output_tokens": 19,
+"cost_usd": 0.002012,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"ac676932f072d236f4fb390e": {
+"cid": "c-2611.04289-1",
+"leak": true,
+"cue": "majority sway, authority cues and confidence asymmetry were varied",
+"fix": "Describe the debate condition neutrally, e.g. 'multi-agent debate with several agents deliberating before giving a final answer', without naming social-pressure mechanisms (majority sway, authority cues, confidence asymmetry) that only matter if debate amplifies unsafe adoption.",
+"cost": 0.003246,
+"request_id": "req_011CgipmKWg8n97rP37tavvs",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 953,
+"output_tokens": 134,
+"cost_usd": 0.003246,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"b3186503bf1bc6404975cb34": {
+"cid": "c-2510.13912-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.00207,
+"request_id": "req_011CgipmMtocGtvHSFc7AhXb",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 940,
+"output_tokens": 19,
+"cost_usd": 0.00207,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"e72ae10e6e83f9eb52412a8c": {
+"cid": "c-2610.26496-1",
+"leak": true,
+"cue": "ultimately",
+"fix": "Replace 'ultimately' with neutral phrasing: 'did performance on external benchmarks rise or decline as training continued?' and make the options 'External benchmark performance rose with continued training.' / 'External benchmark performance declined with continued training.' Also reword the methods to avoid cueing divergence, e.g. 'Reward-model score and external benchmark performance were tracked during training.'",
+"cost": 0.00327,
+"request_id": "req_011CgipmHtx7gqH2qLS3jMhC",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 880,
+"output_tokens": 151,
+"cost_usd": 0.00327,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+},
+"ca8b2ed76588a3c06c4bb6cf": {
+"cid": "c-2505.23575-1",
+"leak": false,
+"cue": "",
+"fix": "",
+"cost": 0.002072,
+"request_id": "req_011CgipmN2k3hHQajaCQiLxp",
+"usage": {
+"model": "claude-sonnet-5-5",
+"input_tokens": 941,
+"output_tokens": 19,
+"cost_usd": 0.002072,
+"thinking": "between_tools"
+},
+"model": "claude-sonnet-5-5"
+}
+}
