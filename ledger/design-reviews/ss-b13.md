@@ -13,7 +13,7 @@ papers_opened: 3
 flaws: 5
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 10:37 America/Denver (fixes a5142f5, DEVIATIONS D69, budget ruling br-010)
 ---
 
 # Design review of ss-b13
@@ -163,3 +163,28 @@ Each fix is to be written under one dated DEVIATIONS row before any call, naming
 5. **D12, the prior work.**
    - **Fix:** correct §0's prior-work statement and tie the odds to the papers.
    - **DEVIATIONS text:** "D67 (5). Design review ss-b13 (D12): §0's 'No paper reports Haiku or Sonnet' is corrected. SciPredict (arXiv 2604.10718) evaluates Claude Sonnet 4.5 beside Opus 4.1 and 4.5 and finds Sonnet 4.5 close to Opus 4.5 (overall 22.55 against 23.05; multiple choice 29.01 against 33.54, no background knowledge), which predicts that Sonnet tracks Opus; no paper tests Haiku or these versions with verbal probabilities on masked post-cutoff findings. The odds are stated with BrainBench's pass for smaller models and SciPredict's Sonnet≈Opus in view: the Sonnet conjunct is likely, and the 0.18 rests on the Haiku conjunct under the stricter bar (C3 needs a Brier of about 0.19 or less; at ss-b10's measured Haiku-to-Sonnet skill ratio Haiku's Brier would be about 0.21–0.22). <Odds unchanged at 0.18 | revised to x, both kept.>"
+
+## Addendum: fixes confirmed (2026-11-05 10:37 America/Denver)
+
+This addendum checks commit a5142f5 (DEVIATIONS D69, written before any test call; the numbers D67 and D68 went to the withdrawals of ss-b14 and ss-b10b) and budget ruling br-010 in `ledger/spend.jsonl`. I made no paid calls. I re-ran `bettor/f1.py --dry-run` and `scoring/score_f1.py --synthetic coin opus`, plus the review's `d1.py` tables. `bettor/f1-cache.json` does not exist, so no test call has run.
+
+1. **F1 (D6), refusal pilot: confirmed.** `bettor/f1-pilot-cache.json` holds 24 calls:
+   - 12 per model, with Haiku `disabled` and Sonnet `between_tools`;
+   - all on round-1 **pre-cutoff** items (4 each from interpretability, scalable-oversight and model-psychology), so none is in the test;
+   - pilot keys use the prefix `bettor-v1-pilot`, so they cannot collide with the test cache;
+   - cost $0.037 (≤ $0.10); `p_option_1` ranges from 5 to 90, so every reply parsed;
+   - no refusal and no error: `Caller` exits on either before writing the summary.
+
+   The cache is in `common.CACHES`, so its cost counts toward the program cap. Residual risk, which the pilot cannot remove: 0 of 24 bounds the per-call refusal rate only to about ≤ 12% (rule of three). A refusal in the test would still stop the run under §7 and could make the bet untestable. That is the program's rule, and D69 does not loosen it.
+
+2. **F2 (D10), cost plan: confirmed.** `BET_CAP` is 0.85 (br-010 amends br-007; the program cap of $13.40 is unchanged). The pilot measured 657 input tokens per call and 164 output for Haiku, 163 for Sonnet: $0.00295 per Sonnet call and $0.00015 per Haiku call. That puts the 416 calls at about $0.64. The effective stop is $0.80 (cap − $0.05), so the run has room even at ss-b10's 202 Sonnet output tokens (about $0.70). The pilot sits in its own cache and counts outside `cap()`'s own-cache term, so the bet's total stays at or below $0.84.
+
+   Cosmetic, not required: the dry run still prints the old estimator's "$0.51". D69 and br-010 carry the measured figure.
+
+3. **F3 (D8, D4), verdict sentences: confirmed.** All three verdict sentences now start "On <n_H> (Haiku) and <n_S> (Sonnet) of round 1's 116 …". The edge table (Haiku 100 scored) prints "On 100 (Haiku) and 116 (Sonnet) …". The pass sentence carries "Picking which way these findings went, better than these two shortcut rules" and the clause about 38 of 116 items and ss-b10's 92%. Verdicts are unchanged on every synthetic table (coin fail; Opus pass; both mixed cases mixed; 99 untestable; 100 pass; Sonnet missing untestable), so the rule and the bar did not move.
+
+4. **F4 (D2), archive check: confirmed.** The dry run now prints "r1: order matches archive 116/116; prompts identical to Opus's 116/116" and "r2: … 92/92; … 92/92". `archive_check` reads only Haiku's jobs, but `plan()` builds Sonnet's jobs from the same items, swaps and `user_text`, so they are identical by construction.
+
+5. **F5 (D12), prior work: confirmed.** D69 (5) corrects §0's statement with SciPredict's Sonnet 4.5 and Opus 4.5 figures, as opened in this review. It states the odds with both papers in view and keeps 0.18 with a reason (the Haiku conjunct under the C3 bar; the review's worlds put P(pass) between 0.01 and 0.64). The frozen §0 is left as written, with the correction in DEVIATIONS, as fix-first requires.
+
+All five hold, and none lowers the bar. **Verdict: go.**
