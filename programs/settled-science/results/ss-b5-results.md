@@ -6,7 +6,7 @@ Pre-registration `29e8769` (`experiments/ss-b4.md`), seed `e8f921e`, design revi
 
 Round 1's items were written by the bettor's own model family, which might have picked findings it finds easy. Round 2 removed that writer. A fixed rule, committed before any round-2 paper was fetched, took one comparative result sentence from each recent arXiv abstract. It set that sentence beside the same sentence with its one direction word flipped ("higher" and "lower", "more" and "less", "outperforms" and "underperforms"). The bettor (the same tool-less model at the same setting) said which sentence was the real one. A Claude leakage checker dropped 146 of the 243 sentences the rule produced, because their wording gave the direction away: a number in 54 of them, and contrasting context in the sentence ('fewer … than', 'the strongest baseline') in most of the rest. The beacon then drew 92 of the 97 that were left.
 
-**The bettor picked the published sentence 93% of the time** (86 of 92), with a Brier score of 0.070 (interval 0.050 to 0.093).
+**The bettor picked the published sentence 93% of the time** (86 of 92), with a Brier score of 0.070 (interval 0.050 to 0.093). This is a task of telling an author's sentence from a one-word flip of it, which a language model can often do by reading the sentence; the pass is about that task, not about forecasting findings (see below; round-3 audit).
 
 That beats two dumb rules fixed before any bet:
 - one that leans 75% toward the "higher / more / better" wording, Brier 0.177, which it beat by 0.107;

@@ -37,6 +37,8 @@ The bettor and the rater favoured different sentences on 42 items, and the betto
 | world B pass rate (stable item noise √(σ_dis² − σ_rt²) plus call noise) | 0.98 |
 | the label under 20 extra seeds (20261105–24) | pass on 20 of 20 |
 
+A rater that answers 50 on every item also passes both legs (leg 1 −0.180 [−0.200, −0.157], leg 2 −0.128 [−0.181, −0.079]; round-3 audit), and shuffling this rater's ratings across items leaves leg 2 at −0.132. So this rule tests whether the rater carries signal, and the pass says the striking prompt does not; it is not a further test of the bettor.
+
 ## Gates and counts (reported, not gating; D40)
 
 | | value |
@@ -95,7 +97,7 @@ Unlike ss-b6, both legs' upper bounds are below 0 on both word subsets (reported
 |---|---|---|
 | 1 (ss-b1–b3) | Can the bettor tell which way post-cutoff findings went, on curated, Claude-written items? | Yes against a coin and a publication-bias shortcut (audited) |
 | 2 (ss-b5) | On template items no model wrote, does it beat dumb word rules? | Yes (audited) |
-| 2b (ss-b6) | Does that reduce to picking the flattering version? | A same-model flattery rater matches most of it (90% against 93%); the bettor's edge over it passes narrowly and is fragile (audited, weak) |
+| 2b (ss-b6) | Does that reduce to picking the flattering version? | A same-model flattery rater matches most of it (90% against 93%); the bettor's narrow, fragile edge over it is undetermined, because the rule is passed about half the time with no extra knowledge (audited; reversed in round 3) |
 | 2c (ss-b7) | Does it reduce to picking the more striking version? | Not as this one prompt judged it. That rater is near a coin, so the test was easy (audited) |
 
 The cap has $0.24 left, so the program has no room for another round without a budget decision.
