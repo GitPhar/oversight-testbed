@@ -557,3 +557,8 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
 /* ---------- instruments: what changed since yesterday ---------- */
 .changed { font-size: 18px; line-height: 1.55; max-width: var(--measure); margin: 0 0 8px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--run); border-radius: var(--radius); }
 .changed b { color: var(--text); }
+@media (max-width: 640px) {
+  /* On a phone the save bar would cover a fifth of the screen; it sits at the end of the cards instead. */
+  .savebox { position: static; }
+  .q-test { font-size: 19px; }
+}
