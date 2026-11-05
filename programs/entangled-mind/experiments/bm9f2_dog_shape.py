@@ -6,6 +6,8 @@ Archive only (em-bm9's pairs from results/exp5-conversations.json, anchor (a)); 
     python experiments/bm9f2_dog_shape.py --power <sigma> [--L-from-archive]   # design-review power check
     python experiments/bm9f2_dog_shape.py --seed <bootstrap seed>      # the run (seed from the beacon)
 
+D72: the verdict sentences name the shift in the main rating against the gap, not a pull toward the sub-rating (em-bm9's
+audit); a DoG width at the grid's lower edge (a spike at near-zero gaps) fails; a pass resting on one item is labelled.
 Per pair (bm_offline.bm9_pairs, unchanged): d = mean M after S - mean M asked first; L = mean S - mean M-first (the gap);
 C = the claim's content push. Three models, each with intercept a and content term c*C, fitted by least squares:
   linear  f(L) = b*L                                  (k = 3 mean parameters)
@@ -73,14 +75,15 @@ def verdict(r):
         return "untestable"
     lo, hi = r["abs_L_range"]
     inside = lo + TOL < r["dog_peak_abs_L"] < hi - TOL
-    if r["dAIC_dog_vs_linear"] >= DAIC_LIN - TOL and r["dAIC_dog_vs_tanh"] >= DAIC_TANH - TOL and inside and r["dog"]["A"] > 0:
+    at_low_edge = r["dog"].get("w", W_GRID[-1]) <= W_GRID[0] + TOL        # D72 (review F1, optional tightening): a spike at near-zero gaps
+    if r["dAIC_dog_vs_linear"] >= DAIC_LIN - TOL and r["dAIC_dog_vs_tanh"] >= DAIC_TANH - TOL and inside and r["dog"]["A"] > 0 and not at_low_edge:
         return "pass"
     return "fail"
 
 
 SENTENCES = {
-    "pass": "On Haiku's 80 archived sub-question and main-question pairs, the pull of the main rating toward the sub-rating just given was best described by the human serial-dependence shape: it grew with the gap up to a peak inside the observed gaps and then shrank, beating both a straight-line pull and an equally flexible pull that only levels off.",
-    "fail": "On Haiku's 80 archived pairs, the pull of the main rating toward the sub-rating just given was not shown to have the human serial-dependence shape, by the pre-registered rule; a straight-line or levelling-off pull describes it as well.",
+    "pass": "On Haiku's 80 archived sub-question and main-question pairs, the shift in the main rating after a sub-question, plotted against the gap between the sub-rating and the unprompted main rating, was best fitted by the derivative-of-Gaussian shape seen in human serial dependence: it grew with the gap up to a peak inside the observed gaps and then shrank, beating a straight line and an equally flexible curve that only levels off. At these gaps the rule also passes in about 2–10% of levelling-off worlds, and much of this shift is the main rating becoming less extreme after a sub-question rather than a pull toward the sub-rating (em-bm9 audit).",
+    "fail": "On Haiku's 80 archived pairs, the shift in the main rating after a sub-question was not shown, by the pre-registered rule, to have the derivative-of-Gaussian shape seen in human serial dependence; the rule did not separate it from a straight-line or levelling-off relation to the gap.",
     "untestable": "Too few pairs were usable to read the rule.",
 }
 
@@ -107,6 +110,12 @@ def analyse(d, L, C, items, seed, nboot=NBOOT):
             flips.append(q)
     r["loo_item_flips"] = flips
     r["sentence"] = SENTENCES[r["verdict"]]
+    # D72 (review F3): the one-item consequence
+    if flips and r["verdict"] == "pass":
+        r["verdict_note"] = f"pass, unreplicated, rests on one item ({', '.join(flips)})"
+        r["sentence"] += f" This rests on one item, {', '.join(flips)}."
+    elif flips and r["verdict"] == "fail":
+        r["verdict_note"] = f"fail; one item ({', '.join(flips)}) would turn it into a pass"
     return r
 
 
@@ -149,6 +158,7 @@ def selftest():
     assert verdict({**base, "dAIC_dog_vs_linear": 3.999}) == "fail" and verdict({**base, "dAIC_dog_vs_tanh": 1.999}) == "fail"
     assert verdict({**base, "dog_peak_abs_L": 60.0}) == "fail" and verdict({**base, "dog": {"A": -1.0}}) == "fail"
     assert verdict({**base, "n": 59}) == "untestable"
+    assert verdict({**base, "dog": {"A": 1.0, "w": float(W_GRID[0])}}) == "fail" and verdict({**base, "dog": {"A": 1.0, "w": 28.3}}) == "pass"
     print("boundary checks ok")
     print("SELFTEST", "OK" if ok else "FAILED")
     return ok
@@ -206,7 +216,7 @@ def main():
           f"- **ΔAIC, DoG vs tanh: {f(r['dAIC_dog_vs_tanh'])}** (needs ≥ +2); bootstrap 95% [{f(r['boot_dAIC_dog_vs_tanh_95'][0])}, {f(r['boot_dAIC_dog_vs_tanh_95'][1])}].",
           f"- Share of bootstrap resamples that pass: {r['boot_share_pass']:.3f}. Items whose removal flips the verdict: {', '.join(r['loo_item_flips']) or 'none'}.",
           "- Archive sha256: " + "; ".join(f"`{k}` {v[:16]}" for k, v in sha.items()) + ".",
-          "", f"## Pre-registered reading: **{r['verdict']}**", "", r["sentence"]]
+          "", f"## Pre-registered reading: **{r.get('verdict_note', r['verdict'])}**", "", r["sentence"]]
     (config.RESULTS / "bm9f2-dog-shape.md").write_text("\n".join(Ls) + "\n")
     print("\n".join(Ls))
 
