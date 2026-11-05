@@ -465,3 +465,37 @@ Every landed or mixed bet of this program carries a Novelty line in its results 
 |---|---|---|---|---|
 | om-p2-4 | P2-4 | undetermined | **partly new** | Binder et al. 2024 (arXiv 2410.13787) report that a finetuned model predicts its own behaviour better than a second model trained on the same facts, while Song, Hu and Mahowald 2025 (arXiv 2503.07513) and Blandfort and Pawar 2026 (NeurIPS 2026 AI4GOOD workshop) find no self-specific advantage by prompting; our prompt-only "you" versus "Sam" contrast on anchoring effects is undetermined, leaning self. That models misreport what moved their answers is in print (Turpin et al. 2023, arXiv 2305.04388; Chen et al. 2025, arXiv 2505.05410), but no paper states that reported anchor influence runs opposite to measured uptake, the same under self and other labels. Search: WebSearch for "LLM self-prediction vs other-model prediction introspection", "self-report anchoring influence LLM", "Nisbett Wilson 1977"; arXiv abstract pages for each lead. |
 | om-p2-5 | P2-5 | mixed | **partly new** | The manipulation is in print: Choi, Hong and Kim (2024, arXiv 2407.12007; NAACL Findings 2025) fed GPT-4, Claude 3 Opus, Llama 2 70B and Mixtral one option as the model's own choice and found its estimate of how many peers would choose it shifted, by 20 points on Claude 3 Opus in one story (a false-consensus effect, generally smaller than in Ross et al. 1977's human data). They did not compare the pull on others with the pull on the model's own re-rating, and showed no third party's number for contrast. Ours found the prediction of another mind moved more than the model's own answer (0.50 against 0.36 of the way; a third party's number 0.02), with the excess coming from upward plants only, so it may be a scale artefact. Search: paper/novelty.md, 2026-11-05 (arXiv searches on false consensus in LLMs, egocentric projection, self-other anchoring), by a claude-fable-5-1 session on the novelty-check branch (93f47af); carried here by the informed-engine session. |
+
+## Follow-ups (remap 2026-11-05c)
+
+*Written 2026-11-05 by a fresh remap session (claude-opus-5-5) that ran none of program 2's bets; re-scouts by a fresh reader subagent; odds by fresh blind contexts (rule 14).*
+
+**What came back.** No new program 2 result landed; two mixed nodes had only one not-yet-run follow-up each. P2-4 (om-p2-4, undetermined): Haiku's predictions of its own uptake had about half the error of its predictions for "Sam", but the test could not see an advantage that small; P2-15 then found its self-predictions scattered about twice too far on another person's number. P2-5 (om-p2-5, mixed): on Haiku a planted own answer pulled the rating it gave for Sam more than its own re-rating, which did not replicate on Sonnet and Opus with Haiku's anchors (om-p2-5r). Both Novelty lines stay partly new and were corrected (om-p2-5's is now Haiku only, with Lee and Morewedge 2021's noise account named as a rival). Three bets get rules-out sentences below (om-p2-7, om-p2-path and om-p2-path2, and om-p2-6r on its new node P2-6r).
+
+**What the follow-ups would show.** P2-18: whether the scatter that sank P2-15 recurs on a fresh Haiku run with a base arm (about $0.07). P2-19: whether "Sam moves more than self" appears on Sonnet once the planted answers are built from Sonnet's own usual ratings (archived in om-p2-6r), the om-p2-5r audit's anchors test (about $1.80; Opus reported on 8 vignettes).
+
+**One Prior work line corrected.** P2-17's line said Kim and Kang 2026 (arXiv 2605.27752) show that instruction wording drives stated-confidence shifts. The re-scout read the main text: it varies how token confidence is read, not how the confidence question is worded. The clause is dropped; the old line is kept on the node in `citation_corrections`.
+
+**Budget.** Program 2 has spent $9.84 in November. br-020 (on branch p2-14, not yet on main) raised November's limit to $13.75 for om-p2-14 alone. P2-18 fits only under a new ruling and only if om-p2-14 comes in near its estimate; P2-19 fits December's $10. This remap approves none.
+
+### What the re-scouts change
+
+- **om-p2-4** (Novelty: partly new; corrected; `programs/other-minds/map/reads/remap-2026-11-05c-om-p2-4.md`). The re-scout drops nothing and adds one candidate: a fresh Haiku re-run of the self arm on the 162 other-person cells plus a base arm (about $0.07; om-p2-15's audit, no node yet). Nothing in print predicts its pass rule. P2-14 is re-priced in prose only. Blandfort and Pawar (now a full arXiv read) predict no self-specific gain, but Mayne et al. show a small prompt-only self advantage in explanations. So a "self better" outcome on P2-14 would partly replicate Mayne et al., not overturn the literature. The causal-report inversion stays partly new; Mehta 2025 is the nearest prior work.
+- **om-p2-5** (Novelty: partly new; corrected; `programs/other-minds/map/reads/remap-2026-11-05c-om-p2-5.md`). Adds one candidate: the om-p2-5r audit's anchors test, om-p2-5r's design on Sonnet with planted values built from Sonnet's own base ratings (om-p2-6r's archive, $0), plus a reduced Opus arm, about $1.80. Names two rivals the map lacked: stronger models take up any number less (Huang et al. 2025), and a vaguer judgment of a stranger takes up any relevant number more (Lee and Morewedge 2021). A range-width secondary (about $0.02) tests the second. Kim and Kang 2026 do not support P2-17's Prior work line; that clause should go. P2-17 otherwise unchanged.
+
+### Follow-ups
+
+| id | parent (bet, novelty) | follow-up | models | cost | engine odds (prior + adjustment) | prior work predicts | card |
+|---|---|---|---|---|---|---|---|
+| P2-18 | P2-4 (om-p2-4, partly new) | Were Haiku's scattered guesses about another person's number a one-off? A fresh self-prediction run with a base arm | haiku | about $0.065 | 0.10 (0.25 -0.15) | unknown | yes |
+| P2-19 | P2-5 (om-p2-5, partly new) | Does 'Sam moves more than self' appear on Sonnet once the planted answers are built from Sonnet's own usual ratings? | sonnet, opus | about $1.80 | 0.11 (0.25 -0.14) | fail | yes |
+
+Each row's Prior work line, pass rule, cost arithmetic and cap note are on its node in `map/other-minds.json`; the odds record is in `programs/other-minds/map/odds-elicitation/v2-remap-2026-11-05c.md`.
+
+### Rules out (killed or withdrawn bets that had no sentence)
+
+| node | bet(s) | rules out |
+|---|---|---|
+| P2-7 | P2-7 | Rules out, on Haiku, Sonnet and Opus 5.5 with 34 statements in three formats, that the format pattern in ratings given for 'Sam' matches the model's own archived pattern at half the ceiling or more (+0.21, -0.10, +0.24; om-p2-7). |
+| P2-path | om-p2-path, om-p2-path2 | Rules out nothing about path dependence between programs; 11 of the 17 recorded traps were already in program 1's early work, so program 2's failures cannot be tied to program 1 (om-p2-path, om-p2-path2). Needs an origin-specific pattern list. |
+| P2-6r | om-p2-6r | Rules out, on Sonnet and Opus 5.5 with P2-6's 16 items at +/-30, that an earlier number's place in the assistant turn pulls the re-rating by 0.15 or more beyond its label: +0.05 and +0.02 (om-p2-6r). |
