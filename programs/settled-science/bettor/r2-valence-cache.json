@@ -1,0 +1,2348 @@
+{
+"ee7dc69598b0447a6ae86de9": {
+"id": "r2-003",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "Showing advantages across a hierarchy of algorithms of increasing complexity points to scalability and capability, a stronger demonstration for the proposed DQC approach. 'Decreasing complexity' is an odd framing and suggests a weaker showcase.",
+"cost": 0.004228,
+"request_id": "req_011Cgj5sK5Jnz8TDLKfkcAKz",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 557,
+"output_tokens": 100,
+"cost_usd": 0.004228,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"1fd799a149a85b7cfb5b49ca": {
+"id": "r2-002",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 4,
+"rationale": "Option 2 says the proposed approach scales more favourably than previous methods, which is good news for it. Option 1 says it scales less favourably, which is bad news. So Option 2 is clearly the better result for the paper's method.",
+"cost": 0.00378,
+"request_id": "req_011Cgj5sK1pkDHogcgMbkp8g",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 500,
+"output_tokens": 89,
+"cost_usd": 0.00378,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"a825b1e0b826e23a81ac5a76": {
+"id": "r2-005",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 4,
+"rationale": "Femtosecond gates are far faster than superconducting qubit gates, which run on nanosecond timescales, so 'faster' is both the correct description and the favorable one. Being 'slower' would be bad news for the proposed approach and would contradict the femtosecond figure. Option 2 is therefore better news for the method.",
+"cost": 0.004912,
+"request_id": "req_011Cgj5sK2L4BMnMbhfvkQ6c",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 628,
+"output_tokens": 120,
+"cost_usd": 0.004912,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"ec9f8385e354390d6f31cfeb": {
+"id": "r2-001",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 8,
+"rationale": "The paper's proposed architecture is evidently being compared against atom-shuttling architectures. A predicted improvement of more than an order of magnitude in logical error rates (Option 2) is stronger support for it than an improvement of less than an order of magnitude (Option 1). Option 2 is therefore the better news for the proposed approach.",
+"cost": 0.004824,
+"request_id": "req_011Cgj5sK1LhQguom7bs7NCz",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 586,
+"output_tokens": 124,
+"cost_usd": 0.004824,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"b89526866010b91bc1da4fe7": {
+"id": "r2-004",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 85,
+"rationale": "Detecting noise of lower spectral density means greater sensitivity: the proposed longer records can resolve weaker 1/f noise than the baseline 2.048 s runs. Detecting only higher spectral density would mean they are less sensitive, which is bad news for the proposed approach. Option 1 is therefore the more favorable reading.",
+"cost": 0.00472,
+"request_id": "req_011Cgj5sK25Lryx5oP1yDoe1",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 550,
+"output_tokens": 126,
+"cost_usd": 0.00472,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"0893bfa8f55b0f90961198e1": {
+"id": "r2-006",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 22,
+"rationale": "The paper probably proposes using additional channels, such as light-hole mixing, for spin-photon coupling. Under that reading, Option 2's 'larger' figures of merit than the HH-HH transition is better news for the proposed approach, while 'smaller' would undercut it. The paper could instead be defending the HH-HH transition, which leaves some uncertainty, but highlighting additional channels suggests they are the proposal.",
+"cost": 0.00514,
+"request_id": "req_011Cgj5sK2L4PyAoxMrrE4rb",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 515,
+"output_tokens": 154,
+"cost_usd": 0.00514,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"e2b1600564ddbf3add1d5dfa": {
+"id": "r2-011",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 77,
+"rationale": "The paper presumably promotes quantum (QFT) energy advantages. If the energy crossover happens at smaller problem sizes than the time crossover, quantum gains an energy advantage sooner, which is good news for the quantum approach. Option 1 is therefore better news.",
+"cost": 0.004448,
+"request_id": "req_011Cgj5sWk2aZWysu3WPiZDw",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 587,
+"output_tokens": 105,
+"cost_usd": 0.004448,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"1ffb9489f2a2eb857b0e3659": {
+"id": "r2-009",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 4,
+"rationale": "Shorter circuits than the previous approach would be an advantage for the proposed method. Longer circuits would be a cost, so Option 2 is the better news.",
+"cost": 0.003408,
+"request_id": "req_011Cgj5sWQvmY1b9c2eGwaxC",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 517,
+"output_tokens": 67,
+"cost_usd": 0.003408,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"1ed422d675b4acd15545b6a0": {
+"id": "r2-010",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 68,
+"rationale": "Option 1 states a sensible requirement: holograms must be computed faster than the SLM refresh rate so that hologram generation does not become the bottleneck. Option 2 is physically odd as a requirement for fast rearrangement. The sentence describes requirements rather than a result, though, so the news value is modest. Option 1 is the coherent framing that fits a paper proposing fast hologram computation, which makes it mildly better.",
+"cost": 0.00546,
+"request_id": "req_011Cgj5sWcq5gDb2Bd6SV4d7",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 590,
+"output_tokens": 155,
+"cost_usd": 0.00546,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"06e3b0024ac587afe673268e": {
+"id": "r2-012",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 22,
+"rationale": "Showing validation at larger subsystem sizes points to scalability, which is stronger evidence for the protocol. Restricting the demonstration to smaller sizes is more limited. Option 2 is therefore better news for the proposed method.",
+"cost": 0.00422,
+"request_id": "req_011Cgj5sZhdVaqRXVYeGLMDx",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 595,
+"output_tokens": 92,
+"cost_usd": 0.00422,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"2197f95b7c3551cae62697a3": {
+"id": "r2-007",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "A sweet spot is supposed to suppress frequency noise, so the proposed device or operating point looks better if its noise is lower than at the neighboring qubit. Option 1 reports exactly that, two orders of magnitude lower near 1 Hz. Option 2 reports higher noise at the sweet spot, which would undercut the approach the paper is defending.",
+"cost": 0.004812,
+"request_id": "req_011Cgj5sUFCtVeufHPRCvccp",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 538,
+"output_tokens": 133,
+"cost_usd": 0.004812,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"6cd862cf336ade3ba4c07597": {
+"id": "r2-008",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 60,
+"rationale": "Whether 'shorter' or 'longer' is good news depends on what the paper proposes. Such a study likely models decoherence from vacancy baths, perhaps arguing that multi-vacancy defects are the dominant decoherence source in diamond or SiC. A shorter coherence time under a multi-vacancy bath would support the claim that these defects are especially harmful, which is a notable finding. On the other hand, a longer coherence time could suggest that annealing into multi-vacancies is beneficial. That is ambiguous. On balance, I lean toward 'shorter' as the novel, defended claim.",
+"cost": 0.006592,
+"request_id": "req_011Cgj5sVCzoMy9gDj4JfSD4",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 583,
+"output_tokens": 213,
+"cost_usd": 0.006592,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"5a8724e5ca04a7b81b9dd2e4": {
+"id": "r2-013",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "Option 1 reports a reduction of more than an order of magnitude in logical error. That is a stronger improvement for the proposed implementation than Option 2's reduction of less than an order of magnitude, so Option 1 is better news for the paper's approach.",
+"cost": 0.004056,
+"request_id": "req_011Cgj5sfmW8yD7JMTm9b3uf",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 524,
+"output_tokens": 98,
+"cost_usd": 0.004056,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"e29dc0ed2d9da3ab1b5e0172": {
+"id": "r2-014",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 95,
+"rationale": "Detecting the weak force at the same reliability in less time means the EP-based sensing scheme outperforms the non-EP reference. Requiring more time would make it worse. The paper presents the EP model as its illustration, so Option 1 is better news for the proposed approach.",
+"cost": 0.00422,
+"request_id": "req_011Cgj5shb99n1BR3AiB8pQL",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 540,
+"output_tokens": 103,
+"cost_usd": 0.00422,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"3dff8cb85c952add7604978e": {
+"id": "r2-017",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "The paper most likely proposes or defends LLM-based judges. Under Option 1 they outperform all reference-based baselines, which is clearly better news for that approach than underperforming them.",
+"cost": 0.0037,
+"request_id": "req_011Cgj5sk4E3oJNrLFNLhXWj",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 545,
+"output_tokens": 76,
+"cost_usd": 0.0037,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"d89ee1d5961b8b2780b7f037": {
+"id": "r2-018",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 62,
+"rationale": "Both options report agreement between the two methods, so the result supports the proposed approaches either way. What differs is the physical finding. A stronger horizontal than vertical field matches known quiet-Sun results (e.g., Hinode inversions) and would look plausible. A weaker horizontal field would be a surprise that could suggest a problem with the methods. Option 1 is therefore modestly better news for the paper's approach.",
+"cost": 0.005292,
+"request_id": "req_011Cgj5sk9BFFdFhi45vD52x",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 573,
+"output_tokens": 150,
+"cost_usd": 0.005292,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"7c0426462daa0e13ba6d485a": {
+"id": "r2-015",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 35,
+"rationale": "The field label says scalable-oversight, but the sentence is about astrophysics: accretion flows in Roche-lobe-overflow HMXBs. The paper's claimed contribution is \"a new mechanism regulating accretion flows.\" A non-monotonic effect where moderate ionization is the most disruptive fits that framing naturally, since disruption is what does the regulating. Option 2 says exactly this. Option 1 (moderate being least disruptive) is also non-monotonic but fits the regulation story less naturally. So Option 2 is somewhat better news for what the paper proposes.",
+"cost": 0.006404,
+"request_id": "req_011Cgj5siTURrMMqizjSA4Rx",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 551,
+"output_tokens": 210,
+"cost_usd": 0.006404,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"b1f6cd71adb567328fbdb434": {
+"id": "r2-016",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 55,
+"rationale": "Without context it's hard to say what probability is being reported. In scalable oversight, such a finding likely concerns self-preference bias. If the probability is of something good (e.g., a safe outcome or a correct answer), a higher value for Anthropic signals favoritism, and a lower one suggests no bias in its favor, though it could signal overcorrection. If the probability is of something bad, the reading flips. The paper probably proposes a method or evaluation, and the sign is ambiguous. My guess is that the probability is of something positive, so Option 1 is slightly better news.",
+"cost": 0.00604,
+"request_id": "req_011Cgj5sjksJHMmoSqfzD5Nu",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 515,
+"output_tokens": 199,
+"cost_usd": 0.00604,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"78794d99f8670a89608a4bcd": {
+"id": "r2-019",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 92,
+"rationale": "The paper most likely proposes reasoning-level annotations as its contribution, and its finding that bias stems from reasoning behaviours supports that framing. Option 1 says these annotations improve bias detection, which would be good news for the proposed approach. Option 2 says they worsen it, which would be bad news.",
+"cost": 0.0045,
+"request_id": "req_011Cgj5sqEWvkBV52n7ZX1AH",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 550,
+"output_tokens": 115,
+"cost_usd": 0.0045,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"9a8b6da781c5f70aeee2bc7c": {
+"id": "r2-021",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 95,
+"rationale": "OPRD is the proposed method. Option 1 says it reaches higher performance with fewer student updates, which is clearly favorable. Option 2 says it reaches lower performance, which is worse news even though it still uses fewer updates.",
+"cost": 0.00398,
+"request_id": "req_011Cgj5stfdu1AzWKMndyDDy",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 535,
+"output_tokens": 92,
+"cost_usd": 0.00398,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"80d18f416dfcd4394be32c22": {
+"id": "r2-022",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 10,
+"rationale": "Option 2 calls the approach faster, a plain advantage. Option 1 calls it slower, which is worse news and also reads oddly next to 'cheaper'. If the paper uses or defends LLM-as-a-Judge, Option 2 is the better news for it.",
+"cost": 0.004084,
+"request_id": "req_011Cgj5swczoo69jPBmCS9vy",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 501,
+"output_tokens": 104,
+"cost_usd": 0.004084,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"6b80986f4436c1f38a809707": {
+"id": "r2-020",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 20,
+"rationale": "The paper likely introduces a multimodal benchmark or environment in the style of Among Us, meant to study non-verbal deception by VLM agents. A finding that non-verbal channels are the more decisive contributors to imposter wins supports the novelty and value of that multimodal setup. If non-verbal channels were the less decisive contributors, the case for the paper's emphasis would be weaker, so Option 2 is the better news.",
+"cost": 0.005428,
+"request_id": "req_011Cgj5ss3f3CPCAfhXwRBXC",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 587,
+"output_tokens": 154,
+"cost_usd": 0.005428,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"f5987cceee61b8414a5a4488": {
+"id": "r2-024",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 92,
+"rationale": "The paper most likely proposes matrix-level selection, and random and independent cell-level selection are the baselines it is compared against. Option 1, where the judge rates the proposed method higher than those baselines, is the more favourable result for it. Option 2 would mean the method underperforms its baselines.",
+"cost": 0.004236,
+"request_id": "req_011Cgj5syoTzA59X4jYR113P",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 509,
+"output_tokens": 110,
+"cost_usd": 0.004236,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"20c6b1fad01fd36d55f84d02": {
+"id": "r2-025",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 5,
+"rationale": "The paper most likely proposes or defends layered controls. Option 2 says layered controls reduce incident probability more than either single control, and that ordering is robust under perturbation. That is favorable to the proposal. Option 1 says layered controls do substantially worse, which would be bad news for it.",
+"cost": 0.004576,
+"request_id": "req_011Cgj5t1MjEtQmxFvsZXXnk",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 599,
+"output_tokens": 109,
+"cost_usd": 0.004576,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"9ee738096826449806816ebd": {
+"id": "r2-023",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 68,
+"rationale": "The paper likely proposes that rubric exploitation is a real threat, possibly demonstrating that tailored rubrics make things worse, or alternatively proposing tailored rubrics as a defense. The phrasing 'exploited... while writing a rubric tailored to each one' reads as an attack framing: generators that write tailored rubrics achieve higher exploitation. On that reading, 'more often' supports the paper's attack or vulnerability finding, so Option 1 is better news for the paper's proposal. Some ambiguity remains.",
+"cost": 0.006136,
+"request_id": "req_011Cgj5sy6JMuqva7PyKLinS",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 579,
+"output_tokens": 191,
+"cost_usd": 0.006136,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"46d48f98a14a899920f29c31": {
+"id": "r2-029",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "Sauron appears to be the verifier the paper proposes. Getting the highest F1 while costing less than the strongest baseline means it wins on both accuracy and efficiency. Costing more would mean a tradeoff, so Option 1 is better news for Sauron.",
+"cost": 0.004408,
+"request_id": "req_011Cgj5t7GRgVZMZAvdUqi1V",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 587,
+"output_tokens": 103,
+"cost_usd": 0.004408,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"059604e8121e03cae7a17bb0": {
+"id": "r2-027",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 18,
+"rationale": "HNC likely refers to a method (e.g., Hidden/Hyper Network Constraint or similar) that searches for maximally different representations with same function, to show representations can differ while behavior is preserved. A paper proposing it as a stress test would want representations that differ more than any independently trained model, showing the method's power. So Option 2 is better news.",
+"cost": 0.004672,
+"request_id": "req_011Cgj5t4ra6TobmQYk8Dgvj",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 533,
+"output_tokens": 127,
+"cost_usd": 0.004672,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"f845c456bac3cc0f25f78e03": {
+"id": "r2-026",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 42,
+"rationale": "The paper probably studies biases in audio LLM judges, which looks like an evaluation or critique paper. Its findings list biases such as rewarding louder audio. Preferring content-rich speech 'more strongly' than humans could read as another bias, or as a sign the judges focus on content. 'Less strongly' implies the judges undervalue content, which is a clearer flaw. If the paper proposes a judging approach, Option 2 is slightly better news for it. If the paper is purely diagnostic, both options support its bias narrative. Overall, the difference leans slightly against Option 1.",
+"cost": 0.006244,
+"request_id": "req_011Cgj5t2WfgELn3jFF9siiT",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 531,
+"output_tokens": 206,
+"cost_usd": 0.006244,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"886f6ac85dd1754fb07f6e56": {
+"id": "r2-028",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 75,
+"rationale": "Scalable-oversight papers usually propose a protocol for what the judge sees, such as debate, evidence or a presentation format. If presentation matters more than the judge's identity, the method beats simply buying a pricier judge, so Option 1 is likely better news for the paper's approach. If the paper instead defends using stronger judges, the reverse would hold. Phrasing it in terms of price differences hints the takeaway is that cheaper judges given the right input suffice.",
+"cost": 0.005392,
+"request_id": "req_011Cgj5t74mPZgXXVRvyk1rT",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 513,
+"output_tokens": 167,
+"cost_usd": 0.005392,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"93b81e5b16ef823fe8ea4edf": {
+"id": "r2-030",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 96,
+"rationale": "The paper proposes these rubrics. Option 1 calls them more interpretable and actionable than existing taxonomies, which is a clear advantage. Option 2 calls them less so, which would be a weakness of the paper's own contribution. Option 1 is therefore much better news for the proposed method.",
+"cost": 0.00454,
+"request_id": "req_011Cgj5tAojsFrCpCmqA5VDi",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 575,
+"output_tokens": 112,
+"cost_usd": 0.00454,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"c8f2abcdcecc997c1b1257cf": {
+"id": "r2-031",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 6,
+"rationale": "The paper presumably proposes a dialogue generation method. If its dialogues score higher than those from existing benchmarks under an LLM-as-a-judge protocol, that favors the method. Option 2 is therefore better news for it.",
+"cost": 0.003944,
+"request_id": "req_011Cgj5tBVvFG2duTAciVYh9",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 531,
+"output_tokens": 91,
+"cost_usd": 0.003944,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"1490667b14ffb65ab053c67d": {
+"id": "r2-033",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "The sentence is from a plasma-physics context, apparently justifying fluid approximations such as MHD. Those approximations need collision, cyclotron and plasma periods that are much shorter than the flow time scales. Option 1, 'shorter', therefore supports the validity of the approach the paper uses. 'Longer' would undermine it. The field label 'scalable-oversight' looks mismatched, but the physics reasoning still favors Option 1.",
+"cost": 0.005304,
+"request_id": "req_011Cgj5tGYXZiPD9NbP46NfB",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 516,
+"output_tokens": 162,
+"cost_usd": 0.005304,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"efc2a109873c00c6da3ceae4": {
+"id": "r2-032",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 30,
+"rationale": "The paper most likely proposes a benchmark or evaluation framework in which research agents try to improve target agent systems. If the agents substantially worsen those systems, that could expose a risk the benchmark was built to measure. However, a typical framing in scalable oversight (e.g., automated AI research) shows capability, so improvement reads as a positive result for the approach. Since the uncertainty cuts both ways only partly, Option 2 is moderately better news for whatever the paper proposes.",
+"cost": 0.005392,
+"request_id": "req_011Cgj5tFvpAn5yDkePoyaX5",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 488,
+"output_tokens": 172,
+"cost_usd": 0.005392,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"e6f3b020f3eab27b3012da96": {
+"id": "r2-035",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 85,
+"rationale": "The paper argues for the benefits of spatial structure: it promotes coexistence and produces synergistic gains. Reporting that it increases resilience fits that positive framing and is better news for the approach the paper defends. A finding of decreased resilience would cut against it. The field label (scalable-oversight) looks mismatched with the ecology content, but the direction of the comparison is still clear.",
+"cost": 0.005032,
+"request_id": "req_011Cgj5tKhmuQpiaLajbWuAM",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 558,
+"output_tokens": 140,
+"cost_usd": 0.005032,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"d206f37bbe0c1677008ff02e": {
+"id": "r2-034",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 64,
+"rationale": "The paper probably studies whether models act strategically or competitively, for example by withholding help when another agent could gain, as a scalable-oversight risk. Helping less when the other agent stands to gain looks like a striking spite or competition finding that supports such a study's thesis. Helping more is ordinary prosocial behaviour and less notable. It is unclear what method the paper proposes, though. If it is an evaluation designed to detect concerning behaviour, Option 1 better validates it. Moderate lean toward Option 1.",
+"cost": 0.005932,
+"request_id": "req_011Cgj5tJGTmaj1R7UCNdKQw",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 563,
+"output_tokens": 184,
+"cost_usd": 0.005932,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"a679ef000f923ef5b2e5b956": {
+"id": "r2-037",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "The paper probably argues that sycophancy comes from models over-attending to authority cues. On that hypothesis, finding more attention to authority tokens in sycophantic responses is the expected, supporting result. Finding less attention would contradict it, so Option 1 is better news for the paper's proposed account.",
+"cost": 0.004408,
+"request_id": "req_011Cgj5tMXv1HzcVnVHJZCDE",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 537,
+"output_tokens": 113,
+"cost_usd": 0.004408,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"36fbf47c2473fa1199b69a7c": {
+"id": "r2-036",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 52,
+"rationale": "Each option names a mismatch in record length, one saying generated records run longer and the other shorter. Neither direction is clearly worse for the proposed data-generation method. Records that run longer could look verbose and unnatural, while shorter ones might seem to lack richness. There is a faint lean that 'longer' is the more familiar and more forgivable LLM habit, perhaps read as more detailed, but the difference is mostly neutral.",
+"cost": 0.0055,
+"request_id": "req_011Cgj5tLpWUwYqzZP74ivS2",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 600,
+"output_tokens": 155,
+"cost_usd": 0.0055,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"b9ff04db8fc679bceafddcc7": {
+"id": "r2-038",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 45,
+"rationale": "This is a descriptive finding about how sycophancy varies with timing, and the paper's own proposal is unclear. If the paper defends models or a benchmark design that tests in-context challenges, less sycophancy under challenge is good news for model reliability. A paper studying sycophancy might, however, favour the finding that rebuttals are worse, since that makes its rebuttal-based evaluation novel and interesting. Many such papers do report that rebuttals induce more sycophancy. Neither reading clearly dominates, so I lean only slightly toward neutral-to-Option-2.",
+"cost": 0.006156,
+"request_id": "req_011Cgj5tUFyghVUBoj11f3bB",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 519,
+"output_tokens": 204,
+"cost_usd": 0.006156,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"8268d283945947dca399d99c": {
+"id": "r2-042",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 5,
+"rationale": "MirageBench presumably exposes the gap between what models say about themselves and what they actually do, which argues for external verification. Option 2 calls external verification the more reliable foundation, matching that position. Option 1 inverts it, which would undercut the paper's own approach, so Option 2 is better news for the paper.",
+"cost": 0.004356,
+"request_id": "req_011Cgj5tYHpv9LWhWaw42vLF",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 509,
+"output_tokens": 116,
+"cost_usd": 0.004356,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"6eb57694bc93137ab1a79212": {
+"id": "r2-040",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 75,
+"rationale": "The paper probably proposes that a model's belief states can be shifted by a conversation partner's assertions, with propositions near the decision boundary being the most malleable. Option 1 matches that intuitive prediction and supports such a framework. Option 2 would be a surprising, counterintuitive result. Since the paper's framework most plausibly predicts greater susceptibility near the boundary, Option 1 is likely the better news for it.",
+"cost": 0.005108,
+"request_id": "req_011Cgj5tXonwKkNXSo37zEXg",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 507,
+"output_tokens": 154,
+"cost_usd": 0.005108,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"23da0f8a376da2b40d031b72": {
+"id": "r2-039",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 97,
+"rationale": "PICTURE is the method the paper proposes. Option 1 says it outperforms existing prompting methods on false-belief tasks, while Option 2 says it underperforms them by the same margin. Outperforming is clearly better news for the proposed method.",
+"cost": 0.004,
+"request_id": "req_011Cgj5tWWuYeeGNUCcKnKA7",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 515,
+"output_tokens": 97,
+"cost_usd": 0.004,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"f61871e39fb7161bb0b7a715": {
+"id": "r2-041",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 42,
+"rationale": "Both sentences only define a metric. Neither reports a result, so neither is good or bad news for the proposed approach. The concept most likely concerns interventions that increase diversity: the worry is that surface diversity without real stance revision amounts to mere reformulation. That makes 'increases' the more natural framing, but this bears on coherence rather than on how well the method performs. The difference is close to neutral, with perhaps a slight edge to Option 2 for coherence.",
+"cost": 0.0057,
+"request_id": "req_011Cgj5tY4SDyYwaWHfxASnD",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 600,
+"output_tokens": 165,
+"cost_usd": 0.0057,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"39266772983a1d0a216d0d66": {
+"id": "r2-043",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 52,
+"rationale": "Under an identical budget, saying some groups get larger gains than others and saying some get smaller gains than others describe the same non-uniformity. The paper's point is the group-specific profile, and either wording supports it equally. Framing differs only slightly: 'larger gains' emphasizes positive gains, but it is essentially neutral.",
+"cost": 0.004784,
+"request_id": "req_011Cgj5tdEywociHjiBj98pR",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 586,
+"output_tokens": 122,
+"cost_usd": 0.004784,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"fadabc1b17cfd6ab4e10e12f": {
+"id": "r2-046",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "Tedium aversion as a concept implies models avoid extended tedious work, so choosing shorter tasks when tedious is consistent with the paper's proposed construct. Option 2 contradicts the label, making it incoherent or bad news for the framework.",
+"cost": 0.0044,
+"request_id": "req_011Cgj5tjZV3aV7rtBveSmUF",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 610,
+"output_tokens": 98,
+"cost_usd": 0.0044,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"22b6f07e5486edb56a0e2e37": {
+"id": "r2-047",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 64,
+"rationale": "Context is ambiguous. Model-psychology: likely studies deviations of LLM responses (e.g., from rational or human norms) and whether they reflect stable traits. A paper proposing that deviations are stable, trait-like phenomena would prefer more than half persisting. Alternatively, a paper arguing deviations are noise would prefer less. Stability findings are more commonly the proposed claim (reliability of a measure), so Option 1 is somewhat better news.",
+"cost": 0.005284,
+"request_id": "req_011Cgj5tjy3ZkzVCGWdXN7fS",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 481,
+"output_tokens": 168,
+"cost_usd": 0.005284,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"3eadfb4d70d93c8671913a7e": {
+"id": "r2-044",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 57,
+"rationale": "The paper likely proposes a benchmark or evaluation that probes memory-conflict handling. The two options only change which sub-skill is stronger, so neither clearly favors a proposed method. The common finding is that recognition outpaces action, revealing a gap the benchmark is built to expose, so Option 1 fits a diagnostic narrative somewhat better. If curated memory is the proposed method, Option 1 still shows a benefit for recognition. I lean slightly toward Option 1.",
+"cost": 0.00552,
+"request_id": "req_011Cgj5tjRYuFVxi31WA1ZMd",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 505,
+"output_tokens": 175,
+"cost_usd": 0.00552,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"dca0e3a1695752bb20c9326c": {
+"id": "r2-049",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 45,
+"rationale": "Neither wording favors anything the paper proposes. The paper seems to be describing how LLM group members behave, not defending a particular method, so either direction is just a finding. Option 1 (strong agreers switch more after a leaning-disagree reply) is counterintuitive and might suggest instability or sycophancy. Option 2 is the intuitive pattern, since leaning-disagree members are already closer to switching. Both outcomes still show that position changes depend on the interaction, which is the core claim. The difference is close to neutral, with a slight edge to the coherent pattern in Option 2.",
+"cost": 0.006308,
+"request_id": "req_011Cgj5tkP62V6xrnjknWTqN",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 547,
+"output_tokens": 206,
+"cost_usd": 0.006308,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"3bbda92ecb20982ee4c1b829": {
+"id": "r2-051",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 68,
+"rationale": "The paper likely proposes that students adjust chatbot personas to fit the context. Academic settings intuitively call for more formality and transparency, so Option 1 fits a sensible context-sensitive calibration story and supports the paper's framing. Option 2 would be counterintuitive. Still, any difference in either direction shows calibration happens, so the effect on the paper's proposal is modest.",
+"cost": 0.00482,
+"request_id": "req_011Cgj5tpRvQ5KUu9SQNCTnF",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 495,
+"output_tokens": 142,
+"cost_usd": 0.00482,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"1068d88b84e7314f7d7212b9": {
+"id": "r2-050",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 42,
+"rationale": "The paper most likely proposes a benchmark evaluating role-play or speech systems along both semantic role adherence and vocal emotion. For a benchmark, either finding works as a diagnostic result, so neither option clearly favors the proposed approach. Option 2 is closer to the conventional expectation: text-based LLMs handle semantics well, while emotional expressiveness in speech lags. A benchmark often stresses the paralinguistic gap, which supports Option 2. Option 1 would be a surprising result, which could also make for an interesting finding. On balance, Option 2 seems slightly more consistent with the paper's likely framing.",
+"cost": 0.006424,
+"request_id": "req_011Cgj5tnogzZQKgdjqGJQhZ",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 491,
+"output_tokens": 223,
+"cost_usd": 0.006424,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"e62ebf04bd148bb3c4338a17": {
+"id": "r2-054",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 97,
+"rationale": "MLCP is the method the paper proposes. Option 1 has it outperforming the vanilla role-play prompting baseline, which is good news for it. Option 2 has it underperforming the baseline, which is bad news.",
+"cost": 0.003784,
+"request_id": "req_011Cgj5txyssgwwjAc9UjopH",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 511,
+"output_tokens": 87,
+"cost_usd": 0.003784,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"5f7eb1104f042ad68f957c7e": {
+"id": "r2-052",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 60,
+"rationale": "The paper audits SycEval, and an audit is usually critical, suggesting the timing attribution may be confounded. SycEval itself reportedly found that preemptive rebuttals produced more sycophancy than in-context ones. The direction of the reported finding matters less than whether the audit can debunk it. Option 1 matches the actual SycEval report, which makes the audit relevant and accurate, so it is mildly better for the auditing paper. If the paper misstated what SycEval reported, that would undercut it. The difference is small.",
+"cost": 0.005896,
+"request_id": "req_011Cgj5tsQGMy2MaPnCWFnjb",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 539,
+"output_tokens": 187,
+"cost_usd": 0.005896,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"22ac7c253a18118c155f4b7b": {
+"id": "r2-056",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 27,
+"rationale": "Geometric agreement surviving a shuffle of answers points to a confound. The paper probably proposes person-paired scoring as the more valid measure. If person-paired scores captured specific symptoms more than general distress (Option 2), that is a stronger validity claim. If they mainly reflect distress (Option 1), that is a limitation. So Option 2 is likely better news for the proposed method.",
+"cost": 0.004968,
+"request_id": "req_011Cgj5tz1e6wNLCmDVLqwcX",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 527,
+"output_tokens": 143,
+"cost_usd": 0.004968,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"fb5152aac7e20bf78265c1d1": {
+"id": "r2-057",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "\"To show this\" implies the paper is arguing something, most likely that base models introduce biases or confounds in LLM social simulations. Under that reading, engagement depending more on the base model than on the persona supports the paper's claim. Option 2 would instead support persona fidelity, which would not need a dedicated demonstration framed this way. So Option 1 is likely the better news for what the paper defends.",
+"cost": 0.005052,
+"request_id": "req_011Cgj5u24fxc9RttiYnL8ys",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 543,
+"output_tokens": 144,
+"cost_usd": 0.005052,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"eaac558fb4f70a228ba1a0a6": {
+"id": "r2-058",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 75,
+"rationale": "The paper probably proposes using comment history, the implicit behavioral examples, to simulate or personalize users, and framing it as 'exemplifying interaction behavior' reads like the authors' own approach. If so, Option 1, where comment history outperforms explicit persona information, is the better news for what the paper proposes. There is some uncertainty, since the paper could instead be defending explicit personas.",
+"cost": 0.004864,
+"request_id": "req_011Cgj5u4k9D148WRcvMmVB6",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 501,
+"output_tokens": 143,
+"cost_usd": 0.004864,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"c00b569206911e2a7d5e9dca": {
+"id": "r2-055",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 62,
+"rationale": "The field is model psychology, so the paper probably studies how AI systems form impressions of people. Which option is better news depends on the paper's framing. If it critiques AI overinference (privacy, stereotyping), then option 1 supports its thesis. Reading less than was revealed suggests AI systems miss information, which would point to a limitation instead. A sentence opening with 'Third' reads like a list of findings about AI behaviour, likely concerns. Overinference is the more typical claim in critical papers, so option 1 is probably the better fit for the paper's argument, though this is uncertain.",
+"cost": 0.005984,
+"request_id": "req_011Cgj5tzeLoMGny5qdKZTtq",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 471,
+"output_tokens": 205,
+"cost_usd": 0.005984,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"88a2ff1ccc5a54efe7f90fc6": {
+"id": "r2-059",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 82,
+"rationale": "The paper appears to propose a directly optimized steering vector as an alternative to SL (supervised learning/fine-tuning). Under Option 1 it matches SL in distribution and generalizes better out of distribution, which is clearly good news for the proposed method. Under Option 2 it generalizes worse, which counts against it. The paper might instead be using the steering vector purely as an analysis tool, but the 'proposed method' reading is most likely, so Option 1 is the better news.",
+"cost": 0.00542,
+"request_id": "req_011Cgj5u5GerWFxyetPsyPtd",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 500,
+"output_tokens": 171,
+"cost_usd": 0.00542,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"26ab3f08cc63067006df5c96": {
+"id": "r2-060",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 22,
+"rationale": "Option 2 reads like the paper's motivating claim: AI speeds up software realization until it outpaces deliberation, so a method for identifying, qualifying and reconsidering requirements is needed. That sentence supports the paper's approach by establishing the problem it addresses. Option 1 would undercut that motivation, since if realization is slower there is no bottleneck in deciding what to build. Option 2 is therefore better news for the proposed approach.",
+"cost": 0.0052,
+"request_id": "req_011Cgj5u69UwPWcaKYuiA72K",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 495,
+"output_tokens": 161,
+"cost_usd": 0.0052,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"6448667d3c523ce6f2665abd": {
+"id": "r2-062",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 3,
+"rationale": "Option 2 says the proposed method improves higher-order accuracy, which is good news for it. Option 1 says it worsens accuracy, which is bad news, even though the token savings are the same in both.",
+"cost": 0.003928,
+"request_id": "req_011Cgj5uDS32w4HejwQz3PXZ",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 582,
+"output_tokens": 80,
+"cost_usd": 0.003928,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"a1af2fef11a59858adb0d33c": {
+"id": "r2-061",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 4,
+"rationale": "The paper proposes SEF-gated synthesis. If gated trajectories lead to higher downstream student accuracy than ungated ones (Option 2), that supports the method. Lower accuracy (Option 1) would count against it.",
+"cost": 0.004024,
+"request_id": "req_011Cgj5uDAQyZLgjj8EggDiQ",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 551,
+"output_tokens": 91,
+"cost_usd": 0.004024,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"824a8d5737cea20aa567b4f9": {
+"id": "r2-065",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 10,
+"rationale": "Target specificity logically requires that a condition built for a belief selects that belief more often than other conditions do. Option 2 states this coherently. Option 1 inverts it, which makes the criterion nonsensical and undercuts the paper's methodological argument. So Option 2 is better news for the approach the paper proposes.",
+"cost": 0.004596,
+"request_id": "req_011Cgj5uHLg5BYHLZ677912x",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 559,
+"output_tokens": 118,
+"cost_usd": 0.004596,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"a1016ae1d4fec674ee7f806e": {
+"id": "r2-066",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 50,
+"rationale": "\"More accurately than others\" and \"less accurately than others\" state the same relative fact: accuracy differs across groups, which raises the same fairness concern either way. Neither wording is better or worse news for anything the paper proposes. The framing nuance is negligible.",
+"cost": 0.004284,
+"request_id": "req_011Cgj5uHd3Nzuta9H5N6PZP",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 561,
+"output_tokens": 102,
+"cost_usd": 0.004284,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"daac4d2064afd04c256603ba": {
+"id": "r2-068",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "Option 1 states that tutoring needs more than a correct final answer, which is the usual motivation for papers proposing pedagogical evaluation or tutoring methods that go beyond answer accuracy. Option 2 reads oddly and would undercut that kind of approach. So Option 1 is more likely to support whatever the paper proposes.",
+"cost": 0.004428,
+"request_id": "req_011Cgj5uKvCdLoxmyJQd9z3b",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 477,
+"output_tokens": 126,
+"cost_usd": 0.004428,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"4b2bb8f8b60ba84d70f4ac7d": {
+"id": "r2-063",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 68,
+"rationale": "Ambiguous: the paper could be proposing a persuasion benchmark or evaluation. If the paper's own method is a persuasion approach, or a benchmark meant to elicit persuasion, then higher persuasion success is better news for it. Yet if the paper defends a safety approach, lower persuasion would be better. In model-psychology the more likely reading is a benchmark or method measuring persuasive capability, where higher success shows the method elicits the capability more effectively.",
+"cost": 0.00536,
+"request_id": "req_011Cgj5uGKACHhTxapDX3ZGN",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 495,
+"output_tokens": 169,
+"cost_usd": 0.00536,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"3a439a2fd657135e80c91333": {
+"id": "r2-070",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 55,
+"rationale": "Model-psychology papers often argue that LLMs or people lack stable traits, i.e. that behavior depends on context, a situationist view. Option 1 would support that. Option 2 would instead support trait-based approaches such as personality assessment of models. Which reading counts as good news depends on what the paper defends, and the 'model-psychology' framing slightly favors papers stressing context sensitivity. On the other hand, papers proposing persona measurement would want stability. This is ambiguous, with a slight lean toward Option 1.",
+"cost": 0.005648,
+"request_id": "req_011Cgj5uMwFSNk6KQ4twky5L",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 477,
+"output_tokens": 187,
+"cost_usd": 0.005648,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"549605fed2f01fe7e2206ee0": {
+"id": "r2-069",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 40,
+"rationale": "The paper is most likely an audit of persona-based tailoring in LLMs, showing biased or inconsistent information delivery. Fewer mentions of prescription medications to teens (Option 2) fits a story of systematic differential treatment, though it could arguably be appropriate caution. Option 1, more mentions to teens, would be an odd, anomalous finding. Both versions report disparities. For a paper defending an audit method, Option 2 is the more coherent, publishable finding, while Option 1 looks like noise. This difference is mild.",
+"cost": 0.006176,
+"request_id": "req_011Cgj5uMuXP5ngM4ddYFKxE",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 589,
+"output_tokens": 191,
+"cost_usd": 0.006176,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"35a8ece298db421757f5c00b": {
+"id": "r2-071",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 82,
+"rationale": "The paper probably either proposes a method for describing weights or argues that sparse transformers are more interpretable. If sparse models come out higher, that supports the sparsity hypothesis and also validates the method as able to tell models apart in the expected direction. Option 1 is therefore better news.",
+"cost": 0.004428,
+"request_id": "req_011Cgj5uUYd2NYMeSbrXoxHK",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 572,
+"output_tokens": 107,
+"cost_usd": 0.004428,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"fa6e47c9f68a4b26f57a509d": {
+"id": "r2-072",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 72,
+"rationale": "Papers that compare adaptation regimes typically emphasize efficient frozen-backbone adaptation as the attractive option. A 'more favourable' trade-off for frozen-backbone adaptation probably supports what the paper proposes, though the paper might not be advocating any specific method.",
+"cost": 0.004548,
+"request_id": "req_011Cgj5uV1tuDj2Fwy9kzWaK",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 592,
+"output_tokens": 109,
+"cost_usd": 0.004548,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"68855b29870b189cb0a89a45": {
+"id": "r2-075",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 4,
+"rationale": "The paper presumably proposes SAP, a self-supervised or pretraining approach, evaluated with linear probing. Option 2 says it is more effective and reliable than fully supervised training under limited labels, which is good news for SAP. Option 1 says it is less effective, which is bad news for the proposed method.",
+"cost": 0.004472,
+"request_id": "req_011Cgj5ubHvvSq3FhEutDpBy",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 538,
+"output_tokens": 116,
+"cost_usd": 0.004472,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"beb1de38cdc9506554c9ecc2": {
+"id": "r2-073",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 35,
+"rationale": "The \"but\" in the sentence signals a limitation, which reads naturally with \"less consistent\" (Option 2). The paper's main method appears to be the supervised probes, with the SAE analysis as a complement. Under that reading, the SAE being less consistent makes the probes look better, so Option 2 is better news for the proposed method. The SAE is also part of the paper's own analysis, though, so this is somewhat ambiguous.",
+"cost": 0.005248,
+"request_id": "req_011Cgj5uWvzLWiTXKGp3AU55",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 522,
+"output_tokens": 158,
+"cost_usd": 0.005248,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"815dc71deaee29db13f5e830": {
+"id": "r2-076",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "\"Their mean-pooled score\" is most likely the paper's own proposed method, while the concept-vector score is the baseline. On that reading, tracking concept counts better than the baseline (Option 1) is good news for the proposed method. There is some ambiguity: the paper might instead propose the concept-vector score.",
+"cost": 0.00446,
+"request_id": "req_011Cgj5ud3qijFDt59FGaGFj",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 525,
+"output_tokens": 118,
+"cost_usd": 0.00446,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"f65a4d0036a306bae078eea1": {
+"id": "r2-074",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 56,
+"rationale": "Which outcome helps depends on the paper's hypothesis, and the wording leaves that ambiguous. Interpretability papers on code models often argue that lower-resource or more complex languages get more dedicated or specialized circuitry, so \"more\" is likely the interesting finding that supports the proposed analysis. A paper about resource frequency could instead predict less circuitry for Rust, since Rust is less common in training data. The consistency across both models, which suits either reading, favors Option 1 only slightly.",
+"cost": 0.005616,
+"request_id": "req_011Cgj5uXLJSWT31ZzswAYgZ",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 504,
+"output_tokens": 180,
+"cost_usd": 0.005616,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"083f91d6550b1c731ad0990a": {
+"id": "r2-078",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 47,
+"rationale": "Both options describe an empirical characterization of feature migration, and the direction of migration is a descriptive finding rather than a performance claim. Neither direction clearly favors the paper's method. Migration toward earlier layers might be framed as more surprising or interesting, but that is speculative. Overall the difference is close to neutral.",
+"cost": 0.004552,
+"request_id": "req_011Cgj5ufwiuXE9DGBuDifon",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 538,
+"output_tokens": 120,
+"cost_usd": 0.004552,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"02a0b9749e68c3f358dc0f7c": {
+"id": "r2-077",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 10,
+"rationale": "The paper proposes the method behind this rank-invariant behavior. Option 2, in which the restructured representation transfers more reliably than base model representations, favors that method. Option 1 says it transfers less reliably, which is worse news for it.",
+"cost": 0.004196,
+"request_id": "req_011Cgj5ufsFxuAhq5rQ7EL1G",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 584,
+"output_tokens": 93,
+"cost_usd": 0.004196,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"28c24aa1dbaf46e6d192a27d": {
+"id": "r2-079",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 57,
+"rationale": "Averaging across experts would plausibly make the signal smaller, not larger, so Option 1 is the internally coherent version. The sentence is likely explaining an observation, such as weak MoE contributions motivating a method like rescaling. Whether a smaller signal is good or bad for the proposed approach is unclear. Coherence slightly favors Option 1 as supporting the paper's narrative, but the evidence is weak.",
+"cost": 0.005288,
+"request_id": "req_011Cgj5ujfxQRao3svDj87ZH",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 557,
+"output_tokens": 153,
+"cost_usd": 0.005288,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"75a237dda3152afc3dfae94c": {
+"id": "r2-082",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 56,
+"rationale": "Whether ViT cancellations are stronger or weaker than those in language transformers reads as a descriptive comparison, so neither direction clearly favours a proposed method. If the paper studies cancellations in ViTs, a stronger effect there could make its focus more relevant and give it a slightly more striking finding. The difference is mostly neutral, with only a slight edge to Option 1.",
+"cost": 0.004784,
+"request_id": "req_011Cgj5uoGWXEkbDtGu1TR7U",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 496,
+"output_tokens": 140,
+"cost_usd": 0.004784,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"3ce497737556960e33439722": {
+"id": "r2-080",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 30,
+"rationale": "The paper appears to be a critique documenting LLMs hallucinating bugs. Its proposed contribution is showing the problem, and Option 2 (repair rate lower than damage rate) makes that finding stronger and more alarming. Option 1 softens it, because net repair would still be positive. So Option 2 is better news for the paper's thesis. This depends on the paper being a critique rather than a defense of LLM repair, which seems likely given the 'consistently claim' framing.",
+"cost": 0.005684,
+"request_id": "req_011Cgj5umRsGz4VeqmSjFAP4",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 566,
+"output_tokens": 171,
+"cost_usd": 0.005684,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"c51e23f4c17b4e9f8037eea3": {
+"id": "r2-081",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 40,
+"rationale": "The paper seems to examine whether language models line up with traditional linguistic models, and it doesn't clearly propose a specific method. The comparison is between language-specific encoders and XLM-R. The paper's framing likely favors language-specific encoders, since studies that bring them in usually expect them to capture linguistic structure better. Under that reading, Option 2 is better news. However, it is uncertain what the paper actually defends, so I lean only modestly toward Option 2.",
+"cost": 0.005404,
+"request_id": "req_011Cgj5umcXueuSLg9GnEMF6",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 516,
+"output_tokens": 167,
+"cost_usd": 0.005404,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"afb66ef7ce5c53e26d8f7437": {
+"id": "r2-083",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 72,
+"rationale": "The paper is likely an audit showing that retrievers are biased. Option 1, worse performance on AAL, fits the expected dialect-bias narrative and supports the paper's framing of systematic bias. Option 2 would be surprising and would weaken the bias story somewhat, though it could still be framed as a disparity. Option 1 is therefore modestly better news for the paper's thesis.",
+"cost": 0.00518,
+"request_id": "req_011Cgj5upkZ1FWbYgMoWdPio",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 585,
+"output_tokens": 142,
+"cost_usd": 0.00518,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"eab5502d35855126afe26d8a": {
+"id": "r2-084",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "Papers that bring up hyperbolic embeddings of tree-like structure usually advocate hyperbolic geometry. Option 1 reports far lower distortion in hyperbolic space, which fits established theory and supports a hyperbolic approach. Option 2 reports higher distortion, which would undercut it. So Option 1 is better news for the likely proposed method.",
+"cost": 0.004728,
+"request_id": "req_011Cgj5ut3kCnW1ykn8VUKSG",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 502,
+"output_tokens": 136,
+"cost_usd": 0.004728,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"8485602b30c6051348c95bc4": {
+"id": "r2-085",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 5,
+"rationale": "The paper proposes a model whose inferred parameters are meant to be interpretable markers of brain state. If those parameters track the state change more sensitively than traditional network statistics, that supports the proposed method. Option 2 says exactly that, while Option 1 says they are less sensitive, so Option 1 is worse news for the paper's approach.",
+"cost": 0.0046,
+"request_id": "req_011Cgj5uwkUvShFpx3xbcgn5",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 520,
+"output_tokens": 126,
+"cost_usd": 0.0046,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"350e04dd71f673092aa742f2": {
+"id": "r2-088",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 60,
+"rationale": "Without context it's unclear what 'mean change' measures. Most likely it is a disruption or perturbation metric, such as the change in model output under an intervention or reconstruction, with the proposed method compared to native. If so, a lower change, meaning less disruption, would be better. That reading is ambiguous, though, and the difference is small. Option 1 is slightly favored.",
+"cost": 0.004668,
+"request_id": "req_011Cgj5uzbPjQcmYRCpQJjxb",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 492,
+"output_tokens": 135,
+"cost_usd": 0.004668,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"a31e549a189f9ac957ad989b": {
+"id": "r2-086",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 35,
+"rationale": "The paper's proposed contribution is unclear. It could be a new tokenization scheme, as in neural/EEG foundation models where tokenization matters, or a new model architecture. A sentence that singles out \"the token\" suggests the paper studies or proposes tokenization, so Option 2 (token matters more) would favor it. On the other hand, this could be a benchmarking paper whose finding is that tokenization is the key factor. Either reading leans slightly toward Option 2 being better news.",
+"cost": 0.005388,
+"request_id": "req_011Cgj5uz39xQtnPEizK9eB9",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 472,
+"output_tokens": 175,
+"cost_usd": 0.005388,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"967d0023f1799b967ad44818": {
+"id": "r2-089",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 35,
+"rationale": "The paper proposes an analysis method based on probe decision boundaries. Points near the boundary having higher rescue rates is the intuitive result, and it would suggest that distance to the boundary is a meaningful measure, which supports the analysis. Lower rescue rates near the boundary would be counterintuitive, though it could still be framed as an interesting finding. On balance, Option 2 is likely the more validating outcome for the proposed analysis.",
+"cost": 0.005484,
+"request_id": "req_011Cgj5v2cvs8afX4jyoz3Hc",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 576,
+"output_tokens": 159,
+"cost_usd": 0.005484,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"77e66485357cfe2317bb6e7b": {
+"id": "r2-091",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 72,
+"rationale": "The paper probably proposes full-output KL calibration as a better way to calibrate refits, so smaller gaps from the reference intervention would favor it. Total-norm matching may instead be the paper's baseline, though this is somewhat uncertain.",
+"cost": 0.004276,
+"request_id": "req_011Cgj5v7LCf6xgXXj2DNRE9",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 589,
+"output_tokens": 96,
+"cost_usd": 0.004276,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"a2b0908a9ceeaea2d7e14c41": {
+"id": "r2-087",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 60,
+"rationale": "The context sounds like subliminal learning or trait transfer through carrier data, where a method such as Fisher-based inversion recovers a hidden trait. Option 1 says large datasets mainly serve to suppress noise rather than to reveal the trait. That implies the trait signal is inherently present and the approach detects it readily, with data size only needed for denoising, which is mildly better news for the method. Option 2 says the signal is weak and needs a lot of data to surface. The framing is ambiguous, so the lean is modest.",
+"cost": 0.005772,
+"request_id": "req_011Cgj5uzAbFdHG4X2TsFuNY",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 518,
+"output_tokens": 185,
+"cost_usd": 0.005772,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"cee1aca25b72b2b65963338b": {
+"id": "r2-090",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 68,
+"rationale": "The phrase \"recovered this way\" points to the paper's own extraction method, probably a probing or decoding approach for surfacing knowledge. If the recovered answers show up more often in the linear probe's top answers than in the pretrained model's own top outputs, that suggests the method surfaces latent knowledge the model's outputs don't reveal, which supports the paper's claim. If they instead match the model's own outputs more closely, the method looks redundant. The direction is somewhat ambiguous, but Option 1 most likely favors the proposed method.",
+"cost": 0.005876,
+"request_id": "req_011Cgj5v4DBEd7G3R8xShNQ9",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 504,
+"output_tokens": 193,
+"cost_usd": 0.005876,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"3412642994f4468b530e459c": {
+"id": "r2-092",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 75,
+"rationale": "The paper likely interprets a weather model, such as a hurricane forecasting model. If deeper-layer features align better with future structure, that is evidence the model internally represents its forecast target, which fits an interpretability story of predictive representations. Option 1 is therefore more likely the favorable, interesting finding. Option 2 would be weaker news for that narrative.",
+"cost": 0.004652,
+"request_id": "req_011Cgj5vAzTkwmXLTMoH6TUP",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 503,
+"output_tokens": 132,
+"cost_usd": 0.004652,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"a934f6ac672213b721f517cc": {
+"id": "r2-093",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 10,
+"rationale": "The paper most likely proposes MusicXML tokenisation, so a result where it outperforms MIDI and text-based models (Option 2) is the better outcome for that approach. Option 1, where it underperforms, is worse news for what the paper defends.",
+"cost": 0.004004,
+"request_id": "req_011Cgj5vDsMnNUhkogHBmiGG",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 516,
+"output_tokens": 97,
+"cost_usd": 0.004004,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"d65b2bd8f6639fdec8bacfc2": {
+"id": "r2-094",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 70,
+"rationale": "Fitting Value Probes on off-policy data from smaller models suggests the method is cheaper and more practical, since the data is easier to obtain. Larger-model data is costlier, but it would still show off-policy transfer works. So the smaller-model version is somewhat better news for the method.",
+"cost": 0.004124,
+"request_id": "req_011Cgj5vFSMjNGSCTPbgHG2E",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 491,
+"output_tokens": 108,
+"cost_usd": 0.004124,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"218b61123f8bfc49a81482cc": {
+"id": "r2-096",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 3,
+"rationale": "The paper proposes a design aimed at interpretability, so localizing hidden causes more clearly than dense and standard MoE baselines (Option 2) is good news for it. Localizing them less clearly (Option 1) would undercut its main claim, so Option 2 is clearly the better news.",
+"cost": 0.004368,
+"request_id": "req_011Cgj5vHaqjWFYHgaMGervC",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 542,
+"output_tokens": 110,
+"cost_usd": 0.004368,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"ab2c6663537f77e76bcfbe03": {
+"id": "r2-095",
+"kind": "valence",
+"option_1_is": "b",
+"p_option_1": 52,
+"rationale": "The paper proposes DSCs, a complex-based interpretability tool, and in both options the DSCs recover the designed structure. The only difference is whether trained networks' complexes are lower- or higher-dimensional than the handcrafted references. Higher-dimensional complexes could indicate richer structure that DSCs reveal, while lower-dimensional ones might suggest simplicity or interpretability. Either reads as a descriptive finding, not a verdict on the method. Option 1 might hint that training finds compact solutions, which is mildly positive for interpretability, but this is ambiguous.",
+"cost": 0.006352,
+"request_id": "req_011Cgj5vFmT99n6kWarmzwL9",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 548,
+"output_tokens": 208,
+"cost_usd": 0.006352,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"8ac32e5343a8b092976040b0": {
+"id": "r2-097",
+"kind": "valence",
+"option_1_is": "a",
+"p_option_1": 82,
+"rationale": "The paper likely presents fine-tuning, or an analysis of its hierarchical structure, as a way to improve state decoding. If the shift to macro-state hierarchies leads to better decoding, that supports the approach and fits the 'in turn lead to' framing. Worse decoding would undercut it. So Option 1 is likely better news for what the paper proposes.",
+"cost": 0.004924,
+"request_id": "req_011Cgj5vLumRYZ2EXNabTWRB",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 561,
+"output_tokens": 134,
+"cost_usd": 0.004924,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"bbb1407c8be8e7c9e1543cc8": {
+"id": "r2-012",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "Demonstrating the protocol at larger subsystem sizes points to better scalability and a more impressive result than demonstrating it only at smaller sizes. That makes Option 1 better news for the proposed protocol.",
+"cost": 0.0041,
+"request_id": "req_011Cgj5vgGr5JN3WBKdMqHH2",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 595,
+"output_tokens": 86,
+"cost_usd": 0.0041,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"c3da2a4b11623dd629c0239b": {
+"id": "r2-003",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 25,
+"rationale": "Implementing algorithms of increasing complexity suggests the platform scales to harder tasks, which is a stronger demonstration of DQC advantages. 'Decreasing complexity' is an odd framing, and it implies less ambitious results. Option 2 is therefore better news for the proposed approach.",
+"cost": 0.004508,
+"request_id": "req_011Cgj5vgGMQdKQH8LBcu529",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 557,
+"output_tokens": 114,
+"cost_usd": 0.004508,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"db8df934561f001f6398167a": {
+"id": "r2-006",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 85,
+"rationale": "The paper likely proposes using additional channels (e.g., LH-involved transitions) for spin-photon coupling. Reporting that they give larger figures of merit than the standard HH\u2013HH transition supports the proposal, while reporting smaller values would undercut it.",
+"cost": 0.00408,
+"request_id": "req_011Cgj5vgJLewAf3CKsPYGXB",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 515,
+"output_tokens": 101,
+"cost_usd": 0.00408,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"df2e8dd17dfef76be7e49249": {
+"id": "r2-014",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 5,
+"rationale": "Option 2 says the EP-based scheme reaches the same detection reliability in less time than the non-EP reference, which is an advantage for the proposed EP sensing approach. Option 1 says it takes more time, which is a disadvantage. Option 2 is therefore clearly better news for the method the paper proposes.",
+"cost": 0.00452,
+"request_id": "req_011Cgj5vgG6YknE6wrE4Vf9T",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 540,
+"output_tokens": 118,
+"cost_usd": 0.00452,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"71ac80d409b1362261297d17": {
+"id": "r2-007",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 10,
+"rationale": "A sweet spot is meant to suppress frequency noise, so a paper proposing or defending sweet-spot operation would count lower noise there as good news. Option 2, with noise nearly two orders of magnitude lower than at the neighboring qubit, fits that aim. Option 1, with higher noise, would undercut it.",
+"cost": 0.004572,
+"request_id": "req_011Cgj5vgGbcr74zyVQkAggX",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 538,
+"output_tokens": 121,
+"cost_usd": 0.004572,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"36cd3af210e852f0c3f9fef6": {
+"id": "r2-009",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 95,
+"rationale": "Shorter circuits than the previous approach mean lower depth and less exposure to noise, which favors the paper's proposed method. Longer circuits would be a drawback for it. Option 1 is therefore better news.",
+"cost": 0.003768,
+"request_id": "req_011Cgj5vgFrAx6PDVTNAU7PJ",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 517,
+"output_tokens": 85,
+"cost_usd": 0.003768,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"725d3240bc54bf83eecf9a6f": {
+"id": "r2-022",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "Being faster than human evaluation is a plus for LLM-as-a-Judge, and the paper likely proposes or defends it. Option 1 therefore reports a clear advantage, while Option 2 reports a drawback.",
+"cost": 0.003784,
+"request_id": "req_011Cgj5vsYGGdDpFtS4A6KDh",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 501,
+"output_tokens": 89,
+"cost_usd": 0.003784,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"b317d32f4ccc3941345a5be1": {
+"id": "r2-024",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 5,
+"rationale": "The paper most likely proposes matrix-level selection, since it is the one being compared against random and independent cell-level baselines. A judge rating it higher, as in Option 2, is therefore good news for the proposed method, and Option 1 is bad news.",
+"cost": 0.003956,
+"request_id": "req_011Cgj5vrsLCLwfR1EL7zdyn",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 509,
+"output_tokens": 96,
+"cost_usd": 0.003956,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"36b365ffbfabcf2f4992848e": {
+"id": "r2-015",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 64,
+"rationale": "Although the field label says scalable oversight, the content is astrophysics. The claim of a 'new mechanism regulating accretion flows' fits a non-monotonic finding where moderate ionization is most disruptive. That is a surprising effect that actively regulates accretion. 'Less disruptive' could also be non-monotonic, but 'more disruptive' reads as the natural, novel mechanism the paper promotes. Option 1 is somewhat better news for the paper's claim.",
+"cost": 0.005644,
+"request_id": "req_011Cgj5vrCeQkcdpybD6Hyjy",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 551,
+"output_tokens": 172,
+"cost_usd": 0.005644,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"0aadebc50329a36fe94d24bf": {
+"id": "r2-025",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 90,
+"rationale": "Option 1 has layered controls cutting simulated incident probability by more than network isolation or monitoring alone, and the ordering survives the perturbation tests. The paper most likely proposes or defends layered controls, so Option 1 is clearly better news for it. Option 2 reverses the ordering and would undercut that approach.",
+"cost": 0.004816,
+"request_id": "req_011Cgj5vuhEm4cNpkD2SFiSX",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 599,
+"output_tokens": 121,
+"cost_usd": 0.004816,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"43b98fc03703856be93ed523": {
+"id": "r2-018",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 45,
+"rationale": "Both versions report agreement between the two methods, which is the result that supports the approach. Whether the horizontal field comes out weaker or stronger than the vertical is a scientific finding, not a judgement on the method. Quiet-Sun inversions commonly report horizontal fields stronger than vertical, so Option 2 matches prior work and might count as slight validation. A weaker horizontal field could instead be a novel claim. Overall the difference is close to neutral, with a slight tilt toward Option 2.",
+"cost": 0.005872,
+"request_id": "req_011Cgj5vreg2tEFHVypwGD1J",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 573,
+"output_tokens": 179,
+"cost_usd": 0.005872,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"2caf662d14e0db16ee0d021d": {
+"id": "r2-016",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 42,
+"rationale": "Without context, the meaning of 'probability' is unclear. If it is a probability of something good, such as trustworthiness, a higher value for Anthropic would suggest self-favoring bias in the model. In scalable oversight, papers often propose methods to detect bias or evaluate models, and finding bias can count as a result. Even so, the paper likely presents the model as a judge, where bias would be bad news. The question being asked could also be about risk, which reverses the reading. Overall this is ambiguous, with a slight lean toward Option 2 being better news.",
+"cost": 0.00594,
+"request_id": "req_011Cgj5vrDtLWNSK6TJRThnf",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 515,
+"output_tokens": 194,
+"cost_usd": 0.00594,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"898f0f5c86520ed02d901f45": {
+"id": "r2-028",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 25,
+"rationale": "A scalable-oversight paper probably proposes some way of choosing or structuring what the judge sees, such as a debate format or evidence presentation. Option 2, where the input shown matters more than the judge, supports that intervention and implies cheap judges can suffice. Option 1, where judge identity dominates, undercuts that and suggests you just pay for a stronger judge. So Option 2 is likely the better news.",
+"cost": 0.005032,
+"request_id": "req_011Cgj5w1cCCuUDzjPF9MDzy",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 513,
+"output_tokens": 149,
+"cost_usd": 0.005032,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"aa18258daa353f65f2ada3eb": {
+"id": "r2-031",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 92,
+"rationale": "The paper likely proposes a dialogue generation method. If its dialogues score higher than those in existing benchmarks, that is good news for the method; lower scores would be bad news.",
+"cost": 0.003584,
+"request_id": "req_011Cgj5w4T5wYzZe1NMRWaMv",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 531,
+"output_tokens": 73,
+"cost_usd": 0.003584,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"c2fa637e7a0bf5f986f16c63": {
+"id": "r2-026",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 52,
+"rationale": "The paper appears to audit audio LLM judges for biases, so its contribution is exposing how they diverge from humans. Both options show divergence. Option 1 says judges overweight content, which reads as one more bias in a list that also covers rewarding loudness and emotional delivery. Option 2 says judges underweight content, which is also a divergence. Neither clearly favors the paper. A content-overemphasis bias fits the audit framing slightly better, while underweighting content could be the more damning finding. Roughly neutral.",
+"cost": 0.005804,
+"request_id": "req_011Cgj5vz5AvPADj97yWdcdL",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 531,
+"output_tokens": 184,
+"cost_usd": 0.005804,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"bee78e36b269b89dbc710f55": {
+"id": "r2-032",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "The paper most likely proposes either a benchmark or a framework in which research agents improve other agent systems. If it is a framework, improvement is clearly good news for it. If it is a benchmark, either result could be a finding. Still, the word \"substantially improve\" reads as a positive result supporting the paper's proposed approach, so Option 1 is more likely the better news.",
+"cost": 0.004632,
+"request_id": "req_011Cgj5w55JHtRy6Rr8zFx4J",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 488,
+"output_tokens": 134,
+"cost_usd": 0.004632,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"3fc533cd3bb415c4a6edafbb": {
+"id": "r2-039",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 2,
+"rationale": "PICTURE is the method the paper proposes. Option 1 says it underperforms existing prompting methods on false-belief tasks, while Option 2 says it outperforms them by the same margin. Option 2 is therefore clearly the better news for PICTURE.",
+"cost": 0.00408,
+"request_id": "req_011Cgj5wDXHyXYYWwUNNRnYM",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 515,
+"output_tokens": 101,
+"cost_usd": 0.00408,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"6814f9b1a954fead9034aae6": {
+"id": "r2-034",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 55,
+"rationale": "The paper probably studies whether models help other agents in ways that depend on incentives, which bears on oversight concerns such as collusion or reward-sensitive cooperation. Helping more when the other agent gains score could be read as evidence of the dynamic the paper flags, which would support its framing or method of detecting it. Helping less would be the counterintuitive pattern. It is unclear which result the paper's framing favours, so the difference is close to neutral, leaning slightly toward Option 1 as a confirmed effect.",
+"cost": 0.005892,
+"request_id": "req_011Cgj5w6mVqedC1vZdXWuZ2",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 563,
+"output_tokens": 182,
+"cost_usd": 0.005892,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"678984d798dde29ff0c2783f": {
+"id": "r2-038",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 64,
+"rationale": "This is a descriptive finding, so the question is which version better supports what the paper likely proposes. A paper on medical sycophancy probably argues that multi-turn challenges matter, or offers a challenge-based evaluation. Option 1, where sycophancy is more common under challenge, supports the importance of that setting. Option 2 would weaken it. The paper's framing is uncertain, so I only modestly favor Option 1.",
+"cost": 0.005136,
+"request_id": "req_011Cgj5w8tV5krkmKYPpq89f",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 519,
+"output_tokens": 153,
+"cost_usd": 0.005136,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"218c784efdfe82ba926776f6": {
+"id": "r2-042",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "MirageBench seems to show that model self-report is unreliable, a 'mirage', which would argue for external verification. Option 1 fits that framing and supports the benchmark's central claim. Option 2 inverts it, which would undercut the paper's own position.",
+"cost": 0.004016,
+"request_id": "req_011Cgj5wEvdNbJ6v8SBybLGi",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 509,
+"output_tokens": 99,
+"cost_usd": 0.004016,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"f10b4ef95fc46d3a69e432a5": {
+"id": "r2-040",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 22,
+"rationale": "The paper probably presents a probing or representational account of how belief shifts happen in LLMs. Under such an account, propositions near the decision boundary would be expected to flip more easily, so Option 2 fits the framework's prediction. Option 1 would be a surprising result that cuts against it. Option 2 is therefore the better news for the paper.",
+"cost": 0.004548,
+"request_id": "req_011Cgj5wDnuwDrvoSiiMaZ4o",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 507,
+"output_tokens": 126,
+"cost_usd": 0.004548,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"2bb33f81d9d4e9fa1ba2568f": {
+"id": "r2-041",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 55,
+"rationale": "Both sentences are definitional, describing how a metric is operationalized, not reporting a result. The paper likely studies interventions that increase diversity, such as debate or prompting for diversity, and asks whether the added dispersion reflects real revision of stance. 'Increases' fits that framing more naturally. Still, a definition carries little good or bad news for the proposed method either way, so the estimate stays close to neutral.",
+"cost": 0.0054,
+"request_id": "req_011Cgj5wDxb1W2cV9J5owCrA",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 600,
+"output_tokens": 150,
+"cost_usd": 0.0054,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"6b21531b2f18b82cd44dc1f5": {
+"id": "r2-049",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 60,
+"rationale": "Members with strong agreement switching less often fits intuition, since strong conviction should resist a peer's mild disagreement. A paper modeling interaction-dependent position change would more plausibly report that coherent pattern, while the opposite is anomalous. The framing 'depend on the interaction' holds either way, so the difference is modest.",
+"cost": 0.004648,
+"request_id": "req_011Cgj5wMMaPzesiQi9LzBWP",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 547,
+"output_tokens": 123,
+"cost_usd": 0.004648,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"04cf0e39052bfe6b1530573c": {
+"id": "r2-054",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 2,
+"rationale": "MLCP appears to be the method the paper proposes. Option 2 says it outperforms the vanilla role-play baseline, which is good news for it. Option 1 says it underperforms, which is bad news.",
+"cost": 0.003704,
+"request_id": "req_011Cgj5wQ9GLsQaTHzK8wqB3",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 511,
+"output_tokens": 83,
+"cost_usd": 0.003704,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"5e11baac83a4c41e2849e01e": {
+"id": "r2-044",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 40,
+"rationale": "The paper likely proposes a benchmark or analysis of how models handle memory conflicts. A common finding pattern is that models recognize conflicts but fail to act on them, which would be Option 2. Which option counts as better news for the proposed approach is ambiguous. Option 2 does mean curated memory helps with recognition, though the gap points to a downstream weakness. Neither option clearly favors the method, so I lean slightly toward Option 2.",
+"cost": 0.00524,
+"request_id": "req_011Cgj5wMCuN2vtv9iCaMGDV",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 505,
+"output_tokens": 161,
+"cost_usd": 0.00524,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"1f9dd4ebbf4aa1066d4113f6": {
+"id": "r2-050",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 55,
+"rationale": "The sentence reports a finding about current systems, likely from a benchmark paper on role-play speech models. What the paper proposes is probably the benchmark or evaluation framework, so which direction the gap runs is not clearly good or bad news for it. Either result shows the benchmark can tell the dimensions apart. A gap where vocal emotion lags might fit a paper emphasizing paralinguistic evaluation slightly better, since that is the commonly noted weakness. The effect is mild.",
+"cost": 0.005444,
+"request_id": "req_011Cgj5wNQampjRQThJfuHPW",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 491,
+"output_tokens": 174,
+"cost_usd": 0.005444,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"c549af65ffc0132d8eae4c19": {
+"id": "r2-056",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 68,
+"rationale": "Geometric agreement survived a shuffled control, which suggests it reflects generic structure rather than individual-level information. The paper probably proposes person-paired scores as the meaningful measure. If those scores are supposed to capture specific symptoms, then capturing distress less than specific symptoms (Option 1) fits that claim better, while capturing general distress more (Option 2) suggests a nonspecific artifact. Option 1 is moderately better news for the proposed measure.",
+"cost": 0.005488,
+"request_id": "req_011Cgj5wSqERVeCXS64TV6wC",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 527,
+"output_tokens": 169,
+"cost_usd": 0.005488,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"5cca4b6ac9404c3ce503f7ad": {
+"id": "r2-052",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 48,
+"rationale": "The paper is an audit of SycEval, and an audit usually challenges the attribution to timing. Which direction of the gap helps the audit is unclear. SycEval actually reported that preemptive rebuttals produced more sycophancy, so Option 2 matches the original finding. Still, the audit's own conclusion presumably does not depend on which direction is reported, since it disputes the timing explanation either way. That leaves this close to neutral.",
+"cost": 0.005316,
+"request_id": "req_011Cgj5wPt8vmTk2iZacto7P",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 539,
+"output_tokens": 158,
+"cost_usd": 0.005316,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"0e4f4fabaad2b64f8179bd05": {
+"id": "r2-057",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 30,
+"rationale": "The phrase \"To show this\" suggests the paper is arguing that base models matter, for instance that they carry model-specific biases or personalities that persist under personas. In that case Option 2, where engagement depends more on the base model, supports the claim. If the paper were instead defending persona-driven simulation, Option 1 would be the better news. The 'heterogeneous network powered by several different base models' framing points toward a claim that base models matter, so Option 2 is more likely the supportive result.",
+"cost": 0.005612,
+"request_id": "req_011Cgj5wYZmYbuQkDi9mmnAn",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 543,
+"output_tokens": 172,
+"cost_usd": 0.005612,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"ac8fc49f4de015a68b587ffe": {
+"id": "r2-059",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 22,
+"rationale": "The paper appears to propose or study directly optimized steering vectors as an alternative to supervised learning (SL). If they generalize better out of distribution, that is good news for the proposed method. If they generalize worse, that is bad news. One caveat: the paper could instead be defending SL, which would reverse the reading, but the steering vector is more plausibly the method of interest. So Option 2 is better news.",
+"cost": 0.00488,
+"request_id": "req_011Cgj5wYjwGyDsC2QRvLDka",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 500,
+"output_tokens": 144,
+"cost_usd": 0.00488,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"659933ec96deced30670c96c": {
+"id": "r2-065",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 85,
+"rationale": "Option 1 states a coherent discriminant criterion: a condition built for a given belief should select that belief more often than conditions built for other beliefs. This is what would support the paper's methodology. Option 2 inverts that logic, which is incoherent and so undermines the proposed approach. Option 1 is therefore better news for the paper.",
+"cost": 0.004696,
+"request_id": "req_011Cgj5wceLYEgNTDoziZZpG",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 559,
+"output_tokens": 123,
+"cost_usd": 0.004696,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"b7748b4a7b2da2c78da99be9": {
+"id": "r2-060",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 80,
+"rationale": "The sentence reads like a paper arguing that AI speeds up software building until deciding what to build becomes the bottleneck, so the paper's contribution would be about that judgment step. Option 1 (\"faster\") supports this premise and motivates the proposed focus. Option 2 (\"slower\") describes the conventional situation and weakens that motivation. So Option 1 is likely better news for the paper's thesis.",
+"cost": 0.005,
+"request_id": "req_011Cgj5wcH1nEXdNuFiW7wKC",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 495,
+"output_tokens": 151,
+"cost_usd": 0.005,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"bf1af0ff60839249e2070a63": {
+"id": "r2-069",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 42,
+"rationale": "The paper is likely an audit of persona-dependent behavior in LLM health advice. It appears to argue that models tailor or degrade information inconsistently, as with experts receiving fewer facts. Naming prescription medications less often to teens could be read as appropriate caution, since FDA approvals are for adults. It could also be read as a disparity, which would fit the paper's framing of inconsistency. Naming them more often to teens would be a striking safety failure, and would make an audit finding stronger and more alarming. Overall the two options come out roughly ambiguous, leaning toward Option 2 as the bigger finding.",
+"cost": 0.006656,
+"request_id": "req_011Cgj5wembDEU2j1ydPSo8h",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 589,
+"output_tokens": 215,
+"cost_usd": 0.006656,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"049e09e8edcf23869b6ebb58": {
+"id": "r2-070",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 68,
+"rationale": "In model-psychology, a paper proposing a personality or trait framework, or a method for characterizing individual differences, would most likely defend the existence of stable individual differences. Option 1 (within-person variation is smaller than between-person variation) supports trait-based approaches. Option 2 supports situationism, which some papers do defend, so the direction is uncertain. Still, a 'model psychology' paper that proposes a measurement of persona or traits is more likely to benefit from Option 1.",
+"cost": 0.005348,
+"request_id": "req_011Cgj5wh7U6f6k9DMoiZBAE",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 477,
+"output_tokens": 172,
+"cost_usd": 0.005348,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"5907d9d8ec328955c67fde3e": {
+"id": "r2-071",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 15,
+"rationale": "Such a paper most likely proposes or defends weight sparsity as a route to interpretability, and possibly a method for describing weights. Option 2, where sparse transformers show more interpretable weights, supports that approach, so it is better news for the paper's method. Option 1 cuts against it, unless the paper argues sparsity hurts interpretability, which seems less likely.",
+"cost": 0.004988,
+"request_id": "req_011Cgj5wkx9u2GEwWxdrchDu",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 572,
+"output_tokens": 135,
+"cost_usd": 0.004988,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"b0be824b4df737cb43426f9f": {
+"id": "r2-073",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 70,
+"rationale": "The main proposed method appears to be the supervised probes, with the sparse-autoencoder analysis framed as 'complementary'. The phrase 'recovers interpretable features but proves less consistent' fits a contrast that favors the probes. Option 1 therefore supports the primary method. If the SAE were more consistent, the probes would be undercut, though the SAE is also part of the paper's own analysis.",
+"cost": 0.005028,
+"request_id": "req_011Cgj5wkvvaw4nkkAFDQ1fh",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 522,
+"output_tokens": 147,
+"cost_usd": 0.005028,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"a3c064d990097cf266fc59b7": {
+"id": "r2-076",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 20,
+"rationale": "\"Their mean-pooled score\" is most likely the paper's proposed method, and the concept-vector score is the baseline it is compared against. Tracking the count of concept sentences better (Option 2) would therefore be good news for the method, while tracking it worse (Option 1) would be bad news.",
+"cost": 0.00434,
+"request_id": "req_011Cgj5wrCftrwpqr2tAy4FL",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 525,
+"output_tokens": 112,
+"cost_usd": 0.00434,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"67e22204bc30bea337092b57": {
+"id": "r2-074",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 55,
+"rationale": "The paper probably presents this as an interpretability finding instead of proposing a method that the result directly tests. Rust is likely underrepresented in training data, so a finding of less dedicated circuitry would fit a narrative about data scarcity or underrepresentation. Either direction is mainly a descriptive finding, and neither is clearly good news for whatever method the paper proposes. Option 1 seems slightly more consistent with the likely hypothesis.",
+"cost": 0.005236,
+"request_id": "req_011Cgj5woctxTkAF5HZfT3ko",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 504,
+"output_tokens": 161,
+"cost_usd": 0.005236,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"154bf29bf6ea442bfc2695d4": {
+"id": "r2-078",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 52,
+"rationale": "Both options are descriptive findings about the direction in which feature migration happens. Neither direction obviously supports or undermines a proposed method. Migration toward earlier layers might be framed as a more novel finding, but that framing is speculative. The difference is close to neutral.",
+"cost": 0.004192,
+"request_id": "req_011Cgj5wwKF2oiYfefKJP5GZ",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 538,
+"output_tokens": 102,
+"cost_usd": 0.004192,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"7a8ef37504eaf7f9454b1a5f": {
+"id": "r2-082",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 45,
+"rationale": "Neither version reports a performance result for a proposed method. It is a descriptive finding about how strong cancellations are in ViTs versus language transformers. Without more context, neither direction is clearly better news. One could argue that stronger cancellations in ViTs would make the paper's phenomenon more prominent and its findings more relevant there, which slightly favors Option 2. But the paper might equally be about language transformers, so the case for either side is weak.",
+"cost": 0.005144,
+"request_id": "req_011Cgj5wy7Q4mH5RKnPYofWe",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 496,
+"output_tokens": 158,
+"cost_usd": 0.005144,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"fb5301037746cc8f0c5ab939": {
+"id": "r2-081",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 56,
+"rationale": "The paper appears to be an interpretability study probing how encoders align with traditional linguistic models, so it is analytical and not clearly proposing either encoder type. The finding that language-specific encoders track traditional models more clearly is perhaps the more interesting and intuitive result, since it supports the value of language-specific models. Still, the paper's own stake in either outcome is weak, so the difference is close to neutral.",
+"cost": 0.005024,
+"request_id": "req_011Cgj5wwxSJTDakjYxkqyJF",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 516,
+"output_tokens": 148,
+"cost_usd": 0.005024,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"e9005556339959269659510c": {
+"id": "r2-077",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 88,
+"rationale": "The paper presumably proposes a fine-tuning method (e.g., a rank-invariant LoRA approach) that produces restructured uncertainty representations. If those representations transfer more reliably than the base model's, that supports the method. Transferring less reliably would undercut it. So Option 1 is better news for the proposed approach.",
+"cost": 0.004776,
+"request_id": "req_011Cgj5wvBHYpEpD6Qdg7Q7F",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 584,
+"output_tokens": 122,
+"cost_usd": 0.004776,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"0e9b36c793261a4db722b9a2": {
+"id": "r2-086",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 75,
+"rationale": "The sentence appears to come from a paper proposing a tokenization or representation scheme, probably for neural or EEG data across sessions. If so, saying the token matters more than the model on top supports the paper's contribution. The alternative reading, that the paper defends the downstream model instead, seems less likely, so Option 1 is probably better news for the proposed method.",
+"cost": 0.004488,
+"request_id": "req_011Cgj5x1fwDLm7JA181Aseg",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 472,
+"output_tokens": 130,
+"cost_usd": 0.004488,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"3282bf20b9c5a56137df4e7b": {
+"id": "r2-090",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 35,
+"rationale": "The context is unclear. A plausible reading is that the paper recovers latent knowledge, for example through probing or a recovery method, and shows that the recovered answers are not simply what the model itself outputs. If the recovered answers align more with the linear probe's top answers than with the model's own outputs, that would support the claim that the probe reveals hidden knowledge. On that reading, Option 2 is better news for the paper's method. Alternatively, the paper might be arguing that recovered answers come from the model itself rather than being probe artifacts, which would favour Option 1. On balance I lean towards Option 2.",
+"cost": 0.006216,
+"request_id": "req_011Cgj5x2W3dP5uPmps8Zhfj",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 504,
+"output_tokens": 210,
+"cost_usd": 0.006216,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"71ea88109756eff3465168bc": {
+"id": "r2-093",
+"kind": "valence-retest",
+"option_1_is": "a",
+"p_option_1": 85,
+"rationale": "The paper most likely proposes or champions MusicXML tokenisation. If so, outperforming the MIDI and text-based baselines (Option 1) is better news for that approach than underperforming them (Option 2). There is some uncertainty, since the paper could instead be a neutral comparison of formats.",
+"cost": 0.004324,
+"request_id": "req_011Cgj5x9krkgsHrvwdTdvV2",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 516,
+"output_tokens": 113,
+"cost_usd": 0.004324,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+},
+"4ca2bd5e9c7119f0c4372913": {
+"id": "r2-092",
+"kind": "valence-retest",
+"option_1_is": "b",
+"p_option_1": 25,
+"rationale": "The paper likely proposes interpreting a weather model's features and argues that deeper layers encode forecast-relevant, future state information. Better alignment with the structure six hours ahead would support the claim that the model represents predictive content, which is good news for the interpretability approach. Option 2 is therefore the more favorable result.",
+"cost": 0.004372,
+"request_id": "req_011Cgj5x7LWP4Rjc9hu4F4RR",
+"usage": {
+"model": "claude-opus-5-5",
+"input_tokens": 503,
+"output_tokens": 118,
+"cost_usd": 0.004372,
+"thinking": "adaptive (omitted), effort low"
+},
+"model": "claude-opus-5-5"
+}
+}

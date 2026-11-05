@@ -1,0 +1,1119 @@
+{
+ "n": 92,
+ "missing": [],
+ "gates": {
+  "G1_share_up": 0.7362637362637363,
+  "G1_n": 91,
+  "G1_x": 67,
+  "G3_matches": 8
+ },
+ "leg1": {
+  "d": -0.0361836956521739,
+  "ci": [
+   -0.05671630434782608,
+   -0.01645652173913043
+  ],
+  "bettor_brier": 0.06972934782608696,
+  "valence_brier": 0.10591304347826087,
+  "valence_accuracy": 0.8967391304347826
+ },
+ "leg2": {
+  "d": -0.026652639772924633,
+  "ci": [
+   -0.05382699524132004,
+   -0.0018358862505486802
+  ],
+  "bettor_recal_brier": 0.05160482538751762,
+  "rival_recal_brier": 0.07825746516044225
+ },
+ "label": "pass",
+ "null_legs": [],
+ "fragile_items": [
+  "r2-056",
+  "r2-059",
+  "r2-063"
+ ],
+ "leave_one_bucket_out": {
+  "interpretability": {
+   "n": 65,
+   "label": "null"
+  },
+  "model-psychology": {
+   "n": 62,
+   "label": "null"
+  },
+  "quantum-devices": {
+   "n": 78,
+   "label": "pass"
+  },
+  "scalable-oversight": {
+   "n": 71,
+   "label": "pass"
+  }
+ },
+ "bucket_flips": [
+  "interpretability",
+  "model-psychology"
+ ],
+ "leg2_up_word": {
+  "n": 71,
+  "d": -0.012291755903431147,
+  "ci": [
+   -0.040676452199990394,
+   0.010961806453680466
+  ]
+ },
+ "leg2_down_word": {
+  "n": 21,
+  "d": -0.07520610428406928,
+  "ci": [
+   -0.14179142637908193,
+   -0.01555828966046956
+  ]
+ },
+ "greedy_flip": {
+  "k": 1,
+  "down_word": 0
+ },
+ "discordant": {
+  "n": 2,
+  "bettor_right": 2,
+  "one_sided_sign_p": 0.25
+ },
+ "label_reported": "pass, fragile",
+ "sentence": "On 92 round-2 sentence pairs, the bettor picked the published sentence better than the same model asked only which version is better news for the paper's own method (raw: d\u2081 -0.036 [-0.057, -0.016], valence rule Brier 0.106), and better than that rating combined with the up word once both were recalibrated the same way (d\u2082 -0.027 [-0.054, -0.002]). Round 2's pass is not only picking the flattering version, as this rater judged it, or the up word, though this does not separate knowing the result from reasoning within the sentence, and the rater was the same model as the bettor; removing 1 chosen item (an up-word item) would flip it; this label rests on the items r2-056, r2-059, r2-063 and the query buckets interpretability, model-psychology: without any one of them the label would be null.",
+ "rows": [
+  {
+   "id": "r2-001",
+   "field": "quantum-devices",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 8,
+   "pv": 8,
+   "p_true": 0.92,
+   "v_true": 0.92
+  },
+  {
+   "id": "r2-002",
+   "field": "quantum-devices",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 4,
+   "pv": 4,
+   "p_true": 0.96,
+   "v_true": 0.96
+  },
+  {
+   "id": "r2-003",
+   "field": "quantum-devices",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 95,
+   "pv": 80,
+   "p_true": 0.95,
+   "v_true": 0.8
+  },
+  {
+   "id": "r2-004",
+   "field": "quantum-devices",
+   "down": true,
+   "y": 1.0,
+   "up": -1.0,
+   "pb": 85,
+   "pv": 85,
+   "p_true": 0.85,
+   "v_true": 0.85
+  },
+  {
+   "id": "r2-005",
+   "field": "quantum-devices",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 3,
+   "pv": 4,
+   "p_true": 0.97,
+   "v_true": 0.96
+  },
+  {
+   "id": "r2-006",
+   "field": "quantum-devices",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 15,
+   "pv": 22,
+   "p_true": 0.85,
+   "v_true": 0.78
+  },
+  {
+   "id": "r2-007",
+   "field": "quantum-devices",
+   "down": true,
+   "y": 1.0,
+   "up": -1.0,
+   "pb": 80,
+   "pv": 88,
+   "p_true": 0.8,
+   "v_true": 0.88
+  },
+  {
+   "id": "r2-008",
+   "field": "quantum-devices",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 35,
+   "pv": 60,
+   "p_true": 0.65,
+   "v_true": 0.4
+  },
+  {
+   "id": "r2-009",
+   "field": "quantum-devices",
+   "down": true,
+   "y": 0.0,
+   "up": 1.0,
+   "pb": 22,
+   "pv": 4,
+   "p_true": 0.78,
+   "v_true": 0.96
+  },
+  {
+   "id": "r2-010",
+   "field": "quantum-devices",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 97,
+   "pv": 68,
+   "p_true": 0.97,
+   "v_true": 0.68
+  },
+  {
+   "id": "r2-011",
+   "field": "quantum-devices",
+   "down": true,
+   "y": 1.0,
+   "up": -1.0,
+   "pb": 68,
+   "pv": 77,
+   "p_true": 0.68,
+   "v_true": 0.77
+  },
+  {
+   "id": "r2-012",
+   "field": "quantum-devices",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 30,
+   "pv": 22,
+   "p_true": 0.7,
+   "v_true": 0.78
+  },
+  {
+   "id": "r2-013",
+   "field": "quantum-devices",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 88,
+   "pv": 88,
+   "p_true": 0.88,
+   "v_true": 0.88
+  },
+  {
+   "id": "r2-014",
+   "field": "quantum-devices",
+   "down": true,
+   "y": 1.0,
+   "up": -1.0,
+   "pb": 88,
+   "pv": 95,
+   "p_true": 0.88,
+   "v_true": 0.95
+  },
+  {
+   "id": "r2-015",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 22,
+   "pv": 35,
+   "p_true": 0.78,
+   "v_true": 0.65
+  },
+  {
+   "id": "r2-016",
+   "field": "scalable-oversight",
+   "down": true,
+   "y": 1.0,
+   "up": -1.0,
+   "pb": 38,
+   "pv": 55,
+   "p_true": 0.38,
+   "v_true": 0.55
+  },
+  {
+   "id": "r2-017",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 85,
+   "pv": 88,
+   "p_true": 0.85,
+   "v_true": 0.88
+  },
+  {
+   "id": "r2-018",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 80,
+   "pv": 62,
+   "p_true": 0.8,
+   "v_true": 0.62
+  },
+  {
+   "id": "r2-019",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 92,
+   "pv": 92,
+   "p_true": 0.92,
+   "v_true": 0.92
+  },
+  {
+   "id": "r2-020",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 12,
+   "pv": 20,
+   "p_true": 0.88,
+   "v_true": 0.8
+  },
+  {
+   "id": "r2-021",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 96,
+   "pv": 95,
+   "p_true": 0.96,
+   "v_true": 0.95
+  },
+  {
+   "id": "r2-022",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 3,
+   "pv": 10,
+   "p_true": 0.97,
+   "v_true": 0.9
+  },
+  {
+   "id": "r2-023",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 70,
+   "pv": 68,
+   "p_true": 0.7,
+   "v_true": 0.68
+  },
+  {
+   "id": "r2-024",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 88,
+   "pv": 92,
+   "p_true": 0.88,
+   "v_true": 0.92
+  },
+  {
+   "id": "r2-025",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 4,
+   "pv": 5,
+   "p_true": 0.96,
+   "v_true": 0.95
+  },
+  {
+   "id": "r2-026",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 25,
+   "pv": 42,
+   "p_true": 0.75,
+   "v_true": 0.5800000000000001
+  },
+  {
+   "id": "r2-027",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 22,
+   "pv": 18,
+   "p_true": 0.78,
+   "v_true": 0.8200000000000001
+  },
+  {
+   "id": "r2-028",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 77,
+   "pv": 75,
+   "p_true": 0.77,
+   "v_true": 0.75
+  },
+  {
+   "id": "r2-029",
+   "field": "scalable-oversight",
+   "down": true,
+   "y": 1.0,
+   "up": -1.0,
+   "pb": 80,
+   "pv": 88,
+   "p_true": 0.8,
+   "v_true": 0.88
+  },
+  {
+   "id": "r2-030",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 98,
+   "pv": 96,
+   "p_true": 0.98,
+   "v_true": 0.96
+  },
+  {
+   "id": "r2-031",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 12,
+   "pv": 6,
+   "p_true": 0.88,
+   "v_true": 0.94
+  },
+  {
+   "id": "r2-032",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 22,
+   "pv": 30,
+   "p_true": 0.78,
+   "v_true": 0.7
+  },
+  {
+   "id": "r2-033",
+   "field": "scalable-oversight",
+   "down": true,
+   "y": 1.0,
+   "up": -1.0,
+   "pb": 88,
+   "pv": 80,
+   "p_true": 0.88,
+   "v_true": 0.8
+  },
+  {
+   "id": "r2-034",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 70,
+   "pv": 64,
+   "p_true": 0.30000000000000004,
+   "v_true": 0.36
+  },
+  {
+   "id": "r2-035",
+   "field": "scalable-oversight",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 80,
+   "pv": 85,
+   "p_true": 0.8,
+   "v_true": 0.85
+  },
+  {
+   "id": "r2-036",
+   "field": "model-psychology",
+   "down": true,
+   "y": 0.0,
+   "up": 1.0,
+   "pb": 80,
+   "pv": 52,
+   "p_true": 0.19999999999999996,
+   "v_true": 0.48
+  },
+  {
+   "id": "r2-037",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 62,
+   "pv": 80,
+   "p_true": 0.62,
+   "v_true": 0.8
+  },
+  {
+   "id": "r2-038",
+   "field": "model-psychology",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 22,
+   "pv": 45,
+   "p_true": 0.78,
+   "v_true": 0.55
+  },
+  {
+   "id": "r2-039",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 97,
+   "pv": 97,
+   "p_true": 0.97,
+   "v_true": 0.97
+  },
+  {
+   "id": "r2-040",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 82,
+   "pv": 75,
+   "p_true": 0.82,
+   "v_true": 0.75
+  },
+  {
+   "id": "r2-041",
+   "field": "model-psychology",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 18,
+   "pv": 42,
+   "p_true": 0.8200000000000001,
+   "v_true": 0.5800000000000001
+  },
+  {
+   "id": "r2-042",
+   "field": "model-psychology",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 3,
+   "pv": 5,
+   "p_true": 0.97,
+   "v_true": 0.95
+  },
+  {
+   "id": "r2-043",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 68,
+   "pv": 52,
+   "p_true": 0.68,
+   "v_true": 0.52
+  },
+  {
+   "id": "r2-044",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 80,
+   "pv": 57,
+   "p_true": 0.8,
+   "v_true": 0.57
+  },
+  {
+   "id": "r2-046",
+   "field": "model-psychology",
+   "down": true,
+   "y": 1.0,
+   "up": -1.0,
+   "pb": 88,
+   "pv": 88,
+   "p_true": 0.88,
+   "v_true": 0.88
+  },
+  {
+   "id": "r2-047",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 57,
+   "pv": 64,
+   "p_true": 0.57,
+   "v_true": 0.64
+  },
+  {
+   "id": "r2-049",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 60,
+   "pv": 45,
+   "p_true": 0.6,
+   "v_true": 0.45
+  },
+  {
+   "id": "r2-050",
+   "field": "model-psychology",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 22,
+   "pv": 42,
+   "p_true": 0.78,
+   "v_true": 0.5800000000000001
+  },
+  {
+   "id": "r2-051",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 85,
+   "pv": 68,
+   "p_true": 0.85,
+   "v_true": 0.68
+  },
+  {
+   "id": "r2-052",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 85,
+   "pv": 60,
+   "p_true": 0.85,
+   "v_true": 0.6
+  },
+  {
+   "id": "r2-054",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 95,
+   "pv": 97,
+   "p_true": 0.95,
+   "v_true": 0.97
+  },
+  {
+   "id": "r2-055",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 80,
+   "pv": 62,
+   "p_true": 0.8,
+   "v_true": 0.62
+  },
+  {
+   "id": "r2-056",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 80,
+   "pv": 27,
+   "p_true": 0.8,
+   "v_true": 0.27
+  },
+  {
+   "id": "r2-057",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 85,
+   "pv": 80,
+   "p_true": 0.85,
+   "v_true": 0.8
+  },
+  {
+   "id": "r2-058",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 80,
+   "pv": 75,
+   "p_true": 0.8,
+   "v_true": 0.75
+  },
+  {
+   "id": "r2-059",
+   "field": "model-psychology",
+   "down": true,
+   "y": 0.0,
+   "up": 1.0,
+   "pb": 57,
+   "pv": 82,
+   "p_true": 0.43000000000000005,
+   "v_true": 0.18000000000000005
+  },
+  {
+   "id": "r2-060",
+   "field": "model-psychology",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 5,
+   "pv": 22,
+   "p_true": 0.95,
+   "v_true": 0.78
+  },
+  {
+   "id": "r2-061",
+   "field": "model-psychology",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 8,
+   "pv": 4,
+   "p_true": 0.92,
+   "v_true": 0.96
+  },
+  {
+   "id": "r2-062",
+   "field": "model-psychology",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 3,
+   "pv": 3,
+   "p_true": 0.97,
+   "v_true": 0.97
+  },
+  {
+   "id": "r2-063",
+   "field": "model-psychology",
+   "down": true,
+   "y": 0.0,
+   "up": 1.0,
+   "pb": 56,
+   "pv": 68,
+   "p_true": 0.43999999999999995,
+   "v_true": 0.31999999999999995
+  },
+  {
+   "id": "r2-065",
+   "field": "model-psychology",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 4,
+   "pv": 10,
+   "p_true": 0.96,
+   "v_true": 0.9
+  },
+  {
+   "id": "r2-066",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 62,
+   "pv": 50,
+   "p_true": 0.62,
+   "v_true": 0.5
+  },
+  {
+   "id": "r2-068",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 97,
+   "pv": 80,
+   "p_true": 0.97,
+   "v_true": 0.8
+  },
+  {
+   "id": "r2-069",
+   "field": "model-psychology",
+   "down": true,
+   "y": 0.0,
+   "up": 1.0,
+   "pb": 12,
+   "pv": 40,
+   "p_true": 0.88,
+   "v_true": 0.6
+  },
+  {
+   "id": "r2-070",
+   "field": "model-psychology",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 70,
+   "pv": 55,
+   "p_true": 0.7,
+   "v_true": 0.55
+  },
+  {
+   "id": "r2-071",
+   "field": "interpretability",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 80,
+   "pv": 82,
+   "p_true": 0.8,
+   "v_true": 0.82
+  },
+  {
+   "id": "r2-072",
+   "field": "interpretability",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 85,
+   "pv": 72,
+   "p_true": 0.85,
+   "v_true": 0.72
+  },
+  {
+   "id": "r2-073",
+   "field": "interpretability",
+   "down": true,
+   "y": 0.0,
+   "up": 1.0,
+   "pb": 7,
+   "pv": 35,
+   "p_true": 0.9299999999999999,
+   "v_true": 0.65
+  },
+  {
+   "id": "r2-074",
+   "field": "interpretability",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 62,
+   "pv": 56,
+   "p_true": 0.62,
+   "v_true": 0.56
+  },
+  {
+   "id": "r2-075",
+   "field": "interpretability",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 10,
+   "pv": 4,
+   "p_true": 0.9,
+   "v_true": 0.96
+  },
+  {
+   "id": "r2-076",
+   "field": "interpretability",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 65,
+   "pv": 80,
+   "p_true": 0.65,
+   "v_true": 0.8
+  },
+  {
+   "id": "r2-077",
+   "field": "interpretability",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 25,
+   "pv": 10,
+   "p_true": 0.75,
+   "v_true": 0.9
+  },
+  {
+   "id": "r2-078",
+   "field": "interpretability",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 38,
+   "pv": 47,
+   "p_true": 0.62,
+   "v_true": 0.53
+  },
+  {
+   "id": "r2-079",
+   "field": "interpretability",
+   "down": true,
+   "y": 1.0,
+   "up": -1.0,
+   "pb": 88,
+   "pv": 57,
+   "p_true": 0.88,
+   "v_true": 0.57
+  },
+  {
+   "id": "r2-080",
+   "field": "interpretability",
+   "down": true,
+   "y": 0.0,
+   "up": 1.0,
+   "pb": 30,
+   "pv": 30,
+   "p_true": 0.7,
+   "v_true": 0.7
+  },
+  {
+   "id": "r2-081",
+   "field": "interpretability",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 35,
+   "pv": 40,
+   "p_true": 0.65,
+   "v_true": 0.6
+  },
+  {
+   "id": "r2-082",
+   "field": "interpretability",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 66,
+   "pv": 56,
+   "p_true": 0.66,
+   "v_true": 0.56
+  },
+  {
+   "id": "r2-083",
+   "field": "interpretability",
+   "down": true,
+   "y": 1.0,
+   "up": -1.0,
+   "pb": 88,
+   "pv": 72,
+   "p_true": 0.88,
+   "v_true": 0.72
+  },
+  {
+   "id": "r2-084",
+   "field": "interpretability",
+   "down": true,
+   "y": 1.0,
+   "up": -1.0,
+   "pb": 97,
+   "pv": 88,
+   "p_true": 0.97,
+   "v_true": 0.88
+  },
+  {
+   "id": "r2-085",
+   "field": "interpretability",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 5,
+   "pv": 5,
+   "p_true": 0.95,
+   "v_true": 0.95
+  },
+  {
+   "id": "r2-086",
+   "field": "interpretability",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 32,
+   "pv": 35,
+   "p_true": 0.6799999999999999,
+   "v_true": 0.65
+  },
+  {
+   "id": "r2-087",
+   "field": "interpretability",
+   "down": true,
+   "y": 1.0,
+   "up": -1.0,
+   "pb": 80,
+   "pv": 60,
+   "p_true": 0.8,
+   "v_true": 0.6
+  },
+  {
+   "id": "r2-088",
+   "field": "interpretability",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 57,
+   "pv": 60,
+   "p_true": 0.43000000000000005,
+   "v_true": 0.4
+  },
+  {
+   "id": "r2-089",
+   "field": "interpretability",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 25,
+   "pv": 35,
+   "p_true": 0.75,
+   "v_true": 0.65
+  },
+  {
+   "id": "r2-090",
+   "field": "interpretability",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 70,
+   "pv": 68,
+   "p_true": 0.7,
+   "v_true": 0.68
+  },
+  {
+   "id": "r2-091",
+   "field": "interpretability",
+   "down": true,
+   "y": 1.0,
+   "up": -1.0,
+   "pb": 68,
+   "pv": 72,
+   "p_true": 0.68,
+   "v_true": 0.72
+  },
+  {
+   "id": "r2-092",
+   "field": "interpretability",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 80,
+   "pv": 75,
+   "p_true": 0.8,
+   "v_true": 0.75
+  },
+  {
+   "id": "r2-093",
+   "field": "interpretability",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 22,
+   "pv": 10,
+   "p_true": 0.78,
+   "v_true": 0.9
+  },
+  {
+   "id": "r2-094",
+   "field": "interpretability",
+   "down": true,
+   "y": 1.0,
+   "up": -1.0,
+   "pb": 65,
+   "pv": 70,
+   "p_true": 0.65,
+   "v_true": 0.7
+  },
+  {
+   "id": "r2-095",
+   "field": "interpretability",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 30,
+   "pv": 52,
+   "p_true": 0.7,
+   "v_true": 0.48
+  },
+  {
+   "id": "r2-096",
+   "field": "interpretability",
+   "down": false,
+   "y": 0.0,
+   "up": -1.0,
+   "pb": 4,
+   "pv": 3,
+   "p_true": 0.96,
+   "v_true": 0.97
+  },
+  {
+   "id": "r2-097",
+   "field": "interpretability",
+   "down": false,
+   "y": 1.0,
+   "up": 1.0,
+   "pb": 88,
+   "pv": 82,
+   "p_true": 0.88,
+   "v_true": 0.82
+  }
+ ],
+ "rater_noise": {
+  "rater": {
+   "n": 46,
+   "mean_abs_incoherence": 5.0,
+   "incoherence_ci": [
+    3.6739130434782608,
+    6.521739130434782
+   ],
+   "same_side": 0.9130434782608695
+  },
+  "bettor_same_items": {
+   "n": 46,
+   "mean_abs_incoherence": 4.173913043478261,
+   "incoherence_ci": [
+    3.0,
+    5.478260869565218
+   ],
+   "same_side": 0.9782608695652174
+  }
+ }
+}
