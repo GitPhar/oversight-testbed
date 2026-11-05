@@ -119,7 +119,7 @@ From the committed maps (`map/*.json`, the 2026-11-05 remaps and the programs 5�
 
 **Running or next, by program (wave 1s already pre-registered first):**
 1. Programs 5–7 wave 1, in design review, nothing run except sg-b1: sg-b2 (0.13), sg-b3 (0.18 [Sean 0.70, after the bet]), ta-b1 (0.07 [Sean 0.60, after the bet]), ta-b2 (0.10), ta-b3 (0.22), sv-b1 (0.40 [Sean 0.80, after the bet]), sv-b2 (0.35), sv-b3 (0.40). About $1–2.50 each, inside each program's $5 cap.
-2. P2-7, shared format fingerprint (program 2): 0.50 [Sean 0.70], about $0.24. Being drafted now; must carry his line.
+2. P2-7, shared format fingerprint (program 2): 0.50 on the map's one-model event [Sean 0.70]; pre-registered 05:29 as om-p2-7 (`34182b6`) on three models with a stricter event, engine 0.25 → 0.20 by its lesson, **the first bet carrying Sean's odds (0.70)**; awaiting design review.
 3. P3-17, can extra readout error stand in for P3-5c's blur? 0.70, $0 (archive). Being drafted now.
 4. P3-10, sequential four-cycle on the chip, exact KDL criterion: 0.72 [Sean 0.40], about 15 QPU s.
 5. P3-9, sequential Peres–Mermin under exact CbD: 0.40 [Sean 0.90], about 42 QPU s. Not both P3-9 and the larger direction-7 hardware run in one month.
