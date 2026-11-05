@@ -150,7 +150,8 @@ def predict(k: int):
     web = p3sim.stage1_web()
     sim = p3sim.simulator(be, method="density_matrix")
     pred = {}
-    for name, c, asap in (("barrier_ALAP", bar, False), ("nobarrier_ALAP", isa, False), ("nobarrier_ASAP", isa, True)):
+    for name, c, asap in (("barrier_ALAP", bar, False), ("nobarrier_ALAP", isa, False),
+                           ("barrier_ASAP", bar, True), ("nobarrier_ASAP", isa, True)):     # F3 (D13): four predictions
         pm = PassManager([(ASAPScheduleAnalysis if asap else ALAPScheduleAnalysis)(target=t),
                           __import__("qiskit.transpiler.passes", fromlist=["PadDelay"]).PadDelay(target=t)])
         sc = pm.run(c)
@@ -176,8 +177,10 @@ def predict(k: int):
            "calibration": cal, "labels": labels, "unit_order": uorder, "shots": [s for _, _, s in pubs],
            "total_shots": shots, "estimate_qpu_s": 0.28e-3 * shots + 2.0,
            "qpy_sha256": hashlib.sha256(qpy_path(k).read_bytes()).hexdigest()}
+    out["predicted_barrier_effect"] = {"if_ALAP": pred["barrier_ALAP"]["p_yes"] - pred["nobarrier_ALAP"]["p_yes"],
+                                       "if_ASAP": pred["barrier_ASAP"]["p_yes"] - pred["nobarrier_ASAP"]["p_yes"]}
     pred_path(k).write_text(json.dumps(out, indent=1))
-    print(json.dumps({"predictions": {n: round(v["p_yes"], 4) for n, v in pred.items()}, "estimate": out["estimate_qpu_s"],
+    print(json.dumps({"predicted_barrier_effect": out["predicted_barrier_effect"], "predictions": {n: round(v["p_yes"], 4) for n, v in pred.items()}, "estimate": out["estimate_qpu_s"],
                       "unit_order": uorder, "calibration_last_update": cal["last_update_date"]}, indent=1))
 
 
@@ -190,12 +193,24 @@ def design_review_go() -> bool:
     return bool(v) and (v[0] == "go" or (v[0] == "fix-first" and c and c[0] not in ("", "null")))
 
 
+def already_logged(k: int) -> bool:
+    """F5 (D15): the project QPU ledger already has this run (e.g. the process died after the job but before saving)."""
+    from entangled_mind import backends
+    led = json.loads(backends.USAGE_JSON.read_text()) if backends.USAGE_JSON.exists() else []
+    return any(str(e.get("purpose", "")).startswith(f"Program 3 P3-15 run {k}") for e in led)
+
+
 def submit(k: int):
     from entangled_mind import backends
-    if raw_path(k).exists():
-        raise SystemExit(f"run {k} already ran; nothing is resubmitted")
+    if raw_path(k).exists() or already_logged(k):
+        raise SystemExit(f"run {k} already ran (raw file or QPU ledger entry); nothing is resubmitted")
     if not design_review_go():
         raise SystemExit("no design-review go (or confirmed fix-first) at " + str(DESIGN_REVIEW))
+    chk = subprocess.run(["python3", str(ROOT.parents[1] / "ledger" / "check_prereg.py"), "ng-p3-15",
+                          str(ROOT.parents[1]), "programs/nature-graded/experiments/p3-15-repeat.md", "--before-run"],
+                         capture_output=True, text=True)
+    if chk.returncode != 0:
+        raise SystemExit("check_prereg.py --before-run failed:\n" + chk.stdout + chk.stderr)
     for p in (pred_path(k), qpy_path(k)):
         if subprocess.run(["git", "-C", str(ROOT), "ls-files", "--error-unmatch", str(p)], capture_output=True).returncode \
                 or git("status", "--porcelain", "--", str(p)):
@@ -205,7 +220,8 @@ def submit(k: int):
         raise SystemExit("circuit hash mismatch")
     if k == 2:
         r1 = json.loads(raw_path(1).read_text())
-        t1 = dt.datetime.fromisoformat(r1["finished_utc"])
+        t1 = dt.datetime.fromisoformat(r1["finished_utc"]) if "finished_utc" in r1 else \
+            dt.datetime.strptime(r1["usage"]["when"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=dt.timezone.utc)
         gap = (dt.datetime.now(dt.timezone.utc) - t1).total_seconds() / 3600
         if gap < MIN_GAP_H:
             raise SystemExit(f"only {gap:.2f} h since run 1 finished; the rule is >= {MIN_GAP_H} h")
@@ -218,82 +234,171 @@ def submit(k: int):
     circs = qpy.load(io.BytesIO(qpy_path(k).read_bytes()))
     pubs = [(c, None, s) for c, s in zip(circs, pred["shots"])]
     t0 = dt.datetime.now(dt.timezone.utc).isoformat()
-    counts, usage = backends.run_hardware(pubs, purpose=f"Program 3 P3-15 run {k}: barrier x grouping repeat ({len(pubs)} pubs, 5,000 shots)",
-                                          shots=PIECE)
-    job = backends.service().job(usage["job_id"])
-    ts = job.metrics().get("timestamps", {})
-    raw_path(k).write_text(json.dumps({"run": k, "submitted_at": t0, "usage": usage, "timestamps": ts,
-                                       "finished_utc": dt.datetime.fromisoformat(ts["finished"].replace("Z", "+00:00")).isoformat(),
-                                       "counts": counts}, indent=1))
-    print("done run", k, usage["job_id"], usage["quantum_seconds"], ts)
+    try:
+        counts, usage = backends.run_hardware(pubs, purpose=f"Program 3 P3-15 run {k}: barrier x grouping repeat ({len(pubs)} pubs, 5,000 shots)",
+                                              shots=PIECE)
+    except Exception as e:  # job error: recorded, never resubmitted (section 5.3)
+        raw_path(k).write_text(json.dumps({"run": k, "submitted_at": t0, "job_error": repr(e)}, indent=1))
+        raise
+    rec = {"run": k, "submitted_at": t0, "usage": usage, "counts": counts}
+    raw_path(k).write_text(json.dumps(rec, indent=1))            # F5 (D15): saved at once, before anything else
+    try:                                                          # enrich; never deletes what is saved
+        job = backends.service().job(usage["job_id"])
+        ts = job.metrics().get("timestamps", {})
+        rec["timestamps"] = ts
+        rec["finished_utc"] = dt.datetime.fromisoformat(ts["finished"].replace("Z", "+00:00")).isoformat()
+        res = job.result()
+        spans = res.metadata.get("execution", {}).get("execution_spans")
+        rec["execution_spans"] = [{"start": str(sp.start), "stop": str(sp.stop), "pubs": sorted(int(i) for i in sp.pub_idxs)}
+                                  for sp in (spans or [])]
+        rec["bitstrings"] = [pub.data.meas.get_bitstrings() for pub in res]          # F4 (D14): per-shot order
+        raw_path(k).write_text(json.dumps(rec, indent=1))
+    except Exception as e:
+        rec["enrich_error"] = repr(e)
+        raw_path(k).write_text(json.dumps(rec, indent=1))
+    print("done run", k, usage["job_id"], usage["quantum_seconds"], rec.get("timestamps"))
+
+
+NOV4_NI = 0.24600000000000016          # 4 November arm A P(yes) (results/p3-2-3-job.json)
+EQUIV, BIG, ZMIN, HIGH = 0.05, 0.10, 3.0, 0.40
+TOTAL_SHOTS = 5000
+
+
+def _p(c, web):
+    n = sum(c.values()); p = p3sim.p_yes(c, web)
+    return {"p_yes": p, "se": math.sqrt(max(p * (1 - p), 1e-12) / n), "shots": n,
+            "marginals_p1": p3sim.marginals_p1(c, 9), **_uniformity(c)}
+
+
+def _uniformity(c):
+    """O2: Shannon entropy (bits) of the 9-bit distribution and total-variation distance from uniform."""
+    n = sum(c.values())
+    probs = np.array([v / n for v in c.values()])
+    ent = float(-(probs * np.log2(probs)).sum())
+    tvd = 0.5 * (float(np.abs(probs - 1 / 512).sum()) + (512 - len(probs)) / 512)
+    return {"entropy_bits": ent, "tvd_from_uniform": tvd}
+
+
+def _merge(cs):
+    out = {}
+    for c in cs:
+        for b, n in c.items():
+            out[b] = out.get(b, 0) + n
+    return out
+
+
+def _diff(x, y):
+    d = x["p_yes"] - y["p_yes"]; se = math.sqrt(x["se"] ** 2 + y["se"] ** 2)
+    return {"diff": d, "se": se, "z": d / se if se else 0.0, "ci90": [d - 1.645 * se, d + 1.645 * se],
+            "within_equiv": (d - 1.645 * se > -EQUIV) and (d + 1.645 * se < EQUIV),
+            "big": d >= BIG and (d / se if se else 0) >= ZMIN}
+
+
+def _class(d):
+    return "big" if d["big"] else ("within" if d["within_equiv"] else "between")
+
+
+def run_untestable(pred, raw):
+    """F2 (D12): section 5.3 in code."""
+    if "job_error" in raw:
+        return f"job error: {raw['job_error']}"
+    got = [sum(c.values()) for c in raw["counts"]]
+    if len(got) != len(pred["labels"]):
+        return f"{len(got)} PUB results for {len(pred['labels'])} PUBs"
+    if sum(got) < 0.9 * TOTAL_SHOTS:
+        return f"{sum(got)} shots returned, below 90% of {TOTAL_SHOTS}"
+    bad = [(l["arm"], l["shots"], g) for l, g in zip(pred["labels"], got) if g != l["shots"]]
+    if bad:
+        return f"PUB shot counts differ from their labels: {bad[:4]}"
+    return None
+
+
+def contiguous_block(raw, labels, arm):
+    """F4 (D14): an arm's single PUB counts as a contiguous block only if no execution span holding it holds another PUB."""
+    spans = raw.get("execution_spans")
+    if not spans:
+        return None
+    idx = [i for i, l in enumerate(labels) if l["arm"] == arm]
+    return all(set(sp["pubs"]) <= set(idx) for sp in spans if set(sp["pubs"]) & set(idx))
+
+
+def analyse_run(k, web):
+    pred = json.loads(pred_path(k).read_text())
+    raw = json.loads(raw_path(k).read_text())
+    why = run_untestable(pred, raw)
+    if why:
+        return {"untestable": why}
+    by_arm, pieces = {}, {}
+    for lab, c in zip(pred["labels"], raw["counts"]):
+        by_arm.setdefault(lab["arm"], []).append(c)
+    res = {a: _p(_merge(cs), web) for a, cs in by_arm.items()}
+    res["B_pooled"], res["N_pooled"] = _p(_merge(by_arm["BB"] + by_arm["BI"]), web), _p(_merge(by_arm["NB"] + by_arm["NI"]), web)
+    res["block_pooled"], res["inter_pooled"] = _p(_merge(by_arm["BB"] + by_arm["NB"]), web), _p(_merge(by_arm["BI"] + by_arm["NI"]), web)
+    cmp = {"BB_minus_NB": _diff(res["BB"], res["NB"]), "barrier_pooled": _diff(res["B_pooled"], res["N_pooled"]),
+           "grouping_pooled": _diff(res["block_pooled"], res["inter_pooled"])}
+    # O3: leave-one-piece-out over the 10 BI and 10 NI pieces for the pooled secondaries
+    lopo = {"barrier_pooled": [], "grouping_pooled": []}
+    for arm in ("BI", "NI"):
+        for j in range(len(by_arm[arm])):
+            keep = {a: list(cs) for a, cs in by_arm.items()}
+            keep[arm] = keep[arm][:j] + keep[arm][j + 1:]
+            bp, np_ = _p(_merge(keep["BB"] + keep["BI"]), web), _p(_merge(keep["NB"] + keep["NI"]), web)
+            bl, it = _p(_merge(keep["BB"] + keep["NB"]), web), _p(_merge(keep["BI"] + keep["NI"]), web)
+            lopo["barrier_pooled"].append(_class(_diff(bp, np_)))
+            lopo["grouping_pooled"].append(_class(_diff(bl, it)))
+    lopo_stable = {k2: len(set(v)) == 1 and v[0] == _class(cmp[k2]) for k2, v in lopo.items()}
+    r0, r1 = res["R0"]["marginals_p1"], res["R1"]["marginals_p1"]
+    return {"job": raw["usage"]["job_id"], "qpu_s": raw["usage"]["quantum_seconds"], "timestamps": raw.get("timestamps"),
+            "arms": res, "comparisons": cmp, "classes": {k2: _class(v) for k2, v in cmp.items()},
+            "lopo_classes": lopo, "lopo_stable": lopo_stable,
+            "BB_contiguous_block": contiguous_block(raw, pred["labels"], "BB"),
+            "NB_contiguous_block": contiguous_block(raw, pred["labels"], "NB"),
+            "predictions": {n: v["p_yes"] for n, v in pred["predictions"].items()},
+            "predicted_barrier_effect": pred.get("predicted_barrier_effect"),
+            "readout": {"p1_given_0": r0, "p0_given_1": [1 - x for x in r1]}}
+
+
+def primary_label(r):
+    bb, c = r["arms"]["BB"]["p_yes"], r["comparisons"]["BB_minus_NB"]
+    return "pass" if (bb >= HIGH and c["diff"] >= BIG and c["z"] >= ZMIN) else "fail"
 
 
 def analyse():
     web = p3sim.stage1_web()
     out = {"runs": {}}
     for k in (1, 2):
-        if not raw_path(k).exists():
-            continue
-        pred = json.loads(pred_path(k).read_text())
-        raw = json.loads(raw_path(k).read_text())
-        arms = {}
-        for lab, c in zip(pred["labels"], raw["counts"]):
-            a = arms.setdefault(lab["arm"], {})
-            for b, n in c.items():
-                a[b] = a.get(b, 0) + n
-        res = {}
-        for a, c in arms.items():
-            n = sum(c.values())
-            p = p3sim.p_yes(c, web)
-            res[a] = {"p_yes": p, "se": math.sqrt(p * (1 - p) / n), "shots": n, "marginals_p1": p3sim.marginals_p1(c, 9)}
-        def diff(x, y):
-            d = res[x]["p_yes"] - res[y]["p_yes"]
-            se = math.sqrt(res[x]["se"] ** 2 + res[y]["se"] ** 2)
-            return {"diff": d, "se": se, "z": d / se, "ci90": [d - 1.645 * se, d + 1.645 * se]}
-        def pooled(xs):
-            c = {}
-            for x in xs:
-                for b, n in arms[x].items():
-                    c[b] = c.get(b, 0) + n
-            n = sum(c.values()); p = p3sim.p_yes(c, web)
-            return {"p_yes": p, "se": math.sqrt(p * (1 - p) / n), "shots": n}
-        res["B_pooled"], res["N_pooled"] = pooled(["BB", "BI"]), pooled(["NB", "NI"])
-        res["block_pooled"], res["inter_pooled"] = pooled(["BB", "NB"]), pooled(["BI", "NI"])
-        cmp = {"BB_minus_NB": diff("BB", "NB"), "barrier_pooled": diff("B_pooled", "N_pooled"),
-               "grouping_pooled": diff("block_pooled", "inter_pooled")}
-        r0, r1 = res["R0"]["marginals_p1"], res["R1"]["marginals_p1"]
-        out["runs"][str(k)] = {"job": raw["usage"]["job_id"], "qpu_s": raw["usage"]["quantum_seconds"],
-                               "timestamps": raw["timestamps"], "arms": res, "comparisons": cmp,
-                               "predictions": {n: v["p_yes"] for n, v in pred["predictions"].items()},
-                               "readout": {"p1_given_0": r0, "p0_given_1": [1 - x for x in r1]}}
+        if raw_path(k).exists():
+            out["runs"][str(k)] = analyse_run(k, web)
     r = out["runs"].get("1")
-    if r:
-        bb, c = r["arms"]["BB"]["p_yes"], r["comparisons"]["BB_minus_NB"]
-        out["primary"] = {"BB": bb, "BB_minus_NB": c["diff"], "z": c["z"],
-                          "verdict": "pass" if (bb >= 0.40 and c["diff"] >= 0.10 and c["z"] >= 3) else "fail"}
-        out["control_NI_vs_nov4"] = {"NI": r["arms"]["NI"]["p_yes"], "nov4": 0.24600000000000016,
-                                     "within_0.05": abs(r["arms"]["NI"]["p_yes"] - 0.24600000000000016) <= 0.05}
-        e = lambda d: (d["ci90"][0] > -0.05 and d["ci90"][1] < 0.05)
-        out["equivalence_run1"] = {"barrier_no_effect_gt_0.05": e(r["comparisons"]["barrier_pooled"]),
-                                   "grouping_no_effect_gt_0.05": e(r["comparisons"]["grouping_pooled"])}
-    if "1" in out["runs"] and "2" in out["runs"]:
-        drift = {}
-        for a in ("BB", "NB", "BI", "NI", "B_pooled", "N_pooled"):
-            x, y = out["runs"]["2"]["arms"][a], out["runs"]["1"]["arms"][a]
-            d = x["p_yes"] - y["p_yes"]; se = math.sqrt(x["se"] ** 2 + y["se"] ** 2)
-            drift[a] = {"diff": d, "se": se, "z": d / se, "ci90": [d - 1.645 * se, d + 1.645 * se]}
+    if r is None:
+        out["verdict"] = "not run"
+    elif "untestable" in r:
+        out["verdict"] = "untestable"; out["untestable_reason"] = r["untestable"]
+    else:
+        out["verdict"] = primary_label(r)
+        a = r["arms"]
+        out["flags"] = {   # which section 5 sentences apply (F1, D11)
+            "BB_high": a["BB"]["p_yes"] >= HIGH, "NB_high": a["NB"]["p_yes"] >= HIGH,
+            "all_arms_high": all(a[x]["p_yes"] >= HIGH for x in ("BB", "NB", "BI", "NI")),
+            "barrier_class": r["classes"]["barrier_pooled"], "grouping_class": r["classes"]["grouping_pooled"],
+            "control_NI_within_0.05_of_nov4": abs(a["NI"]["p_yes"] - NOV4_NI) <= EQUIV,
+            "BB_contiguous_block": r["BB_contiguous_block"]}
+        out["control_NI_vs_nov4"] = {"NI": a["NI"]["p_yes"], "nov4": NOV4_NI}
+    r2 = out["runs"].get("2")
+    if r and r2 and "untestable" not in r and "untestable" not in r2:
+        drift = {x: _diff(r2["arms"][x], r["arms"][x]) for x in ("BB", "NB", "BI", "NI", "B_pooled", "N_pooled")}
         out["drift_run2_minus_run1"] = drift
-        out["drift_stable_within_0.05"] = all(-0.05 < drift[a]["ci90"][0] and drift[a]["ci90"][1] < 0.05
-                                              for a in ("B_pooled", "N_pooled"))
-        if "primary" in out:
-            r2 = out["runs"]["2"]
-            out["run2_agrees_with_run1_label"] = (
-                ("pass" if (r2["arms"]["BB"]["p_yes"] >= 0.40 and r2["comparisons"]["BB_minus_NB"]["diff"] >= 0.10
-                            and r2["comparisons"]["BB_minus_NB"]["z"] >= 3) else "fail") == out["primary"]["verdict"])
+        out["drift_stable_within_0.05"] = drift["B_pooled"]["within_equiv"] and drift["N_pooled"]["within_equiv"]
+        out["run2_label"] = primary_label(r2)
+        out["unstable_across_runs"] = out["run2_label"] != out["verdict"]
+    elif r2 is not None and "untestable" in r2:
+        out["run2_untestable"] = r2["untestable"]
     OUT.write_text(json.dumps(out, indent=1))
-    print(json.dumps({k: v for k, v in out.items() if k != "runs"}, indent=1))
-    for k, r in out["runs"].items():
-        print("run", k, {a: (round(v["p_yes"], 4), round(v["se"], 4)) for a, v in r["arms"].items()})
+    print(json.dumps({k: v for k, v in out.items() if k != "runs"}, indent=1, default=str))
+    for k, rr in out["runs"].items():
+        if "arms" in rr:
+            print("run", k, {a: (round(v["p_yes"], 4), round(v["se"], 4)) for a, v in rr["arms"].items()})
+    return out
 
 
 if __name__ == "__main__":
