@@ -13,7 +13,7 @@ papers_opened: 6
 flaws: 4
 pilot_usd: 0.07
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 10:50
 ---
 
 # Design review of em-gm2q2
@@ -167,3 +167,32 @@ Each needs a DEVIATIONS.md row dated before any call and naming this review. Non
 Notes, not counted as flaws:
 - Record in §6 that qonly answers come from round 1's batch and shown finals from round 5's (D7).
 - Have `label_on` record the failing part inside each leave-one-out set, and make the leave-one-out fail sentence say when the turn-by-turn reference is what broke (D8).
+
+## Confirmation (2026-11-05 10:50 America/Denver; fixes at 089eebd, DEVIATIONS.md D82)
+
+**Verdict: go.** All four flaws are fixed, and no fix lowers the bar: §5's pass rule is unchanged. I re-ran every check from scratch against the committed code, with no paid calls. The worktree's code and dry-run file equal 089eebd.
+
+1. **Budget (F1): fixed, by a different route from the one I suggested.** The author cut Opus to 4 repeats instead of raising the cap to $5.50.
+   - Committed values: `EST[(O,"qonly")] = 0.00293`, `EST[(O,"shown")] = 0.009173/5`, `REPS[O] = 4`, `CAP = 4.25` (br-011 amended).
+   - **Fake run at measured costs:** completes for $3.864, with all 1,520 conversations done (160 + 160 Opus, 600 + 600 Sonnet). At the committed estimates it completes for $3.865.
+   - **Per-turn cost shapes from the archive:** Opus's first turn costs about 1.12× its chain mean (em-dm4's stubs) and its 6th-turn increment is small; Sonnet's per-turn cost rises (its 6-turn MF chains cost $0.00056 more than its 5-turn chains). With those shapes the run also completes for $3.863.
+   - **Residual risk, not blocking.** The margin under the cap is $0.39. An unlikely shape, with the turn-2 cost at 1.4× the mean or costs falling steeply from turn 1, makes the per-round projection stop the run before round 2 or 4 with no chains finished.
+   - Cutting Opus from 6 to 4 repeats does not lower the bar. The re-run dry run gives Opus 0.62 in the equal world, the same as before the cut.
+2. **Crash and resume (F2): fixed.** In `fake_resume2.py`, the fake server keeps every batch across runs.
+   - **One crash** while polling round 3, then a resume: $2.647 billed and $2.647 recorded. The resume then refuses to start, because restarting the lost chains no longer fits the cap. That follows from the author's choice to restart lost chains rather than reuse their results.
+   - **Two crashes** (polling rounds 2 and 4): billed and recorded agree after each run ($2.038).
+   - **Request hash:** all 1,520 cached records carry `req_sha256`. Resuming after changing Sonnet's `max_tokens` exits with "built from different requests; not resumed".
+3. **World B (F3): fixed.**
+   - `world()` and `archived_secondaries()` now read complete chains only. The archived Opus order effect is 4.44, em-dm4's published 4.4. Opus within-order SD is 3.49.
+   - The re-run dry run (`dry.py`, into scratch) matches the committed `results/gm2q2-dry-run.json` row for row: all eight Opus worlds, and Sonnet's null 0.00, half 0.06 and 0.75 0.86. Sonnet's last five worlds were still running when I wrote this; the committed values for them are equal 0.99, redacted 0.02, shuffled 0.01, one-item 0.02, and 20% first- or last-line answers 0.37.
+   - At the fixed design the bet passes with probability 0.61 in the equal world and 0.37 at 0.75. It is 0.00 in the null, shuffled-items, one-item and redacted worlds. So D11 holds without world B.
+   - D82 withdraws the §6 and §8 world-B sentences and the stated reason for the flag-reference change. The lesson revision and the odds change (0.06 to 0.07) are both kept, before data.
+4. **Prior work (F4): fixed.**
+   - The map's `prior_work_line` and the bet row now cite Schwarz, Bishop, Hippler and Strack 1989. I confirmed it exists: ZUMA-Arbeitsbericht 1989/01, "Psychological sources of response effects in self-administered and telephone surveys". Its abstract reports order effects by telephone and none on self-administered forms.
+   - The rows now predict "mixed": the gate passes and the ratio fails.
+   - Hämäläinen 2025 is restated correctly.
+
+Notes, not blocking:
+- br-011's `what` field still says "R = 6 ... cap $4.00 ... planned about $3.6". Its `approved_usd` (4.25), `reason` and `amended` fields are correct; the stale field should be tidied.
+- The pre-registration file is not edited. D82 supersedes the parts it names, as design-review.md allows.
+- The leave-one-out note from my review (D8) is taken: `loo_break_parts` is recorded and the fail sentence names the part.
