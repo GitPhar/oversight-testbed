@@ -13,7 +13,7 @@ papers_opened: 2
 flaws: 3
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 10:47 America/Denver
 ---
 
 # Design review of ss-b10c
@@ -142,3 +142,24 @@ Verdict **fix-first** (3). Each fix needs a dated DEVIATIONS row written before 
    - Record that the 0.70 was first committed in the pre-registration commit.
 
    DEVIATIONS text: "| D73 | 2026-11-05 hh:mm | ss-b10c odds record (design review ss-b10c, F3): the engine odds 0.70 (fresh v2 context handed `scoring/dry_b10c.py`, 06c1fff) were first committed in the pre-registration commit 6dce8e2 (10:37:54), not before it as prereg-template §9 requires; §9's tick pointed at map b42b3d6, which holds 0.78 for ss-b10b's withdrawn event. The map node ss-f8 is updated to ss-b10c's event and 0.70, with ss-b10b's 0.78 kept beside it; the odds are not re-elicited or changed. Order of events: dry run 06c1fff 10:35:24, odds elicited, pre-registration 6dce8e2 10:37:54, seed a764438, no call. | Design review ss-b10c, F3. |"
+
+## Addendum: fixes confirmed (2026-11-05 10:47 America/Denver)
+
+I checked the fix commit 26c7aa0 (DEVIATIONS D71–D73) with no paid call. All three fixes hold, and the run may start.
+
+- **F1 (D71): holds.** `model_block` now gates the forecasting comparison with `if ids and len(both) >= MIN_FRAC * len(ids) - EPS:`, on the scored items, as required.
+  - On the stubbed ss-b10c ratings (two runs), `bettor` is present for Haiku (n 100) and Sonnet (n 126), and both §5 forecasting sentences print.
+  - The gate also rejects as it should: with Haiku's reversed forecasting call removed on 15 of its 100 scored items, the block is dropped and the verdict is unchanged.
+  - `--synthetic coin position strong haikulike split` still gives fail, fail, pass, pass, mixed.
+- **F2 (D72): holds.** The sentence now reads, for example, "Haiku's orders-averaged flattery accuracy on its scored items was not shown different from the published 81.4% for LLMs (interval [76.5, 90.5])", and "above" and "below" print as before.
+- **F3 (D73): holds.**
+  - Both copies of map node ss-f8 (`map/settled-science.json` and `programs/settled-science/map/settled-science.json`, identical) carry ss-b10c's `odds_event`, `cheapest_test`, 0.70 (0.32 + 0.38, with the reason) and `engine_odds_at` 10:37.
+  - ss-b10b's event and 0.78 are kept under `withdrawn_bet`, and `settled-science.md` says the odds were recorded after the pre-registration.
+  - Nothing was re-elicited, and the bar is unchanged.
+- **Nothing else changed.** Since 6dce8e2, `bettor/brainbench_b.py`, `bettor/brainbench.py`, `common.py` and the rule's code in `score_bbb.py` are unchanged apart from these two edits. The other files in that diff belong to ss-b13 and the ss-f2 re-bet.
+- **Program cap.** The dry run shows $8.409 spent (ss-b13 has since run). Adding the ss-f2 re-bet's $1.25 and this bet's $3.20 gives $12.86, under $13.40, so the program cap cannot cut the rule's steps.
+
+**Still required (record only, before scoring; it does not block the run).** ss-b10c's ledger row has `engine_odds_first: 0.78`, and the map node now also says `engine_odds_first: 0.78` with "revised at 10:37". But 0.78 was elicited for ss-b10b's event (all 200 items), not this bet's (the one-order items). `ledger/brier.py` scores `engine_odds_first` against each scored bet's outcome (line 55), so ss-b10c's outcome would be scored against odds for a different, withdrawn event.
+- Set `engine_odds_first` to 0.70 in ss-b10c's row in `ledger/bets.jsonl`.
+- Drop `engine_odds_first` and `engine_odds_revised_at` from ss-f8, or point them at `withdrawn_bet`. ss-b10b's 0.78 is already kept under `withdrawn_bet` and in its own row.
+- Suggested DEVIATIONS text: "| D74 | 2026-11-05 hh:mm | ss-b10c record fix (design review ss-b10c addendum): `engine_odds_first` for ss-b10c set to 0.70 in `ledger/bets.jsonl`, and removed from map node ss-f8, because 0.78 was ss-b10b's odds for a different event (all 200 items), kept under `withdrawn_bet` and in ss-b10b's own withdrawn row; brier.py's first-odds row would otherwise score ss-b10c's outcome against another event's odds. No odds re-elicited; no bar changed. | Design review ss-b10c addendum. |"

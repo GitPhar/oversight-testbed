@@ -578,8 +578,6 @@
     "cheapest_test": "ss-b10's flattery and forecasting prompts, unchanged, on all 200 items in both orders on Haiku and Sonnet (ss-b10's 974 archived calls reused by content hash, 626 new); Opus on both prompts in both orders on a beacon-drawn subset up to $1.50.",
     "note": "withdrawn before any call (D68)"
    },
-   "engine_odds_first": 0.78,
-   "engine_odds_revised_at": "2026-11-05T10:37",
    "revision_reason": "ss-b10c's fresh v2 odds, from a context handed scoring/dry_b10c.py (06c1fff); recorded here after the pre-registration (design review ss-b10c F3, D73); not re-elicited",
    "bet": "ss-b10c"
   }
