@@ -343,6 +343,8 @@ SENTENCES = {
     "smaller_ordered": ("On {M}, the position effect, {P}, was below the 0.15 bar but larger than the label effect "
                         "(position minus label {PmL}): the ordering seen on Haiku held on this design at a smaller "
                         "size."),                                                          # D14c (F3)
+    "smaller_below": ("On {M}, the position effect, {P}, was below the 0.15 bar and smaller than the label effect "
+                      "(position minus label {PmL})."),                                    # D14e
     "smaller_unordered": ("On {M}, the position effect, {P}, was below the 0.15 bar and could not be told apart from "
                           "the label effect at this n (position minus label {PmL})."),
     "fragile": ("Dropping item {item} alone on {M} changes the overall verdict to \"{v}\", so it rests on that item."),
@@ -380,9 +382,10 @@ def analyse_model(mk, cache, its, anc, seed32_boot):
                stats=s, stats_shift=ss, reading=v, sentence=model_sentence(mk, v, s, ss))
     if s["AY"][1] <= EPS:                                       # D14b (F2)
         res["no_own_pull_sentence"] = SENTENCES["no_own_pull"].format(M=NAME[mk], AY=fmt(s["AY"])) + \
-            ("" if v == "holds" else " " + SENTENCES["no_own_pull_split"])
+            (" " + SENTENCES["no_own_pull_split"] if abs(s["P"][0]) < MARGIN - EPS else "")   # D14e: only when |P| < 0.15
     if v == "fail-small" and s["P"][0] < MARGIN - EPS and s["P"][1] > EPS:     # D14c (F3), secondary
-        key = "smaller_ordered" if s["P_minus_L"][1] > EPS else "smaller_unordered"
+        key = ("smaller_ordered" if s["P_minus_L"][1] > EPS else
+               "smaller_below" if s["P_minus_L"][2] < -EPS else "smaller_unordered")          # D14e
         res["smaller_sentence"] = SENTENCES[key].format(M=NAME[mk], P=fmt(s["P"]), PmL=fmt(s["P_minus_L"]))
         res["smaller_reading"] = key
     loo = {}

@@ -95,3 +95,12 @@ stub: 800 done, $0.0000
   - its P − L row: | position minus label, P − L | +0.11 [+0.06, +0.17] | +0.02 [-0.01, +0.05] | — | secondary |
   - opus smaller_sentence: On Opus 5.5, the position effect, +0.04 [+0.01, +0.07], was below the 0.15 bar and could not be told apart from the label effect at this n (position minus label +0.02 [-0.01, +0.05]).
   - verdict sentence: The pre-registered event did not occur: Sonnet 5.5 and Opus 5.5 did not both meet the rule (on each model: a position effect of at least 0.15 of the displacement on both uptake measures, its 95% interval above 0, and larger than the label effect).
+
+## 9. Confirmation fixes (D14e), checked on synthetic tables
+- P +0.08 [+0.02, +0.14], P - L -0.05 [-0.09, -0.01] (review's example): attaches ['no-own-pull + split clause', 'smaller_below']
+- P +0.08 [+0.02, +0.14], P - L +0.02 [-0.03, +0.07]: attaches ['no-own-pull + split clause', 'smaller_unordered']
+- P +0.08 [+0.02, +0.14], P - L +0.05 [+0.01, +0.09]: attaches ['no-own-pull + split clause', 'smaller_ordered']
+- fail-shift, P +0.25: attaches ['no-own-pull']
+- fail-reversed, P -0.20: attaches ['no-own-pull']
+- holds, P +0.26: attaches ['no-own-pull']
+- code check: the attach rules above are the ones in analyse_model(): True

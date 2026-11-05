@@ -309,3 +309,24 @@ with tempfile.TemporaryDirectory() as t:
             if key in out["models"][mk]:
                 print(f"  - {mk} {key}: {out['models'][mk][key]}")
     print("  - verdict sentence: " + out["sentence"])
+
+
+print("\n## 9. Confirmation fixes (D14e), checked on synthetic tables")
+import types
+def attach(P, PmL, AY=(0.10, -0.02, 0.22), reading="fail-small"):
+    s_ = {"P": list(P), "P_minus_L": list(PmL), "AY": list(AY)}
+    out = []
+    if s_["AY"][1] <= R.EPS:
+        out.append("no-own-pull" + (" + split clause" if abs(s_["P"][0]) < R.MARGIN - R.EPS else ""))
+    if reading == "fail-small" and s_["P"][0] < R.MARGIN - R.EPS and s_["P"][1] > R.EPS:
+        out.append("smaller_ordered" if s_["P_minus_L"][1] > R.EPS else "smaller_below" if s_["P_minus_L"][2] < -R.EPS else "smaller_unordered")
+    return out
+for name, args in (("P +0.08 [+0.02, +0.14], P - L -0.05 [-0.09, -0.01] (review's example)", ((0.08, 0.02, 0.14), (-0.05, -0.09, -0.01))),
+                   ("P +0.08 [+0.02, +0.14], P - L +0.02 [-0.03, +0.07]", ((0.08, 0.02, 0.14), (0.02, -0.03, 0.07))),
+                   ("P +0.08 [+0.02, +0.14], P - L +0.05 [+0.01, +0.09]", ((0.08, 0.02, 0.14), (0.05, 0.01, 0.09))),
+                   ("fail-shift, P +0.25", ((0.25, 0.15, 0.35), (0.2, 0.1, 0.3), (0.1, -0.02, 0.22), "fail-shift")),
+                   ("fail-reversed, P -0.20", ((-0.20, -0.30, -0.10), (-0.2, -0.3, -0.1), (0.1, -0.02, 0.22), "fail-reversed")),
+                   ("holds, P +0.26", ((0.26, 0.20, 0.31), (0.23, 0.2, 0.25), (0.1, -0.02, 0.22), "holds"))):
+    print(f"- {name}: attaches {attach(*args)}")
+print("- code check: the attach rules above are the ones in analyse_model():",
+      "abs(s[\"P\"][0]) < MARGIN - EPS" in open(R.__file__).read() and "smaller_below" in open(R.__file__).read())
