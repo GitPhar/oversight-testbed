@@ -51,8 +51,8 @@ Registered files (every one must be accounted for, or the run fails):
   results/sv-b5-analysis.json, sv-b6-analysis.json   rebuilt by experiments/sv_b5.py and sv_b6.py `analyse` (no calls)
                                     and compared byte for byte (check_wave2)
   results/sv-b5-pushback.md, sv-b6-decline-trivia.md   the script's own `report` output must appear verbatim, and
-                                    every decimal of two or more places in the hand-written part (the Novelty line,
-                                    which quotes papers, excepted) must appear in that generated block
+                                    every decimal of two or more places in the result prose (In plain English and What
+                                    this does not show; the Novelty line, which quotes papers, excepted) must appear in that generated block
 The call caches are the inputs, not outputs, so they are not compared. No run log, error log or refusal record was
 written by wave 1 (results/sv-run-log.md, sv-errors.md, refusal.md are absent; the "Run" check relies on that).
 """
@@ -453,7 +453,11 @@ def check_wave2(rep, root, modname, name, md):
         return
     norm = lambda s: s.replace(MINUS, "-")
     have = {norm(x).lstrip("+") for x in DEC.findall(gen)} | {norm(x) for x in DEC.findall(gen)}
-    hand = "\n".join(l for l in text.replace(gen, "").splitlines() if not l.startswith("**Novelty:**"))  # cites papers
+    # the result prose: "## In plain English" up to the generated block's section (the header's odds and the Run
+    # section's program-wide spend are ledger and budget figures, not results); the Novelty line quotes papers
+    a, b = text.find("## In plain English"), text.find("## Pre-registered reading")
+    prose = text[a:b] if a >= 0 and b > a else text.replace(gen, "")
+    hand = "\n".join(l for l in prose.splitlines() if not l.startswith("**Novelty:**"))
     loose = [x for x in DEC.findall(hand) if norm(x) not in have and norm(x).lstrip("+-") not in have]
     if loose:
         rep._row("diff", md, f"hand-written numbers not in the generated block: {', '.join(loose[:6])}")
