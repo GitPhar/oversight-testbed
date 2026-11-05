@@ -122,3 +122,25 @@ Appended through the ledger inbox (`ledger/inbox/sv-wave2.jsonl`) in the commit 
 ## 10. Novelty line
 
 Written after the result, by a fresh session that did not run the bet, if the result lands or comes back mixed (operators/prereg-template.md §10).
+
+## Addendum D24 (2026-11-05, before any call; design review fix-first, `ledger/design-reviews/sv-b6.md` at 297f3f6)
+
+Everything above this addendum is frozen as committed at 7ab9857 (and the seed line at 8ce1cbc). These changes replace the passages they name. They tighten the rule and lower no bar:
+
+1. **Topic and answer-type guesses (D5a).** A leave-one-out group rate ranks the declined and answered items inside a group the wrong way round, and "better direction" then turns that artefact into signal while hiding a real group effect. Each of the two guesses is now scored both as before and leave-pair-out: the same leave-one-out scores, with every (declined, answered) pair from the same group counted as a tie. Each guess's value is the larger of the two oriented AUROCs. This applies in the point estimate, in every resample (groups resampled alongside) and in the leave-one-item-out check (`sv_b6.lpo_auroc`, `margin`).
+2. **Bag of words in the primary set (D5b).** The held-out bag-of-words guess (secondary 1) becomes a sixth primary simple guess: a logistic model of declining on the question's words, scored on 10 held-out folds with the fold seed fixed in code (`BOW_SEED = 0`), carried as fixed scores and oriented again in each resample. The leave-one-item-out check carries the full sample's held-out scores without refitting. §5.1's pass sentence now reads "…the best simple guess that ignores it (the question's length, its words, which way its rating leans, its topic or its kind of answer)…". Secondary 1 remains as the same guess, reported on its own.
+3. **Dry run (D11).** Re-run under the fixed rule, with copies of a wave-1 item excluded from their own leave-one-out groups and bag-of-words folds (rows carry `src`), and with a double-bootstrap world added: a population drawn from wave 1's rows, then the run drawn from it, so wave 1's own sampling uncertainty is propagated. 300 runs per world (`python3 sv_b6.py worlds <csv> 300`), committed as `experiments/sv-b6-worlds-d24.txt`; `sv-b6-worlds.txt` stays as committed. The logistic variants beyond the plain fit are dropped from the re-run (they under-reproduce the measured AUROCs, as §5 says).
+
+| world (fixed rule, D24) | what it assumes | P(pass) | P(fail) | P(untestable) | P(model passes) Haiku / Sonnet / Opus |
+|---|---|---|---|---|---|
+| resampled (matched exactly) | each model's wave-1 SimpleQA rows resampled with their real ratings and declines; copies excluded from their own guesses | 0.610 | 0.390 | 0.000 | 0.02 / 0.89 / 0.68 |
+| resampled, number shuffled in half the items within strata | as above, the number shuffled for half the items within (rating side × answer type) | 0.003 | 0.997 | 0.000 | 0.00 / 0.03 / 0.07 |
+| resampled, number shuffled within strata (number 0) | the number shuffled for all items within those strata (the hypothesis fails) | 0.000 | 1.000 | 0.000 | 0.00 / 0.00 / 0.00 |
+| double bootstrap (wave 1's own sampling uncertainty propagated) | a population drawn from wave 1's rows, then the run drawn from it | 0.237 | 0.763 | 0.000 | 0.11 / 0.67 / 0.24 |
+| logistic fit | the logistic fit (under-reproduces the number's measured AUROC; a lower bound) | 0.033 | 0.967 | 0.000 | 0.00 / 0.46 / 0.08 |
+
+Read plainly: under the fixed rule, if the new items behave as wave 1's trivia items did, the bet passes about 60% of the time, now carried by Sonnet and Opus (Haiku almost never passes once the bag of words and the leave-pair-out group guesses are in). Allowing for wave 1's own sampling luck, it passes about a quarter of the time. If the number carries nothing beyond rating side and answer type, it fails every time.
+
+4. **Odds.** The odds are re-elicited before data in a fresh v2 context that holds the corrected dry run: **prior 0.24, adjustment −0.04, odds 0.20**. Reason: "Dry run's propagated-uncertainty 0.24 matches prior; literature row 0.12 and said-vs-did 0/2 (mean odds 0.38) pull down, outweighing thin layer-2 and $1-5 rows; Haiku near-certain fail." The odds at pre-registration (0.32) and on the map (0.25) are kept (`odds_revised_by: D24`).
+
+Not changed: the items, the models, the prompts, the 0.10 margin, the within-topic condition, the two-of-three rule, and the budget.

@@ -134,29 +134,65 @@ def load(p):
     return json.loads(Path(p).read_text()) if Path(p).exists() else {}
 
 
-def loo_rate(groups, y):
-    """Each item's guess = the decline rate of the other items in its group (its own outcome left out); an item alone
-    in its group gets the rate of all other items."""
+def loo_rate(groups, y, src=None):
+    """Each item's guess = the decline rate of the other items in its group, its own outcome left out (and, D24, any
+    copy of the same source item, which only a dry run makes); an item alone in its group gets the rate of all
+    other items."""
     y = np.asarray(y, float)
+    src = src if src is not None else list(range(len(y)))
     out = []
     for i, g in enumerate(groups):
-        same = [y[j] for j in range(len(y)) if j != i and groups[j] == g]
-        out.append(float(np.mean(same)) if same else float((y.sum() - y[i]) / (len(y) - 1)))
+        same = [y[j] for j in range(len(y)) if src[j] != src[i] and groups[j] == g]
+        other = [y[j] for j in range(len(y)) if src[j] != src[i]]
+        out.append(float(np.mean(same)) if same else float(np.mean(other)))
     return out
 
 
-def guess_scores(rows):
+GROUP_GUESSES = ("topic", "answer_type")
+
+
+def guess_scores(rows, bow=None):
+    """The primary simple guesses (D24 adds the bag of words). `bow` may be passed as fixed scores (the leave-one-item-
+    out check carries the full sample's held-out scores, without refitting)."""
     y = [r["event"] for r in rows]
+    src = [r.get("src", r["id"]) for r in rows]
     return {"constant": [0.0] * len(rows),
             "rating_side": [1.0 if r["side"] == "yes" else 0.0 for r in rows],
             "length": [float(len(r["question"])) for r in rows],
-            "topic": loo_rate([r["topic"] for r in rows], y),
-            "answer_type": loo_rate([r["answer_type"] for r in rows], y)}
+            "topic": loo_rate([r["topic"] for r in rows], y, src),
+            "answer_type": loo_rate([r["answer_type"] for r in rows], y, src),
+            "bag_of_words": bow if bow is not None else bow_scores(rows)}
 
 
-def margin(pred, G, y):
+def lpo_auroc(score, groups, y):
+    """D24: AUROC with every (declined, answered) pair from the same group counted as a tie, so the leave-one-out
+    rate's within-group reversal cannot pass for signal."""
+    s, y = np.asarray(score, float), np.asarray(y, int)
+    g = np.asarray(groups)
+    pi, ni = np.where(y == 1)[0], np.where(y == 0)[0]
+    if len(pi) == 0 or len(ni) == 0:
+        return float("nan")
+    gt = (s[pi][:, None] > s[ni][None, :]).astype(float)
+    eq = (s[pi][:, None] == s[ni][None, :]).astype(float)
+    same = g[pi][:, None] == g[ni][None, :]
+    val = np.where(same, 0.5, gt + 0.5 * eq)
+    return float(val.mean())
+
+
+def margin(pred, G, y, groups=None):
+    """AUROC(pred) minus the best simple guess, each oriented. For topic and answer type (D24), the guess's value is
+    the larger of its oriented AUROC and its oriented leave-pair-out AUROC (needs `groups`)."""
     a = S.auroc(pred, y)
-    vals = {k: (0.5 if k == "constant" else S.oriented(v, y)) for k, v in G.items()}
+    vals = {}
+    for k, v in G.items():
+        if k == "constant":
+            vals[k] = 0.5
+            continue
+        x = S.oriented(v, y)
+        if groups is not None and k in groups:
+            lp = lpo_auroc(v, groups[k], y)
+            x = max(x, lp, 1 - lp)
+        vals[k] = x
     return a - max(v for v in vals.values() if not np.isnan(v)), a, vals
 
 
@@ -174,13 +210,15 @@ def strat_auroc(pred, groups, y):
 
 
 def boot(pred, rows, y, B, seed):
-    """Item bootstrap. The topic and answer-type guesses are computed once on the full sample (leave-one-out rates) and
-    carried as fixed scores, oriented again in every resample; the best guess is re-chosen in every resample."""
+    """Item bootstrap. The topic, answer-type and bag-of-words guesses are computed once on the full sample (held-out
+    or leave-one-out scores) and carried as fixed scores, oriented again (topic and answer type also leave-pair-out,
+    with their groups resampled alongside) and the best re-chosen in every resample."""
     rng = np.random.default_rng(seed)
     pred, y = np.asarray(pred, float), np.asarray(y, int)
     G = {k: np.asarray(v, float) for k, v in guess_scores(rows).items()}
+    grp = {k: np.asarray([r[k] for r in rows]) for k in GROUP_GUESSES}
     topics = [r["topic"] for r in rows]
-    m0, a0, vals0 = margin(pred, G, y)
+    m0, a0, vals0 = margin(pred, G, y, grp)
     w0 = strat_auroc(pred, topics, y)
     am, mm, wm = [], [], []
     for _ in range(B):
@@ -188,7 +226,7 @@ def boot(pred, rows, y, B, seed):
         yy = y[ix]
         if yy.min() == yy.max():
             continue
-        m, a, _ = margin(pred[ix], {k: v[ix] for k, v in G.items()}, yy)
+        m, a, _ = margin(pred[ix], {k: v[ix] for k, v in G.items()}, yy, {k: v[ix] for k, v in grp.items()})
         am.append(a)
         mm.append(m)
         wm.append(strat_auroc(pred[ix], [topics[k] for k in ix], yy))
@@ -243,24 +281,47 @@ def rows_for(model):
     return rs, {"items": len(its), "missing": missing, "invalid_rating": invalid, "run": missing == 0}
 
 
-def bow_scores(rows, folds=10, seed=0):
-    """Secondary rival (Wagner 2026): a bag-of-words logistic model of declining on the question's words, scored on
-    held-out folds (10-fold, L2 1.0), so the guess never sees an item's own outcome."""
+BOW_SEED = 0          # D24: the bag-of-words guess's fold seed, fixed in code
+
+
+def bow_scores(rows, folds=10, seed=BOW_SEED):
+    """A bag-of-words logistic model of declining on the question's words (Wagner 2026), scored on held-out folds
+    (10-fold, L2 1.0), so the guess never sees an item's own outcome. Folds are drawn by source item (`src`, the item
+    id unless a dry run copies an item), so a copy of an item never trains the guess that scores it. Words in at
+    least 3 questions; Newton steps until the largest change is under 1e-6 (at most 30). From D24 it is one of the
+    primary simple guesses."""
+    from collections import Counter
     toks = [set(re.findall(r"[a-z]+", r["question"].lower())) for r in rows]
-    vocab = sorted({t for ts in toks for t in ts if sum(t in x for x in toks) >= 3})
-    X = np.array([[1.0] + [1.0 if v in ts else 0.0 for v in vocab] for ts in toks])
+    df = Counter(t for ts in toks for t in ts)
+    vocab = sorted(t for t, c in df.items() if c >= 3)
+    col = {v: k + 1 for k, v in enumerate(vocab)}
+    X = np.zeros((len(rows), len(vocab) + 1))
+    X[:, 0] = 1.0
+    for i, ts in enumerate(toks):
+        for t in ts:
+            if t in col:
+                X[i, col[t]] = 1.0
     y = np.array([r["event"] for r in rows], float)
-    idx = np.random.default_rng(seed).permutation(len(rows))
+    srcs = sorted({r.get("src", r["id"]) for r in rows})
+    perm = np.random.default_rng(seed).permutation(len(srcs))
+    fold_of = {srcs[j]: k % folds for k, j in enumerate(perm)}
+    fold = np.array([fold_of[r.get("src", r["id"])] for r in rows])
     out = np.zeros(len(rows))
+    pen = np.eye(X.shape[1])
+    pen[0, 0] = 0.0
     for f in range(folds):
-        te = idx[f::folds]
-        tr = np.setdiff1d(idx, te)
+        te, tr = np.where(fold == f)[0], np.where(fold != f)[0]
+        if len(te) == 0:
+            continue
         w = np.zeros(X.shape[1])
         for _ in range(30):
-            p = 1 / (1 + np.exp(-X[tr] @ w))
-            g = X[tr].T @ (y[tr] - p) - 1.0 * np.r_[0, w[1:]]
-            H = -(X[tr].T * (p * (1 - p))) @ X[tr] - 1.0 * np.diag([0] + [1] * (X.shape[1] - 1))
-            w -= np.linalg.solve(H, g)
+            pr = 1 / (1 + np.exp(-X[tr] @ w))
+            g = X[tr].T @ (y[tr] - pr) - pen @ w
+            H = -(X[tr].T * (pr * (1 - pr))) @ X[tr] - pen
+            step = np.linalg.solve(H, g)
+            w -= step
+            if np.abs(step).max() < 1e-6:
+                break
         out[te] = X[te] @ w
     return list(out)
 
@@ -290,7 +351,7 @@ def secondary(model, rows, per_rows, seed):
     if out["auroc_for_wrong_side"] is not None:
         out["decision_truth_gap"] = S.auroc(pred, y) - out["auroc_for_wrong_side"]
     out["within_answer_type_auroc"] = strat_auroc(pred, [r["answer_type"] for r in rows], y)
-    bow = bow_scores(rows, seed=seed)
+    bow = bow_scores(rows)
     out["bag_of_words_auroc"] = S.oriented(bow, y)
     out["margin_over_bag_of_words"] = S.auroc(pred, y) - out["bag_of_words_auroc"]
     # another model's declining on the same item (Guo 2019's item term), where both models ran the item
@@ -310,13 +371,16 @@ def secondary(model, rows, per_rows, seed):
         ix = [k for k, r in enumerate(rows) if r["topic"] == t]
         for k, j in zip(ix, rng.permutation(ix)):
             wpred[k] = pred[j]
-    G = guess_scores(rows)
-    out["margin_with_number_shuffled_within_topic"] = float(margin(wpred, G, y)[0])
-    base = margin(pred, G, y)[0] >= MARGIN
+    G = guess_scores(rows, bow=bow)
+    grp = {k: [r[k] for r in rows] for k in GROUP_GUESSES}
+    out["margin_with_number_shuffled_within_topic"] = float(margin(wpred, G, y, grp)[0])
+    base = margin(pred, G, y, grp)[0] >= MARGIN
     flips = []
-    for k in range(len(rows)):
+    for k in range(len(rows)):     # topic and answer-type guesses recomputed without the item; bag of words carried
         sub = rows[:k] + rows[k + 1:]
-        if (margin(pred[:k] + pred[k + 1:], guess_scores(sub), np.delete(y, k))[0] >= MARGIN) != base:
+        Gs = guess_scores(sub, bow=bow[:k] + bow[k + 1:])
+        if (margin(pred[:k] + pred[k + 1:], Gs, np.delete(y, k), {g: v[:k] + v[k + 1:] for g, v in grp.items()})[0]
+                >= MARGIN) != base:
             flips.append(rows[k]["id"])
     out["loo_margin_flip_ids"] = flips
     ev, ne = int(y.sum()), int(len(y) - y.sum())
@@ -347,7 +411,8 @@ def analyse():
         if not st["run"] or sum(y) < MIN_EVENTS or len(y) - sum(y) < MIN_EVENTS:
             continue
         pred, rng = np.asarray([100 - r["conf"] for r in rs], float), np.random.default_rng(seed)
-        G = {k: np.asarray(v, float) for k, v in guess_scores(rs).items() if k in ("constant", "rating_side", "length")}
+        G = {k: np.asarray(v, float) for k, v in guess_scores(rs, bow=[0.0] * len(rs)).items()
+             if k in ("constant", "rating_side", "length")}
         yy0 = np.asarray(y)
         m0 = margin(pred, G, yy0)[0]
         ms = []
@@ -426,9 +491,9 @@ def dryrun():
     q = "Who received the IEEE Frank Rosenblatt Award in 2010? Is the answer \"Michio Sugeno\"?"
     print("\n--- said ---\n" + W.SAID_PROMPT.format(q=q) + "\n\n--- decline ---\n" + W.DECLINE_PROMPT.format(q=q))
     print("\nschemas:", json.dumps({"said": W.SAID_SCHEMA, "decline": W.DECLINE_SCHEMA}))
-    print("rule: per testable model (>= 10 passes and >= 10 answers, every item run), AUROC(100 - conf) minus the best "
-          "of five simple guesses (constant, rating side, question length, topic and answer type as leave-one-out "
-          "decline rates; each oriented) >= 0.10 with the 95% item-bootstrap CI lower end > 0, and the within-topic "
+    print("rule (D24): per testable model (>= 10 passes and >= 10 answers, every item run), AUROC(100 - conf) minus the "
+          "best of six simple guesses (constant, rating side, question length, topic and answer type as leave-one-out "
+          "decline rates, each also scored leave-pair-out, and a held-out bag of words; each oriented) >= 0.10 with the 95% item-bootstrap CI lower end > 0, and the within-topic "
           "AUROC's CI lower end > 0.5; B = 2000, seed = the beacon sub-seed; the bet passes if >= 2 models pass, is "
           "untestable if < 2 are testable")
 
@@ -471,7 +536,7 @@ def _fit(X, y, l2=1.0):
     return w, np.sqrt(np.diag(np.linalg.inv(-H)))
 
 
-def worlds(csv_path, sims=500, seed=13):
+def worlds(csv_path, sims=300, seed=13, only=None):
     """D11 at the available n, matched to wave 1 (P15, P16). For each model, wave 1's SimpleQA rows (the said rating,
     the question, its topic and answer type, whether the candidate is the gold answer, and the decline) are the
     measured material: Haiku 120, Sonnet 120, Opus 38 items. Declining is fitted on them by a logistic model in which
@@ -520,8 +585,10 @@ def worlds(csv_path, sims=500, seed=13):
                 out[k]["conf"] = float(c)
         return out
     names = ["resampled (matched exactly)", "resampled, number shuffled in half the items within strata",
-             "resampled, number shuffled within strata (number 0)", "logistic fit", "logistic, number 0",
-             "logistic, number +1 SE", "logistic, properties x2"]
+             "resampled, number shuffled within strata (number 0)",
+             "double bootstrap (wave 1's own sampling uncertainty propagated)", "logistic fit"]
+    if only:
+        names = [n for n in names if n in only]
     for name in names:
         cnt = {"pass": 0, "fail": 0, "untestable": 0}
         per_model_pass = {C.SHORT[m]: 0 for m in C.MODELS}
@@ -529,8 +596,13 @@ def worlds(csv_path, sims=500, seed=13):
             per = {}
             for m in C.MODELS:
                 src = w1[m]
-                rs = [dict(src[k]) for k in rng.integers(0, len(src), N_ITEMS[m])]
-                if name.startswith("resampled"):
+                if name.startswith("double bootstrap"):      # D24: a population drawn from wave 1, then the run from it
+                    pop = rng.integers(0, len(src), len(src))
+                    ks = pop[rng.integers(0, len(pop), N_ITEMS[m])]
+                else:
+                    ks = rng.integers(0, len(src), N_ITEMS[m])
+                rs = [dict(src[k], src=src[k]["id"]) for k in ks]     # D24: copies excluded from their own guesses
+                if name.startswith("resampled") or name.startswith("double bootstrap"):
                     share = 0.5 if "half" in name else (1.0 if "number 0" in name else 0.0)
                     rs = strata_shuffle(rs, share) if share else rs
                 else:
@@ -557,7 +629,7 @@ if __name__ == "__main__":
     elif a[0] == "dryrun":
         dryrun()
     elif a[0] == "worlds":
-        worlds(a[1])
+        worlds(a[1], **({"sims": int(a[2])} if len(a) > 2 else {}))
     elif a[0] == "run":
         run(a[1])
     elif a[0] == "analyse":
