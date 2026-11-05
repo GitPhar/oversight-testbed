@@ -44,9 +44,23 @@ Round 2c (`results/ss-b7-results.md`, audited): asked which version reports the 
 | `review/` | the design review |
 | `DEVIATIONS.md` | every departure, dated |
 
-## Reproduce
+## Reproducibility
 
-```
-/Users/seanpharris/entangled-mind/.venv/bin/python scoring/score.py
-```
-Regenerates every results table from `items/items.jsonl` and `bettor/bets.jsonl` with no keys and no calls.
+One command, from the repository root, with Python 3 and numpy installed (no keys, no network, no model calls):
+
+    python3 programs/settled-science/reproduce.py
+
+The root `python3 reproduce.py` runs it too and prints one line for this program.
+
+What it does. It takes a copy of the program as committed and runs the scorer, `scoring/score.py`, in that copy, four ways: round 1 (no flag), round 2 (`--r2`), the valence rater (`--b6`) and the striking rater (`--b7`). The scorer reads only archived answers. Round 1 uses `items/items.jsonl` and `bettor/bets.jsonl`. Round 2 uses `items/r2/items.jsonl` and `bettor/r2-bets.jsonl`. The raters use `bettor/r2-valence.jsonl`, `bettor/r2-valence-retest.jsonl`, `bettor/r2-striking.jsonl` and `bettor/r2-striking-retest.jsonl`. Its bootstrap and simulation seeds are its own; nothing is reseeded.
+
+What it compares:
+- `scoring/tables.md` and `scoring/r2-tables.md` are wholly generated. They must match byte for byte.
+- `scoring/scores.json`, `r2-scores.json`, `b6-scores.json` and `b7-scores.json` hold the numbers the tables come from. They must match byte for byte, except for a newline at the end of the file (the committed `b7-scores.json` has one; the scorer writes none).
+- The four write-ups in `results/` were written by hand. The script checks every table cell and in-text number they copy from the scorer, rendered from the regenerated scores in the write-up's style. For ss-b6 and ss-b7 it checks the pre-registered sentence word for word. Labels, odds, costs and prose are not checked. The script's docstring lists, file by file, what is checked and what is not.
+
+`score.py --b7` takes about 2.5 minutes in one process. The script runs its 21 null simulations (the same function, the same seeds) in parallel first, which brings the whole check to under a minute. `--serial` turns that off.
+
+Gaps: none. Every file the scorer needs is in the archive. The model calls that produced the answers (leakage checks, bettor, raters) are not rerun; this checks the scoring, not the answers.
+
+Not checked, because no archived code computes it: in ss-b1, the up-word rule row of the leakage-check table, the confidence gap in plain English, the audit's leave-one-field-out bound and the engine-calibration Brier; in ss-b5, the leakage counts (146 of 243) and the greedy count of 9; in ss-b6, the design review's and the auditor's simulated false-pass rates; in ss-b7, the near-50 count, the 82% and 17-item split, and the auditor's subset margin.
