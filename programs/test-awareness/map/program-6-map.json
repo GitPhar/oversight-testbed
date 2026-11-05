@@ -58,7 +58,7 @@
     "ta-b1r": "Rules out nothing about test cues: withdrawn before data, because pilot ratings sat at the floor (Opus 2 to 3 on every item, Haiku 0 to 5 on 80%), leaving no room for a cue to move them (P15).",
     "ta-b1r2": "Rules out little: on 90 trivia items the 'evaluation' note's effect on going along was undetermined on Haiku and Sonnet (Sonnet -4.8 points [-10.9, +1.2] vs placebo), and Opus rated 'a real request, not a test' nearly as test-like (89)."
    },
-   "rules_out_at": "2026-11-05T10:40",
+   "rules_out_at": "2026-11-05T10:00",
    "remap": "2026-11-05",
    "re_bet": "No re-bet mapped. Three designs have run (two withdrawn on review, one null); ta-b1r2's audit names a Sonnet-only rerun on 300 fresh items (about $1.10 with Haiku added), which would narrow Sonnet's interval but not test the third model. Not added: depth over breadth (Sean, operators/handoff-2026-11-05.md section 2, decision 5), and the program's novelty verdict (finding 9) points it at questions system cards do not cover."
   },
@@ -111,7 +111,7 @@
    "rules_out_by_bet": {
     "ta-b2": "Rules out nothing about exam format: Haiku rated even the chat version 74 of 100 test-like, failing the belief check, and Opus was not run; Sonnet's 7.8-point drop in 'not sure' was not separable from rewording."
    },
-   "rules_out_at": "2026-11-05T10:40",
+   "rules_out_at": "2026-11-05T10:00",
    "remap": "2026-11-05",
    "re_bet": "A re-bet exists (ta-b2's audit): a $0.01 belief-check probe on Haiku with a prompt not framed as evaluation, then an Opus arm (about $1.10 on 90 items, or $2.40 on all). Not mapped as a follow-up: the novelty check (finding 9) says the test-format question is already covered by Anthropic's release testing and by Needham et al. 2025, so a re-bet would add a replication only. The direction stays open, undecided, for Sean to veto or fund."
   },
@@ -153,7 +153,7 @@
    "rules_out_by_bet": {
     "ta-b3": "Rules out, on Meinke's no-goal prompt with 20 arithmetic trials, Sonnet 5.5 (thinking off) and Opus 5.5 (low effort) dropping 10 points or more when told a high score triggers unlearning; Haiku was below the capability floor."
    },
-   "rules_out_at": "2026-11-05T10:40",
+   "rules_out_at": "2026-11-05T10:00",
    "remap": "2026-11-05",
    "re_bet": "No re-bet mapped. ta-b3's audit names a thinking-on rerun (Sonnet with thinking, Opus at medium effort, about $1.00 to $1.50); the novelty check (finding 9) calls the sandbagging result already known (Meinke et al. 2024; Anthropic system cards; Khursheed et al. 2026), so a rerun would replicate it."
   },

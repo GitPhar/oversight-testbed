@@ -83,7 +83,7 @@ Written in the backward pass of 2026-11-05 (`paper/informed-engine.md`) by a fre
 
 ## Follow-ups (remap 2026-11-05)
 
-Written 2026-11-05 10:40 America/Denver by a fresh remap session (worktree `remap-p67`, claude-opus-5-5, `operators/remap.md`) that wrote none of this program's results, pre-registrations or audits. It read every row of `ledger/bets.jsonl` for the program, each audit in `ledger/audits/`, the results files and this map. Nothing was run, pre-registered or called.
+Written 2026-11-05 10:00 America/Denver by a fresh remap session (worktree `remap-p67`, claude-opus-5-5, `operators/remap.md`) that wrote none of this program's results, pre-registrations or audits. It read every row of `ledger/bets.jsonl` for the program, each audit in `ledger/audits/`, the results files and this map. Nothing was run, pre-registered or called.
 
 ### In plain English
 
