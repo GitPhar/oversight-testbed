@@ -10,6 +10,7 @@ Last rewritten: 2026-11-04 17:10 America/Denver, by hand, from the founding sess
 - Never tell Sean to close a tab. Each session's report ends with its `✻ … done` line; he decides.
 - Read session state from the repos (commits, results files) and say what landed; never ask him to paste terminal output.
 - No pacing decisions on his behalf ("tomorrow's wave"): anything worth doing goes in the next wave now. He works long days.
+- **Never ask Sean for odds or decisions in a terminal** (CONTEXT §3 rule 11). His odds come only from `ledger/human-odds.jsonl` (cockpit downloads, committed); if a direction has none when its bet is pre-registered, the bet proceeds marked "no human odds". A decision a session would have asked about, it makes under the rules and states in its report, for him to veto from the cockpit. His judgment is recorded and scored as steers: seed questions, vetoes, added questions, architecture decisions.
 - Human bets are at direction level only: "is this worth about $X? will it come back a hit?" Technical sub-bets are engine-only.
 - Every reply to Sean: plain English first, TL;DR of three lines max, then "YOU, NOW" with one step. One paste per terminal tab, the first message folded into the launch command.
 - Costs under $10/month are the engine's call. Above that: the number and a one-sentence recommendation.

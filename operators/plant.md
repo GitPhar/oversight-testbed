@@ -2,6 +2,8 @@
 
 A session other than the auditor plants one known-bad claim in a results file before the auditor sees it. The claim is either a deliberate overclaim or a table miscount. The planter records the plant sealed in `ledger/plants.jsonl`, and the seal is opened only after the audit is committed. The auditor's catch rate (plants found ÷ plants planted) is a published number. This file is the whole procedure. It follows ARCHITECTURE.md (the `Plant` object and step 5 of the loop), proposal.md Q2, and H2 in paper/the-engine.md, and it supersedes the shorter canary note that `operators/auditor.md` used to carry.
 
+> **The human is never asked in a terminal** (CONTEXT.md §3 rule 11). This session never asks Sean for odds or for a decision, in a terminal, a chat or a question dialog. His odds come only from `ledger/human-odds.jsonl` (the cockpit's downloads, committed); if a direction has no line there when its bet is pre-registered, the bet proceeds marked "no human odds". A decision this session would otherwise ask about, it makes under the written rules and states in its report and commit, where Sean can veto it from the cockpit. Sean's judgment is recorded and scored as steers in `ledger/steers.jsonl`: seed questions, vetoes, added questions and architecture decisions.
+
 ## In plain English
 
 The auditor's job is to catch what is wrong with a result. If we only ever hand it real results, we never know what it missed, because nobody knows what was there to find. So sometimes we hide something wrong on purpose, write down what and where before the audit starts, seal that note, and open it afterwards. If the auditor found it, that is a catch. Over many audits, the share it catches is how much its "this result stands" is worth.

@@ -10,6 +10,8 @@ Delete the guidance in *italics* when you fill it in. Keep the headings.
 
 Written and frozen <YYYY-MM-DD HH:MM> (America/Denver), in its own commit, before any call. DEVIATIONS.md <Dn>. Budget **$<n>**, enforced in code. Stop on any refusal: the request ID goes to `results/refusal.md`, and nothing is reworded or retried.
 
+> **The human is never asked in a terminal** (CONTEXT.md §3 rule 11). This session never asks Sean for odds or for a decision, in a terminal, a chat or a question dialog. His odds come only from `ledger/human-odds.jsonl` (the cockpit's downloads, committed); if a direction has no line there when its bet is pre-registered, the bet proceeds marked "no human odds". A decision this session would otherwise ask about, it makes under the written rules and states in its report and commit, where Sean can veto it from the cockpit. Sean's judgment is recorded and scored as steers in `ledger/steers.jsonl`: seed questions, vetoes, added questions and architecture decisions.
+
 ## 0. The bet
 
 | field | value |
@@ -20,7 +22,7 @@ Written and frozen <YYYY-MM-DD HH:MM> (America/Denver), in its own commit, befor
 | direction | `<program>-d<n>` (map/<program>.json) |
 | source | `literature` / `engine` / `human` — *where the idea came from (Q5)* |
 | engine odds, P(pass) | <0–100>, stated <timestamp> in map/<program>.json — *copied, not restated* |
-| human odds, P(pass) | <0–100>, recorded <timestamp> in ledger/human-odds/<file> — *or "not recorded", with why* |
+| human odds, P(pass) | <0–100>, the first line for this direction in `ledger/human-odds.jsonl` (<line id>, <commit>) — *or "no human odds" if it has none; never asked for in a terminal* |
 | budget | $<n> API · <n> QPU s · <n> laptop hours |
 | lesson | "Correcting <P-id(s)>: <what went wrong before>. This bet <what it does differently>, and its odds are <n>% (from <m>% on the map) because <reason from the ledger>." Written after reading ledger/bets.jsonl, brier.md, audits/ and lessons.jsonl (operators/learn.md). **Mandatory; never revised after this commit.** |
 | design review | before the first call, a fresh auditor dry-runs this design (operators/design-review.md) → `ledger/design-reviews/<bet-id>.md`, verdict go / fix-first / redesign. *No call runs before a go.* |
@@ -105,7 +107,7 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
 - [ ] This file is committed on its own; nothing has been run.
 - [ ] The lesson row in §0 is filled after reading ledger/bets.jsonl, brier.md, audits/ and lessons.jsonl; the same sentence goes to `ledger/lessons.jsonl` as `ls-<bet-id>` (operators/learn.md).
 - [ ] A fresh auditor's design review (operators/design-review.md) has returned **go**, or fix-first with every fix logged in DEVIATIONS and confirmed, before the first call. `python3 ledger/check_prereg.py <bet-id> . programs/<name>/experiments/<this file> --before-run` passes (run from the engine repo root).
-- [ ] Engine odds and human odds are on record elsewhere, with timestamps earlier than this commit.
+- [ ] Engine odds are on record elsewhere, with a timestamp earlier than this commit; human odds are copied from `ledger/human-odds.jsonl` if it has a line for this direction, otherwise marked "no human odds" (never asked for).
 - [ ] The pass rule in §5 can be applied by a stranger.
 - [ ] The pre-mortem in §0 is one sentence, names a checkable mechanism, and carries its kind.
 - [ ] One scale direction in every graded prompt.

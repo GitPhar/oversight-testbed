@@ -2,6 +2,8 @@
 
 After a pre-registration is committed and before its first API call, chip submission or archive read, a **fresh auditor session** tries to break the *design*. It reads the frozen pre-registration and the code, and dry-runs the code without paid calls. It ends with one verdict: **go**, **fix first** or **redesign**. No call runs before a **go**. This file is the whole procedure. It follows ARCHITECTURE.md (the `DesignReview` object, step 3b of the loop, invariant 10) and is enforced by `operators/prereg-template.md` §0, `operators/auditor.md` E26 and `ledger/check_prereg.py`.
 
+> **The human is never asked in a terminal** (CONTEXT.md §3 rule 11). This session never asks Sean for odds or for a decision, in a terminal, a chat or a question dialog. His odds come only from `ledger/human-odds.jsonl` (the cockpit's downloads, committed); if a direction has no line there when its bet is pre-registered, the bet proceeds marked "no human odds". A decision this session would otherwise ask about, it makes under the written rules and states in its report and commit, where Sean can veto it from the cockpit. Sean's judgment is recorded and scored as steers in `ledger/steers.jsonl`: seed questions, vetoes, added questions and architecture decisions.
+
 ## In plain English
 
 The audit after a result asks "is this true?". By then the money is spent and the chance is gone. Two of today's misses were broken before they ran, in ways a careful reader of the code could have caught for free:

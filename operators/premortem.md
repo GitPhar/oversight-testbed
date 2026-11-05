@@ -2,6 +2,8 @@
 
 Before each run, the session that pre-registers the bet writes one sentence: **"If this fails, the most likely reason is …"**. After the run, the auditor scores it. Over many bets, the ledger can then say whether the engine knows *how* its tests go wrong, not only *how often*. This file is the whole procedure. It follows ARCHITECTURE.md (the `Bet.premortem` field and steps 3 and 5 of the loop) and proposal.md Q1.
 
+> **The human is never asked in a terminal** (CONTEXT.md §3 rule 11). This session never asks Sean for odds or for a decision, in a terminal, a chat or a question dialog. His odds come only from `ledger/human-odds.jsonl` (the cockpit's downloads, committed); if a direction has no line there when its bet is pre-registered, the bet proceeds marked "no human odds". A decision this session would otherwise ask about, it makes under the written rules and states in its report and commit, where Sean can veto it from the cockpit. Sean's judgment is recorded and scored as steers in `ledger/steers.jsonl`: seed questions, vetoes, added questions and architecture decisions.
+
 ## In plain English
 
 The odds say how likely a test is to work. They say nothing about why it might not. A researcher with good judgment can usually name the weak point before starting: too few usable items, the model refusing the format, a ceiling effect, a rival explanation the design cannot rule out. If the engine's one-sentence guesses keep naming the real cause of failure, its judgment about designs is worth something. If they never do, its designs fail for reasons it cannot see, and that is worth knowing before anyone trusts it to run unattended.

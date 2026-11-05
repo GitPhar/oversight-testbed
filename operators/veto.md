@@ -2,6 +2,8 @@
 
 When Sean vetoes a direction, the ledger schedules a **shadow check** for later. A shadow check is the cheapest version of the vetoed test, or an archive-only proxy for it. It exists so the ledger can say whether the veto saved money or killed a hit. This file is the whole procedure. It follows ARCHITECTURE.md (the `Steer` and `Shadow` objects and step 8 of the loop) and proposal.md Q3.
 
+> **The human is never asked in a terminal** (CONTEXT.md §3 rule 11). This session never asks Sean for odds or for a decision, in a terminal, a chat or a question dialog. His odds come only from `ledger/human-odds.jsonl` (the cockpit's downloads, committed); if a direction has no line there when its bet is pre-registered, the bet proceeds marked "no human odds". A decision this session would otherwise ask about, it makes under the written rules and states in its report and commit, where Sean can veto it from the cockpit. Sean's judgment is recorded and scored as steers in `ledger/steers.jsonl`: seed questions, vetoes, added questions and architecture decisions.
+
 ## In plain English
 
 A veto is a bet. Saying "don't do that" claims the direction would not have paid. Every other bet in this testbed is scored, and a veto would otherwise be the one human act whose outcome is never seen: the test it stopped never runs. Without a check, a human who vetoes often looks careful whether he is right or wrong.
@@ -20,7 +22,7 @@ A shadow check never overturns a veto by itself. A shadow hit goes into the morn
 ## At veto time (same day, by the ledger session)
 
 1. **Steer row.** Append it to `ledger/steers.jsonl` with `action: veto`, the direction id, Sean's reason in his words, and `shadow_id`.
-2. **One number from Sean, optional.** Ask: "What's the chance this would have passed?" Record his answer as `human_odds_at_veto`. He may decline, and then the field is `null`. Never fill it in later from memory. A veto with no number is still scored on `veto_value`, but it adds nothing to his Brier score.
+2. **Sean's number, if the ledger has one.** Never ask him for it. Copy his latest line for the direction in `ledger/human-odds.jsonl` from before the veto as `human_odds_at_veto`; if there is none, the field is `null`. Never fill it in later from memory. A veto with no number is still scored on `veto_value`, but it adds nothing to his Brier score.
 3. **The engine's number.** Copy the direction's engine odds from the map as they stood at the moment of the veto (`engine_odds_at_veto`). Copy them; do not re-elicit them.
 4. **What the veto avoided.** Record the direction's estimated budget from the map: `vetoed_budget_usd` and `vetoed_qpu_s`.
 5. **Shadow row.** Append it to `ledger/shadows.jsonl` with `shadow_status: scheduled` and `scheduled_for` (see Timing). Commit both rows together: `Veto <steer-id>: <direction>, shadow <shadow-id> scheduled`.

@@ -2,9 +2,11 @@
 
 The scout runs at the start of every program, and again whenever an audited surprising result heats a neighbourhood of the map. It reads adjacent research in full, across all fields; extracts the "what to do next" each paper suggests; filters by cost and falsifiability; kills what does not transfer, fast; and hands back a ranked map with the engine's odds stated, plus a separate form for the human's odds. Derived from ARCHITECTURE.md (the `Read` and `Direction` objects, steps 1–2 of the loop, invariants 1, 2 and 5).
 
+> **The human is never asked in a terminal** (CONTEXT.md §3 rule 11). This session never asks Sean for odds or for a decision, in a terminal, a chat or a question dialog. His odds come only from `ledger/human-odds.jsonl` (the cockpit's downloads, committed); if a direction has no line there when its bet is pre-registered, the bet proceeds marked "no human odds". A decision this session would otherwise ask about, it makes under the written rules and states in its report and commit, where Sean can veto it from the cockpit. Sean's judgment is recorded and scored as steers in `ledger/steers.jsonl`: seed questions, vetoes, added questions and architecture decisions.
+
 ## In plain English
 
-Before anyone designs an experiment, find out who has already looked, what they actually tested, and what their paper says to do next. Read the whole paper, not the abstract, because the limits and the next steps are never in the abstract. Look in every field that has studied a mind or studied how research goes right or wrong, not just the obvious one. Turn what you find into a short list of bets, each with the cheapest test that could kill it, its price, and your honest odds. Then give the human a form to write his own odds on, without showing him yours.
+Before anyone designs an experiment, find out who has already looked, what they actually tested, and what their paper says to do next. Read the whole paper, not the abstract, because the limits and the next steps are never in the abstract. Look in every field that has studied a mind or studied how research goes right or wrong, not just the obvious one. Turn what you find into a short list of bets, each with the cheapest test that could kill it, its price, and your honest odds. Then put the human's question on each direction's cockpit card, without showing him your odds; he answers there, never in a terminal.
 
 ## Launch
 
@@ -104,11 +106,11 @@ Write the map twice: `map/<program>.md` (plain English first, then the table) an
 
 Write `map/<program>-odds-form.md` for Sean. It lists every direction with its `id`, title, assumption at stake, cheapest test and cost, and an empty `P(pass)` box, in a **shuffled order** (seed written at the top), with **no engine odds, no ranking and no weight shown**. Showing him the engine's numbers first would anchor him, and Q3 asks whether his judgment adds anything independent of the engine's.
 
-Sean fills it in by voice or by hand; the session that receives it commits it unchanged, with the time, to `ledger/human-odds/<program>-<date>.md`, before any of those bets is pre-registered. His odds then go into each bet's `human_odds` and `human_odds_at`.
+The form is the printed list of the questions the cockpit asks: copy each question verbatim into its direction's `human_prompt` in `map/<program>.json`, in the same commit. Sean answers on the cockpit (`site/cockpit.html`), downloads, and the lines are committed to `ledger/human-odds.jsonl`; that file is the only source of his odds. Never ask him for them, by voice or otherwise, and never record a number said in a chat. When a bet is pre-registered, the first line for its direction goes into the bet's `human_odds` and `human_odds_at`; if there is none, the bet proceeds with `human_odds: null` and `human_odds_note: "no human odds"`.
 
 ## Step 6 — Hand back
 
-Commit, in this order, each in its own commit: reads; map (md + json, engine odds included); odds form. Report to Sean in plain English: the five best bets, their costs, and the one line "Your odds form is at map/<program>-odds-form.md". Do not tell him your odds in the report.
+Commit, in this order, each in its own commit: reads; map (md + json, engine odds included); odds form. Report to Sean in plain English: the five best bets, their costs, and the one line "The new directions are on the cockpit". It is a pointer, not a request: the program's bets proceed whether or not he answers. Do not tell him your odds in the report.
 
 ## What the scout never does
 

@@ -2,6 +2,8 @@
 
 Before any new pre-registration, the session placing the bet reads what the ledger already knows about how bets go wrong, and writes **one lesson line**: which pattern in past misses or audit cuts this bet is correcting, and how its odds reflect that. The lesson is committed with the pre-registration. A bet without one is not a valid bet. This file is the whole procedure. It follows ARCHITECTURE.md (the `Lesson` object, step 3a of the loop, invariant 10) and is enforced by `operators/prereg-template.md` §0, the programs' odds forms, `operators/auditor.md` E25, and `ledger/check_prereg.py`.
 
+> **The human is never asked in a terminal** (CONTEXT.md §3 rule 11). This session never asks Sean for odds or for a decision, in a terminal, a chat or a question dialog. His odds come only from `ledger/human-odds.jsonl` (the cockpit's downloads, committed); if a direction has no line there when its bet is pre-registered, the bet proceeds marked "no human odds". A decision this session would otherwise ask about, it makes under the written rules and states in its report and commit, where Sean can veto it from the cockpit. Sean's judgment is recorded and scored as steers in `ledger/steers.jsonl`: seed questions, vetoes, added questions and architecture decisions.
+
 ## In plain English
 
 On its first full day, the engine placed eight bets. None came back a clear hit, and the auditor cut 133 sentences from the write-ups. Most of what went wrong had gone wrong before, in a slightly different form:

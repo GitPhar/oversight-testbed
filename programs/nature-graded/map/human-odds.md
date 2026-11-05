@@ -12,7 +12,7 @@
 - The engine's numbers and ranking are left off this form. Program 1 showed that a number you have just seen pulls the next one you give.
 - The order is shuffled (seed 20261105), so it gives no hint of a ranking.
 - If you have already read `program-3-map.md` or `odds-elicitation/`, say so in the box below. Your numbers still count, and the ledger records that you had seen them.
-- You can dictate. Give a number and, if you have one, a line of why. Skip any you have no feel for; a blank is recorded as "no odds", not as 50.
+- **Answer in the cockpit** (`site/cockpit.html`), which asks these same questions, one card per direction; download, and the lines are committed to `ledger/human-odds.jsonl`. That file is the only source of your odds: no session asks you for them in a terminal, and a number said in a chat is not recorded (CONTEXT.md §3 rule 11). Skip any you have no feel for; a blank is recorded as "no odds", not as 50, and the direction's bet goes ahead marked "no human odds".
 
 A guide, if it helps: 5 = I'd be amazed. 25 = I doubt it. 50 = coin flip. 75 = I expect it. 95 = I'd be amazed if not.
 
@@ -110,7 +110,8 @@ These are scored events with engine odds only. Each is correlated with its paren
 ---
 
 *For the session recording this form:*
-1. Commit the filled form unchanged, with the time, to `oversight-testbed/ledger/human-odds/program-3-<date>.md`, and append one line per answered question to `oversight-testbed/ledger/human-odds.jsonl`, before the matching direction's pre-registration.
-2. Copy each number, divided by 100, into the `human_odds` of that direction's primary bet. Sub-bets get `human_odds: null` with `human_odds_note: "engine-only"`.
+0. Never ask Sean for these numbers or for a decision in a terminal (CONTEXT.md §3 rule 11). His odds come only from `ledger/human-odds.jsonl` (cockpit downloads, committed).
+1. When a direction's primary bet is pre-registered, read its first line in `ledger/human-odds.jsonl`. If there is none, the bet proceeds with `human_odds: null` and `human_odds_note: "no human odds"`.
+2. Otherwise copy that line's `human_odds` (0–1) into the direction's primary bet. Sub-bets get `human_odds: null` with `human_odds_note: "engine-only"`.
 3. Q3 (P3-8) goes to the ledger with `referee: mathematics` and is reported apart from the nature-graded column.
 4. A "closed" question is never filled in later. Its bet keeps `human_odds: null` with the reason.
