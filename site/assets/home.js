@@ -1,4 +1,4 @@
-import { DATA, header, getText, esc, inline, manifest } from "./common.js";
+import { DATA, header, getText, getJSON, esc, inline, manifest } from "./common.js";
 import { loadBets, loadMaps, loadKills, joinBets, loadHumanOdds, joinHumanOdds } from "./data.js";
 import { listFromManifest } from "./papers-common.js";
 
@@ -39,10 +39,12 @@ header();
     const need = waiting.filter((d) => d.human == null).length;
     set("n-cock", `${plural(waiting.length, "open question")} · ${need} waiting for the human's odds`);
   }
-  // the chip's budget, from the program that uses it as referee
+  // Chip seconds: the per-job usage log (the same file the instruments page adds up); the hard stop from program 3's map.
   const q = maps.map((p) => p.raw?.qpu).find(Boolean);
-  if (q && q.used_s != null && q.hard_stop_s != null) {
-    set("qpu", `Chip time used so far: ${q.used_s} of ${q.hard_stop_s} seconds allowed for the whole project.`);
+  const jobs = await getJSON(DATA + "programs/entangled-mind/results/ibm-usage.json");
+  const used = Array.isArray(jobs) ? jobs.reduce((a, j) => a + (Number(j.quantum_seconds) || 0), 0) : q?.used_s;
+  if (used != null && q?.hard_stop_s != null) {
+    set("qpu", `Chip time used so far: ${used} of ${q.hard_stop_s} seconds allowed for the whole project.`);
   }
   const withOdds = bets.filter((b) => b.engine != null);
   if (bets.length) set("n-cal", `${plural(bets.length, "bet")} in the ledger · ${withOdds.length} with odds stated`);

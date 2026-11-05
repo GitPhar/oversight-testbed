@@ -6,7 +6,7 @@
 //   programs/entangled-mind/results/ibm-usage.json, api-usage.md   QPU seconds; itemised API dollars
 //   engine/CONTEXT.md                         the stated API spend and budget (§1 "Cost rule")
 //   programs/nature-graded/map/program-3-map.json   chip-graded bets and the odds-stability check (optional)
-import { header, esc, DATA, getText, getJSON, getJSONL, parseDate, fmtDate, markSVG, outcomeOf, num, STATUS } from "./common.js";
+import { header, esc, DATA, getText, getJSON, getJSONL, parseDate, fmtDate, markSVG, outcomeOf, num, STATUS, refereeOf } from "./common.js";
 import { loadBets, loadMaps, loadKills } from "./data.js";
 
 header();
@@ -121,14 +121,7 @@ function wilson(k, n, z = 1.96) {
 }
 
 // ---------- referees ----------
-// A bet's referee is what decides its outcome. Program 1's outcomes were decided by a language model's behaviour.
-function refereeOf(o) {
-  const r = String(o.referee || "").toLowerCase();
-  if (["nature", "chip", "hardware", "qpu"].includes(r)) return "chip";
-  if (["mathematics", "math", "maths", "proof"].includes(r)) return "maths";
-  if (r) return "ai";
-  return o.program === "nature-graded" ? "chip" : "ai";
-}
+// A bet's referee is what decides its outcome (common.js refereeOf): model, chip, published record, or mathematics.
 
 // ---------- parsing the files ----------
 function tableRows(md, headingRe) {
@@ -560,7 +553,8 @@ function refPanel(box, { scored, waiting, emptyText }) {
 }
 function gaugeReferee(bets, p3) {
   const el = $("g-referee");
-  const sides = { ai: { scored: [], waiting: [], noOdds: 0, total: 0 }, chip: { scored: [], waiting: [], noOdds: 0, total: 0 }, maths: { scored: [], waiting: [], noOdds: 0, total: 0 } };
+  const mk = () => ({ scored: [], waiting: [], noOdds: 0, total: 0 });
+  const sides = { model: mk(), chip: mk(), record: mk(), maths: mk() };
   const inLedger = new Set();
   for (const b of bets) {
     const side = sides[refereeOf(b.raw)];
@@ -568,7 +562,7 @@ function gaugeReferee(bets, p3) {
     if (b.raw.direction != null) inLedger.add(`${b.program}|${b.raw.direction}`);
     const o = outcomeOf(b);
     if (b.engine == null) { side.noOdds++; continue; }
-    if (o != null) side.scored.push({ id: b.id, title: b.title, p: b.engine, o });
+    if (o != null) side.scored.push({ id: b.id, title: b.title, p: b.engine, o, aud: b.raw.verdict_after_audit || "" });
     else side.waiting.push({ id: b.id, title: b.title, p: b.engine, why: b.raw.scored === false && b.landed ? "settled, but not scorable by its rule" : "awaiting its result" });
   }
   // Program 3's directions carry odds before any bet is placed; they wait here until they enter the ledger.
@@ -579,27 +573,34 @@ function gaugeReferee(bets, p3) {
     side.waiting.push({ id: d.id, title: d.title, p: num(d.engine_odds), why: "odds stated; not yet pre-registered" });
     if (side === sides.chip) p3Waiting++;
   }
-  const A = sides.ai, Ch = sides.chip;
+  const A = sides.model, Ch = sides.chip, Rc = sides.record;
   const expChip = Ch.waiting.reduce((a, p) => a + p.p, 0);
-  const bA = brier(A.scored), bC = brier(Ch.scored);
-  el.innerHTML = `<p class="g-cap g-lead">The same engine, two referees. A language model's behaviour decided program 1's bets; the <code>ibm_fez</code> quantum chip decides program 3's, and the chip cannot share the engine's habits. If the odds only hold up when an AI does the grading, the engine's judgment is borrowed from its grader.</p>
-    <div class="refs">
+  const bA = brier(A.scored), bC = brier(Ch.scored), bR = brier(Rc.scored);
+  el.innerHTML = `<p class="g-cap g-lead">The same engine, three referees. A language model's behaviour decided programs 1 and 2's bets; the <code>ibm_fez</code> quantum chip decides program 3's; the published literature decides program 4's. The chip and the record cannot share the engine's habits. If the odds only hold up when an AI does the grading, the engine's judgment is borrowed from its grader.</p>
+    <div class="refs refs3">
       <section class="ref" id="ref-ai">
-        <h3 class="g-label">AI-graded</h3>
+        <h3 class="g-label">Model-graded</h3>
         <div class="g-value">${A.total} <span class="g-unit">bets · ${A.scored.length} settled and scored${bA != null ? ` · Brier ${f3(bA)}` : ""}</span></div>
         <div class="g-viz"></div>
         <p class="g-cap">${A.scored.length ? `${A.scored.filter((p) => p.o).length} of ${A.scored.length} came true against ${A.scored.reduce((a, p) => a + p.p, 0).toFixed(2)} expected; ${A.noOdds} more bets were placed without odds and cannot be scored.` : "Nothing settled yet."}</p>
       </section>
       <section class="ref" id="ref-chip">
         <h3 class="g-label">Chip-graded</h3>
-        <div class="g-value">${Ch.total} <span class="g-unit">bets settled · ${Ch.waiting.length} with odds waiting${bC != null ? ` · Brier ${f3(bC)}` : ""}</span></div>
+        <div class="g-value">${Ch.total} <span class="g-unit">bets · ${Ch.scored.length} settled and scored${bC != null ? ` · Brier ${f3(bC)}` : ""}</span></div>
         <div class="g-viz"></div>
-        <p class="g-cap">${Ch.scored.length ? `${Ch.scored.filter((p) => p.o).length} of ${Ch.scored.length} came true.` : p3 ? `Nothing has settled: no circuit has run. If the ${Ch.waiting.length} stated odds are honest, about ${expChip.toFixed(1)} will pass.` : "Program 3's map is not deployed with the site, so this side is empty."}</p>
+        <p class="g-cap">${Ch.scored.length ? `${Ch.scored.filter((p) => p.o).length} of ${Ch.scored.length} came true against ${Ch.scored.reduce((a, p) => a + p.p, 0).toFixed(2)} expected; ${Ch.waiting.length} more carry odds and wait.` : p3 ? `Nothing has settled: no circuit has run. If the ${Ch.waiting.length} stated odds are honest, about ${expChip.toFixed(1)} will pass.` : "Program 3's map is not deployed with the site, so this side is empty."}</p>
+      </section>
+      <section class="ref" id="ref-record">
+        <h3 class="g-label">Record-graded</h3>
+        <div class="g-value">${Rc.total} <span class="g-unit">bets · ${Rc.scored.length} settled and scored${bR != null ? ` · Brier ${f3(bR)}` : ""}</span></div>
+        <div class="g-viz"></div>
+        <p class="g-cap">${Rc.scored.length ? `${Rc.scored.filter((p) => p.o).length} of ${Rc.scored.length} came true against ${Rc.scored.reduce((a, p) => a + p.p, 0).toFixed(2)} expected${(() => { const u = Rc.scored.filter((p) => /unreplicated/i.test(p.aud)).length; return u ? `; the audit marked ${u === Rc.scored.length ? "every one" : u} <b>pass-unreplicated</b>: it held once, on one model and one item set` : ""; })()}.` : "Nothing settled yet."}</p>
       </section>
     </div>
-    <p class="g-src">${src("ledger/bets.jsonl")} (program 1: AI-graded) · nature-graded <code>map/program-3-map.json</code>, <code>referee</code> field${sides.maths.waiting.length ? ` · ${plural(sides.maths.waiting.length, "direction")} decided by mathematics, not the chip, ${sides.maths.waiting.length === 1 ? "is" : "are"} left out` : ""} · <a href="calibration.html">full calibration chart</a></p>`;
+    <p class="g-src">${src("ledger/bets.jsonl")} (<code>referee</code>: model, nature, published-record) · nature-graded <code>map/program-3-map.json</code>, <code>referee</code> field${sides.maths.waiting.length ? ` · ${plural(sides.maths.waiting.length, "direction")} decided by mathematics, not the chip, ${sides.maths.waiting.length === 1 ? "is" : "are"} left out` : ""} · <a href="calibration.html">full calibration chart</a></p>`;
   refPanel(el.querySelector("#ref-ai .g-viz"), { scored: A.scored, waiting: A.waiting, emptyText: "nothing settled yet" });
   refPanel(el.querySelector("#ref-chip .g-viz"), { scored: Ch.scored, waiting: Ch.waiting, emptyText: "nothing settled yet" });
+  refPanel(el.querySelector("#ref-record .g-viz"), { scored: Rc.scored, waiting: Rc.waiting, emptyText: "nothing settled yet" });
   void p3Waiting;
 }
 
