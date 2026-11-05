@@ -1428,3 +1428,7 @@ What changed, said plainly: the 30% wrong-target world now passes the bet 0.005 
 ## D84 — em-dm6f2f2 pre-registered (map dm6f2-f2): the flag-overlap statistic under a template that fixes the number to the model's own guess
 
 2026-11-05 (commit author time is the record), before any call. New pre-registration `experiments/dm6f2f2-own-guess.md`, code `experiments/dm6f2f2_own_guess.py` (em-dm6's templates with one clause changed identically in both formats; em-dm6f2's statistic imported unchanged), dry run `results/dm6f2f2-dry-run.json`. Sonnet primary and Haiku on all 300 questions; Opus reported on 24 (6 per category; cost per request measured on em-gm2q2's Opus single-message calls). Budget $1.00 in code (br-013). Engine odds 0.63 (v2), map 0.30, both kept. No human odds; the card (`9da5349`) was live from about 10:00, before this pre-registration.
+
+## D85 — seeds for em-gm2bf1f1 and em-dm6f2f2
+
+2026-11-05 (commit author time is the record), before any call. Both from CURBy-RNG pulse 1592560 (18:16:00.198Z), the first after both pre-registration commits (`df30f78`, `33d18d7`, author time 11:15:51; pulse 1592559 at 18:15:00 predates them): em-gm2bf1f1 bootstrap 10269032153479545163; em-dm6f2f2 bootstrap 12892736311446276367, items 14564298516711186911 (`ledger/seed.py <randomness> <bet> --purpose …`). Written into each §2 and each script's `SEED_RECORDED`. Note: D84's row was committed with D83 in `df30f78`, before em-dm6f2f2's own pre-registration commit, not with it.
