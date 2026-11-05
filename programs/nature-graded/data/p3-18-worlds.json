@@ -1,0 +1,237 @@
+{
+ "note": "Pre-run worlds (D11 / P12), synthetic counts only, at this job's 2,000 shots per setting, on 3 November's\n    reference states and assignment matrices (the fresh job's do not exist before it runs):\n      W_both    truth = P3-5c's published fitted full16 state (both terms really there)  -> should pass\n      W_neither truth = the reference state itself (no extra error)                      -> should fail\n    Per pair and world, 6 draws; each draw's two LRs are classified against the 99th percentiles of one B = 100 null\n    pair fitted on that world's first draw. No archived tomography counts are read.",
+ "root_seed": 2026110518,
+ "shots_per_setting": 2000,
+ "cells": {
+  "h221 | W_both": {
+   "draws": [
+    {
+     "LR_rot": 36.82176883995271,
+     "LR_blur": 56.78947329579387,
+     "both": true
+    },
+    {
+     "LR_rot": 33.470829331294226,
+     "LR_blur": 79.63785459851351,
+     "both": true
+    },
+    {
+     "LR_rot": 11.04239842329116,
+     "LR_blur": 50.7130701123242,
+     "both": false
+    },
+    {
+     "LR_rot": 13.274257613644295,
+     "LR_blur": 80.976852812375,
+     "both": false
+    },
+    {
+     "LR_rot": 31.53808012241643,
+     "LR_blur": 49.825332227796025,
+     "both": true
+    },
+    {
+     "LR_rot": 20.07327978756075,
+     "LR_blur": 65.41676076185104,
+     "both": true
+    }
+   ],
+   "q99_rot_B100": 15.533125377348776,
+   "q99_blur_B100": 8.137186179930724,
+   "both": 4,
+   "of": 6
+  },
+  "h221 | W_neither": {
+   "draws": [
+    {
+     "LR_rot": 7.142290807227255,
+     "LR_blur": 1.1362122254504357,
+     "both": false
+    },
+    {
+     "LR_rot": 7.439274163654773,
+     "LR_blur": 1.8995978919192567,
+     "both": false
+    },
+    {
+     "LR_rot": 11.045135283296986,
+     "LR_blur": 3.5895400919907843,
+     "both": false
+    },
+    {
+     "LR_rot": 0.6497363337111892,
+     "LR_blur": 0.8158554696346982,
+     "both": false
+    },
+    {
+     "LR_rot": 2.3906814208748983,
+     "LR_blur": 0.4285926170050516,
+     "both": false
+    },
+    {
+     "LR_rot": 4.014443092564761,
+     "LR_blur": 0.885488265514141,
+     "both": false
+    }
+   ],
+   "q99_rot_B100": 12.993908828268907,
+   "q99_blur_B100": 6.897564886045465,
+   "both": 0,
+   "of": 6
+  },
+  "h088 | W_both": {
+   "draws": [
+    {
+     "LR_rot": 83.42466864357266,
+     "LR_blur": 118.71696063489799,
+     "both": true
+    },
+    {
+     "LR_rot": 100.73306192673772,
+     "LR_blur": 146.27633869046986,
+     "both": true
+    },
+    {
+     "LR_rot": 59.430552775535034,
+     "LR_blur": 155.3673460745049,
+     "both": true
+    },
+    {
+     "LR_rot": 78.58989725314314,
+     "LR_blur": 88.94168358284514,
+     "both": true
+    },
+    {
+     "LR_rot": 47.90685198666324,
+     "LR_blur": 90.81758505714242,
+     "both": true
+    },
+    {
+     "LR_rot": 88.14009040981182,
+     "LR_blur": 121.55553078369121,
+     "both": true
+    }
+   ],
+   "q99_rot_B100": 21.561389200751886,
+   "q99_blur_B100": 9.473097121561763,
+   "both": 6,
+   "of": 6
+  },
+  "h088 | W_neither": {
+   "draws": [
+    {
+     "LR_rot": 4.01530139966053,
+     "LR_blur": 2.275943867265596,
+     "both": false
+    },
+    {
+     "LR_rot": 9.34354568462004,
+     "LR_blur": 0.935200563420949,
+     "both": false
+    },
+    {
+     "LR_rot": 3.815818361406855,
+     "LR_blur": 2.955262005700206,
+     "both": false
+    },
+    {
+     "LR_rot": 7.152804825862404,
+     "LR_blur": 1.3210228644311428e-07,
+     "both": false
+    },
+    {
+     "LR_rot": 8.706218933366472,
+     "LR_blur": 5.390011196686828,
+     "both": false
+    },
+    {
+     "LR_rot": 8.829153590166243,
+     "LR_blur": 0.0570956170122372,
+     "both": false
+    }
+   ],
+   "q99_rot_B100": 17.03836317967546,
+   "q99_blur_B100": 7.44712499725575,
+   "both": 0,
+   "of": 6
+  },
+  "h268 | W_both": {
+   "draws": [
+    {
+     "LR_rot": 123.4992730234444,
+     "LR_blur": 35.998705485435494,
+     "both": true
+    },
+    {
+     "LR_rot": 135.4906347024371,
+     "LR_blur": 38.74455278023379,
+     "both": true
+    },
+    {
+     "LR_rot": 140.841463587647,
+     "LR_blur": 25.87108386707405,
+     "both": true
+    },
+    {
+     "LR_rot": 141.43290385951695,
+     "LR_blur": 30.195041216247773,
+     "both": true
+    },
+    {
+     "LR_rot": 129.4720814317916,
+     "LR_blur": 46.88499918997695,
+     "both": true
+    },
+    {
+     "LR_rot": 94.07577263751591,
+     "LR_blur": 41.48124014685891,
+     "both": true
+    }
+   ],
+   "q99_rot_B100": 12.601708713586486,
+   "q99_blur_B100": 8.884106671831981,
+   "both": 6,
+   "of": 6
+  },
+  "h268 | W_neither": {
+   "draws": [
+    {
+     "LR_rot": 4.104776503656467,
+     "LR_blur": 2.9872971936129034e-06,
+     "both": false
+    },
+    {
+     "LR_rot": 4.983893800192163,
+     "LR_blur": 5.57796738576144e-07,
+     "both": false
+    },
+    {
+     "LR_rot": 2.2909878622813267,
+     "LR_blur": 0.40125917247496545,
+     "both": false
+    },
+    {
+     "LR_rot": 2.826643168249575,
+     "LR_blur": 4.75718100200902,
+     "both": false
+    },
+    {
+     "LR_rot": 5.509142621180217,
+     "LR_blur": 3.2935593841175432,
+     "both": false
+    },
+    {
+     "LR_rot": 3.6953392079740297,
+     "LR_blur": 0.5662275085633155,
+     "both": false
+    }
+   ],
+   "q99_rot_B100": 16.8445820610792,
+   "q99_blur_B100": 6.7295245002567405,
+   "both": 0,
+   "of": 6
+  }
+ },
+ "P_pass_W_both": 0.9999999999999998,
+ "P_pass_W_neither": 0.0
+}
