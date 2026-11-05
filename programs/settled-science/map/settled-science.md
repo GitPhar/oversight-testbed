@@ -23,3 +23,16 @@ Odds template: written by the item-writer session itself in one pass, in id orde
 - **ss-b3 (35).** Pre-cutoff papers could be recognised despite masking, which would show as a better score. But masking removes titles and method names, the pre set is smaller (wider CI), and recall of directional detail from abstracts is patchy. A real gap of about 0.06 would be needed to clear the CI.
 
 Human odds: not recorded for ss-b1 to ss-b3. Sean's part in this program is the 20-item form at direction level (`human/form.md`), which scores his calls against the same published record, item by item.
+
+## Round 2 (written 2026-11-04 19:17 America/Denver, before any round-2 item exists and before any paper for it was opened)
+
+ss-b1 used items written by the same model family as the bettor. The audit's cheapest overturning test is a writer outside that family. No other provider's key was looked for: this session's permission rules block credential exploration. So the round-2 writer is **no model at all**: a fixed, deterministic template (`protocol/template-writer.md`). It takes one comparative result sentence from each paper's abstract and offers it beside the same sentence with its one direction word swapped.
+
+| id | event the odds are for | engine P(pass) |
+|---|---|---|
+| ss-b4 | On at least 60 post-cutoff template-written items, the bettor's Brier score has a 95% bootstrap upper bound below 0.25: ss-b1's pass, replicated with a writer outside the bettor's family. | **70** |
+| ss-b5 | On the same items, the bettor beats a dumb rule that puts 0.75 on whichever option carries the "up" word (higher, more, better, …): paired Brier difference with 95% upper bound below 0. | **35** |
+
+Rationales (each under 100 words):
+- **ss-b4 (70).** ss-b1 scored 0.163 with curated, context-rich items. Template items give one sentence and no methods summary, and some will be weaker results. But result sentences in abstracts often state the direction a field expects ("outperforms", "higher accuracy than"), and the bettor knows that. I expect a Brier near 0.20 on about 100 items, which clears 0.25 more often than not. I am not lowering toward the ledger's pooled base rate: in ss-b1 that move cost Brier 0.16 → 0.25, and that rate pools other referees.
+- **ss-b5 (35).** Abstracts mostly report improvements, so the up-word rule may itself score near 0.21. Beating it needs real knowledge of which direction each finding went, on single sentences. That is possible, but below even odds.
