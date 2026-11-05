@@ -87,19 +87,19 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
 
-Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 11 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 10 lesson lines written.
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 12 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 10 lesson lines written.
 
 | | count |
 |---|---|
-| pre-registrations since the rule | 11 |
-| with a lesson line | 8 |
+| pre-registrations since the rule | 10 |
+| with a lesson line | 7 |
 | with a design review verdict | 9 |
-| awaiting their design review (nothing may run yet) | 2: om-p2-6, em-qwalk2 |
+| awaiting their design review (nothing may run yet) | 1: om-p2-6 |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
-| withdrawn after a design review said redesign | 2 |
+| withdrawn after a design review said redesign | 3 |
 
-Design reviews: 0 go, 9 fix-first, 2 redesign; 2 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 9 fix-first, 3 redesign; 2 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
@@ -114,6 +114,7 @@ Design reviews: 0 go, 9 fix-first, 2 redesign; 2 later found by the post-result 
 | P9 | The right rule, then the wrong noun | 5 | 2 of 2 scored |
 | P10 | A label that hangs on one item | 6 | 1 of 1 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 1 | 0 of 0 scored |
+| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 0 | 0 of 0 scored |
 
 **Does the loop help?** On 3 scored bets, Brier with the odds before the lesson is 0.357, after it 0.278.
 

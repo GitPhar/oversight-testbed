@@ -1159,3 +1159,29 @@ Details in `results/probe-dissociation.md`.
 **Inputs stay at 680f128.** The bmq scout's 18 new directions (af3266b) are reading-stage labels that postdate the question.
 
 **Odds:** 0.05 → 0.01. Labels planted from the quantum kernel itself pass only 1–2%.
+
+## D58 — em-qwalk2 withdrawn before data (design review: redesign); qwalk parked as untestable at this scale
+
+**Date:** 2026-11-04, before any score, AUROC, Δ or verdict on the real labels. Laptop only: $0 API, 0 QPU s.
+
+**Two reviews; the stricter binds.**
+- `ledger/design-reviews/em-qwalk2.md` (efb4920, disclosure 0417646): **redesign**, 6 flaws. The re-bet fixed em-qwalk's own-label leak and its below-chance pass, but the test cannot answer its question on this graph.
+  - To pass, the label-permutation null needs Δ > 0.149 and a quantum AUROC > 0.786. These thresholds depend only on the graph and the 11/14 counts.
+  - In every planted world built (the author's two kernel-field worlds and two kernel-sources worlds per arm, the second reviewer's, and this reviewer's three recipes), pass is at most 4.3% and classical at most 4.0%. So the verdict is null 96–100% of the time whatever the truth.
+  - Scored at 1%, that null would lower the engine's Brier from 0.267 toward 0.250 with nothing learned.
+- `ledger/design-reviews/em-qwalk2-1b.md` (04e7f81): **fix-first**, 3 small flaws: the planted worlds were not in the code; one clause of the pass sentence; the gate's regex.
+
+**Committed with this row** (after the withdrawal; no data): `qwalk2.py` gains `--dry-run-planted 680f128`, which regenerates qwalk2.md §4's planted rows exactly and adds a few-sources world per arm (classical-sources: classical 4.0%, quantum-sources: pass 0%), and the gate now reads every `em-qwalk2*.md` and refuses any file without a verdict line (F-C). Neither change is a re-bet.
+
+**Any future qwalk bet must, before data:**
+- (a) show in a committed dry run P(pass) ≥ 0.5 in a pre-specified quantum-favourable world, P(classical) ≥ 0.5 in a classical-favourable one, and both false verdicts ≤ 0.05 under shuffled labels and in the opposite arm's world. Very roughly 550 settled directions; all maps hold 59 today.
+- (b) commit every planting recipe and derive its odds, pre-mortem and lesson from them.
+- (c) describe the arms as a bundle: interference, degree weighting (classical detailed balance) and Born-rule against probability readout. Or add a matched combinatorial-Laplacian secondary.
+- (d) say "scored above every one-line rule's AUROC", not "judged against shuffled outcomes", for the dumb rules.
+- (e) report untestable robustness rows as "cannot be checked"; drop whole-component and single-label clusters; make the untestable threshold agree for subsets.
+- (f) add depth and component size to the dumb rules, with a stated margin, or stop claiming P3.
+- (g) not count a `confirmed_at` such as "pending" as confirmed.
+- (h) refuse uncommitted edits to the pre-registration or code (`git status --porcelain`), and read the randomness with `git show <seed commit>`.
+- (i) carry em-qwalk2-1b's F-B wording.
+
+**Outcome against steer st-13:** untestable at this scale, found before data at $0. Recorded in `ledger/steers.jsonl` and `results/qwalk.md`.

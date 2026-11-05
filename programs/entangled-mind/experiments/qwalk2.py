@@ -5,6 +5,7 @@ Re-bet of em-qwalk (withdrawn before data, D56). The graph and label rule are em
 
     python3 qwalk2.py --dry-run                     # synthetic graphs and labels only
     python3 qwalk2.py --dry-run-real-topology <c>   # the real links and labelled-node set, label VALUES discarded
+    python3 qwalk2.py --dry-run-planted <c>         # planted-kernel worlds on the real links (values discarded)
     python3 qwalk2.py --graph-counts <c>            # node, edge, label, component counts; no predictor
     python3 qwalk2.py --run --seed-bootstrap <n> --seed-permutation <n>   # inputs fixed at INPUT_COMMIT (680f128)
 
@@ -431,7 +432,8 @@ def recorded_seeds():
 def review_says_go():
     """Every ledger/design-reviews/em-qwalk2*.md must be go or confirmed fix-first; both named reviews must exist."""
     d = os.path.join(REPO, "ledger", "design-reviews")
-    files = sorted(f for f in os.listdir(d) if re.fullmatch(rf"{re.escape(BET)}(-[A-Za-z0-9]+)?\.md", f))
+    # D58 (em-qwalk2-1b F-C): every file starting em-qwalk2 and ending .md, and refuse any without a readable verdict
+    files = sorted(f for f in os.listdir(d) if f.startswith(BET) and f.endswith(".md"))
     for need in (f"{BET}.md", f"{BET}-1b.md"):
         if need not in files:
             return False, f"missing {need}"
@@ -440,6 +442,8 @@ def review_says_go():
         head = text.split("---")[1] if text.startswith("---") else ""
         v = re.search(r"^verdict:\s*(\S+)", head, re.M)
         conf = re.search(r"^confirmed_at:\s*(.+)$", head, re.M)
+        if not v:
+            return False, f"{f}: no readable verdict line"
         if v and v.group(1) == "go":
             continue
         if v and v.group(1) == "fix-first" and conf and conf.group(1).strip() not in ("null", ""):
@@ -485,6 +489,9 @@ def run(seed_b, seed_p):
     sens["prospective"] = {k2: v for k2, v in analyse(ids, A, labels, meta, *sub(), B_ROB, P_ROB,
                                                       cols=prospective_cols(ids, A, labels, meta),
                                                       extras=False).items() if k2 in KEEP}
+    sens["prospective_parent_links_only"] = {k2: v for k2, v in analyse(ids2, A2, labels2, meta2, *sub(), B_ROB, P_ROB,
+                                                      cols=prospective_cols(ids2, A2, labels2, meta2),
+                                                      extras=False).items() if k2 in KEEP}   # D58, optional row
     res["sensitivity"] = sens
     res["secondary_coherent_seeds"] = coherent_secondary(ids, A, labels, np.random.default_rng(seed_p))
     lolo = {}
@@ -703,10 +710,57 @@ def dry_run_real_topology(commit, N=1000, b=500, p=500, seed=20261104):
     return rep
 
 
+def dry_run_planted(commit, N=200, b=500, p=500, seed=5):
+    """D58 (em-qwalk2-1b F-A): the planted-kernel worlds behind qwalk2.md §4's last two rows, on the real links and
+    settled set with the label VALUES discarded. Field world: a random normal field smoothed by one arm's kernel,
+    the top 11 of 25 settled nodes called hits (then 0% or 10% flipped). Sources world: 3 random source nodes,
+    the 11 settled nodes receiving most of that arm's kernel mass called hits."""
+    ids, A, labels, _, meta = load(commit)
+    nodes = sorted(labels)
+    del labels
+    idx = {n: i for i, n in enumerate(ids)}
+    ni = [idx[n] for n in nodes]
+    KQ, KC, _ = kernels(A)
+    rng = np.random.default_rng(seed)
+    rep = {}
+
+    def field_world(K, flip):
+        rs = []
+        for _ in range(N):
+            z = rng.normal(size=len(A))
+            f = (K.T @ z)[ni]
+            y = (f > np.quantile(f, 14 / 25)).astype(int)
+            y = np.where(rng.random(len(y)) < flip, 1 - y, y)
+            rs.append(analyse(ids, A, dict(zip(nodes, y.tolist())), meta, rng, rng, b, p, extras=False))
+        return tally(rs)
+
+    def sources_world(K, flip):
+        rs = []
+        for _ in range(N):
+            src = rng.choice(len(A), 3, replace=False)
+            f = K[src].sum(0)[ni] + 1e-9 * rng.random(len(ni))
+            y = (f >= np.sort(f)[-11]).astype(int)
+            y = np.where(rng.random(len(y)) < flip, 1 - y, y)
+            if y.sum() < 2 or y.sum() > len(y) - 2:
+                continue
+            rs.append(analyse(ids, A, dict(zip(nodes, y.tolist())), meta, rng, rng, b, p, extras=False))
+        return tally(rs)
+
+    for nm, K in (("quantum", KQ), ("classical", KC)):
+        for flip in (0.0, 0.1):
+            rep[f"{nm}_field_flip{flip}"] = field_world(K, flip)
+    for nm, K in (("quantum", KQ), ("classical", KC)):
+        for flip in (0.0, 0.1):
+            rep[f"{nm}_sources_flip{flip}"] = sources_world(K, flip)
+    print(json.dumps(rep, indent=1))
+    return rep
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--dry-run-real-topology", metavar="COMMIT")
+    ap.add_argument("--dry-run-planted", metavar="COMMIT")
     ap.add_argument("--graph-counts")
     ap.add_argument("--run", action="store_true")
     ap.add_argument("--seed-bootstrap", type=int)
@@ -717,6 +771,8 @@ if __name__ == "__main__":
         dry_run(N=a.n)
     elif a.dry_run_real_topology:
         dry_run_real_topology(a.dry_run_real_topology, N=a.n)
+    elif a.dry_run_planted:
+        dry_run_planted(a.dry_run_planted)
     elif a.graph_counts:
         graph_counts(a.graph_counts)
     elif a.run:
