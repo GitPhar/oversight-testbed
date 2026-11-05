@@ -220,3 +220,6 @@ The unanswered question is whether the gap comes from the referent or from the Y
 **Replication:** the pass is on one model. Opus at 40 questions, with the cap sized to its worst case (about $0.30), is the cheapest second model.
 
 **$0 check for the record:** the per-category manipulation table above, added to the generated tables.
+
+
+Revealed 2026-11-05: pl-040, planted miscount/total at §Pre-registered reading, the manipulation-check line ("90 of 492" made "90 of 429"); caught (Required cuts 1). Cut 1 is marked plant: not applied to the real record, which reads "90 of 492". The "change came in bd502f4" note refers to the audit clone's re-commit, which carried the plant. Every other finding stands as the real audit.
