@@ -12,6 +12,8 @@ Written and frozen <YYYY-MM-DD HH:MM> (America/Denver), in its own commit, befor
 
 > **The human is never asked in a terminal** (CONTEXT.md §3 rule 11). This session never asks Sean for odds or for a decision, in a terminal, a chat or a question dialog. His odds come only from `ledger/human-odds.jsonl` (the cockpit's downloads, committed); if a direction has no line there when its bet is pre-registered, the bet proceeds marked "no human odds". A decision this session would otherwise ask about, it makes under the written rules and states in its report and commit, where Sean can veto it from the cockpit. Sean's judgment is recorded and scored as steers in `ledger/steers.jsonl`: seed questions, vetoes, added questions and architecture decisions.
 
+> **Cockpit first, then this file (the ordering rule, CONTEXT.md §3 rule 11; panel review, Part 1).** A direction goes on the cockpit (`map/cockpit-cards.jsonl`, live on `site/cockpit.html`) before any session pre-registers it; a direction with no card is given one, committed on its own before this file. Immediately before committing this file, read `ledger/human-odds.jsonl` (after `python3 ledger/pickup_human_odds.py`) and attach every line for this direction recorded before this commit: `python3 ledger/human_odds_match.py <program> <direction>`, copied into `human_odds` and `human_odds_at`. The bet still proceeds without one, marked "no human odds"; it is never held for an answer. Why: Sean's first twelve odds (2026-11-05 05:11) arrived minutes after four of their bets were pre-registered, so they attach to nothing.
+
 ## 0. The bet
 
 | field | value |
@@ -108,6 +110,7 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
 - [ ] This file is committed on its own; nothing has been run.
 - [ ] The lesson row in §0 is filled after reading ledger/bets.jsonl, brier.md, audits/ and lessons.jsonl; the same sentence goes to `ledger/lessons.jsonl` as `ls-<bet-id>` (operators/learn.md).
 - [ ] A fresh auditor's design review (operators/design-review.md) has returned **go**, or fix-first with every fix logged in DEVIATIONS and confirmed, before the first call. `python3 ledger/check_prereg.py <bet-id> . programs/<name>/experiments/<this file> --before-run` passes (run from the engine repo root).
+- [ ] The direction has a cockpit card in `map/cockpit-cards.jsonl`, committed before this file (give it one first if not), and `ledger/human-odds.jsonl` was read immediately before this commit.
 - [ ] Engine odds are on record elsewhere, with a timestamp earlier than this commit; human odds are copied from `ledger/human-odds.jsonl` if it has a line for this direction, otherwise marked "no human odds" (never asked for). Run `python3 ledger/human_odds_match.py <program> <direction>` and copy what it prints into `human_odds` and `human_odds_at`; `ledger/check_prereg.py` (H1) and `reproduce.py` fail a bet that skips a line already in the ledger (st-18).
 - [ ] The pass rule in §5 can be applied by a stranger.
 - [ ] The pre-mortem in §0 is one sentence, names a checkable mechanism, and carries its kind.
