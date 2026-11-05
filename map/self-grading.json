@@ -465,8 +465,8 @@
    "models_note": "Opus on 30 of the 60 studies (cost: Opus calls cost about 45 times Haiku's here), Haiku and Sonnet on all 60; Sonnet is run under rule 12 and reported, not scored, since it did not blunt.",
    "cost": "about $0.51 (Opus 80 calls about $0.28, Sonnet 140 about $0.22, Haiku 140 about $0.01; at sg-b3's cost per call)",
    "odds_event": "Per model T = (clean - flawed) in the quoted transcript - (clean - flawed) in the own turn (archived); turn role carries it if T >= half that model's sg-b3 G (Haiku >= +6.3, Opus >= +3.0) with CI lower > 0; pass if both Haiku and Opus read 'turn role'.",
-   "engine_odds": 0.15,
-   "engine_odds_at": "2026-11-05T09:57-07:00",
+   "engine_odds": 0.18,
+   "engine_odds_at": "2026-11-05T10:37-07:00",
    "odds_template": "v2",
    "odds_rationale": "Running base rate 8 hits in 24 scored (ledger/brier.md; P1 start 0.35). Khullar et al. 2026 tie leniency to text in the model's own turn, which favours a pass; but the audit names the own-turn lead-in and layout as live rivals, and a quoted transcript keeps most authorship cues, so much of the gap may survive in it. Two correlated conjuncts (Haiku and Opus), Opus on 30 studies with a wider interval, and the comparison is against archived grades from another run (P8; the drift check guards it). Set a little below the base rate.",
    "question": "Is a model easier on an exaggeration because it sits in its own reply, or because of how the grading request was worded?",
@@ -490,16 +490,18 @@
    ],
    "engine_odds_first": 0.3,
    "odds_prior": 0.32,
-   "odds_adjustment": -0.17,
-   "odds_reason": "Literature (0.13), under $1 (0.19) and model referee (0.22) rows point down. The pass needs four conditions to hold together, and Opus is underpowered (T≥3.0, n=30). I discount layer 2 (0.67, six bets).",
+   "odds_adjustment": -0.14,
+   "odds_reason": "Rows model 0.22, under-$1 0.19 and literature 0.13 sit below the prior. The rule needs both Haiku and Opus to pass two CI tests, and Opus's 3.0 bar uses only 30 studies. Layer 2's 0.67 is from 6 bets.",
    "odds_prior_commit": "73eb5cf",
-   "prior_work_line": "Predicts a pass. Tsui 2025, Self-Correction Bench (arXiv 2507.02778 v3; Claude 3.5 Haiku 52.5%, Sonnet 4 41.4% blind spot): the same error moved from the assistant turn into the user turn is corrected; the claim is scoped 'to conversational role rather than authorship'. Khullar et al. 2026 (arXiv 2603.04582): leniency comes from implicit attribution by turn position, not explicit wording; weaker for planted text. Neither tests a quoted transcript keeping the own-turn layout and lead-in, nor 5.5 models. Adds: holds layout and lead-in fixed, moves only the role.",
+   "prior_work_line": "Predicts the bundle effect, silent on this split. Tsui 2025, Self-Correction Bench (arXiv 2507.02778 v3; Claude 3.5 Haiku 52.5%, Sonnet 4 41.4% blind spot): the same error moved from the assistant turn into the user turn is corrected; scoped to conversational role, but 'role attribution and turn position cannot be varied independently within this design'. Khullar et al. 2026 (arXiv 2603.04582): leniency from implicit attribution by turn position, not explicit wording; weaker for planted text; prose and QA rated numerically. Both move role with turn structure; neither tests a quoted copy keeping the lead-in and labels, nor 5.5 models.",
    "prior_work_predicts": "pass",
    "prior_work_sources": [
     "Tsui 2025, Self-Correction Bench, arXiv 2507.02778 v3 (HTML opened 2026-11-05)",
     "Khullar, Hopkins, Wang, Roger 2026, Self-Attribution Bias, arXiv 2603.04582 (HTML opened 2026-11-05)"
    ],
-   "prior_work_at": "2026-11-05 10:25, program 5 follow-ups session, from the pre-registration's §0 row (rule 13; design review sg-b5 D12)"
+   "prior_work_at": "2026-11-05 10:35, program 5 follow-ups session (design review sg-b4 D12, D16)",
+   "prior_work_predicts_note": "pass for the bundle (own turn vs a user turn); no prediction for a quoted copy that keeps the lead-in and labels (design review sg-b4 D12)",
+   "engine_odds_v2_first": 0.15
   },
   {
    "id": "sg-k1",

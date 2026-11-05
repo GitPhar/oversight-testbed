@@ -45,7 +45,7 @@ SONNET_H = 0.69                          # half of Sonnet's sg-b3 G (1.37); repo
 HALF = ("claude-sonnet-5-5", "claude-opus-5-5")
 NEW = ("quoted-clean", "quoted-flawed")
 DRIFT = ("drift-own-clean", "drift-own-flawed")
-ORDER = ("claude-haiku-5-5", "claude-sonnet-5-5", "claude-opus-5-5")
+ORDER = ("claude-haiku-5-5", "claude-opus-5-5", "claude-sonnet-5-5")   # D16 (review recommendation): Opus before the unscored Sonnet
 
 
 def seeds():
@@ -67,11 +67,27 @@ def messages(cell, task, conclusion):
     return own_turn(task["study"], c)
 
 
+def frozen_quoted():
+    """sg_prompts.QUOTED as committed at this bet's pre-registration, 65f6f93 (D16, review fix 3)."""
+    import re
+    import subprocess
+    from sg_common import ROOT
+    show = lambda f: subprocess.run(["git", "-C", str(ROOT), "show", f"65f6f93:programs/self-grading/experiments/{f}"],
+                                    capture_output=True, text=True, check=True).stdout
+    scale = re.search(r'^SCALE = (".*")$', show("sg_common.py"), re.M).group(1)
+    ns = {}
+    exec(compile(show("sg_prompts.py").replace("from sg_common import SCALE", f"SCALE = {scale}"), "frozen", "exec"), ns)
+    return ns["QUOTED"]
+
+
 def check_frozen():
-    """The grade question, the lead-in and the overclaim are sg-b3's, word for word (sg-b3 D9e)."""
+    """The grade question, the lead-in and the overclaim are sg-b3's, word for word (sg-b3 D9e); QUOTED is its text at
+    65f6f93 (D16)."""
     from sg_b3_flaw import check_frozen_prompts
     import sg_prompts
     check_frozen_prompts()
+    if sg_prompts.QUOTED != frozen_quoted():
+        raise SystemExit("sg-b4: QUOTED differs from its text at 65f6f93")
     q = sg_prompts.QUOTED
     if not q.endswith(sg_prompts.GRADE_ABOVE) or q.count(sg_prompts.GRADE_ABOVE) != 1:
         raise SystemExit("QUOTED must end with sg-b3's GRADE_ABOVE, once")
@@ -114,9 +130,10 @@ def run(pilot=False, caller_cls=Caller, call_fn=call, concl=None, ts=None, check
     def do(job):
         _, m, t, c, concl_ = job
         cell = c.replace("drift-", "")
-        out, cost, rid = call_fn(messages(cell, t, concl_), m, f"{BET} grade {c}", max_tokens=40, schema=int_schema("grade"))
-        return {"model": m, "task": t["id"], "cond": c, "grade": out["grade"], "conclusion_sha": sha(concl_), "cost": cost,
-                "request_id": rid}
+        msgs = messages(cell, t, concl_)
+        out, cost, rid = call_fn(msgs, m, f"{BET} grade {c}", max_tokens=40, schema=int_schema("grade"))
+        return {"model": m, "task": t["id"], "cond": c, "grade": out["grade"], "conclusion_sha": sha(concl_),
+                "messages_sha": sha(json.dumps(msgs, sort_keys=True)), "cost": cost, "request_id": rid}
 
     g.run(jobs, do, workers=4)
     return g
@@ -210,6 +227,11 @@ def analyse(pilot=False, grade_cache=None, arch=None, concl=None, ts=None, s=Non
     mism = [k for k, v in gc.items() if sha(cs[(v["model"], v["task"])]) != v["conclusion_sha"]]
     if mism:
         raise SystemExit(f"{len(mism)} grade records do not match sg-b1's conclusions, e.g. {mism[:3]}")
+    tm = {t["id"]: t for t in ts}
+    badm = [k for k, v in gc.items() if "messages_sha" in v and v["messages_sha"] != sha(json.dumps(
+        messages(v["cond"].replace("drift-", ""), tm[v["task"]], cs[(v["model"], v["task"])]), sort_keys=True))]
+    if badm:
+        raise SystemExit(f"{len(badm)} grade records were made with other prompts (D16), e.g. {badm[:3]}")
     a = arch if arch is not None else archive_b3(pilot)
     if arch is None:
         bad = [k for k, (g, h) in a.items() if (k[0], k[1]) in cs and sha(cs[(k[0], k[1])]) != h]
@@ -241,7 +263,8 @@ REPEAT_SD = {"claude-haiku-5-5": 1.5 / 2 ** .5, "claude-sonnet-5-5": 1.62 / 2 **
 
 def simulate(world, reps=200, seed=5):
     """Quoted cells built from sg-b3's archived per-study cells plus measured repeat noise (P15, P16).
-    world: 'turn role' (quoted = archived fresh), 'layout' (quoted = archived own), 'half' (quoted gap = own gap +
+    world: 'kinder-clean' (quoted-clean = own-clean + 8, quoted-flawed = own-flawed: T > 0 with no role effect on the
+    flaw; the F guard must reject it, D16), 'turn role' (quoted = archived fresh), 'layout' (quoted = archived own), 'half' (quoted gap = own gap +
     half the model's G, the bar exactly), 'drift +3' (turn role, but today's own gap is 3 points larger),
     'harsh-quoted' (quoted = own - 8 on both cells), 'item-property' (quoted = fresh on the 14 studies whose interval
     excludes 0, own elsewhere: an item property reaching T directly)."""
@@ -275,6 +298,8 @@ def simulate(world, reps=200, seed=5):
                         base = own - 8
                     elif world == "item-property":
                         base = fr if t in excl else own
+                    elif world == "kinder-clean":
+                        base = own + (8 if c == "clean" else 0)
                     new[(t, f"quoted-{c}")] = clip(base + rng.normal(0, sd))
             for t in dr:
                 for c in ("clean", "flawed"):
@@ -320,7 +345,17 @@ def dryrun():
     r = per_model(exact2, arch, "claude-haiku-5-5", ids, dm, [], 1, 60)
     print("P13 Haiku T exactly", round(r["T"], 12), "(bar 6.3) ->", r["reading"])
     assert r["reading"] == "turn role"
-    for w in ("turn role", "layout", "half", "drift +3", "harsh-quoted", "item-property"):
+    import sg_prompts
+    keep = sg_prompts.QUOTED
+    sg_prompts.QUOTED = keep + " "
+    try:
+        check_frozen()
+        raise AssertionError("a tampered QUOTED was not refused")
+    except SystemExit as e:
+        print("D10 a tampered QUOTED (one trailing space) is refused:", e)
+    finally:
+        sg_prompts.QUOTED = keep
+    for w in ("turn role", "layout", "half", "drift +3", "harsh-quoted", "item-property", "kinder-clean"):
         v, rd = simulate(w)
         print("world", repr(w), "verdict", v, "| readings", rd)
 

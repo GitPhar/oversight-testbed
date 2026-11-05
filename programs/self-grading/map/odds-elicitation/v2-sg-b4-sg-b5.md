@@ -8,3 +8,13 @@
 | sg-b5 | sg-d11 | 0.32 | −0.10 | 0.22 | Literature (0.13), under-$1 (0.19) and model-referee (0.22) rows outweigh layer 2 (0.67, few bets); conjunctive rule needs Opus, parent 6.0, barely above +5; Sonnet 1.4 unlikely. | 0.45 |
 
 Both moves are revisions before data; both numbers stay (`engine_odds_first`, `engine_odds`). The negation and paraphrase check (scout.md) is not run for follow-ups re-elicited at pre-registration.
+
+## Re-elicitation of sg-b4, 2026-11-05 10:37 (D16)
+
+Design review sg-b4 (D12) found the description's Prior work line too strong: both papers vary role together with turn structure (Tsui: "role attribution and turn position cannot be varied independently within this design"), so the literature predicts the bundle effect and is silent on a quoted copy that keeps the lead-in and labels. A new fresh context was given prior.md and the corrected description (also naming the drift check's estimated 6-15% false-untestable rate) and nothing else.
+
+| bet | prior | adjustment | engine odds | reason (verbatim) |
+|---|---|---|---|---|
+| sg-b4 | 0.32 | −0.14 | 0.18 | Rows model 0.22, under-$1 0.19 and literature 0.13 sit below the prior. The rule needs both Haiku and Opus to pass two CI tests, and Opus's 3.0 bar uses only 30 studies. Layer 2's 0.67 is from 6 bets. |
+
+In force: 0.18. Kept: map 0.30 (`engine_odds_first`), first v2 0.15 (`engine_odds_v2_first`).
