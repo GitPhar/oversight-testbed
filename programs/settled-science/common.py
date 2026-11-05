@@ -35,7 +35,8 @@ CACHES = [ROOT / "items" / "leakage-cache.json", ROOT / "bettor" / "bettor-cache
           ROOT / "bettor" / "bb-cache.json", ROOT / "bettor" / "bb-pilot-cache.json",   # ss-b10 (D51)
           ROOT / "items" / "f4" / "leakage-cache.json", ROOT / "bettor" / "f4-bettor-cache.json",   # ss-b12 (D53)
           ROOT / "bettor" / "f1-cache.json", ROOT / "bettor" / "f1-pilot-cache.json",            # ss-b13 (D62, D69)
-          ROOT / "items" / "f2" / "leakage-cache.json", ROOT / "bettor" / "f2-cache.json",       # ss-b14 (D64)
+          ROOT / "items" / "f2" / "leakage-cache.json", ROOT / "bettor" / "f2-cache.json",       # ss-b14 (D64; withdrawn D67, never used)
+          ROOT / "items" / "f2b" / "leakage-cache.json", ROOT / "bettor" / "f2b-cache.json",     # ss-b15 (D74)
           ROOT / "bettor" / "bbb-cache.json", ROOT / "bettor" / "bbb-opus-cache.json"]           # ss-b10b (D65)
 
 
