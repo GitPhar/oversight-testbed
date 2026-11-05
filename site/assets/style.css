@@ -703,3 +703,12 @@ table.hcol td { vertical-align: top; }
 .gloss { display: block; margin: 6px 0 10px; padding: 6px 10px; border-left: 3px solid var(--line); color: var(--text-2); font-size: .88rem; line-height: 1.45; font-weight: 400; font-style: normal; max-width: 46rem; }
 .gloss b { color: var(--text); }
 h1 + .gloss, h2 + .gloss, h3 + .gloss { margin-top: -4px; }
+/* Sean's table on a phone: each bet becomes a small card, the question across the top and the four numbers under it */
+@media (max-width: 640px) {
+  table.hcol thead { display: none; }
+  table.hcol tr { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px 8px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  table.hcol td { border: 0; padding: 0 12px; text-align: left; }
+  table.hcol td:first-child { grid-column: 1 / -1; padding-bottom: 6px; }
+  table.hcol td[data-l]::before { content: attr(data-l); display: block; font-size: .75rem; color: var(--text-2); font-weight: 400; }
+  .tablewrap:has(table.hcol) { width: 100%; }
+}

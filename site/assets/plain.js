@@ -92,12 +92,13 @@ function glossOnce(main) {
     const node = textNodes(main).find((n) => g.re.test(n.nodeValue));
     if (!node) continue;
     const el = node.parentElement;
-    const block = el.closest(BLOCK) || el;
-    const line = document.createElement(block.matches("h1, h2, h3, h4, summary, .label, .value, div") ? "p" : "span");
+    // inside a tile (.stat), the line goes under the row of tiles, not into the tile
+    const block = el.closest(".stats") || el.closest(BLOCK) || el;
+    const line = document.createElement(block.matches("h1, h2, h3, h4, summary, .label, .value, .stats, div") ? "p" : "span");
     line.className = "gloss";
     line.dataset.gloss = g.key;
     line.innerHTML = `<b>${esc(g.term)}:</b> ${esc(g.def)}`;
-    if (block.matches("h1, h2, h3, h4")) block.after(line);
+    if (block.matches("h1, h2, h3, h4, .stats")) { let ref = block; while (ref.nextElementSibling?.classList.contains("gloss")) ref = ref.nextElementSibling; ref.after(line); }
     else if (block.matches("summary")) block.closest("details").after(line);
     else if (block.matches(".label, .value")) (block.closest(".stat") || block).append(line);
     else if (block.matches("div") && block.children.length) block.prepend(line);

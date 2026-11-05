@@ -252,8 +252,8 @@ async function drawHuman(bets, humanPts, secondary) {
     <div class="tablewrap"><table class="hcol"><thead><tr><th>the bet, in plain words</th><th class="num">Sean</th><th class="num">engine</th><th>outcome</th><th>closer</th></tr></thead><tbody>${
       rows.map((r) => { const q = pq.get(r.id); const c = closer(r);
         return `<tr><td><span class="hc-q">${esc(q?.q || r.bet.title)}</span><span class="muted small hc-id">${esc(r.id)}</span></td>
-          <td class="num" style="color:${SIDE.human.hex}"><b>${pc(r.p)}</b></td><td class="num">${pc(r.bet.engine)}</td>
-          <td>${r.o ? `<b style="color:var(--hit)">came true</b>` : `<b style="color:var(--kill)">did not</b>`}</td><td>${c}</td></tr>`; }).join("")
+          <td class="num" data-l="Sean" style="color:${SIDE.human.hex}"><b>${pc(r.p)}</b></td><td class="num" data-l="engine">${pc(r.bet.engine)}</td>
+          <td data-l="outcome">${r.o ? `<b style="color:var(--hit)">came true</b>` : `<b style="color:var(--kill)">did not</b>`}</td><td data-l="closer">${c}</td></tr>`; }).join("")
     }</tbody></table></div>
     ${sec.length ? `<p class="muted small">${sec.map((b) => `${esc(b.id)} also carries his odds (${pc(b.human)}) but re-scored ${esc(b.raw.secondary_of)}'s run, so it counts only in the sensitivity row`).join("; ")}.</p>` : ""}`;
 }
