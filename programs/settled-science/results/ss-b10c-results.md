@@ -97,10 +97,10 @@ Rows 'flattery' and 'bettor' for Haiku and Sonnet are on the scored items (rated
 
 | step | model | new calls | cost | refusals |
 |---|---|---|---|---|
-| 1 | Haiku, flattery, reversed order | 100 | | 0 |
-| 2 | Sonnet, flattery, reversed order | 126 | | 0 |
-| 3 | Haiku, forecasting, reversed order | 200 | | 0 |
-| 4 | Sonnet, forecasting, reversed order | 200 | | 0 |
+| 1 | Haiku, flattery, reversed order | 100 | $0.026 | 0 |
+| 2 | Sonnet, flattery, reversed order | 126 | $0.631 | 0 |
+| 3 | Haiku, forecasting, reversed order | 200 | $0.052 | 0 |
+| 4 | Sonnet, forecasting, reversed order | 200 | $0.985 | 0 |
 | | steps 1–4 | 626 | $1.693 | 0 |
 | 5 | Opus, both prompts, both orders (stopped at its $1.50 cap, as pre-registered) | 162 | $1.465 ($0.0090 a call) | 0 |
 | | **total** | 788 (plus 974 reused from ss-b10) | **$3.158** of the $3.20 cap | 0 |
