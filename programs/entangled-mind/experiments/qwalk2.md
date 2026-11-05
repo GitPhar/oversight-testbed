@@ -48,7 +48,7 @@ We hide one settled direction at a time. Every other settled direction then send
   - Both kernels' rows sum to 1 within a component.
 - **The score**, the same for both arms. For hidden direction i: s(i) = Σ_{j settled, j ≠ i} (y_j − ȳ₋ᵢ) K[j, i], where ȳ₋ᵢ is the mean label of the other 24. It is rounded to 1e-12, so nodes no seed reaches score exactly 0.
 - **Seed.** CURBY-Q latest completed round 28297, result pulse 2025-08-22 13:42 America/Denver (checked this evening): stalled. **Seed: the first CURBy-RNG pulse timestamped after this commit.** Two sub-seeds come from `python3 ledger/seed.py <randomness> em-qwalk2 --purpose bootstrap` and `--purpose permutation`, each the full 64-bit integer passed to `numpy.random.default_rng`. Leave-one-out is deterministic, so the seeds fix only the resampling and the shuffles. `--run` recomputes both seeds from the randomness recorded below and refuses any other. Filled in by the seed commit, before any analysis:
-  `chain:` ___ · `pulse_index:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seeds:` ___
+  `chain:` CURBy-RNG · `pulse_index:` 1591662 · `pulse_time:` 2026-11-04 20:18:00 America/Denver (2026-11-05T03:18:00.156Z; previous pulse 1591661 at 03:17:00.186Z, before this file's commit 1f6887d at 20:17:31) · `randomness:` 6a6812f7a821a6369bdd1a0af1073bae8a74ebad61ab4bc13ede8361083ecc93cc7b4ccdaf0ed5b279c4df0011981d5373eb620001d54e0b280388ce567c3b01 · `client:` @buff-beacon-project/curby-client@1.2.0 (Client.randomness(1591662)) · `certificate_verified:` false (classical chain) · `seeds:` bootstrap 15016625028946468319, permutation 15216281605376176335
 
 ## 3. Calls
 
