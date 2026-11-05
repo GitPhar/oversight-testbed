@@ -1,0 +1,229 @@
+"""Score the bettor against the published record (pre-registration §4-§5). No model calls.
+
+    python3 scoring/score.py                       # real bets -> scoring/scores.json, scoring/tables.md
+    python3 scoring/score.py --synthetic <kind>    # dry run on synthetic bets: coin | oracle | headline | anti
+
+p_true = the bettor's probability on the option the paper reported (p_option_1 if Option 1 was the reported one, else
+1 - p_option_1). Brier = mean over items of (1 - p_true)^2; a constant 0.5 scores 0.25. Unit of analysis: items.
+"""
+import json
+import random
+import sys
+from collections import defaultdict
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+ITEMS = ROOT / "items" / "items.jsonl"
+BETS = ROOT / "bettor" / "bets.jsonl"
+BOOT_SEED, BOOT_N = 20261104, 10000
+HEADLINE_P = 0.75
+
+
+def load_items():
+    return {it["id"]: it for it in (json.loads(l) for l in ITEMS.read_text().splitlines() if l.strip())}
+
+
+def year_bin(it):
+    d = it["v1_date"]
+    return "2026-post" if it["side"] == "post" else ("2026-pre" if d.startswith("2026") else d[:4])
+
+
+def p_true_of(bet, it):
+    p1 = min(99, max(1, bet["p_option_1"])) / 100
+    one_is_true = bet["option_1_is"] == it["true_option"]
+    return p1 if one_is_true else 1 - p1
+
+
+def brier(ps):
+    return sum((1 - p) ** 2 for p in ps) / len(ps) if ps else None
+
+
+def boot_ci(vals, stat, n=BOOT_N, seed=BOOT_SEED):
+    if not vals:
+        return (None, None)
+    rng = random.Random(seed)
+    k = len(vals)
+    s = sorted(stat([vals[rng.randrange(k)] for _ in range(k)]) for _ in range(n))
+    return (s[int(0.025 * n)], s[int(0.975 * n) - 1])
+
+
+def acc(ps):
+    return sum(1 if p > 0.5 else 0.5 if p == 0.5 else 0 for p in ps) / len(ps) if ps else None
+
+
+def headline_p(it):
+    """The publication-bias baseline: 0.75 on the paper's headline side where one is tagged, 0.5 where none is."""
+    hs = it.get("headline_side")
+    return 0.5 if hs is None else (HEADLINE_P if hs == it["true_option"] else 1 - HEADLINE_P)
+
+
+def summarise(rows):
+    ps = [r["p_true"] for r in rows]
+    se = [(1 - p) ** 2 for p in ps]
+    hb = [(1 - r["headline_p"]) ** 2 for r in rows]
+    diff = [a - b for a, b in zip(se, hb)]
+    mean = lambda v: sum(v) / len(v)  # noqa: E731
+    return {"n": len(rows), "brier": brier(ps), "brier_ci": boot_ci(se, mean), "accuracy": acc(ps),
+            "mean_p_true": mean(ps) if ps else None, "headline_brier": mean(hb) if hb else None,
+            "minus_headline": mean(diff) if diff else None, "minus_headline_ci": boot_ci(diff, mean)}
+
+
+def calibration(rows):
+    """Confidence in the side the bettor favoured vs how often that side was the reported one."""
+    b = defaultdict(list)
+    for r in rows:
+        p = r["p_true"]
+        conf, right = (p, 1) if p >= 0.5 else (1 - p, 0)
+        if p == 0.5:
+            right = 0.5
+        lo = min(0.9, int(conf * 10) / 10)
+        b[lo].append((conf, right))
+    return [{"bucket": f"{lo:.1f}-{lo + 0.1:.1f}", "n": len(v), "mean_conf": sum(c for c, _ in v) / len(v),
+             "hit_rate": sum(h for _, h in v) / len(v)} for lo, v in sorted(b.items())]
+
+
+def score(items, bets):
+    prim = {b["id"]: b for b in bets if b["kind"] == "primary"}
+    chk = {b["id"]: b for b in bets if b["kind"] == "order-check"}
+    rows = []
+    for iid, it in sorted(items.items()):
+        if iid not in prim:
+            continue
+        b = prim[iid]
+        rows.append({"id": iid, "field": it["field"], "side": it["side"], "year": year_bin(it),
+                     "headline": ("none" if it.get("headline_side") is None else
+                                  "true-is-headline" if it["headline_side"] == it["true_option"] else "true-is-other"),
+                     "p_true": p_true_of(b, it), "headline_p": headline_p(it),
+                     "clipped": not (1 <= b["p_option_1"] <= 99)})
+    out = {"n_items": len(items), "n_scored": len(rows), "missing": sorted(set(items) - set(prim)),
+           "clipped": sum(r["clipped"] for r in rows)}
+    post = [r for r in rows if r["side"] == "post"]
+    pre = [r for r in rows if r["side"] == "pre"]
+    out["primary_post"] = summarise(post)
+    hi = out["primary_post"]["brier_ci"][1]
+    out["verdict"] = ("untestable" if len(post) < 60 else "pass" if hi is not None and hi < 0.25 else "null")
+    # leave-one-item-out on the primary rule (P10)
+    flips = []
+    for i in range(len(post)):
+        rest = [(1 - r["p_true"]) ** 2 for j, r in enumerate(post) if j != i]
+        hi_i = boot_ci(rest, lambda v: sum(v) / len(v), n=2000)[1]
+        if (hi_i < 0.25) != (hi < 0.25):
+            flips.append(post[i]["id"])
+    out["loo_flips"] = flips
+    out["pre_cutoff"] = summarise(pre)
+    se = lambda rs: [(1 - r["p_true"]) ** 2 for r in rs]  # noqa: E731
+    out["pre_minus_post"] = (None if not pre or not post else
+                             {"diff": brier([r["p_true"] for r in pre]) - brier([r["p_true"] for r in post]),
+                              "ci": two_sample_ci(se(pre), se(post))})
+    for key in ("field", "year", "side", "headline"):
+        out[f"by_{key}"] = {}
+        for side in ("post", "pre"):
+            groups = defaultdict(list)
+            for r in rows:
+                if r["side"] == side:
+                    groups[r[key]].append(r)
+            out[f"by_{key}"][side] = {g: summarise(v) for g, v in sorted(groups.items())}
+    out["calibration_post"] = calibration(post)
+    out["calibration_pre"] = calibration(pre)
+    # order check: same item, options reversed; coherence |p1 + p1' - 100|, and shift toward whichever is shown first
+    pairs = []
+    for iid, b2 in chk.items():
+        if iid in prim:
+            b1 = prim[iid]
+            pairs.append({"id": iid, "side": items[iid]["side"], "p1": b1["p_option_1"], "p1_swapped": b2["p_option_1"],
+                          "incoherence": abs(b1["p_option_1"] + b2["p_option_1"] - 100),
+                          "first_shown_bonus": (b1["p_option_1"] + b2["p_option_1"] - 100) / 2})
+    out["order_check"] = {"n": len(pairs),
+                          "mean_incoherence": sum(p["incoherence"] for p in pairs) / len(pairs) if pairs else None,
+                          "mean_first_shown_bonus": sum(p["first_shown_bonus"] for p in pairs) / len(pairs) if pairs else None,
+                          "first_shown_bonus_ci": boot_ci([p["first_shown_bonus"] for p in pairs],
+                                                          lambda v: sum(v) / len(v)),
+                          "same_side_rate": (sum(1 for p in pairs if (p["p1"] - 50) * (50 - p["p1_swapped"]) > 0) / len(pairs)
+                                             if pairs else None)}
+    out["rows"] = rows
+    return out
+
+
+def two_sample_ci(a, b, n=BOOT_N, seed=BOOT_SEED):
+    rng = random.Random(seed)
+    m = lambda v: sum(v) / len(v)  # noqa: E731
+    s = sorted(m([a[rng.randrange(len(a))] for _ in a]) - m([b[rng.randrange(len(b))] for _ in b]) for _ in range(n))
+    return (s[int(0.025 * n)], s[int(0.975 * n) - 1])
+
+
+def synthetic(items, kind):
+    rng = random.Random(1)
+    bets = []
+    for iid, it in items.items():
+        o1 = rng.choice("ab")
+        truth_is_1 = o1 == it["true_option"]
+        if kind == "coin":
+            p = 50
+        elif kind == "oracle":
+            p = 90 if truth_is_1 else 10
+        elif kind == "anti":
+            p = 10 if truth_is_1 else 90
+        else:  # headline
+            hs = it.get("headline_side")
+            p = 50 if hs is None else (75 if hs == o1 else 25)
+        bets.append({"id": iid, "kind": "primary", "option_1_is": o1, "p_option_1": p})
+        bets.append({"id": iid, "kind": "order-check", "option_1_is": "b" if o1 == "a" else "a", "p_option_1": 100 - p})
+    return bets
+
+
+def fmt(x, nd=3):
+    return "—" if x is None else f"{x:.{nd}f}"
+
+
+def tables(s):
+    L = ["# Scores (generated by scoring/score.py; do not edit by hand)", ""]
+    pp = s["primary_post"]
+    L += [f"Primary (post-cutoff, n = {pp['n']}): Brier **{fmt(pp['brier'])}** "
+          f"[{fmt(pp['brier_ci'][0])}, {fmt(pp['brier_ci'][1])}], accuracy {fmt(pp['accuracy'], 2)}; "
+          f"verdict **{s['verdict']}** (pass: upper 95% bound below 0.25). Leave-one-item-out flips: {len(s['loo_flips'])}.", ""]
+    pc = s["pre_cutoff"]
+    L += [f"Pre-cutoff (n = {pc['n']}; **the bettor may have read these papers**): Brier {fmt(pc['brier'])} "
+          f"[{fmt(pc['brier_ci'][0])}, {fmt(pc['brier_ci'][1])}], accuracy {fmt(pc['accuracy'], 2)}.", ""]
+    for key, title in (("side", "cutoff side"), ("field", "field"), ("year", "year"), ("headline", "publication-bias tag")):
+        L += [f"## By {title}", "", "| side | group | n | Brier | 95% CI | accuracy | headline-baseline Brier | bettor − baseline [95% CI] |",
+              "|---|---|---|---|---|---|---|---|"]
+        for side in ("post", "pre"):
+            for g, v in s[f"by_{key}"][side].items():
+                L.append(f"| {side}{' (leakage caveat)' if side == 'pre' else ''} | {g} | {v['n']} | {fmt(v['brier'])} | "
+                         f"[{fmt(v['brier_ci'][0])}, {fmt(v['brier_ci'][1])}] | {fmt(v['accuracy'], 2)} | "
+                         f"{fmt(v['headline_brier'])} | {fmt(v['minus_headline'])} "
+                         f"[{fmt(v['minus_headline_ci'][0])}, {fmt(v['minus_headline_ci'][1])}] |")
+        L.append("")
+    for side in ("post", "pre"):
+        L += [f"## Calibration ({side}-cutoff)", "", "| confidence bucket | n | mean confidence | share right |", "|---|---|---|---|"]
+        L += [f"| {c['bucket']} | {c['n']} | {fmt(c['mean_conf'], 2)} | {fmt(c['hit_rate'], 2)} |" for c in s[f"calibration_{side}"]]
+        L.append("")
+    oc = s["order_check"]
+    L += ["## Order check (secondary)", "",
+          f"{oc['n']} items asked twice with the options reversed. Mean |p + p' − 100| = {fmt(oc['mean_incoherence'], 1)} points; "
+          f"mean pull toward whichever option is shown first = {fmt(oc['mean_first_shown_bonus'], 1)} points "
+          f"[{fmt(oc['first_shown_bonus_ci'][0], 1)}, {fmt(oc['first_shown_bonus_ci'][1], 1)}]; "
+          f"same side chosen both times: {fmt(oc['same_side_rate'], 2)}.", ""]
+    if s["pre_minus_post"]:
+        d = s["pre_minus_post"]
+        L += [f"Pre minus post Brier: {fmt(d['diff'])} [{fmt(d['ci'][0])}, {fmt(d['ci'][1])}] (negative = pre-cutoff easier).", ""]
+    return "\n".join(L)
+
+
+def main():
+    items = load_items()
+    if "--synthetic" in sys.argv:
+        kind = sys.argv[sys.argv.index("--synthetic") + 1]
+        s = score(items, synthetic(items, kind))
+        print(kind, "post Brier", fmt(s["primary_post"]["brier"]), s["primary_post"]["brier_ci"], "verdict", s["verdict"],
+              "| pre", fmt(s["pre_cutoff"]["brier"]), "| order bonus", fmt(s["order_check"]["mean_first_shown_bonus"], 1))
+        return
+    bets = [json.loads(l) for l in BETS.read_text().splitlines() if l.strip()]
+    s = score(items, bets)
+    (ROOT / "scoring" / "scores.json").write_text(json.dumps(s, indent=1))
+    (ROOT / "scoring" / "tables.md").write_text(tables(s))
+    print(tables(s))
+
+
+if __name__ == "__main__":
+    main()
