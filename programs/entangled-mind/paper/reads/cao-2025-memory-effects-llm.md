@@ -1,0 +1,14 @@
+# Analyzing memory effects in large language models through the lens of cognitive psychology — Zhaoyang Cao, Lael Schooler & Reza Zafarani, 2025, arXiv 2509.17138 (v3, q-bio.NC)
+- url: https://arxiv.org/html/2509.17138
+- field: cognitive psychology
+- read_depth: partial (first 100k of about 110k characters of the HTML via fetch summary; the tail of the appendix and references not read)
+- read_by: scout-bmq reader B, 2026-11-04
+- what_tested: in-context recognition paradigms for list length, list strength, fan effect, lexicality, serial position, DRM false memory and cross-domain generalisation; study list in context, then a yes/no recognition test (an arithmetic-delay condition for DRM).
+- on_whom: GPT-4.1 (API) as the main model; Mistral-7B-Instruct-v0.3 and LLaMA-3-8B (open, deterministic decoding, one run per condition).
+- how_scored: hit rate, false-alarm rate, accuracy, d'; for the extended fan task, a log-odds score from token probabilities and d_a.
+- result: (GPT-4.1) fan accuracy 0.991 to 0.915 as fan grows; extended fan 1-20: hits 0.970 to 0.988 while false alarms rise 0.169 to 0.525, so the effect sits "on the foil side". List strength null (matches humans). Lexicality: no human-like non-word cost (0.994 vs 0.968). Serial position: perfect recognition at all positions (no U-shape). DRM: studied hits 1.000, unrelated FA 0.053, critical-lure "old" 0.114. The open models (incl. LLaMA-3-8B) rejected EVERY critical lure. "the manipulation acts primarily on the foil side of the recognition decision"
+- limits: (authors') dominated by one API model; open models run once each; human data are aggregate proportions; behavioural similarity is not shared mechanism; list-length match claim conflicts with the paper's own framing; ACT-R and global-matching models not fitted.
+- borrow: the foil-side finding is a scoring warning for T1-style probe tests: an interference manipulation may show up as more false alarms on recombined foils, not fewer hits, so report both. Their Llama-3-8B DRM null on discrete answers versus Orthey et al.'s graded p(YES) signal on Llama-3.1-8B shows why a logit measure is needed.
+- next_steps_it_suggests: fit ACT-R activation and global-matching models to trial-level log-odds; test verbatim-vs-gist trade-offs as in developmental false-memory work.
+- already_run_check: none of T1-T8 (in-context recognition only). Shows Llama-3-8B has been run on DRM, fan and list-strength in context.
+- transfers: partly — the paradigms and Llama-3-8B baseline are reusable at $0; the main results are on an API model we cannot use.

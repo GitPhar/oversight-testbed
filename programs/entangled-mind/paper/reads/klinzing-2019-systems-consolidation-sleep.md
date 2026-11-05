@@ -1,0 +1,14 @@
+# Mechanisms of systems memory consolidation during sleep — Klinzing, Niethard & Born, 2019, Nature Neuroscience 22:1598-1610
+- url: https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE:%22Mechanisms%20of%20systems%20memory%20consolidation%20during%20sleep%22&resultType=core (Europe PMC abstract record, PMID 31451802; the publisher page doi 10.1038/s41593-019-0467-3 is paywalled)
+- field: neuroscience
+- read_depth: abstract (paywalled at Nature Neuroscience; no PMC or author manuscript found in Europe PMC, and the search found no repository PDF)
+- read_by: scout-bmq reader A, 2026-11-04
+- what_tested: A review. Sleep forms long-term memory as an ACTIVE systems-consolidation process "embedded in a process of global synaptic downscaling". Repeated hippocampal replay in slow-wave sleep gradually transforms and integrates representations into neocortex. Three highlighted features: (i) hippocampal replay, capturing episodic aspects, drives consolidation of both hippocampus-dependent and non-hippocampus-dependent memory; (ii) slow-wave and REM oscillations regulate information flow between networks and local plasticity; (iii) memories are qualitatively TRANSFORMED into "abstracted, gist-like representations".
+- on_whom: Per the abstract, evidence from neurophysiological and behavioural studies "mainly in humans and rodents". No n in the abstract.
+- how_scored: Not available from the abstract.
+- result: No numbers in the abstract.
+- limits: Not read beyond the abstract, so it cannot be assessed.
+- borrow: The abstract's combination of active replay AND global downscaling in one process suggests a two-step LLM "sleep" for T3/T4: replay (LoRA on transcript or self-generated content) followed by proportional shrinking of the delta. It also predicts the gist-like transformation that T2 tests (see moscovitch-2016 and spens-2026).
+- next_steps_it_suggests: Not available from the abstract.
+- already_run_check: none (a review of animal and human work).
+- transfers: partly. The oscillation mechanisms (slow oscillation, spindle, ripple coupling) have no LLM analogue and are killed. The replay-plus-downscaling-gives-gist claim is the testable part, and it is already covered by the full-text records above.

@@ -1,0 +1,14 @@
+# Interpretable catastrophic forgetting of LLM fine-tuning via instruction vector — Jiang, Li, Jiang, Xue, Zhou, Song, Lian, Wei, 2024, arXiv preprint 2406.12227 (v1)
+- url: https://arxiv.org/html/2406.12227v1
+- field: machine learning
+- read_depth: full
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: Separates knowledge, P(y|x), from instruction-following, P(y_c|c,x), during continual LoRA instruction tuning; instruction vector (IV) from causal mediation over the top-10 attention heads; re-adds IV to hidden states to test recovery; IV-guided training.
+- on_whom: LLaMA2-7B-Chat with LoRA; TRACE, LONG, FUNC benchmarks; Hellaswag, ARC-challenge, CommonsenseQA, MMLU-social.
+- how_scored: Log-likelihood label accuracy; HP (zero-shot held-out), IP (in-context held-out), OP (new tasks).
+- result: Instruction accuracy on general sets falls by 10.24 on average while knowledge accuracy RISES by 1.93. CommonsenseQA after TRACE: 0-shot 0.03, 10-shot 0.15; adding the IV restores 0.47 (current model's IV) or 0.49 (initial model's IV). IV similarity to the original stays stable. Fine-tuning "mostly adds specialized reasoning patterns instead of erasing previous skills".
+- limits: One backbone; head aggregation may be noisy; IV-guided training does not protect newly learned knowledge.
+- borrow: The knowledge-vs-instruction likelihood split is a cheap behavioural proxy for T1's dissociation: score P(true-statement) vs P(false-statement) as raw continuations (knowledge) alongside the instructed 0-100 answer (readout). A drop in the second without the first is suppressed readout. IV re-injection is the recovery arm.
+- next_steps_it_suggests: Optimisation-based IV extraction; combine with existing continual-learning methods.
+- already_run_check: T8 nearly run (readout restored without weight change, 7B, accuracy 0.03 → 0.49); T1 nearly run in behavioural form (knowledge likelihood kept while instructed answers degrade), not with a hidden-state probe.
+- transfers: yes — 7B chat model with LoRA, inference-time intervention.

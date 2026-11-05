@@ -1,0 +1,14 @@
+# Large language model recall uncertainty is modulated by the fan effect — Jesse Roberts, Kyle Moore, Thao Pham, Oseremhen Ewaleifoh & Doug Fisher, 2024, CoNLL 2024 (arXiv 2407.06349)
+- url: https://arxiv.org/html/2407.06349v2
+- field: cognitive psychology
+- read_depth: full (via fetch summary of the HTML; the per-condition correlation values appear only in figures, which were not seen)
+- read_by: scout-bmq reader B, 2026-11-04
+- what_tested: whether fan (the number of facts sharing a feature) changes LLM recall uncertainty, (a) in context, with person-location facts in Anderson & Reder's design (26 concepts, fans 1-3), and (b) in pretraining, via category typicality (Rosch 1975 categories, about 60 items each).
+- on_whom: in context: Mistral-7B and SOLAR-10.7B, each as a "population" of 50 (median aggregation). Typicality: RoBERTa, GPT-2, Llama-2, Llama-3 (size not stated), Mistral, SOLAR.
+- how_scored: probability of the answer words "present"/"absent" after each query; correlations with fan or typicality; significance threshold r > 0.3; empirical noise floors.
+- result: typicality: significant negative correlations for Mistral and SOLAR only; RoBERTa, GPT-2 and Llama-2 none; Llama-3 slight and non-significant. In context, all absent-item queries showed significant fan correlations and no present-item query did; the authors say fan effects appear only where uncertainty exists. "Our results show that removing uncertainty disrupts the observed effect."
+- limits: (authors') effects may be weak relative to probability magnitude; present items are retrieved near-certainly, which masks the effect; short lists.
+- borrow: little for our tests. The one point: interference effects in LLMs show only in uncertain regimes, so any T5/T8 test should keep items away from ceiling (longer lists, weaker cues), or the effect will be invisible.
+- next_steps_it_suggests: longer lists to create uncertainty for present items; simulate elapsed time by injecting semantic noise; human comparison experiments.
+- already_run_check: none.
+- transfers: no — a fan-effect replication answers no T1-T8 question and Llama-3 already showed no reliable effect; killed here.

@@ -1,0 +1,14 @@
+# Retrieval-induced forgetting in LLMs: a reproducible failure mode and a verified fix — Shuzhen Li & Mengdi Wang, 2026, ICML 2026 workshop (Failure Modes in Agentic AI), poster
+- url: https://icml.cc/virtual/2026/77864 (OpenReview forum qLUkcq5Dyn returned a bot check and the PDF returned 403; no arXiv version found)
+- field: machine learning
+- read_depth: abstract (only the ICML virtual-page abstract could be fetched; the PDF was blocked)
+- read_by: scout-bmq reader F, 2026-11-04
+- what_tested: Whether, in context, having an instruction-tuned LLM elaborate on one item from a list suppresses its later recall of the related, unelaborated items (an in-context RIF analogue), and whether a post-hoc "list every item by name" prompt reverses it.
+- on_whom: Qwen-2.5-7B and Qwen-2.5-72B (instruction-tuned). Per a search snippet, judge-scored with N = 150 at 7B; not verified from the paper.
+- how_scored: Recall of the related items after elaboration, compared across conditions; "recovery" percentages; attention analysis over KV-cache positions.
+- result: Elaboration lowered later recall of related items by 11.2 points (7B) and 24.9 points (72B). The same cue placed after the elaboration gave about 98% recovery at 72B versus -5% when placed before, a gap of about 103 points. The authors say the fix writes a new accessible copy into recent cache positions, while the originals "remain suppressed" (attention analysis).
+- limits: Abstract only, so it is unknown whether they controlled output order (Rp- tested before Rp+) or ran a restudy/re-exposure arm, the two controls the human RIF literature needs. It is in-context only, nothing in the weights. It is a workshop paper, with one model family.
+- borrow: Their cue-position manipulation (identical text before vs. after elaboration) is a clean within-item control for position or recency effects. Combine it with the Murayama et al. 2014 output-order and restudy controls before claiming "RIF" rather than recency or attention dilution.
+- next_steps_it_suggests: Not available from the abstract.
+- already_run_check: T5 nearly run (in-context, on Qwen-2.5-7B, the same model family we run locally). It differs from T5 in being in-context only, with no in-weights (LoRA) RIF, and it is unknown whether human-standard output-interference and restudy controls were used.
+- transfers: yes — same model family and task shape. Our T5 should build on it, either as a replication on local Qwen2.5-7B-4bit with the output-order and restudy controls added, or by moving to the in-weights version.

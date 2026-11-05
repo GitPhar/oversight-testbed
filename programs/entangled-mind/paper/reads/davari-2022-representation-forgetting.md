@@ -1,0 +1,14 @@
+# Probing representation forgetting in supervised and supervised contrastive learning — Davari, Asadi, Mudur, Aljundi, Belilovsky, 2022, CVPR 2022
+- url: https://arxiv.org/html/2203.13381v2
+- field: machine learning
+- read_depth: full
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: Whether old-task accuracy loss reflects lost features. Representation forgetting = drop in accuracy of an optimal linear probe RETRAINED on frozen features at each checkpoint, vs observed accuracy of the network's own head.
+- on_whom: ResNet-18 (width 32/128), ResNet-101, VGG-16; SplitCIFAR100 (10 tasks), SplitMiniImageNet, SplitImageNet32 (200 tasks), ImageNet → Scenes → CUB → Flowers, SplitCIFAR10. Vision only.
+- how_scored: LP accuracy before minus after; observed accuracy; CKA.
+- result: Plain CE fine-tuning on SplitCIFAR100, RN18 width 32: Task 1 observed accuracy 82.2 → 20.8, but linear-probe accuracy at T=10 is 64.8. SplitCIFAR10: observed 85% → 63.64%, last-block LP only 85.82% → 80.10%, while CKA falls 0.97 → 0.22; early blocks show no forgetting. Width helps more than depth.
+- limits: Probes retrained after each task (not frozen), so they measure decodability, not whether the OLD readout direction survives; vision CNNs; task-incremental only.
+- borrow: The key control for T1: report BOTH a frozen pre-fine-tune probe and a probe retrained after fine-tuning. Frozen-high = same direction kept; frozen-low but retrained-high = information kept, readout rotated; both low = erased. Also: CKA overstates forgetting — don't use raw similarity as the measure.
+- next_steps_it_suggests: Class-incremental setting; evaluating memories unavailable during training.
+- already_run_check: T1 nearly run (retrained-probe version, on CNNs, not LLMs).
+- transfers: partly — the metric transfers, the models do not.

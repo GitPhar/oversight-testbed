@@ -1,0 +1,14 @@
+# Function vectors for characterizing and mitigating catastrophic forgetting in continual instruction tuning — Jiang, Jiang, Li, Xue, Zhou, Song, Lian, Wei, 2025, ICLR 2025 (per proceedings listing in search; arXiv 2502.11019)
+- url: https://arxiv.org/html/2502.11019v2
+- field: machine learning
+- read_depth: partial (main text and early appendix, first ~100k of ~128k characters)
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: Whether forgetting in continual instruction tuning overwrites old functions or biases which function is activated. Function vector (FV) = summed mean activations of the top-10 causally important attention heads from ICL prompts; inject source FV or subtract target FV at inference; FV-guided regularised training.
+- on_whom: Llama2-7b-chat, Llama2-13b-chat, Llama3-8B-chat, Mistral-7B-instruct-v2.0; SuperNI sequences (classification, generation, mixed) and TRACE (6 tasks); general evals Hellaswag, CommonsenseQA, Alpaca, BBH-Object-Count.
+- how_scored: Rouge-L; GP (zero-shot general), IP (in-context general), forgetting = AP − FP.
+- result: Adding the source FV at inference raises Hellaswag by 7.3 on average (layer chosen on the evaluated data); subtracting the target FV raises 39.5 → 49.1. In-context forgetting exceeds zero-shot (34.7 vs 8.94, Llama2-7b-chat NI-Seq-C1). FV similarity predicts zero-shot performance (R² 0.873). FVG training adds on average 5.44 GP and 17.52 IP across baselines.
+- limits: Layer selection on the test metric; mechanism claim is interpretive; no linear knowledge probes.
+- borrow: A cheap readout-restoration test for T1/T8: extract an FV (or our truth-judgement task vector) from the pre-fine-tune model, add it to the forgotten model at inference; if verbal true/false accuracy returns, the forgetting is a routing/readout shift. Choose the layer on a held-out split (their weakness).
+- next_steps_it_suggests: Test whether model capacity lets new functions build on old ones.
+- already_run_check: T8 nearly run (forgotten ability restored by activation injection, no weight change, 7-13B); T1 none (no knowledge probe).
+- transfers: yes — Llama3-8B-chat, inference-time activation addition is laptop-cheap.

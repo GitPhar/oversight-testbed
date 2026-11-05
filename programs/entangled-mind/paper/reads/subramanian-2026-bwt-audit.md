@@ -1,0 +1,14 @@
+# Auditing backward transfer against learning strength: a reanalysis of biologically plausible continual learning — Saanvi S. Subramanian, 2026, NeurIPS 2026 workshop (AI for Meta-Science), poster
+- url: https://neurips.cc/virtual/2026/164091 (OpenReview forum XZVkVO1pGe returned a bot-challenge 403)
+- field: metascience
+- read_depth: abstract (only the NeurIPS virtual-page abstract could be fetched)
+- read_by: scout-bmq reader F, 2026-11-04
+- what_tested: Whether biologically plausible learning rules "forget less" only because they learned less before forgetting was measured. Backward transfer and forgetting are change scores whose reference point differs between methods.
+- on_whom: 10 published papers on biologically plausible learning rules; 5 published method-vs-baseline comparisons reanalysed.
+- how_scored: Recorded whether each paper reports pre-forgetting learning accuracy for method and baseline. Calibrated the relation between learning accuracy and backward transfer, then judged each method by its residual from that calibration.
+- result: Only 2 of 10 papers reported how much method and baseline had learned before forgetting was measured, and 4 of 10 gave no way to recover it. Of 5 reanalysed retention advantages: 2 survive, 1 shrinks by about a quarter, 1 "reflects re-learning rather than retention", and 1 reverses. The calibrated residual detects experience replay and does not credit two mechanisms expected to fail. The author states the sample is a convenience sample and does not estimate prevalence.
+- limits: Abstract only. Small convenience sample (5 reanalyses). Workshop paper. No LLMs mentioned.
+- borrow: The learning-strength control is the most directly usable failure-mode check in my reads. In every T3/T4/T7 pre-registration, (a) report each arm's accuracy on task 1 at the end of task-1 training, before task 2, (b) match the arms on it or regress forgetting on it, and (c) separate retention from re-learning by testing before any replay or rehearsal on the old task. A biomimetic arm that "forgets less" because its LoRA learned task 1 less well, which downscaling (T4) would produce almost by construction, must not count as a win. Also adopt their claim-condition-control disclosure format for each prediction.
+- next_steps_it_suggests: The "claim--condition--control disclosure" (conditioning variable, null relation, controls, operating range, decision rule) as a reporting standard.
+- already_run_check: none (no T1-T8 test run). It is the closest thing found to a measurement of how often brain-inspired CL claims survive reanalysis: 2 of 5 fully, from a convenience sample.
+- transfers: yes — the confound is generic to any forgetting comparison and bites hardest on T4 (shrinking deltas reduces both learning and forgetting).

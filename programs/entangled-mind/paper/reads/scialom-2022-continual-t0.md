@@ -1,0 +1,14 @@
+# Continual-T0 — Scialom, Chakrabarty & Muresan, 2022, EMNLP 2022 (per arXiv v4; venue not checked on the publisher page)
+- url: https://arxiv.org/pdf/2205.12393
+- field: machine learning
+- read_depth: partial (sections 1-5.1 and Table 3 read; appendices and Table 5 numbers not read)
+- read_by: scout-bmq reader E, 2026-11-04
+- what_tested: continual instruction tuning with rehearsal. A memory buffer keeps r% of each earlier task's training data (r = 0, 0.25%, 1%). 8 new generation tasks (simplification, constrained headlines, haiku, closed-book CovidQA, inquisitive questions, empathetic dialogue, eSNLI explanations, Twitter stylometry) are learned one after another starting from T0. Retention is checked on T0's own 50 training sets (rehearsed) and on its 12 held-out zero-shot sets (never rehearsed). Also tested: reversed task order, a LAMOL baseline (self-generated replay) started from T0_3B, and T5-small, T5-3B and randomly initialised T5-3B starts.
+- on_whom: T0_3B and T0pp (11B), T5 variants. 100,000 training examples per task, so the 1% buffer holds 1,000 per task.
+- how_scored: task metrics (ROUGE, BLEU/SARI, BERTScore, a custom haiku score, a stylometry classifier, accuracy on T0zs), normalised to each task's single-task upper bound (relative gain).
+- result: without rehearsal the model "catastrophically forgets" the T0 zero-shot tasks. 0.25% rehearsal gives almost perfect stability. At 1% the final CT0 keeps 99.8% (T0pp) and 98.0% (T0_3B) of the upper bound, and no task drops more than 2% for T0pp. LAMOL started from T0_3B diverges from the upper bound (e.g. T0tr R1 37.3 vs 70.1 for the T0_3B start). The authors guess self-generation does not suit generative tasks. Final results hold under reversed task order ("task order invariant"; 3B only). Continual learning works from pretrained T5 but not from random initialisation; they conclude it "emerges from the intensive pre-training stage".
+- limits: one forward and one reversed order, no seeds reported in the text read, full fine-tuning at 3B/11B. Retention is measured by surface task metrics only. The LAMOL comparison is an adaptation, not a matched self-generated vs real replay arm.
+- borrow: (1) tiny real-replay ratios (0.25-1%) as the "real replay" arm of T3; (2) keep a non-rehearsed held-out set (T0zs) as the test of forgetting that replay never touches; (3) the closed-book "learn the answer by heart" framing of CovidQA is a template for injecting facts into weights.
+- next_steps_it_suggests: the authors credit pretraining for continual learning and point to scale and pretraining studies; no explicit forgetting-mechanism follow-up.
+- already_run_check: T3 nearly run (real 1% rehearsal vs none, plus a self-generated LAMOL baseline, on 3B; real replay wins). T6: no. T2: no.
+- transfers: partly — the ratios and the held-out-set control transfer; the full fine-tuning scale does not, but LoRA on a 0.5-1.5B model can reproduce the design.

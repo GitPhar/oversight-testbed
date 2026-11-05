@@ -1,0 +1,14 @@
+# Sleep and veridical/false memory (DRM) meta-analysis — Chloe R. Newbury & Padraic Monaghan, 2019, Psychonomic Bulletin & Review 26(2)
+- url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6488554/fullTextXML (PMC6488554)
+- field: metascience
+- read_depth: partial (abstract, introduction, results for lure words and old words, publication-bias tests, moderator analyses; methods skimmed, discussion only partly read)
+- read_by: scout-bmq reader F, 2026-11-04
+- what_tested: Whether sleep, compared with wake, increases "gist" false memory (lure words) or veridical memory (studied words) in the Deese/Roediger-McDermott paradigm, and what moderates it.
+- on_whom: Human DRM sleep-vs-wake experiments: 5 on false recall and 8 on false recognition (13 experiments in all, one unpublished).
+- how_scored: Hedges' g for sleep minus wake in the proportion of lure (or old) words reported as old; random-effects model; Egger test; moderators: list length, number of lists, recall vs. recognition, modality, emotionality, nap vs. overnight.
+- result: Overall effect on lure (false) memory g = 0.129 (SE 0.210), n.s. On old (true) words, g = 0.159 (95% CI -0.088 to 0.406), p = .206. Egger tests were n.s. (z = 0.910 and -0.272). The sign depends on list length, Q(2) = 18.368, p < .001: 10-word lists g = 0.920 (more false memory after sleep), 12-word 0.315 (n.s.), and 15-word -0.495 (less false memory after sleep). Recall vs. recognition was a marginal moderator, Q(1) = 3.933, p = .047; neither subset was significant alone (e.g. recall g = 0.407, p = .112).
+- limits: Small (13 experiments), so the moderator findings are themselves fragile, and multiple moderators were tested. Covers the DRM paradigm only.
+- borrow: For T2 (does consolidation strip source or semanticise?), there is no reliable human "sleep produces gist" effect to inherit. The direction flips with a design detail (list length). The engine should therefore pre-register the direction it predicts, include at least two settings of the analogous structural parameter (e.g. number of related items per theme in the consolidation data), and treat a sign flip across settings as a possible outcome, not noise.
+- next_steps_it_suggests: Test list length and test type directly in larger experiments; link the effects to associative-network accounts of gist extraction.
+- already_run_check: none (human; no network). Relevant to T2's source-amnesia/semanticisation arm.
+- transfers: partly — the human sleep-gist effect is null overall and its sign depends on the setup, so a "consolidation makes the LLM more gist-like and source-blind" prediction cannot be justified by appeal to sleep. It must be argued from the mechanism of the training objective.

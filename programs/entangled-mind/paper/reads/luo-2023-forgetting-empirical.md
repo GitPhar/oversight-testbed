@@ -1,0 +1,14 @@
+# Empirical study of catastrophic forgetting in LLM continual fine-tuning — Luo, Yang, Meng, Li, Zhou, Zhang, 2023, arXiv preprint (2308.08747)
+- url: https://arxiv.org/html/2308.08747
+- field: machine learning
+- read_depth: full
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: Whether general knowledge (MMLU domain knowledge, reasoning, reading comprehension) and bias degrade during sequential instruction tuning on five tasks (Simp → Emdg → InqQG → Exp → HGen, 100k samples each, 3 epochs), and how this depends on scale, architecture (decoder vs encoder-decoder) and prior general instruction tuning.
+- on_whom: BLOOMZ 1.1b/1.7b/3b/7.1b, mT0 1.2b/3.7b, BLOOM-7.1b, LLAMA-7b, ALPACA-7b; one task order.
+- how_scored: FG = average relative drop (%) from the initial model's benchmark score across training stages; MMLU 5-shot, Hellaswag/BoolQ/Winogrande/PIQA/MathQA/Mutual zero-shot, RACE; CrowS-Pairs for bias. Behavioural accuracy only.
+- result: "the FG values for domain knowledge, reasoning, and reading comprehension are all above zero". BLOOMZ-7.1b FG: domain 18.37, reasoning 13.62, reading 26.75. Domain FG rises with scale 9.54 (1.1b) → 18.37 (7.1b), attributed to higher starting scores. LLAMA-7b FG 34.57/31.33/31.72 vs ALPACA-7b 18.14/7.56/10.31 (prior instruction tuning protects). Mixing 10k Alpaca samples: MMLU-human 26.8% (no mix) vs 30% (mix), from 34.72% initial.
+- limits: No probing of hidden states at all; forgetting is read only through output accuracy, so erased vs suppressed cannot be told apart. Max 7b; one task order; benchmark subset.
+- borrow: The FG metric (relative drop averaged over stages) as the behavioural arm of T1; the finding that prior instruction tuning (Alpaca vs LLaMA) halves forgetting means our Instruct models are a conservative test bed — expect smaller verbal degradation than on base models.
+- next_steps_it_suggests: Larger (70b+) models; better mitigation methods.
+- already_run_check: none (behaviour only; no probe, no recovery test).
+- transfers: partly — establishes that 7B instruction-tuned models forget measurably under LoRA-scale task sequences, but says nothing about representations.

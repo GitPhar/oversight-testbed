@@ -1,0 +1,14 @@
+# How post-training reshapes LLMs: knowledge, truthfulness, refusal, confidence — Du, Li, Cai, Saraipour, Zhang, Lakkaraju, Sun, Zhang, 2025, arXiv preprint 2504.02904 (v3)
+- url: https://arxiv.org/html/2504.02904
+- field: machine learning
+- read_depth: partial (main text and appendix to B.4, first ~100k of ~159k characters; Mistral tables and appendices C-F not read)
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: Whether post-training (instruction tuning, SFT) changes where knowledge is stored, the truthfulness direction, the refusal direction and confidence. Key experiment: a truth probe trained on the BASE model applied unchanged to the post-trained model, vs the post model's own probe; plus causal tracing and steering-direction transfer.
+- on_whom: Llama-3.1-8B vs Llama-3.1-8B-Instruct and Tulu-3-8B-SFT; Mistral-7B-v0.3 vs Instruct and Tulu2-SFT; refusal also on Qwen-1.5-0.5B and Gemma-2-9B. Truth data: six Marks & Tegmark true/false sets (cities, sp_en_trans, inventors, animal_class, element_symb, facts), leave-one-out.
+- how_scored: Probe accuracy; intervention effect; causal-patching correlation; refusal score.
+- result: Base probe on Llama-3.1-8B-Instruct vs Instruct's own probe: cities 95.91 vs 94.65, sp_en_trans 98.94 vs 95.18, inventors 92.18 vs 88.73, animal_class 96.46 vs 98.75, element_symb 95.13 vs 96.18, facts 80.86 vs 82.47 (all within ±4 points). Causal-tracing maps base vs instruct correlate 0.9923. Refusal direction does NOT transfer forward (base direction leaves instruct's harmful refusal at 0.95 vs baseline 0.98).
+- limits: Post-training here is not forgetting-inducing — no verbal degradation was measured on the probed items; external SFT models not paired; no LoRA; no task-interference fine-tune.
+- borrow: This is the frozen-probe half of T1 already done on almost our model (Llama-3.1-8B; we have Llama-3-8B-Instruct): truth directions survive a large, benign fine-tune. Use their six datasets and leave-one-out protocol so our T1 numbers are directly comparable, and treat their ±4-point band as the "no change" reference. The truth-vs-refusal contrast is a ready-made prediction: what survives is knowledge, what does not is behavioural policy.
+- next_steps_it_suggests: Better tools for confidence and instruction-following mechanisms.
+- already_run_check: T1 nearly run — frozen base-trained truth probe read on a fine-tuned Llama-3.1-8B and Mistral-7B; differs in that the fine-tune was not one that destroyed the verbal answers, so the dissociation T1 asks about (probe survives WHILE answers degrade) was not tested.
+- transfers: yes — same model family, same probe datasets, inference-only once the fine-tunes exist.

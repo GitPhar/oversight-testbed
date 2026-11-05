@@ -1,0 +1,14 @@
+# Synaptic Intelligence (SI) — Zenke, Poole & Ganguli, 2017, ICML (read as arXiv 1703.04200v3)
+- url: https://arxiv.org/pdf/1703.04200
+- field: machine learning
+- read_depth: full (arXiv v3 incl. appendices; results mainly in figures)
+- read_by: scout-bmq reader C, 2026-11-04
+- what_tested: Each weight keeps an online running estimate of its importance (the path integral of gradient x weight change over the whole learning trajectory, normalised by total displacement); changes to important weights are then penalised quadratically on later tasks (strength c). Compared with fine-tuning (c=0), EWC (replotted), SGD with dropout, and training from scratch.
+- on_whom: MLPs (split MNIST, 5 two-digit tasks, multi-head; permuted MNIST, 2x2000-ReLU MLP, 10 tasks); a CNN (4 conv + 2 dense) on split CIFAR-10/100 (CIFAR-10 then 5 tasks of 10 CIFAR-100 classes), n = 5 repeats. No language models.
+- how_scored: Mean test/validation accuracy over all tasks seen so far, as a function of number of tasks; correlation of per-task weight-importance vectors across tasks.
+- result: Without consolidation, split-MNIST accuracy on the first two tasks drops back to chance once all digits are seen; with SI only minor degradation (figure). Permuted MNIST: SI (c = 0.1) and EWC give similar average accuracy over 10 tasks, both far above SGD/dropout, slightly below joint training. CIFAR: consolidated networks beat fine-tuning on every task except the last; in the 2-task CIFAR-10 appendix, consolidation also gives ≈ 4.5% higher validation accuracy on the NEW task (better transfer), for c from 0.1 to 10. Without consolidation the second-layer importances become correlated across tasks; with it they stay uncorrelated (authors: likely cause of forgetting). Quote: "we may need to add intelligence to our synapses."
+- limits: Needs task boundaries to consolidate; multi-head (task-labelled) evaluation for split benchmarks, which is easier than single-head; small vision models only; authors make no claim about biological synapses. Not applied to LLMs in this paper.
+- borrow: Path-integral importance is free to accumulate during an mlx-lm LoRA run (it needs only gradients and updates already computed), so it is the cheapest importance score for a T4 "weighted shrink toward base" arm. The cross-task importance-correlation diagnostic is a cheap readout of interference between, say, a new task and the truth-probe direction.
+- next_steps_it_suggests: Give individual synapses richer dynamical state (history-dependent plasticity, decay of recent changes unless "tagged") to control learning.
+- already_run_check: T4 nearly (importance-weighted pull toward old weights, but as a training penalty on MLP/CNN, not post-hoc shrinkage, not LLM). T7: the discussion names tag-dependent consolidation (Redondo & Morris) as a direction, not run. Others: none.
+- transfers: partly — method is cheap and portable to LoRA, but evidence is MNIST/CIFAR only, multi-head.

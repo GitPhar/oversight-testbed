@@ -1,0 +1,14 @@
+# Deep Generative Replay (DGR) — Shin, Lee, Kim & Kim, 2017, NeurIPS (read as arXiv 1705.08690v3)
+- url: https://arxiv.org/pdf/1705.08690
+- field: machine learning
+- read_depth: full (arXiv v3 main text; supplement not read)
+- read_by: scout-bmq reader C, 2026-11-04
+- what_tested: A "scholar" = generator (WGAN-GP) + solver. When a new task arrives, the old generator produces fake past inputs, the old solver labels them, and the new solver trains on a mix of real new data and these replayed pairs; the generator is also retrained on real + generated data. Arms: GR (generative replay), ER (exact replay of real past inputs labelled by the old solver; upper bound), Noise (Gaussian noise inputs with recorded responses), None.
+- on_whom: Classifier networks on permuted MNIST; MNIST to SVHN and SVHN to MNIST; class-incremental split MNIST (5 tasks of 2 digits); LwF vs LwF-GR on SVHN then MNIST. Seeds/n not stated in main text. No language models.
+- how_scored: Test accuracy on each task and average over tasks learnt so far.
+- result: Chain of 5 solvers each trained only from the previous scholar's generated data keeps MNIST accuracy: 98.81%, 98.64%, 98.58%, 98.53%, 98.56%. On all benchmarks GR keeps old tasks close to ER while None forgets; Noise replay (right targets, wrong inputs) does not help, so the replayed INPUT distribution matters. GR augments LwF (LwF-GR keeps SVHN). Generator quality limits performance (some loss on SVHN in the class-incremental setting). Quote: "the efficacy of the algorithm heavily depends on the quality of the generator."
+- limits: Small image datasets; generator must itself be continually trained; no compute or seed reporting in main text; no language. The paper does not apply DGR to LLMs (the LLM analogue in which the language model generates its own pseudo-samples is LAMOL, Sun et al. 2020, recorded separately in sun-2020-lamol.md by another reader).
+- borrow: The four-arm design GR / ER / Noise / None is exactly T3's design and should be copied: for an LLM, GR = the model's own sampled prompts+answers, ER = real held-out old-task data, Noise = random-token or unrelated prompts paired with the old model's outputs (tests whether input distribution matters), None. The solver-to-solver chain (train a fresh model only on the previous model's generations, repeated) is a cheap "dream chain" readout of drift over generations.
+- next_steps_it_suggests: Extend to RL and to a continuously evolving network that keeps knowledge from a past copy of itself; better generators.
+- already_run_check: T3 run on vision classifiers (GR vs ER vs Noise vs None), not on an LLM in this paper. Others: none.
+- transfers: partly — the arm design transfers directly; an LLM is its own generator, so the generator-quality problem changes form (hallucinated replay) rather than vanishes.

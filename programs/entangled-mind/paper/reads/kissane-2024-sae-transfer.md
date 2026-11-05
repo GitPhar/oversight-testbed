@@ -1,0 +1,14 @@
+# SAEs (usually) transfer between base and chat models — Kissane, Krzyzanowski, Conmy, Nanda, 2024, LessWrong / Alignment Forum interim report (18 July 2024)
+- url: https://www.lesswrong.com/posts/fmwk6qxrpW8d4jvbd/saes-usually-transfer-between-base-and-chat-models
+- field: machine learning
+- read_depth: full
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: Whether a sparse autoencoder trained on a base model's middle-layer residual stream reconstructs the chat model's activations (and vice versa).
+- on_whom: Mistral-7B base/Instruct (layer 16), Qwen1.5-0.5B base/chat, Gemma v1 2B base/IT; Pile data plus Alpaca rollouts.
+- how_scored: CE loss recovered, L0, explained variance, MSE.
+- result: Mistral base SAE on chat activations: 98.85% CE loss recovered vs 99.01% for the chat SAE (explained variance 60.9% vs 69.2%). Fails for Gemma v1 2B (unusually large weight differences) and for high-norm outlier tokens (~0.2% of activations). Fine-tuning a base SAE on 5M chat activations nearly matches a chat SAE trained on 800M tokens.
+- limits: Interim report; outliers filtered; no feature-level analysis of which features change; chat tuning is not a forgetting-inducing fine-tune.
+- borrow: Supports the prior for T1 that a benign fine-tune leaves most residual features in place; the Gemma exception is a reminder to check the size of the weight delta before trusting transfer.
+- next_steps_it_suggests: Case studies of behaviour differences (refusal); which features are preserved, modified, added or removed.
+- already_run_check: T1 nearly run in spirit (base-trained dictionary read on fine-tuned model; reconstruction, not true/false separation; no forgetting).
+- transfers: partly — representation-continuity evidence on 7B, but not about knowledge or forgetting.

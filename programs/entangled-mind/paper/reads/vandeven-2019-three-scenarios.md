@@ -1,0 +1,14 @@
+# Three scenarios for continual learning — Gido M. van de Ven & Andreas S. Tolias, 2019, arXiv 1904.07734 (NeurIPS 2018 Continual Learning workshop)
+- url: https://arxiv.org/pdf/1904.07734 (v1)
+- field: machine learning
+- read_depth: full (main text and results tables; appendices on hyperparameters skimmed)
+- read_by: scout-bmq reader F, 2026-11-04
+- what_tested: How the ranking of continual-learning methods depends on whether task identity is given at test (Task-IL), not given and not needed (Domain-IL), or must be inferred (Class-IL).
+- on_whom: MLPs on split MNIST (5 tasks) and permuted MNIST (10 tasks). Methods: none, offline (upper bound), XdG, EWC, Online EWC, SI, LwF, DGR, DGR+distill, iCaRL (2000 exemplars). 20 seeds each.
+- how_scored: Average test accuracy over all tasks after training on the last one, mean ± SEM over 20 runs.
+- result: Split MNIST (Task-IL / Domain-IL / Class-IL). None: 87.19 / 59.21 / 19.90. EWC: 98.64 / 63.95 / 20.01. SI: 99.09 / 65.36 / 19.99. DGR+distill: 99.61 / 96.83 / 91.79. iCaRL (Class-IL): 94.57. Offline: 99.66 / 98.42 / 97.94. In Class-IL, regularisation methods are no better than no method. Permuted MNIST Class-IL: EWC 25.04 and SI 29.31 vs. DGR+distill 96.38. EWC is competitive in Task-IL only because the authors searched hyperparameters "several orders of magnitude larger" than usual.
+- limits: MNIST only, where generation is easy. The 2019 version has no plain exact-replay baseline of matched size; iCaRL, with 2000 stored exemplars, is the nearest. No language models.
+- borrow: (1) Scenario labelling. An LLM continual-fine-tuning test must say which scenario it is in. If the probe prompt tells the model which task it is on (format cue, system prompt, task name), that is Task-IL, and regularisation will look good for the wrong reason. Pre-register a cue-free probe as the primary outcome. (2) A hyperparameter-search budget. EWC's apparent failure in earlier papers was partly under-tuning. Give every baseline, including plain replay and a "do nothing" baseline, the same tuning budget as the biomimetic arm. (3) Report the no-method lower bound and the offline upper bound, so that "forgetting reduced" is read on a scale.
+- next_steps_it_suggests: Test whether generative replay scales to complex input distributions, and whether stored-exemplar replay complements it.
+- already_run_check: Nearly runs T3 (generative replay vs. none, plus exemplar replay via iCaRL) on small vision MLPs, not LLMs. Replay wins in the harder scenarios.
+- transfers: partly — the scenario framework and the tuning-budget lesson transfer directly to LLM fine-tuning designs. The magnitudes are MNIST-specific.

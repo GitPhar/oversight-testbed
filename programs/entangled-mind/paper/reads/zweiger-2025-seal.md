@@ -1,0 +1,14 @@
+# Self-Adapting Language Models (SEAL) — Zweiger, Pari, Guo, Akyürek, Kim & Agrawal, 2025, arXiv preprint (v2, Sep 2025)
+- url: https://arxiv.org/pdf/2506.10943
+- field: machine learning
+- read_depth: partial (sections 4.1, 4.2, Tables 1-2, limitations; method section and appendices skimmed)
+- read_by: scout-bmq reader E, 2026-11-04
+- what_tested: the model writes its own fine-tuning data ("self-edits", e.g. "implications" of a passage) and is fine-tuned on it. An outer RL loop (ReST-EM) reinforces the self-edits whose resulting update answers held-out questions correctly. For knowledge incorporation the comparisons are: base model; fine-tune on the raw passage; passage + self-generated implications without RL; passage + GPT-4.1 implications; SEAL. A sequential-edit forgetting test was also run.
+- on_whom: Qwen2.5-7B base on no-context SQuAD (single passage with LoRA; continued pretraining on n=200 and n=2,067 passages with full fine-tuning). Llama-3.2-1B-Instruct on 11+8 ARC tasks for the few-shot part.
+- how_scored: no-context SQuAD QA accuracy; ARC adaptation success rate. Forgetting = accuracy on earlier passages after each new self-edit (Figure 6 heat map).
+- result: single passage: base 32.7, raw passage 33.5, self-generated implications 39.7, GPT-4.1 implications 46.3, SEAL 47.0. Continued pretraining n=200: 32.7 / 36.0 / 50.6 / 59.4 / 58.2; n=2,067: 29.0 / 31.2 / 43.4 / 49.2 / 46.4. ARC: ICL 0%, self-edits without RL 20%, SEAL 72.5%, oracle 100%. Sequential edits: performance on earlier passages "gradually declines" (no summary number given in the text read).
+- limits: retention is not optimised. Each reward needs a full fine-tune (30-45 s per evaluation). Factual QA only. No order sensitivity, calibration or source test, and nothing on whether the model can tell facts it was taught from facts it inferred. The forgetting result is figure-only in the main text.
+- borrow: (1) "train on the raw passage barely helps; train on self-generated restatements helps" (33.5 vs 39.7) is a reusable control for T2: distil the raw transcript vs the model's own paraphrases of it; (2) the sequential-edit retention heat map is a cheap T3/T6 measure on Qwen2.5-7B with LoRA, without the RL loop.
+- next_steps_it_suggests: reward shaping to penalise regressions, null-space-constrained edits, RL in the inner loop (RL forgets less than SFT), and self-generated evaluation questions for unlabeled corpora.
+- already_run_check: T3 nearly run (self-generated vs external-generated vs raw training data for incorporating new knowledge, but not as replay of old knowledge). T2 operator nearly run (context → own restatements → weights), but no order or source outcome. T6 no.
+- transfers: partly — the non-RL baselines (self-implications plus a LoRA on Qwen2.5-7B) run locally; the RL loop does not fit our budget.

@@ -1,0 +1,14 @@
+# Simple and scalable continual pre-training — Ibrahim, Thérien, Gupta, Richter, Anthony, Lesort, Belilovsky & Rish, 2024, TMLR (06/2024)
+- url: https://arxiv.org/pdf/2403.08763
+- field: machine learning
+- read_depth: partial (abstract, introduction, takeaways, section 4 replay setup, Table 2; the 10B-scale results, infinite-schedule section and appendices were not read)
+- read_by: scout-bmq reader E, 2026-11-04
+- what_tested: continual PRE-training of decoder LLMs across a dataset shift (Pile → SlimPajama is weak; Pile → German Common Crawl is strong). Varied: learning-rate re-warming and re-decaying, and the percentage of REAL replay from the old dataset (0.5-50%, compute-equivalent). Compared against re-training from scratch on the union of both datasets.
+- on_whom: 405M-parameter models trained on hundreds of billions of tokens, plus a 10B model (not read here).
+- how_scored: final validation loss on the old (D0) and new (D1) datasets and their average; LM-eval benchmark averages (not read).
+- result: Table 2, 405M. Pile → SlimPajama without replay: Pile loss 2.44, SP 2.50. With 1% replay: 2.26 / 2.50. With 50%: 2.16 / 2.54. Union baseline: 2.17 / 2.53. Pile → German without replay: Pile loss 3.56, German 1.11. With 1% replay: 2.83 / 1.12. With 25%: 2.33 / 1.16. Union baseline: 2.26 / 1.25. Re-warming the learning rate raises both adaptation and forgetting. Replay is served in the original order; selection methods are "left as future work".
+- limits: real replay only, with no self-generated replay arm. Loss and benchmark averages only. A pre-training regime at hundreds of billions of tokens, far from our LoRA setting. No order effects, no probes, no source effects.
+- borrow: the forgetting measure (loss on held-out old-distribution text before vs after) is a cheap, format-free forgetting metric for any T1/T3 LoRA run. The finding that small (1%) replay buys most of the protection sets the replay ratio for a matched real-replay arm.
+- next_steps_it_suggests: methods for choosing which samples to replay; infinite learning-rate schedules that avoid re-warming.
+- already_run_check: T3 partial (real replay vs none at scale, no self-generated arm). T7: explicitly not run ("selecting replay samples is left as future work"). Others: none.
+- transfers: partly — the metric and replay ratios carry over; the pre-training regime does not.

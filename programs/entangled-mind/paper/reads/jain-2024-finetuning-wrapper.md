@@ -1,0 +1,14 @@
+# Mechanistically analyzing fine-tuning on procedurally defined tasks (fine-tuning as a wrapper) — Jain, Kirk, Lubana, Dick, Tanaka, Grefenstette, Rocktäschel, Krueger, 2024, ICLR 2024 (venue per brief; not confirmed in fetched text)
+- url: https://arxiv.org/html/2311.12786
+- field: machine learning
+- read_depth: partial (main text and appendices to ~200k of ~212k characters; the extracted figure text for revival iterations was garbled)
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: Whether fine-tuning deletes a pretrained capability or learns a localized "wrapper" on top of it. Tools: pruning neurons, linear probes on each block's residual, attention maps, reverse fine-tuning (reFT: fine-tune back on pretraining data, compare with a scratch+FT baseline).
+- on_whom: Tracr-compiled 3-block transformers; minGPT trained on PCFG tasks (6 blocks); TinyStories-Instruct models (twist / no-twist stories).
+- how_scored: Task accuracy; probe decoding of the pretraining count per block; iterations to revival; twist proportion judged by a GPT-3.5 classifier.
+- result: "the pretraining task's performance improves after just 5–15 neurons are pruned". Probes decode the pretraining count "with a similar trend as the pretrained model" except with medium LR and low sampling prior. reFT revives a strongly relevant capability in ~0.1–1K iterations, a weakly relevant one in ~3K, while the baseline needs 4.5K. TinyStories: twist proportion 44% → 81% after 30 reFT iterations (never-trained control 12% → 31%).
+- limits: Synthetic, small models; the probe is retrained per model (the text compares with "the pretrained model's" curve, not a frozen pre-fine-tune probe), so this is not the T1 frozen-probe design.
+- borrow: Two cheap tools for T1/T8: (1) prune-to-revive — ablate the few neurons/heads most changed by our LoRA and see if old verbal answers return; (2) reFT savings vs a never-trained control, a clean T6/T8 metric. The wrapper picture predicts the LoRA changes concentrate in late layers, so probe early/middle layers.
+- next_steps_it_suggests: Larger, realistic models; methods that genuinely delete capabilities (safety).
+- already_run_check: T8 run (revival by reverse fine-tuning, small models); T6 nearly run (savings vs scratch, no spacing); T1 nearly run (probe after fine-tuning, retrained not frozen, tiny synthetic models).
+- transfers: partly — methods transfer directly; the evidence is from toy models only.

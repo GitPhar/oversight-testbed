@@ -1,0 +1,14 @@
+# Unforgettable generalization in language models — Zhang, Choshen, Andreas, 2024, arXiv preprint 2409.02228
+- url: https://arxiv.org/html/2409.02228
+- field: machine learning
+- read_depth: full
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: After fine-tuning a model on a task, "forget" it by fine-tuning on the same inputs with random labels; measure how forgetting generalizes across tasks and whether knowledge is still linearly decodable from hidden states.
+- on_whom: Llama-2 7B (main), GPT-J-6B, GPT-2 124M; 19 binarized multiple-choice tasks (text says 21) incl. PIQA, ARC, BoolQ, SciQ, MathQA, ToxiGen, GLUE/SuperGLUE tasks; ≤1,000 test items each.
+- how_scored: Forget gap (accuracy − 0.5) and forget ratio; linear probe (ℓ2, early stopping) on the fifth-to-last layer classifying (question, answer) pairs as correct/incorrect.
+- result: Forgetting is inconsistent: commonsense tasks resist, acceptability/entailment tasks forget easily; extent depends mainly on the EVALUATION task. Probe trained on hidden states AFTER the forgetting procedure: forgetting "largely does not" reduce probe accuracy (Figure 6) — exact probe numbers not given in text. Model confidence and hidden-state variance weakly predict task-level forgetting; nothing predicts item-level forgetting.
+- limits: Probe retrained after forgetting (not a frozen pre-forgetting probe); forgetting is label-noise on the same task, not interference from a new task; no exact probe numbers in text; mainly one 7B model.
+- borrow: The random-label forgetting recipe is the cheapest reliable way to make a LoRA-tuned 8B drop to chance verbally (fixes the "LoRA forgets less" problem). Our T1 would add what they lack: a probe trained BEFORE forgetting and read frozen after, on true/false claim items.
+- next_steps_it_suggests: Explain which individual examples are forgotten and why; test beyond probing.
+- already_run_check: T1 nearly run — the closest LLM study found: Llama-2-7B, behaviour driven to chance, knowledge still linearly decodable; differs in that the probe is retrained after forgetting, not frozen from before, and items are task benchmarks, not truth-probe statements.
+- transfers: yes — 7B LLM, binary true/false format, LoRA-feasible.

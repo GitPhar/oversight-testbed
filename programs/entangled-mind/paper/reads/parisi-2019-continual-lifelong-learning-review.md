@@ -1,0 +1,14 @@
+# Continual lifelong learning with neural networks: a review — Parisi, Kemker, Part, Kanan & Wermter, 2019, Neural Networks (read as arXiv 1802.07569v4)
+- url: https://arxiv.org/pdf/1802.07569
+- field: machine learning
+- read_depth: partial (abstract, biological background incl. human interference studies, sections on regularisation/dynamic architectures/complementary learning systems and replay, benchmark comparison section 3.5, conclusion)
+- read_by: scout-bmq reader C, 2026-11-04
+- what_tested: Review. Organises methods as (i) regularising plasticity (EWC, SI, LwF ...), (ii) dynamically growing architectures (PathNet, progressive nets ...), (iii) complementary learning systems with (pseudo-)rehearsal and sleep-phase replay (GeppNet+STM, FearNet, DGR). Summarises the Kemker et al. (2018) head-to-head benchmark.
+- on_whom: Literature; the summarised benchmark used CUB-200 and AudioSet with MLP baseline, EWC, PathNet, GeppNet, GeppNet+STM, FEL.
+- how_scored: Narrative; the Kemker benchmark used data-permutation, incremental-class and multimodal experiments.
+- result: Kemker benchmark as summarised: PathNet then EWC best on data permutation; EWC beats PathNet on multimodal; rehearsal + dual memory (GeppNet+STM) best on incremental classes. Pseudo-rehearsal methods were "strictly evaluated" on low-complexity datasets (MNIST, SVHN), so scaling is open. Human evidence cited: Korean-born adults adopted by French families at ages 3-8 show no behavioural residue of Korean vocabulary and no distinct brain response to Korean (Pallier et al. 2003), yet a reacquisition (savings) advantage is hypothesised. Quote: "previous knowledge of Korean was completely overwritten".
+- limits: Pre-2019; no language-model continual learning; no quantitative meta-analysis of its own.
+- borrow: (a) The three-scenario benchmark scheme (permutation-like, incremental-class, multimodal) maps to LLM task sequences: same-format different content, new answer classes, different format. (b) The Pallier case is the human analogue of a NEGATIVE T1 outcome (behaviour and representation both gone) with a T6/T8 prediction (savings on relearning): the T1 design should include a relearning-speed readout, because a probe can fail while savings remain.
+- next_steps_it_suggests: Combine methods; model critical periods, curriculum/transfer, intrinsic motivation and multisensory integration; move beyond supervised, controlled-data settings.
+- already_run_check: none run; T6/T8 named only via the human adoption study (hypothesised savings, not tested).
+- transfers: partly — useful taxonomy and the human overwrite/savings contrast; no LLM evidence.

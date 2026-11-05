@@ -1,0 +1,14 @@
+# No within-person SWS-memory correlation — Maren Jasmin Cordi & Björn Rasch, 2021, Sleep 44(8) zsab034
+- url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8361329/fullTextXML (PMC8361329)
+- field: metascience
+- read_depth: partial (abstract, statement of significance, introduction on prior correlations, methods on scoring, main correlation results with Bayes factors, discussion passages on non-replication)
+- read_by: scout-bmq reader F, 2026-11-04
+- what_tested: Whether the amount of slow-wave sleep (SWS) or slow-wave activity in a nap predicts the size of the sleep-mediated word-pair retention benefit, tested within the same person across two naps.
+- on_whom: 159 healthy young adults (mostly female; pooled from four nap studies), each taking two 90-minute naps; paired-associate word learning before each nap.
+- how_scored: Retention as % of pre-sleep recall. The difference in retention between the two naps was correlated with the difference in % SWS and in SWA power (0.5-4.5 Hz), within and between subjects, with frequentist r and BF01.
+- result: The within-person difference in % SWS and the retention difference were uncorrelated, r(149) = -0.023, p = 0.780, BF01 = 14.91 (strong evidence for the null). SWA power difference: r(125) = 0.040, p = 0.652, BF01 = 12.86. Between subjects, SWS did not correlate with retention either. Splitting the sample into two between-subjects samples gave near-zero correlations in both. The authors note that earlier small studies had reported r = 0.50 and r = 0.69. SWS did correlate with subjective sleep quality.
+- limits: Daytime naps only (90 minutes), one word-pair task, and a mostly female sample. SWS was manipulated by pre-sleep interventions, not directly. The authors say this does not rule out a role for SWS, only that "more SWS" does not mean more retention.
+- borrow: Failure mode, "mechanism-dose correlation that does not hold within units". In an LLM test, do not take a between-run correlation (for example between the amount of replay or the "sleep phase" length and retention across a few seeds) as evidence for the mechanism. Pre-register a within-unit dose manipulation, such as the same model and items with different consolidation doses, and report a Bayes factor or an equivalence bound so that a null can count as evidence.
+- next_steps_it_suggests: Look for more specific mechanisms (e.g. spindle-slow-oscillation coupling, reactivation) rather than time in SWS, in large within-subject samples.
+- already_run_check: none (human; no network).
+- transfers: partly — it shows that the core "deep sleep does the consolidating" dose story, which many biomimetic ML designs borrow, fails a large within-person test. A prediction of the form "more consolidation phase, more retention" should not be inherited from this literature as if established.

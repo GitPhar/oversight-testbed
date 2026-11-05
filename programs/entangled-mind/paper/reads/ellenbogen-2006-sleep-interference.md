@@ -1,0 +1,14 @@
+# Interfering with theories of sleep and memory: sleep protects declarative memory from associative interference — Jeffrey M. Ellenbogen, Justin C. Hulbert, Robert Stickgold, David F. Dinges & Sharon L. Thompson-Schill, 2006, Current Biology 16(13)
+- url: https://web.sas.upenn.edu/schill-lab/files/2018/04/interferingwiththeoriesofsleep-1m71t9f.pdf
+- field: cognitive psychology
+- read_depth: full
+- read_by: scout-bmq reader B, 2026-11-04
+- what_tested: whether 12 h containing sleep (9 pm to 9 am) vs wake (9 am to 9 pm) after learning A-B word pairs protects them against an interfering A-C list learned 12 min before the test.
+- on_whom: 60 healthy adults (18-39; 33 women): four groups of 12 (Sleep, Wake, Sleep-I, Wake-I) plus a 24-h pm-to-pm interference group of 12. 20 word pairs, all learned to 100% criterion.
+- how_scored: cued recall of B words (arcsine-transformed for tests); a B word counted only if given in the correct list column.
+- result: no interference: Sleep 94% vs Wake 82% (p = .064). With interference: Sleep-I 76% vs Wake-I 32% (t(22) = 5.34, p < .0001; Cohen's d 3.07). Sleep x interference interaction F = 5.84, p = .02. The 24-h group, which slept and then spent a day awake, scored 71%, close to Sleep-I. The authors' gloss: a 13% relative wake deficit without interference becomes a 58% deficit with it.
+- limits: no-interference sleep group near ceiling; unclear whether protection is specific to associative (A-C) interference or general (C-D); wake activity uncontrolled; between-subjects; self-reported sleep only. A PubPeer thread on the paper exists (not read).
+- borrow: the key design move: consolidation effects hide in plain retention and show up only under a later interference CHALLENGE. For T2: consolidate in-context A-B facts into LoRA weights (context distillation) vs leave them only in context; then give A-C updates in context; test A-B. In-context PI/RI work (Wang & Sun 2025; Chattaraj & Raj 2026) shows in-context memory is highly interference-prone, so the prediction "consolidated items resist in-context interference" is sharp and falsifiable on Llama-3-8B for $0.
+- next_steps_it_suggests: define the empirical limits and physiological correlates (sleep stages) of the protection; test associative vs non-associative interference.
+- already_run_check: T2: human original of "consolidation protects against interference"; no LLM version found.
+- transfers: yes — the A-B / consolidate / A-C challenge design maps onto LoRA context distillation plus in-context interference with no API cost.

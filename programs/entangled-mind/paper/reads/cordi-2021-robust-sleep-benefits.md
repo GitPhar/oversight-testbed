@@ -1,0 +1,14 @@
+# How robust are sleep-mediated memory benefits? — Maren Jasmin Cordi & Björn Rasch, 2021, Current Opinion in Neurobiology 67:1-7
+- url: https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:10.1016/j.conb.2020.06.002&resultType=core&format=json (Europe PMC abstract record; publisher full text at sciencedirect returned 403)
+- field: metascience
+- read_depth: abstract (the full text is on ScienceDirect, which refused fetches; Europe PMC has the abstract only)
+- read_by: scout-bmq reader F, 2026-11-04
+- what_tested: A narrative review of whether the sleep-memory findings that underpin the dominant SWS-based active-consolidation account replicate.
+- on_whom: The published human sleep-memory literature (no new data).
+- how_scored: Narrative review of replication failures, null findings, meta-analyses and boundary conditions.
+- result: No numbers are in the abstract. The abstract concludes that the sleep benefit may be smaller, more task-dependent, less tied to SWS and less robust than assumed. It calls for more replications, meta-analyses and higher reproducibility standards. The abstract opens: "Memories benefit from a retention interval filled with sleep."
+- limits: This record is abstract-only, so the specific failed replications it lists were not read here. Its companion empirical paper (cordi-2021-no-sws-correlation.md) carries the numbers.
+- borrow: Treat the "SWS mechanism" as contested, and test only the behavioural contrast, not a borrowed mechanism story.
+- next_steps_it_suggests: More direct replications, meta-analyses, and preregistered, adequately powered studies.
+- already_run_check: none.
+- transfers: partly — it is a warning label. Biomimetic predictions that depend on SWS-specific mechanisms rest on findings that the field's own experts call fragile.

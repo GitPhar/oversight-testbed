@@ -1,0 +1,14 @@
+# Understanding the role of training regimes in continual learning — Seyed Iman Mirzadeh, Mehrdad Farajtabar, Razvan Pascanu, Hassan Ghasemzadeh, 2020, arXiv 2006.06958 (NeurIPS 2020)
+- url: https://arxiv.org/pdf/2006.06958 (v1)
+- field: machine learning
+- read_depth: full (main text; appendix C tables skimmed)
+- read_by: scout-bmq reader F, 2026-11-04
+- what_tested: Whether ordinary training choices (dropout, a large initial learning rate with decay, small batch size), with no continual-learning method at all, reduce catastrophic forgetting by finding wider minima. They compare this "Stable SGD" with EWC, A-GEM and experience replay.
+- on_whom: MLPs on Permuted and Rotated MNIST, and a ResNet on Split CIFAR-100, with 20 tasks each. Replay memory was 1 example per class per task (200 examples for MNIST, 100 for CIFAR-100).
+- how_scored: Average accuracy and average forgetting after task 20. Hessian eigenvalue spectrum and the size of the parameter change after each task.
+- result: After 20 tasks (accuracy / forgetting). Permuted MNIST: naive SGD 44.4 / 0.53, EWC 70.7 / 0.23, A-GEM 65.7 / 0.29, ER-Reservoir 72.4 / 0.16, Stable SGD 80.1 / 0.09, multi-task 86.5 / 0. Rotated MNIST: EWC 48.5, ER 69.2, Stable SGD 70.8. Split CIFAR-100: EWC 42.7, ER 46.9, Stable SGD 59.9, multi-task 64.8. Forgetting of task 1 from stable vs. plastic training (Permuted MNIST): stable-stable 1.61, plastic-plastic 19.37. In stable regimes the parameters stay closer to their initial values after each task.
+- limits: Small vision models. Replay memory was tiny (1 example per class per task), which handicaps the replay baseline. The authors note possible confounds beyond minimum width. No language models.
+- borrow: (1) The "plain training-regime" baseline. Before crediting any biomimetic method (EWC-like "synaptic" consolidation, SHY downscaling, dreamed replay) with reduced forgetting in LoRA fine-tuning, include a tuned-vanilla arm: the same LoRA with a lower or decaying learning rate, dropout, and early stopping. A large share of "method" gains here came from the training regime alone. (2) Parameter-distance diagnostic. Report the norm of the fine-tuning delta for every arm. For T4 (shrinking deltas toward the base model), a lower-learning-rate arm matched for delta norm is the critical control, because otherwise "downscaling" is simply "trained less".
+- next_steps_it_suggests: Theoretical work on why regime choices help, and combining stable regimes with existing continual-learning methods.
+- already_run_check: Nearly runs T4: staying close to initial weights reduces forgetting, shown via the training regime rather than explicit shrinkage between tasks, in vision networks, not LLMs.
+- transfers: partly — the mechanism (flat minima, small deltas) is generic, and the warning, that any method's gain may be a training-regime artefact, applies directly to LoRA on Llama/Qwen. The numbers are from vision models.

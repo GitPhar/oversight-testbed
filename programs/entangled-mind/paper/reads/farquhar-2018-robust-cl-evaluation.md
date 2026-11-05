@@ -1,0 +1,14 @@
+# Towards robust evaluations of continual learning — Sebastian Farquhar & Yarin Gal, 2018 (v3 2019), arXiv 1805.09733 (ICML 2018 workshop version)
+- url: https://arxiv.org/pdf/1805.09733
+- field: metascience
+- read_depth: full (main text and appendix A; appendix B hyperparameter detail skimmed; most results are in figures, so few numbers appear in the text)
+- read_by: scout-bmq reader F, 2026-11-04
+- what_tested: Whether the standard continual-learning benchmarks make regularisation ("prior-focused") methods such as EWC and VCL look better than they are, and which evaluation desiderata expose this.
+- on_whom: MLPs and Bayesian NNs on Permuted MNIST, Split MNIST and Split FashionMNIST (5 tasks). Methods: EWC, VCL, VCL plus a 40-point coreset, coreset-only, VGR (GAN generative replay).
+- how_scored: Average accuracy on all tasks seen so far after each task, under evaluations that each drop one of five desiderata: (A) cross-task resemblance, (B) a shared output head, (C) no test-time task labels, (D) no retraining on old tasks, (E) more than two tasks. Also wall-clock time vs. accuracy.
+- result: On single-headed Split MNIST, which meets all five desiderata, VCL and EWC completely forget old tasks: their accuracy comes only from the latest task. VCL with a coreset works only because of the coreset. VGR (generative replay) is the only method near ceiling (final average 96%; a cheaper VGR configuration reached 90%). On multi-headed Split MNIST, with test-time task labels, or on Permuted MNIST, "all methods succeed". Two-task tests also fail to separate methods.
+- limits: Small vision benchmarks and small networks only; a few methods; numbers mostly in figures. No language models.
+- borrow: (1) A simple-replay baseline is mandatory. A small random coreset (40 points per task) did most of the work for a published method. Any T3/T4/T7 test must include plain replay of a small random sample of old data at the same budget. A biomimetic method ("dreamed" replay, downscaling, triage) counts only if it beats that. (2) No task labels at test and a shared head. For an LLM, the analogue is not telling the model which task or format is being probed; the probe for task 1 must use the same prompt template the model sees after task 2. (3) More than two tasks, so that a two-task result is not taken as continual learning.
+- next_steps_it_suggests: Evaluate under all five desiderata; add task-boundary detection from model uncertainty and report time/memory-vs-accuracy trade-offs, not single run times.
+- already_run_check: Nearly runs T3 (generative replay vs. coreset replay vs. none), in small vision networks, not LLMs. VGR beats coreset replay there, the reverse of the "simple replay wins" result (see prabhu-2020-gdumb.md).
+- transfers: partly — the evaluation flaws are general and apply directly to any LLM continual-fine-tuning pre-registration. The specific numbers are from MNIST-scale networks.

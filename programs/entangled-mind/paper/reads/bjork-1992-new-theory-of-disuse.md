@@ -1,0 +1,14 @@
+# A new theory of disuse and an old theory of stimulus fluctuation — Robert A. Bjork & Elizabeth L. Bjork, 1992, in Healy, Kosslyn & Shiffrin (eds), From Learning Processes to Cognitive Processes, vol 2, pp 35-67, Erlbaum
+- url: https://bjorklab.psych.ucla.edu/wp-content/uploads/sites/13/2016/07/RBjork_EBjork_1992.pdf
+- field: cognitive psychology
+- read_depth: partial (scanned PDF, OCR'd locally; read the "important peculiarities" of memory, the five assumptions, and the predictions on storage vs retrieval, retrieval competition, regression/recovery, overlearning; the stimulus-fluctuation and distribution-of-practice sections were not read closely)
+- read_by: scout-bmq reader B, 2026-11-04
+- what_tested: theory chapter, no new experiment. Each item has a storage strength (how well learned; latent, never lost; no capacity limit) and a retrieval strength (current access; limited capacity; lost as other items are learned or retrieved). Retrieval adds more to both strengths than study does, and adds more when current retrieval strength is low (desirable difficulty).
+- on_whom: none new; reviews human list-learning data (A-B/A-C interference, recency-to-primacy shift with delay) and pigeon/monkey/human probe-recognition data (Wright et al.).
+- how_scored: qualitative predictions only; the authors say a linear-difference-equation implementation is planned.
+- result: no numbers of its own. Qualitative claims read: in A-B/A-C, retroactive interference tends to DECREASE and proactive interference to INCREASE with retention interval, with absolute recovery of List-1 responses in some studies ("spontaneous recovery"); recency at short delay turns into primacy at long delay across species; overlearning slows later forgetting because storage strength keeps growing after retrieval reaches ceiling.
+- limits: no formal model fitted in this chapter; storage strength is unobservable by definition, so the theory needs an independent index of it.
+- borrow: storage vs retrieval strength is the human-memory name for T1. A linear probe trained before fine-tuning is a candidate independent index of "storage strength"; verbal answers are "retrieval strength". The theory predicts verbal loss with probe retention AND fast relearning savings, both cheap to measure. It also predicts "spontaneous recovery": after A-B then A-C LoRA fine-tuning, further unrelated fine-tuning should shrink A-C's lead and can raise A-B recall (T8).
+- next_steps_it_suggests: quantitative formalisation of the five assumptions; tests of the predicted regression/recovery phenomena.
+- already_run_check: none on networks or LLMs in this chapter. It gives the theory behind T1, T6 (relearning savings, spacing) and T8 (spontaneous recovery).
+- transfers: partly — a theory, not a method. It gives directional predictions for T1, T6 and T8 on Llama-3-8B/Qwen2.5-7B LoRA, and those predictions can be falsified.

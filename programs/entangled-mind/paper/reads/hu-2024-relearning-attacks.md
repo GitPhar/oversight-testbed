@@ -1,0 +1,14 @@
+# Unlearning or obfuscating? Jogging the memory of unlearned LLMs via benign relearning — Hu, Fu, Wu, Smith, 2024, arXiv preprint 2406.13356 (v4, Mar 2025)
+- url: https://arxiv.org/html/2406.13356
+- field: machine learning
+- read_depth: partial (main text and early appendix, first ~100k of ~171k characters; figure values not readable)
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: Whether a small amount of loosely related or partial data relearns knowledge that gradient-based unlearning removed. Relearn sets: disjoint subset of the unlearn data (TOFU, WHP) or public/general text that avoids direct answers (WMDP, WHP).
+- on_whom: Phi-1.5 (TOFU forget05: 200 QA about 10 fictitious authors), Llama-2-7b and -chat (WHP), zephyr-7b-beta and Llama-3-8b (WMDP); unlearning by GA, GD, NPO; LoRA relearning.
+- how_scored: Attack success rate; LLM-judge score 0-10 on WMDP; synthetic name-pair success.
+- result: Attack success >70% on TOFU/WHP when unlearning is shallow. WMDP (zephyr original 5.92): GA 1.67 → 5.2 after relearning, NPO 1 → 5.08. Synthetic: relearning success 100% when the relearn text ends in the target-related name pattern, 0% with no relearning. Authors: unlearning methods "simply suppress the model outputs and fail to robustly forget target knowledge".
+- limits: Same prompt reused before and after; limited methods and datasets; no probes.
+- borrow: The "benign, loosely related data" relearning arm: after our forgetting LoRA, fine-tune on related but non-overlapping statements and see if the probed truth items return — tests suppression without ever showing the forgotten items.
+- next_steps_it_suggests: Unlearning beyond approximate gradient methods; metrics beyond forget/retain utility.
+- already_run_check: T8 run (relearning after unlearning, 7-8B models).
+- transfers: yes — 7-8B open models, LoRA relearning.

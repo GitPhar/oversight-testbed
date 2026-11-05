@@ -1,0 +1,14 @@
+# Catastrophic failure of LLM unlearning via quantization — Zhang, Wang, Li, Wu, Tang, Liu, He, Yin, Wang, 2024, arXiv preprint 2410.16454 (v3, Mar 2025)
+- url: https://arxiv.org/html/2410.16454
+- field: machine learning
+- read_depth: partial (main text and early appendix, first ~100k of ~125k characters)
+- read_by: scout-bmq reader D, 2026-11-04
+- what_tested: Whether quantizing an unlearned model restores the forgotten knowledge, across GA/NPO unlearning with or without retain-set constraints (GDR, KLR), at 8-bit and 4-bit RTN, GPTQ, AWQ.
+- on_whom: MUSE target and unlearned models: LLaMA-2 7B (NEWS), ICLM-7B (BOOKS); RWKU in appendix.
+- how_scored: MUSE VerMem, KnowMem (forget and retain), PrivLeak.
+- result: Abstract: forgotten-knowledge retention averages 21% in full precision and "83% after 4-bit quantization" for utility-constrained methods. BOOKS GA_KLR VerMem 13.0 → 75.6 at 4-bit; NPO_KLR 12.4 → 70.9; 8-bit stays near full precision. Mechanism: unlearning with utility preservation makes weight changes smaller than the 4-bit rounding interval, so quantized unlearned and original models coincide.
+- limits: Unlearning, not task-interference forgetting; fix (SURE) hyperparameter-sensitive; the intro's ~89% figure disagrees with Table 1.
+- borrow: Directly relevant to our 4-bit MLX setup: (a) a confound — if we LoRA-train in higher precision and then quantize to 4-bit, small forgetting deltas may be rounded away; (b) a free test — quantize the forgotten model and see whether verbal answers come back (small-delta suppression) or not (large-delta overwrite). Rounding deltas back toward the base is also an accidental, crude version of T4's "shrink deltas toward base".
+- next_steps_it_suggests: Quantization-robust unlearning; add quantization tests to unlearning benchmarks.
+- already_run_check: T8 run (unlearned knowledge resurfaces under 4-bit quantization, 7B); T4 nearly run (delta collapse toward base by rounding restores old knowledge; not a sleep-like scheduled shrinkage, and for unlearning not new-task learning).
+- transfers: yes — 7B models, quantization is exactly our runtime.
