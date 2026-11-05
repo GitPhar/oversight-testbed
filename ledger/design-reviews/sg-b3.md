@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: holds, D4: flaw, D5: flaw, D6: holds, D7: fla
 flaws: 5
 pilot_usd: 0.0601
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 05:35 America/Denver
 ---
 
 # Design review of sg-b3
@@ -193,3 +193,24 @@ The fixes are in commit b8d6ee3, DEVIATIONS rows D9a–D9e, all dated before any
    - The dry run prints that the strings equal e29f25c's.
 
 Both remaining items are code fixes to reported secondaries. Neither moves the primary reading or a bar. Once each has a DEVIATIONS row (or an amendment to D9c / D9d) dated before any test call, the reviewer confirms them in a further addendum. The run should not start until then.
+
+## Addendum 2: confirmation of D9f and D9g (2026-11-05 05:35 America/Denver)
+
+The two remaining fixes are in commit 37d81f8, DEVIATIONS rows D9f and D9g, dated before any test call. I re-ran `sg_b3_flaw.py dryrun` and my checks (`confirm.py`, plus two small checks inline). No paid call was made. **All five fixes now hold. Confirmed.**
+
+- **D9g (sentence counter, completes fix 3): holds.**
+  - The `over3` split on the real write cache is now Haiku 14 over three and 46 not, Sonnet 58 and 2, Opus 60 and 0.
+  - On all 180 flawed texts, the count agrees with my abbreviation-aware count.
+  - No conclusion has a word ending in "no." or "cf." that the replacement could fuse.
+- **D9f (fragile on the guarded reading, completes fix 4): holds.**
+  - The leave-one-out reader applies the same G rule and the D9a and D9b guards, with the seeds `boot`, `boot + 4` and `boot + 5`, at 2,000 resamples.
+  - In harshness-only worlds (−0.7 and −1.0 logit), the robustness base reading now equals the reported reading in 60 of 60 model readings. Before this fix, all 60 were "blunted" against a reported "undetermined".
+  - I built a case where four studies alone lift the flawed text off the floor. It reads blunted and is flagged fragile: dropping one lifted study fails the D9b guard. The plain G reading would not have flagged it.
+  - *Residual:* 1 of 60 readings (sharpening −1.2 with s = +0.4) differs only because the base is recomputed at 2,000 resamples while the reported reading uses 10,000, at a borderline CI. This is the same convention sg-b1 uses and is not a flaw.
+  - The ties-excluded reading remains unguarded. It is reported only.
+- **Fixes 1, 2 and 5 (D9a, D9b, D9e): still hold on re-run.**
+  - Bounded worlds: null fail-same 1.00; blunting pass 1.00; harshness only mixed 1.00; sharpening fail-same 1.00 (the floor note is set).
+  - The frozen-prompt and missing-conclusion refusals still fire.
+- I did not check the claim that sg-b1's analysis regenerates byte-identical, so as not to open sg-b1's analysis files. The shared `sg_stats.robustness` change is behaviour-preserving when `reader` is None: same seed, same `n_boot`, same reading call.
+
+The run may start once `check_prereg.py --before-run` passes.
