@@ -13,7 +13,7 @@ papers_opened: 4
 flaws: 2
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 12:52 America/Denver
 ---
 
 # Design review of sv-b6
@@ -110,3 +110,13 @@ Both fixes only raise the bar and change nothing about what is tested. They go u
 3. **D11 (part of the same deviation): re-run and re-commit the dry run under the fixed rule.** In the resampled worlds, exclude copies of the same wave-1 item from the leave-one-out groups and from the bag-of-words folds, so the guesses behave as they will on 300 distinct items. Add the double-bootstrap world. Report P(pass) and P(fail) per world, as in the table above, replacing §5's table by an addendum, not an edit. My figures to check against: matched 0.54 / 0.46, double bootstrap 0.20 / 0.80, half-shuffled ≤ 0.01 pass.
 
 Not required, recommended: in the results file, note next to secondary 2 that another model's declining passes the rule's point conditions on wave 1's rows (item difficulty shared across models). In §0 or the results, add that Kumaran's SimpleQA was four-option multiple choice and that Wagner's bag-of-words was 0.59 on CREPE.
+
+## Confirmation addendum (2026-11-05 12:52 America/Denver)
+
+I checked the fixes at c04ecde (DEVIATIONS D24, `experiments/sv-b6.md` "Addendum D24", `git diff 297f3f6 c04ecde -- programs/said-vs-did/experiments/sv_b6.py`, `experiments/sv-b6-worlds-d24.txt`). It was committed before any call: no `sv-b6-*-calls.json` exists. Each fix holds, and I found nothing newly broken.
+
+1. **D5(a) holds.** `lpo_auroc` counts every same-group (declined, answered) pair as ½. `margin` takes the larger of the oriented leave-one-out and oriented leave-pair-out values for topic and answer type, and it does so in three places: the point estimate, every bootstrap resample (`boot`, where the groups are resampled with the items) and the leave-one-item-out check (`secondary`). On wave 1's rows the new code gives Haiku answer type 0.682, which matches my 0.682 (`c1.py`). The rule can only rise: the frozen value is kept inside the max.
+2. **D5(b) holds.** The held-out bag of words is now a primary guess (`guess_scores`; `BOW_SEED = 0` in code; folds drawn by source item). It is computed once and carried as fixed scores, oriented again in each resample. On wave 1's rows the rule now picks it as Haiku's best guess (0.697), so Haiku's margin is −0.006 and Haiku fails. Sonnet's margin is +0.184 [+0.043, +0.251] and Sonnet passes. Put in place of the number, the bag of words scores margin 0 against itself, so it can no longer pass the rule. The pass sentence names "its words". Sean's card event still uses only constant, rating side and length (unchanged). `dryrun` prints the D24 rule.
+3. **D11 holds.** In the resampled and double-bootstrap worlds, rows carry `src`, and `loo_rate` and `bow_scores` exclude copies of the same wave-1 item. I re-ran three worlds with an independent seed (99, 60 runs each, `c2.py`): matched P(pass) 0.60, double bootstrap 0.33, half-shuffled 0.00. The committed values are 0.61, 0.24 and 0.003, and mine from the review were 0.54, 0.20 and 0.003. They agree within Monte Carlo error. P(pass) and P(fail) are each at least 10% where the hypothesis holds; P(pass) is about 0 where it fails.
+
+The odds were re-elicited fresh at 0.20, with 0.32 and 0.25 kept. That sits with the propagated-uncertainty world, and the reason no longer cites the removed 0.81. Not addressed, and not required: the two recommendations (a note next to secondary 2; Kumaran's multiple-choice format and Wagner's CREPE 0.59). The verdict stays fix-first, now confirmed, so `svd_common.review_gate` will allow the run.
