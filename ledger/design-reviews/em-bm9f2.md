@@ -11,7 +11,7 @@ checks: {D1: holds, D2: holds, D3: holds, D4: holds, D5: holds, D6: holds, D7: h
 flaws: 3
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 07:16 America/Denver
 ---
 
 # Design review of em-bm9f2
@@ -164,3 +164,25 @@ Change the docstring and `SENTENCES` in the code to match, in the same commit as
 In the code, set `r["verdict_note"]` and append the clause when `loo_item_flips` is non-empty and the verdict is pass.
 
 VERDICT: fix-first (3)
+
+## Addendum: confirmation of fixes (2026-11-05 07:16 America/Denver)
+
+I read commit `a4639af`: the DEVIATIONS row D72 and the diff of `experiments/bm9f2_dog_shape.py` against cd534d9. The pre-registration file is unchanged since the seed commit, so D72 is the record of the changes. HEAD's script is identical to the version in `a4639af`. As before, I did not run `--seed` and did not fit the models to the real d.
+
+**F1: holds.**
+- D72 swaps the §0 sentence for the measured one, word for word, and states each source: σ 23–28 from em-bm9's intervals, the human ratios from §3.2, and the base term from em-bm9's audit.
+- It records the full P(pass) table and the likelihood ratio of about 2–3. The odds stay at 0.08, which these figures support.
+- The optional tightening is in the code: a DoG whose w is at `W_GRID[0]` (equal to 3, peak 2.1) now fails. The check uses the same tolerance as the other conditions (P13). `fit_shape` returns w from the grid, so a real fit at the edge does trip it. The bootstrap pass share and leave-one-item-out both call `verdict()`, so the tightening reaches them too.
+- A new self-test assert confirms it: w = W_GRID[0] fails and w = 28.3 passes.
+- I re-ran `--selftest` (SELFTEST OK, every earlier boundary unchanged) and `--power 25 --L-from-archive` (300 simulations). P(pass) was 0.26 in the DoG world, 0.003 in the linear world and 0.047 in the tanh world, in line with the D11 table. The tightening can only lower these rates.
+
+**F2: holds.** The pass and fail sentences in `SENTENCES` and in D72 match the review's text exactly. Both now describe the shift in the main rating against the gap, not a pull toward the sub-rating. The pass sentence carries the 2–10% false-pass rate and the em-bm9 audit caveat. The fail sentence no longer says "describes it as well".
+
+**F3: holds.**
+- D72 adds the one-item rule to §5.
+- The code sets the label to `verdict_note` = "pass, unreplicated, rests on one item (…)" and appends "This rests on one item, …" to the pass sentence. The results heading uses that label.
+- If a fail would flip to a pass with one item left out, the result stays a fail and the item is named.
+
+**Note for the run write-up (not a flaw).** The script names items by id only. In the hand-written plain-English section of `results/bm9f2-dog-shape.md`, give each id's plain-English name, as §4 and D72 require. If several items can each flip a pass on their own, write "rests on any one of …" rather than "one item".
+
+CONFIRMED: yes
