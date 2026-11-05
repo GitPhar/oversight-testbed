@@ -1,0 +1,14 @@
+start 2026-11-05 06:14:52 MST
+p2-7: 100 done, $0.0046
+p2-7: 200 done, $0.0092
+p2-7: complete, 204 cached calls, $0.0094
+p2-7: 300 done, $0.0978
+p2-7: 400 done, $0.1901
+p2-7: complete, 408 cached calls, $0.1972
+p2-7: 500 done, $0.5347
+p2-7: 600 done, $0.9089
+p2-7: complete, 612 cached calls, $0.9669
+run status: complete
+| split-half reliability of self residuals (10 repeats) | +0.98 [+0.95, +0.99] | +0.89 [+0.68, +0.98] | +0.89 [+0.78, +0.95] | gate (≥ 0.5) |
+| split-half reliability of Sam residuals (2 repeats) | +0.89 [+0.81, +0.95] | +0.70 [+0.44, +0.84] | +0.71 [+0.51, +0.84] | gate (≥ 0.5) |
+end 2026-11-05 06:17:41 MST
