@@ -49,6 +49,7 @@ SKIPPED = {
     "multi-model.md": "hand-written summary of the multi-model replications (DM5)",
     "probe-dissociation.md": "hand-written write-up (DP1); its numbers are in probe-dissociation.json, which the probe step recomputes",
     "refusal-sonnet-replication.md": "log of a refused call",
+    "gm2q-questions-only.md": "hand-written write-up (em-gm2q); its tables are gm2q-questions-only-tables.md, which the gm2q step recomputes",
 }
 
 # Tables whose inputs the archive does not contain (README, "Reproducibility"). Each is reported as a gap, not a
@@ -164,6 +165,14 @@ def main() -> int:
                           ("bm9f2_dog_shape", "bm9f2-dog-shape.md", ["--seed", "965198064319072892"]),):
         if md in committed:
             step(md, lambda mod=mod, args=args: run_with_args(mod, args))
+    if "gm2q-questions-only-tables.md" in committed:     # em-gm2q (D64, D69, D70), from its call cache with its beacon seed
+        def gm2q():
+            m = importlib.import_module("gm2q_questions_only")
+            m.RESULTS, m.PLANTED, m.POOL = config.RESULTS, config.EXPERIMENTS / "gm2-planted-values.json", config.RESULTS / "pool-run-3.json"
+            m.CACHE, m.OUT_JSON = config.RESULTS / "gm2q-conversations.json", config.RESULTS / "gm2q-questions-only.json"
+            m.OUT_MD, m.REFUSAL = config.RESULTS / "gm2q-questions-only-tables.md", config.RESULTS / "refusal-gm2q.md"
+            m.analyse(m.SEED_RECORDED)
+        step("gm2q-questions-only-tables.md", gm2q)
     if "mm-gm3b-opus-completion-with-h291.md" in committed:     # D49a sensitivity
         step("mm-gm3b-opus-completion-with-h291.md", lambda: importlib.import_module("mm_gm3b_opus_complete").analyse_with_h291())
 
