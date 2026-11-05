@@ -192,3 +192,51 @@ Odds rationales (in `map/self-grading.json`, `odds_rationale`):
 | sg-b1 | sg-d1 (closed) | null (fail-same), audit stands | Rules out, on Haiku, Sonnet and Opus 5.5 and 60 made-up study conclusions graded 0-100, that grading a clean conclusion in the conversation that wrote it makes the model 3 or more points kinder than grading it fresh. | Placement does not make a model kinder to its own clean work: own − fresh −1.1, −0.4, −0.9. |
 | sg-b2 | sg-d2 (closed) | null (fail-same), audit stands | Rules out, on Haiku, Sonnet and Opus 5.5 and their own 60 clean conclusions graded near 90, that the label 'written by you' instead of 'by another AI model' raises the grade by 3 or more points. | An explicit "you wrote this" label does not make a model kinder: −0.0, +0.2, −0.5; Opus slightly harsher, under one point. |
 | — | sg-d9 (closed) | never run | (not a bet) | Closed by its gate: sg-d1 did not pass. |
+
+## Follow-ups (remap 2026-11-05, second round)
+
+Written by a fresh remap session (`operators/remap.md`, with rule 13's Steps 1b–2a as written on the `informed-engine` branch) that wrote none of this program's results, pre-registrations or audits. It read the ledger rows for sg-b4 and sg-b5, both audits, both results files, this map and `map/self-grading.json`. It did not read `ledger/human-odds.jsonl`. Nothing here is pre-registered, run or budget-approved. Map tag: `remap: "2026-11-05b"`.
+
+**What the re-scout changes** (sg-b4; `reads/remap-2026-11-05b-sg-b4.md`, six reads, three in full): Nothing found makes sg-b4 known; the Novelty line stands. The audit's two tests stay, both sharpened. JudgeSense and Zhao et al. make a same-run repeat the reference for any judge comparison, so sg-d13 grades each cell twice in one run and reads T only against same-run cells. JudgeSense finds that rewording moves graded judgments most, and Grossmann and Kross find that a wording-only frame shrinks a human self-other gap. So the lead-in is a live carrier: sg-d14 stays, re-priced only by the cap. Laban et al. name message count as a rival, noted, not mapped. No odds are stated.
+
+### In plain English
+
+**What landed.** One bet of two: **sg-b4, pass, unreplicated** (audit `9aee23f` stands, 3 cuts; Novelty: partly new). sg-b3 found that Haiku and Opus went easier on a planted exaggeration in their own reply than when they saw it fresh. sg-b4 showed each model its writing conversation again, this time as a quoted copy inside a new message, with the same closing line. There, both models were stricter: about half of Haiku's easy treatment went away, and most of Opus's. Haiku cleared its bar by only half a point, though. Its comparison also used own-reply grades from a run an hour earlier, and those grades moved by about 4 points between runs. What is left between the quoted copy and a fresh grade (5.8 points on Haiku, 1.5 on Opus) sits in three differences: a header sentence, the User and Assistant labels, and the closing line "Now grade the conclusion above".
+
+**The two follow-ups.** Both come from the audit's "What would break it next".
+- **sg-d13, same-run re-grade (about 4 cents, Haiku only).** Haiku grades its own-reply and quoted-copy cells in one sitting, each twice, on all 60 studies. If it is still stricter in the quoted copy by at least its 6.3-point bar, sg-b4's pass holds without the cross-run comparison. If not, sg-b4 reads mixed. This is the cheapest test that could overturn the result.
+- **sg-d14, lead-in-only swap (about 46 cents, Haiku and Opus).** The quoted copy stays the same, except that its closing line becomes the fresh frame's plain "Grade the conclusion.". If both models get clearly stricter, by at least half of what was left, the closing line carries part of the remainder. If not, the header or the labels must.
+
+**The cap.** The program has spent $4.69 of its $5.00, so about $0.31 is left. sg-d13 fits. sg-d14 does not, alone or with sg-d13 (about $0.50). It can run only after a budget ruling or a cap raise. Under rule 4 that ruling is the engine's call, logged in `ledger/spend.jsonl`. This remap approves nothing. A Haiku-only sg-d14 (about 2 cents) would fit, but it would need a rule-12 sentence and would leave Opus's remainder untested.
+
+**What the kill rules out.** sg-b5 (sg-d11) failed. Once the exaggeration replaced the conclusion's last sentence, the answer was no longer too long, and Opus's easier treatment of it in its own conversation fell below the 5-point bar (3.4 points). Haiku's did not fall. The swap also removed the conclusion's caveat, so this cannot say whether the drop was the length or the caveat.
+
+**Not mapped, and why.**
+- sg-b5's audit names a caveat-kept arm: the exaggeration replaces a middle sentence, so the caveat and the length both stay (about $0.43). It would read *why* sg-b5 failed, not test an unexpected effect, so it is not a lead under Step 1. It is also past the cap.
+- The re-scout's message-count rival (Laban et al. 2025): a quoted copy split back into three user messages, about the price of sg-d14. It is not among the two cheapest, and no audit named it.
+- sg-d10 stays open as written.
+
+**sg-d3's line.** sg-b3's two follow-ups have now run: sg-d11 killed, sg-d12 landed. The line continues through sg-d12's children, sg-d13 and sg-d14.
+
+The new directions are on the cockpit.
+
+### Follow-ups
+
+Engine odds are **not stated** (`engine_odds` null). This session could not open the separate fresh contexts that template v2 needs, so each node carries `odds_template: "remap one pass, not v2; re-elicit under v2 before pre-registration"` and an `odds_rationale` saying what the re-scout changed. Costs are at sg-b4's cost per call: Haiku about $0.000075, Sonnet $0.0016, Opus $0.0032.
+
+| rank | id | parent (bet, Novelty) | follow-up | models | engine P(pass) | cost | draft pass rule | Prior work predicts | source |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | sg-d13 | sg-d12 (sg-b4, partly new) | Same-run re-grade: Haiku's own-turn and quoted cells, all 60 studies, twice each, one run | Haiku only (one model's cross-run margin, by design) | not stated (re-elicit under v2) | about $0.04; fits the $0.31 left | same-run T ≥ +6.3, 20-domain CI lower > 0, F CI lower > 0 | unknown | sg-b4 audit, cheapest overturning test |
+| 2 | sg-d14 | sg-d12 (sg-b4, partly new) | Lead-in only: the quoted copy with "Grade the conclusion." for "Now grade the conclusion above.", same run | Haiku (60), Opus (30); Sonnet left out (no blunting to split) | not stated (re-elicit under v2) | about $0.46; past the $0.31 left | S ≥ half the model's sg-b4 L (Haiku 2.9, Opus 0.75), CI lower > 0, flawed-text guard; both models | mixed | sg-b4 audit, second arm |
+
+Ranked by what each can change. sg-d13 can turn sg-b4's pass into mixed. sg-d14 can only say which part of the bundle carries the remainder. Both bars are read on a 20-domain cluster bootstrap (P14). The Prior work lines are on the nodes in `map/self-grading.json`.
+
+### Rules out
+
+| bet | direction | ledger verdict | rules out | diagnosis |
+|---|---|---|---|---|
+| sg-b5 | sg-d11 (closed) | null (fail), audit `4a66466` stands, 4 cuts (cut 4 the plant pl-034) | Rules out, on Opus 5.5 and these 60 made-up study conclusions, that grading in the writing conversation docks an overclaim 5 or more points less than fresh once it replaces the conclusion's caveat instead of making the text too long. | Opus's blunting fell from 6.0 to 3.4 points (under the 5-point bar) once the overclaim replaced the caveat; Haiku unchanged at 12.5; the swap bundles length with the lost caveat (sg-b5, audit 4a66466). |
+
+The sentence was checked against the audit: Opus's G′ is +3.42 [+2.52, +4.35], and its upper end stays under 5 on every seed and leave-one-out the audit tried. It is scoped to Opus, the model the rule turned on (Haiku stayed blunted), and it does not rule out a smaller own-conversation effect (the interval excludes 0).
+
+**Cockpit.** Cards for sg-d13 and sg-d14 are added to `map/cockpit-cards.jsonl`, without engine odds. The cards for sg-d11 and sg-d12 are dropped, because both directions already have a bet (sg-b5, sg-b4). That keeps the cockpit at 20 cards or fewer once this branch meets main, which already holds 20.

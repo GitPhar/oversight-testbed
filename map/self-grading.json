@@ -511,7 +511,116 @@
    "novelty_bet": "sg-b4",
    "landed": "2026-11-05",
    "result": "Quoted copy in one user message, lead-in kept: Haiku's blunting fell by 6.8 of 12.6, Opus's by 4.0 of 5.5 (pass, unreplicated; Haiku thin and fragile to one domain). sg-b4, audit 9aee23f.",
-   "next_tests": "sg-b4 audit: same-run Haiku re-grade of own and quoted cells (about $0.04); lead-in-only swap in the quoted copy (about $0.46). Needs a remap (operators/remap.md): two follow-ups with v2 odds, Prior work lines and cockpit cards."
+   "next_tests": "sg-b4 audit: same-run Haiku re-grade of own and quoted cells (about $0.04); lead-in-only swap in the quoted copy (about $0.46). Remapped 2026-11-05b: sg-d13 (same-run re-grade) and sg-d14 (lead-in-only swap), odds to be re-elicited under v2."
+  },
+  {
+   "id": "sg-d13",
+   "parent": "sg-d12",
+   "from_bet": "sg-b4",
+   "kind": "follow-up",
+   "remap": "2026-11-05b",
+   "rank": 1,
+   "short": "Haiku same-run re-grade",
+   "title": "Same-run re-grade: does Haiku's turn-role reading hold when its own-turn and quoted-copy grades come from one run instead of two?",
+   "assumption_at_stake": "sg-b4's Haiku reading (T +6.8 against a 6.3 bar) reflects the quoted copy, not run-to-run noise in the archived own-turn grades it was compared with (Haiku's own-turn penalty drifted by -4.3 points between runs on 10 studies).",
+   "cheapest_test": "In one run, Haiku grades its own-turn clean, own-turn flawed, quoted-copy clean and quoted-copy flawed cells on all 60 studies, each twice, in a shuffled order (480 calls); the own-turn cells re-grade sg-b3's archived writing conversations and the quoted cells use sg-b4's frozen prompts. T and F are read against same-run cells only.",
+   "models": [
+    "claude-haiku-5-5"
+   ],
+   "models_note": "Haiku only: the question is one model's cross-run margin by design (the audit's weak link); Opus read turn role with a domain-robust reading, and a same-run Opus re-grade (30 studies x 4 cells x 2, about 240 calls at $0.0032) would cost about $0.78, past the program's remainder.",
+   "cost": "about $0.04 (Haiku 480 calls at sg-b4's $0.000075 per call, about $0.036)",
+   "cap_note": "Program 5's $5.00 cap has about $0.31 left ($4.69 spent after sg-b4 and sg-b5, results/sg-b5-length.md). This fits inside it. No budget is approved here.",
+   "odds_event": "On Haiku, same-run T = mean over both repeats of (clean - flawed) in the quoted copy - (clean - flawed) in the own turn; reads 'turn role' if T >= +6.3 (half of sg-b3's G 12.58) with the 20-domain cluster CI lower > 0 and F = own-turn flawed - quoted flawed with CI lower > 0; pass if Haiku reads 'turn role', so sg-b4's pass holds on a same-run comparison.",
+   "engine_odds": null,
+   "engine_odds_at": null,
+   "odds_template": "remap one pass, not v2; re-elicit under v2 before pre-registration",
+   "odds_rationale": "No odds stated: this remap session could not open separate fresh contexts for template v2, so the betting session re-elicits under v2 before pre-registration. What the re-scout changed (programs/self-grading/map/reads/remap-2026-11-05b-sg-b4.md): JudgeSense (Bellibatlu et al. 2026) and Zhao et al. 2026 make a same-run repeat the standard reference, which this design adopts; neither predicts the sign of the cross-run drift. Weigh at re-elicitation: the audit's same-run T on the 10 drift studies (+12.1) points toward the bar, Haiku's median T (5.5) and 10% trimmed mean (6.21) point below it.",
+   "question": "Does the smallest model's result hold up when both kinds of grading are done in one sitting, instead of comparing grades from two runs an hour apart?",
+   "known": [
+    "sg-b4: shown its own conversation as a quoted copy, Haiku docked a planted exaggeration 6.8 points more than in its own reply, against a 6.3-point bar, using own-reply grades from sg-b3's earlier run.",
+    "Re-graded on 10 studies, Haiku's own-reply penalty moved by about 4 points between runs, so the half-point margin is inside cross-run noise (audit sg-b4; JudgeSense 2026 on judge self-agreement)."
+   ],
+   "human_prompt": "Would you spend about 4 cents to find out whether the smallest model's result holds up when both kinds of grading are done in the same sitting, instead of comparing grades from two runs an hour apart? Will it come back a hit (here, a hit means that, seeing its conversation as a quoted copy, it is still clearly stricter about the exaggeration than in its own reply, by at least half of what it let slide there)?",
+   "engine_only": [
+    "the bar is read on a 20-domain cluster bootstrap (P14); the 60-study bootstrap and the median and 10% trimmed mean are reported beside it",
+    "each cell graded twice; repeat agreement per cell is reported, and T uses the mean of the two repeats",
+    "same-run own-turn penalty minus sg-b3's archived penalty is reported as the drift, never used in the reading",
+    "if T misses, sg-b4 is reported as mixed in the remap that follows (the ledger verdict of sg-b4 is not changed by this bet)"
+   ],
+   "prior_work": [
+    "JudgeSense 2026",
+    "Zhao et al. 2026",
+    "Tsui 2025",
+    "Khullar 2026"
+   ],
+   "prior_work_line": "No prior statement on this test; the nearest predict noise, not direction. JudgeSense (Bellibatlu, Raff and Zhang 2026, arXiv 2604.23478 v3): judges disagree with themselves on identical prompts, most on graded tasks (Claude Haiku 4.5 coherence -0.206 against its own repeats). Zhao et al. 2026 (arXiv 2604.16790): two-run consistency 70-90%. Tsui 2025, Khullar 2026: T > 0, silent on the 6.3 bar. Adds: same-run cells, Claude 5.5.",
+   "prior_work_predicts": "unknown",
+   "prior_work_sources": [
+    "Bellibatlu, Raff & Zhang 2026, JudgeSense, arXiv 2604.23478 v3 (PDF read 2026-11-05)",
+    "Zhao, Esmaeili & Fard 2026, Bias in the Loop, arXiv 2604.16790 v1 (PDF read in part 2026-11-05)",
+    "Tsui 2025, arXiv 2507.02778 v3, and Khullar et al. 2026, arXiv 2603.04582 v1 (as checked by audit sg-b4, F27)"
+   ],
+   "prior_work_at": "2026-11-05 11:05, remap 2026-11-05b (re-scout programs/self-grading/map/reads/remap-2026-11-05b-sg-b4.md)",
+   "source": "literature",
+   "source_note": "ledger/audits/sg-b4.md, 'What would break it next' (the audit's cheapest overturning test, costed there at about $0.04); re-scout programs/self-grading/map/reads/remap-2026-11-05b-sg-b4.md",
+   "status": "open",
+   "opened": "2026-11-05T11:05",
+   "diagnosis": null
+  },
+  {
+   "id": "sg-d14",
+   "parent": "sg-d12",
+   "from_bet": "sg-b4",
+   "kind": "follow-up",
+   "remap": "2026-11-05b",
+   "rank": 2,
+   "short": "Lead-in-only swap",
+   "title": "Lead-in only: does the closing line 'Now grade the conclusion above' carry part of what is left between the quoted copy and a fresh grade?",
+   "assumption_at_stake": "The remainder L that sg-b4 left between the quoted copy and sg-b3's fresh frame (Haiku 5.8, Opus 1.5 points) is carried by the header sentence or the User/Assistant labels, not by the own-turn lead-in 'Now grade the conclusion above'.",
+   "cheapest_test": "sg-b4's quoted copy, unchanged except that its closing line is replaced by the fresh frame's 'Grade the conclusion.'; clean and flawed texts graded with each lead-in in one run (4 cells per study). Haiku on all 60 studies, Opus on sg-b4's 30; S is read within the run.",
+   "models": [
+    "claude-haiku-5-5",
+    "claude-opus-5-5"
+   ],
+   "models_note": "Sonnet is left out: it showed no blunting to split (sg-b3 G +1.4, sg-b4 T +1.3, L +0.2). Opus runs on sg-b4's 30 studies because its calls cost about 43 times Haiku's here.",
+   "cost": "about $0.46 (the audit's figure: Opus's 30 studies about $0.45, Haiku about $0.01; at sg-b4's cost per call, Opus 120 calls about $0.39 and Haiku 240 calls about $0.02, about $0.41)",
+   "cap_note": "Program 5's $5.00 cap has about $0.31 left ($4.69 spent after sg-b4 and sg-b5, results/sg-b5-length.md). This follow-up does not fit, and neither does it together with sg-d13 (about $0.50). It can run only after a budget ruling (rule 4: under $10/month is the engine's call, logged in ledger/spend.jsonl) or a cap raise; this remap makes neither. A Haiku-only version (about $0.02) would fit, but it would need a rule-12 sentence and would leave Opus's remainder untested.",
+   "odds_event": "Per model S = (clean - flawed) with 'Grade the conclusion.' - (clean - flawed) with 'Now grade the conclusion above.', both in the quoted copy, same run; the lead-in carries part of L if S >= half that model's sg-b4 L (Haiku >= +2.9, Opus >= +0.75) with the 20-domain cluster CI lower > 0 and the flawed text itself graded lower with 'Grade the conclusion.' (CI lower > 0); pass if both Haiku and Opus read 'lead-in carries part'.",
+   "engine_odds": null,
+   "engine_odds_at": null,
+   "odds_template": "remap one pass, not v2; re-elicit under v2 before pre-registration",
+   "odds_rationale": "No odds stated: this remap session could not open separate fresh contexts for template v2, so the betting session re-elicits under v2 before pre-registration. What the re-scout changed (programs/self-grading/map/reads/remap-2026-11-05b-sg-b4.md): JudgeSense (2026) finds that rewording an instruction moves graded judgments well beyond repeat noise, and Grossmann and Kross (2014) find that a wording-only distancing frame shrinks a human self-other gap; both make the lead-in a live carrier. Against: Khullar et al. 2026 and sg-b2 found explicit wording moves leniency little, and Opus's 0.75 bar sits on a 1.5-point remainder over 30 studies, the binding conjunct.",
+   "question": "Does one closing line, 'Now grade the conclusion above', explain part of why the models still go a little easy on an exaggeration even when they see their conversation as a quoted copy?",
+   "known": [
+    "sg-b4: in a quoted copy with that closing line, Haiku and Opus still docked the exaggeration less than when graded fresh (by 5.8 and 1.5 points of 100), and the closing line is one of three things that differ between those two settings.",
+    "Rewording a grading instruction moves graded verdicts more than repeat noise does (JudgeSense 2026); in people, a third-person wording alone shrank a self-other gap (Grossmann and Kross 2014)."
+   ],
+   "human_prompt": "Would you spend about 46 cents to find out whether one closing line, 'Now grade the conclusion above', explains part of why the models still go a little easy on an exaggeration even when they see their conversation as a quoted copy? Will it come back a hit (here, a hit means that swapping it for a plain 'Grade the conclusion.' makes both models that went easy clearly stricter, by at least half of what was left)?",
+   "engine_only": [
+    "the bar is read on a 20-domain cluster bootstrap (P14); the study bootstrap is reported beside it",
+    "the clean-text shift between lead-ins is reported; a lead-in that only makes clean text kinder fails the flawed-text guard",
+    "the header sentence and the labels stay as in sg-b4's quoted copy, so a miss leaves them as the remainder's carriers, untested",
+    "cap: needs a budget ruling or a cap raise before it can run (cap_note)"
+   ],
+   "prior_work": [
+    "JudgeSense 2026",
+    "Grossmann & Kross 2014",
+    "Khullar 2026",
+    "Chen 2026"
+   ],
+   "prior_work_line": "Mixed. JudgeSense (Bellibatlu, Raff and Zhang 2026, arXiv 2604.23478 v3): rewording that keeps the question moves graded verdicts beyond repeat noise (pooled coherence -0.181), direction unstated. Grossmann and Kross 2014 (Psych Sci 25:1571): third-person wording shrank a human self-other gap. Khullar et al. 2026 (arXiv 2603.04582): explicit wording moves leniency 0.5/10 or less. Chen et al. 2026 (arXiv 2606.05976): a label-free boundary carried part. No lead-in-only test.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Bellibatlu, Raff & Zhang 2026, JudgeSense, arXiv 2604.23478 v3 (PDF read 2026-11-05)",
+    "Grossmann & Kross 2014, Psychological Science 25(8):1571-1580, DOI 10.1177/0956797614535400 (author proof read 2026-11-05)",
+    "Khullar et al. 2026, arXiv 2603.04582 v1, and Chen et al. 2026, arXiv 2606.05976 v2 (as checked by audit sg-b4, F27)"
+   ],
+   "prior_work_at": "2026-11-05 11:05, remap 2026-11-05b (re-scout programs/self-grading/map/reads/remap-2026-11-05b-sg-b4.md)",
+   "source": "literature",
+   "source_note": "ledger/audits/sg-b4.md, 'What would break it next' (the second arm, costed there at about $0.46) and Required cut 1 (the three differences that could carry L); re-scout programs/self-grading/map/reads/remap-2026-11-05b-sg-b4.md",
+   "status": "open",
+   "opened": "2026-11-05T11:05",
+   "diagnosis": null
   },
   {
    "id": "sg-k1",
@@ -608,6 +717,22 @@
     "sg-d9"
    ],
    "note": "sg-d10 kept open as written; it does not count toward sg-b3's follow-ups (its rule measures kindness on clean work, sg-d1's measure, not the flaw penalty)."
+  },
+  {
+   "date": "2026-11-05b",
+   "session": "fresh remap session (operators/remap.md; rule 13 Steps 1b-2a from the informed-engine branch)",
+   "follow_ups": [
+    "sg-d13",
+    "sg-d14"
+   ],
+   "rescout": {
+    "sg-b4": "programs/self-grading/map/reads/remap-2026-11-05b-sg-b4.md"
+   },
+   "rules_out": [
+    "sg-d11"
+   ],
+   "closed": [],
+   "note": "Second round. sg-b4 (sg-d12) landed: two follow-ups, engine odds left null (one pass, not v2). sg-b5 (sg-d11) killed: its rules_out sentence was checked against audit 4a66466 and kept. sg-b5's caveat-kept arm (about $0.43) and a three-message quoted copy (Laban et al. 2025's message-count rival) are noted, not mapped. sg-d3 (sg-b3) now has two run follow-ups, sg-d11 killed and sg-d12 landed, so its line continues through sg-d13 and sg-d14."
   }
  ]
 }
