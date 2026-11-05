@@ -25,8 +25,19 @@ from qiskit_aer import AerSimulator
 from qiskit_aer.noise import NoiseModel
 
 ROOT = Path(__file__).resolve().parents[1]
-EM = Path("/Users/seanpharris/entangled-mind")
+# Inside the engine monorepo (2026-11-04 17:35): program 1 is the sibling folder programs/entangled-mind. Its code,
+# archives and QPU usage ledger (results/ibm-usage.json, which run_hardware's hard stop reads) are used from there.
+EM = ROOT.parent / "entangled-mind"
 sys.path.insert(0, str(EM / "src"))
+# The IBM token stays in the old checkout's .env (Sean's instruction): loaded into this process only, never printed
+# or copied. load_dotenv in entangled_mind.backends does not override variables already set.
+_OLD_ENV = Path("/Users/seanpharris/entangled-mind/.env")
+if _OLD_ENV.exists():
+    import os
+    from dotenv import dotenv_values
+    for _k, _v in dotenv_values(_OLD_ENV).items():
+        if _k.startswith("IBM_QUANTUM_") and _v and _k not in os.environ:
+            os.environ[_k] = _v
 HW = EM / "window" / "data" / "hardware"
 CALIB = EM / "results" / "ibm-calibration.json"
 
