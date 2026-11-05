@@ -14,7 +14,18 @@
    "odds_template": "item-writer, one pass (D1)",
    "source": "human",
    "cost": "$6 cap shared",
-   "referee": "published-record"
+   "referee": "published-record",
+   "prior_work_line": "Settled: pass (Brier 0.163 on 116 post-cutoff items, 76% right). BrainBench (Luo et al. 2024, arXiv 2403.03230) predicts it: 15 open LLMs averaged 81.4% on real-versus-altered neuroscience abstracts against 63.4% for experts, every LLM above them. SciPredict (2026, arXiv 2604.10718) cuts the other way on open-answer natural-science tasks (frontier models 14 to 26%, experts about 20%), but ours is two-choice, so BrainBench is the nearer analogue.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Luo et al. 2024, Large language models surpass human experts in predicting neuroscience results, arXiv 2403.03230 (Nature Human Behaviour 9:305-315, 2025); opened arXiv abstract, HTML v4 and PDF v4 text",
+    "Sehwag et al. 2026, SciPredict: Can LLMs Predict the Outcomes of Scientific Experiments in Natural Sciences?, arXiv 2604.10718; opened abstract and HTML v1 (first 100k characters)"
+   ],
+   "prior_work_search": "reads only (novelty.md item 7, related-work/metascience-prereg.md Part E), each source opened",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "novelty": "known",
+   "novelty_line": "That a language model with no internet picks the direction of published findings well above chance is in print: Luo and colleagues (Nature Human Behaviour 2024, arXiv 2403.03230) report LLMs at 81.4% against 63.4% for experts on 300 real-versus-altered neuroscience abstracts; Hewitt, Ashokkumar, Ghezae and Willer (2024) find GPT-4's simulated treatment effects correlate 0.85 with real ones; Wen and colleagues (NeurIPS 2025, arXiv 2506.00794) reach 77% on post-cutoff AI research pairs with a fine-tuned model while off-the-shelf o3 is at chance; SciPredict (2026, arXiv 2604.10718) finds frontier models at 14 to 26% on natural-science tasks. Ours (76% right, Brier 0.163 on 116 post-cutoff model-written items in four fields) is the same kind of result in a direction-and-probability format, with the caveat that the items were written by the bettor's own model family. Search: paper/novelty.md, 2026-11-05 (arXiv and journal searches on LLMs predicting experimental outcomes, BrainBench, research-outcome forecasting), by a claude-fable-5-1 session on the novelty-check branch (93f47af); carried here by the informed-engine session.",
+   "novelty_bet": "ss-b1"
   },
   {
    "id": "ss-b2",
@@ -26,7 +37,18 @@
    "odds_template": "item-writer, one pass (D1)",
    "source": "engine",
    "cost": "$0 beyond ss-b1",
-   "referee": "published-record"
+   "referee": "published-record",
+   "prior_work_line": "Settled: pass (bettor beat the 0.75 headline baseline by 0.068 [0.036, 0.099]). No paper scores an LLM against a publication-bias baseline. Lee 2026 (arXiv 2604.06236, conceptual, no data) predicts LLMs inherit the literature's positive bias and overrate success; Ashokkumar, Hewitt, Ghezae and Willer (Nature 2026, 656:115-122) found GPT-4's predicted effects correlate strongly with real ones but are systematically too large. Neither says whether a 0.75 lean would be beaten.",
+   "prior_work_predicts": "unknown",
+   "prior_work_sources": [
+    "Lee 2026, LLMs Have Made Failure Worth Publishing, arXiv 2604.06236; opened abstract and HTML v1 (states it has no empirical validation)",
+    "Ashokkumar, Hewitt, Ghezae and Willer 2026, Large Language Models Can Predict the Results of Social Science Experiments, Nature 656:115-122, DOI 10.1038/s41586-026-10742-x (DOI resolves to Nature, which blocked the fetch; abstract read from the Stanford GSB listing and ai4pb.stanford.edu project page; r = 0.85 and r = 0.90 unpublished are from the 2024 working paper via those pages; unverified against the Nature text)"
+   ],
+   "prior_work_search": "WebSearch 'LLM predict research outcomes publication bias baseline positive result shortcut benchmark field base rate' (extended), plus reads of novelty.md item 8",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "novelty": "partly new",
+   "novelty_line": "BrainBench (Luo et al. 2024, arXiv 2403.03230, read in full) has no publication-bias or valence baseline, and Wen et al. 2025 (arXiv 2506.00794) checked only superficial features such as idea complexity; \"LLMs Have Made Failure Worth Publishing\" (2026, arXiv 2604.06236) proposes testing LLM outcome prediction against publication bias and reports no measurement. Ours beats a baseline that puts 0.75 on the paper's headline side (paired Brier difference, 95% upper bound below 0, on 116 items), which is a comparison none of them makes; the ss-b6 audit's point that most of the bettor's round-2 skill is matched by a flattery rule limits what it shows. Search: paper/novelty.md, 2026-11-05, and the ss-b5 search of this branch (BrainBench critique, positive-results shortcut, altered-abstract direction swap), by claude-fable-5-1 sessions; carried here by the informed-engine session.",
+   "novelty_bet": "ss-b2"
   },
   {
    "id": "ss-b3",
@@ -38,7 +60,19 @@
    "odds_template": "item-writer, one pass (D1)",
    "source": "engine",
    "cost": "$0 beyond ss-b1",
-   "referee": "published-record"
+   "referee": "published-record",
+   "prior_work_line": "Settled: pass (pre minus post -0.059 [-0.098, -0.019]). BrainBench (Luo et al. 2024, arXiv 2403.03230) found no memorisation by its zlib-perplexity test and no link between publication date and difficulty, predicting no gap. Forecasting work predicts one: Li et al. 2026 (arXiv 2601.13717) found a 52% gap between pre-cutoff and truly unseen questions across 9 models; Lopez-Lira et al. 2025 (arXiv 2504.14765) found exact recall before the cutoff, none after.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Luo et al. 2024, BrainBench, arXiv 2403.03230; opened (zlib result and 'no indication that BrainBench was memorized' read in the PDF text; date-difficulty r(198) = .00 for Falcon-180B from the HTML v4)",
+    "Li, Wang, El Lahib, Xia and Pi 2026, Simulated Ignorance Fails: A Systematic Study of LLM Behaviors on Forecasting Problems Before Model Knowledge Cutoff, arXiv 2601.13717 (IJCAI 2026); opened abstract",
+    "Lopez-Lira, Tang and Zhu 2025, The Memorization Problem: Can We Trust LLMs' Economic Forecasts?, arXiv 2504.14765; opened abstract (no numbers in the abstract; the 98% versus 40% GDP figure seen only in a search snippet, unverified)"
+   ],
+   "prior_work_search": "WebSearch 'LLM forecasting accuracy before vs after training cutoff memorization recall leakage pre-cutoff post-cutoff' (standard) and 'Simulated Ignorance Fails' (standard)",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "novelty": "partly new",
+   "novelty_line": "BrainBench (Luo et al. 2024, arXiv 2403.03230) looked for memorisation with a zlib test and found no sign of it. Ours finds pre-cutoff items score better than post-cutoff ones (90% against 76% right), which points the other way, but it cannot separate memory from older items being easier, and it rests on one bettor and one split; the follow-up ss-f4 pre-registers the recognition split. Search: paper/novelty.md, 2026-11-05 (BrainBench memorisation check, LLM recall of pre-cutoff findings), by a claude-fable-5-1 session on the novelty-check branch (93f47af); carried here by the informed-engine session.",
+   "novelty_bet": "ss-b3"
   },
   {
    "id": "ss-b4",
@@ -68,7 +102,18 @@
    "referee": "published-record",
    "engine_odds_first": 0.35,
    "engine_odds_revised_at": "2026-11-04 19:45 America/Denver",
-   "revision_reason": "D24: bar tightened to beat both the up-word and swap-pair rules"
+   "revision_reason": "D24: bar tightened to beat both the up-word and swap-pair rules",
+   "prior_work_line": "Settled: pass (Brier 0.070; beat the up-word rule by 0.107 and the swap-pair rule by 0.095). BrainBench (Luo et al. 2024, arXiv 2403.03230) is the direct analogue (result direction reversed inside real abstracts; LLMs 81.4%), but it reports LLMs 'performed much worse' given only the altered results sentence, which is this format (numbers only in its Fig. S.3), and no paper scores a bettor against an up-word or swap-pair rule.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Luo et al. 2024, BrainBench, arXiv 2403.03230; opened (local-context passage read in the PDF text; its numbers are in Fig. S.3 only, not extracted)",
+    "Luo, Sun and Love 2024, Matching domain experts by training from scratch on domain knowledge, arXiv 2405.09395 (ICML 2024 workshop); opened abstract (124M GPT-2 on 1.3B neuroscience tokens reaches expert level)"
+   ],
+   "prior_work_search": "WebSearch 'LLM predict which abstract is real altered abstract positive or publishable version baseline BrainBench shortcut valence' (extended); no direction-word baseline found",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "novelty": "partly new",
+   "novelty_line": "Luo et al. 2024 (Nature Human Behaviour; arXiv 2403.03230) state that LLMs pick a real neuroscience abstract over an expert-altered one (81.4% versus experts 63.4%), with \"reverse the direction of a result\" among the edit types, and that accuracy falls on the local results text alone; they report no valence or fixed-wording baseline. Wen et al. 2025 (arXiv 2506.00794) predict which of two AI ideas wins, ruling out only an idea-complexity shortcut; SciPredict (arXiv 2604.10718) and Lee 2026 (arXiv 2604.06236) have no real-versus-flipped format. Our tool-less model beating an up-word rule and a swap-pair rule on single flipped sentences is a comparison none of them makes. Search: arXiv abstract and HTML pages for the four leads plus the PMC full text of Luo et al.; WebSearch for \"BrainBench critique positive results bias altered abstract direction swap LLM shortcut\".",
+   "novelty_bet": "ss-b5"
   },
   {
    "id": "ss-b6",
@@ -85,7 +130,21 @@
    "odds_after_review": 0.35,
    "engine_odds_revised_at": "2026-11-04 20:26 America/Denver",
    "revision_reason": "D37: moved toward the running base rate (0.41) before data, a move that needs no further reason (operators/learn.md). The pull runs both ways: F2's second leg makes passing harder, while F1's hypothetical prompt probably makes the rater a cleaner flattery judge (more 50s on neutral items), which the bettor's up-word habit can beat. D33's reason ('valence50 is beaten') is withdrawn: valence50 is the bettor's own confident ratings with 50 elsewhere, not an honest flattery rater.",
-   "odds_event": "Both legs' paired Brier upper bounds below 0 on at least 60 items: raw (bettor minus valence rule) and recalibrated (each side's rating plus the up word, same leave-one-out logistic); untestable if gate G1 fails (rater favours the up word on fewer than half its non-50 ratings)"
+   "odds_event": "Both legs' paired Brier upper bounds below 0 on at least 60 items: raw (bettor minus valence rule) and recalibrated (each side's rating plus the up word, same leave-one-out logistic); untestable if gate G1 fails (rater favours the up word on fewer than half its non-50 ratings)",
+   "prior_work_line": "Settled: undetermined (flattery rater 90% right against the bettor's 93%). No paper measures a flattery or valence rater on a real-versus-altered task: BrainBench (Luo et al. 2024, arXiv 2403.03230) tests only local-context and shuffled-context controls; Lee 2026 (arXiv 2604.06236) hypothesises that LLMs inherit the literature's positive bias. Luo, Sun and Love 2024 (arXiv 2405.09395) found a 124M GPT-2 trained from scratch reaches expert level: shallow regularities can carry such scores.",
+   "prior_work_predicts": "unknown",
+   "prior_work_sources": [
+    "Luo et al. 2024, BrainBench, arXiv 2403.03230; opened (controls: local context, swapped context, zlib; no valence control in the text)",
+    "Lee 2026, LLMs Have Made Failure Worth Publishing, arXiv 2604.06236; opened abstract and HTML v1 (hypothesis only; proposes ClinicalTrials.gov tests, no results)",
+    "Luo, Sun and Love 2024, arXiv 2405.09395; opened abstract",
+    "Luo, Ramscar and Love 2024, Beyond Human-Like Processing: Large Language Models Perform Equivalently on Forward and Backward Scientific Text, arXiv 2411.11061; opened abstract (backward-trained models match forward ones on the neuroscience benchmark)",
+    "Wen et al. 2025, arXiv 2506.00794; opened HTML v1 (superficial-feature checks cover recency, length, lab names, complexity; valence not tested)"
+   ],
+   "prior_work_search": "WebSearch 'LLM predict which abstract is real altered abstract positive or publishable version baseline BrainBench shortcut valence' (extended) and 'LLM predict research outcomes publication bias baseline' (extended); no valence-rater measurement found",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "novelty": "partly new",
+   "novelty_line": "BrainBench (Luo et al. 2024, arXiv 2403.03230) uses the same real-versus-altered format and tests local-context and sentence-shuffled controls, but not a \"pick the version that flatters the paper\" shortcut; Wen et al. 2025 (arXiv 2506.00794) checked idea complexity, not valence; \"LLMs Have Made Failure Worth Publishing\" (2026, arXiv 2604.06236) proposes that publication bias drives LLM miscalibration about outcomes and suggests testing it, with no measurement. Ours is that measurement on our own items: a same-model rater asked only which version is better news for the paper's method reaches 90% against the bettor's 93%, and the audit reversed the pass to undetermined because the margin is not told from no edge. The cheapest test that makes it new: the flattery rater on BrainBench's 200 human-written items, about $2. Search: paper/novelty.md, 2026-11-05 (publication-bias shortcuts in outcome-prediction benchmarks, BrainBench controls), by a claude-fable-5-1 session on the novelty-check branch (93f47af); carried here by the informed-engine session.",
+   "novelty_bet": "ss-b6"
   },
   {
    "id": "ss-b7",
@@ -97,7 +156,19 @@
    "odds_template": "item-writer, one pass (D1)",
    "source": "engine",
    "cost": "about $0.68 (92 ratings + 46 retest)",
-   "referee": "published-record"
+   "referee": "published-record",
+   "prior_work_line": "Settled: pass (striking rater 52% right; bettor ahead by 0.203). No paper measures a 'more striking finding' rater as a shortcut: BrainBench (Luo et al. 2024, arXiv 2403.03230) and Wen et al. 2025 (arXiv 2506.00794) test surface features (length, recency, complexity), not strikingness. Thelwall and Yaghi 2025 (Scientometrics 130:5285-5307) found ChatGPT quality scores from titles and abstracts correlate 0.00 to 0.38 with review outcomes, so weak signal is predicted.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Thelwall and Yaghi 2025, Evaluating the predictive capacity of ChatGPT for academic peer review outcomes across multiple platforms, Scientometrics 130(10):5285-5307, DOI 10.1007/s11192-025-05287-1; opened the White Rose published-version PDF (abstract read in full)",
+    "Luo et al. 2024, BrainBench, arXiv 2403.03230; opened",
+    "Wen et al. 2025, Predicting Empirical AI Research Outcomes with Language Models, arXiv 2506.00794; opened abstract and HTML v1"
+   ],
+   "prior_work_search": "WebSearch 'LLM predict paper acceptance from abstract reviewer accept probability' (standard); no striking-finding rater found",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "novelty": "new",
+   "novelty_line": "No paper found states whether a \"which finding is more striking\" judgment is a shortcut for telling a published sentence from a one-word flip of it. Adjacent work: Li et al. 2025 (arXiv 2506.17311) report an LLM reviewer's score rising from 85.8 to 88.4 after exaggerated sentences were added (one paper, five runs); Marioriyad et al. 2025 and 2026 (arXiv 2509.26072, 2602.07996) test provenance, recency and demographic cues on LLM judges but no striking-ness cue; Hoogeveen et al. 2020 (AMPPS 3, 267-285) find for human raters that counterintuitive findings replicate least. Ours tests the cue on an LLM directly and finds it near chance. Search: WebSearch for \"LLM judge preference for striking sensational claims predicting published results\", \"LLM judge novelty surprising bold claims bias\", \"hype overclaiming LLM judge exaggerated claims\", \"laypeople predict replication surprising findings\"; arXiv abstract and HTML pages for the hits.",
+   "novelty_bet": "ss-b7"
   },
   {
    "id": "ss-b8",
@@ -110,7 +181,15 @@
    "source": "engine",
    "cost": "about $0.68 (needs a budget decision; br-002 declined)",
    "referee": "published-record",
-   "diagnosis": null
+   "diagnosis": null,
+   "prior_work_line": "Parked, not run. The nearest measurement is Thelwall and Yaghi 2025 (Scientometrics 130:5285-5307): ChatGPT's acceptance-style quality scores from titles and abstracts alone, averaged over 30 runs, correlate rho 0.00 (F1000Research), 0.08 to 0.25 (SciPost Physics) and 0.38 (ICLR) with review outcomes, so an abstract-level publishability rater carries weak signal and the bettor is predicted to beat it. No paper measures a headline-acceptance rater as a shortcut on a real-versus-altered task.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Thelwall and Yaghi 2025, Scientometrics 130(10):5285-5307, DOI 10.1007/s11192-025-05287-1; opened the White Rose published-version PDF (ChatGPT model version not checked beyond the abstract)",
+    "PeerArg, Sukpanichnant et al. 2024, arXiv 2409.16813 (acceptance predicted from review text, not abstracts); seen in search results only, not opened, unverified"
+   ],
+   "prior_work_search": "WebSearch 'LLM predict paper acceptance from abstract reviewer accept probability acceptance prediction language model arXiv 2025 peer review outcome' (standard)",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ss-f1",
@@ -151,7 +230,15 @@
    "odds_template": "remap one pass (operators/remap.md), not v1; re-elicit under v1 before pre-registration",
    "diagnosis": null,
    "source": "engine",
-   "opened": "2026-11-05T04:45"
+   "opened": "2026-11-05T04:45",
+   "prior_work_line": "BrainBench (Luo et al. 2024, arXiv 2403.03230) predicts pass: every one of 15 open LLMs beat experts, 7B models (Llama2-7B, Mistral-7B) matched larger ones, and its supplement gives Phi-3 (3.8B) 82.5%, TinyLlama (1.1B) 70.5% and GPT-2 (124M) 63%; chat-tuned variants scored below base models (t(5) = 5.4, p = .002). Those are perplexity-scored open models; no paper reports Haiku or Sonnet, or verbalised probabilities, on this task.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Luo et al. 2024, BrainBench, arXiv 2403.03230; opened arXiv HTML v4 (small-model figures and the chat-versus-base t-test) and PDF v4 text ('Every LLM outperformed human experts'; 'Smaller models such as Llama2-7B and Mistral-7B ... performed comparably to larger models'); per-model accuracies for the 15 models are in Fig. 3A only, not extracted",
+    "Sehwag et al. 2026, SciPredict, arXiv 2604.10718; opened HTML v1 (evaluates Llama 3.1 8B through Claude Opus 4.5; per-model numbers in figures only, overall 14 to 26%)"
+   ],
+   "prior_work_search": "WebSearch 'LLM predicting experimental results benchmark small models Llama 7B vs 70B accuracy scaling' (standard); reads of novelty.md item 7",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ss-f2",
@@ -185,7 +272,15 @@
    "engine_odds_at": "2026-11-05T04:45",
    "odds_template": "remap one pass (operators/remap.md), not v1; re-elicit under v1 before pre-registration",
    "diagnosis": null,
-   "opened": "2026-11-05T04:45"
+   "opened": "2026-11-05T04:45",
+   "prior_work_line": "Nearest: Wen et al. 2025 (arXiv 2506.00794), on AI-research outcomes. Off-the-shelf models predicted which of two ideas scores higher at chance (GPT-4.1 51.4%; o3 'no better than random guessing'), NLP experts 48.9%, while a fine-tuned GPT-4.1 reached 77% on 1,585 post-cutoff pairs. For an untuned bettor on findings about models that predicts fail, though its task (idea pairs on benchmarks) differs from calling a published direction.",
+   "prior_work_predicts": "fail",
+   "prior_work_sources": [
+    "Wen, Si, Chen, He and Feng 2025, Predicting Empirical AI Research Outcomes with Language Models, arXiv 2506.00794 (NeurIPS 2025 per novelty.md; venue not checked); opened abstract and HTML v1",
+    "Luo et al. 2024, BrainBench, arXiv 2403.03230; opened (LLMs above experts in every neuroscience subfield, Fig. 3B; no per-subfield numbers in the text)"
+   ],
+   "prior_work_search": "reads only (novelty.md item 7; ss-b1 results by-field table), each source opened",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ss-f3",
@@ -215,7 +310,16 @@
    "odds_template": "remap one pass (operators/remap.md), not v1; re-elicit under v1 before pre-registration",
    "diagnosis": null,
    "source": "engine",
-   "opened": "2026-11-05T04:45"
+   "opened": "2026-11-05T04:45",
+   "prior_work_line": "No prior statement found after a web search ('LLM predict research outcomes publication bias field base rate', arXiv and PMC) and the related-work scans. Nearest: Lee 2026 (arXiv 2604.06236) proposes correlating field positive-result rates with LLM error, with no data; Altmejd et al. 2019 (PLOS ONE 14(12):e0225826) found discipline dummies added nothing to a replication predictor (about 69% against a 57% constant baseline); that is replication, not LLM forecasting.",
+   "prior_work_predicts": "unknown",
+   "prior_work_sources": [
+    "Lee 2026, LLMs Have Made Failure Worth Publishing, arXiv 2604.06236; opened HTML v1 (Section 5.3 proposal, no measurement)",
+    "Altmejd et al. 2019, Predicting the replicability of social science lab experiments, PLOS ONE 14(12):e0225826; opened PMC6894796 full text (discipline dummies removable without loss; constant 'does not replicate' baseline 57%; random forest median AUC 0.79, about 69% accuracy)",
+    "Yang, Youyou and Uzzi 2020, PNAS 117(20):10762-10768 (text model 0.68 against a 0.61 predict-all-fail dummy); from related-work/metascience-prereg.md, not re-opened this session"
+   ],
+   "prior_work_search": "WebSearch 'LLM predict research outcomes publication bias baseline positive result shortcut benchmark field base rate' (extended) and 'Altmejd 2019 Predicting the replicability of social science lab experiments base rate features' (standard); related-work/metascience-prereg.md Parts C to E",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ss-f4",
@@ -249,7 +353,16 @@
    "engine_odds_at": "2026-11-05T04:45",
    "odds_template": "remap one pass (operators/remap.md), not v1; re-elicit under v1 before pre-registration",
    "diagnosis": null,
-   "opened": "2026-11-05T04:45"
+   "opened": "2026-11-05T04:45",
+   "prior_work_line": "BrainBench (Luo et al. 2024, arXiv 2403.03230) predicts fail: it found no memorisation by the zlib-perplexity test and no correlation between publication date and item difficulty, so no residual gap is expected. Li et al. 2026 (arXiv 2601.13717) warn that reasoning traces can look cutoff-compliant while forecasts still use leaked knowledge, so a rationale naming no study does not rule out recall; no paper uses a recognition split.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Luo et al. 2024, BrainBench, arXiv 2403.03230; opened (zlib section in the PDF text; Falcon-180B date-difficulty r(198) = .00, p = .97 from the HTML v4)",
+    "Li, Wang, El Lahib, Xia and Pi 2026, Simulated Ignorance Fails, arXiv 2601.13717 (IJCAI 2026); opened abstract (52% SI-versus-TI gap; chain-of-thought does not suppress prior knowledge)",
+    "Lopez-Lira, Tang and Zhu 2025, The Memorization Problem, arXiv 2504.14765; opened abstract (masking and boundary instructions fail to prevent recall)"
+   ],
+   "prior_work_search": "WebSearch 'LLM forecasting accuracy before vs after training cutoff memorization recognize paper recall leakage' (standard); no recognition-coded split found",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ss-f5",
@@ -283,7 +396,16 @@
    "engine_odds_at": "2026-11-05T04:45",
    "odds_template": "remap one pass (operators/remap.md), not v1; re-elicit under v1 before pre-registration",
    "diagnosis": null,
-   "opened": "2026-11-05T04:45"
+   "opened": "2026-11-05T04:45",
+   "prior_work_line": "BrainBench (Luo et al. 2024, arXiv 2403.03230) predicts pass against 50%: on 100 GPT-4-written items beside 200 expert-written it 'observed similar results' (Fig. S.19), with LLMs' difficulty rankings more alike on model-written items (0.83 against 0.75). Xu et al. 2025 (arXiv 2509.26600) and Yuan et al. 2025 (arXiv 2505.20738) find generated benchmarks favour their generator, so some drop from a non-Claude writer is predicted. No paper tests the up-word conjunct.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Luo et al. 2024, BrainBench, arXiv 2403.03230; opened PDF v4 text (GPT-4 case creation, 'observed similar results', Fig. S.19 and S.22 captions; subset accuracies are in figures only, not extracted; difficulty correlations 0.83 and 0.75 from the HTML v4)",
+    "Xu, Agrawal, Zouhar, Freitag and Deutsch 2025, When LLMs Benchmark Themselves: Deconstructing Self-Bias in Automated Evaluation, arXiv 2509.26600; opened abstract (machine translation testbed; each model ranks itself first)",
+    "Yuan et al. 2025, Silencer: From Discovery to Mitigation of Self-Bias in LLM-as-Benchmark-Generator, arXiv 2505.20738; opened abstract (self-bias from question domain, language style and wrong labels)"
+   ],
+   "prior_work_search": "WebSearch 'LLM-generated benchmark items easier for LLMs than human-written items self-preference model family' (extended) and 'BrainBench GPT-4 generated test cases vs human-created accuracy' (standard)",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ss-f6",
@@ -313,7 +435,16 @@
    "engine_odds_at": "2026-11-05T04:45",
    "odds_template": "remap one pass (operators/remap.md), not v1; re-elicit under v1 before pre-registration",
    "diagnosis": null,
-   "opened": "2026-11-05T04:45"
+   "opened": "2026-11-05T04:45",
+   "prior_work_line": "No paper tests an averaged rater as a prediction shortcut. Yagubyan 2026 (arXiv 2606.13685; GPT-4o-mini, GPT-4.1-mini) found pairwise verdicts flip 13.6% on repeat and a majority vote needs about 11 repeats to match a 50-trial verdict; Zhang and Martinez (NeurIPS 2026 workshop, seven open judges) found ten repeats carry 1.06 to 1.81 independent ratings' worth. So three averaged calls change the rater little; ss-b6's narrow result is predicted to recur.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Yagubyan 2026, The Coin Flip Judge? Reliability and Bias in LLM-as-a-Judge Evaluation, arXiv 2606.13685; opened abstract",
+    "Zhang and Martinez 2026, Estimating LLM Judge Error Rates and Outcome Prevalence with Limited or No Gold Labels, NeurIPS 2026 workshop 'Can We Trust the Judge?', https://neurips.cc/virtual/2026/161252; opened the virtual page (seven open-weight judges, 1B to 32B; judges not named)",
+    "Thelwall and Yaghi 2025, Scientometrics 130(10):5285-5307; opened (averaging 30 ChatGPT runs still gave rho 0.00 to 0.38 against review outcomes)"
+   ],
+   "prior_work_search": "WebSearch 'LLM judge repeated sampling averaging ratings test-retest reliability self-consistency reduces noise' (standard)",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   }
  ]
 }

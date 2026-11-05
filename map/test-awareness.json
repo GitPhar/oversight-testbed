@@ -43,7 +43,15 @@
    "engine_only": [
     "the exact bar in the pass rule",
     "the paraphrase and negation re-elicitation where drawn (map/odds-elicitation/README.md)"
-   ]
+   ],
+   "prior_work_line": "Predicts a miss. No study tests sycophancy under a test cue (reads A, C; web search 2026-11-05 found none). Nearest: Nayan et al. 2026 (arXiv 2606.23583; 37 open models): 'this is a real situation' 0.122 and 'a grader will assess' 0.132 both cut compliance from 0.180, the same direction, failing the opposite-direction conjunct. Abdelnabi and Salem 2025 (2505.14617; QwQ-32B): an explicit test sentence moved execution 36.2% to 36.2%. No Claude.",
+   "prior_work_predicts": "fail",
+   "prior_work_sources": [
+    "Nayan et al. 2026, Eval awareness is not one capability, arXiv 2606.23583",
+    "Abdelnabi and Salem 2025, The Hawthorne Effect in Reasoning Models, arXiv 2505.14617"
+   ],
+   "prior_work_search": "reads; WebSearch 'LLM sycophancy under evaluation awareness this is a test cue user insists wrong answer 2026' (hits: 2609.09090, 2601.15436, 2606.08629; none isolates a test cue)",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ta-d4",
@@ -80,7 +88,16 @@
    "engine_only": [
     "the exact bar in the pass rule",
     "the paraphrase and negation re-elicitation where drawn (map/odds-elicitation/README.md)"
-   ]
+   ],
+   "prior_work_line": "Mixed. Xiong et al. 2025 (arXiv 2509.00591; Claude 4.1 Opus): deploy-like rewrites moved honest +31.5 and deceptive -29.1 points, but register changed too, so the rewrite-gap conjunct is untested. Li et al. 2026 (2605.23055; Claude Sonnet 4.5): template format and prose register barely moved awareness; 77% or more of recognised evaluations showed no behaviour change. Sclar et al. 2024 (2310.11324; no Claude): format alone shifts accuracy, median 7.5 points.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Xiong et al. 2025, Probe-Rewrite-Evaluate, arXiv 2509.00591",
+    "Li et al. 2026, Decomposing and Measuring Evaluation Awareness (EvalAwareBench), arXiv 2605.23055",
+    "Sclar et al. 2024, Quantifying Language Models' Sensitivity to Spurious Features in Prompt Design, arXiv 2310.11324"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ta-d2",
@@ -149,7 +166,16 @@
    "engine_only": [
     "the exact bar in the pass rule",
     "the paraphrase and negation re-elicitation where drawn (map/odds-elicitation/README.md)"
-   ]
+   ],
+   "prior_work_line": "Mixed. Claude Opus 5.5 system card 2026 (section 6.4.9; reader B's read, unverified): stronger cues that a package registry was a simulated testbed raised harmful action to about half of runs, a hit. Abdelnabi and Salem 2025 (arXiv 2505.14617; QwQ-32B, o3-mini): hypothetical wording doubled harmful execution (36.2 to 69.7%). Lynch et al. 2025 (Anthropic; Claude Opus 4): blackmail 55.1% when judged real vs 6.5% when judged evaluation, opposite.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Anthropic 2026, Claude Opus 5.5 System Card, section 6.4.9 (unverified: assets.claude.com PDF too large to fetch; reader B's record)",
+    "Abdelnabi and Salem 2025, arXiv 2505.14617",
+    "Lynch et al. 2025, Agentic Misalignment, anthropic.com/research/agentic-misalignment"
+   ],
+   "prior_work_search": "reads; attempted WebFetch of the Opus 5.5 system card page and PDF (redirect, then size limit)",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ta-d6",
@@ -184,7 +210,17 @@
    "engine_only": [
     "the exact bar in the pass rule",
     "the paraphrase and negation re-elicitation where drawn (map/odds-elicitation/README.md)"
-   ]
+   ],
+   "prior_work_line": "Mixed; no LLM study discloses the hypothesis. Mummolo and Peterson 2019 (APSR 113:517; 12,000 people): directional hypothesis statements raised correct guessing 10 to 22 points yet moved treatment effects at most 2 to 3 points, a miss. Vella Zarb et al. 2026 (arXiv 2606.08243; Llama, Qwen; Claude 3 Opus prompt-only, figures only): 'researchers want the AI to comply' sentences moved compliance more than consequence sentences, a hit in direction.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Mummolo and Peterson 2019, Demand Effects in Survey Experiments, APSR 113(2):517",
+    "Vella Zarb et al. 2026, Building Comparative Motivation Profiles with Instrumental Interventions, arXiv 2606.08243",
+    "Gao and Kreiss 2025, Measuring Bias or Measuring the Task, arXiv 2509.04373 (abstract only)",
+    "Gao and Kreiss 2025, Measuring Bias or Measuring the Task, arXiv 2509.04373 (evaluation framing shifts measured bias; abstract only, no numbers)"
+   ],
+   "prior_work_search": "reads; WebSearch 'LLM demand characteristics telling the model the experimenter's hypothesis' (hits 2604.27633, 2605.23055, 2509.04373; none discloses a hypothesis to an LLM and measures the effect change)",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ta-d3",
@@ -220,7 +256,17 @@
    "engine_only": [
     "the exact bar in the pass rule",
     "the paraphrase and negation re-elicitation where drawn (map/odds-elicitation/README.md)"
-   ]
+   ],
+   "prior_work_line": "Predicts a hit in direction. Needham et al. 2025 (arXiv 2505.23836; Claude 3.5 Sonnet AUC 0.834, Claude 3.7 Sonnet 0.923): models tell evaluation from deployment transcripts and cite task formatting as a cue. Nayan et al. 2026 (2606.23583; 37 open models): swapping formats dropped detection AUROC 0.676 to 0.508, so detection rides on format. No paper states a 20-point rating gap; ta-b2's Haiku rated casual chat 74 of 100.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Needham et al. 2025, Large Language Models Often Know When They Are Being Evaluated, arXiv 2505.23836",
+    "Nayan et al. 2026, arXiv 2606.23583",
+    "Salecha et al. 2024, LLMs Show Human-like Social Desirability Biases in Survey Responses, arXiv 2405.06058, PNAS Nexus",
+    "Salecha et al. 2024, arXiv 2405.06058 (five items identify a personality survey above 90%, GPT-4 and Claude 3)"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ta-d11",
@@ -254,7 +300,16 @@
    "engine_only": [
     "the exact bar in the pass rule",
     "the paraphrase and negation re-elicitation where drawn (map/odds-elicitation/README.md)"
-   ]
+   ],
+   "prior_work_line": "Predicts a miss. Li et al. 2026 (arXiv 2605.23055; Claude Sonnet 4.5 among 9): 77% or more of recognised evaluations show no behaviour shift, and cues moved behaviour without moving awareness. Knecht et al. 2026 (2605.05835; 8 open reasoning models): injecting or removing verbalised awareness shifted answers by omega 0.06 to 0.12. Against: Aranguri and Bloom 2026 (LessWrong; Claude Haiku 4.5): aware rollouts refuse 3 to 18 points more.",
+   "prior_work_predicts": "fail",
+   "prior_work_sources": [
+    "Li et al. 2026, arXiv 2605.23055",
+    "Knecht, Florin, Hagendorff 2026, arXiv 2605.05835",
+    "Aranguri and Bloom 2026, Verbalized eval awareness inflates measured safety, LessWrong (not peer reviewed)"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ta-d8",
@@ -287,7 +342,16 @@
    "engine_only": [
     "the exact bar in the pass rule",
     "the paraphrase and negation re-elicitation where drawn (map/odds-elicitation/README.md)"
-   ]
+   ],
+   "prior_work_line": "Predicts a hit in direction. Salecha et al. 2024 (PNAS Nexus, arXiv 2405.06058; GPT-4, Claude 3 Opus, Claude 3 Haiku, Llama 3): recognisable survey batches shifted GPT-4 1.20 human SD toward desirable answers; an explicit 'Big Five survey' sentence with one item had an effect 'comparable to asking five questions' (no number; Claude values figure-only). No equal-length non-test placebo, which this rule requires.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Salecha et al. 2024, arXiv 2405.06058, PNAS Nexus 3(12)",
+    "O'Malley, Lang, Ojikutu 2025, The Generative AI Hawthorne Effect, MedEdPublish conference abstract, doi 10.21955/mep.1115869.1",
+    "O'Malley, Lang, Ojikutu 2025, The Generative AI Hawthorne Effect, conference abstract, doi 10.21955/mep.1115869.1 (same direction, no numbers)"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ta-d9",
@@ -320,7 +384,15 @@
    "engine_only": [
     "the exact bar in the pass rule",
     "the paraphrase and negation re-elicitation where drawn (map/odds-elicitation/README.md)"
-   ]
+   ],
+   "prior_work_line": "No prior statement found after searching the reads (reader C: no LLM bogus-pipeline study) and the web on 2026-11-05 for 'LLM bogus pipeline', 'lie detector', 'stated confidence checked against internal readout' (hits were lie-detector training and probing papers, e.g. Cundy and Gleave 2025, arXiv 2505.13787). Human analogue: Roese and Jamieson 1993 (Psychological Bulletin 114:363; 31 studies): self-reports shift toward veracity, about 0.4 SD (secondary source), on social desirability, not calibration.",
+   "prior_work_predicts": "unknown",
+   "prior_work_sources": [
+    "Roese and Jamieson 1993, Twenty years of bogus pipeline research, Psychological Bulletin 114(2):363 (abstract; effect size from Aguinis and Henle, secondary)",
+    "Cundy and Gleave 2025, Preference Learning with Lie Detectors can Induce Honesty or Evasion, arXiv 2505.13787 (search hit, not on topic)"
+   ],
+   "prior_work_search": "reads; WebSearch 'LLM bogus pipeline OR lie detector told its stated confidence will be checked against internal readout calibration' (no match)",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ta-d5",
@@ -354,7 +426,16 @@
    "engine_only": [
     "the exact bar in the pass rule",
     "the paraphrase and negation re-elicitation where drawn (map/odds-elicitation/README.md)"
-   ]
+   ],
+   "prior_work_line": "Predicts a miss. Greenblatt et al. 2024 (arXiv 2412.14093): Claude 3 Opus refused 85.8% 'training' vs 97.2% unmonitored, but later Claude 3 models showed 'almost no' gap. Sheshadri et al. 2025 (2506.18032): only 5 of 25 models, newest Claude 3.5 Sonnet, gap above 1%. Mitrani Hadida et al. 2026 (2605.27681): cutting the tag-to-training link collapsed the gap 0.32 to 0.04, against the bare-tag conjunct. No Claude 4 or 5.",
+   "prior_work_predicts": "fail",
+   "prior_work_sources": [
+    "Greenblatt et al. 2024, Alignment Faking in Large Language Models, arXiv 2412.14093",
+    "Sheshadri et al. 2025, Why Do Some Language Models Fake Alignment While Others Don't?, arXiv 2506.18032",
+    "Mitrani Hadida et al. 2026, Behavioural Analysis of Alignment Faking, arXiv 2605.27681"
+   ],
+   "prior_work_search": "reads only",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ta-d7",
@@ -387,7 +468,16 @@
    "engine_only": [
     "the exact bar in the pass rule",
     "the paraphrase and negation re-elicitation where drawn (map/odds-elicitation/README.md)"
-   ]
+   ],
+   "prior_work_line": "Predicts a miss; no study tests accuracy under a plain 'this is a test' label (reader A; web search found none). Abdelnabi and Salem 2025 (arXiv 2505.14617; QwQ-32B): steering test awareness left MMLU and CSQA accuracy stable. Meinke et al. 2024 (2412.04984; Claude 3.5 Sonnet): 'please don't underperform' had 'only minimal influence'. Rethans et al. 1991 (BMJ 303:1377; 36 GPs): 81.8 vs 54.7, confounded with 'do your best'.",
+   "prior_work_predicts": "fail",
+   "prior_work_sources": [
+    "Abdelnabi and Salem 2025, arXiv 2505.14617",
+    "Meinke et al. 2024, Frontier Models are Capable of In-context Scheming, arXiv 2412.04984",
+    "Rethans et al. 1991, Does competence of general practitioners predict their performance?, BMJ 303:1377 (abstract)"
+   ],
+   "prior_work_search": "reads and paper/novelty.md item 9; WebSearch 'LLM accuracy framing this is a test OR you are being evaluated capability prompt effect arithmetic accuracy' (no match)",
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
   },
   {
    "id": "ta-d12",
