@@ -1,6 +1,6 @@
 """em-gm2q (map gm2-f1): does question order still move the final rating when the four sub-questions sit in one user
 message, with no answer turns and no placeholder? Pre-registered in experiments/gm2q-questions-only.md (D64); design-review
-fixes D69 (review ledger/design-reviews/em-gm2q.md, fix-first, 5 flaws).
+fixes D69 and D70 (review ledger/design-reviews/em-gm2q.md, fix-first, 5 flaws).
 
     python experiments/gm2q_questions_only.py --print-prompts      # the exact messages, one item, all conditions; no calls
     python experiments/gm2q_questions_only.py --selftest           # estimator, verdict, target-check and boundary checks; no calls
@@ -40,7 +40,7 @@ PRICES = {H: (0.10, 0.50), S: (2.00, 10.00)}                          # config.P
 N_PERM, N_BOOT = 5000, 2000
 ALPHA, BAR, TOL = 0.05, 0.5, 1e-9                                      # P13: every boundary compared with TOL
 USABLE_MIN = 0.90                                                      # per model x condition, else untestable
-WT_NEAR, WT_FAR = 5.0, 20.0                                            # D69 fix 1: the wrong-target flag
+WT_FAR = 20.0                                                          # D69 fix 1, D70: the wrong-target flag
 SEED_RECORDED = 17882636728661590601                                   # beacon seed (1ba7f8c); --analyse asserts it
 RATING = {"type": "object", "properties": {"rating": {"type": "integer"}}, "required": ["rating"], "additionalProperties": False}
 ANCHOR = "0 = certainly false, 100 = certainly true"
@@ -105,6 +105,13 @@ class Refused(Exception):
         super().__init__(f"refusal: model {model}, request {self.request_id}")
 
 
+class Errored(Exception):
+    """Any other failure inside a conversation; carries the cost already billed in it (D70)."""
+    def __init__(self, cost, err):
+        self.cost, self.err = cost, err
+        super().__init__(repr(err))
+
+
 class Aborted(Exception):
     """The stop flag was set (refusal, error or cap elsewhere) before this conversation's next call: it ends unfinished."""
     def __init__(self, cost):
@@ -141,6 +148,8 @@ def converse(client, model, rec, claims, order, cond, stop):
         except Refused as e:
             e.cost += cost
             raise
+        except Exception as e:                      # D70: keep the partial cost of an errored conversation
+            raise Errored(cost, e) from e
         cost += c
         rids.append(rid)
         return r, raw
@@ -212,6 +221,9 @@ def run(client=None):
             stop.set()
             with lock:
                 state["error"] = state["error"] or (key, repr(e))
+                if isinstance(e, Errored) and e.cost:
+                    cache[f"_lost|{key}"] = {"cost": e.cost, "lost": "errored"}
+                    save()
             return
         with lock:
             cache[key] = res
@@ -323,9 +335,12 @@ def sentence_key(res):
     v, m = res["verdict"], res["models"]
     if v != "fail":
         return v
-    gate_any = any(x.get("qonly_p", 1) <= ALPHA - TOL for x in m.values())
+    clean = lambda x: x.get("qonly_p_clean") is not None and x["qonly_p_clean"] <= ALPHA - TOL   # D70: the cleaned gate
+    gate_any = any(x.get("qonly_p", 1) <= ALPHA - TOL and clean(x) for x in m.values())
     if gate_any:
         return "fail-short"
+    if any(x.get("qonly_p", 1) <= ALPHA - TOL for x in m.values()):   # D70: raw gate passes only through flagged answers
+        return "fail-target"
     red = m.get("haiku", {}).get("ratio_redacted_shown")
     return "fail-dies-placeholder" if red and red["lo"] == red["lo"] and red["lo"] >= BAR - TOL else "fail-dies-no-repeat"
 
@@ -340,9 +355,9 @@ def cell(cache, model, q, order, cond):
 
 
 def wrong_target(rating, stmt_mean, final_mean):
-    """D69 fix 1: within 5 points of the 4th-placed statement's mean shown rating and more than 20 points from the
-    item's mean shown final rating."""
-    return abs(rating - stmt_mean) <= WT_NEAR + TOL and abs(rating - final_mean) > WT_FAR + TOL
+    """D70 (amending D69 fix 1): nearer the 4th-placed statement's mean shown rating than the item's mean shown final
+    rating, and more than 20 points from that final rating."""
+    return abs(rating - stmt_mean) < abs(rating - final_mean) - TOL and abs(rating - final_mean) > WT_FAR + TOL
 
 
 def analyse_model(cache, model, qs, claims, seed):
@@ -470,7 +485,7 @@ def write_tables(r):
 
 # --- self-test and dry run (no calls) -------------------------------------------------------------------------------
 
-def synthetic_cache(rng, qs, claims, stmt_means, shown_means, q_means, sd, wt_frac=0.0, conds=("qonly", "shown")):
+def synthetic_cache(rng, qs, claims, stmt_means, shown_means, q_means, sd, wt_frac=0.0, conds=("qonly", "shown"), stmt_sd=10.6):
     """A cache in the run's format for model H: shown chains with sub-ratings and finals; qonly finals, of which a share
     wt_frac are replaced by the 4th-placed statement's rating (a wrong-target responder)."""
     cache, rnd = {}, lambda m: int(np.clip(np.rint(rng.normal(m, sd)), 0, 100))
@@ -479,11 +494,11 @@ def synthetic_cache(rng, qs, claims, stmt_means, shown_means, q_means, sd, wt_fr
             for r in range(R):
                 if "shown" in conds:
                     seq = [claims[q][i] for i in LATIN[j]]
-                    turns = [{"kind": "S", "claim": k, "rating": int(np.clip(np.rint(rng.normal(stmt_means[q][k], 3)), 0, 100))}
+                    turns = [{"kind": "S", "claim": k, "rating": int(np.clip(np.rint(rng.normal(stmt_means[q][k], stmt_sd)), 0, 100))}
                              for k in seq] + [{"kind": "M", "claim": None, "rating": rnd(shown_means[q][j])}]
                     cache[f"haiku|{q}|{o}|shown|{r}"] = {"turns": turns, "cost": 0, "missing": False}
                 if rng.random() < wt_frac:
-                    v = int(np.clip(np.rint(rng.normal(stmt_means[q][fourth(claims[q], o)], 2)), 0, 100))
+                    v = int(np.clip(np.rint(rng.normal(stmt_means[q][fourth(claims[q], o)], stmt_sd)), 0, 100))   # D70: realistic spread
                 else:
                     v = rnd(q_means[q][j])
                 cache[f"haiku|{q}|{o}|qonly|{r}"] = {"turns": [{"kind": "M", "claim": None, "rating": v}], "cost": 0,
@@ -512,15 +527,17 @@ def selftest():
     assert model_label(0.01, 0.0499, 0.0499, 0.5 - 1e-6, True) == "fail"
     assert model_label(0.01, 0.01, 0.01, float("nan"), True) == "fail"
     assert model_label(0.01, 0.01, 0.01, 0.9, False) == "untestable"
-    assert wrong_target(55, 50, 20) and wrong_target(45, 50, 20) and not wrong_target(55.5, 50, 20)
-    assert not wrong_target(50, 50, 30) and wrong_target(50, 50, 29.5)
+    assert wrong_target(60, 50, 20) and wrong_target(40.5, 50, 20) and not wrong_target(35, 50, 20)   # nearer s4
+    assert not wrong_target(40, 50, 20) and not wrong_target(50, 50, 30) and wrong_target(50, 50, 29.5)  # tie; within 20
     for labels, want in [({"h": "pass", "s": "pass"}, "pass"), ({"h": "pass", "s": "fail"}, "mixed"),
                          ({"h": "untestable", "s": "pass"}, "mixed"), ({"h": "fail", "s": "fail"}, "fail"),
                          ({"h": "fail", "s": "untestable"}, "untestable"), ({"h": "untestable", "s": "untestable"}, "untestable")]:
         assert bet_verdict(labels) == want, (labels, want)
-    for m, want in [({"haiku": {"qonly_p": 0.3, "ratio_redacted_shown": {"lo": 0.7}}, "sonnet": {"qonly_p": 0.4}}, "fail-dies-placeholder"),
+    for m, want in [({"haiku": {"qonly_p": 0.3, "qonly_p_clean": 0.3, "ratio_redacted_shown": {"lo": 0.7}}, "sonnet": {"qonly_p": 0.4}}, "fail-dies-placeholder"),
                     ({"haiku": {"qonly_p": 0.3, "ratio_redacted_shown": {"lo": 0.3}}, "sonnet": {"qonly_p": 0.4}}, "fail-dies-no-repeat"),
-                    ({"haiku": {"qonly_p": 0.01}, "sonnet": {"qonly_p": 0.4}}, "fail-short")]:
+                    ({"haiku": {"qonly_p": 0.01, "qonly_p_clean": 0.02}, "sonnet": {"qonly_p": 0.4}}, "fail-short"),
+                    ({"haiku": {"qonly_p": 0.01, "qonly_p_clean": 0.3, "ratio_redacted_shown": {"lo": 0.7}}, "sonnet": {"qonly_p": 0.4}}, "fail-target"),
+                    ({"haiku": {"qonly_p": 0.01, "qonly_p_clean": None, "ratio_redacted_shown": {"lo": 0.2}}, "sonnet": {"qonly_p": 0.4}}, "fail-target")]:
         assert sentence_key({"verdict": "fail", "models": m}) == want
     # D69 fix 1: a no-effect world where 30% of qonly answers are the 4th statement's rating must fail;
     # the same world with a real, aligned order effect and no wrong-target answers must pass.
@@ -566,6 +583,14 @@ def archive_world(model):
     w["stmt"] = {q: {k: float(np.mean([t["rating"] for key, c in conv.items() if key.startswith(f"{q}|O") and "|shown|" in key
                                          for t in c["turns"] if t["kind"] == "S" and t["claim"] == k])) for k in claims[q]}
                  for q in qs}
+    cells = {}
+    for key, c in conv.items():
+        q, o, cond, _ = key.split("|")
+        if cond == "shown" and o.startswith("O"):
+            for t in c["turns"]:
+                if t["kind"] == "S":
+                    cells.setdefault((q, o, t["claim"]), []).append(t["rating"])
+    w["stmt_sd"] = float(np.sqrt(np.mean([np.var(x, ddof=1) for x in cells.values() if len(x) > 1])))
     return w
 
 
@@ -576,7 +601,7 @@ def dry_run(n_sims=200, n_perm=400, n_boot=400):
     CONDS = {H: ["qonly", "shown"], S: ["qonly", "shown"]}
     rng = np.random.default_rng(20261105)
     out = {"_note": f"{n_sims} simulated runs per world; {n_perm} permutations, {n_boot} bootstraps; order deviations shrunk "
-                    "to the variance-corrected OE; wrong-target answers set to the 4th statement's archived mean rating"}
+                    "to the variance-corrected OE; wrong-target answers drawn around the 4th statement's archived mean with the archive's within-cell SD of statement ratings (D70)"}
     worlds = ["null", "half", "0.75", "equal", "redacted pattern", "shuffled items, equal", "shuffled items, 1.5x",
               "wrong-target 0.1", "wrong-target 0.2", "wrong-target 0.3"]
     for model in MODELS:
@@ -584,7 +609,7 @@ def dry_run(n_sims=200, n_perm=400, n_boot=400):
         qs, claims, g, dev = w["qs"], w["claims"], w["shown"]["grand"], w["shown"]["dev"]
         means = lambda a, d=dev: {q: [g[q] + a * x for x in d[q]] for q in qs}
         shown = means(1.0)
-        res = {"within_sd_shown": w["shown"]["sd"], "oe_shown_measured": w["shown"]["oe"]}
+        res = {"within_sd_shown": w["shown"]["sd"], "oe_shown_measured": w["shown"]["oe"], "stmt_sd_shown": w["stmt_sd"]}
         for name in worlds:
             labs = []
             for i in range(n_sims):
@@ -597,7 +622,7 @@ def dry_run(n_sims=200, n_perm=400, n_boot=400):
                 else:
                     qm = means({"null": 0.0, "half": 0.5, "0.75": 0.75, "equal": 1.0}.get(name, 0.0))
                 f = float(name.split()[-1]) if name.startswith("wrong") else 0.0
-                c = synthetic_cache(rng, qs, claims, w["stmt"], shown, qm, w["shown"]["sd"], f)
+                c = synthetic_cache(rng, qs, claims, w["stmt"], shown, qm, w["shown"]["sd"], f, stmt_sd=w["stmt_sd"])
                 d = {cond: {q: [[cc["turns"][-1]["rating"] for cc in cell(c, H, q, o, cond)] for o in ORDERS] for q in qs}
                      for cond in ("shown", "qonly")}
                 stmt = {q: {k: float(np.mean([t["rating"] for o in ORDERS for cc in cell(c, H, q, o, "shown") for t in cc["turns"]

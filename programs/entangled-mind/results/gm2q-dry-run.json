@@ -1,8 +1,9 @@
 {
- "_note": "200 simulated runs per world; 400 permutations, 400 bootstraps; order deviations shrunk to the variance-corrected OE; wrong-target answers set to the 4th statement's archived mean rating",
+ "_note": "200 simulated runs per world; 400 permutations, 400 bootstraps; order deviations shrunk to the variance-corrected OE; wrong-target answers drawn around the 4th statement's archived mean with the archive's within-cell SD of statement ratings (D70)",
  "haiku": {
   "within_sd_shown": 10.42595585812426,
   "oe_shown_measured": 8.727864063510104,
+  "stmt_sd_shown": 10.609649041216102,
   "null": {
    "pass": 0.0,
    "fail": 1.0,
@@ -14,28 +15,28 @@
    "untestable": 0.0
   },
   "0.75": {
-   "pass": 0.78,
-   "fail": 0.22,
+   "pass": 0.765,
+   "fail": 0.235,
    "untestable": 0.0
   },
   "equal": {
-   "pass": 0.99,
-   "fail": 0.01,
+   "pass": 0.89,
+   "fail": 0.11,
    "untestable": 0.0
   },
   "redacted pattern": {
-   "pass": 1.0,
-   "fail": 0.0,
+   "pass": 0.33,
+   "fail": 0.67,
    "untestable": 0.0
   },
   "shuffled items, equal": {
-   "pass": 0.13,
-   "fail": 0.87,
+   "pass": 0.125,
+   "fail": 0.875,
    "untestable": 0.0
   },
   "shuffled items, 1.5x": {
-   "pass": 0.675,
-   "fail": 0.325,
+   "pass": 0.66,
+   "fail": 0.34,
    "untestable": 0.0
   },
   "wrong-target 0.1": {
@@ -44,19 +45,20 @@
    "untestable": 0.0
   },
   "wrong-target 0.2": {
-   "pass": 0.01,
-   "fail": 0.99,
+   "pass": 0.005,
+   "fail": 0.995,
    "untestable": 0.0
   },
   "wrong-target 0.3": {
-   "pass": 0.165,
-   "fail": 0.835,
+   "pass": 0.04,
+   "fail": 0.96,
    "untestable": 0.0
   }
  },
  "sonnet": {
   "within_sd_shown": 9.415302261035844,
   "oe_shown_measured": 6.081563669539822,
+  "stmt_sd_shown": 8.515090770704287,
   "null": {
    "pass": 0.0,
    "fail": 1.0,
@@ -78,8 +80,8 @@
    "untestable": 0.0
   },
   "redacted pattern": {
-   "pass": 0.995,
-   "fail": 0.005,
+   "pass": 0.385,
+   "fail": 0.615,
    "untestable": 0.0
   },
   "shuffled items, equal": {
@@ -88,36 +90,36 @@
    "untestable": 0.0
   },
   "shuffled items, 1.5x": {
-   "pass": 0.105,
-   "fail": 0.895,
+   "pass": 0.1,
+   "fail": 0.9,
    "untestable": 0.0
   },
   "wrong-target 0.1": {
-   "pass": 0.0,
-   "fail": 1.0,
+   "pass": 0.005,
+   "fail": 0.995,
    "untestable": 0.0
   },
   "wrong-target 0.2": {
-   "pass": 0.09,
-   "fail": 0.91,
+   "pass": 0.055,
+   "fail": 0.945,
    "untestable": 0.0
   },
   "wrong-target 0.3": {
-   "pass": 0.24,
-   "fail": 0.76,
+   "pass": 0.125,
+   "fail": 0.875,
    "untestable": 0.0
   }
  },
  "bet": {
   "null": 0.0,
   "half": 0.013125,
-  "0.75": 0.4563,
-  "equal": 0.8217,
-  "redacted pattern": 0.995,
-  "shuffled items, equal": 0.005200000000000001,
-  "shuffled items, 1.5x": 0.07087500000000001,
+  "0.75": 0.447525,
+  "equal": 0.7387,
+  "redacted pattern": 0.12705,
+  "shuffled items, equal": 0.005,
+  "shuffled items, 1.5x": 0.066,
   "wrong-target 0.1": 0.0,
-  "wrong-target 0.2": 0.0009,
-  "wrong-target 0.3": 0.0396
+  "wrong-target 0.2": 0.000275,
+  "wrong-target 0.3": 0.005
  }
 }

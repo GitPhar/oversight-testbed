@@ -1310,3 +1310,33 @@ What the bet tests, said plainly (this replaces §8's "real power at equal is lo
 **Fix 5 (D10, refusal machinery).** `converse` checks the stop flag before every call, so a conversation in flight ends before its next call, uncached, once any refusal or error is seen. `run()` exits at once if `results/refusal-gm2q.md` exists. The cost of an unfinished or refused conversation is kept in the cache under a `_lost|` key and counted in the spend. The cache is written after every conversation. `--analyse` asserts that the seed is 17882636728661590601. Stub tests (scratch, no network; refusal at call 31 and at call 433, inside the shown chains): 0 calls started after the refusal returned; a second run exited without a call; the refused conversation's cost was recorded. The statistics are vectorised (same statistic and estimator, same seeds; the individual permutation and bootstrap draws differ from the loop version's). §3's estimate is corrected: Haiku shown $0.105, Haiku redacted $0.105, Haiku qonly about $0.02, Sonnet qonly about $0.46, Sonnet shown $2.10, total about $2.79 of the $3.40 usable under the cap.
 
 **Text slips:** §2's opening differs from gm2's in its third and fourth sentences, not its second and third; the script's docstring now names D64 and D69.
+
+## D70 — em-gm2q design-review fixes, second round (amends D69; review confirmation 1 `22d1cce`), before any call
+
+2026-11-05, before any call. No API call has been made for em-gm2q. The reviewer confirmed D69's fixes 2 and 4 and left three items open; this row closes them and, where it and D69 differ, this row wins. Code: `experiments/gm2q_questions_only.py` as committed with this row; `results/gm2q-dry-run.json` recommitted.
+
+**Fix 1, amended (the wrong-target flag).** D69's flag ("within 5 points of the 4th statement's mean") missed most wrong-target answers at realistic noise: a real wrong-target answer varies like the model's own rating of that statement (within-cell SD of shown sub-ratings: Haiku 10.6, Sonnet 8.5), and at that spread the 30% world passed the bet 0.41. The rule is now: a qonly answer is **wrong-target** if it is nearer the 4th-placed statement's mean shown rating than the item's mean shown final rating, and more than 20 points from that final rating (`abs(r − s4) < abs(r − fin) − 1e-9` and `abs(r − fin) > 20 + 1e-9`). Everything else in D69's fix 1 stands (the cleaned gate, seed + 6, a cell with fewer than 2 ratings fails, both shares reported). The selftest and the dry run now draw wrong-target answers, and shown sub-ratings, with those measured SDs.
+
+**Fix 3, amended (the sentences).**
+- (a) The placeholder sentence names the whole bundle: "…the gm2 pass was the placeholder, meaning the answer turns gm2's redacted chain kept (the '[rating recorded]' line, the turn-taking and the act of answering), together with the numbered list and rate-only opening that replaced them, and the main paper must say so and must not cite gm2 as showing that the questions alone build the number." Haiku's R_qonly/redacted, with its interval, is reported in the same paragraph, because this sentence rests on not detecting an effect, not on showing a small one.
+- (b) `sentence_key` reads the **cleaned** gate. fail-short needs, on at least one model, both the raw and the cleaned qonly gate p < 0.05. The two "dies" sentences need the raw gate p ≥ 0.05 on both models.
+- (c) New, because the amended flag cannot tell a large real shift toward the last-listed statement from the model rating the wrong line: **fail-target** (the raw qonly gate p < 0.05 on at least one model, but the cleaned gate fails on every such model): "With nothing in the transcript but the questions, their order moved the final rating on <model(s)>, but only through answers that sit on the last-listed statement's rating rather than near the model's usual answer, which this design cannot tell apart from the model rating the wrong line: whether the questions alone move the judgment is not settled by this test." No placeholder clause is used in this case.
+
+**Fix 5, amended.** An errored conversation's partial cost is now kept (`Errored` carries it; recorded under `_lost|<key>`, counted in the spend). Stub test, error at call 433 inside a shown chain: the conversation's billed $0.00005 is recorded.
+
+**Dry run, redone** (200 runs per world, 400 permutations and 400 bootstraps, the amended rule). P(pass):
+
+| world | Haiku | Sonnet | bet, both |
+|---|---|---|---|
+| null | 0.000 | 0.000 | 0.000 |
+| half | 0.105 | 0.125 | 0.013 |
+| 0.75 | 0.765 | 0.585 | 0.448 |
+| equal | 0.890 | 0.830 | 0.739 |
+| redacted pattern | 0.330 | 0.385 | 0.127 |
+| shuffled items, equal | 0.125 | 0.040 | 0.005 |
+| shuffled items, 1.5x | 0.660 | 0.100 | 0.066 |
+| wrong-target 0.1 | 0.000 | 0.005 | 0.000 |
+| wrong-target 0.2 | 0.005 | 0.055 | 0.000 |
+| wrong-target 0.3 | 0.040 | 0.125 | 0.005 |
+
+What changed, said plainly: the 30% wrong-target world now passes the bet 0.005 (D69: 0.040; confirmation 1 measured 0.41 at realistic noise with D69's flag). The cost is power where a real effect consists of large jumps toward one statement: the world built from gm2's archived redacted pattern, whose order effect sits in a few big jumps (h191's 81 against 3), now passes 0.127 (D69: 0.995), because those jumps look like wrong-target answers to the flag. The aligned "equal" world passes 0.739 (D69: 0.822). A pass therefore needs a questions-only effect on the same items as the turn-by-turn one, at about its size, made of moderate shifts rather than a few large jumps. Odds stay at 0.10.
