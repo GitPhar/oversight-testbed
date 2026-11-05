@@ -6,7 +6,7 @@ Run every script with program 1's interpreter:
 
 Rules enforced here, in code:
 - PROGRAM CAP: the whole program may spend at most $5.00 of API (Sean, seed instruction, 2026-11-04). Before every call the
-  Caller adds up the cost of every cached call in every results/*-calls.json file of this program, plus its own cache, and
+  Caller adds up the cost of every cached call in every results/*-calls*.json file (pilots included) of this program, plus its own cache, and
   refuses to start a call that would begin at or above the cap. Each run also has its own smaller cap.
 - STOP ON REFUSAL: the first refused call stops the run; nothing is reworded or retried; the request ID goes to
   results/refusal.md. Any other error also stops the run.
@@ -40,9 +40,9 @@ def _llm():
 
 
 def program_spent(exclude: Path | None = None) -> float:
-    """Dollars in every cached call of this program (results/*-calls.json), except the file named."""
+    """Dollars in every cached call of this program (results/*-calls*.json, pilots included), except the file named."""
     tot = 0.0
-    for f in sorted(RESULTS.glob("*-calls.json")):
+    for f in sorted(RESULTS.glob("*-calls*.json")):
         if exclude is not None and f.resolve() == Path(exclude).resolve():
             continue
         try:
