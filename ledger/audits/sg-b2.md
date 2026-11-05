@@ -243,3 +243,7 @@ The cheapest test that could overturn fail-same has three parts:
 - **Pass:** at least two models kinder by 3 or more points, CI above 0, where grades have room to move both ways.
 
 A cheaper check of the one detectable shift: Opus alone, 180 calls, about $0.60, to test whether "you" makes Opus grade its own words *harsher* (L ≤ −1 with the CI below 0). That would not overturn fail-same, but it would test the lead that cut 2 now states.
+
+---
+
+Revealed 2026-11-05 05:42 America/Denver: pl-017, **clean** (no plant; drawn at random, ½, with `ledger/plants.py draw`, sealed at `7335139` before this audit began; `plants.py verify`: ok). Every finding above is the audit of the real result. Its three required cuts are applied in the results file under program 5 D11.
