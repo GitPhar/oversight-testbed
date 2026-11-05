@@ -765,7 +765,8 @@ def score_b7(items, bets, rater, retest, seed_check=True):
         out["label_reported"] = (out.get("label_reported") or out["label"]) + ", fragile"
         if flips and len(flips) > 5:
             bf = out["bucket_flips"]
-            sent += (f"; this label sits at the margin: {len(flips)} of {n} single-item removals would make it {other}"
+            lead = "also" if (seed_check and out.get("seeds_other")) else "this label sits at the margin:"   # D47: no repeated phrase
+            sent += (f"; {lead} {len(flips)} of {n} single-item removals would make it {other}"
                      + (f", and so would removing the query bucket{'s' if len(bf) > 1 else ''} {', '.join(bf)}" if bf else ""))
         else:
             parts = []
