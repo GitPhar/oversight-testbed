@@ -14,7 +14,7 @@ Last rewritten: 2026-11-04 18:10 America/Denver, by hand, by the close-founding 
 - Human bets are at direction level only: "is this worth about $X? will it come back a hit?" Technical sub-bets are engine-only.
 - Every reply to Sean: plain English first, TL;DR of three lines max, then "YOU, NOW" with one step. One paste per terminal tab, the first message folded into the launch command.
 - Costs under $10/month are the engine's call. Above that: the number and a one-sentence recommendation.
-- In the shared checkout, commit only your own paths: `git commit -m "…" -- <paths>` (never `git add -A` / `git commit -a` at the root). See CONTEXT.md §2.
+- In the shared checkout, commit only your own paths: `git commit -m "…" -- <paths>` (never `git add -A` / `git commit -a` at the root). Before committing a shared ledger file, `git diff <path>` and commit only your own hunks. See CONTEXT.md §2.
 - QPU budget rulings under the 420 s hard stop are the engine's call (Sean, 2026-11-04, st-16). Each hardware bet still needs its pre-registration, lesson and design-review go; the engine logs its budget ruling as a steer citing st-16.
 - No midday check-in. Morning and nightly only.
 - Quantum hardware is a referee and a seed source, never a computational resource; every mention states its limits first.
