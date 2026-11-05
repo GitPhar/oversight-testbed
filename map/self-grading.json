@@ -638,9 +638,19 @@
    "prior_work_at": "2026-11-05 11:05, remap 2026-11-05b (re-scout programs/self-grading/map/reads/remap-2026-11-05b-sg-b4.md)",
    "source": "literature",
    "source_note": "ledger/audits/sg-b4.md, 'What would break it next' (the audit's cheapest overturning test, costed there at about $0.04); re-scout programs/self-grading/map/reads/remap-2026-11-05b-sg-b4.md",
-   "status": "open",
+   "status": "mixed",
    "opened": "2026-11-05T11:05",
-   "diagnosis": null
+   "diagnosis": null,
+   "bets": [
+    "sg-b6"
+   ],
+   "resolved": "2026-11-05",
+   "verdict": "mixed",
+   "novelty": "partly new",
+   "novelty_line": "**Novelty:** partly new. Papers in print already show, in our direction, that a model goes easier on the same text in its own assistant turn than in a user turn (Khullar, Hopkins, Wang and Roger 2026, arXiv 2603.04582 v1, strongest on-policy; Tsui 2025, arXiv 2507.02778 v3), and they show the rival this test removes: LLM judges disagree with themselves across identical runs (Haldar and Hockenmaier 2025, Rating Roulette, arXiv 2510.27106: Krippendorff's alpha 0.265 to 0.563 over three runs on MT-Bench, three open-weight judges), and human rating separates drift within a session from \"scale instability\" across sessions (Quellmalz 1980, CSE Report 136, abstract only). The nearest case of a self-favouring effect shrinking under a stricter comparison is Roytburg et al. 2026 (arXiv 2601.22548 v2: \"only 51% of initial findings retain statistical significance\" once a judge's votes for its own wrong answers are set against its votes for outcome-matched other models' wrong answers), which changes the baseline, not the run, and reports no repeated runs. A direct search found nothing in print that re-measures a quoted-copy leniency gap with every cell graded in one run, set against the same gap read across runs. Here Haiku 5.5's gap stays above zero but is 46% of its same-run blunting, under the 6.3 bar with an interval that cannot rule the bar out (its fall from sg-b4 is split between the two cells, neither shift distinguishable from zero, so run-to-run noise is neither shown nor ruled out as the cause), while Opus 5.5's holds at about its full size (+5.0, against sg-b4's +4.0). Search: WebSearch and arXiv abs/HTML, 2026-11-05: \"LLM judge self-attribution bias same run versus cross run\"; \"LLM-as-a-judge test-retest reliability between sessions drift\"; \"monitor leniency own assistant turn versus quoted transcript in user message\"; \"self-preference bias replication measurement artifact\"; \"LLM evaluation nondeterminism score shift baseline from earlier run\"; \"batch effects high-throughput data\"; \"rater drift within-session versus between-session\". By a fresh claude-opus-5-5 Novelty session (subagent).",
+   "novelty_bet": "sg-b6",
+   "result_file": "programs/self-grading/results/sg-b6-samerun.md",
+   "audit": "ledger/audits/sg-b6.md"
   },
   {
    "id": "sg-d14",
@@ -693,9 +703,19 @@
    "prior_work_at": "2026-11-05 11:05, remap 2026-11-05b (re-scout programs/self-grading/map/reads/remap-2026-11-05b-sg-b4.md)",
    "source": "literature",
    "source_note": "ledger/audits/sg-b4.md, 'What would break it next' (the second arm, costed there at about $0.46) and Required cut 1 (the three differences that could carry L); re-scout programs/self-grading/map/reads/remap-2026-11-05b-sg-b4.md",
-   "status": "open",
+   "status": "mixed",
    "opened": "2026-11-05T11:05",
-   "diagnosis": null
+   "diagnosis": null,
+   "bets": [
+    "sg-b7"
+   ],
+   "resolved": "2026-11-05",
+   "verdict": "mixed",
+   "novelty": "partly new",
+   "novelty_line": "**Novelty:** partly new. That changing only the closing instruction of a self-review prompt moves the verdict a little, in either direction, and less than moving the text out of the model's own turn, is in print: Chen et al. 2026 (arXiv 2606.05976 v2, §4.4-4.5, Tables 4 and 7; Qwen2.5-72B math, n = 30) left a wrong claim in the model's own turn, swapped only the appended audit prompt, and saw explicit correction move from 16.7% to between 0.0% and 33.3%, against 70.0% with a system `<memory>` relabel. That rewording a judge's instruction while keeping its question moves graded verdicts beyond repeat noise, direction unreported, is in print for Claude judges (Bellibatlu, Raff and Zhang 2026, JudgeSense, arXiv 2604.23478 v3: coherence ΔJSS −0.206 for claude-haiku, −0.180 for claude-opus-4-7), and rewording a self-reflection prompt to verify rather than find mistakes cut false flips from 18.9% to 7.6% on Llama-3 8B (Liu et al. 2024, arXiv 2406.10400 v1). Not in print after a direct search: a swap of only \"Now grade the conclusion above.\" for \"Grade the conclusion.\" inside a quoted User/Assistant copy of the model's own conversation (the claim already out of its turn), scored as the penalty on a planted overclaim, on Claude 5.5 models with both lines graded in one run; ours fits Chen's picture of a small effect of either sign (Haiku +2.5 of 100 on a fragile mean, Opus +0.3), and no paper found separates such a line from the cross-run difference in the remainder it splits. No test of deictic cues (\"now\", \"above\") in a grading instruction was found, in LLM work or in survey question-wording research (nearest: Zhang, Meng and Collier 2024, arXiv 2406.17095, abstract only: models \"do not have relative position awareness of the context\"). Search: WebSearch and arXiv abs/HTML, 2026-11-05: LLM judge instruction wording sensitivity, prompt template grading score shift; closing or trailing instruction wording, self-evaluation of the model's own quoted response; self-critique prompt wording against a neutral instruction; deictic \"above\" wording, relative position in prompts; survey question wording and self-rating leniency; LLM judge run-to-run nondeterminism; self-preference framing, third-person lead-in; Chen et al. 2606.05976 v2 §4.4-4.5 and Tables 4 and 7 re-opened. By a fresh claude-opus-5-5 Novelty session (subagent).",
+   "novelty_bet": "sg-b7",
+   "result_file": "programs/self-grading/results/sg-b7-leadin.md",
+   "audit": "ledger/audits/sg-b7.md"
   },
   {
    "id": "sg-k1",
