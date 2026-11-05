@@ -1,0 +1,13 @@
+preflight: projected $0.530 for 1268 uncached jobs; bet $0.000 of $0.80; program $0.897 of $5.00
+phase 1 (behaviour) 1080 jobs
+ta-b2 phase 1 (behaviour): 200 cached, bet $0.0800, program $0.9775
+ta-b2 phase 1 (behaviour): 400 cached, bet $0.1466, program $1.0440
+ta-b2 phase 1 (behaviour): 600 cached, bet $0.2224, program $1.1198
+ta-b2 phase 1 (behaviour): 800 cached, bet $0.3013, program $1.1987
+ta-b2 phase 1 (behaviour): 1000 cached, bet $0.3798, program $1.2773
+ta-b2 phase 1 (behaviour): complete, 1080 cached calls, bet $0.4110, program $1.3085
+phase 2 (belief check) 128 jobs
+ta-b2 phase 2 (belief check): 1200 cached, bet $0.4608, program $1.3583
+ta-b2 phase 2 (belief check): complete, 1208 cached calls, bet $0.4657, program $1.3631
+phase 3 (repeat) 60 jobs
+ta-b2 phase 3 (repeat): complete, 1268 cached calls, bet $0.4886, program $1.3861
