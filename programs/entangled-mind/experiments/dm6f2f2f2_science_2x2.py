@@ -39,7 +39,7 @@ MIN_Q = 35                                               # usable questions per 
 N_PER_CAT = 30
 CATS = ("science-chemistry", "science-physics")
 FORM_BAR = 0.80                                          # guess-form check: forced cell >= 0.80 Yes/No, open cell <= 0.20 Yes/No
-SEED_RECORDED = None                                     # filled by the seed commit: {"bootstrap": int, "items": int}
+SEED_RECORDED = {"bootstrap": 17580700879670056277, "items": 13273746342911101247}   # CURBy-RNG 1592880 (seed commit)
 RESULTS = HERE.parent / "results"
 CACHE, BATCHLOG, REFUSAL = RESULTS / "dm6f2f2f2-calls.json", RESULTS / "dm6f2f2f2-batches.json", RESULTS / "refusal-dm6f2f2f2.md"
 OUT_JSON, OUT_MD = RESULTS / "dm6f2f2f2-science-2x2.json", RESULTS / "dm6f2f2f2-science-2x2-tables.md"
