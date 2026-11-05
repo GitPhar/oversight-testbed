@@ -51,4 +51,4 @@ def labelled(study, conclusion, label):
 
 
 # ---- a planted overclaim (sg-b3): one sentence appended to the model's own conclusion ---------------------------
-OVERCLAIM = "This proves that {interv} causes a large improvement in {outcome} for all {population}."
+OVERCLAIM = "This proves that the intervention ({interv}) causes a large improvement in {outcome} for all {population}."
