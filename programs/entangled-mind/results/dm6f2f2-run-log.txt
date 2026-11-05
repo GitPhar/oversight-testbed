@@ -1,0 +1,7 @@
+dm6f2f2: batch msgbatch_01BXLq4E2VTTgnktDR5m86Hv, 2400 requests
+dm6f2f2: wave done, $0.7521
+dm6f2f2: batch msgbatch_01RgYV9V4bLNAFMsMH1ATH74, 40 requests
+dm6f2f2: batch msgbatch_01G77mJRS5bnJuqosjtA9DbF, 40 requests
+dm6f2f2: Opus chunk not run: spent $0.879 + worst case $0.141 would not fit
+dm6f2f2: wave done, $0.8795
+dm6f2f2: finished, $0.8795

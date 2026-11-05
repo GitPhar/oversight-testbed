@@ -40,7 +40,7 @@ from pathlib import Path  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCES = ["ledger/brier.md", "ledger/scores.md", "ledger/prior.md"]
-DOCS = ["README.md", "paper/plain-words.md", "paper/one-page.md", "application/one-page-plain.md"]
+DOCS = ["README.md", "paper/plain-words.md", "paper/one-page.md", "application/one-page-plain.md", "paper/the-engine.md", "application/research-interest.md", "application/walkthrough-script.md", "application/checklist.md"]
 LINE = re.compile(r"<!-- numbers \(generated; read by site/numbers\.py\): (\{.*\}) -->")
 PH = re.compile(r"<!--n:([a-z0-9_]+)-->(.*?)<!--/n-->", re.S)
 

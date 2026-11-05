@@ -50,6 +50,8 @@ SKIPPED = {
     "probe-dissociation.md": "hand-written write-up (DP1); its numbers are in probe-dissociation.json, which the probe step recomputes",
     "refusal-sonnet-replication.md": "log of a refused call",
     "gm2q-questions-only.md": "hand-written write-up (em-gm2q); its tables are gm2q-questions-only-tables.md, which the gm2q step recomputes",
+    "gm2q2-opus-sonnet30.md": "hand-written write-up (em-gm2q2); its tables are gm2q2-opus-sonnet30-tables.md, which the gm2q2 step recomputes",
+    "dm6f2f2-own-guess.md": "hand-written write-up (em-dm6f2f2); its tables are dm6f2f2-own-guess-tables.md, which the dm6f2f2 step recomputes",
 }
 
 # Tables whose inputs the archive does not contain (README, "Reproducibility"). Each is reported as a gap, not a
@@ -174,6 +176,25 @@ def main() -> int:
             m.OUT_MD, m.REFUSAL = config.RESULTS / "gm2q-questions-only-tables.md", config.RESULTS / "refusal-gm2q.md"
             m.analyse(m.SEED_RECORDED)
         step("gm2q-questions-only-tables.md", gm2q)
+    if "gm2q2-opus-sonnet30-tables.md" in committed:     # em-gm2q2 (D80-D82), from its batch cache with its beacon seed
+        def gm2q2():
+            m = importlib.import_module("gm2q2_opus_sonnet30")
+            m.RESULTS, m.POOL = config.RESULTS, config.RESULTS / "pool-run-3.json"
+            m.GM2, m.GM2B = config.EXPERIMENTS / "gm2-planted-values.json", config.EXPERIMENTS / "gm2b-planted-values.json"
+            m.CACHE, m.OUT_JSON = config.RESULTS / "gm2q2-conversations.json", config.RESULTS / "gm2q2-opus-sonnet30.json"
+            m.OUT_MD, m.REFUSAL = config.RESULTS / "gm2q2-opus-sonnet30-tables.md", config.RESULTS / "refusal-gm2q2.md"
+            m.q1.RESULTS = config.RESULTS
+            m.analyse(m.SEED_RECORDED)
+        step("gm2q2-opus-sonnet30-tables.md", gm2q2)
+    if "dm6f2f2-own-guess-tables.md" in committed:     # em-dm6f2f2 (D84-D89), from its batch cache with its beacon seed
+        def dm6f2f2():
+            m = importlib.import_module("dm6f2f2_own_guess")
+            m.RESULTS = config.RESULTS
+            m.CACHE, m.OUT_JSON = config.RESULTS / "dm6f2f2-calls.json", config.RESULTS / "dm6f2f2-own-guess.json"
+            m.OUT_MD, m.REFUSAL = config.RESULTS / "dm6f2f2-own-guess-tables.md", config.RESULTS / "refusal-dm6f2f2.md"
+            m.f2.RESULTS = config.RESULTS
+            m.analyse(m.SEED_RECORDED["bootstrap"])
+        step("dm6f2f2-own-guess-tables.md", dm6f2f2)
     if "mm-gm3b-opus-completion-with-h291.md" in committed:     # D49a sensitivity
         step("mm-gm3b-opus-completion-with-h291.md", lambda: importlib.import_module("mm_gm3b_opus_complete").analyse_with_h291())
 

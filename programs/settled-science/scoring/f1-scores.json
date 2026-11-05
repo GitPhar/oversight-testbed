@@ -1,0 +1,347 @@
+{
+ "models": {
+  "claude-haiku-5-5": {
+   "n_scored_r1": 116,
+   "untestable": false,
+   "r1": {
+    "n": 116,
+    "brier": 0.20770172413793106,
+    "accuracy": 0.7068965517241379,
+    "C1": {
+     "mean": 0.20770172413793106,
+     "item_ci": [
+      0.18094051724137933,
+      0.23607327586206892
+     ],
+     "cluster_ci": [
+      0.18125593220338984,
+      0.23599739130434788
+     ]
+    },
+    "C2": {
+     "mean": -0.10803103448275861,
+     "item_ci": [
+      -0.15744827586206894,
+      -0.05771379310344827
+     ],
+     "cluster_ci": [
+      -0.15550084033613443,
+      -0.06006052631578945
+     ],
+     "rule_brier": 0.31573275862068967
+    },
+    "C3": {
+     "mean": -0.023979310344827563,
+     "item_ci": [
+      -0.058512068965517215,
+      0.010897413793103454
+     ],
+     "cluster_ci": [
+      -0.060166101694915236,
+      0.012185217391304366
+     ],
+     "rule_brier": 0.23168103448275862
+    },
+    "pass": false,
+    "card_event": true,
+    "loo_item_flips": [],
+    "lofo": {
+     "interpretability": false,
+     "model-psychology": false,
+     "quantum-devices": false,
+     "scalable-oversight": false
+    },
+    "lofo_flips": []
+   },
+   "r2": {
+    "n": 92,
+    "brier": 0.1433,
+    "accuracy": 0.8152173913043478,
+    "brier_stat": {
+     "mean": 0.1433,
+     "item_ci": [
+      0.11731847826086957,
+      0.17049130434782608
+     ],
+     "cluster_ci": [
+      0.10613863636363638,
+      0.1617014705882353
+     ]
+    },
+    "vs_up_word": {
+     "mean": -0.033330434782608685,
+     "item_ci": [
+      -0.08037065217391304,
+      0.012308695652173917
+     ],
+     "cluster_ci": [
+      -0.13029852941176467,
+      0.008405952380952379
+     ],
+     "n": 92,
+     "rule_brier": 0.1766304347826087,
+     "beats_by_margin": false
+    },
+    "vs_swap_pair": {
+     "mean": -0.021709228260869563,
+     "item_ci": [
+      -0.07735772826086955,
+      0.031439315217391295
+     ],
+     "cluster_ci": [
+      -0.14492225,
+      0.027850322033898287
+     ],
+     "n": 92,
+     "rule_brier": 0.16500922826086956,
+     "beats_by_margin": false
+    },
+    "vs_flattery_rater": {
+     "mean": 0.03738695652173914,
+     "item_ci": [
+      0.014898913043478266,
+      0.060067391304347836
+     ],
+     "cluster_ci": [
+      0.012219047619047633,
+      0.05461250000000001
+     ],
+     "n": 92,
+     "rule_brier": 0.10591304347826089,
+     "beats_by_margin": false
+    }
+   }
+  },
+  "claude-sonnet-5-5": {
+   "n_scored_r1": 116,
+   "untestable": false,
+   "r1": {
+    "n": 116,
+    "brier": 0.16755862068965519,
+    "accuracy": 0.7758620689655172,
+    "C1": {
+     "mean": 0.16755862068965516,
+     "item_ci": [
+      0.14047931034482755,
+      0.1962051724137931
+     ],
+     "cluster_ci": [
+      0.14050672268907566,
+      0.19611043478260867
+     ]
+    },
+    "C2": {
+     "mean": -0.1481741379310345,
+     "item_ci": [
+      -0.1996905172413793,
+      -0.09696896551724139
+     ],
+     "cluster_ci": [
+      -0.19686324786324785,
+      -0.09781061946902656
+     ],
+     "rule_brier": 0.31573275862068967
+    },
+    "C3": {
+     "mean": -0.06412241379310343,
+     "item_ci": [
+      -0.09891465517241378,
+      -0.02804568965517241
+     ],
+     "cluster_ci": [
+      -0.09945478260869565,
+      -0.027908695652173902
+     ],
+     "rule_brier": 0.23168103448275862
+    },
+    "pass": true,
+    "card_event": true,
+    "loo_item_flips": [],
+    "lofo": {
+     "interpretability": false,
+     "model-psychology": true,
+     "quantum-devices": true,
+     "scalable-oversight": true
+    },
+    "lofo_flips": [
+     "interpretability"
+    ]
+   },
+   "r2": {
+    "n": 92,
+    "brier": 0.10800434782608696,
+    "accuracy": 0.8641304347826086,
+    "brier_stat": {
+     "mean": 0.10800434782608692,
+     "item_ci": [
+      0.08059565217391304,
+      0.13810434782608697
+     ],
+     "cluster_ci": [
+      0.0834875,
+      0.14233636363636362
+     ]
+    },
+    "vs_up_word": {
+     "mean": -0.06862608695652173,
+     "item_ci": [
+      -0.11625,
+      -0.022917391304347813
+     ],
+     "cluster_ci": [
+      -0.14729464285714286,
+      -0.03280227272727272
+     ],
+     "n": 92,
+     "rule_brier": 0.1766304347826087,
+     "beats_by_margin": true
+    },
+    "vs_swap_pair": {
+     "mean": -0.0570048804347826,
+     "item_ci": [
+      -0.1126365760869565,
+      -0.0038429891304347873
+     ],
+     "cluster_ci": [
+      -0.15820364583333332,
+      -0.011173895348837205
+     ],
+     "n": 92,
+     "rule_brier": 0.16500922826086956,
+     "beats_by_margin": false
+    },
+    "vs_flattery_rater": {
+     "mean": 0.002091304347826092,
+     "item_ci": [
+      -0.02139347826086956,
+      0.025604347826086966
+     ],
+     "cluster_ci": [
+      -0.012700806451612893,
+      0.031085294117647065
+     ],
+     "n": 92,
+     "rule_brier": 0.10591304347826089,
+     "beats_by_margin": false
+    }
+   }
+  }
+ },
+ "opus_archive": {
+  "r1": {
+   "n": 116,
+   "brier": 0.16338793103448276,
+   "accuracy": 0.7629310344827587,
+   "C1": {
+    "mean": 0.16338793103448276,
+    "item_ci": [
+     0.13858103448275863,
+     0.18993448275862068
+    ],
+    "cluster_ci": [
+     0.13765042735042735,
+     0.19025689655172415
+    ]
+   },
+   "C2": {
+    "mean": -0.15234482758620688,
+    "item_ci": [
+     -0.20100172413793105,
+     -0.10385086206896553
+    ],
+    "cluster_ci": [
+     -0.1992904347826087,
+     -0.10585862068965518
+    ],
+    "rule_brier": 0.31573275862068967
+   },
+   "C3": {
+    "mean": -0.06829310344827585,
+    "item_ci": [
+     -0.09938017241379313,
+     -0.03609827586206896
+    ],
+    "cluster_ci": [
+     -0.10197280701754387,
+     -0.035503508771929815
+    ],
+    "rule_brier": 0.23168103448275862
+   },
+   "pass": true,
+   "card_event": true,
+   "lofo": {
+    "interpretability": true,
+    "model-psychology": true,
+    "quantum-devices": true,
+    "scalable-oversight": true
+   },
+   "lofo_flips": []
+  },
+  "r2": {
+   "n": 92,
+   "brier": 0.06972934782608696,
+   "accuracy": 0.9347826086956522,
+   "brier_stat": {
+    "mean": 0.06972934782608695,
+    "item_ci": [
+     0.04972065217391304,
+     0.0930728260869565
+    ],
+    "cluster_ci": [
+     0.05095384615384614,
+     0.09678333333333333
+    ]
+   },
+   "vs_up_word": {
+    "mean": -0.10690108695652173,
+    "item_ci": [
+     -0.15135760869565218,
+     -0.06363152173913042
+    ],
+    "cluster_ci": [
+     -0.18450185185185183,
+     -0.07011097560975611
+    ],
+    "n": 92,
+    "rule_brier": 0.1766304347826087,
+    "beats_by_margin": true
+   },
+   "vs_swap_pair": {
+    "mean": -0.09527988043478258,
+    "item_ci": [
+     -0.1474765652173913,
+     -0.04601976086956521
+    ],
+    "cluster_ci": [
+     -0.19212045,
+     -0.05005380327868852
+    ],
+    "n": 92,
+    "rule_brier": 0.16500922826086956,
+    "beats_by_margin": true
+   },
+   "vs_flattery_rater": {
+    "mean": -0.036183695652173914,
+    "item_ci": [
+     -0.05671630434782608,
+     -0.01645652173913043
+    ],
+    "cluster_ci": [
+     -0.04871416666666665,
+     -0.01041904761904762
+    ],
+    "n": 92,
+    "rule_brier": 0.10591304347826089,
+    "beats_by_margin": true
+   }
+  }
+ },
+ "verdict": "mixed",
+ "sentences": [
+  "On 116 (Haiku) and 116 (Sonnet) of round 1's 116 post-cutoff findings, Sonnet met the rule (always-50%, the up-word rule and the good-news rule all beaten, the last two by more than 0.01 in Brier) but Haiku was not shown to (Sonnet Brier 0.168 [0.140, 0.196], against the up-word rule -0.148 [-0.200, -0.097], against the good-news rule -0.064 [-0.099, -0.028]; Haiku Brier 0.208 [0.181, 0.236], against the up-word rule -0.108 [-0.157, -0.058], against the good-news rule -0.024 [-0.059, 0.011]), so the bettor's skill holds on one of the two smaller models only.",
+  "Haiku missed on C3.",
+  "Sonnet's label changes if the interpretability field is left out.",
+  "The cockpit card's event (Brier upper bound below 0.25 on both models, item bootstrap only) was met; it is reported, not the rule.",
+  "Both models ran with thinking off, which the Opus bettor could not (it ran at its least-thinking setting), so the comparison with Opus's archive differs in thinking as well as model."
+ ]
+}

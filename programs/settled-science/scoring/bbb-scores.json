@@ -1,0 +1,390 @@
+{
+ "models": {
+  "claude-haiku-5-5": {
+   "model": "claude-haiku-5-5",
+   "n_flattery": 200,
+   "n_bettor": 200,
+   "n_scored_set": 100,
+   "n_scored": 100,
+   "flattery": {
+    "n": 100,
+    "acc": 0.775,
+    "ci": [
+     0.695,
+     0.85
+    ],
+    "section_ci": [
+     0.668317,
+     0.853333
+    ],
+    "brier_avg": 0.168742,
+    "acc_orig_first": 0.93,
+    "acc_orig_second": 0.415,
+    "option1_pull": 14.33,
+    "both_right": 39,
+    "first_only": 52,
+    "second_only": 0,
+    "n_avg_50": 7,
+    "vs_llms": "not shown different"
+   },
+   "clears_experts": true,
+   "flattery_all": {
+    "n": 200,
+    "acc": 0.7625,
+    "ci": [
+     0.705,
+     0.8175
+    ],
+    "section_ci": [
+     0.697044,
+     0.818966
+    ],
+    "brier_avg": 0.172163,
+    "acc_orig_first": 0.9175,
+    "acc_orig_second": 0.425,
+    "option1_pull": 13.0475,
+    "both_right": 79,
+    "first_only": 101,
+    "second_only": 2,
+    "n_avg_50": 13,
+    "vs_llms": "not shown different",
+    "clears": true
+   },
+   "label": "clears",
+   "loo_flips": [],
+   "section_flips": [],
+   "archive_split": {
+    "both_orders_archived": {
+     "n": 100,
+     "acc": 0.75
+    },
+    "one_order_new": {
+     "n": 100,
+     "acc": 0.775
+    }
+   },
+   "bettor": {
+    "n": 100,
+    "acc": 0.795,
+    "ci": [
+     0.715,
+     0.865
+    ],
+    "section_ci": [
+     0.752475,
+     0.869231
+    ],
+    "brier_avg": 0.16555,
+    "acc_orig_first": 0.94,
+    "acc_orig_second": 0.555,
+    "option1_pull": 6.3,
+    "both_right": 55,
+    "first_only": 39,
+    "second_only": 0,
+    "n_avg_50": 5,
+    "vs_llms": "not shown different"
+   },
+   "bettor_minus_flattery": {
+    "d": 0.02,
+    "ci": [
+     -0.07,
+     0.105
+    ]
+   },
+   "share_matched": [
+    0.666667,
+    1.297872
+   ],
+   "share_matched_point": 0.932203,
+   "by_section": {
+    "Behavioral/Cognitive": {
+     "n": 35,
+     "flattery": 0.828571,
+     "bettor": 0.771429
+    },
+    "Cellular/Molecular": {
+     "n": 12,
+     "flattery": 0.833333,
+     "bettor": 0.958333
+    },
+    "Development/Plasticity/Repair": {
+     "n": 12,
+     "flattery": 0.75,
+     "bettor": 0.833333
+    },
+    "Neurobiology of Disease": {
+     "n": 17,
+     "flattery": 0.882353,
+     "bettor": 0.794118
+    },
+    "Systems/Circuits": {
+     "n": 24,
+     "flattery": 0.604167,
+     "bettor": 0.729167
+    }
+   }
+  },
+  "claude-sonnet-5-5": {
+   "model": "claude-sonnet-5-5",
+   "n_flattery": 200,
+   "n_bettor": 200,
+   "n_scored_set": 126,
+   "n_scored": 126,
+   "flattery": {
+    "n": 126,
+    "acc": 0.896825,
+    "ci": [
+     0.845238,
+     0.944444
+    ],
+    "section_ci": [
+     0.816406,
+     0.969512
+    ],
+    "brier_avg": 0.112116,
+    "acc_orig_first": 0.960317,
+    "acc_orig_second": 0.734127,
+    "option1_pull": 7.400794,
+    "both_right": 90,
+    "first_only": 30,
+    "second_only": 0,
+    "n_avg_50": 4,
+    "vs_llms": "above"
+   },
+   "clears_experts": true,
+   "flattery_all": {
+    "n": 200,
+    "acc": 0.8825,
+    "ci": [
+     0.84,
+     0.9225
+    ],
+    "section_ci": [
+     0.829208,
+     0.931429
+    ],
+    "brier_avg": 0.114858,
+    "acc_orig_first": 0.95,
+    "acc_orig_second": 0.7325,
+    "option1_pull": 7.3675,
+    "both_right": 141,
+    "first_only": 46,
+    "second_only": 0,
+    "n_avg_50": 9,
+    "vs_llms": "above",
+    "clears": true
+   },
+   "label": "clears",
+   "loo_flips": [],
+   "section_flips": [],
+   "archive_split": {
+    "both_orders_archived": {
+     "n": 74,
+     "acc": 0.858108
+    },
+    "one_order_new": {
+     "n": 126,
+     "acc": 0.896825
+    }
+   },
+   "bettor": {
+    "n": 126,
+    "acc": 0.936508,
+    "ci": [
+     0.892857,
+     0.97619
+    ],
+    "section_ci": [
+     0.886792,
+     0.987179
+    ],
+    "brier_avg": 0.09058,
+    "acc_orig_first": 0.960317,
+    "acc_orig_second": 0.702381,
+    "option1_pull": 9.853175,
+    "both_right": 88,
+    "first_only": 33,
+    "second_only": 0,
+    "n_avg_50": 2,
+    "vs_llms": "above"
+   },
+   "bettor_minus_flattery": {
+    "d": 0.039683,
+    "ci": [
+     0.0,
+     0.087302
+    ]
+   },
+   "share_matched": [
+    0.807339,
+    1.0
+   ],
+   "share_matched_point": 0.909091,
+   "by_section": {
+    "Behavioral/Cognitive": {
+     "n": 48,
+     "flattery": 0.927083,
+     "bettor": 0.947917
+    },
+    "Cellular/Molecular": {
+     "n": 14,
+     "flattery": 1.0,
+     "bettor": 1.0
+    },
+    "Development/Plasticity/Repair": {
+     "n": 14,
+     "flattery": 0.821429,
+     "bettor": 0.928571
+    },
+    "Neurobiology of Disease": {
+     "n": 18,
+     "flattery": 1.0,
+     "bettor": 1.0
+    },
+    "Systems/Circuits": {
+     "n": 32,
+     "flattery": 0.78125,
+     "bettor": 0.859375
+    }
+   }
+  }
+ },
+ "status": {
+  "haiku flattery": "complete",
+  "sonnet flattery": "complete",
+  "haiku bettor": "complete",
+  "sonnet bettor": "complete",
+  "opus both prompts": "cap"
+ },
+ "opus": {
+  "n_flattery": 41,
+  "n_both_prompts": 40,
+  "flattery": {
+   "n": 41,
+   "acc": 0.97561,
+   "ci": [
+    0.926829,
+    1.0
+   ],
+   "section_ci": [
+    0.90625,
+    1.0
+   ],
+   "brier_avg": 0.073598,
+   "acc_orig_first": 0.97561,
+   "acc_orig_second": 0.963415,
+   "option1_pull": 1.707317,
+   "both_right": 39,
+   "first_only": 1,
+   "second_only": 0,
+   "n_avg_50": 0,
+   "vs_llms": "above"
+  },
+  "bettor_same_items": {
+   "n": 40,
+   "acc": 0.975,
+   "ci": [
+    0.925,
+    1.0
+   ],
+   "section_ci": [
+    0.903226,
+    1.0
+   ],
+   "brier_avg": 0.039906,
+   "acc_orig_first": 0.95,
+   "acc_orig_second": 0.95,
+   "option1_pull": 1.9625,
+   "both_right": 37,
+   "first_only": 1,
+   "second_only": 1,
+   "n_avg_50": 0,
+   "vs_llms": "above"
+  },
+  "flattery_same_items": {
+   "n": 40,
+   "acc": 0.975,
+   "ci": [
+    0.925,
+    1.0
+   ],
+   "section_ci": [
+    0.903226,
+    1.0
+   ],
+   "brier_avg": 0.075362,
+   "acc_orig_first": 0.975,
+   "acc_orig_second": 0.9625,
+   "option1_pull": 1.7375,
+   "both_right": 38,
+   "first_only": 1,
+   "second_only": 0,
+   "n_avg_50": 0,
+   "vs_llms": "above"
+  },
+  "haiku_flattery_same_items": 0.780488,
+  "sonnet_flattery_same_items": 0.939024
+ },
+ "dumb": {
+  "longer abstract": {
+   "acc": 0.4975,
+   "ci": [
+    0.4375,
+    0.5575
+   ],
+   "clears": false
+  },
+  "shorter abstract": {
+   "acc": 0.5025,
+   "ci": [
+    0.4425,
+    0.5625
+   ],
+   "clears": false
+  },
+  "more up-words than down-words": {
+   "acc": 0.505,
+   "ci": [
+    0.46,
+    0.5475
+   ],
+   "clears": false
+  },
+  "fewer negation words": {
+   "acc": 0.4825,
+   "ci": [
+    0.46,
+    0.505
+   ],
+   "clears": false
+  },
+  "more 'significant'": {
+   "acc": 0.5025,
+   "ci": [
+    0.5,
+    0.5075
+   ],
+   "clears": false
+  },
+  "Option 1 always (position)": {
+   "acc": 0.5,
+   "ci": [
+    0.5,
+    0.5
+   ],
+   "clears": false
+  }
+ },
+ "verdict": "pass",
+ "sentences": [
+  "On the BrainBench abstract pairs that ss-b10 had rated in one order only (Haiku 100, Sonnet 126 of 200), with each now shown in both orders and the two ratings averaged, a model asked only which version is better news for the paper's own idea picked the published abstract more often than the 171 neuroscientists in the original study did (63.4%), on both Haiku (77.5% [69.5, 85.0]) and Sonnet (89.7% [84.5, 94.4]); the published average for LLMs, scored by perplexity rather than by asking, was 81.4%. This design cannot tell whether the models answered by valence, by plausibility or from memory of the papers, and it does not show that the LLMs in the original study used such a rule.",
+  "On all 200 items in both orders (a reported row; half of it was in ss-b10's archive), Haiku's flattery accuracy was 76.2% [70.5, 81.8], which clears the experts' 63.4%.",
+  "With the program's forecasting prompt instead (a different instruction, a question line, and a note that one version was altered by an expert), also in both orders, Haiku picked the published abstract 79.5% [71.5, 86.5] of the time, 2.0 points more than with the flattery prompt (difference [-7.0, 10.5]); the flattery prompt's above-chance accuracy was 93.2% [66.7, 129.8] of the forecasting prompt's.",
+  "Haiku's orders-averaged flattery accuracy on its scored items was not shown different from the published 81.4% for LLMs (interval [69.5, 85.0]).",
+  "On all 200 items in both orders (a reported row; half of it was in ss-b10's archive), Sonnet's flattery accuracy was 88.2% [84.0, 92.2], which clears the experts' 63.4%.",
+  "With the program's forecasting prompt instead (a different instruction, a question line, and a note that one version was altered by an expert), also in both orders, Sonnet picked the published abstract 93.7% [89.3, 97.6] of the time, 4.0 points more than with the flattery prompt (difference [0.0, 8.7]); the flattery prompt's above-chance accuracy was 90.9% [80.7, 100.0] of the forecasting prompt's.",
+  "Sonnet's orders-averaged flattery accuracy on its scored items was above the published 81.4% for LLMs (interval [84.5, 94.4]).",
+  "Opus, asked the flattery question in both orders on 41 beacon-drawn items (as many as its $1.50 cap allowed; a secondary, not part of the rule), picked the published abstract 97.6% [92.7, 100.0] of the time; on the same items Sonnet's flattery rule was right 93.9% and Haiku's 78.0%, and Opus's forecasting prompt 97.5% [92.5, 100.0] on the 40 items where both of its prompts ran.",
+  "BrainBench and its source abstracts (Journal of Neuroscience, 2023) were public before these models' training data were collected, so either prompt may draw on memory of the benchmark or of the papers; Haiku and Sonnet ran with thinking off and Opus at its least-thinking setting, and the prompts asked for a rating, not the perplexity the original study used. Of each model's 400 flattery ratings, those in ss-b10's archive (Haiku 300, Sonnet 274) were reused, not asked again."
+ ]
+}

@@ -29,17 +29,17 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-34 audits prepared with a sealed plant line: 0 still sealed, 34 revealed, of which 13 carried a plant. 
+38 audits prepared with a sealed plant line: 0 still sealed, 38 revealed, of which 15 carried a plant. 
 
-**Catch rate: 13/13 = 1.00, 95% Wilson interval [0.77, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
+**Catch rate: 15/15 = 1.00, 95% Wilson interval [0.80, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
 
 | class / subclass | planted | caught | missed: expected checklist line |
 |---|---|---|---|
 | miscount / cell | 1 | 1 | — |
-| miscount / total | 5 | 5 | — |
+| miscount / total | 6 | 6 | — |
 | overclaim / mechanism | 2 | 2 | — |
 | overclaim / plain_vs_table | 1 | 1 | — |
-| overclaim / rank | 2 | 2 | — |
+| overclaim / rank | 3 | 3 | — |
 | overclaim / scope | 2 | 2 | — |
 
 | plant | bet | class | caught | where (from the audit) | planter model |
@@ -57,6 +57,8 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 | pl-029 | em-bm9f2 | overclaim/rank | yes | Required cuts 1: quotes the planted sentence and calls it unsupported (C14, C15) | claude-opus-5-5 |
 | pl-030 | em-gm2q | overclaim/scope | yes | Claims checked row 14 and Required cuts 4: 'The main paper can say: question order moves Claude models' answers ...' — hole: scope drift and an unreplicated one-model pass stated as general | claude-opus-5-5 |
 | pl-034 | sg-b5 | overclaim/rank | yes | ledger/audits/sg-b5.md, hole H1 (C14/C16/C18) and Required cuts item 4: 'Line 30 promotes a secondary that the pre-registration said was never to be promoted: on the 14 studies whose interval excludes 0, the ones where the gap is measurable ... it survives length matching' | claude-opus-5-5 |
+| pl-037 | ss-b13 | miscount/total | yes | Required cuts, cut 1 (round-1 table, Haiku n 106 -> 116) and A/B reproduce: 'NOT REPRODUCED ... Haiku's n' | claude-opus-5-5 |
+| pl-036 | om-p2-5r | overclaim/rank | yes | Required cuts, item 4: quotes the planted lead '**A second finding, on both models.**' and calls it a pre-registered secondary promoted to a finding (C14) | claude-opus-5-5 |
 
 **Limits, stated with the number:**
 
@@ -66,18 +68,18 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-46 of 69 bets carry an engine pre-mortem; 28 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+56 of 79 bets carry an engine pre-mortem; 31 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
-| engine: named the main reason | 11/28 = 0.39 [0.24, 0.58] |
-| engine: named it or its kind | 21/28 = 0.75 [0.57, 0.87] |
-| lazy baseline: failures whose reason was 'the effect is not there' | 18/31 = 0.58 [0.41, 0.74] |
+| engine: named the main reason | 12/31 = 0.39 [0.24, 0.56] |
+| engine: named it or its kind | 24/31 = 0.77 [0.60, 0.89] |
+| lazy baseline: failures whose reason was 'the effect is not there' | 21/34 = 0.62 [0.45, 0.76] |
 | human: named the main reason | — |
 
 | stated kind \ actual kind | world | design | execution | artefact |
 |---|---|---|---|---|
-| world | 13 | 6 | 0 | 0 |
+| world | 16 | 6 | 0 | 0 |
 | design | 2 | 5 | 0 | 0 |
 | execution | 0 | 0 | 1 | 0 |
 | artefact | 0 | 1 | 0 | 0 |
@@ -95,57 +97,57 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 | Brier on tiebreaks, engine (n = 0) | — |
 | Brier on tiebreaks, human (n = 0) | — |
 | QPU seconds used by tiebreaks | 0 |
-| bets by seed source: curby-rng | 45 |
-| bets by seed source: fixed | 1 |
+| bets by seed source: curby-rng | 52 |
+| bets by seed source: fixed | 3 |
 | bets by seed source: inherited (ss-b4 seed e8f921e; no new draw) | 2 |
-| bets by seed source: none recorded | 21 |
+| bets by seed source: none recorded | 22 |
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
 
-Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 17 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 39 lesson lines written.
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 17 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 49 lesson lines written.
 
 | | count |
 |---|---|
-| pre-registrations since the rule | 35 |
-| with a lesson line | 32 |
-| with a design review verdict | 35 |
+| pre-registrations since the rule | 40 |
+| with a lesson line | 37 |
+| with a design review verdict | 40 |
 | awaiting their design review (nothing may run yet) | 0 |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
-| withdrawn after a design review said redesign | 7 |
+| withdrawn after a design review said redesign | 12 |
 
-Design reviews: 0 go, 35 fix-first, 7 redesign; 24 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 41 fix-first, 11 redesign; 26 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
-| P1 | Odds too high where the engine had a story | 13 | 9 of 13 scored |
-| P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 4 | 4 of 4 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 27 | 18 of 27 scored |
+| P1 | Odds too high where the engine had a story | 14 | 10 of 14 scored |
+| P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 5 | 4 of 4 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 33 | 19 of 29 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 5 | 3 of 5 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 3 | 0 of 2 scored |
 | P6 | A control that cannot fail | 3 | 1 of 3 scored |
 | P7 | A foreseeable execution risk run without a pilot | 3 | 1 of 3 scored |
-| P8 | Comparing across conditions that differ in more than the factor named | 21 | 12 of 21 scored |
-| P9 | The right rule, then the wrong noun | 11 | 10 of 11 scored |
-| P10 | A label that hangs on one item | 12 | 11 of 12 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 27 | 13 of 23 scored |
+| P9 | The right rule, then the wrong noun | 12 | 10 of 11 scored |
+| P10 | A label that hangs on one item | 17 | 13 of 14 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 2 | 2 of 2 scored |
-| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 19 | 11 of 18 scored |
-| P13 | A boundary the rule names, compared in plain floating point | 4 | 4 of 4 scored |
-| P14 | Items that share a template or domain bootstrapped as if independent | 4 | 2 of 4 scored |
-| P15 | A dry run built on assumed spreads or base rates, not measured ones | 3 | 2 of 3 scored |
+| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 24 | 13 of 21 scored |
+| P13 | A boundary the rule names, compared in plain floating point | 9 | 6 of 6 scored |
+| P14 | Items that share a template or domain bootstrapped as if independent | 10 | 4 of 7 scored |
+| P15 | A dry run built on assumed spreads or base rates, not measured ones | 7 | 4 of 5 scored |
 | P16 | A dumb baseline that is an item property, in dry-run worlds where item properties reach the outcome only through the predictor | 3 | 3 of 3 scored |
 | P17 | A design-review fix that replaces a guard can loosen it on the real data | 2 | 2 of 2 scored |
 
-**Does the loop help?** On 24 scored bets (one per run, rule 15), Brier with the odds before the lesson is 0.172, after it 0.145. Counting secondary bets too: 0.193 before, 0.168 after, on 28.
+**Does the loop help?** On 27 scored bets (one per run, rule 15), Brier with the odds before the lesson is 0.174, after it 0.135. Counting secondary bets too: 0.192 before, 0.157 after, on 31.
 
 ## Resources: chip seconds and API spend
 
 | | value | from |
 |---|---|---|
 | quantum chip seconds used (ibm_fez) | 89.0 of the 420 s project hard stop | `programs/entangled-mind/results/ibm-usage.json` |
-| API spend logged | $81.54 of the $200/month allowance | `spend.jsonl` baseline $50.00 to 2026-11-04 09:15, 1 logged run(s) $6.04, bets' `cost_usd` since then $25.50 |
+| API spend logged | $89.26 of the $200/month allowance | `spend.jsonl` baseline $50.00 to 2026-11-04 09:15, 1 logged run(s) $6.04, bets' `cost_usd` since then $33.22 |
 
 API spend is a floor: scouts, design-review pilots and checks priced only in their own results files are not added.
 
 
-<!-- numbers (generated; read by site/numbers.py): {"api_allowance": 200, "api_usd": "82", "api_usd_exact": "81.54", "chip_left": "331", "chip_s": "89", "chip_stop": 420, "dr_fix": 35, "dr_go": 0, "dr_missed": 24, "dr_redesign": 7, "dr_total": 42, "plants_caught": 13, "plants_planted": 13, "plants_revealed": 34, "plants_rows": 34, "plants_sealed": 0, "premortem_failed": 28, "premortem_named": 11} -->
+<!-- numbers (generated; read by site/numbers.py): {"api_allowance": 200, "api_usd": "89", "api_usd_exact": "89.26", "chip_left": "331", "chip_s": "89", "chip_stop": 420, "dr_fix": 41, "dr_go": 0, "dr_missed": 26, "dr_redesign": 11, "dr_total": 52, "plants_caught": 15, "plants_planted": 15, "plants_revealed": 38, "plants_rows": 38, "plants_sealed": 0, "premortem_failed": 31, "premortem_named": 12} -->
