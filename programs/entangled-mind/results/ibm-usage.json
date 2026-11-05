@@ -218,5 +218,137 @@
         "end_time": "2026-11-05T04:31:42.396Z"
       }
     }
+  },
+  {
+    "when": "2026-11-05 12:17:19",
+    "purpose": "Program 3 P3-16 job C: CB + CN (2 pubs, 2000 shots)",
+    "backend": "ibm_fez",
+    "job_id": "dbm77dpkbkrc73covuu0",
+    "batch_id": "12390438-dab9-40e8-a05d-8b2c7503ed89",
+    "circuits": 2,
+    "shots": 1000,
+    "quantum_seconds": 3.0,
+    "job_metrics_usage": {
+      "qpu_charge_time_seconds": 3,
+      "value": 0.037244,
+      "unit": "resource_units",
+      "status": "pending",
+      "details": [
+        {
+          "value": 0.037244,
+          "unit": "resource_units",
+          "metric": {
+            "id": "caffe3ca-729c-5750-8777-df63bbf8bfd9",
+            "value": 3
+          }
+        }
+      ]
+    },
+    "service_before": {
+      "usage_consumed_seconds": 62,
+      "usage_limit_seconds": 600,
+      "usage_remaining_seconds": 538,
+      "usage_period": {
+        "start_time": "2026-10-08T12:16:53.862Z",
+        "end_time": "2026-11-05T12:16:53.862Z"
+      }
+    },
+    "service_after": {
+      "usage_consumed_seconds": 62,
+      "usage_limit_seconds": 600,
+      "usage_remaining_seconds": 538,
+      "usage_period": {
+        "start_time": "2026-10-08T12:17:19.320Z",
+        "end_time": "2026-11-05T12:17:19.320Z"
+      }
+    }
+  },
+  {
+    "when": "2026-11-05 12:18:08",
+    "purpose": "Program 3 P3-16 job B: B (1 pub, 1000 shots)",
+    "backend": "ibm_fez",
+    "job_id": "dbm77kd8ft8s738ub8j0",
+    "batch_id": "cbf54918-d4ca-4fa4-a375-586220d6b1cd",
+    "circuits": 1,
+    "shots": 1000,
+    "quantum_seconds": 2.0,
+    "job_metrics_usage": {
+      "qpu_charge_time_seconds": 2,
+      "value": 0.032787,
+      "unit": "resource_units",
+      "status": "pending",
+      "details": [
+        {
+          "value": 0.032787,
+          "unit": "resource_units",
+          "metric": {
+            "id": "caffe3ca-729c-5750-8777-df63bbf8bfd9",
+            "value": 2
+          }
+        }
+      ]
+    },
+    "service_before": {
+      "usage_consumed_seconds": 65,
+      "usage_limit_seconds": 600,
+      "usage_remaining_seconds": 535,
+      "usage_period": {
+        "start_time": "2026-10-08T12:17:20.838Z",
+        "end_time": "2026-11-05T12:17:20.838Z"
+      }
+    },
+    "service_after": {
+      "usage_consumed_seconds": 65,
+      "usage_limit_seconds": 600,
+      "usage_remaining_seconds": 535,
+      "usage_period": {
+        "start_time": "2026-10-08T12:18:09.049Z",
+        "end_time": "2026-11-05T12:18:09.049Z"
+      }
+    }
+  },
+  {
+    "when": "2026-11-05 12:18:35",
+    "purpose": "Program 3 P3-16 job A: A (1 pub, 1000 shots)",
+    "backend": "ibm_fez",
+    "job_id": "dbm780u74qds73droub0",
+    "batch_id": "516de9ef-4cb6-43dc-aaf4-6f48cff77fa0",
+    "circuits": 1,
+    "shots": 1000,
+    "quantum_seconds": 2.0,
+    "job_metrics_usage": {
+      "qpu_charge_time_seconds": 2,
+      "value": 0.032787,
+      "unit": "resource_units",
+      "status": "pending",
+      "details": [
+        {
+          "value": 0.032787,
+          "unit": "resource_units",
+          "metric": {
+            "id": "caffe3ca-729c-5750-8777-df63bbf8bfd9",
+            "value": 2
+          }
+        }
+      ]
+    },
+    "service_before": {
+      "usage_consumed_seconds": 67,
+      "usage_limit_seconds": 600,
+      "usage_remaining_seconds": 533,
+      "usage_period": {
+        "start_time": "2026-10-08T12:18:10.856Z",
+        "end_time": "2026-11-05T12:18:10.856Z"
+      }
+    },
+    "service_after": {
+      "usage_consumed_seconds": 67,
+      "usage_limit_seconds": 600,
+      "usage_remaining_seconds": 533,
+      "usage_period": {
+        "start_time": "2026-10-08T12:18:35.783Z",
+        "end_time": "2026-11-05T12:18:35.783Z"
+      }
+    }
   }
 ]
