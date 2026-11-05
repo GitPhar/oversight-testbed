@@ -7,7 +7,7 @@ Sean Pharris · 4 November 19:26 to 5 November about 05:30 (America/Denver) · w
 **What happened.** The evening went on running programs 2, 3 and 4. At 23:38 three new programs had just started: 5 (does a model grade its own work more kindly?), 6 (does it behave differently when it thinks it is being tested?) and 7 (when it says it is unsure, does it act unsure?). At 23:44 the Mac crashed. Nothing was committed for almost five hours. From 04:35 the sessions picked up from what had been saved. Within the hour, all three new programs had read their literature, drawn a map, stated odds and pre-registered a first wave, and program 5 had its first result. Two new rules landed: every direction runs on all three Claude models (rule 12), and every settled round is turned into follow-up directions (the remap). Sean then answered twelve questions on the new cockpit. Those are the first human odds in the ledger.
 
 **What came back.** Of the results in this window:
-- three passes, all in program 4 (the published record as referee): ss-b5, ss-b6 and ss-b7;
+- three passes, all in program 4 (the published record as referee): ss-b5, ss-b6 and ss-b7. At 05:33 a third audit round reversed ss-b6 to undetermined, so two stand;
 - six misses: om-p2-5, om-p2-6 and om-p2-6r in program 2; ng-p3-16 in program 3; sg-b1 in program 5; and ta-b3 in program 6, which came back null;
 - four bets stopped before any data because their design review said the test could not answer its question: ss-b4, em-qwalk, em-qwalk2, and now ta-b1.
 
@@ -118,7 +118,12 @@ How to read it:
 | reviews a later audit found had missed a flaw | 1 | 9 |
 | bets with Sean's odds | 0 | 0 scored; om-p2-7 open |
 
-After 05:19, sg-b1 was scored (`754b2ac`), which brought the engine to **0.240 on 21 scored bets** (8 hits; the hit-rate baseline is 0.236). ng-p3-16's audit stood with no cuts (`60eae19`), and it is not yet scored.
+After 05:19, three more changes reached the score:
+- sg-b1 was scored (`754b2ac`);
+- ng-p3-16 was scored (`15711b5`);
+- at 05:33 a third audit round reversed **ss-b6 from pass to undetermined** (`60940b1`). Its rule passes about half the time in a world with no effect matched to the data, so ss-b6 leaves the score.
+
+The engine now stands at **0.220 on 21 scored bets**, with 7 hits. Always saying the hit rate scores 0.222, so the engine still does no better.
 
 **What held:**
 - Every audit in this window stood.
