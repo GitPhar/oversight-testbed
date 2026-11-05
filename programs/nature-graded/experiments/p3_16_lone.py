@@ -290,6 +290,11 @@ def _ts(raw, key):
     return dt.datetime.fromisoformat(v.replace("Z", "+00:00")) if v else None
 
 
+def c_shared_span(spans) -> bool:
+    """F-O3-r1 (D36): True if any one execution span of job C holds both of its PUBs (0 and 1)."""
+    return any({0, 1} <= set(sp.get("pubs", [])) for sp in spans)
+
+
 def evaluate(arms, job_order, c_spans=None, spread_min=None):
     """The scored rule and the section 5 reading (amended D31-D34), from the four arms' P(yes) and SE."""
     A, B, CB, CN = arms["A"], arms["B"], arms["CB"], arms["CN"]
@@ -310,9 +315,17 @@ def evaluate(arms, job_order, c_spans=None, spread_min=None):
         S.append("Run alone in its own job, the 3 November circuit again said 'yes' at least 40% of the time, clearly more than "
                  f"the same circuit sharing a job with one other circuit, in a separate job minutes {when}. The 3 November surprise came "
                  "at least partly from the circuit running alone in its job, not only from that afternoon.")
-        if rep["big"]:                                  # F4 (D34)
+        if rep["big"] and pb >= HIGH:                   # F4 (D34), conditioned on B's level too (F4-r1, D36)
             keys.append("pass: replicate agrees")
             S.append("Both lone jobs (with and without the barrier) came back, and both were clearly above their shared-job twins.")
+        elif rep["big"]:
+            keys.append("pass: replicate clear, B below 0.40")
+            S.append(f"Without the barrier, the lone job was also clearly above its shared-job twin (B − CN = {f(rep['diff'])}), "
+                     f"but below 40% (B = {pb:.3f}).")
+        elif pb >= HIGH:
+            keys.append("pass: B high, replicate not clear")
+            S.append(f"Without the barrier, the lone job also said 'yes' at least 40% of the time (B = {pb:.3f}), but was not "
+                     f"clearly above its shared-job twin (B − CN = {f(rep['diff'])}).")
         else:
             keys.append("pass: rests on one job")
             S.append(f"Only the lone barrier job came back (B − CN = {f(rep['diff'])}). The pass rests on one job, so a passing "
@@ -346,9 +359,11 @@ def evaluate(arms, job_order, c_spans=None, spread_min=None):
             keys.append("add: B came back")
             S.append(f"Run alone without the barrier, the circuit said 'yes' at least 40% of the time (B = {pb:.3f}), but with the "
                      "barrier it did not. One lone job came back and the other did not.")
-        if pcb >= HIGH or pcn >= HIGH:
+        if pcb >= HIGH or pcn >= HIGH:                  # F1-r2 (D36): name which shared-job circuit came back
             keys.append("add: shared came back")
-            S.append(f"The shared job came back (CB = {pcb:.3f}, CN = {pcn:.3f}) while the lone barrier job did not.")
+            who = ("The shared job" if pcb >= HIGH and pcn >= HIGH else
+                   "The barrier circuit in the shared job" if pcb >= HIGH else "The no-barrier circuit in the shared job")
+            S.append(f"{who} came back (CB = {pcb:.3f}, CN = {pcn:.3f}) while the lone barrier job did not.")
     else:                                               # A >= 0.40, not a pass
         if pcb >= HIGH:
             if within:
@@ -372,6 +387,8 @@ def evaluate(arms, job_order, c_spans=None, spread_min=None):
     ab = comps["A_minus_B (barrier effect, alone)"]
     if ab["big"]:
         keys.append("barrier alone: raised"); S.append(f"Run alone, the barrier raised the 'yes' rate by {ab['diff']:.3f}.")
+    elif ab["diff"] <= -BIG and ab["z"] <= -ZMIN:      # F1-r1 (D36): a clear negative is not "a smaller difference"
+        keys.append("barrier alone: lowered"); S.append(f"Run alone, the barrier lowered the 'yes' rate by {-ab['diff']:.3f}.")
     elif ab["within_equiv"]:
         keys.append("barrier alone: within"); S.append("Run alone, the barrier made no difference larger than 0.05.")
     else:
@@ -383,7 +400,7 @@ def evaluate(arms, job_order, c_spans=None, spread_min=None):
         S.append(f"The chip itself had moved since P3-15: the shared-job barrier circuit now gives {pcb:.3f}.")
     if spread_min is not None and spread_min > BACK_TO_BACK_MIN:
         keys.append("add: not back to back"); S.append(f"The three jobs ran over {spread_min:.0f} minutes, not back to back.")
-    if c_spans is not None and len(c_spans) > 1:        # O3 (D35)
+    if c_spans and not c_shared_span(c_spans):          # O3 (D35); F-O3-r1 (D36): no one span holds both PUBs
         keys.append("add: C separate spans"); S.append("The two shared-job circuits ran in separate spans.")
     return {"verdict": "pass" if passed else "fail", "comparisons": comps, "classes": {k: _class(v) for k, v in comps.items()},
             "control_CB_vs_p3_15": {"CB": pcb, "p3_15_BB_pooled": P315_BB, "within_0.05": ctrl},
@@ -408,7 +425,7 @@ def analyse():
     spread_min = (max(ends) - min(starts)).total_seconds() / 60 if all(starts) and all(ends) else None
     ev = evaluate(arms, pred["job_order"], raws["C"].get("execution_spans") or None, spread_min)
     out |= {"arms": arms, **ev,
-            "C_same_span": (len(raws["C"]["execution_spans"]) == 1) if raws["C"].get("execution_spans") else None,
+            "C_same_span": c_shared_span(raws["C"]["execution_spans"]) if raws["C"].get("execution_spans") else None,
             "execution_spans": {j: r.get("execution_spans") for j, r in raws.items()},
             "timestamps": {j: r.get("timestamps") for j, r in raws.items()},
             "spread_minutes": spread_min, "back_to_back": (spread_min is not None and spread_min <= BACK_TO_BACK_MIN),
@@ -438,7 +455,7 @@ def worlds(n=200):
                 ph = rng.binomial(SHOTS, p) / SHOTS
                 arms[a] = {"p_yes": ph, "se": math.sqrt(max(ph * (1 - ph), 1e-12) / SHOTS)}
             ev = evaluate(arms, order)
-            k = (ev["verdict"],) + tuple(x for x in ev["sentence_keys"] if not x.startswith("barrier alone"))
+            k = (ev["verdict"],) + tuple(ev["sentence_keys"])     # F1-r1 (D36): barrier-alone keys are no longer dropped
             tally[k] = tally.get(k, 0) + 1
         res[name] = {" | ".join(k): v / n for k, v in sorted(tally.items(), key=lambda kv: -kv[1])}
         print(f"\n{name} {ps}")
