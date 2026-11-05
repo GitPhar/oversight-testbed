@@ -165,3 +165,137 @@ Audit round 2 (`ledger/audits/SUMMARY-2.md`) covered every result committed toda
 ---
 
 *Sources:* `ledger/bets.jsonl`, `ledger/brier.md`, `ledger/scores.md`, `ledger/audits/` (copied from entangled-mind `audit2` 8091d01), nature-graded `results/` (6badd68, 280e180, 9e9ae5d), other-minds `results/`, `operators/hardware.md`, `operators/premortem.md`, `operators/plant.md`.
+
+---
+
+# Evening: 16:50 to 19:26
+
+*Appended 2026-11-04 at about 19:45 America/Denver by the paper-evening session. It covers the commits from `f0fbe9c` (16:51) to `d02b645` (19:26). Every number below names its file and the commit at which it holds. No number comes from outside those files, and nothing here is a new claim. Where this section and a ledger file disagree, the ledger file is right.*
+
+## In plain English
+
+**Six bets were scored this evening.** Three came back as misses and three as passes.
+- **Program 2's re-bet failed.** om-p2-3b re-ran the theory-of-mind test on lower-severity stories. Its 14-story refusal pilot ran clean, and so did the full run. But the effect went the wrong way: the model's own planted answer moved it *less* than another reader's.
+- **Program 3's true repeat failed on its first run.** Putting the barrier back did not bring back 3 November's 0.50. The chip gave 0.311 with the barrier and 0.319 without.
+- **Program 4's first round passed all three of its bets.** In program 4 the published literature is the referee. On 116 findings posted after the bettor model's knowledge cutoff, the bettor's Brier score was 0.163, where a coin scores 0.25. It also beat a publication-bias shortcut. The auditor let all three passes stand and cut seven sentences. The passes are unreplicated, and the item-writer and the bettor are the same model family.
+
+**The engine's own score got slightly worse, and it is still no better than knowing the hit rate.** At 16:50 the engine's Brier score was 0.236 on 9 bets. Now it is **0.246 on 14** (`ledger/brier.md` at `8730692`). Always saying 50% scores 0.250. Always saying the observed hit rate, 5 in 14, would have scored 0.230. Fourteen bets cannot tell these apart.
+
+**The three referees, as numbers, not as a finding.**
+- Model-graded bets score 0.263 on 8.
+- Chip-graded bets score 0.062 on 3, only because all three were given low odds (7%, 42% and 7%) and all three failed.
+- Record-graded bets score 0.388 on 3, because the engine gave them 50%, 30% and 35% and all three passed.
+- None of this says anything about the referees yet (`ledger/brier.md`, "By referee").
+
+**What went wrong, stated as plainly as what went right.**
+- **The lesson moved odds the wrong way.** The new lesson rule moved ss-b1's odds from 60% to 50%, toward the base rate. The bet then passed, so the move cost Brier 0.25 against 0.16 (`ledger/lessons.jsonl`, ls-ss-b1).
+- **A pattern the lesson cited came back.** The ss-b1 lesson cited P9, a rule applied correctly and then reported with a word the design cannot carry. The audit found P9 again ("cannot have read", "confidence too low", "odds too pessimistic").
+- **A design review missed something.** It asked for leave-one-item-out but not leave-one-field-out, and ss-b3's pass rests on one field.
+- **Two rule violations.** `ledger/scores.md` lists ss-b2 and ss-b3 as violations because they carry no lesson line of their own.
+- **The human column is still empty.** `ledger/human-odds.jsonl` has 0 lines.
+
+## 1. Rules and structure (16:51 to 18:29)
+
+- **Learn before you bet; review before the first call.** Both became mandatory from 17:00 (`f0fbe9c`, CONTEXT §3 rules 9–10). `ledger/scores.md` at `8730692` counts 6 pre-registrations since the rule. All 6 have a design-review verdict, all of them fix-first, and 4 carry a lesson line. ss-b4/ss-b5, pre-registered after that count, await their review.
+- **Never ask Sean in a terminal** (`04a9cd2`, CONTEXT §3 rule 11). His odds come only from the cockpit's downloads into `ledger/human-odds.jsonl`. That file has no lines yet, so every bet tonight is marked "no human odds".
+- **One repository.** All four programs were folded into `programs/` with their full histories at 17:12 (`32ca722`, `11de687`, `bf3c7a8`, `ebf7017`).
+- **One mistake from the shared checkout.** ss-b1's pre-registration landed inside another session's commit, `ebd2c80` (settled-science D10). The rule now is `git commit -- <paths>` only (`e4da61c`).
+- **Sean's budget ruling** (st-16, 18:26): he approved 10 QPU s for ng-p3-15. Budget rulings under the 420 s hard stop are now the engine's call (`9d82f8b`, renumbered in `38ee62d`).
+- **`reproduce.py` at the repo root** rebuilds the ledger tables and the site data from archived files, with no keys (`6c4361d`).
+
+## 2. Program 2: om-p2-3b, fail
+
+- **Pre-registration.** `26ee5d2` (17:15). The engine's odds were 40%, lowered by its lesson from the map's 70%.
+- **Design review and pilot.** The review said fix-first with 6 fixes, then confirmed them (`5b154bd`, `93ec998`). The refusal pilot made 182 of 182 calls with 0 refusals and cost $0.0084 (`95f0e77`).
+- **The run.** 7,553 calls, no refusal and no stop, $0.3715 (`programs/other-minds/results/p2-3b-simpletom-lowsev.md` at `67244e7`).
+- **Verdict: fail.**
+  - The bar was a difference of at least +0.10.
+  - The difference Δ was **−0.053 [−0.079, −0.029]**. The planted answer pulled behaviour less when it was labelled as the model's own (+0.060) than when it was credited to another reader (+0.114).
+  - Scope: 581 stories of severity 1 and 2, on Haiku only. Severity-3 stories, 48% of the benchmark, are not covered.
+- **The audit** (`ledger/audits/om-p2-3b.md`, `be920b7`).
+  - The fail stands. It made 2 cuts, and neither touches the verdict.
+  - The sealed plant pl-002, a miscount, was caught (`67244e7`).
+  - The pre-mortem was scored `kind_only`: it named the kind of failure but not the reason.
+  - None of the lesson's cited patterns recurred (`ledger/lessons.jsonl`, ls-om-p2-3b).
+
+## 3. Program 3: ng-p3-15 run 1, fail; ng-p3-5c pre-registered
+
+- **ng-p3-15** (`7f9cedf`, odds 7%) is the true repeat called for this morning. The run is job `dbltng9kbkrc73cod80g`. It billed 4.0 QPU s, so 58 s of the 420 s hard stop are now used (`programs/nature-graded/results/p3-15-repeat.md` at `e7f8c5c`).
+- **Verdict on run 1: fail.**
+  - With the barrier, one 1,000-shot block gave 0.311. Without it, 0.319. That is a difference of −0.008.
+  - The bar was 0.40, with a gap of at least +0.10.
+  - The pooled barrier effect lies inside ±0.05.
+  - The control, 4 November's circuit, gave 0.274, within 0.05 of that day's 0.246.
+  - So the barrier did not bring back 3 November's 0.502.
+  - Shot grouping may matter a little (+0.030, 90% CI +0.006 to +0.054), which this job cannot pin down.
+- **Not audited yet.** Run 2 is scheduled no earlier than 21:30:43 and had not reported when this section was written.
+- **ng-p3-5c** (`930efe8`) re-analyses the archive for P3-5. It is unscored by design. Its design review said fix-first with 7 flaws (`8f20006`), and the fixes are not yet confirmed.
+
+## 4. Program 4: the published-record referee, round 1 passes; round 2 pre-registered
+
+**How round 1 was set up**, from `programs/settled-science/experiments/ss-b1.md` (`1f5c1bf`) and the protocol files:
+- **The rules came first.** The three rules were fixed before any item was written (`64e12dd`, 16:54). The engine's odds were stated before any item was read (`4963270`): ss-b1 50% (first 60%), ss-b2 30%, ss-b3 35%.
+- **The leakage check.** 213 calls cost $0.47. 184 items were frozen with SHA-256 (`4859d3b`).
+- **The design review.** It said fix-first with 5 fixes. Those were applied as D12–D16 and confirmed go (`e3efeb5`, `954c035`, `38f2364`).
+- **A setting changed after the go.** The bettor model cannot run with thinking off (D18). The change was re-reviewed: not go, because the edit had removed the refusal stop (`fcc0797`). That was fixed in D19 and then confirmed go (`dbc45ae`). The D20 scope sentence was fixed before the run (`9d4bcf4`).
+
+**The result** (`230cbe4`), as audited (`ledger/audits/ss-b1.md`, `cdce1ba`; cuts applied in `a585a88`, D21):
+- **ss-b1, pass, unreplicated.** On 116 post-cutoff findings the Brier was **0.163 [0.139, 0.190]**, and 76% were right.
+- **ss-b2, pass, unreplicated.** It beat the publication-bias baseline (0.232) by **0.068 [0.036, 0.099]**.
+- **ss-b3, pass, unreplicated.** The 68 pre-cutoff items scored 0.105. The difference from post-cutoff was −0.059 [−0.098, −0.019]. That fits memory, and it also fits the older items simply being easier. The design cannot separate the two.
+- **Cost.** 490 calls, $2.02, 0 refusals.
+
+**The negative parts, in the results file's own words:**
+- **Model psychology was the weakest field.** It scored 0.235 [0.181, 0.293], so it is not shown to beat a coin.
+- **ss-b3 rests on one field.** Without model psychology its upper bound is +0.019, so it would be null. This check was not pre-registered.
+- **The confidence reading is exploratory.** The audit cut "too low" to an exploratory reading. Its 60–70% calls were right only 57% of the time.
+- **The same model family wrote and bet.** The item-writer and the bettor are both Opus 5.5. The auditor names a non-Claude item-writer as the cheapest test that could overturn ss-b1.
+- **The referee is the published claim.** It scores what got published, not what is true.
+
+**The audit itself:**
+- 34 claims checked, 7 holes, 7 cuts. Every table regenerated byte for byte.
+- The plant pl-003 was drawn clean, so there was nothing to catch.
+- The pre-mortem was scored `not_failed`.
+- The auditor printed the pre-mortem before finishing its checklist, and discloses that this broke the audit's order.
+
+**Round 2** (ss-b4 and ss-b5) is pre-registered and seeded (`29e8769`, `e8f921e`). It has not run, and its design review has not yet been written.
+- **The writer is a template.** It is a fixed rule, not a model (`5ce075d`). It answers the auditor's same-family objection.
+- **Too few items on the first page.** It gave 57 items, below the minimum of 60 (D22, `4cdd8e4`). The pool was extended once, by a rule fixed before the second fetch.
+- **The leakage check dropped most of the pool.** It dropped 146 of 243 template items, leaving 97 frozen and 92 to draw.
+- **ss-b4 can be passed by a dumb rule.** The dry run before the pre-registration showed that always picking the "higher / more / better" wording passes ss-b4 (Brier 0.171). ss-b4 therefore cannot show judgment, and ss-b5, which tests against that rule, is named the informative test.
+- **The odds were not revised:** 70% and 35%, stated in `8e87c59` before any item existed.
+
+## 5. The ledger at 19:26
+
+From `ledger/brier.md` and `ledger/scores.md` at `8730692`, and `ledger/lessons.jsonl` at `d02b645`:
+
+| measure | at 16:50 (§3 above, CONTEXT §4) | at 19:26 |
+|---|---|---|
+| scored bets | 9 | **14** |
+| engine Brier | 0.236 | **0.246** |
+| always the observed hit rate (hindsight) | 0.173 | 0.230 |
+| expected / observed hits | — | 4.41 / 5 |
+| audits revealed with a sealed plant line | 1 (pl-001, forced) | 3 (2 planted, both caught; 1 clean) |
+| catch rate | 1/1 | **2/2, Wilson [0.34, 1.00]**; H2 needs at least 10 plants |
+| lazy "the effect isn't there" baseline for failures | 5 of 8 | 6 of 10 |
+| engine pre-mortems naming the main reason | 3 of 6 | 3 of 7 |
+| lessons: paired Brier before → after | — | 0.325 → 0.205, on 2 bets |
+| design reviews | — | 6 fix-first, 0 go, 0 redesign; 1 missed a flaw the later audit found |
+| bets with Sean's odds | 0 | 0 |
+
+How to read it:
+- **Calibration is still untestable.** H1 needs at least 20 scored bets, with at least 4 hits and 4 misses. There are 14, with 5 hits.
+- **The lesson rows are two bets, not a finding.** They pull different ways: on ss-b1 the lesson's odds move hurt (0.25 against 0.16).
+- **The by-referee Briers are too few to compare** (`ledger/brier.md`).
+
+## 6. This morning's list, against what happened
+
+| planned this morning (§6 above) | what happened this evening |
+|---|---|
+| The auditor starts carrying plants | Done. pl-002 was planted and caught; pl-003 was drawn clean. |
+| Program 2 re-bets P2-3 on low-severity stories | Done. Sean approved it (st-12); it ran without a refusal and **failed**. |
+| Program 3's first wave-2 chip bet is the true repeat | Run 1 done, **fail**, unaudited; run 2 not before 21:30. |
+| Program 3 fixes `overwrite_calibration` before reuse | No separate fix or audit of the corrected simulator is in this window's commits. ng-p3-5c's lesson says it loads T1/T2 with an assertion (`ledger/lessons.jsonl`, ls-ng-p3-5c); it has not run. |
+| Sean fills in the odds forms | Not done. `ledger/human-odds.jsonl` is empty, and under rule 11 no session asks him for them. |
+
+*Sources for this section:* the commits named above; `ledger/brier.md`, `ledger/scores.md`, `ledger/bets.jsonl` (`8730692`); `ledger/lessons.jsonl` (`d02b645`); `ledger/audits/ss-b1.md` (`8730692`), `ledger/audits/om-p2-3b.md` (`67244e7`); `programs/settled-science/results/ss-b1-results.md` (`a585a88`), `programs/settled-science/experiments/ss-b4.md` (`e8f921e`); `programs/other-minds/results/p2-3b-simpletom-lowsev.md` (`67244e7`); `programs/nature-graded/results/p3-15-repeat.md` (`e7f8c5c`); `CONTEXT.md` §3–4.
