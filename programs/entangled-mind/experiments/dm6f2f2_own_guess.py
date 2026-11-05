@@ -131,6 +131,8 @@ def run(client=None):
             save()
             break
         keys = list(jobs)
+        if O in wave:                                    # D89: by question, so a skipped chunk drops whole questions, not a whole cell
+            keys = sorted(jobs, key=lambda k: (k.split("|")[3], k.split("|")[1], k.split("|")[2]))
         chunks = [keys] if O not in wave else [keys[i:i + OPUS_CHUNK] for i in range(0, len(keys), OPUS_CHUNK)]
         for ck in chunks:
           if O in wave:                                  # D87: worst case = every reply at max_tokens

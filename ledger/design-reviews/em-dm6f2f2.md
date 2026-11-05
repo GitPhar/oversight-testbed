@@ -13,7 +13,7 @@ papers_opened: 2
 flaws: 5
 pilot_usd: 0.0246
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 11:33 America/Denver
 ---
 
 # Design review of em-dm6f2f2
@@ -140,3 +140,27 @@ Each needs a dated DEVIATIONS.md row (next free number after D85), written befor
 5. **(D12b) Correct the Kim and Kang 2026 description** in §0's prior work row and the map's `prior_work_line`, to: "Kim and Kang 2026 hold verbalized answers and scores fixed and vary the context in which token probability is read; the verbalized-minus-token gap shifts (19/20 ECE, 17/20 AUROC, 95% intervals), mostly through that context's instruction text; their verbalized-wording variation is a 0–100 scale (App. B.1); stated confidence also depends on how a supplied answer is worded. Human calibration work on format dependence (half-range 'my answer is correct' against full-range 'the statement is true'; Ferrell; Juslin, Wennerholm and Olsson 1999; Winman, Hansson and Juslin 2004) names the referent mechanism in people; none tests threshold-list overlap. Predicts: unknown." Keep both odds if they move.
 
 Recommendations (not required): name the science-only referent world (0.89) in the odds reason; check the Opus wave in chunks at worst-case cost, or raise Opus to 10 per category, since the pilot cost was about $0.0008 per request at the batch rate; say in §5 that a one-question flip leaves the verdict standing, with the flip reported; fix the `opus_questions` docstring.
+
+## Confirmation (2026-11-05 11:33 America/Denver): go
+
+Checked against `23a2893` (DEVIATIONS.md D87; `dm6f2f2_own_guess.py`; the bet-row update in `ledger/inbox/p1-wave3.jsonl`; map node dm6f2-f2's `prior_work_line`).
+
+Re-run, with no paid calls:
+- `--selftest`;
+- fake-client `run()` plus `analyse()` in six synthetic worlds, outputs redirected to the scratchpad;
+- a cache-tamper run;
+- a forced noise-asymmetry case.
+
+`git status` stayed clean apart from this file.
+
+1. **Manipulation check (D2): fixed.** `out["manipulation"]` reproduces the archive values exactly: P 101/199 = 0.51, F 33/158 = 0.21. The bar is 0.10 in both formats. When the rewording takes effect, the original sentences are kept. When it does not, the second sentence is replaced verbatim, for both pass and fail. Examples: a fail world gave "The rewording did not remove numbers below 0.5 on Yes/No guesses (probability format 0.82, frequency format 0.42), so …"; a pass world gave P 0.34 / F 0.00. The verdict and score are unchanged.
+2. **Guess-form change (D7, D8d): fixed.** D87 adds the §6 sentence. The fail sentence's second sentence is now the bundle wording. The Yes/No-share secondary is reported per format|category and per cell, with the archive beside it.
+3. **Parent caveats (D8a–c): fixed.**
+   - The pass sentence ends with "This design cannot say whether one format flags more questions or other questions."
+   - em-dm6f2's asymmetry addendum is appended when `noise_asymmetric` is true on a pass (checked by forcing the flag).
+   - J_PP, J_FF and the flag are printed.
+   - Every model's `sentence` is None.
+4. **Content hash (D10): fixed.** Each entry stores `sha`. A tampered entry stops the run: "cached sonnet|P|r0|h001 was built from a different request; stopped, nothing resubmitted".
+5. **Kim and Kang 2026 (D12b): fixed.** The map line and the bet row's `prior_work` carry the corrected text and the human format-dependence leads. The §0 row is superseded by D87; the frozen file was not edited.
+
+**One new issue, non-blocking.** It concerns only the reported Opus model, not the Sonnet verdict. Opus's 160 calls are chunked in key order, so each 40-call chunk is one whole cell (P r0, P r1, F r0, F r1). Billed at the code's own estimates (Opus $0.0012), the fourth chunk does not fit: after three chunks, spent $0.864 + worst case $0.143 + reserve $0.02 > $1.00. Opus then has no question with all four cells, and all three chunks' calls give no usable number. D87's "completes all three models at $0.850" holds only when Opus bills at the pilot's $0.0008: I reproduced $0.848, with 160 Opus calls and a 40-question label. Recommended before the run, a one-line change under the D87 row or a new one: order the Opus wave's keys by question, `keys = sorted(jobs, key=lambda k: (k.split("|")[3], k.split("|")[1], k.split("|")[2]))`, so a skipped chunk drops whole questions (10 at a time) instead of a whole cell.
