@@ -82,9 +82,9 @@ Is that a good steer? The ledger says "pending", and that's right. Unlike my fir
 
 ## Part 3 — The one place the odds carried judgment (6:45–9:15)
 
-**[SCREEN: `ledger/brier.md`, the scores table: 20 bets, Brier 0.249.]**
+**[SCREEN: `ledger/brier.md`, the scores table: 21 bets, Brier 0.220.]**
 
-Now the honest number. On its own bets, the engine has 20 scored. Its Brier score is 0.249. Saying 50% every time scores 0.25. So far, the engine's odds on its own experiments are no better than a coin.
+Now the honest number. On its own bets, the engine has 21 scored. Its Brier score is 0.220, and guessing the pass rate scores 0.222. Saying 50% every time scores 0.25. So far, the engine's odds on its own experiments are no better than a coin.
 
 **[SCREEN: `programs/settled-science/results/ss-b1-results.md`, "In plain English".]**
 
@@ -135,11 +135,11 @@ Thanks for watching. Everything here is in the repository, with the commits on s
 | F6 budget gate | planned 3.4 s/run, 6.8 s total, 10 s budget vs st-11's "about 2.5 QPU s" | `ledger/design-reviews/ng-p3-15.md` |
 | steer st-16 | 18:26, words as quoted; `value: pending` | `ledger/steers.jsonl` |
 | ruling recorded | nature-graded D18 | `b097405` (18:27) |
-| engine calibration | 20 scored, Brier 0.249; always 0.5: 0.250; always the hit rate: 0.240 | `ledger/brier.md` |
+| engine calibration | 21 scored, Brier 0.220; always 0.5: 0.250; always the hit rate: 0.222 | `ledger/brier.md` |
 | ss-b1 result | 116 post-cutoff items, 76% right, Brier 0.163 [0.139, 0.190]; beat the headline baseline (0.232) by 0.068 [0.036, 0.099] | `230cbe4` (18:59), `programs/settled-science/results/ss-b1-results.md` |
 | ss-b1 audit | all three pass-unreplicated; 34 claims, 7 holes, 7 cuts; best dumb predictor 0.233; plant pl-003 clean | `cdce1ba` (19:13), `ledger/audits/ss-b1.md` |
 | model psychology alone | Brier 0.235 [0.181, 0.293], 62% right | same |
-| engine odds on ss-b1..b3 | 0.50, 0.30, 0.35, all passed; Brier 0.388 on 3 (0.418 on 6 with round 2) | `ledger/brier.md`, by referee |
+| engine odds on ss-b1..b3 | 0.50, 0.30, 0.35, all passed; Brier 0.388 on 3 (0.417 on 5 with round 2, ss-b6 reversed to undetermined) | `ledger/brier.md`, by referee |
 | round 2 | ss-b4/ss-b5, template-written items; engine odds 70 and 35, ss-b5 lowered to 25 before data (D23–D29); design review: ss-b4 redesign (up-word rule Brier 0.177 on the 92 drawn passes it), ss-b5 fix-first (7 flaws); ss-b4 withdrawn before data; no bettor call | `8e87c59` (19:17), `29e8769` (19:24), `03fa0a1` (19:42), `9b3d222` (19:43), `296d587` (19:45) |
 
 **Left out on purpose, or said only with its caveat.**

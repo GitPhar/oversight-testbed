@@ -12,11 +12,11 @@ What the panel would see first is an unusually honest machine. In two days a can
 
 Then the panel would find the three facts.
 
-**First, the human column is empty.** The residency page says the skill that matters is the ability to frame a research agenda and judge what is worth doing. This testbed exists to measure exactly that for its human. Yet after 52 bets and 20 scored ones, not a single scored bet carries Sean's odds (`ledger/brier.md`, human row: 0). His first twelve cockpit answers, saved at 05:11 on 5 November, all arrived minutes after the bets they concern were pre-registered, so under the engine's own rule they will never attach to those bets either. There is one steer in his own words (st-16, the chip budget), and it is still "pending". The founding-week steers were reconstructed after the fact by a Claude session and value-judged by a Claude session; they are not scored. A panel asked "what did the candidate's judgment add?" has, from the record, no number and one sentence.
+**First, the human column is empty.** The residency page says the skill that matters is the ability to frame a research agenda and judge what is worth doing. This testbed exists to measure exactly that for its human. Yet after 53 bets and 21 scored ones, not a single scored bet carries Sean's odds (`ledger/brier.md`, human row: 0). His first twelve cockpit answers, saved at 05:11 on 5 November, all arrived minutes after the bets they concern were pre-registered, so under the engine's own rule they will never attach to those bets either. There is one steer in his own words (st-16, the chip budget), and it is still "pending". The founding-week steers were reconstructed after the fact by a Claude session and value-judged by a Claude session; they are not scored. A panel asked "what did the candidate's judgment add?" has, from the record, no number and one sentence.
 
-**Second, the engine graded itself.** Every bettor, auditor, design reviewer, planter, lesson writer and steer-valuer is Claude Opus 5.5. The model whose beliefs are studied is Claude. Several audits were launched by the same session that wrote the result (`ledger/scores.md` names om-p2-5, om-p2-6 and om-p2-6r). The 6-of-6 plant catch rate is real but has a lower bound of 0.61 and includes one plant that was forced. The program-4 passes, the one place stated odds carried judgment, rest on items written by the same model family that bet on them, and a one-line "which version flatters the paper" rule scores 90% to the bettor's 93%. The candidate knows all of this and says it; the audits say it; but saying it does not remove it, and no cross-family check has been run.
+**Second, the engine graded itself.** Every bettor, auditor, design reviewer, planter, lesson writer and steer-valuer is a Claude model (Opus 5.5 throughout; a third audit round on 5 November used Fable 5.1, which is the same family). The model whose beliefs are studied is Claude. Several audits were launched by the same session that wrote the result (`ledger/scores.md` names om-p2-5, om-p2-6 and om-p2-6r). The 6-of-6 plant catch rate is real but has a lower bound of 0.61 and includes one plant that was forced. The program-4 passes, the one place stated odds carried judgment, rest on items written by the same model family that bet on them, and a one-line "which version flatters the paper" rule scores 90% to the bettor's 93%. The candidate knows all of this and says it; the audits say it; but saying it does not remove it, and no cross-family check has been run.
 
-**Third, the documents outrun the ledger.** Six numbers for the engine's calibration are in circulation across the front-page documents (0.256 on 5, 0.236 on 9, 0.246 on 14, 0.259 on 19 and the ledger's 0.249 on 20), three chip-second totals (46, 58, 62, against 69 in the results), two program counts (four in README, seven in the ledger), and three versions of the headline repeat-agreement result (81→23, 78→25, 86→36) that are all Haiku on different item sets but are never labelled as such. `proposal.md` still says "there is no stored credence to read out", "six elicitation formats need six credences" and "consistency is memory": the first two are contradicted on Opus, and the third is a mechanism word the audit cut. A panel that reads carefully, and this panel would, will spend its interview time on the drift instead of the idea.
+**Third, the documents outrun the ledger.** Six numbers for the engine's calibration were in circulation across the front-page documents when this review began (0.256 on 5, 0.236 on 9, 0.246 on 14, 0.259 on 19, 0.249 on 20, and the ledger's 0.220 on 21 by the time the review merged), three chip-second totals (46, 58, 62, against 69 in the results), two program counts (four in README, seven in the ledger), and three versions of the headline repeat-agreement result (81→23, 78→25, 86→36) that are all Haiku on different item sets but are never labelled as such. `proposal.md` still says "there is no stored credence to read out", "six elicitation formats need six credences" and "consistency is memory": the first two are contradicted on Opus, and the third is a mechanism word the audit cut. A panel that reads carefully, and this panel would, will spend its interview time on the drift instead of the idea.
 
 **What tips it.** A residency is a bet on someone's judgment, not on their artefact. The artefact here shows judgment of one specific kind, the discipline to be wrong in public, and that counts for a lot. What it does not yet show is the candidate's own research taste separable from Claude's, because the system was built to measure that and has not measured it. On today's record the panel would say: come back with twenty bets that carry your odds before the engine's, one audit by a model that is not Claude, and documents that match the ledger. All three are cheap and all three are feasible before 22 November. If they land, this moves to a yes.
 
@@ -28,9 +28,9 @@ Then the panel would find the three facts.
 
 2. **The founding idea was killed cleanly and the kill is diagnosed.** The entangled-claim readout did worse than every classical control (AUROC 0.55 against 0.64–0.68); the learned encoding fitted its couplings to near zero; the Sonnet edge was shown to be per-claim readout geometry a classical twin reproduces (`programs/entangled-mind/results/v2-run-1.md`, Addenda D and E; summarised in `site/kills.html` and `paper/the-engine.md` §5).
 
-3. **The engine reports its own odds as a coin, on its front page.** Brier 0.249 on 20, against 0.250 for always-50% and 0.240 for the hindsight base rate (`ledger/brier.md`). The sensitivity table shows the bet whose odds were committed one minute after pre-registration at both values (em-gm1: 0.249 against 0.252).
+3. **The engine reports its own odds as a coin, on its front page.** Brier 0.220 on 21, against 0.250 for always-50% and 0.222 for the hindsight base rate (`ledger/brier.md`). The sensitivity table shows the bet whose odds were committed one minute after pre-registration at both values (em-gm1), and the reversed ss-b6 counted either way (0.229 or 0.216).
 
-4. **The audit changed things.** 41 of 52 bets audited; 2 verdicts reversed (em-gm3c and om-p2-4 to undetermined); program 1's round-one audit failed 166 of 560 claims while reversing no verdict (`ledger/audits/SUMMARY-1.md`, `SUMMARY-2.md`). Real catches are on file: a chip simulation that loaded no calibration (`ledger/audits/ng-p3-1.md`), a "fresh" probe run that replayed 500 of 500 conversations (`ledger/audits/probe-dissociation-dp2.md`), the Opus "single credence" cut to "single verdict" (`ledger/audits/em-dm2-opus.md`), a referee contest decided by how its sides were built (`ledger/audits/ng-p3-5.md`).
+4. **The audit changed things.** 43 of 53 bets audited; 4 verdicts reversed (em-gm3c, om-p2-4 and ss-b6 to undetermined, om-p2-5 to mixed); program 1's round-one audit failed 166 of 560 claims while reversing no verdict (`ledger/audits/SUMMARY-1.md`, `SUMMARY-2.md`). Real catches are on file: a chip simulation that loaded no calibration (`ledger/audits/ng-p3-1.md`), a "fresh" probe run that replayed 500 of 500 conversations (`ledger/audits/probe-dissociation-dp2.md`), the Opus "single credence" cut to "single verdict" (`ledger/audits/em-dm2-opus.md`), a referee contest decided by how its sides were built (`ledger/audits/ng-p3-5.md`).
 
 5. **The auditor is itself scored.** Six sealed plants, six caught (`ledger/scores.md`, `ledger/plants.jsonl`, `operators/plant.md`), with the hash commitment described and the Wilson interval shown rather than hidden.
 
@@ -38,7 +38,7 @@ Then the panel would find the three facts.
 
 7. **A referee that is the published record.** Program 4 asks Opus which way 116 post-cutoff findings went: Brier 0.163 [0.139, 0.190], 76% right, beating a publication-bias shortcut by 0.068 (`programs/settled-science/results/ss-b1-results.md`; audit `ledger/audits/ss-b1.md`). The audit's cuts and the same-family-writer caveat are in the same file.
 
-8. **A design review before spend, and a lesson loop that is measured.** 0 go, 12 fix-first, 3 redesign; three bets withdrawn before data because a dumb rule could pass them (ss-b4, em-qwalk, em-qwalk2). On 9 scored bets, odds after the lesson score 0.222 against 0.264 before (`ledger/scores.md`, `ledger/lessons.jsonl`, `ledger/design-reviews/`).
+8. **A design review before spend, and a lesson loop that is measured.** 0 go, 14 fix-first, 4 redesign; bets withdrawn before data because a dumb rule could pass them or the test could not answer (ss-b4, em-qwalk, em-qwalk2, ta-b1). On 9 scored bets, odds after the lesson score 0.222 against 0.264 before (`ledger/scores.md`, `ledger/lessons.jsonl`, `ledger/design-reviews/`).
 
 9. **Refusals were respected, not routed around.** Three request ids on file, each stopping its run; program 2's re-bet moved to lower-severity stories under a logged steer (`application/checklist.md` S2; `programs/other-minds/results/refusal-p2-3.md`).
 
@@ -64,7 +64,7 @@ Then the panel would find the three facts.
 
 | number in a document | where | what the ledger or results say now |
 |---|---|---|
-| Brier 0.256 on 5 | `proposal.md`, `paper/one-page.md`, `application/research-proposal.md`, `paper/the-engine.md` (parts) | 0.249 on 20 (`ledger/brier.md`) |
+| Brier 0.256 on 5 | `proposal.md`, `paper/one-page.md`, `application/research-proposal.md`, `paper/the-engine.md` (parts) | 0.220 on 21 (`ledger/brier.md`, after the merge; 0.249 on 20 when the review began) |
 | Brier 0.236 on 9 | `CONTEXT.md` §4 | same |
 | Brier 0.246 on 14 | `application/research-interest.md`, `why-anthropic-outline.md`, `walkthrough-script.md`, `paper/the-engine.md` | same |
 | 0.259 on 19 | `paper/plain-words.md`, and so the site's home page | same |
@@ -73,18 +73,18 @@ Then the panel would find the three facts.
 | 62 chip seconds | `paper/plain-words.md` | 69 |
 | "about $64 of model calls" | `paper/plain-words.md` | no single file totals API spend across programs; program 1's `api-usage.md` itemises five runs (about $20) and `ledger/spend.jsonl` holds rulings, not a total. Struck as untraceable. |
 | "four programs" | `README.md`, `paper/plain-words.md`, `one-page-plain.md` | seven programs in `map/` and the ledger; README lists program 4 as "opening" with six audited passes on file |
-| "go first time 0 of 14", "8 reviews missed flaws" | `paper/plain-words.md` | 0 of 15 (12 fix-first + 3 redesign); 9 missed (`ledger/scores.md`) |
-| "Programs 2–4 at 10 scored bets each (now 5, 3 and 6)" | `paper/plain-words.md` | program 2 has 6 scored (all fails), 3 has 3, 4 has 6 |
+| "go first time 0 of 14", "8 reviews missed flaws" | `paper/plain-words.md` | 0 of 18 (14 fix-first + 4 redesign); 11 missed (`ledger/scores.md`) |
+| "Programs 2–4 at 10 scored bets each (now 5, 3 and 6)" | `paper/plain-words.md` | program 2 has 6 scored (all fails), 3 has 4, 4 has 5 (ss-b6 reversed to undetermined) |
 | 81%→23%, 78%→25%, 86%→36% | `the-engine.md` / `plain-words.md` / `proposal.md` | all Haiku: the first ten items as first run, the first ten at the replication's scale, and all forty items. True numbers, never labelled, so they read as three different results. |
 | "two program repositories" | `proposal.md` deliverables | all programs live in this repository (`README.md`) |
 | "replications ... (running)" | `proposal.md` | landed 4 November (DM1–DM6) |
 | "12 landed" for program 1 | `site/map.html` | `map/entangled-mind.json` has 5 hits; the ledger has 2 scored program-1 passes. The site counts unscored passes as "landed" and nothing says so. |
-| ng-p3-16 "running ... nothing submitted" | `site/record.html`, `site/calibration.html`, `ledger/bets.jsonl` row | `programs/nature-graded/results/p3-16-lone-job.md` says fail, 7.0 QPU s, unaudited. The ledger row was not updated when the result was committed (`9726106`). |
+| ng-p3-16 "running ... nothing submitted" | `site/record.html`, `site/calibration.html`, `ledger/bets.jsonl` row | `programs/nature-graded/results/p3-16-lone-job.md` said fail, 7.0 QPU s, unaudited, while the ledger row still said nothing submitted (`9726106`). Scored on main later the same morning (`15711b5`). |
 | the residency quote | `CONTEXT.md` §1, `proposal.md` | verified by this review on the live page: "the ability to frame a research agenda and judge what is worth doing". The documents paraphrase it as a quote; now reworded as a paraphrase. |
 
 ### Places where the engine graded itself
 
-- Model-graded referee: Claude's behaviour decides programs 1, 2, 5, 6 and 7 (11 of 20 scored bets).
+- Model-graded referee: Claude's behaviour decides programs 1, 2, 5, 6 and 7 (12 of 21 scored bets).
 - Auditor, design reviewer, planter, lesson writer, steer-valuer, nightly updater: all Claude Opus 5.5 (`ledger/scores.md`: "all 24 audits are Opus-family on Opus-family work", kill log, program 5).
 - Audits launched by the author session for om-p2-5, om-p2-6 and om-p2-6r (`ledger/scores.md`); auditors saw the pre-mortem early in several files (disclosed in the results, e.g. `p3-15-repeat.md`, `p2-5-egocentric.md`).
 - Plant pl-001 was forced rather than drawn (`ledger/scores.md`).
@@ -95,7 +95,7 @@ Then the panel would find the three facts.
 
 ### The empty human column
 
-- 0 of 20 scored bets carry human odds; 0 of 52 bets at all (`ledger/bets.jsonl`, every `human_odds` null).
+- 0 of 21 scored bets carry human odds; 0 of 53 bets at all (`ledger/bets.jsonl`, every `human_odds` null).
 - The twelve lines in `ledger/human-odds.jsonl` (saved 2026-11-05 05:11:40) concern directions whose bets were pre-registered at 04:45–05:15 the same morning; the rule is that odds arriving after pre-registration are never attached. So the first dozen human answers will score nothing.
 - The cockpit shows 75 open questions; H3 needs 20 dual-odds bets. Nothing on the record yet tests the proposal's Q3.
 - Shadow checks: 0 run. Tiebreak bets: 0. Steer values: one pending (st-16), the rest reconstructed and unscored.
@@ -104,8 +104,8 @@ Then the panel would find the three facts.
 
 - The "belief" findings are Haiku, with Sonnet partial and Opus contradicting the format part; the own-against-other pull (0.42 vs 0.05) is Haiku only and confounded with wording; the probe result on Llama-3-8B hangs on one item (h191) after a rerun.
 - Program 2: six fails and one undetermined, all Haiku; the one Sonnet/Opus replication (om-p2-6r) did not replicate.
-- Program 4: Opus only, one prompt, one item set; six passes, none replicated; ss-b3 rests on one field.
-- Program 3: three fails, three untestable, one unscored pass; the 3 November 0.50 remains unexplained and the file rightly refuses to call it a fluke.
+- Program 4: Opus only, one prompt, one item set; five scored passes, none replicated, a sixth (ss-b6) reversed to undetermined by the third audit round; ss-b3 rests on one field.
+- Program 3: four fails, two untestable, one unscored pass; the 3 November 0.50 remains unexplained and the file rightly refuses to call it a fluke.
 
 ### Anything that reads as quantum woo
 
@@ -118,7 +118,7 @@ Then the panel would find the three facts.
 - `CONTEXT.md` §4 is stated "as of 09:15" on 4 November and the nightly updater did not refresh it.
 - `README.md` sends a new reader to CONTEXT.md, TASKS.md and ARCHITECTURE.md before the plain-words page is mentioned, and lists only four programs.
 - The site's record page repeats the "Wednesday, November 4 / Thursday, November 5" headers twice (scored then open bets) with no label saying why.
-- Volume: 52 bets, 70 kills and 7 programs in about 60 hours, under a front page that says "built for trust, not volume". The panel will ask what a bet is worth at that rate; the honest answer is in the design-review and audit counts, and should be beside the volume figure.
+- Volume: 53 bets, 70 kills and 7 programs in about 60 hours, under a front page that says "built for trust, not volume". The panel will ask what a bet is worth at that rate; the honest answer is in the design-review and audit counts, and should be beside the volume figure.
 
 ---
 
@@ -130,11 +130,11 @@ Ranked by how much each moves the verdict per hour. "Doc" means documentation on
 |---|---|---|---|---|
 | 1 | **Sean's odds on at least 20 open bets, entered in the cockpit before each bet is pre-registered**, with the pre-registration step changed to wait for the human line (or record "skipped" in his own words). | 3 h Sean, 1 h session, $0 | exp (process) | Fills the only column the residency question depends on. Without it, H3 and Q3 are untested and the candidate's own judgment is invisible. |
 | 2 | **One cross-family audit pass**: a non-Claude model re-audits 5 scored results (ss-b1, om-p2-6r, ng-p3-15, em-gm2b, em-dm2-opus) with the same operator file, with 2 sealed plants. | 4 h, about $10 | exp | Answers "the engine graded itself" with a number rather than a caveat. Either outcome is reportable. |
-| 3 | **Bring every front-page number to the ledger**: Brier 0.249 on 20, 69 QPU s, seven programs, 15 design reviews, 9 missed, 6 plants; strike the untraceable "$64". Files: README, CONTEXT §1/§4/rule 7, proposal, one-page, plain-words, research-proposal, research-interest, outline, walkthrough table. | 3 h, $0 | doc | Removes the drift a careful panel would otherwise spend the interview on. *Done in this review.* |
+| 3 | **Bring every front-page number to the ledger**: Brier 0.220 on 21, 69 QPU s, seven programs, 18 design reviews, 11 missed, 6 plants; strike the untraceable "$64". Files: README, CONTEXT §1/§4/rule 7, proposal, one-page, plain-words, research-proposal, research-interest, outline, walkthrough table. | 3 h, $0 | doc | Removes the drift a careful panel would otherwise spend the interview on. *Done in this review.* |
 | 4 | **Soften the audit-cut overclaims** in proposal.md, research-interest.md and plain-words.md: "no stored credence", "six credences", "consistency is memory", "held one credence" become what the audits allow (Haiku; verdict agreement on Opus; "repeats its earlier answer far less when it is hidden"). | 1 h, $0 | doc | A panel that has read the audits will otherwise read the proposal as not having read them. *Done.* |
 | 5 | **Label the three repeat-agreement figures** (81→23, 78→25, 86→36) by item set wherever they appear, or use only the 40-item one. | 0.5 h, $0 | doc | Three unlabelled versions of one result read as three results. *Done.* |
 | 6 | **Plain-English pass** on README, proposal, application/ and plain-words: every bet id with its plain question beside it on first use, every term glossed, bachelor's reading level. | 3 h, $0 | doc | The residency page asks for judgment that can be shown; a panel of non-specialists in the candidate's sub-field has to be able to follow the showing. *Done.* |
-| 7 | **Update the ledger row for ng-p3-16** to its committed result (fail, 7.0 QPU s, unaudited) and run its audit with a plant drawn at random; then regenerate brier.md and the site. | 1 h, $1 | exp (ledger) | A result file and the ledger disagree today on the live site. Not done here (ledger rule). |
+| 7 | **Audit ng-p3-16** with a plant drawn at random, and regenerate the site so its record page stops showing the bet as running. | 1 h, $1 | exp (ledger) | The ledger row was scored on main after this review began; the audit is still open. Not done here (ledger rule). |
 | 8 | **Replicate one program-4 pass with a non-Claude item writer** (direction ss-f5) on 60 items. | 4 h, about $5 | exp | The only positive finding's cheapest overturning test, named by its own audit. Turns "pass-unreplicated, same-family writer open" into a scored bet either way. |
 | 9 | **Four more sealed plants, never on an audit the author session launches**, and a rule that audits are launched only by a session that did not write the result. | 3 h, about $3 | exp (process) | Takes the catch rate to the 10 that H2 needs and removes the author-launched-audit caveat from scores.md. |
 | 10 | **Record the walkthrough and write the essay in Sean's own voice** (checklist S3, S5), covering one kill, one steer and the empty human column. | 4 h Sean, $0 | doc (Sean only) | The record has one sentence by the candidate. The panel is hiring a person. |
@@ -152,8 +152,8 @@ Changes 1, 2, 8 and 9 together cost about 12 hours and under $20 and would, on t
 *Not supported:* "My steers were the highest-value decisions of the week." (That sentence was written by a Claude ledger session about a reconstructed steer.)
 
 **2. "Your engine's odds are a coin. Why should we trust the system?"**
-*Supported:* "You should not yet, and the ledger says so in large type. 0.249 on 20 against 0.250 for always-50% and 0.240 for the hindsight base rate; twenty bets cannot separate those. What I can show is that the odds were committed before data, that two reversals by audit were taken, and that the one place the odds carried judgment, the published record, is reported with its caveats."
-*Not supported:* "The engine is calibrated by referee: 0.062 on chip-graded bets." (Three bets, all at 7% odds, all failed; that is the base rate, not skill.)
+*Supported:* "You should not yet, and the ledger says so in large type. 0.220 on 21 against 0.250 for always-50% and 0.222 for the hindsight base rate; twenty bets cannot separate those. What I can show is that the odds were committed before data, that two reversals by audit were taken, and that the one place the odds carried judgment, the published record, is reported with its caveats."
+*Not supported:* "The engine is calibrated by referee: 0.047 on chip-graded bets." (Four bets, all at 5–7% odds, all failed; that is the base rate, not skill.)
 
 **3. "Everything here is Claude checking Claude. What is the independent evidence?"**
 *Supported:* "Two referees that are not a model: the IBM chip and the published record. For the model-graded half, nothing independent yet. Six sealed plants were all caught, with a lower bound of 0.61 and one plant forced rather than drawn. A cross-family audit is the next thing to run and costs about ten dollars."
@@ -167,12 +167,12 @@ Changes 1, 2, 8 and 9 together cost about 12 hours and under $20 and would, on t
 *Supported:* "The founding idea was mine and it died in two days; the kill is diagnosed. What survived is a use for the chip that has nothing to do with quantum advantage: it is a referee whose outcomes a model cannot talk round. Every circuit we run is laptop-simulable. The 3 November 0.50 that IBM's model put at 0.25 is still unexplained after three pre-registered tries, and I say so rather than call it a fluke."
 *Not supported:* "Quantum cognition is a promising architecture for language models." (Four pre-registered comparisons found no advantage for the quantum state.)
 
-**6. "Program 4 passed six of six. Is the model forecasting science?"**
-*Supported:* "It beat a coin and a publication-bias shortcut on 116 post-cutoff findings, once, on one prompt, with items written by the same model family. A one-line rule, 'which version flatters the paper', scores 90% to its 93%. The audit labelled all six pass-unreplicated and named the non-Claude item writer as the cheapest test that could overturn it. That test is the next bet."
+**6. "Program 4 passed five of six, and the sixth was reversed. Is the model forecasting science?"**
+*Supported:* "It beat a coin and a publication-bias shortcut on 116 post-cutoff findings, once, on one prompt, with items written by the same model family. A one-line rule, 'which version flatters the paper', scores 90% to its 93%. The audit labelled the five pass-unreplicated, reversed the sixth to undetermined, and named the non-Claude item writer as the cheapest test that could overturn it. That test is the next bet."
 *Not supported:* "The model understands these fields." (The results file says it does not show that; the record is a referee of what got published, not of what is true.)
 
 **7. "Fifty-two bets in two days. What is one worth?"**
-*Supported:* "Less than the count suggests, and the ledger prices them: 32 of 52 are unscored, three were withdrawn before data because a dumb rule could pass them, every design review said fix-first or redesign, and nine of fifteen reviews were later found to have missed a flaw. The number I would defend is 20 scored, 41 audited, 2 reversed."
+*Supported:* "Less than the count suggests, and the ledger prices them: 32 of 53 are unscored, four were withdrawn before data, every design review said fix-first or redesign, and eleven of eighteen reviews were later found to have missed a flaw. The number I would defend is 21 scored, 43 audited, 4 reversed."
 *Not supported:* "Built for trust, not volume" as a description of the last 60 hours without those numbers beside it.
 
 **8. "How do you know the pre-registrations were not edited after the fact?"**
