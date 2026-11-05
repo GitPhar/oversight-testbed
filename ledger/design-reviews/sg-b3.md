@@ -166,7 +166,7 @@ Each fix needs a dated DEVIATIONS row, written before any test call and naming t
 
 The pilot files (`results/sg-b3-grade-calls-pilot.json`, `results/sg-b3-analysis-pilot.json`) are committed with this review. They are not test data. The reviewer confirms the five fixes in an addendum here before the first non-pilot call.
 
-## Addendum: check of the fixes (2026-11-05 05:52 America/Denver)
+## Addendum: check of the fixes (2026-11-05 05:31 America/Denver)
 
 The fixes are in commit b8d6ee3, DEVIATIONS rows D9a–D9e, all dated before any test call. I re-ran `sg_b3_flaw.py dryrun` (35 s) and ran my own checks through the fixed `analyse()` (scratch script `confirm.py`, in the same scratchpad). No paid call was made. **Three fixes hold and two need one more step, so this is not yet confirmed (confirmed_at stays null).**
 
