@@ -36,3 +36,13 @@ ss-b1 used items written by the same model family as the bettor. The audit's che
 Rationales (each under 100 words):
 - **ss-b4 (70).** ss-b1 scored 0.163 with curated, context-rich items. Template items give one sentence and no methods summary, and some will be weaker results. But result sentences in abstracts often state the direction a field expects ("outperforms", "higher accuracy than"), and the bettor knows that. I expect a Brier near 0.20 on about 100 items, which clears 0.25 more often than not. I am not lowering toward the ledger's pooled base rate: in ss-b1 that move cost Brier 0.16 → 0.25, and that rate pools other referees.
 - **ss-b5 (35).** Abstracts mostly report improvements, so the up-word rule may itself score near 0.21. Beating it needs real knowledge of which direction each finding went, on single sentences. That is possible, but below even odds.
+
+## Round 2b: the valence comparator (written 2026-11-04 20:09 America/Denver, before any valence call)
+
+The ss-b5 audit's open rival is that the bettor "picks the version that flatters the paper", not that it knows results. Test it: on the same 92 items, in the same option order, a fresh no-tools claude-opus-5-5 at the bettor's setting is asked only *which sentence makes the paper's own method or result look better*. Its probability on the published sentence becomes a third comparator. No other provider's key was looked for.
+
+| id | event the odds are for | engine P(pass) |
+|---|---|---|
+| ss-b6 | The bettor's paired Brier difference against the valence rule has a 95% upper bound below 0, on at least 60 items. | **25** |
+
+Rationale (under 100 words): the audit found most of the bettor's down-word hits were sentences where the down word is the paper's win ("lower noise", "costing less"), and three of its four misses reported limitations. Published sentences mostly report wins, so a flattery rule should score close to the bettor. To beat it, the bettor would need to be right where the published sentence is unflattering, and there are few such items. Below even odds.

@@ -67,6 +67,18 @@
    "engine_odds_first": 0.35,
    "engine_odds_revised_at": "2026-11-04 19:45 America/Denver",
    "revision_reason": "D24: bar tightened to beat both the up-word and swap-pair rules"
+  },
+  {
+   "id": "ss-b6",
+   "title": "Round 2b: the bettor beats a valence ('which flatters the paper') comparator on the 92 round-2 items",
+   "parent": "ss-b5",
+   "status": "open",
+   "engine_odds": 0.25,
+   "engine_odds_at": "2026-11-04 20:09 America/Denver",
+   "odds_template": "item-writer, one pass (D1)",
+   "source": "engine",
+   "cost": "about $0.45",
+   "referee": "published-record"
   }
  ]
 }
