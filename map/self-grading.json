@@ -428,9 +428,9 @@
    ],
    "source": "literature",
    "source_note": "ledger/audits/sg-b3.md, 'What would break it next' (the audit's cheapest overturning test, costed there at about $0.42 on Opus); also the second design invariant 7 asks for",
-   "status": "bet",
+   "status": "killed",
    "opened": "2026-11-05T05:55",
-   "diagnosis": null,
+   "diagnosis": "Opus's blunting fell from 6.0 to 3.4 points (under the 5-point bar) once the overclaim replaced the caveat; Haiku unchanged at 12.5; the swap bundles length with the lost caveat (sg-b5, audit 4a66466).",
    "bets": [
     "sg-b5"
    ],
@@ -445,7 +445,10 @@
     "Tsui 2025, Self-Correction Bench, arXiv 2507.02778 v3 (HTML opened 2026-11-05)",
     "Khullar, Hopkins, Wang, Roger 2026, Self-Attribution Bias, arXiv 2603.04582 (HTML opened 2026-11-05)"
    ],
-   "prior_work_at": "2026-11-05 10:20, program 5 follow-ups session, from the pre-registration's §0 row (rule 13; design review sg-b5 D12)"
+   "prior_work_at": "2026-11-05 10:20, program 5 follow-ups session, from the pre-registration's §0 row (rule 13; design review sg-b5 D12)",
+   "rules_out": "Rules out, on Opus 5.5 and these 60 made-up study conclusions, that grading in the writing conversation docks an overclaim 5 or more points less than fresh once it replaces the conclusion's caveat instead of making the text too long.",
+   "verdict": "fail",
+   "closed": "2026-11-05"
   },
   {
    "id": "sg-d12",
