@@ -91,13 +91,13 @@ Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denv
 |---|---|
 | pre-registrations since the rule | 3 |
 | with a lesson line | 3 |
-| with a design review verdict | 2 |
-| awaiting their design review (nothing may run yet) | 1: ng-p3-5c |
+| with a design review verdict | 3 |
+| awaiting their design review (nothing may run yet) | 0 |
 | **violations** (no lesson, or a result without a review) | 0 |
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 0 |
 
-Design reviews: 0 go, 2 fix-first, 0 redesign; 0 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 3 fix-first, 0 redesign; 0 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
