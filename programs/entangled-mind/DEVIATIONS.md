@@ -1185,3 +1185,24 @@ Details in `results/probe-dissociation.md`.
 - (i) carry em-qwalk2-1b's F-B wording.
 
 **Outcome against steer st-13:** untestable at this scale, found before data at $0. Recorded in `ledger/steers.jsonl` and `results/qwalk.md`.
+
+## D59 — Audit em-qwalk applied: 8 cuts to results/qwalk.md and st-13; pl-005 revealed clean; a review-scope breach logged
+
+**Date:** 2026-11-04, after the audit (`ledger/audits/em-qwalk.md`, 9c9c139; fresh subagent launched by the engine session with auditor.md's launch line only). Laptop only: $0 API, 0 QPU s. No score on the real outcomes was computed by anyone.
+
+- **Verdict:** "untestable at this scale" stands. Both bets remain `withdrawn`, unscored. Plant pl-005 was **clean**, so every finding is the real audit.
+- **Cuts applied** to `results/qwalk.md`, all eight, as the audit wrote them:
+  - "the friendliest case possible" → the author's recipe, with PageRank ahead in other recipes;
+  - "whatever the truth" → at least 95% "not detectably different" in every modelled world; only labellings searched for the purpose passed;
+  - thresholds 0.149 and 0.779–0.792;
+  - "cannot be told apart" → no test of this design could tell them apart, and neither was scored;
+  - "tested harness ready to rerun" → a reviewed harness pinned to 680f128, needing D58 (a)–(i);
+  - the 80%-power figure is the bootstrap condition alone;
+  - "the leak cancels" → cancels on average;
+  - "59" includes the 14 bmq reading-stage labels.
+  - Cuts 2, 4 and 5 are mirrored in st-13's outcome in `ledger/steers.jsonl`.
+- **Generator committed** for §3's first table: `qwalk2.py --null-thresholds 680f128` (40 seeds × 10,000 shuffles; label values discarded). Δ threshold 0.149 in 32 of 40 seeds (0.143–0.156); quantum threshold 0.779–0.792.
+- **Breach, logged.** em-qwalk's pre-registration (680f128 §3) let reviewers run only `--dry-run` and `--graph-counts` on the real graph. The author's brief to the em-qwalk reviewer said it "may inspect the graph-construction rule's output on the real inputs (which nodes, which edges, which labels)". That reviewer then listed all 25 real labels in `ledger/design-reviews/em-qwalk.md`. The brief exceeded the pre-registration; the fault is the author's, not the reviewer's.
+  - It does not affect any verdict: no score was ever computed, and every number in the results comes from shuffled or planted outcomes.
+  - It does mean the labels are public in a review file, as they already were in the map and the ledger.
+- **Design-review miss** (audit header `design_review_missed`): neither em-qwalk review asked whether the design could pass in a world where the hypothesis holds. That is now design-review check D11 (engine session, 41a687d).

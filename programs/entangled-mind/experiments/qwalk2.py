@@ -6,6 +6,7 @@ Re-bet of em-qwalk (withdrawn before data, D56). The graph and label rule are em
     python3 qwalk2.py --dry-run                     # synthetic graphs and labels only
     python3 qwalk2.py --dry-run-real-topology <c>   # the real links and labelled-node set, label VALUES discarded
     python3 qwalk2.py --dry-run-planted <c>         # planted-kernel worlds on the real links (values discarded)
+    python3 qwalk2.py --null-thresholds <c>         # permutation-null pass thresholds, 40 seeds x 10,000 shuffles
     python3 qwalk2.py --graph-counts <c>            # node, edge, label, component counts; no predictor
     python3 qwalk2.py --run --seed-bootstrap <n> --seed-permutation <n>   # inputs fixed at INPUT_COMMIT (680f128)
 
@@ -756,11 +757,40 @@ def dry_run_planted(commit, N=200, b=500, p=500, seed=5):
     return rep
 
 
+def null_thresholds(commit, seeds=40, p=10_000):
+    """D59 (audit em-qwalk cut 3): the permutation null's pass thresholds on the real links. They depend only on the
+    graph and the counts 11/14, so one shuffled labelling per seed gives them; label VALUES are discarded."""
+    ids, A, labels, _, meta = load(commit)
+    nodes = sorted(labels)
+    n_hit = sum(labels.values())
+    del labels
+    KQ, KC, _ = kernels(A)
+    idx = {n: i for i, n in enumerate(ids)}
+    ni = [idx[n] for n in nodes]
+    CQ, CC = columns(KQ, ni), columns(KC, ni)
+    rows = []
+    for sd in range(seeds):
+        rng = np.random.default_rng(sd)
+        y = np.array([1.0] * n_hit + [0.0] * (len(nodes) - n_hit))
+        Yp = np.array([rng.permutation(y) for _ in range(p)])
+        nq, nc = auroc_rows(scores(CQ, Yp), Yp), auroc_rows(scores(CC, Yp), Yp)
+        rows.append({"seed": sd, "diff_q975": float(np.percentile(nq - nc, 97.5)), "diff_q025": float(np.percentile(nq - nc, 2.5)),
+                     "quantum_q975": float(np.percentile(nq, 97.5)), "pagerank_q975": float(np.percentile(nc, 97.5)),
+                     "quantum_mean": float(nq.mean()), "pagerank_mean": float(nc.mean())})
+    summ = {k: {"min": min(r[k] for r in rows), "median": float(np.median([r[k] for r in rows])), "max": max(r[k] for r in rows)}
+            for k in rows[0] if k != "seed"}
+    from collections import Counter
+    summ["diff_q975_most_common"] = Counter(round(r["diff_q975"], 3) for r in rows).most_common(3)
+    print(json.dumps({"seeds": seeds, "P": p, "summary": summ}, indent=1))
+    return rows
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--dry-run-real-topology", metavar="COMMIT")
     ap.add_argument("--dry-run-planted", metavar="COMMIT")
+    ap.add_argument("--null-thresholds", metavar="COMMIT")
     ap.add_argument("--graph-counts")
     ap.add_argument("--run", action="store_true")
     ap.add_argument("--seed-bootstrap", type=int)
@@ -773,6 +803,8 @@ if __name__ == "__main__":
         dry_run_real_topology(a.dry_run_real_topology, N=a.n)
     elif a.dry_run_planted:
         dry_run_planted(a.dry_run_planted)
+    elif a.null_thresholds:
+        null_thresholds(a.null_thresholds)
     elif a.graph_counts:
         graph_counts(a.graph_counts)
     elif a.run:
