@@ -7,11 +7,11 @@ reviewer_model: claude-opus-5-5
 author_model: claude-opus-5-5
 same_model_family: true
 date: 2026-11-04 18:20 America/Denver
-checks: {D1: flaw, D2: holds, D3: holds, D4: flaw, D5: flaw, D6: holds, D7: flaw, D8: flaw, D9: flaw, D10: holds}
+checks: {D1: flaw, D2: holds, D3: holds, D4: flaw, D5: flaw, D6: holds, D7: flaw, D8: flaw, D9: flaw, D10: holds, D11: holds}
 flaws: 7
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-04 21:45 America/Denver
 ---
 
 # Design review of ng-p3-5c
@@ -205,3 +205,38 @@ Only "absorbed as blur" triggers the §5 add-on. "Invisible" adds: "At 0.1 rad, 
 Label each line with what differs.
 
 After the fixes, this reviewer confirms them in an addendum and sets `confirmed_at`. Only then does `--run` unlock.
+
+## Addendum: fixes confirmed (2026-11-04 21:45 America/Denver)
+
+The author's fixes are at 511ea05 (21:32), as `programs/nature-graded/DEVIATIONS.md` D19–D26, before any `--run` (no `results/p3-5c-nested.json` exists). I read the amended `experiments/p3-5c-nested.md`, `experiments/p3_5c_fits.py` and `data/p3-5c-recovery.json`. I also re-ran the code paths the recovery study does not exercise. The same offline guard was used as before: no `.env` read, sockets blocked, no archive counts read, no paid or hardware calls.
+
+**Verdict: confirmed.** All seven fixes do what the review required. None lowers a bar, and nothing new blocks the run.
+
+| fix | required | what 511ea05 does | confirmed by |
+|---|---|---|---|
+| F1 (D19) | decay in the blur family; recovery on the three real ρ_ref, including a decay truth; 14-knob version as secondary | `fam_inc9` = damping γ_i, γ_j ∈ [0, 0.2], then Pauli, then mixing; `fam_full16` = inc9 ∘ coh; warm starts sized correctly (7 + 9); inc7/full14 kept as `secondary14` | Recovery JSON: decay at 0.03 is falsely flagged as rotation in **1 of 24** draws (0, 0, 1 of 8), against 6 of 24 for the frozen model. The decay cells are "not detected" for rotation on all three pairs. The 14-knob secondary still calls decay rotation on h221, as §6 says. This matches my own `exp3.py` (0 of 24 with the same family). **Holds.** |
+| F2 (D20) | B = 1,000 or adaptive extension; floor stated; Bonferroni reachable | B = 100, extended to 1,000 when p ≤ 0.05; parallel; seeds from `SeedSequence.spawn`; `floor` reported | Recovery JSON: every "present" has B = 1,000, p = 0.001. In my planted run (`confirm2.py`, B shrunk only to exercise the path) the bootstrap extended exactly when p ≤ 0.05. Sequential use cannot inflate the 1% error: a "present" always needs p < 0.01 at B = 1,000. **Holds.** |
+| F3 (D21) | restate D10's reason for demoting CV; replace the ZZ-eigenstate dry run with the real-state recovery; add a CV-disagrees sentence | §2 "Dry-run record, corrected"; CV "a noisy single-draw quantity"; §5 adds the CV-disagrees sentence; `cv_agrees` in the output | Text read; `cv_agrees` computed correctly in `confirm1.py`. **Holds.** |
+| F4 (D22) | sentences with "terms in a 16-knob model"; power where "not detected" ends; a not-blind sentence; goodness of fit | All present in §5; deviance on 27 − 16 = 11 df against χ²₁₁'s 99th percentile (24.7) | `confirm1.py`: a rotation planted in one setting only, which no state-level model can represent, gives deviance 66.6 > 24.7, so `misfit: True` and the misfit sentence applies. **Holds.** |
+| F5 (D23) | three outcomes defined from the item's real-data q99s; 20 draws; trace distance | Exactly that, in `run()`; `majority` decides which §5 sentence applies | Code read. The spectator manipulation itself was confirmed to take effect in the main review (D2). **Holds.** |
+| F6 (D24) | per-setting shares; the "rests mostly on" sentence; drop-one refit reported | `setting_shares`; when a present label's top setting carries more than 0.5 of the LR, a refit without it is compared against the item's null q99 | `confirm2.py`: a rotation planted mostly in XY and YX labels "present", the top setting YX carries 0.55, and the refit without YX runs (LR 224.5, still above q99). **Holds.** |
+| F7 (D25) | the P3-5 comparison three ways; `check_prereg` in `--run` | Four lines (adding the 9-knob family); `run()` calls `check_prereg.py --before-run` and refuses on failure | Code read. The P3-5-family lambda runs on synthetic counts (`confirm1.py`). **Holds,** with one note below. |
+
+**Blur power, and whether it changes D11.** The commit says blur power came out lower than my estimate ("about 1% almost surely"). It did, but mostly because the recovery measures a different, smaller blur. The recovery's "1% per qubit" is Pauli flips of 1/3% each in X, Y and Z, with no uniform mixing. The truth behind my estimate (`exp2.py`, blur × 0.1) also had about 0.8% uniform mixing. The 9-knob null also has two more knobs to absorb with. The measured rates now in §5 and §6 are the right ones to quote:
+- blur: 0.25% / 0.5% / 1% per qubit detected in 0 / 1 / 2–6 of 8 draws;
+- rotation: 0.025 / 0.05 / 0.1 rad detected in 1–3 / 3–7 / 8 of 8.
+
+The "rotation only" sentence now says plainly that it "does not rule out blur of about 1% per qubit". That is the honest reading. My D5 sentence "blur of about 1% almost surely" is superseded by these measured rates.
+
+**D11 (the bet can both pass and fail): holds.** This check was added to operators/design-review.md after the main review. I read "pass/fail" here as each kind's label, "present" against "not detected", on each pair.
+- In the world where a kind is absent, its label comes out "not detected" in every recovery cell built for that: 6 of 6 in-family cells per kind, plus all "neither" cells. So P(not detected) is far above 10%.
+- In the world where it is present at the sizes P3-5 fitted on this archive (local Pauli 5–10%, φ up to 0.086 rad, both well above the measured power thresholds), the label comes out "present" in every cell. So P(present) is far above 10%.
+
+The lower blur power changes neither, because the plausible blur sizes are an order of magnitude above 1%. The real uncertainty is in the one place the fixes changed: whether rotation is still needed once the blur family can decay. The auditor's in-sample rotation gains (+22, +89, +116 logL) were measured against a blur family without decay, so either label is live for rotation on each pair. As stated in the main review, the outcome for blur is close to known in advance, which is why the bet is unscored. D11's concern, extreme odds earning Brier points without information, does not arise for an unscored bet.
+
+**Notes (not blocking):**
+1. The first P3-5 comparison line "should reproduce −43.5, −34.9, +63.0". But `p3_5_fits.fit` draws its 21 starts from this run's random stream, not P3-5's seed32 2090756689. The audit found the best-of-21 coherent fit sits 0.9–4.1 below the optimum depending on the starts. If that line misses P3-5's numbers by more than about 1, rerun it with `np.random.default_rng(2090756689)` before attributing any difference to the T1/T2 fix. Otherwise, say that start noise of up to about 4 is in the comparison.
+2. The recovery study ran `analyse_item(..., extras=False)`, so goodness of fit, setting shares, the drop-one refit and CV were first exercised by this addendum (`confirm1.py`, `confirm2.py`, with B and α shrunk only to reach the branches). They work.
+3. Decay of 0.03 per qubit is now **invisible** (neither label) rather than mislabelled, and an XX rotation drew a blur label on h088 (p = 0.010). §6 states both, so a "neither" or "blur" label does not rule these out.
+
+With `confirmed_at` set, `design_review_go()` returns true. `check_prereg.py --before-run` will pass R1 and R2 once this file is committed. Scripts are in `/private/tmp/claude-501/-Users-seanpharris-oversight-testbed/19f84df9-a6ff-48ba-89d6-d3f43e5d1747/scratchpad/rv/` (`confirm1.py`, `confirm2.py`).
