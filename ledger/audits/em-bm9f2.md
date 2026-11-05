@@ -222,3 +222,6 @@ The data cannot say whether the shape is absent.
   - sized in a dry run so that human-sized DoG worlds pass at least about 40% of the time.
 
   This needs its own pre-registration.
+
+
+Revealed 2026-11-05: pl-029, planted overclaim/rank at §In plain English, What we found, bullet 2, sentence 2; caught (Required cuts 1). Cut 1 is the plant: not applied to the real record.
