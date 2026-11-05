@@ -1,6 +1,6 @@
 # P2-6. Is "own" a position or a label? (result)
 
-Pre-registered in `experiments/p2-6-position-or-label.md` (commit `9590b92`, 2026-11-04 19:55:35 America/Denver; DEVIATIONS D11, renamed D11b), seeded from CURBy-RNG pulse 1591640 (`482f4e4`). Design review (oversight-testbed `ledger/design-reviews/om-p2-6.md`): fix-first with 3 flaws (`0fc789e`). The fixes are in D11c–D11e (`f0606f7`), confirmed at 20:32 (`78d877a`), before the first call. The run went 20:32:59–20:44:38 America/Denver. **Unaudited** until `ledger/audits/om-p2-6.md` is committed.
+Pre-registered in `experiments/p2-6-position-or-label.md` (commit `9590b92`, 2026-11-04 19:55:35 America/Denver; DEVIATIONS D11, renamed D11b), seeded from CURBy-RNG pulse 1591640 (`482f4e4`). Design review (oversight-testbed `ledger/design-reviews/om-p2-6.md`): fix-first with 3 flaws (`0fc789e`). The fixes are in D11c–D11e (`f0606f7`), confirmed at 20:32 (`78d877a`), before the first call. The run went 20:32:59–20:44:38 America/Denver. **Audited** (oversight-testbed `ledger/audits/om-p2-6.md`, `9c313d6`): the verdict stands, with 1 required cut applied under D11f; plant pl-007 was a clean draw.
 
 ## In plain English
 
@@ -8,7 +8,7 @@ Pre-registered in `experiments/p2-6-position-or-label.md` (commit `9590b92`, 202
 
 On Haiku, on program 1's 16 bm0 items at ±30 points, the position mattered at least as much as the label. A value in the assistant turn was taken up more than the same value in the user turn, by +0.23 [+0.13, +0.34] of the displacement, while the label ("your" against "Sam's") changed uptake by +0.08 [+0.04, +0.13]. On this design the pull of an earlier answer follows the turn it sits in at least as much as whose answer it is said to be.
 
-In the user turn, the user's own stated answer could not be told apart from the other two labels (user's minus Sam's +0.06 [+0.01, +0.13]; yours minus user's +0.06 [+0.02, +0.11]).
+In the user turn, neither fifth-cell contrast reached the pre-registered 0.15, so §5's fifth-cell rule gives no reading; the frozen fallback sentence ("could not be told apart") does not fit these intervals and is not used. Secondary and uncorrected: yours minus user's +0.06 [+0.02, +0.11] and user's minus Sam's +0.06 [+0.01, +0.13] (a t interval on the latter includes 0), so the user's own answer was taken up about midway between a value labelled "yours" and one labelled "Sam's".
 
 What was run: 7,040 calls on `claude-haiku-5-5`, all 20 repeats complete, **$0.3044** of the $0.80 cap, **no refusal**. All 16 items were usable (57 of 64 statement-direction pairs kept), and 15 had a statement kept in both directions for the shift-invariant check. Leave-one-item-out flips no verdict: L ranges +0.070 to +0.088. The value labelled "yours" and placed in the model's own turn was taken up +0.45 [+0.27, +0.63], against +0.44 [+0.27, +0.62] in bm0's own-answer cell at ±30 (the pre-registered replication check, secondary). Its interval excludes 0, so the no-own-pull sentence (§5) does not apply.
 
