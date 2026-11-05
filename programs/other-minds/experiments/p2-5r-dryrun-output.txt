@@ -1,0 +1,13 @@
+  Haiku-like (own .36, Sam up .58 / down .40)             pass 0.23, up_only 0.77
+  Haiku as measured, up-only gap (Sam up .58 / down .36)  pass 0.05, up_only 0.95
+  Sam = own (.36)                                         down_only 0.05, none 0.85, reversed 0.07, up_only 0.03
+  Sam half of own (reversed)                              reversed 1.00
+  Opus-like weak pull (own .07, Sam .07)                  down_only 0.05, none 0.87, reversed 0.05, up_only 0.03
+  nothing moves                                           down_only 0.02, none 0.03, untestable_nothing_moved 0.95
+  small gap both ways (+.08)                              down_only 0.27, none 0.28, pass 0.15, up_only 0.30
+  clear gap both ways (+.15)                              down_only 0.02, pass 0.85, up_only 0.13
+  Haiku-like, larger vignette spread (vsd .6)             pass 0.23, up_only 0.77
+  boundary and order checks: hold
+sonnet: 1136 calls (568 per repeat x 2); est $0.98 (cap $1.50)
+opus: 1136 calls (568 per repeat x 2); est $2.80 (cap $3.50)
+total est $3.78 (cap $5.00)
