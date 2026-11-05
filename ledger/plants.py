@@ -43,13 +43,19 @@ def commitment(plaintext):
 
 
 def read_ledger():
-    if not LEDGER.exists():
-        return []
-    return [json.loads(l) for l in LEDGER.read_text().splitlines() if l.strip()]
+    """plants.jsonl with every line waiting in ledger/inbox/ applied (a seal not yet folded still counts)."""
+    sys.path.insert(0, str(HERE))
+    from merge_inbox import effective
+    return effective("plants")
 
 
-def write_ledger(rows):
-    LEDGER.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
+def to_inbox(op):
+    """From 2026-11-05 no session writes plants.jsonl directly (ledger/inbox/README.md): the seal and the reveal go
+    to this session's inbox file, which the session commits; ledger/merge_inbox.py folds it into plants.jsonl."""
+    sys.path.insert(0, str(HERE))
+    from merge_inbox import append, ROOT
+    p = append(dict(op, file="plants"))
+    return p.relative_to(ROOT)
 
 
 def seal_path(pid, kind):
@@ -106,10 +112,10 @@ def cmd_seal(a):
     row = {"id": a.id, "bet": d["bet"], "program": d["program"], "prepared_at": now(),
            "planter_session": d["planter_session"], "planter_model": d["planter_model"],
            "clone_head": a.clone_head, "commitment": commitment(plaintext), "status": "sealed"}
-    rows = read_ledger() + [row]
-    write_ledger(rows)
+    p = to_inbox({"op": "add", "row": row})
     print(f"sealed {a.id}: {row['commitment']}")
-    print(f"Commit ledger/plants.jsonl now: git commit -m 'Seal {a.id} for {d['bet']}' ledger/plants.jsonl")
+    print(f"Commit the inbox line now, before the auditor starts: git commit -m 'Seal {a.id} for {d['bet']}' -- {p}")
+    print("then fold it (python3 ledger/merge_inbox.py --commit) from the main checkout.")
 
 
 def cmd_reveal(a):
@@ -122,10 +128,12 @@ def cmd_reveal(a):
         sys.exit(f"{a.id}: plaintext does not match its commitment; report as tampered, do not score")
     if not plaintext["planted"] and a.caught != "na":
         sys.exit(f"{a.id} was CLEAN: use --caught na")
-    row.update(status="revealed", plaintext=plaintext, caught=None if a.caught == "na" else a.caught == "yes",
-               caught_where=a.where, scored_by=a.by, revealed_at=now())
-    write_ledger(rows)
+    fields = dict(status="revealed", plaintext=plaintext, caught=None if a.caught == "na" else a.caught == "yes",
+                  caught_where=a.where, scored_by=a.by, revealed_at=now())
+    row.update(fields)
+    p = to_inbox({"op": "update", "id": a.id, "fields": fields})
     print(f"revealed {a.id}: {'clean' if not plaintext['planted'] else ('caught' if row['caught'] else 'missed')}")
+    print(f"Commit the inbox line: git commit -m 'Reveal {a.id}: …' -- {p}; then python3 ledger/merge_inbox.py --commit")
 
 
 def cmd_verify(_):

@@ -89,6 +89,8 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
 
 ## 8. Ledger entry (filled now, completed after audit)
 
+> **The ledger inbox (from 2026-11-05; CONTEXT.md §2, `ledger/inbox/README.md`).** Never edit `ledger/bets.jsonl`, `lessons.jsonl`, `steers.jsonl` or `plants.jsonl` directly. Append one line per change to your own inbox file with `python3 ledger/merge_inbox.py add <file> '<row>'` or `update <file> <id> '<fields>'` (in the main checkout, `export LEDGER_INBOX=<tab-name>` first; in a worktree the branch name is used), and commit that file alone: `git commit -m "…" -- ledger/inbox/<name>.jsonl`. The main-checkout session folds it with `python3 ledger/merge_inbox.py --commit`. Rows still in an inbox count for `check_prereg.py` and `reproduce.py`.
+
 ```json
 {"id": "<program>-b<n>", "program": "<program>", "direction": "<program>-d<n>",
  "title": "<plain title>", "source": "literature|engine|human",
@@ -106,7 +108,7 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
  "verdict": "open", "date": "<YYYY-MM-DD>", "result": null, "audit": null, "diagnosis": null}
 ```
 
-*Append this line to `oversight-testbed/ledger/bets.jsonl` in the commit after this one, with `prereg_commit` set to this commit's hash. After the audit, the ledger session sets `verdict` from the audit's `verdict_after_audit`, `result` to one plain line, `audit` to the audit file path, `diagnosis` if the direction closes, and the pre-mortem score fields from the audit header. The four `novelty` fields are filled by the Novelty session (§10) before the results file is final: `novelty` is `known`, `partly new` or `new`; `novelty_line` the line verbatim; `novelty_by` the session's model and how it was launched; `novelty_at` the commit that added it.*
+*Append this line through the ledger inbox in the commit after this one, with `prereg_commit` set to this commit's hash: `python3 ledger/merge_inbox.py add bets '<the row>'`, then `git commit -m "…" -- ledger/inbox/<name>.jsonl` (never edit `ledger/bets.jsonl` directly; CONTEXT.md §2, `ledger/inbox/README.md`). After the audit, the ledger session's changes go the same way, as `update bets <id> '<fields>'` lines. After the audit, the ledger session sets `verdict` from the audit's `verdict_after_audit`, `result` to one plain line, `audit` to the audit file path, `diagnosis` if the direction closes, and the pre-mortem score fields from the audit header. The four `novelty` fields are filled by the Novelty session (§10) before the results file is final: `novelty` is `known`, `partly new` or `new`; `novelty_line` the line verbatim; `novelty_by` the session's model and how it was launched; `novelty_at` the commit that added it.*
 
 ## 10. Novelty line (rule 13; after the result, before the write-up is final)
 
@@ -135,5 +137,6 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
 - [ ] §2 records CURBY-Q's latest completed round and names the chain by the 24-hour rule; the seed commit follows this one before any data.
 - [ ] Budget and stop-on-refusal enforced in code, not by hand.
 - [ ] DEVIATIONS.md row added for this pre-registration.
+- [ ] The bet row and the lesson line go to your inbox file (`python3 ledger/merge_inbox.py add bets …`, `add lessons …`), committed; `ledger/bets.jsonl` and `lessons.jsonl` are never edited directly.
 - [ ] Commit message: `Pre-register <bet-id>: <title> (D<n>)`.
 - [ ] *(after the result)* The Novelty line (§10) is written by a fresh session and in the ledger row before the results file is audited.
