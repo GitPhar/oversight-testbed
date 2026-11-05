@@ -12,6 +12,14 @@ export async function loadSteers() {
   return (await getJSONL(DATA + "ledger/steers.jsonl")) || [];
 }
 
+// The valuations of the steers (operators/steers.md): one line per steer per scoring; the latest line per steer id is current.
+export async function loadSteerValues() {
+  const rows = (await getJSONL(DATA + "ledger/steer-values.jsonl")) || [];
+  const current = new Map();
+  for (const r of rows) if (r && r.steer_id) current.set(r.steer_id, r);
+  return current;
+}
+
 // The human's odds, one line per entry, written by the cockpit (site/cockpit.html) and committed by hand.
 export async function loadHumanOdds() {
   return (await getJSONL(DATA + "ledger/human-odds.jsonl")) || [];
