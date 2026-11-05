@@ -694,3 +694,7 @@ table.hcol td { vertical-align: top; }
 .hc-q { display: block; max-width: 560px; }
 .hc-id { display: block; margin-top: 2px; }
 .found .score-h { margin: 28px 0 10px; }
+/* Record: the ledger's two labelled blocks (settled, open) */
+.rec-block { margin: 32px 0 4px; font-size: 1.25rem; }
+.rec-block .rec-n { font-size: .9rem; font-weight: 400; margin-left: 6px; }
+.rec-how { margin-bottom: 14px; }
