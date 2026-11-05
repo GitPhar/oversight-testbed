@@ -79,3 +79,13 @@ Test, event and the reason for each number:
 | bm2 | phase A (map) | Rules out probability-plus-noise sampling as the source of Haiku's conjunction fallacies on these 16 vignettes: Z sits near zero with no item-level slope. |
 | dm3 | phase A (map) | Rules out a self-knowledge advantage on a second model pair: Opus judges Sonnet's errors better than Sonnet does. |
 | qwalk | `em-qwalk`, `em-qwalk2` | Rules out nothing about quantum walks: both bets were withdrawn before data because program 1's graph (25 settled nodes) is far too small to compare one with PageRank. |
+
+## New layer under gm2: questions only, no answer turns (2026-11-05)
+
+Added 2026-11-05 06:24 America/Denver by the gm2 questions-only replication session, from `paper/novelty.md` (finding 5b, ranked replication 2), before any data for this direction. gm2's redacted condition kept the questions and replaced each answer with "[rating recorded]"; the order effect survived, but the placeholder turn may have caused it. This direction removes the placeholder and the answer turns: the four sub-questions sit in one user message, in each of the four orders, then the main question. The turn-by-turn shown chain is re-run alongside as the reference. If it passes, gm2's belief claim ("the number is built by the asking") stands with no placeholder confound; if it fails, the gm2 pass was the placeholder, and the main paper must say so. Sean's question is on the cockpit card (`map/cockpit-cards.jsonl`, posted at `f65b361`, before this node and with no engine odds).
+
+| id | grows from | direction | models | cost | engine P(pass) |
+|---|---|---|---|---|---|
+| gm2-f1 | gm2 (also gm2b, dm4), bet `em-gm2` | Does question order still move the final rating when the four sub-questions sit in one user message, with no answer turns and no placeholder? | Haiku, Sonnet (not Opus: the job names these two; Opus is the next layer if it passes) | $3.50 cap (about $2.60 planned) | 10 (v1, fresh subagent) |
+
+- **gm2-f1.** *Event:* On both Haiku and Sonnet: the shown chain's order effect is significant (permutation p < 0.05, else that model is untestable); the questions-only order effect is itself significant (p < 0.05); and R = OE_questions-only / OE_shown has a 95% item-bootstrap lower bound of at least 0.5. *Odds 10 (v1):* the shown chains probably gate on both models; the weak link is questions-only, where the model never commits to each statement, so its order effect is probably smaller, and two items carry most of it, so the lower bound needs R near 1 on both models. Below the running base rate 9/26 = 0.35 (`ledger/brier.md`).
