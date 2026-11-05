@@ -24,6 +24,19 @@ def f3(x):
     return "—" if x is None else f"{x:+.3f}" if isinstance(x, float) else str(x)
 
 
+def step_incomplete(model, which, bet):
+    """True if some item of this bet's item set lacks its cached call(s) in step `which` ("said" or the bet's step)."""
+    sm = C.SHORT[model]
+    cache = W.load(which)
+    for it in W.items_for(model, bet):
+        keys = ([f"said|{sm}|{it['id']}"] if which == "said" else
+                [f"b1{a}|{sm}|{it['id']}" for a in ("first", "push", "neutral")] if which == "b1" else
+                [f"{which}|{sm}|{it['id']}"])
+        if any(k not in cache or cache[k].get("refused") for k in keys):
+            return True
+    return False
+
+
 def stop_cause(model, step):
     """D12: the recorded causes of a stop that left this model's items incomplete in this bet. Only stops in this
     bet's own step or the shared said step count, and a stop logged while model M ran also stops every later model
@@ -45,7 +58,10 @@ def stop_cause(model, step):
             m = re.match(r"- (\S+) (sv-\w+): (.*?job `[^|`]+\|(\w+)\|[^`]*`.*)$", ln)
             if m and m.group(2) in steps and (m.group(2) not in last or m.group(1) >= last[m.group(2)][0]):
                 last[m.group(2)] = (m.group(1), short_to_model[m.group(4)], f"{m.group(2)} error: {m.group(3)}")
-    causes = [txt for s, (ts, mm, txt) in sorted(last.items()) if order.index(mm) <= order.index(model)]
+    # D13: a step's stop is named only if this model's items in that step are still incomplete in the cache
+    incomplete = {"sv-said": step_incomplete(model, "said", step), f"sv-{step}": step_incomplete(model, step, step)}
+    causes = [txt for s, (ts, mm, txt) in sorted(last.items())
+              if order.index(mm) <= order.index(model) and incomplete.get(s)]
     rp = C.RESULTS / "refusal.md"
     if rp.exists():
         rid = [ln for ln in rp.read_text().splitlines() if ln.startswith("Request ID")]
