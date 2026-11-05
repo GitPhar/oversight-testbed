@@ -46,8 +46,8 @@ MODELS = {"haiku": "claude-haiku-5-5", "sonnet": "claude-sonnet-5-5", "opus": "c
 SETTINGS = {"haiku": {"thinking": {"type": "disabled"}}, "sonnet": {"thinking": {"type": "between_tools"}},
             "opus": {"output_config": {"effort": "low"}}}
 MAX_TOKENS = {"haiku": 100, "sonnet": 200, "opus": 4000}
-CAPS = {"haiku": 0.30, "sonnet": 2.00, "opus": 1.70}
-CAP = 4.00
+CAPS = {"haiku": 0.30, "sonnet": 2.90, "opus": 2.40}     # D20a (F3): caps >= 1.5x the length-calibrated estimates
+CAP = 5.60
 R_PRED = {"haiku": 10, "sonnet": 3, "opus": 1}
 R_TRUTH = {"sonnet": 3, "opus": 2}
 OPUS_VIGNETTES = 8
@@ -55,22 +55,29 @@ DS = (-60, -30, -10, 10, 30, 60)
 CLASSES = (10, 30, 60)
 MARGIN, EPS, B, ALPHA = 0.05, 1e-9, 10000, 0.05
 MIN_VIGNETTES = {"haiku": 12, "sonnet": 12, "opus": 6}
-EST = {"haiku": 5.53e-5, "sonnet": 0.7451 / 864, "opus": 3.49 / 1136}
+EST = {"haiku": 5.53e-5, "sonnet": 1.94 / 1824, "opus": 1.60 / 416}   # D20a (F3): prediction prompts ~2x om-p2-6r's
 NAME = {"haiku": "Haiku 5.5", "sonnet": "Sonnet 5.5", "opus": "Opus 5.5"}
 INT = p4.om.int_schema()                          # {"rating": integer}, as om-p2-4's predictions
 RATE = {"type": "object", "properties": {"probability": {"type": "integer"}}, "required": ["probability"],
         "additionalProperties": False}            # program 1's re-rating schema, as bm0
 
 SENTENCES = {
-    "pass": ("On {M}, on program 1's 16 vignettes, the model's predictions of how far its own planted earlier answer "
-             "pulls its re-rating were as accurate when the transcript was labelled as its own as when it was labelled "
-             "as another AI's (\"Sam\"): self minus Sam error {d}, 95% BCa interval [{lo}, {hi}], inside ±0.05. On "
-             "this test it reads itself no better than it reads a stranger."),
-    "self_better": ("On {M}, the model's predictions of its own-answer pull were more accurate under the self label "
+    "pass": ("On {M}, on {nv} of program 1's vignettes, the model's predictions of the average pull of its own planted "
+             "earlier answer, at each of three distances, were within the pre-registered margin of each other whether "
+             "the transcript was labelled as its own or as another AI's (\"Sam\"): self minus Sam error {d}, 95% BCa "
+             "interval [{lo}, {hi}], inside ±0.05."),
+    "pass_small_gap": ("On {M}, on {nv} of program 1's vignettes, the self and Sam labels' errors in predicting the average "
+                       "pull of its own planted earlier answer, at each of three distances, were within the pre-registered "
+                       "margin (self minus Sam {d}, 95% BCa interval [{lo}, {hi}], inside ±0.05), but the interval "
+                       "excludes 0: a difference smaller than the margin is detected."),
+    "untestable_dumb": ("On {M}, the test could not answer: the {arm} label's predictions did not beat a guess that the "
+                        "planted answer has no pull at all (block error {e} against {z}), so neither label is shown to "
+                        "track the pull."),
+    "self_better": ("On {M}, on {nv} vignettes, the model's predictions of its own-answer pull were more accurate under the self label "
                     "than under the Sam label: self minus Sam error {d}, 95% BCa interval [{lo}, {hi}], wholly below 0."),
-    "sam_better": ("On {M}, the model's predictions of its own-answer pull were more accurate under the Sam label than "
+    "sam_better": ("On {M}, on {nv} vignettes, the model's predictions of its own-answer pull were more accurate under the Sam label than "
                    "under the self label: self minus Sam error {d}, 95% BCa interval [{lo}, {hi}], wholly above 0."),
-    "undetermined": ("On {M}, this test could not tell the self label from the Sam label: self minus Sam error {d}, 95% "
+    "undetermined": ("On {M}, on {nv} vignettes, this test could not tell the self label from the Sam label: self minus Sam error {d}, 95% "
                      "BCa interval [{lo}, {hi}], neither inside ±0.05 nor wholly on one side of 0."),
     "untestable": "On {M}, the test could not answer: {why}.",
     "not_run": "{M} was not run: {why}.",
@@ -148,6 +155,10 @@ class GuardedCaller:
     def __init__(self, label, call_fn):
         self.label, self.call_fn = label, call_fn
         self.cache = json.loads(CACHE.read_text()) if CACHE.exists() else {}
+        stopf = CACHE.with_name(CACHE.stem + "-stop.json")    # D20a (F4): on resume the old stop record is kept as a log
+        if stopf.exists():
+            n = len(list(RESULTS.glob(CACHE.stem + "-stop-*.json"))) + 1
+            stopf.rename(CACHE.with_name(f"{CACHE.stem}-stop-{n}.json"))
         refused = [k for k, v in self.cache.items() if v.get("refused")]
         on_file = [f for f in REFUSAL_FILES if (RESULTS / f).exists()]
         if refused or on_file:
@@ -205,7 +216,10 @@ class GuardedCaller:
                "job": self.refusal["e"][0] if self.refusal else self.errors[0][0] if self.errors else None,
                "request_id": getattr(self.refusal["e"][1], "request_id", None) if self.refusal else None,
                "error": self.errors[0][1] if self.errors else None, "completed_after_stop": self.after_stop}
-        CACHE.with_name(CACHE.stem + "-stop.json").write_text(json.dumps(rec, indent=1))
+        prev = CACHE.with_name(CACHE.stem + "-stop.json")
+        recs = json.loads(prev.read_text()) if prev.exists() else []
+        recs = recs if isinstance(recs, list) else [recs]
+        prev.write_text(json.dumps(recs + [dict(rec, model=next((k.split("|")[0] for k in [rec["job"] or ""]), None))], indent=1))
         if self.refusal:
             k, e = self.refusal["e"]
             (RESULTS / REFUSAL_FILES[0]).write_text(
@@ -254,7 +268,7 @@ def mean_vals(cache, prefix, reps):
     return float(np.mean([v["value"] for v in vals])) / 100
 
 
-def cell_rows(mk, own, base_h, items, cache, opus_v):
+def cell_rows(mk, own, base_h, items, cache, opus_v, reps=None):
     """[(q, cls, u_measured, u_a, u_b)] for kept own cells. Haiku: program 1's measured r1 and base (om-p2-4).
     Sonnet, Opus: the base and re-rating measured here. Drop rule |A - base| < 0.05 (program 1's)."""
     rows, missing = [], 0
@@ -264,7 +278,7 @@ def cell_rows(mk, own, base_h, items, cache, opus_v):
             if mk == "haiku":
                 b = base_h[(q, o)]
             else:
-                b = mean_vals(cache, f"{mk}|base|{q}|{o}", R_TRUTH[mk])
+                b = mean_vals(cache, f"{mk}|base|{q}|{o}", reps["truth"])
                 if b is None:
                     missing += 1
                     continue
@@ -275,9 +289,9 @@ def cell_rows(mk, own, base_h, items, cache, opus_v):
                 D = A - b
                 if abs(D) < 0.05 - EPS:
                     continue
-                m = own[(q, o, d)]["r1"] if mk == "haiku" else mean_vals(cache, f"{mk}|truth|{q}|{o}|{d}", R_TRUTH[mk])
-                pa = mean_vals(cache, f"{mk}|a|{q}|{o}|{d}", R_PRED[mk])
-                pb = mean_vals(cache, f"{mk}|b|{q}|{o}|{d}", R_PRED[mk])
+                m = own[(q, o, d)]["r1"] if mk == "haiku" else mean_vals(cache, f"{mk}|truth|{q}|{o}|{d}", reps["truth"])
+                pa = mean_vals(cache, f"{mk}|a|{q}|{o}|{d}", reps["pred"])
+                pb = mean_vals(cache, f"{mk}|b|{q}|{o}|{d}", reps["pred"])
                 if m is None or pa is None or pb is None:
                     missing += 1
                     continue
@@ -324,12 +338,15 @@ def bca_interval(S, N, seed, n=B):
     return point, ci, [float(np.quantile(boots, ALPHA / 2)), float(np.quantile(boots, 1 - ALPHA / 2))]
 
 
-def reading(ci, n_complete, mk):
+def reading(ci, n_complete, mk, arms_beat_zero=True):
+    """Pass is tested first (D20a F1); a pass needs both labels' block errors below the no-uptake guess's (F2)."""
     if n_complete < MIN_VIGNETTES[mk]:
         return "untestable"
     lo, hi = ci
     if lo > -MARGIN + EPS and hi < MARGIN - EPS:
-        return "pass"
+        if not arms_beat_zero:
+            return "untestable_dumb"
+        return "pass_small_gap" if (lo > EPS or hi < -EPS) else "pass"
     if hi < -EPS:
         return "self_better"
     if lo > EPS:
@@ -337,8 +354,9 @@ def reading(ci, n_complete, mk):
     return "undetermined"
 
 
-def model_result(mk, own, base_h, items, cache, opus_v, seed):
-    rows, missing = cell_rows(mk, own, base_h, items, cache, opus_v)
+def model_result(mk, own, base_h, items, cache, opus_v, seed, reps=None):
+    reps = reps or {"truth": R_TRUTH.get(mk), "pred": R_PRED[mk]}
+    rows, missing = cell_rows(mk, own, base_h, items, cache, opus_v, reps)
     vids = sorted({r[0] for r in rows})
     S, N = tables(rows, vids)
     complete = [q for q in vids if all(N[vids.index(q), k] > 0 for k in range(3))]
@@ -348,19 +366,26 @@ def model_result(mk, own, base_h, items, cache, opus_v, seed):
     keep = [vids.index(q) for q in complete]
     S, N = S[keep], N[keep]
     point, ci, pct = bca_interval(S, N, seed)
-    rd = reading(ci, len(complete), mk)
     with np.errstate(invalid="ignore", divide="ignore"):
-        eff = (S.sum(0) / N.sum(0)[:, None]).round(4).tolist()
+        e = S.sum(0) / N.sum(0)[:, None]
+    err_a, err_b, err_0 = (float(np.mean(np.abs(e[:, 1] - e[:, 0]))), float(np.mean(np.abs(e[:, 2] - e[:, 0]))),
+                           float(np.mean(np.abs(e[:, 0]))))           # D20a (F2): the no-uptake guess's block error
+    beat = err_a < err_0 - EPS and err_b < err_0 - EPS
+    rd = reading(ci, len(complete), mk, beat)
+    eff = e.round(4).tolist()
     loo = []
     for i in range(len(complete)):
         p2, c2, _ = bca_interval(np.delete(S, i, 0), np.delete(N, i, 0), seed + 1 + i, n=4000)
-        loo.append({"dropped": complete[i], "reading": reading(c2, len(complete), mk), "dmae": p2})
+        loo.append({"dropped": complete[i], "reading": reading(c2, len(complete), mk, beat), "dmae": p2})
     flips = [x["dropped"] for x in loo if x["reading"] != rd]
     f = lambda x: f"{x:+.3f}"
-    sent = SENTENCES[rd].format(M=NAME[mk], d=f(point), lo=f(ci[0]), hi=f(ci[1])) + BUNDLE
+    worst = "self" if err_a >= err_b else "Sam"
+    sent = SENTENCES[rd].format(M=NAME[mk], nv=len(complete), d=f(point), lo=f(ci[0]), hi=f(ci[1]), arm=worst,
+                                e=f"{max(err_a, err_b):.3f}", z=f"{err_0:.3f}") + BUNDLE
     if flips:
         sent += f" Leaving out one vignette changes the reading: without any one of {', '.join(flips)}."
-    return {"reading": rd, "dmae_block": point, "bca": ci, "pct": pct, "n_vignettes": len(complete), "n_cells": len(rows),
+    return {"reading": rd, "block_error_self": err_a, "block_error_sam": err_b, "block_error_no_uptake": err_0,
+            "reps_used": reps, "dmae_block": point, "bca": ci, "pct": pct, "n_vignettes": len(complete), "n_cells": len(rows),
             "missing_cells": missing, "effects_measured_a_b": dict(zip([f"u_own_{c}" for c in CLASSES], eff)),
             "loo_flips": flips, "sentence": sent}
 
@@ -377,14 +402,25 @@ def analyse(status=None):
     res = {"per_model": {}, "opus_vignettes": sorted(opus_v)}
     for mk in ORDER:
         answered = sum(1 for j in planned[mk] if j[0] in cache and not cache[j[0]].get("refused"))
+        reps = None
         if answered < len(planned[mk]):
-            res["per_model"][mk] = {"reading": "not_run", "sentence": SENTENCES["not_run"].format(
-                M=NAME[mk], why=f"{len(planned[mk]) - answered} of {len(planned[mk])} calls missing or refused")}
-            continue
-        res["per_model"][mk] = model_result(mk, own, base_h, items, cache, opus_v, seed["seed32_boot"])
-        res["per_model"][mk]["cost_usd"] = sum(cache[j[0]]["cost"] for j in planned[mk])
+            # D20a (F3): a model stopped by its cap is analysed on its complete repeat blocks (truth and predictions of
+            # repeats 0..k-1); a refusal anywhere, or k = 0, reads not_run
+            refused = any(cache.get(j[0], {}).get("refused") for j in planned[mk])
+            k = 0
+            while not refused and k < max(R_PRED[mk], R_TRUTH.get(mk, 0)) and all(
+                    j[0] in cache for j in planned[mk] if j[0].rsplit("|", 1)[1] == str(k)):
+                k += 1
+            if refused or k == 0:
+                res["per_model"][mk] = {"reading": "not_run", "sentence": SENTENCES["not_run"].format(
+                    M=NAME[mk], why=f"{len(planned[mk]) - answered} of {len(planned[mk])} calls missing or refused")}
+                continue
+            reps = {"truth": min(k, R_TRUTH.get(mk, 0)) or None, "pred": min(k, R_PRED[mk])}
+        res["per_model"][mk] = model_result(mk, own, base_h, items, cache, opus_v, seed["seed32_boot"], reps)
+        res["per_model"][mk]["cost_usd"] = sum(cache[j[0]]["cost"] for j in planned[mk] if j[0] in cache)
     h = res["per_model"]["haiku"]["reading"]
-    res["label"] = {"pass": "pass", "untestable": "untestable", "not_run": "untestable"}.get(h, "fail")
+    res["label"] = {"pass": "pass", "pass_small_gap": "pass", "untestable": "untestable", "untestable_dumb": "untestable",
+                    "not_run": "untestable"}.get(h, "fail")
     res["sentence"] = ("The pre-registered event occurred: " if res["label"] == "pass" else
                        "The pre-registered event did not occur: " if res["label"] == "fail" else "The test could not answer: ") + \
         res["per_model"]["haiku"]["sentence"]
@@ -404,7 +440,7 @@ def analyse(status=None):
                      f"[{r['pct'][0]:+.3f}, {r['pct'][1]:+.3f}] | {r['n_vignettes']} | {r['n_cells']} | {r['loo_flips'] or 'none'} |")
         else:
             L.append(f"| {NAME[mk]} | {r['reading']} | — | — | — | — | — | — |")
-    L += ["", "| model | distance | measured own uptake | self (a) | Sam (b) |", "|---|---|---|---|---|"]
+    L += ["", "| model | Haiku's planted distance | measured own uptake | self (a) | Sam (b) |", "|---|---|---|---|---|"]
     for mk in ORDER:
         r = res["per_model"][mk]
         for k, v in r.get("effects_measured_a_b", {}).items():
@@ -468,6 +504,7 @@ def dry_run(sims=200):
             counts[rd] = counts.get(rd, 0) + 1
         out[world] = {k: v / sims for k, v in counts.items()}
         print(f"  {world:35s} " + ", ".join(f"{k} {v:.2f}" for k, v in sorted(out[world].items())))
+    assert reading([0.001, 0.049], 16, "haiku") == "pass_small_gap" and reading([-0.01, 0.01], 16, "haiku", False) == "untestable_dumb"
     for ci, want in (([-0.049, 0.049], "pass"), ([-0.05, 0.049], "undetermined"), ([-0.3, -1e-4], "self_better"),
                      ([1e-4, 0.3], "sam_better"), ([-0.1, 0.1], "undetermined")):
         assert reading(ci, 16, "haiku") == want, (ci, want)
@@ -492,9 +529,10 @@ def main():
         js = jobs(own, items, bmit, seed["seed32_items"], seed["seed32_order"])
         status = {}
         for mk in ORDER:
+            c.stop.clear()                        # D20a (F3): a cap stop on one model does not block the next
             status[mk] = c.run([j for j in js if j[1] == mk])
             print(mk, status[mk], flush=True)
-            if status[mk] != "complete":
+            if status[mk] in ("refusal", "error"):  # a refusal is final; an error stops this run (resumable, F4)
                 break
     analyse(status)
 
