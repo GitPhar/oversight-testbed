@@ -1,0 +1,133 @@
+# Wave-1 dry runs (design-review check D11, pattern P12): python3 svd_wave1.py worlds <bet> [slope], no calls, 2026-11-05
+## b1, follows-world slope 0.85
+{
+ "bet": "sv-b1",
+ "event_rates_assumed_haiku_sonnet_opus": [
+  0.3,
+  0.15,
+  0.08
+ ],
+ "sims": 300,
+ "follows": {
+  "P(pass)": 0.36333333333333334,
+  "P(fail)": 0.6366666666666667,
+  "P(untestable)": 0.0,
+  "mean_realised_auroc": 0.7325169311894748
+ },
+ "ignores": {
+  "P(pass)": 0.0,
+  "P(fail)": 1.0,
+  "P(untestable)": 0.0,
+  "mean_realised_auroc": 0.5057566190303121
+ }
+}
+## b1, follows-world slope 1.4
+{
+ "bet": "sv-b1",
+ "event_rates_assumed_haiku_sonnet_opus": [
+  0.3,
+  0.15,
+  0.08
+ ],
+ "sims": 300,
+ "follows": {
+  "P(pass)": 0.89,
+  "P(fail)": 0.11,
+  "P(untestable)": 0.0,
+  "mean_realised_auroc": 0.838480161874245
+ },
+ "ignores": {
+  "P(pass)": 0.0,
+  "P(fail)": 1.0,
+  "P(untestable)": 0.0,
+  "mean_realised_auroc": 0.5057566190303121
+ }
+}
+## b2, follows-world slope 0.85
+{
+ "bet": "sv-b2",
+ "event_rates_assumed_haiku_sonnet_opus": [
+  0.15,
+  0.1,
+  0.06
+ ],
+ "sims": 300,
+ "follows": {
+  "P(pass)": 0.18,
+  "P(fail)": 0.77,
+  "P(untestable)": 0.05,
+  "mean_realised_auroc": 0.7394573752302881
+ },
+ "ignores": {
+  "P(pass)": 0.0,
+  "P(fail)": 0.9333333333333333,
+  "P(untestable)": 0.06666666666666667,
+  "mean_realised_auroc": 0.5073794788374358
+ }
+}
+## b2, follows-world slope 1.4
+{
+ "bet": "sv-b2",
+ "event_rates_assumed_haiku_sonnet_opus": [
+  0.15,
+  0.1,
+  0.06
+ ],
+ "sims": 300,
+ "follows": {
+  "P(pass)": 0.7666666666666667,
+  "P(fail)": 0.19333333333333333,
+  "P(untestable)": 0.04,
+  "mean_realised_auroc": 0.8522676228591969
+ },
+ "ignores": {
+  "P(pass)": 0.0,
+  "P(fail)": 0.9333333333333333,
+  "P(untestable)": 0.06666666666666667,
+  "mean_realised_auroc": 0.5073794788374358
+ }
+}
+## b3, follows-world slope 0.85
+{
+ "bet": "sv-b3",
+ "event_rates_assumed_haiku_sonnet_opus": [
+  0.2,
+  0.15,
+  0.1
+ ],
+ "sims": 300,
+ "follows": {
+  "P(pass)": 0.38666666666666666,
+  "P(fail)": 0.6133333333333333,
+  "P(untestable)": 0.0,
+  "mean_realised_auroc": 0.7405242178581042
+ },
+ "ignores": {
+  "P(pass)": 0.0,
+  "P(fail)": 0.9966666666666667,
+  "P(untestable)": 0.0033333333333333335,
+  "mean_realised_auroc": 0.49999895896613833
+ }
+}
+## b3, follows-world slope 1.4
+{
+ "bet": "sv-b3",
+ "event_rates_assumed_haiku_sonnet_opus": [
+  0.2,
+  0.15,
+  0.1
+ ],
+ "sims": 300,
+ "follows": {
+  "P(pass)": 0.9233333333333333,
+  "P(fail)": 0.07666666666666666,
+  "P(untestable)": 0.0,
+  "mean_realised_auroc": 0.8439528247450145
+ },
+ "ignores": {
+  "P(pass)": 0.0,
+  "P(fail)": 1.0,
+  "P(untestable)": 0.0,
+  "mean_realised_auroc": 0.5088724582039036
+ }
+}
