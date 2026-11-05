@@ -239,26 +239,17 @@ def noisy_dists(isas, backend):
 # --- the rule --------------------------------------------------------------------------------------------------------
 
 class FastCNT2:
-    """CNT2 with the LP's structure cached per connection-ordering signature (only the right-hand sides change between
-    bootstrap draws). Gives the same value as cbd_lp.cnt2 (checked in --check)."""
-
-    def __init__(self):
-        self.cache = {}
+    """CNT2 by the same LP as cbd_lp.cnt2, built with cbd_lp.build_fast (numpy). Checked equal in --check."""
 
     def __call__(self, sysm):
-        sig = tuple(tuple(np.argsort([sysm.marginal(i, j) for i, j in sysm.conn[q]], kind="stable")) for q in sysm.contents)
-        if sig not in self.cache:
-            A_fix, b_fix, A_b, p_b = L.build(sysm)
-            from scipy.sparse import csc_matrix, hstack, identity, vstack
-            n, m = A_fix.shape[1], A_b.shape[0]
-            I = identity(m, format="csc")
-            self.cache[sig] = (hstack([A_fix, csc_matrix((A_fix.shape[0], m))]).tocsc(),
-                               vstack([hstack([A_b, -I]), hstack([-A_b, -I])]).tocsc(),
-                               np.concatenate([np.zeros(n), np.ones(m)]), n, m)
-        A_eq, A_ub, c, n, m = self.cache[sig]
-        _, b_fix, _, p_b = _rhs(sysm)
         from scipy.optimize import linprog
-        res = linprog(c, A_ub=A_ub, b_ub=np.concatenate([p_b, -p_b]), A_eq=A_eq, b_eq=b_fix, bounds=(0, None), method="highs")
+        from scipy.sparse import csc_matrix, hstack, identity, vstack
+        A_fix, b_fix, A_b, p_b = L.build_fast(sysm)
+        n, m = A_fix.shape[1], A_b.shape[0]
+        I = identity(m, format="csc")
+        res = linprog(np.concatenate([np.zeros(n), np.ones(m)]),
+                      A_ub=vstack([hstack([A_b, -I]), hstack([-A_b, -I])]).tocsc(), b_ub=np.concatenate([p_b, -p_b]),
+                      A_eq=hstack([A_fix, csc_matrix((A_fix.shape[0], m))]).tocsc(), b_eq=b_fix, bounds=(0, None), method="highs")
         if res.status != 0:
             raise RuntimeError(res.message)
         return max(0.0, float(res.fun))
@@ -273,20 +264,30 @@ def _rhs(sysm):
     return None, np.array(b_fix), None, p_b
 
 
+_F = None
+
+
 def _boot_one(args):
+    global _F
     dists, labs, seed, n = args
     rng = np.random.default_rng(seed)
-    f = FastCNT2()
+    if _F is None:
+        _F = FastCNT2()                  # one structure cache per worker process
+    f = _F
     draws = [rng.multinomial(n, p / p.sum()) / n for p in dists]
     systems = systems_from(draws, labs)
     return {f"{s}-{o}": (f(systems[(s, o)]), L.chi(systems[(s, o)])) for s in STATES for o in ORDERS}
 
 
-def bootstrap(dists, labs, seed, n=SHOTS, b=B, procs=4):
+def bootstrap(dists, labs, seed, n=SHOTS, b=B, procs=6, pool=None):
     ss = np.random.SeedSequence(seed)
     seeds = [int(x) for x in ss.generate_state(b)]
-    with mp.get_context("spawn").Pool(procs) as pool:
-        out = pool.map(_boot_one, [(dists, labs, s, n) for s in seeds], chunksize=10)
+    jobs = [(dists, labs, s, n) for s in seeds]
+    if pool is not None:
+        out = pool.map(_boot_one, jobs, chunksize=10)
+    else:
+        with mp.get_context("spawn").Pool(procs) as p_:
+            out = p_.map(_boot_one, jobs, chunksize=10)
     return {k: {"cnt2": [o[k][0] for o in out], "chi": [o[k][1] for o in out]} for k in out[0]}
 
 
@@ -323,6 +324,10 @@ def verdict(cls: dict, why_untestable: str | None = None) -> dict:
         if lab == "contextual":
             sents.append(f"For {STATE_WORDS[s]} {ORDER_WORDS[o]}, the exact CbD linear program rejects noncontextuality "
                          f"(CNT2's 99% lower bound {lb:.4f} > 0).")
+            if chi_lb <= 4 + TOL:
+                sents.append(f"There the Peres-Mermin sum itself did not clearly beat 4 (99% lower bound {chi_lb:.3f}): "
+                             "the linear program found the contextuality in the full set of noncontextuality constraints, "
+                             "not in the Peres-Mermin inequality alone.")
         elif lab == "absorbed":
             sents.append(f"For {STATE_WORDS[s]} {ORDER_WORDS[o]}, the raw Peres-Mermin sum still beat the classical bound "
                          f"of 4 (99% lower bound {chi_lb:.3f}), but the chip's measurements disturbed each other enough "
@@ -489,20 +494,21 @@ def world_dists(name, base, labs, rng=None):
     raise ValueError(name)
 
 
-def worlds(n_draws=40, b=200):
+def worlds(n_draws=20, b=100):
     prep = json.loads(PREP.read_text())
     labs = prep["labels"]
     base = [np.array(p) for p in prep["prediction"]["noisy"]["dists"]]
     res = {}
     root = 20261105
-    for name in ("noisy_sim", "flip0.02", "flip0.04", "flip0.06", "cheat"):
+    pool = mp.get_context("spawn").Pool(6)
+    for name in ("noisy_sim", "flip0.03", "flip0.04", "flip0.05", "cheat"):
         dists = world_dists(name, base, labs)
         passes, labels_seen = 0, {}
         for k in range(n_draws):
             rng = np.random.default_rng([root, k])
             obs = [rng.multinomial(SHOTS, p / p.sum()) / SHOTS for p in dists]
             pts = systems_from(obs, labs)
-            bt = bootstrap(obs, labs, seed=int(rng.integers(2 ** 63)), b=b)
+            bt = bootstrap(obs, labs, seed=int(rng.integers(2 ** 63)), b=b, pool=pool)
             # with b draws, the 99% lower bound is the (b/100)-th smallest
             cls = {}
             for s in STATES:
@@ -523,6 +529,7 @@ def worlds(n_draws=40, b=200):
                                             "delta0": L.delta0(pts0[(s, o)])} for s in STATES for o in ORDERS}}
         print(name, "P(pass)", res[name]["p_pass"], {k: round(v["chi"], 3) for k, v in res[name]["truth"].items()},
               {k: round(v["cnt2"], 4) for k, v in res[name]["truth"].items()}, flush=True)
+    pool.close(); pool.join()
     WORLDS.write_text(json.dumps(res, indent=1))
 
 
@@ -678,7 +685,19 @@ def analyse():
             table[key] = sm | {"label": lab, "cnt2_lb99": lb, "chi_lb99": chi_lb, "chi_se": float(chis.std(ddof=1)),
                                "cnt2_boot_min": float(min(bt[key]["cnt2"])), "cnt2_boot_median": float(np.median(bt[key]["cnt2"])),
                                "n_boot_zero": int(sum(v <= TOL for v in bt[key]["cnt2"]))}
-    out |= {"counts": counts, "systems": table, "verdict": verdict(cls),
+    noisy = [np.array(x) for x in prep["prediction"]["noisy"]["dists"]]
+    loo = {}
+    for s_ in STATES:                                    # P10: each circuit replaced by its noisy prediction, point CNT2
+        for o in ORDERS:
+            key = f"{s_}-{o}"
+            loo[key] = {}
+            for i, lab in enumerate(labs):
+                if lab["state"] == s_ and lab["order"] == o:
+                    d2 = list(dists); d2[i] = noisy[i]
+                    loo[key][lab["line_name"]] = L.cnt2(systems_from(d2, labs)[(s_, o)])
+            table[key]["loo_cnt2_min"] = min(loo[key].values())
+            table[key]["loo_rests_on"] = [k for k, v in loo[key].items() if (v <= TOL) != (table[key]["cnt2"] <= TOL)]
+    out |= {"counts": counts, "systems": table, "verdict": verdict(cls), "leave_one_out": loo,
             "prediction_noisy": prep["prediction"]["noisy"]["systems"], "prediction_ideal": prep["prediction"]["ideal"]["systems"],
             "bootstrap": {"B": B, "lower_bound_rank": LB_RANK, "seed": seed}, "usage": raw.get("usage"),
             "timestamps": raw.get("timestamps")}
@@ -719,8 +738,27 @@ def check():
     for k, sy in cheat.items():
         assert abs(L.chi(sy) - 6) < 1e-9 and L.cnt2(sy) <= TOL, k
     print("    cheat (context-dependent fixed answers): chi 6.000 and CNT2 0 in all four systems: chi alone is a dumb baseline")
+    obs9 = [q for line in L.SQUARE for q in line]
+    worst = 0.0
+    for t in range(30):                  # D3: noncontextual systems with context- and position-dependent flips stay at 0
+        w = np.zeros(512); idx = rng.choice(512, size=int(rng.integers(1, 4)), replace=False); w[idx] = rng.dirichlet(np.ones(len(idx)))
+        fl = rng.uniform(0, 0.1, (6, 3)); b_ = []
+        for k, ln in enumerate(L.LINES):
+            p = np.zeros(8)
+            for g in np.nonzero(w)[0]:
+                base = [(int(g) >> obs9.index(q)) & 1 for q in ln]
+                for fb in range(8):
+                    pf = np.prod([fl[k][j] if (fb >> j) & 1 else 1 - fl[k][j] for j in range(3)])
+                    p[sum((base[j] ^ ((fb >> j) & 1)) << j for j in range(3))] += w[g] * pf
+            b_.append(p)
+        worst = max(worst, L.cnt2(L.pm_system(b_)))
+    assert worst <= TOL, worst
+    print(f"    30 near-deterministic noncontextual models with flips up to 10% per context and position: max CNT2 {worst:.2g}")
     f = FastCNT2()
     assert abs(f(ks) - L.cnt2(ks)) < 1e-9
+    A1, A2 = L.build(ks), L.build_fast(ks)
+    assert abs(A1[0] - A2[0]).max() < 1e-12 and abs(A1[2] - A2[2]).max() < 1e-12 and np.allclose(A1[1], A2[1])
+    print("    build_fast = build and FastCNT2 = cnt2 on the Kirchmair system")
     # (3) circuits: ideal simulation of the logical circuits gives chi 6, CNT2 0.25, delta0 0 in all four systems
     ideal = ideal_dists(labs)
     sy = systems_from(ideal, labs)

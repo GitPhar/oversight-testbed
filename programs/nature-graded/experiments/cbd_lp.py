@@ -347,3 +347,41 @@ def completion_bounds(means, products):
     if res.status != 0:
         raise RuntimeError(res.message)
     return max(0.0, float(res.fun)), me, sysm
+
+
+def build_fast(sysm):
+    """The reduced LP of `build(sysm)` (same rows, same column order, same values), with numpy in place of Python loops.
+    Used for bootstraps; `build` stays the reference (checked equal in p3_9_pm --check)."""
+    conns = [sysm.conn[q] for q in sysm.contents]
+    per = []
+    for members in conns:
+        strings, masses = threshold_strings([sysm.marginal(i, j) for i, j in members])
+        per.append((members, np.array(strings, dtype=np.int8), masses))
+    sizes = [len(s) for _, s, _ in per]
+    grids = np.indices(sizes).reshape(len(sizes), -1).T        # columns in itertools.product order
+    n = grids.shape[0]
+    var_index = {}
+    for (members, _, _) in per:
+        for ij in members:
+            var_index[ij] = len(var_index)
+    bits = np.zeros((n, len(var_index)), dtype=np.int8)
+    for c, (members, strings, _) in enumerate(per):
+        chosen = strings[grids[:, c]]
+        for m, ij in enumerate(members):
+            bits[:, var_index[ij]] = chosen[:, m]
+    bev = _bunch_events(sysm)
+    rows_b, cols_b = [], []
+    for r, (i, js) in enumerate(bev):
+        idx = np.nonzero(np.all(bits[:, [var_index[(i, j)] for j in js]] == 1, axis=1))[0]
+        rows_b.append(np.full(len(idx), r)); cols_b.append(idx)
+    rows_b = np.concatenate(rows_b); cols_b = np.concatenate(cols_b)
+    A_b = csc_matrix((np.ones(len(rows_b)), (rows_b, cols_b)), shape=(len(bev), n))
+    rows, cols, b_fix = [np.zeros(n, int)], [np.arange(n)], [1.0]
+    r = 1
+    for c, (_, strings, masses) in enumerate(per):
+        for li, m in enumerate(masses):
+            idx = np.nonzero(grids[:, c] == li)[0]
+            rows.append(np.full(len(idx), r)); cols.append(idx); b_fix.append(float(m)); r += 1
+    A_fix = csc_matrix((np.ones(sum(len(x) for x in rows)), (np.concatenate(rows), np.concatenate(cols))), shape=(r, n))
+    p_b = np.array([sysm.subset_all_ones(i, js) for i, js in bev])
+    return A_fix, np.array(b_fix), A_b, p_b
