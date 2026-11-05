@@ -30,7 +30,7 @@ Independence rules:
 2. Every commit between the pre-registration commit and the results commit (`git log --stat <prereg>..<results>`), and DEVIATIONS.md rows added in that range.
 3. The results file, the archived raw data (JSON), and the analysis code.
 4. `CONTEXT.md` §3 (the rules every session follows) and `ARCHITECTURE.md` (the invariants).
-5. Any paper or source the results file cites, to check that it says what is claimed.
+5. Any paper or source the results file cites, to check that it says what is claimed; and the papers the results file's Novelty line and the direction's Prior work line cite (rule 13), for the same reason.
 
 ## What you may run
 
@@ -81,7 +81,11 @@ Work through every line. Each line gets one of: *holds*, *hole* (with evidence),
 24. *Tiebreak.* For a `tiebreak` bet: the simulator's prediction was committed before the chip ran; the circuit's hash matches; QPU seconds are within budget; the result is read as evidence about the device, never as a computed estimate.
 
 25. *Lesson* (operators/learn.md). For bets pre-registered from 2026-11-04 17:00: the §0 lesson row is in the pre-registration commit; `ledger/lessons.jsonl` has the same sentence; its `read` block matches the ledger at that commit (resolved bets, Brier, newest audit); the cited pattern's `do_this` is actually in the design; and an odds change is recorded as a revision before data. Missing or late is a hole.
-26. *Design review* (operators/design-review.md). `ledger/design-reviews/<bet-id>.md` was committed after the pre-registration and before the first call, with verdict go (or fix-first, every fix in a DEVIATIONS row dated before data and confirmed). Then name any flaw you found that D1–D10 should have caught: it goes in `design_review_missed` in your header, so the design review gets a catch rate of its own.
+26. *Design review* (operators/design-review.md). `ledger/design-reviews/<bet-id>.md` was committed after the pre-registration and before the first call, with verdict go (or fix-first, every fix in a DEVIATIONS row dated before data and confirmed). Then name any flaw you found that D1–D12 should have caught: it goes in `design_review_missed` in your header, so the design review gets a catch rate of its own.
+
+**F. Prior work (rule 13, from 2026-11-05)**
+
+27. *The Novelty line.* The results file's plain-English section ends with a **Novelty** line (`known`, `partly new` or `new`, under the three definitions in `operators/prereg-template.md` §10) written by a fresh session that searched the literature, naming its search in one line and its model; the ledger row carries the same verdict (`novelty`, `novelty_line`, `novelty_by`). Check, in this order: the line exists (missing is a hole: the write-up is not final); every paper it cites says what it is cited for (open it); the verdict word follows from what the papers say; then run **one search of your own** around the result's mechanism, in another field's words, and record the terms. A prior statement of the result that the line missed is a hole: the verdict word is wrong, and the required cut is the corrected line. A results file that calls a `known` result a finding, a discovery, "the first" or "what this testbed was built to catch", without saying who found it first, is an overclaim: cut it under C13. For a `known` result, your "What would break it next" names the cheapest test the prior work leaves open, not only the cheapest test that overturns ours. Bets whose results predate rule 13 carry a Novelty line added backward (`paper/informed-engine.md`); check it the same way.
 
 ## Output: `ledger/audits/<bet-id>.md`
 
@@ -105,7 +109,10 @@ verdict_after_audit: pass|pass-unreplicated|classical|tie|null|untestable|mixed
 verdict_stands: true|false     # true only if verdict_after_audit == verdict_claimed
 canary: unknown                # the auditor never knows; filled in by the ledger session at reveal (plant id, clean|planted)
 false_alarms: 0               # filled later by the ledger session: holes shown wrong by the author's reply and Sean's decision
-design_review_missed: []      # E26: flaws the design review's D1–D10 should have caught (check ids)
+design_review_missed: []      # E26: flaws the design review's D1–D12 should have caught (check ids)
+novelty_checked: known|partly new|new|missing   # F27: the results file's Novelty line as you found it
+novelty_holds: true|false     # F27: the verdict word survives the papers and your own search
+novelty_search: <the one search you ran under F27, terms and where>
 failed: true|false            # verdict_after_audit not pass/pass-unreplicated, or the run did not complete as pre-registered
 failure_reason: <one line, written before reading the pre-mortem>
 failure_kind: world|design|execution|artefact|null
@@ -126,7 +133,7 @@ risk_seen: true|false|null    # only when not_failed: did the named risk show up
 |---|---|---|---|
 
 ## Checklist
-<A1–E26, each: holds / hole / cannot check, with evidence and commands run>
+<A1–F27, each: holds / hole / cannot check, with evidence and commands run; under F27, the papers opened and the search run>
 
 ## The pre-mortem, scored
 <first your own one-line failure reason and its kind, written before you read the pre-registration's pre-mortem; then the pre-mortem quoted, and the score with one sentence of evidence (operators/premortem.md)>

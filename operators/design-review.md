@@ -1,6 +1,6 @@
 # Design review: a fresh auditor dry-runs every pre-registration before its first call (mandatory)
 
-After a pre-registration is committed and before its first API call, chip submission or archive read, a **fresh auditor session** tries to break the *design*. It reads the frozen pre-registration and the code, and dry-runs the code without paid calls. It ends with one verdict: **go**, **fix first** or **redesign**. No call runs before a **go**. This file is the whole procedure. It follows ARCHITECTURE.md (the `DesignReview` object, step 3b of the loop, invariant 10) and is enforced by `operators/prereg-template.md` §0, `operators/auditor.md` E26 and `ledger/check_prereg.py`.
+After a pre-registration is committed and before its first API call, chip submission or archive read, a **fresh auditor session** tries to break the *design*. It reads the frozen pre-registration and the code, and dry-runs the code without paid calls. It ends with one verdict: **go**, **fix first** or **redesign**. No call runs before a **go**. This file is the whole procedure. It follows ARCHITECTURE.md (the `DesignReview` object, step 3b of the loop, invariant 10) and is enforced by `operators/prereg-template.md` §0, `operators/auditor.md` E26 and `ledger/check_prereg.py`. Checks D1 to D11 are about the design; D12 (from 2026-11-05, rule 13) is about the literature: is the predicted outcome already in print, and if so what does this bet add.
 
 > **The human is never asked in a terminal** (CONTEXT.md §3 rule 11). This session never asks Sean for odds or for a decision, in a terminal, a chat or a question dialog. His odds come only from `ledger/human-odds.jsonl` (the cockpit's downloads, committed); if a direction has no line there when its bet is pre-registered, the bet proceeds marked "no human odds". A decision this session would otherwise ask about, it makes under the written rules and states in its report and commit, where Sean can veto it from the cockpit. Sean's judgment is recorded and scored as steers in `ledger/steers.jsonl`: seed questions, vetoes, added questions and architecture decisions.
 
@@ -19,7 +19,7 @@ The design review is the cheap version of the audit, run while the design can st
 ## Who and how
 
 - **A fresh session.** It is not the session that wrote the pre-registration, and it has not seen the chat. It follows `operators/auditor.md`'s independence rules. Where possible it is a different model family; when it is not, the header says so.
-- **What it reads:** the pre-registration at its commit, the analysis and run code, the map entry, the lesson line (`operators/learn.md`), and the archives the test will use.
+- **What it reads:** the pre-registration at its commit, the analysis and run code, the map entry (including its Prior work line), the lesson line (`operators/learn.md`), the papers the Prior work line and §0's prior work row cite (web reads, $0), and the archives the test will use.
 - **What it may run:** the code with every paid call stubbed or replayed from cache, the chip replaced by its simulator, and synthetic data built to have a known answer. It may make **no paid calls**, with one exception: a pilot of at most $0.10, on items excluded from the test, when the pre-mortem names an execution risk (check D6). Pilot results are not test data.
 - **Launch** (one local tab, in a fresh worktree of the engine repo at the pre-registration commit; programs are under `programs/<name>/`):
   ```
@@ -56,6 +56,14 @@ Each gets one of: *holds*, *flaw* (with evidence and the fix), or *cannot check*
 
 **D10. Machinery.** Budget enforced in code; stop-on-refusal in code; one scale direction (0 = false, 100 = true); caching by content hash; the beacon seed rule (`operators/hardware.md`); and the lesson line present and matching (`operators/learn.md`).
 
+**D12. The predicted outcome is not already in print, or the bet says what it adds** (rule 13, from 2026-11-05). Read the direction's Prior work line on the map and the pre-registration's §0 prior work row, and open every paper they cite (web reads, no paid calls). Then check four things:
+- (a) the line states a **predicted outcome for this pass rule** (pass, fail, mixed), with citations, not a topic or a list of names; "not tested on this model" alone is a flaw;
+- (b) each cited paper **says what it is cited for**, on the models or participants named;
+- (c) if the predicted outcome is **already in print on any model**, the pre-registration says in §0 what this bet adds (new models, a new design, a rival the prior work left open, the replication invariant 7 owes), and its odds are stated with that prior in view: the odds rationale or the lesson names the paper, and a number far from what the paper predicts says why;
+- (d) if the line says **"no prior statement found"**, the search it describes is one the reviewer can repeat, and the reviewer runs one search of their own around the test's *mechanism* in another field's words (not the seed question's words), and records the terms in the review. A paper found this way goes in the review as evidence.
+
+A missing or topic-only line is a **fix first** (the author writes it, before any call, both odds kept if they move). A predicted outcome in print with nothing said about what the bet adds is a **fix first** (rewrite §0) or a **redesign** if, once stated, the bet adds nothing. *sg-b3 would have failed this: Khullar et al. 2026 (arXiv 2603.04582) and Tsui 2025 (arXiv 2507.02778) both predicted its pass on Claude models, the pre-registration said neither, and the engine's odds were 18 (`paper/informed-engine.md`).*
+
 ## Verdict and what follows
 
 - **go:** no flaw. The run may start.
@@ -74,7 +82,9 @@ reviewer_model: <model id>
 author_model: <model id>
 same_model_family: true|false
 date: <YYYY-MM-DD HH:MM America/Denver>
-checks: {D1: holds, D2: flaw, ..., D11: holds}
+checks: {D1: holds, D2: flaw, ..., D11: holds, D12: holds}
+prior_work_search: <the one search the reviewer ran under D12(d), or "not needed: the line cites a predicted outcome">
+papers_opened: <int>                 # under D12
 flaws: <int>
 pilot_usd: 0.00
 verdict: go|fix-first|redesign
@@ -87,7 +97,7 @@ confirmed_at: <date, when a fix-first is confirmed; else null>
 <three to five sentences: would this test have answered its question as built, and what had to change>
 
 ## Checks
-<D1–D11, each with evidence and the commands run>
+<D1–D12, each with evidence and the commands run; under D12, the papers opened and what each predicts>
 
 ## Required fixes
 <each flaw, with the exact fix and the DEVIATIONS row it needs>
@@ -97,7 +107,7 @@ Commit it to `oversight-testbed` on its own: `Design review <bet-id>: go | fix-f
 
 ## Scored later
 
-When the bet's post-result audit is in, the ledger session records whether the audit found a flaw the design review should have caught under D1–D10 (`design_review_missed: [...]`). `ledger/scores.md` publishes the share of reviews ending go, fix-first and redesign, the flaws per review, and the misses per review. That last number is the design review's own catch rate, and it can also be tested with plants (`operators/plant.md`): a planted design flaw goes in a copy of a pre-registration.
+When the bet's post-result audit is in, the ledger session records whether the audit found a flaw the design review should have caught under D1–D12 (`design_review_missed: [...]`); a Novelty line of `known` on a bet whose review passed D12 without naming the prior work is a D12 miss. `ledger/scores.md` publishes the share of reviews ending go, fix-first and redesign, the flaws per review, and the misses per review. That last number is the design review's own catch rate, and it can also be tested with plants (`operators/plant.md`): a planted design flaw goes in a copy of a pre-registration.
 
 ## Ledger fields: `ledger/bets.jsonl`
 

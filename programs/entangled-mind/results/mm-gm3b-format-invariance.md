@@ -6,6 +6,8 @@ Pre-registered in `experiments/mm-gm3b-format-invariance.md` (DM2), committed be
 
 (Hand-written after the run; excluded from reproduce.py's comparison.)
 
+**Novelty:** partly new. That a single-belief description fits more capable models better is already stated by Smolin and Wilder (2026, arXiv:2609.07943): held-out fit rises along a capability gradient and framing effects are "largely absent in the strongest models"; their nine models include no Claude. Our Claude-family gradient (Haiku +19.4, Sonnet +9.2, Opus +1.9 per claim; Kendall's W 0.54, 0.71, 0.87) points the same way, but the held-out-repeat comparison across Haiku, Sonnet and Opus, Sonnet's mixed reading and Opus's near-agreement on the project's own claims are not in print. Search: WebSearch for "latent belief" "capability" "framing effects" "LLM" and "Claude Haiku Sonnet Opus elicitation format"; Smolin and Wilder PDF read in full. *(Rule 13, CONTEXT.md §3; written by a fresh claude-fable-5-1 subagent launched by the informed-engine session, 2026-11-05, web reads only, no model API; its papers-opened list and caveats are in programs/entangled-mind/map/reads/novelty-2026-11-05-em-dm2.md.)*
+
 ## Primary: one credence (L1) against one per format (L6), held-out repeats
 
 | model | claims (items) complete | calls used / expected | cost | mean ΔLL per claim [95% CI] | claims with ΔLL > 0 | reading |

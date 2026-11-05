@@ -224,13 +224,15 @@ def section_learning(w):
           f"{len(missed)} later found by the post-result audit to have missed a flaw they should have caught.")
         w("")
     scored = [l for l in lessons.values() if l.get("scored")]
-    pairs = []
+    pairs, pairs_all = [], []
     for l in scored:
         per = l.get("odds_by_bet") or {l["bet"]: {"odds_before_lesson": l.get("odds_before_lesson"), "odds_after_lesson": l.get("odds_after_lesson")}}
         for bid, od in per.items():
             b = next((x for x in bets if x["id"] == bid), None)
             if b and b.get("scored") and od.get("odds_before_lesson") is not None and od.get("odds_after_lesson") is not None:
-                pairs.append((od["odds_before_lesson"], od["odds_after_lesson"], b["outcome"]))
+                pairs_all.append((od["odds_before_lesson"], od["odds_after_lesson"], b["outcome"]))
+                if not b.get("secondary_of"):   # rule 15: one scored bet per run
+                    pairs.append((od["odds_before_lesson"], od["odds_after_lesson"], b["outcome"]))
     w("| pattern | title | cited by | recurred after citing |")
     w("|---|---|---|---|")
     for pid, pr in pats.items():
@@ -240,7 +242,9 @@ def section_learning(w):
     w("")
     if pairs:
         bb = brier([(p, o) for p, _, o in pairs]); ba = brier([(q, o) for _, q, o in pairs])
-        w(f"**Does the loop help?** On {len(pairs)} scored bets, Brier with the odds before the lesson is {fmt(bb)}, after it {fmt(ba)}.")
+        w(f"**Does the loop help?** On {len(pairs)} scored bets (one per run, rule 15), Brier with the odds before the lesson is {fmt(bb)}, after it {fmt(ba)}."
+          + (f" Counting secondary bets too: {fmt(brier([(p, o) for p, _, o in pairs_all]))} before, {fmt(brier([(q, o) for _, q, o in pairs_all]))} after, on {len(pairs_all)}."
+             if len(pairs_all) != len(pairs) else ""))
     else:
         w("**Does the loop help?** Not measurable yet: no bet with a lesson has a scored outcome. The test is Brier with the odds before the lesson against after it, paired.")
     w("")

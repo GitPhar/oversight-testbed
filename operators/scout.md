@@ -6,7 +6,7 @@ The scout runs at the start of every program, and again whenever an audited surp
 
 ## In plain English
 
-Before anyone designs an experiment, find out who has already looked, what they actually tested, and what their paper says to do next. Read the whole paper, not the abstract, because the limits and the next steps are never in the abstract. Look in every field that has studied a mind or studied how research goes right or wrong, not just the obvious one. Turn what you find into a short list of bets, each with the cheapest test that could kill it, its price, and your honest odds. Then put the human's question on each direction's cockpit card, without showing him your odds; he answers there, never in a terminal.
+Before anyone designs an experiment, find out who has already looked, what they actually tested, and what their paper says to do next. Read the whole paper, not the abstract, because the limits and the next steps are never in the abstract. Look in every field that has studied a mind or studied how research goes right or wrong, not just the obvious one. Turn what you find into a short list of bets, each with the cheapest test that could kill it, its price, and your honest odds. For each bet, write down in one line what the papers you read predict will happen when that exact test runs, with the papers named, or say that you searched and found no prediction; a bet whose outcome is already in print is a replication, and the map must say so before anyone bets on it (CONTEXT.md §3 rule 13; `paper/informed-engine.md` is the case that made this a rule). Then put the human's question on each direction's cockpit card, without showing him your odds; he answers there, never in a terminal.
 
 ## Launch
 
@@ -36,6 +36,8 @@ Search every field below, and say in the reads file which ones returned nothing 
 
 Prefer, in order: a full open-access text; an arXiv HTML or PDF; a preprint; a publisher page. Use web reads only. No model API calls, no paid services.
 
+**Search around the test, not only the question (rule 13).** Once the candidate tests are in view (Step 3), run a second search keyed to each test's *mechanism* in the words other fields would use for it, not the seed question's words. Program 5's readers searched "self-preference", "self-recognition" and "self-correction" and never found Self-Correction Bench (Tsui 2025), whose subject is an error placed in the assistant turn against the user turn: exactly sg-b3's manipulation. **Record every search in the reads file**: the terms, where they were run, and the date, one line per search, so a later session can repeat it. A search that is not written down did not happen.
+
 ## Step 2 — Read in full and record
 
 Each source gets one `Read` record (ARCHITECTURE.md). Write them to `related-work/<program>/reads.md`:
@@ -50,6 +52,7 @@ Each source gets one `Read` record (ARCHITECTURE.md). Write them to `related-wor
 - limits: <what it did not measure; what the authors say they did not do>
 - borrow: <a method, control, metric or failure mode, and where it goes>
 - next_steps_it_suggests: <the paper's own "what to do next", in one or two lines>
+- predicts_for_us: <for each candidate direction this paper bears on: its id, and the outcome the paper's result predicts for that direction's draft pass rule (pass, fail, or "no bearing", in one clause each); the outcome, not the topic>
 ```
 
 Rules:
@@ -75,6 +78,7 @@ For each surviving candidate, write a `Direction`:
 | `title` | one plain-English line |
 | `assumption_at_stake` | the belief this test could break |
 | `prior_work` | the reads it comes from, by short name |
+| `prior_work_line` | **The Prior work line (rule 13), mandatory.** One line, at most 70 words, stating what published work predicts for *this exact test and its draft pass rule*, with citations (author, year, arXiv id or DOI), and on which models or participants; then what this bet adds (new models, a new design, a rival the prior work left open, the replication invariant 7 owes). Or the words **"no prior statement found after"** a search described in one line (terms, where, date). "Not tested on this model" is not a Prior work line: say what the nearest result predicts. The design review's D12 checks it against the papers. |
 | `who_looked_and_why_open` | who tested something near it, and why the question is still open |
 | `what_our_data_say` | anything already in our archives that bears on it, with file paths |
 | `cheapest_test` | the design in two lines |
@@ -108,8 +112,11 @@ Write the map twice: `map/<program>.md` (plain English first, then the table) an
  "directions": [{"id": "", "title": "", "parent": null, "status": "open",
    "engine_odds": 0.00, "odds_prior": 0.00, "odds_adjustment": 0.00, "odds_reason": "", "odds_prior_commit": "",
    "engine_odds_at": "", "odds_template": "v2", "source": "literature",
-   "cost": "", "assumption_at_stake": "", "cheapest_test": "", "prior_work": [], "diagnosis": null}]}
+   "cost": "", "assumption_at_stake": "", "cheapest_test": "", "prior_work": [],
+   "prior_work_line": "", "prior_work_predicts": "pass|fail|mixed|unknown", "diagnosis": null}]}
 ```
+
+`prior_work_line` is the Prior work line verbatim; `prior_work_predicts` is the outcome it predicts for the draft pass rule (`unknown` when no prior statement was found). A landed or mixed node later carries `novelty` and `novelty_line` (rule 13; `operators/prereg-template.md` §10), which the site shows as known, partly new or new.
 
 `status` is `open | running | bet | hit | killed`. Odds are stored 0–1 in JSON.
 
@@ -129,4 +136,6 @@ Commit, in this order, each in its own commit: reads; map (md + json, engine odd
 - Show the engine's odds to the human before his are recorded.
 - Pre-register or run anything. Scouting ends at the map.
 - Re-open a killed direction without a stated new reason.
+- Leave a direction without a Prior work line, or write one that names papers without saying what they predict for the test (rule 13).
+- Run a search it does not write down.
 - Propose a project name (CONTEXT §0).
