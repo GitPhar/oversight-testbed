@@ -62,18 +62,18 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-36 of 59 bets carry an engine pre-mortem; 21 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+36 of 59 bets carry an engine pre-mortem; 22 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
-| engine: named the main reason | 8/21 = 0.38 [0.21, 0.59] |
-| engine: named it or its kind | 16/21 = 0.76 [0.55, 0.89] |
-| lazy baseline: failures whose reason was 'the effect is not there' | 16/23 = 0.70 [0.49, 0.84] |
+| engine: named the main reason | 8/22 = 0.36 [0.20, 0.57] |
+| engine: named it or its kind | 16/22 = 0.73 [0.52, 0.87] |
+| lazy baseline: failures whose reason was 'the effect is not there' | 16/24 = 0.67 [0.47, 0.82] |
 | human: named the main reason | — |
 
 | stated kind \ actual kind | world | design | execution | artefact |
 |---|---|---|---|---|
-| world | 12 | 4 | 0 | 0 |
+| world | 12 | 5 | 0 | 0 |
 | design | 2 | 1 | 0 | 0 |
 | execution | 0 | 0 | 1 | 0 |
 | artefact | 0 | 1 | 0 | 0 |
@@ -124,11 +124,11 @@ Design reviews: 0 go, 23 fix-first, 5 redesign; 16 later found by the post-resul
 | P9 | The right rule, then the wrong noun | 11 | 9 of 10 scored |
 | P10 | A label that hangs on one item | 12 | 9 of 10 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 1 | 1 of 1 scored |
-| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 15 | 7 of 11 scored |
+| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 15 | 7 of 12 scored |
 | P13 | A boundary the rule names, compared in plain floating point | 2 | 1 of 1 scored |
 | P14 | Items that share a template or domain bootstrapped as if independent | 0 | 0 of 0 scored |
-| P15 | A dry run built on assumed spreads or base rates, not measured ones | 1 | 0 of 0 scored |
+| P15 | A dry run built on assumed spreads or base rates, not measured ones | 1 | 0 of 1 scored |
 | P16 | A dumb baseline that is an item property, in dry-run worlds where item properties reach the outcome only through the predictor | 0 | 0 of 0 scored |
 
-**Does the loop help?** On 15 scored bets, Brier with the odds before the lesson is 0.208, after it 0.167.
+**Does the loop help?** On 16 scored bets, Brier with the odds before the lesson is 0.195, after it 0.157.
 
