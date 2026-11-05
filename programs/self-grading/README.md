@@ -30,6 +30,16 @@ One command, from the repository root, with Python 3 and numpy installed (no key
 
     python3 programs/self-grading/reproduce.py
 
-The root `python3 reproduce.py` runs it too and prints one line for this program. It takes a copy of the program as committed, runs each bet's own `analyse` step on the archived call caches (`results/<bet>-write-calls*.json`, `results/<bet>-grade-calls*.json`), and checks that every `results/<bet>-analysis*.json` comes out byte for byte the same. Nothing is called and nothing outside the standard library and numpy is used.
+The root `python3 reproduce.py` runs it too and prints one line for this program. It takes a copy of the program as committed. Nothing is called, and nothing outside the standard library and numpy is used.
 
-Today it rebuilds one file: sg-b1's design-review pilot (`results/sg-b1-analysis-pilot.json`). sg-b1's main run has its calls archived but no analysis committed yet. No results write-up (`results/*.md`) exists yet; when one lands, its tables are added to `reproduce.py` in the same commit, or the script fails on the unregistered file. Nothing the tables need is missing from the archive.
+What it checks:
+- **The analyses.** It runs each bet's own `analyse` step on the archived call caches (`results/<bet>-write-calls*.json`, `results/<bet>-grade-calls*.json`). The three main analyses and sg-b1's pilot come out byte for byte the same as the committed `results/<bet>-analysis*.json`.
+- **sg-b3's pilot** (`results/sg-b3-analysis-pilot.json`) was committed with its design review, before fixes D9a–D9g added fields to the analysis. Every value the pilot file has is checked exactly. The 18 fields added later (6 per model, such as `clean_D_ci` and `flawed_D_ci`) are counted and named, not compared. A value in both that differed would still fail.
+- **The write-ups.** For `results/sg-b1-placement.md`, `sg-b2-label.md` and `sg-b3-flaw.md`, every table is rebuilt from the regenerated analysis and the caches, with the write-up's rounding, signs and bold. Each is compared line for line. Every number is recomputed, including the n in row labels. Column headers and row labels without a number are copied, and counted. The number of tables in each file is checked too.
+- **Numbers in the prose.** Calls, spend, tie counts, gate values, pooled estimates and the verdict, where the plain-English part copies them, are checked the same way.
+
+Two numbers in sg-b3-flaw.md are exact decimal ties printed to one place: 63.05 in a table and 8.85 in the prose. The write-up rounds them up; Python rounds them down. Either printing is accepted, and the script counts them. Elsewhere the write-up rounds such ties down (89.85 as 89.8), so both are faithful.
+
+Not checked, because no archived code computes them: sg-b3's logit-scale gaps (0.97, 1.19), the audit's 20-domain bootstrap quoted in sg-b3, and sg-b1's own − fresh2 interval (−1.0 [−1.6, −0.4]).
+
+Nothing the tables need is missing from the archive. A new results file fails the script until it is taught there.
