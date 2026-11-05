@@ -66,7 +66,7 @@ Written and frozen in its own commit; the commit's author time (America/Denver) 
   - `boot`: its `seed32` is the bootstrap seed.
 
   The pilot draws nothing. *Filled in by the seed commit, before any data:*
-  `chain:` ___ · `pulse index:` ___ · `pulse_time:` ___ · `previous pulse time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seed (order):` ___ · `seed32 (order):` ___ · `seed (boot):` ___ · `seed32 (boot):` ___
+  `chain:` CURBy-RNG · `pulse index:` 1591480 · `pulse_time:` 2026-11-04 17:16:00 America/Denver · `previous pulse time:` 17:15:00 (index 1591479, before the 17:15:48 commit `26ee5d2`) · `randomness:` b2c91797cac09dcccdc4e7a7e933d4be7ac89530196b2e37815362ca8dd162a33e5c990584f1ba7ae44e0ff8ef194655e83b24dcea70bc45c642a1523a996008 · `client:` @buff-beacon-project/curby-client@1.2.0 via `experiments/curby_seed.mjs` · `certificate_verified:` false · `seed (order):` 4980379054609631973 · `seed32 (order):` 3972893413 · `seed (boot):` 14256570662109869020 · `seed32 (boot):` 2387637212. Record: `data/p2-3b-seed.json`.
 - **Scale:** not graded (two-option choices). The one-direction rule (0 = certainly false, 100 = certainly true) has no graded prompt to apply to here.
 - **Code:** `experiments/p2_3b_simpletom_lowsev.py` (run and analysis), `experiments/p2_3b_dryrun.py` (stubbed dry run), `experiments/p2-3b-dryrun-output.txt` (its output, synthetic data only).
 
