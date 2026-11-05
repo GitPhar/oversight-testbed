@@ -16,6 +16,7 @@ When a test works, or half works, the first job is to read again: a result makes
 
 - **Trigger.** A program's results have *settled* when every bet pre-registered in its last round has a verdict and a finished audit (`audit_status` done, or `verdict_after_audit` set). The session that writes the last audit's ledger row launches the remap in its report; the morning operator launches it if `check_remap.py` finds a landed leaf.
 - **Also:** at any time on request, and before a program's next wave is built.
+- **Closing review:** when `ledger/prior.md` lists the program as due (section "Closing a program" below).
 - **Who.** A fresh session that wrote none of the program's results, pre-registrations or audits. It reads; it never runs, pre-registers or approves a budget.
 
 ## Launch
@@ -115,6 +116,23 @@ No symbols, thresholds or terms of art; the cost in the unit that is scarce for 
 
 Plain English: for each program, what landed and the two cheapest follow-ups with their costs, what the kills rule out, and the line "The new directions are on the cockpit". It is a pointer, not a request. Do not state the engine's odds in the report. End with the commit hashes, the three-line TL;DR and "YOU, NOW".
 
+## Closing a program (from 2026-11-05)
+
+**The rule: a program whose last three layers contain no landed bet and no partly-new finding gets a closing review.** A program that keeps betting without landing anything or finding anything new is spending on a question that may already be answered. Remaps add follow-ups; nothing so far asked whether the seed question itself should stop.
+
+- **Layers.** A bet's layer is how deep its direction sits on `map/<program>.json`: 1 for a direction the scout mapped with no parent, one more per parent step (a replication missing from the map sits under the bet it repeats). The program's last three layers are the three deepest that hold at least one settled bet (a verdict other than open or withdrawn).
+- **Due** when none of the settled bets in those layers is landed (ledger verdict after audit `pass`, `pass-unreplicated` or `hit`) and none has a Novelty line (rule 13, `novelty` on the bet row or its map node) of `partly new` or `new`. A program with fewer than three such layers is not due. `python3 ledger/prior.py` computes this; `ledger/prior.md`, "Closing reviews due", lists every program and why. The morning operator reports every program marked due (TASKS.md, morning checklist).
+- **Who.** A fresh session that wrote none of the program's results, pre-registrations or audits, launched as `cd /Users/seanpharris/oversight-testbed && claude --model opus "Read operators/remap.md, section Closing a program, and follow it. Program: <name>."`. It reads; it never runs, pre-registers or calls a model, chip or local model.
+- **Reads.** The program's seed question (verbatim, from its map), every ledger row and audit of the program, its map and rules-out sentences, its Novelty lines, its steers (`ledger/steers.jsonl`), `ledger/prior.md`, and the open directions still on its map with their costs.
+- **Writes** `programs/<name>/map/closing-review-<date>.md`, plain English first:
+  1. the seed question, verbatim;
+  2. a table of the last three layers: layer, bets, ledger verdicts, Novelty lines;
+  3. **the diagnosis**, one sentence in plain words: what the program ruled out, and what it could not rule out and why (the form program 3 used for the 3 November question, `a394a25`, steer st-19);
+  4. **the decision: closed, or kept open with a stated reason.** A reason to keep it open names a not-yet-run direction on the map (or a new read) and says in one sentence how its result could change the answer to the seed question, with its cost. "More bets might work" is not a reason.
+- **Marks the map**, in the same commit as the review file. `map/<program>.json` gets a top-level `closing_review`: `{"date", "by", "decision": "closed" | "kept open", "diagnosis", "reason", "file", "layers_reviewed", "bets_reviewed"}`. If closed: the top-level `status` becomes `"closed"`, and the seed question is added to `questions_closed` (`{"id": "q-seed", "question": <verbatim>, "closed_at", "diagnosis", "bets"}`), as program 3's map closed its 3 November question this morning. Its open directions become `parked` with the note "parked: program closed <date>" and stay on the map (invariant 4); a bet already pre-registered is neither run nor withdrawn by the review, but under its own rules. The program's own map markdown gets a section "Closing review (<date>)" with the diagnosis and decision. The same goes in the program's own map JSON where it has one.
+- **After.** Rerun `python3 ledger/prior.py`: the program's row reads "no" with the review's date. A kept-open review answers the flag only for the bets it saw (`bets_reviewed`); the flag returns when a settled bet it did not see lands in the last three layers without a hit or a partly-new finding. A closed program is reopened only by a new reason its diagnosis does not cover, or by Sean from the cockpit (a steer); the review's decision is the engine's (rule 11), stated in its report and commit, where he can veto it.
+- **Commit** with `git commit -m "Closing review <program>: <decision>. <diagnosis>" -- <paths>`, then report in plain English: the diagnosis, the decision and, if kept open, the direction that could change the answer.
+
 ## What the remap never does
 
 - Pre-register, run, approve a budget, or call a model API, a chip or a local model. Remapping ends at the map.
@@ -124,3 +142,4 @@ Plain English: for each program, what landed and the two cheapest follow-ups wit
 - Leave a landed or mixed bet as a leaf.
 - Write a landed or mixed bet's follow-ups before its re-scout file is committed (Step 1b).
 - Leave a new follow-up off the cockpit (Step 4).
+- Close a program that is not due, or keep a due one open without a stated reason (Closing a program).
