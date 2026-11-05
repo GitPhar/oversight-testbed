@@ -798,9 +798,9 @@
    "engine_odds": null,
    "engine_odds_at": null,
    "odds_template": "not yet elicited: v2 at pre-registration, in a fresh context (rule 14); the card went up first with no engine odds",
-   "prior_work_line": "Predicts a pass, with a placement gap. Tsui 2025 (Self-Correction Bench, arXiv 2507.02778 v3, §4.1): appending 'Wait' after the model's own erroneous output cut the blind spot by 89.3% on average over 14 open models; no Claude model appears in its Wait results and no condition puts 'Wait' in a user turn. What this adds: 'Wait' in the user's grading request, a graded penalty on prose, Claude 5.5 models.",
-   "prior_work_predicts": "pass",
-   "prior_work_search": "arXiv HTML of 2507.02778v3 opened 2026-11-05 (§3.1 Eq. 1, §4.1, footnote 2); paper/novelty.md finding 2",
+   "prior_work_line": "Mixed, leaning to a miss. Tsui 2025 (arXiv 2507.02778 v3, §4.1): 'Wait' appended after the model's own wrong output cut the blind spot 89.3% on average (14 open models). Chen et al. 2026 (arXiv 2606.05976 v2, Tables 2, 4): a 'Wait,' prefix added nothing beyond a user-role relabel (Claude Sonnet 4 math +40.0 with and without), and audit-prompt changes leaving the claim in the model's turn reached 23.3% against 16.7%. Adds: 'Wait' in the grading request, a graded penalty, Claude 5.5.",
+   "prior_work_predicts": "mixed",
+   "prior_work_search": "arXiv HTML of 2507.02778v3 opened 2026-11-05 (§3.1 Eq. 1, §4.1, footnote 2); paper/novelty.md finding 2; Chen et al. 2026 arXiv 2606.05976v2 HTML opened 2026-11-05 (§3.1, §4.2-4.3, Tables 2, 4, 7), found by WebSearch '\"Wait\" token prompt self-correction LLM user message vs appended assistant turn ablation'",
    "question": "If the word 'Wait' is added to the start of the grading request, does a model stop going easier on an exaggeration that sits in its own reply?",
    "known": [
     "sg-b3: Haiku and Opus docked a planted exaggeration 12.6 and 6.0 points less in their own reply than fresh; known from Khullar et al. 2026 and Tsui 2025.",
@@ -815,7 +815,10 @@
    "source": "literature",
    "source_note": "paper/novelty.md finding 2 ('Cheapest test to make it new'); Tsui 2025 §4.1",
    "status": "open",
-   "opened": "2026-11-05"
+   "opened": "2026-11-05",
+   "prior_work_line_first": "Predicts a pass, with a placement gap. Tsui 2025 (Self-Correction Bench, arXiv 2507.02778 v3, §4.1): appending 'Wait' after the model's own erroneous output cut the blind spot by 89.3% on average over 14 open models; no Claude model appears in its Wait results and no condition puts 'Wait' in a user turn. What this adds: 'Wait' in the user's grading request, a graded penalty on prose, Claude 5.5 models.",
+   "prior_work_predicts_first": "pass",
+   "prior_work_revised_note": "Corrected 2026-11-05 before pre-registration by the session that wrote it: the first line (11:31) predicted a pass from Tsui alone; Chen et al. 2026 tested a 'Wait,' prefix in a user message and found it adds nothing beyond the role relabel."
   }
  ],
  "remaps": [
