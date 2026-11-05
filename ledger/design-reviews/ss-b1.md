@@ -198,3 +198,44 @@ Checked 2026-11-04 18:55 America/Denver against `275c408` (DEVIATIONS D17–D18)
 **Fix:** restore `llm._check_stop(resp, call)` in `structured`, after the thinking-block check and before `text = next(...)`, for every model. Record it in a DEVIATIONS row, and re-run the stubbed refusal and truncation check to show the run stops and `refusal.md` holds the ID.
 
 **Verdict: not go until G1 is fixed and confirmed here.**
+
+## Addendum 3: D19, and four questions on D18
+
+Checked 2026-11-04 19:00 America/Denver against `2cdb5fe` (D19), by the same reviewer session. No paid calls were made. `items.jsonl` and `masked.jsonl` still match `SHA256SUMS`. The bettor cache is empty, so no test-set call has run.
+
+**G1 is fixed.** `llm._check_stop(resp, call)` is back in `common.structured`, before the text is read, for every model. I re-ran the stubbed client against scratch copies of the current `common.py` and `bettor.py`, with one worker and the bad response on call 3:
+
+| stubbed response on call 3 | result |
+|---|---|
+| refusal | stops at once, prints the request ID, writes `results/refusal.md` with `req_REFUSED`; `bets.jsonl` holds only the 2 good calls; the refused call is not cached |
+| `max_tokens` | stops on `RuntimeError('bettor call hit max_tokens')` with the same 2 bets; the truncated call is not cached |
+
+**(1) Does hidden reasoning change what the bettor can see? No.** The request is the same as before apart from `output_config.effort: "low"` and `max_tokens`:
+- the same `SYSTEM` and the same user text, built from `masked.jsonl` only;
+- no `tools` field and no other message;
+- nothing in the bettor's code opens `items.jsonl`.
+
+Adaptive thinking adds computation, not information. The hidden reasoning is not returned, so the `rationale` is the only record of why the bettor answered as it did. The write-up should not treat it as the reasoning itself.
+
+**(2) Is there a risk of truncation or parse failure? Low, and it is now caught.** The pilot (c-2610.03498-1, which the leakage check dropped) ended normally and parsed: `p_option_1` 35 and a 67-word rationale. It used 162 output tokens in all. About 110 of those are the visible JSON, which leaves roughly 50 for hidden reasoning, so the 4000 cap gives about 25× headroom. The structured-output schema governs parsing, and a parse failure stops the run as an error. One pilot call cannot bound the tail. If a truncation happens, the run stops under the rule now restored, and D14 governs how the bets made so far are scored. The worst-case cost overshoot past the cap is about $0.45, so the cap still binds near $5.
+
+**(3) Should §5 or §6 say reasoning was on? Yes.** §2 says "thinking off", and the measured object is now the model with adaptive thinking at low effort. Add this to a DEVIATIONS row (D20), and include it in the results file's plain-English section and beside every §5 verdict sentence:
+
+> *"The bettor was claude-opus-5-5 with adaptive thinking at low effort (its reasoning hidden, no tools), because this model cannot run with thinking off; every result here is about that setting, not about the model answering without reasoning."*
+
+For §6, add this sentence:
+
+> *"Both Sean and the bettor could reason before answering; neither could look anything up."*
+
+This changes wording only. It need not gate the calls, but it must be committed before the results are written.
+
+**(4) Does the D5 reasoning hold? Yes.**
+- **Dumb baselines:** they depend only on the items, so D18 does not affect them. At n = 116 the headline baseline is still null (upper bound 0.255).
+- **Power at n = 116:** simulated as before.
+  - A bettor right 70% of the time at 0.7 confidence (Brier 0.21) passes 57% of the time.
+  - At 0.8 confidence with the same accuracy (Brier 0.22), it passes 21% of the time.
+  - At 75% right and 0.8 confidence (Brier 0.19), it passes 67% of the time.
+- **What reasoning changes:** it helps only if it adds accuracy. Extra confidence alone lowers the chance of a pass. That shifts the odds, not the rule's ability to detect the effect.
+- **Odds:** the map's 50% was set for "thinking off". Revising the odds before data is allowed, with both numbers kept, but it is not required.
+
+**Verdict: go.** The test-set run may start. The D20 sentence must be committed before the results are written.
