@@ -145,3 +145,49 @@ Each needs a dated DEVIATIONS row (D74 or the next free number), written before 
 Each answers a question in D4 and D6 that the primary cannot.
 
 VERDICT: fix-first (3)
+
+## Addendum: fix confirmation, 2026-11-05 07:45 America/Denver (not confirmed)
+
+I checked commit f4d82d3 (D76; lesson_correction on ls-em-dm6f2f1). The script is unchanged from f4d82d3 to HEAD, and `results/dm6f2f1-no-guess.*` does not exist. `--selftest` prints SELFTEST OK. I did not run `--seed` and did not read any guess value. Every check below plants synthetic guesses, either on the real 63 × 4 confidence matrix or on the author's own selftest table. Scripts `confirm.py`, `exact_loo.py`, `author_synth.py` and `mutant.py` are in the scratch folder named in the header.
+
+**F2 holds.**
+- The branch is chosen mechanically: `fail` with D1 ≥ 0.20 − 1e-9 and D1's lower bound > 1e-9 gives "fail, part (a) holds".
+- On planted tables with the real confidences (k_p 17 or 18 of 18, k_b 4 or 5 of 7), that branch and its sentence appear, with n_both filled in.
+- Every sentence carries "with a yes/no guess". The pass sentence keeps "but does not prove it". The verdict labels and bars are unchanged.
+
+**F3 holds.**
+- D76 states the usable and matched sizes (63: 18 / 7 / 38; 94: 24 / 10 / 60).
+- The lesson line keeps its frozen text, and a `lesson_correction` field says that "about twenty" is wrong.
+- The parent audit's counts are quoted exactly (40/58, 22/44; F chemistry 36 of 47 'no' unflagged).
+- The script writes the counts per group before and after the parse to the JSON and the md.
+- Odds stay at 0.45, with a stated reason.
+- The F ≥ 0.2 secondary is in and labelled as unable to change the verdict. The broad-parse secondary was recommended, not required, so leaving it out is not a flaw.
+
+**F1 does not hold in substance.** It meets the letter of what I asked: the shifted-bound LOO now runs over every question, and a mutant with the old `if not ponly[i]: continue` makes the new selftest print SELFTEST FAILED. But the shifted-bound rule, which I endorsed in the review, gives the wrong answer in the 7-question both group at exactly the counts that decide the bet. I checked it against an exact leave-one-out, which re-runs the frozen `analyse()` without the question, same seed:
+
+| table | verdict | shifted-bound LOO (as coded) | exact LOO |
+|---|---|---|---|
+| real confidences, 18 of 18 P-only 'no', 3 of 7 both 'no' | pass (D2 lower bound +0.167) | no flip | dropping a both-format 'yes' → **fail** (a real flip, missed) |
+| same, 4 of 7 both 'no' | fail (D2 lower bound 0.000) | 4 both-group flips | dropping a both-format 'no' or 'yes' → fail (**no flip**) |
+| same, 5 of 7 both 'no' | fail | 5 both-group flips | no flip |
+| the author's selftest table, k = 3 | pass (D2 lower bound +0.200) | no flip | dropping a both-format 'yes' → **fail** |
+| the author's selftest table, k = 4 (the asserted case) | fail (D2 lower bound 0.000) | 4 both-group flips | **no flip** |
+
+The cause:
+- When P-only is all 'no', its bootstrap share has no variance.
+- With 7 questions, the both share's 97.5th percentile sits at 1.0, a point mass. So D2's lower bound is pinned at 0 for k_b ≥ 4.
+- Shifting a pinned bound by the change in the point estimate moves it above 0 whenever a 'no' is removed. That is a false flip. At k_b = 3 the shift understates how far the bound falls when a 'yes' is removed. That is a missed flip.
+
+So the selftest's k = 4 assertion checks an artefact. On a fail at 4–5 of 7, the results heading would print "fail (carried by …)" with four or five question ids that do not carry it. On a pass at 3 of 7, it would print no flip when one question does carry it. My review's figure of 17–39% for single both-group flips (`worlds.py`) used the same shifted-bound rule and is therefore unreliable. I withdraw it. The finding it supported, that the verdict hangs on one both-format question, stands on the exact check: at 3 of 7, one 'yes' decides it.
+
+**What F1 needs, with no bar moving:**
+- In `analyse()`, compute each leave-one-out verdict exactly: re-run the bootstrap on the n − 1 remaining questions with the same seed and nboot, and apply `verdict()` to its own bounds. This is about 63 × 10,000 resamples, a minute or two.
+- If run time matters, use the exact LOO at least for every both-group and P-only question, and say which rule each group used.
+- Change the selftest edge to the real edge in the author's table. At k = 3 it must list a both-group flip, from dropping a 'yes'. At k = 4 it must list no both-group flip.
+- Update the D76 row (or add one) to say that the frozen "bounds shifted by the point change" rule is replaced by the exact LOO for this reported robustness check, citing this addendum. It is reported only and cannot change the verdict, so no bar moves.
+
+This addendum also corrects my review's D9 text: the shifted-bound rule is the source of the problem, not just its coverage.
+
+confirmed_at stays null until F1 is fixed and re-checked.
+
+CONFIRMED: no
