@@ -14,7 +14,7 @@ flaws: 7
 pilot_usd: 0.00
 verdict: redesign
 verdict_by_bet: {ss-b4: redesign, ss-b5: fix-first}
-confirmed_at: null
+confirmed_at: 2026-11-04 19:49 America/Denver (ss-b5 fixes F2-F7 confirmed; ss-b4 stays redesign, withdrawn under F1)
 ---
 
 # Design review of ss-b4 and ss-b5
@@ -232,3 +232,46 @@ The ss-b5 odds (35) need no change unless F2 is adopted, which allows a revision
 - The beacon draw and the seeds recompute.
 - The budget, refusal stop and caches are as in round 1 after D19.
 - §4's dry run is correct and openly reported.
+
+## Confirmation of fixes (addendum, 2026-11-04 19:49 America/Denver)
+
+I read the fix commit `296d587` (DEVIATIONS D23–D29, `score.py`, map, README and `lessons.jsonl`), plus `9b3d222` and `0f686d9`. Since the pre-registration (`git diff 29e8769 HEAD`), the only changes under `items/`, `bettor/`, `common.py` and `experiments/` are the seed commit's `r2-seed.json` and its fill-in line. No `r2-bets.jsonl` or `r2-bettor-cache.json` exists, so no round-2 bettor call has been made. Every fix holds for ss-b5, and I found nothing new that blocks the run. **ss-b5: go. ss-b4 stays redesign and withdrawn.**
+
+| fix | status | evidence |
+|---|---|---|
+| F1 | **holds** | `ledger/bets.jsonl` lists ss-b4 as `verdict: withdrawn`, `scored: false`. `brier.md` keeps it out of the score with the reason. The map shows `status: withdrawn` and the README says so. `score_r2` marks ss-b4 "withdrawn before data… descriptive secondary only", and D23 carries the required sentence. |
+| F2 | **holds** | See the two checks below the table. |
+| F3 | **holds** | D25 holds the §0 source row, the §1 replacement, the ss-b5 pass and null sentences, and the §6 line on "the published sentence makes the paper look good", word for word as required. The frozen pre-registration text stays as it was and is superseded by the row, which is the correct procedure. The fallback qualifier is not needed, because F2 was adopted in full. |
+| F4 | **holds** | `tables_r2` labels the by-bucket table "query bucket" and prints "query-bucket flips". D26 lists r2-015, -018, -033, -035, -072, -075 and -092. The prompt and items are unchanged. |
+| F5 | **holds** | `ls-ss-b4` keeps the frozen §0 text as `lesson`, as learn.md requires. The revision is stored as `lesson_revised` (and D27). It says ss-b4 is withdrawn under P3 and that P1's `do_this` stands. The odds for ss-b5 moved from 0.35 to 0.25 before data, and both numbers are kept in the map and in `bets.jsonl`. `check_prereg.py ss-b5 … --before-run` now passes L1–L3 and R1. Its R2 failed only for want of this confirmation. |
+| F6 | **holds** | The `onefield` synthetic bettor (oracle on model psychology, up-word rule elsewhere) gives ss-b5 **"null, fragile"**, with query-bucket flips interpretability, quantum-devices and scalable-oversight. With 75 bets, the leave-one-bucket-out remainders of 40 and 54 come out "untestable" and are not counted as flips. |
+| F7 | **holds** | I read ci.acm.org/2026 (free reads only). `papers-talks.html` shows full papers due "June 8 June 15, 2026 AoE" (the deadline was extended), notifications on July 31, 2026, and submission through EasyChair. `index.html` shows the conference ran September 27–30, 2026. `general-submission-instructions.html` asks for an anonymous review copy (`acmart` `review,anonymous`). Nothing points to a public version before 2026-07-01, and arXiv v1 is 2026-08-04, so keeping r2-041 is right. Two of D29's details are slightly off: the deadline is June 15 after the extension, not June 8. And the pages I read imply anonymous review without the words "double-blind". Neither changes the decision. |
+
+**F2, the code.** `SWAP_PAIR_P` holds the ten values, and `PAIR_PRIOR` is 0.829. I compared `swap_pair()` against my own pair mapping on all 243 template candidates: 0 mismatches. That covers the hyphenated "higher-dimensional" (r2-095), and no pair falls through to the prior. ss-b5's label is `boot_ci(d_up)[1] < −EPS and boot_ci(d_pair)[1] < −EPS`. Leave-one-item-out and leave-one-bucket-out run on that combined label.
+
+**F2, re-run checks.** Command: `scoring/score.py --r2 --synthetic {coin, upword, swappair, oracle, anti, onefield}`.
+- The synthetic bettors give, for ss-b5: coin 0.250 null, upword 0.171 null, swappair 0.157 null, oracle 0.010 pass, anti 0.810 null, onefield 0.126 "null, fragile".
+- I also put my dumb predictors through the new `score_r2`, on the **92 drawn items** in the beacon's option order with integer p. Every one is **null on ss-b5**:
+
+| predictor | Brier | −up-word [CI] | −swap-pair [CI] |
+|---|---|---|---|
+| coin | 0.250 | +0.073 | +0.085 |
+| up 0.75 | 0.177 | 0 | +0.012 [−0.008, +0.030] |
+| up 0.80 | 0.177 | +0.000 | +0.012 |
+| up 0.829 | 0.180 | +0.003 | +0.015 |
+| up, bucket rates fit on the dropped items | 0.182 | +0.005 | +0.017 |
+| up 0.90 | 0.193 | +0.016 | +0.028 |
+| swap-pair rule itself (rounded to integers) | 0.165 | −0.012 [−0.030, +0.007] | −0.0003 [−0.0007, +0.0001] |
+| "more" → 0.9 | 0.171 | −0.006 | +0.006 |
+| mean of the two rules | 0.168 | −0.009 [−0.018, +0.001] | +0.003 |
+| own-method nouns (written after reading the items) | 0.155 | −0.022 [−0.049, +0.000] | −0.010 [−0.045, +0.022] |
+| own-method nouns × swap-pair (written after reading the items) | 0.147 | −0.030 [−0.063, +0.005] | −0.019 [−0.052, +0.015] |
+| **in-sample** swap-pair (uses the answers) | 0.131 | −0.046 [−0.082, −0.011] | −0.034 [−0.072, +0.001] |
+
+The last row passed the original ss-b5 rule. It now comes out "null, fragile". The swap-pair rule scores 0.165 on the 92.
+
+**Notes that do not block (not flaws):**
+- **A one-line hidden gap.** When some leave-one-bucket-out remainders are "untestable", the table still prints "no single query bucket flips it". The untestable rows are in `r2-scores.json` but not in the line. This can only happen after a stop that leaves 60 to about 91 items scored, and the label itself is right either way. A one-line fix to `tables_r2` would name the untestable buckets.
+- **The rounded swap-pair bettor sits at the edge.** Against the swap-pair rule it lands right at the bound (upper end +0.0001), from integer rounding alone. It is still null overall, because the up-word leg (upper end +0.007) stops it. Requiring both comparators is what makes the rule robust to this.
+- **The by-bucket table** still compares each bucket with the up-word rule only. It is secondary.
+
