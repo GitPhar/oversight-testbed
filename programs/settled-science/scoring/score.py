@@ -28,7 +28,7 @@ def load_items():
 
 def year_bin(it):
     d = it["v1_date"]
-    if it.get("side_note"):          # v1 after the cutoff, moved to pre-cutoff for an earlier public version (D12, D17)
+    if it["side"] == "pre" and d >= "2026-07-01":   # v1 after the cutoff, moved to pre-cutoff (D8, D12; audit cut 2)
         return "2026-moved"
     return "2026-post" if it["side"] == "post" else ("2026-pre" if d.startswith("2026") else d[:4])
 

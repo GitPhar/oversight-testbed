@@ -21,7 +21,7 @@ This makes a third kind of referee for the engine:
 
 ## Result so far
 
-Round 1 (`results/ss-b1-results.md`, unaudited): on 116 findings published after the bettor's cutoff, Brier 0.163 [0.139, 0.190], 76% right. That beats a coin and a publication-bias shortcut. Older papers it may have read score better (0.105). Model psychology was its weakest field. All three bets passed, unreplicated.
+Round 1 (`results/ss-b1-results.md`; audited, passes stand): on 116 findings first posted after the bettor's stated cutoff, Brier 0.163 [0.139, 0.190], 76% right. That beats a coin and a publication-bias shortcut. Older papers it may have read score better (0.105). Model psychology was its weakest field. All three bets passed, unreplicated.
 
 ## Where things are
 

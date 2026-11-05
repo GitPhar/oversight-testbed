@@ -4,7 +4,7 @@
 
 Each item is a real study posted to arXiv between July and November 2026, after the engine's model was trained, so it cannot have read them. Exactly one of the two options is what the paper reported. For each one, write **1 or 2**, and if you like, **how sure** from 50 (a coin flip) to 100 (certain). If you leave 'how sure' blank it is scored as 75.
 
-Take about a minute each; go with your gut. No session asks you for these in a terminal (engine CONTEXT.md §3 rule 11): your calls count only once they are committed to `ledger/human-odds.jsonl` from a cockpit download. If they are not there when the bettor's results are scored, the program proceeds marked 'no human odds'.
+Both Sean and the bettor could reason before answering; neither could look anything up. Take about a minute each; go with your gut. No session asks you for these in a terminal (engine CONTEXT.md §3 rule 11): your calls count only once they are committed to `ledger/human-odds.jsonl` from a cockpit download. If they are not there when the bettor's results are scored, the program proceeds marked 'no human odds'.
 
 ## H01 · model-psychology
 
