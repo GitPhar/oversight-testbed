@@ -245,3 +245,6 @@ Record fixes (not counted as cuts):
 - It also has to hold in each of the old gm2 and gm2b item groups (sign only).
 
 That separates a real claim-level instability from today's specification-dependent partial, and from the gm2b batch. If both guards have to clear zero, I expect it to fail. A free precursor: compute S from repeats 0–4 and G from repeats 5–9, and the reverse, so that noise in S cannot be shared with W's own repeats. That cannot overturn the verdict, but it shows how much of S's link to W is the same draws.
+
+
+Revealed 2026-11-05: pl-028, clean; nothing to catch.
