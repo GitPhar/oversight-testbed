@@ -364,6 +364,9 @@ def main():
       "untestable, undetermined after audit, or stated no odds (`ledger/brier.md`, \"What is not scored, and why\")"
       + (f", or are scored secondary bets on a run an earlier bet was already scored on (rule 15, one scored bet per run: "
          + ", ".join(f"{b['id']} on {b['secondary_of']}'s run" for b in secondary) + ")" if secondary else "") + ".")
+    w("")
+    w("<!-- numbers (generated; read by site/numbers.py): "
+      + json.dumps({"prior_rate": f"{rate:.2f}", "prior_hits": hits, "prior_n": n, "prior_ci": fmt_ci(ci)}, sort_keys=True) + " -->")
     (HERE / "prior.md").write_text("\n".join(L) + "\n")
     print(f"prior {rate:.2f} ({hits}/{n}, 95% {fmt_ci(ci)}); closing reviews due: "
           + (", ".join(p for p, *_, due, _w in closing_reviews(bets, bets_by_id, engine_maps) if due != "no") or "none"))

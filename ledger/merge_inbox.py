@@ -31,7 +31,8 @@ The fold, in order:
      file and an atomic rename (a reader never sees a half-written or empty file), re-reads it, and checks the line
      count is the old count plus the adds, that every line parses and that ids are unique.
   4. Removes the folded lines from their inbox files (an emptied inbox file is deleted).
-  5. Runs ledger/brier.py, ledger/scores.py and ledger/prior.py.
+  5. Runs ledger/brier.py, ledger/scores.py and ledger/prior.py, then site/numbers.py (the front-page documents' ledger
+     numbers); a document is committed only if its only uncommitted change is those numbers.
 The morning operator and every main-checkout session run it first, before any other ledger step.
 """
 import argparse
@@ -301,8 +302,18 @@ def fold(dry_run=False, commit=False):
         print(f"  {'ok  ' if r.returncode == 0 else 'FAIL'}  ledger/{script}: {(r.stdout or r.stderr).strip().splitlines()[-1] if (r.stdout or r.stderr).strip() else ''}")
         if r.returncode:
             return 1
+    # The front-page documents take their ledger numbers from the tables just regenerated (site/numbers.py).
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("site_numbers", ROOT / "site" / "numbers.py")
+    nm = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(nm)
+    _, docs = nm.run(check=False, root=ROOT, quiet=True)
+    safe_docs = [d for d in docs if nm.only_numbers_changed(d, ROOT)]
+    for d in docs:
+        print(f"  ok    {d}: ledger numbers brought current" + ("" if d in safe_docs else
+              " (it also holds someone else's uncommitted edits, so it is not committed here; its owner commits it)"))
     if commit:
-        paths = [f"ledger/{f}.jsonl" for f in changed] + ["ledger/brier.md", "ledger/scores.md", "ledger/prior.md"] + \
+        paths = [f"ledger/{f}.jsonl" for f in changed] + ["ledger/brier.md", "ledger/scores.md", "ledger/prior.md"] + safe_docs + \
                 [str(p.relative_to(ROOT)) for p in touched] + [str(FOLDED.relative_to(ROOT))]
         msg = (f"Fold ledger inbox: {len(todo)} line(s) from {', '.join(sorted(p.name for p in touched))} ({summary}); "
                "brier.md, scores.md, prior.md regenerated (ledger/merge_inbox.py). No deviation row.")
@@ -311,7 +322,7 @@ def fold(dry_run=False, commit=False):
         print(("  ok    committed " + _git("rev-parse", "--short", "HEAD").strip()) if r.returncode == 0 else f"  FAIL  commit: {r.stderr.strip()}")
         return r.returncode
     print("Now commit the ledger files and the inbox files together: git commit -m \"Fold ledger inbox …\" -- "
-          + " ".join([f"ledger/{f}.jsonl" for f in changed] + ["ledger/brier.md", "ledger/scores.md", "ledger/prior.md"]
+          + " ".join([f"ledger/{f}.jsonl" for f in changed] + ["ledger/brier.md", "ledger/scores.md", "ledger/prior.md"] + safe_docs
                      + [str(p.relative_to(ROOT)) for p in touched] + [str(FOLDED.relative_to(ROOT))]))
     return 0
 

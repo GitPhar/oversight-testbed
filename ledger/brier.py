@@ -227,6 +227,26 @@ def main():
       + (": " + "; ".join(f"{b['id']} → {b['verdict']}" for b in reversed_) if reversed_ else "")
       + ". Founding-week (round 1) audits are links into `programs/entangled-mind/audits/` (`ledger/audits/em-*.md`, summary `SUMMARY-1.md`); round 2 is `SUMMARY-2.md`. "
       "When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.")
+    # Machine-readable numbers for site/numbers.py (README and the plain pages take every ledger number from here).
+    def ref_score(r):
+        pr = [(b["engine_odds"], b["outcome"]) for b in scored if (b.get("referee") or "model") == r]
+        return fmt(brier(pr)), len(pr)
+    ho_path = HERE / "human-odds.jsonl"
+    nums = {
+        "bets_total": len(bets), "scored": n, "hits": hits, "expected_hits": f"{sum(p for p, _ in eng):.2f}",
+        "brier": fmt(be), "hit_rate_ref": fmt(brier([(base, o) for _, o in eng])), "coin": "0.250",
+        "scored_all": len(eng_all), "hits_all": sum(o for _, o in eng_all), "brier_all": fmt(brier(eng_all)),
+        "hit_rate_ref_all": fmt(brier([(sum(o for _, o in eng_all) / len(eng_all), o) for _, o in eng_all])) if eng_all else "—",
+        "secondary": len(secondary),
+        "human_n": len(hum), "human_brier": fmt(brier(hum)), "human_n_all": len(hum_all), "human_brier_all": fmt(brier(hum_all)),
+        "human_lines": sum(1 for l in ho_path.read_text().splitlines() if l.strip()) if ho_path.exists() else 0,
+        "audited": len(audited), "audited_scored": len(sa), "reversals": len(reversed_),
+        "withdrawn": sum(1 for b in bets if b.get("verdict") == "withdrawn"), "unscored": len(unscored),
+    }
+    for r, key in (("model", "model"), ("nature", "nature"), ("published-record", "record")):
+        nums[f"ref_{key}_brier"], nums[f"ref_{key}_n"] = ref_score(r)
+    w("")
+    w("<!-- numbers (generated; read by site/numbers.py): " + json.dumps(nums, sort_keys=True) + " -->")
     (HERE / "brier.md").write_text("\n".join(L) + "\n")
     print(f"engine Brier {fmt(brier(eng))} on {n} bets; human {fmt(brier(hum))} on {len(hum)}")
 

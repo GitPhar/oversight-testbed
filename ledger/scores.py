@@ -2,7 +2,8 @@
 
     python3 ledger/scores.py
 
-Reads only committed ledger files. brier.py covers calibration (H1); this file
+Reads only committed ledger files, plus the chip-seconds log programs/entangled-mind/results/ibm-usage.json
+(its first argument, if given, is the repo root). brier.py covers calibration (H1); this file
 covers the scored veto (operators/veto.md) the auditor's catch rate on
 sealed plants (operators/plant.md), pre-mortems (operators/premortem.md), and hardware tiebreaks and beacon
 seeds (operators/hardware.md), and the feedback loop and design review
@@ -10,9 +11,15 @@ seeds (operators/hardware.md), and the feedback loop and design review
 """
 import json
 import math
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+ROOT = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else HERE.parent   # the repo (for the chip-seconds log)
+CHIP_LOG = "programs/entangled-mind/results/ibm-usage.json"   # every ibm_fez job's quantum seconds (run_hardware logs it)
+CHIP_HARD_STOP = 420
+API_ALLOWANCE = 200
+NUM = {}
 
 
 def load(name):
@@ -250,6 +257,51 @@ def section_learning(w):
     w("")
 
 
+def section_resources(w):
+    """Chip seconds from the hardware log; API spend from ledger/spend.jsonl's baseline and runs plus every bet's cost_usd
+    after that baseline. A floor, not an audit: scouts, pilots and checks priced only in their own files are not added."""
+    log = ROOT / CHIP_LOG
+    chip = sum(e.get("quantum_seconds") or 0 for e in json.loads(log.read_text())) if log.exists() else None
+    spend = load("spend.jsonl")
+    base = next((s for s in spend if s.get("kind") == "baseline"), None)
+    runs = [s for s in spend if s.get("kind") == "run"]
+    bets = load("bets.jsonl")
+    since = (base or {}).get("as_of") or ""
+    bet_usd = sum(b.get("cost_usd") or 0 for b in bets if (b.get("prereg_time") or "") >= since)
+    api = ((base or {}).get("usd") or 0) + sum(s.get("usd") or 0 for s in runs) + bet_usd
+    w("## Resources: chip seconds and API spend")
+    w("")
+    w("| | value | from |")
+    w("|---|---|---|")
+    w(f"| quantum chip seconds used (ibm_fez) | {fmt(chip, 1) if chip is not None else '—'} of the {CHIP_HARD_STOP} s project hard stop | `{CHIP_LOG}` |")
+    w(f"| API spend logged | ${api:.2f} of the ${API_ALLOWANCE}/month allowance | `spend.jsonl` baseline {('$' + format(base['usd'], '.2f') + ' to ' + since) if base else '—'}, "
+      f"{len(runs)} logged run(s) ${sum(s.get('usd') or 0 for s in runs):.2f}, bets' `cost_usd` since then ${bet_usd:.2f} |")
+    w("")
+    w("API spend is a floor: scouts, design-review pilots and checks priced only in their own results files are not added.")
+    w("")
+    NUM.update(chip_s=f"{chip:g}" if chip is not None else "—", chip_stop=CHIP_HARD_STOP,
+               chip_left=f"{CHIP_HARD_STOP - chip:g}" if chip is not None else "—",
+               api_usd=f"{api:.0f}", api_usd_exact=f"{api:.2f}", api_allowance=API_ALLOWANCE)
+
+
+def numbers(w):
+    plants = load("plants.jsonl")
+    rev = [r for r in plants if r["status"] == "revealed"]
+    planted = [r for r in rev if r["plaintext"]["planted"]]
+    bets = load("bets.jsonl")
+    revs = [b["design_review"] for b in bets if (b.get("design_review") or {}).get("verdict")]
+    written = [b for b in bets if b.get("premortem")]
+    failed = [b for b in written if b.get("failed") and b.get("premortem_score") not in (None, "unclear")]
+    NUM.update(plants_sealed=sum(1 for r in plants if r["status"] == "sealed"), plants_revealed=len(rev),
+               plants_planted=len(planted), plants_caught=sum(1 for r in planted if r["caught"]), plants_rows=len(plants),
+               dr_total=len(revs), dr_go=sum(1 for r in revs if r["verdict"] == "go"),
+               dr_fix=sum(1 for r in revs if r["verdict"] == "fix-first"), dr_redesign=sum(1 for r in revs if r["verdict"] == "redesign"),
+               dr_missed=sum(1 for r in revs if r.get("missed")),
+               premortem_failed=len(failed), premortem_named=sum(1 for b in failed if b["premortem_score"] == "named"))
+    w("")
+    w("<!-- numbers (generated; read by site/numbers.py): " + json.dumps(NUM, sort_keys=True) + " -->")
+
+
 def main():
     L = []
     w = L.append
@@ -263,6 +315,8 @@ def main():
     section_premortems(w)
     section_hardware(w)
     section_learning(w)
+    section_resources(w)
+    numbers(w)
     (HERE / "scores.md").write_text("\n".join(L) + "\n")
     print("wrote ledger/scores.md")
 
