@@ -45,7 +45,8 @@ PROGRAM = "self-grading"
 BETS = {"sg-b1": "sg_b1_placement", "sg-b2": "sg_b2_label", "sg-b3": "sg_b3_flaw"}
 # Follow-ups of sg-b3 (2026-11-05): their write-ups' tables are printed by each script's tables(); every table is
 # regenerated from the regenerated analysis and compared line for line, plus the verdict and spend in the prose.
-FOLLOWUPS = {"sg-b4": ("sg_b4_quoted", "results/sg-b4-quoted.md"), "sg-b5": ("sg_b5_length", "results/sg-b5-length.md")}
+FOLLOWUPS = {"sg-b4": ("sg_b4_quoted", "results/sg-b4-quoted.md"), "sg-b5": ("sg_b5_length", "results/sg-b5-length.md"),
+             "sg-b6": ("sg_b6_samerun", "results/sg-b6-samerun.md"), "sg-b7": ("sg_b7_leadin", "results/sg-b7-leadin.md")}
 BETS.update({k: v[0] for k, v in FOLLOWUPS.items()})
 WRITEUPS = {"sg-b1": "results/sg-b1-placement.md", "sg-b2": "results/sg-b2-label.md", "sg-b3": "results/sg-b3-flaw.md"}
 MODELS = ("haiku", "sonnet", "opus")
