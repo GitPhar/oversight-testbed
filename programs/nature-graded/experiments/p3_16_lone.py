@@ -290,6 +290,15 @@ def _ts(raw, key):
     return dt.datetime.fromisoformat(v.replace("Z", "+00:00")) if v else None
 
 
+def _diff9(x, y):
+    """F6 (D38): p3_15_repeat._diff with the difference rounded to 9 decimals before z, the CI, within_equiv and big,
+    so a difference of exactly 100 shots in 1,000 (0.500 - 0.400 = 0.09999999999999998 in floating point) meets >= 0.10."""
+    d = round(x["p_yes"] - y["p_yes"], 9); se = math.sqrt(x["se"] ** 2 + y["se"] ** 2)
+    return {"diff": d, "se": se, "z": d / se if se else 0.0, "ci90": [d - 1.645 * se, d + 1.645 * se],
+            "within_equiv": (d - 1.645 * se > -EQUIV) and (d + 1.645 * se < EQUIV),
+            "big": d >= BIG and (d / se if se else 0) >= ZMIN}
+
+
 def c_shared_span(spans) -> bool:
     """F-O3-r1 (D36): True if any one execution span of job C holds both of its PUBs (0 and 1)."""
     return any({0, 1} <= set(sp.get("pubs", [])) for sp in spans)
@@ -297,12 +306,13 @@ def c_shared_span(spans) -> bool:
 
 def evaluate(arms, job_order, c_spans=None, spread_min=None):
     """The scored rule and the section 5 reading (amended D31-D34), from the four arms' P(yes) and SE."""
+    arms = {a: {**v, "p_yes": round(v["p_yes"], 9)} for a, v in arms.items()}   # F6 (D38): no floating-point error at 0.40
     A, B, CB, CN = arms["A"], arms["B"], arms["CB"], arms["CN"]
-    prim, rep = _diff(A, CB), _diff(B, CN)
+    prim, rep = _diff9(A, CB), _diff9(B, CN)
     comps = {"A_minus_CB (primary: alone vs shared, barrier)": prim,
              "B_minus_CN (in-evening replicate: alone vs shared, no barrier)": rep,
-             "A_minus_B (barrier effect, alone)": _diff(A, B),
-             "CB_minus_CN (barrier effect, shared)": _diff(CB, CN)}
+             "A_minus_B (barrier effect, alone)": _diff9(A, B),
+             "CB_minus_CN (barrier effect, shared)": _diff9(CB, CN)}
     passed = A["p_yes"] >= HIGH and prim["diff"] >= BIG and prim["z"] >= ZMIN
     pa, pb, pcb, pcn = A["p_yes"], B["p_yes"], CB["p_yes"], CN["p_yes"]
     d, z = prim["diff"], prim["z"]
@@ -313,7 +323,7 @@ def evaluate(arms, job_order, c_spans=None, spread_min=None):
     if passed:
         keys.append("pass")
         S.append("Run alone in its own job, the 3 November circuit again said 'yes' at least 40% of the time, clearly more than "
-                 f"the same circuit sharing a job with one other circuit, in a separate job minutes {when}. The 3 November surprise came "
+                 f"the same circuit sharing a job with one other circuit, in a separate job seconds to minutes {when}. The 3 November surprise came "
                  "at least partly from the circuit running alone in its job, not only from that afternoon.")
         if rep["big"] and pb >= HIGH:                   # F4 (D34), conditioned on B's level too (F4-r1, D36)
             keys.append("pass: replicate agrees")

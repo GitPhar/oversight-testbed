@@ -44,18 +44,18 @@
   "fail | fail: both high, alone adds | barrier alone: within | add: control moved": 0.095
  },
  "W5 big alone effect, A < 0.40": {
-  "fail | fail: alone raised, below 0.40 | add: none brought back | barrier alone: within": 0.35,
+  "fail | fail: alone raised, below 0.40 | add: none brought back | barrier alone: within": 0.355,
   "fail | fail: alone raised, below 0.40 | add: none brought back | barrier alone: smaller": 0.23,
   "fail | fail: alone raised, below 0.40 | add: none brought back | barrier alone: within | add: control moved": 0.09,
-  "fail | fail: smaller positive | add: none brought back | barrier alone: within": 0.075,
+  "fail | fail: smaller positive | add: none brought back | barrier alone: within": 0.07,
+  "pass | pass | pass: replicate clear, B below 0.40 | barrier alone: smaller": 0.055,
   "fail | fail: smaller positive | add: none brought back | barrier alone: smaller": 0.055,
-  "pass | pass | pass: replicate clear, B below 0.40 | barrier alone: smaller": 0.05,
   "fail | fail: alone raised, below 0.40 | add: none brought back | barrier alone: smaller | add: control moved": 0.045,
   "fail | fail: alone raised, below 0.40 | add: B came back | barrier alone: smaller": 0.03,
   "fail | fail: smaller positive | add: B came back | barrier alone: smaller": 0.025,
-  "pass | pass | pass: rests on one job | barrier alone: smaller": 0.015,
   "pass | pass | pass: replicate clear, B below 0.40 | barrier alone: within": 0.015,
   "pass | pass | pass: replicate clear, B below 0.40 | barrier alone: smaller | add: control moved": 0.01,
+  "pass | pass | pass: rests on one job | barrier alone: smaller": 0.01,
   "pass | pass | pass: replicate agrees | barrier alone: within | add: control moved": 0.005,
   "fail | fail: alone raised, below 0.40 | add: B came back | barrier alone: smaller | add: control moved": 0.005
  },
@@ -77,16 +77,16 @@
   "fail | fail: smaller positive | add: B came back | barrier alone: smaller": 0.005
  },
  "W9 alone adds 0.08": {
-  "fail | fail: both high, alone adds | barrier alone: smaller | add: control moved": 0.28,
-  "fail | fail: both high, alone adds | barrier alone: within | add: control moved": 0.215,
+  "fail | fail: both high, alone adds | barrier alone: smaller | add: control moved": 0.275,
+  "fail | fail: both high, alone adds | barrier alone: within | add: control moved": 0.21,
   "fail | fail: A high, CB not clearly lower | barrier alone: smaller | add: control moved": 0.185,
   "fail | fail: A high, CB not clearly lower | barrier alone: within | add: control moved": 0.17,
-  "pass | pass | pass: B high, replicate not clear | pass: shared also came back | barrier alone: smaller | add: control moved": 0.04,
-  "pass | pass | pass: B high, replicate not clear | barrier alone: smaller | add: control moved": 0.04,
-  "pass | pass | pass: B high, replicate not clear | barrier alone: within | add: control moved": 0.03,
-  "pass | pass | pass: B high, replicate not clear | pass: shared also came back | barrier alone: within | add: control moved": 0.015,
-  "pass | pass | pass: replicate agrees | barrier alone: smaller | add: control moved": 0.01,
-  "pass | pass | pass: replicate agrees | barrier alone: within | add: control moved": 0.01,
+  "pass | pass | pass: B high, replicate not clear | pass: shared also came back | barrier alone: smaller | add: control moved": 0.045,
+  "pass | pass | pass: B high, replicate not clear | barrier alone: smaller | add: control moved": 0.035,
+  "pass | pass | pass: B high, replicate not clear | barrier alone: within | add: control moved": 0.025,
+  "pass | pass | pass: B high, replicate not clear | pass: shared also came back | barrier alone: within | add: control moved": 0.02,
+  "pass | pass | pass: replicate agrees | barrier alone: smaller | add: control moved": 0.015,
+  "pass | pass | pass: replicate agrees | barrier alone: within | add: control moved": 0.015,
   "pass | pass | pass: replicate agrees | pass: shared also came back | barrier alone: within | add: control moved": 0.005
  },
  "W10 alone lowers": {
