@@ -1,8 +1,8 @@
 # Scoring the judgment around an AI research agent
 
-**Sean Pharris · 2026-11-04 · one-page proposal, derived from `proposal.md` and `paper/the-engine.md` · status: preliminary results in hand; H1–H5 frozen in `7b6bbb8`**
+**Sean Pharris · 2026-11-04, numbers brought current 2026-11-05 · one-page proposal, derived from `proposal.md` and `paper/the-engine.md` · status: preliminary results in hand; H1–H5 frozen in `7b6bbb8`**
 
-**TL;DR.** As models do more of the work of research, the safety-relevant step moves from execution to direction: what gets tested, whether a result is believed, and whether the human still adds anything. I built a cheap engine in which a Claude research agent states its odds before each pre-registered test, a fresh session audits every result, and a human records separate odds and logs his steers. Each of the three is scored. The founding week, one program run for about $50 of API spend, shows that the loop runs and that its target failures are real. Its sample is far too small to answer anything yet. This proposal is to run it long enough to get answers.
+**TL;DR.** As models do more of the work of research, the safety-relevant step moves from execution to direction: what gets tested, whether a result is believed, and whether the human still adds anything. I built a cheap engine in which a Claude research agent states its odds before each pre-registered test, a fresh session audits every result, and a human records separate odds and logs his steers. Each of the three is scored. The first three days, seven programs opened and four run for tens of dollars of API spend and 69 seconds of quantum-chip time, show that the loop runs and that its target failures are real. Its sample is far too small to answer anything yet, and the human's own odds are not yet in it. This proposal is to run it long enough to get answers.
 
 **Why it matters for safety.** There are three failure modes, all seen in the founding week:
 - **Self-graded research drifts toward what looks good.** A 28-to-9 "significant" sub-test was a float tie-breaking artefact (D32). A near-zero quantum signature came from pooling two scale directions (D33).
@@ -22,14 +22,16 @@
 | H5 | Do literature-sourced bets beat self-generated ones? | residual y − P_engine, by source | permutation p < 0.05 | 10 bets per source |
 
 **Preliminary results** (founding week; not a test of H1–H5):
-- **Engine odds.** On the five scored bets the engine expected 1.15 passes and saw 2 (P(X ≥ 2) = 0.33). Brier 0.256 against 0.25 for a constant 0.5. Uninformative at n = 5.
+- **Engine odds.** On the 20 scored bets the engine expected 6.16 passes and saw 8. Brier 0.249 against 0.250 for a constant 0.5 and 0.240 for the hindsight base rate. Uninformative at n = 20 (`ledger/brier.md`). By referee: 0.208 on 11 model-graded, 0.062 on 3 chip-graded, 0.418 on 6 record-graded; too few to compare.
 - **Program 1, the kill.** The quantum encoding of a model's competing claims tied a matched classical twin (AUROC 0.83 vs 0.84). The one apparent edge was carried by a classical model with the same readout.
-- **Program 1, the open result.** Stated credences in Haiku move with question order even when its earlier answers are hidden from it (R = 1.23 [0.75, 2.02], 40 items). They also move with format (86% of claims). On Opus, one credence predicts 94% of each held-out format's reproducible answer. So the format result narrows with scale.
-- **Audit.** The audit described above. Its cuts are applied (D51), and one verdict was re-issued under its own frozen rule (D52, tie → classical).
+- **Program 1, the open result.** Stated confidence in Haiku moves with question order even when its earlier answers are hidden from it (hidden-to-shown ratio 1.23 [0.75, 2.02], 40 items). It also moves with format (86% of claims). On Opus, one shared answer predicts 94% of each held-out format, though a yes/no-verdict guesser reaches 88%, so the audit reads it as shared verdicts rather than a graded credence. On all three models, hiding the earlier answer cuts repeat agreement. So the format result narrows with scale and the transcript result does not.
+- **Audit.** The audit described above. Its cuts are applied (D51), and one verdict was re-issued under its own frozen rule (D52, tie → classical). Across the ledger: 41 of 52 bets audited, 2 verdicts reversed to undetermined; 6 of 6 sealed plants caught (Wilson lower bound 0.61; one plant forced). Every auditor so far is Claude Opus 5.5.
+- **Programs 2 to 4.** Program 2: six fails on Haiku, one undetermined; its one Sonnet/Opus repeat also failed. Program 3: three fails and three untestable; 3 November's chip surprise (0.50 against a predicted 0.25) not reproduced in three pre-registered tries and not explained. Program 4: six passes on 116 post-cutoff findings (Brier 0.163 [0.139, 0.190]), all audited pass-unreplicated with the same-family item writer open.
+- **Human odds.** None on any scored bet. The first twelve cockpit answers (2026-11-05) arrived after their bets' pre-registrations, so H3 remains untestable until odds are taken before registration.
 
 **Plan** (sized for three months; six weeks covers H1 and H2 only):
 1. **Weeks 1–2.** Make the auditor a standing operator and plant ≥ 10 canaries across ≥ 4 fault classes. Re-audit with a cross-family auditor to measure same-family softness.
-2. **Weeks 2–8.** Run program 1's open line (credence construction across models; a truth probe that holds still or moves under question order, done properly this time) alongside program 2 (does a model's account of another mind behave like its account of its own?). Both under human odds recorded blind.
+2. **Weeks 2–8.** Run program 1's open line (how a stated confidence is built, across models; a truth probe that holds still or moves under question order, with enough gate items to decide, since the first run's verdict hangs on one item) alongside programs 2 and 4 (another mind against one's own; the published record as referee with a non-Claude item writer). Both under human odds recorded blind and before registration.
 3. **Week 6.** Run a second independent scout from seed A as the H4 noise floor.
 4. **Weeks 10–12.** First analysis at whatever n has been reached, with the untestable count reported.
 
@@ -43,6 +45,6 @@
 - A same-family auditor goes soft. Mitigation: canaries and a cross-family arm.
 - The human odds are elicited after he has seen the engine's. Mitigation: blind form, a mechanical mean, and any post-view number logged but never scored.
 
-**Resources.** Frontier-model API access (the founding week cost about $50, and the plan through 2026-11-22 about $60 more, per `CONTEXT.md` §1; reaching H1's 20 scored bets is the main cost driver). One open-weight model on modest GPU for the probe work. No quantum hardware.
+**Resources.** Frontier-model API access (the founding week cost about $50, and the plan through 2026-11-22 about $60 more, per `CONTEXT.md` §1; H1's 20 scored bets are reached, so the next cost driver is cross-family audits and replication). One open-weight model on modest GPU for the probe work. No quantum hardware beyond program 3's remaining allowance.
 
 **Mentor fit.** Samuel Marks (Scalable Oversight: H2, H3 and the probe design, after Marks & Tegmark 2023). Jack Lindsey (Model Psychology: credence construction and introspective access). Belinda Li (how models represent themselves).
