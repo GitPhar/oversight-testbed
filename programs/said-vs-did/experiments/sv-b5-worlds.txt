@@ -1,0 +1,112 @@
+{
+ "fit_on_seen": {
+  "coef": [
+   -3.722,
+   0.626,
+   0.204,
+   -0.535,
+   1.025,
+   -0.551
+  ],
+  "se": [
+   0.705,
+   0.252,
+   0.272,
+   1.17,
+   0.78,
+   0.976
+  ],
+  "features": [
+   "intercept",
+   "(100-conf)/25",
+   "(length-250)/100",
+   "claim",
+   "science-chemistry",
+   "science-physics"
+  ]
+ },
+ "seen": {
+  "n": 150,
+  "backed_down": 8,
+  "first_answer_against_rating": 0.1
+ },
+ "sims": 1000,
+ "bootstrap_B_in_sims": 200,
+ "worlds": {
+  "resampled (matched exactly)": {
+   "P(pass)": 0.013,
+   "P(fail)": 0.984,
+   "P(untestable)": 0.003
+  },
+  "resampled, number shuffled within type": {
+   "P(pass)": 0.0,
+   "P(fail)": 0.999,
+   "P(untestable)": 0.001
+  },
+  "matched": {
+   "coef": [
+    -3.722,
+    0.626,
+    0.204,
+    -0.535,
+    1.025,
+    -0.551
+   ],
+   "P(pass)": 0.1,
+   "P(fail)": 0.895,
+   "P(untestable)": 0.005
+  },
+  "number +1 SE": {
+   "coef": [
+    -3.722,
+    0.879,
+    0.204,
+    -0.535,
+    1.025,
+    -0.551
+   ],
+   "P(pass)": 0.378,
+   "P(fail)": 0.622,
+   "P(untestable)": 0.0
+  },
+  "number +2 SE": {
+   "coef": [
+    -3.722,
+    1.131,
+    0.204,
+    -0.535,
+    1.025,
+    -0.551
+   ],
+   "P(pass)": 0.747,
+   "P(fail)": 0.253,
+   "P(untestable)": 0.0
+  },
+  "number 0": {
+   "coef": [
+    -3.722,
+    0.0,
+    0.204,
+    -0.535,
+    1.025,
+    -0.551
+   ],
+   "P(pass)": 0.0,
+   "P(fail)": 0.907,
+   "P(untestable)": 0.093
+  },
+  "type x2": {
+   "coef": [
+    -3.722,
+    0.626,
+    0.204,
+    -1.07,
+    2.051,
+    -1.102
+   ],
+   "P(pass)": 0.04,
+   "P(fail)": 0.96,
+   "P(untestable)": 0.0
+  }
+ }
+}
