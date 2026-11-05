@@ -141,3 +141,6 @@ Candidate bet **gm2q-f1**, a line-identification arm with no other change. Re-ru
 - Cost about $0.48 (Sonnet qonly 400 × ~$0.0012; Haiku qonly 400 × ~$0.00006), using today's archived shown chains as the reference.
 
 A second, larger test, about $0.70 on Haiku (qonly about $0.07, same-day shown and redacted about $0.31 each, scaled from this run's costs): run qonly on gm2b's 30 further items, where the Haiku shown and redacted archives already exist. It would show whether the questions-only effect is a few-item phenomenon or spreads across items as gm2b's redacted effect did.
+
+
+Revealed 2026-11-05: pl-030, planted overclaim/scope at §In plain English, "What it means", last sentence; caught (Claims checked row 14, Required cuts 4). Cut 4 is marked plant: not applied to the real record. Every other finding stands as the real audit.
