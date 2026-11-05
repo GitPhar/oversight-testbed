@@ -1,8 +1,8 @@
 # dm6-f2: would a fixed "check anything under 70%" rule flag different answers by format? (pre-registration)
 
-Written and frozen 2026-11-05 06:15 (America/Denver), in its own commit, before the archive is opened for this analysis. DEVIATIONS.md D61. Budget **$0** (archive only; no API call, no QPU second, no local model). Stop on any refusal does not apply (no calls).
+Written and frozen 2026-11-05 06:06 (America/Denver; commit author time 06:06:43; the first version of this line said 06:15, a guessed time, corrected in the seed commit), in its own commit, before the archive is opened for this analysis. DEVIATIONS.md D61. Budget **$0** (archive only; no API call, no QPU second, no local model). Stop on any refusal does not apply (no calls).
 
-> **The human is never asked in a terminal** (CONTEXT.md §3 rule 11). This session never asks Sean for odds or for a decision. His odds come only from `ledger/human-odds.jsonl`; this direction has no line there (`python3 ledger/human_odds_match.py entangled-mind dm6-f2`, run 06:10: "no human odds"), so the bet proceeds marked "no human odds".
+> **The human is never asked in a terminal** (CONTEXT.md §3 rule 11). This session never asks Sean for odds or for a decision. His odds come only from `ledger/human-odds.jsonl`; this direction has no line there (`python3 ledger/human_odds_match.py entangled-mind dm6-f2`, run 06:05: "no human odds"), so the bet proceeds marked "no human odds".
 
 ## 0. The bet
 
@@ -13,7 +13,7 @@ Written and frozen 2026-11-05 06:15 (America/Denver), in its own commit, before 
 | bet type | `standard` |
 | direction | `dm6-f2` (map/entangled-mind.json), a follow-up of `dm6`, bet `em-dm6` |
 | source | `engine` (remap 2026-11-05, `9773f6a`) |
-| engine odds, P(pass) | map: 55, stated 2026-11-05T04:45 (remap one pass, not v1). Re-elicited under v1 at 06:05 (fresh subagent, the direction's row and the draft rule only): 76. After the lesson: **55** |
+| engine odds, P(pass) | map: 55, stated 2026-11-05T04:45 (remap one pass, not v1). Re-elicited under v1 at about 06:02 (fresh subagent, the direction's row and the draft rule only): 76. After the lesson: **55** |
 | human odds, P(pass) | no human odds (no line for dm6-f2 in `ledger/human-odds.jsonl` at this commit) |
 | models | not all three, because no model is in the loop: this reads em-dm6's archive, which holds `claude-sonnet-5-5` (primary) and `claude-haiku-5-5` (secondary). The remap row said "Sonnet and Opus"; em-dm6 never ran Opus, so Opus is not reported. |
 | budget | $0 API · 0 QPU s · under 5 laptop minutes |
@@ -35,7 +35,7 @@ An overseer might use a model's stated confidence to decide which answers to dou
 - **Items:** the 300 hard-pool questions; the analysed set is every question whose `conf` is non-null in all four fresh cells (the same set for every overlap, pattern P8).
 - **Flag rule:** an answer is flagged iff conf < 0.70 − 1e-9 (a stated 0.70 is not flagged; P13).
 - **Seed** (operators/hardware.md): CURBY-Q's latest completed round is 28297, result pulse 2025-08-22 13:42 America/Denver (checked 06:00 with `DIRNGClient.latest()`: round 28297, stage randomness). That is far over 24 h old, so the chain is stalled. Seed: the first CURBy-RNG pulse timestamped after this commit. seed = the first 8 bytes of SHA-256(randomness ‖ "em-dm6f2" ‖ ":bootstrap"), unsigned big-endian (`ledger/seed.py --purpose bootstrap`). It is used, mod 2^63, as the numpy bootstrap seed; the cluster bootstrap uses that seed + 1. *Filled in by the seed commit, before any data:*
-  `chain:` ___ · `pulse_index:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seed:` ___
+  `chain:` CURBy-RNG · `pulse_index:` 1592251 · `pulse_time:` 2026-11-05 06:07:00 America/Denver (2026-11-05T13:07:00.147Z; previous pulse 1592250 at 13:06:00.158Z, before this file's commit 51cb1f4 at 06:06:43) · `randomness:` 6aa3f87360e3d4274b30b07d89cf2d8d16f239202985ab79b603743447311dff4361afcbb213dd497f9514189cbaf11138c1d72ee8829086341356256ba24146 · `client:` @buff-beacon-project/curby-client@1.2.0 (Client.randomness(1592251)) · `certificate_verified:` false (classical chain) · `seed:` bootstrap 3958117464482761837 (used mod 2^63)
 - **Code:** `experiments/dm6f2_flag_overlap.py` (committed with this file). `--selftest` runs synthetic worlds with known answers and never opens the archive.
 - **Scale:** confidence 0 = certainly wrong, 1 = certainly right; one direction.
 
@@ -96,7 +96,7 @@ If one question's removal flips the label (§4), the results file says so in the
 - [x] This file and its code are committed on their own; nothing has been run on the archive.
 - [x] Lesson in §0, after reading bets.jsonl, brier.md (24 scored, 0.223, base rate 9/26), audits/ (newest sg-b3.md; em-dm6.md and calibration-under-format-r2.md for this parent) and lessons.jsonl (P1–P14).
 - [ ] Design review go.
-- [x] Engine odds on record earlier (map 04:45; v1 06:05); human odds checked: none.
+- [x] Engine odds on record earlier (map 04:45; v1 about 06:02); human odds checked: none.
 - [x] §5 can be applied by a stranger; the self-test applies it to synthetic tables.
 - [x] Pre-mortem: one sentence, a checkable mechanism, kind `design`.
 - [x] One scale direction.
