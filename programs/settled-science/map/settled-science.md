@@ -100,3 +100,13 @@ Test, event and the reason for each number:
 | direction | bet(s) | rules out |
 |---|---|---|
 | ss-b4 | `ss-b4` | Rules out nothing about the bettor: its design let trivial predictors pass (design review, P3), so it was withdrawn before data and replaced by ss-b5. |
+
+## ss-f7: the flattery rule on BrainBench (written 2026-11-05 06:25 America/Denver, before any pre-registration and before any BrainBench item was scored)
+
+From `paper/novelty.md`, ranked replication 1 (finding 8). Its cockpit card went up first (`c235cbb`, no engine odds). ss-b6 found that, on our own template sentence pairs, the bettor's model asked only "which version is better news for the paper's method?" picked the published sentence 90% of the time. Those items came from our own pipeline. BrainBench (Luo et al., Nature Human Behaviour 2024) has 200 pairs of real and expert-altered *Journal of Neuroscience* abstracts. On it, LLMs scored by perplexity averaged 81.4% and 171 neuroscientists 63.4%. Nobody has asked how much of it a valence rule solves.
+
+| id | event the odds are for | models | cost | engine P(pass) |
+|---|---|---|---|---|
+| ss-f7 | On the 200 human-written items, for both Haiku and Sonnet, the flattery rater's accuracy has a 95% item-bootstrap lower bound above 0.634 (the experts' published mean). | claude-haiku-5-5, claude-sonnet-5-5 | about $1.70 (cap $2.50) | **35** |
+
+Rationale (under 100 words): ss-b6's same-model flattery rater reached 90% on template sentence pairs. But BrainBench's altered abstracts were written by experts to stay coherent, and neuroscience abstracts defend hypotheses more than methods, so the rule has less to grip. It needs about 70% on both models, and Haiku is the weak link, so the odds are below a coin. The running base rate is 8/26 = 0.31 (`ledger/brier.md` at HEAD). Program 4's record (passes at low odds) argues slightly up. Not Opus: the novelty page's replication names these two models, and Opus at its least-thinking setting would cost about $2.90 for both prompts on 200 items.
