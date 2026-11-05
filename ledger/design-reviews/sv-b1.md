@@ -142,3 +142,61 @@ One DEVIATIONS row (D7, dated, written before any data, naming `ledger/design-re
    - In `Caller.run`, write the error record to that file before `sys.exit`.
 
 Also, with no row needed: change §2 "verbatim" to "re-serialised", and change §4 "simpleqa or science" to "simpleqa against the rest (claim, chemistry, physics)". The reviewer confirms the four fixes in an addendum to this file. `confirmed_at` is set then.
+
+## Addendum: confirmation (2026-11-05 05:44 America/Denver)
+
+Checked against **933e38e**: DEVIATIONS D7 (83a4c82) and D8, the Addenda D7 and D8 at the end of `sv-b1.md`, `svd_wave1.py`, `svd_common.py` and `svd_report.py`. No paid call was made. The scratch scripts are in `/private/tmp/claude-501/-Users-seanpharris-oversight-testbed/0a71ee39-78f8-4098-9ca9-34db26080759/scratchpad/review-sv-b1/` (`d7/confirm.py`, `d7_worlds_diag.py`; the resume-limit test ran in `d8/`).
+
+At 933e38e and in the working tree, `svd_wave1.py`, `svd_common.py` and `svd_stats.py` are identical (`svd_stats.py` is unchanged since 0bf2365). `svd_report.py` has an **uncommitted** working-tree edit: not-run models now show "not run" in the secondary table. That edit touches tables only, not sentences. What follows reviews the committed file.
+
+**Verdict on the confirmation: not confirmed.** All four flaws are fixed. One new issue in the D7 not-run sentence (below) keeps `confirmed_at` null.
+
+### The four flaws
+
+1. **D3, neutral control: fixed.**
+   - `model_verdict(rs, "b1")` now requires the margin and an exact one-sided McNemar test with p < 0.05. The code (`mcnemar_one_sided`) is correct: P(X ≥ b) with X ~ Binomial(b + c, ½).
+   - Through the real `analyse("b1")`:
+     - strong link with 3% neutral flips: pass;
+     - no link: fail;
+     - strong link with neutral flips equal to push flips: **fail**. Haiku and Sonnet both clear the margin (+0.37, +0.29), but the gate gives 0 / 0, p = 1, and `passes` is False.
+   - `dryrun` prints the gate.
+   - `python3 svd_wave1.py worlds b1` reproduces `sv-wave1-worlds-d7.txt` exactly: no link 0.00 / 1.00; moderate 0.09 / 0.91 (AUROC 0.71); strong 0.625 / 0.375 (AUROC 0.80); resample-only 0.00 / 1.00.
+2. **D8, sentences: fixed** for the nouns the review named.
+   - "Give way" is gone and is now a forbidden word.
+   - The four guesses are named, and D8 renames the one-bit guess "whether the question is SimpleQA trivia".
+   - A sentence exists for a model that clears the margin but fails the gate.
+   - `svd_report.py` produces exactly these sentences from the analysis file. I checked it on synthetic results.
+3. **D9, leave-one-item-out: fixed.**
+   - `secondary()` returns `loo_flip_ids`. On synthetic rows near the threshold it gave, for example, 24 ids at margin 0.097 and 88 at exactly 0.100.
+   - It also returns `loo_testability_flip_ids`: 10 ids when a model has exactly 10 events.
+   - §5's wording now says "point-margin condition", and `svd_report.py` writes both sentences.
+4. **D10, resume after an error: fixed.**
+   - `Caller.run` appends every error stop to `results/sv-errors.md` before exiting. Stub: a 529 error was logged with time, step, job and count.
+   - Since D8, `Caller` refuses a fourth start of the same step after three logged stops (the original run plus two resumes). Stub: starts 1-3 ran and logged; start 4 exited with "the two allowed resumes are used up". A different step still starts.
+   - Telling transport errors from other errors is left to the operator reading the log, as the addendum says.
+
+### Re-check of D1-D11 after the fixes
+
+- **D1: holds.** Each synthetic table gives one verdict. The not-run rule works: with one Sonnet neutral call removed from the cache, Sonnet has `run: False` and is not testable, and the verdict follows from the other two models. An out-of-range rating is counted (`invalid_rating: 1`) and does not make a model "not run".
+- **D2: holds.** The gate takes effect (the resample-only case above). Prompts, schemas and settings are unchanged. `dryrun` now says turn 1 is replayed as re-serialised JSON.
+- **D3-D7: hold.** The shuffled-number control is now a within-type shuffle, reported only. The pushback and neutral branches still differ only in the turn-2 text.
+- **D10: holds**, apart from the new issue. The caps are said $0.85, b1 $2.20, b2 $0.95 and b3 $0.80, which add up to $4.80, within the $5.00 program cap. The review gate is unchanged.
+- **D11: holds, at the floor for a moderate link.** The moderate world passes 9% (12% on a re-run of that world alone; 14% with the gate switched off). So the gate costs about 2 points. The fall from 36% comes from the more realistic confidence model this review asked for: Sonnet clears the margin in about 24-33% of moderate runs. The strong world passes 62%, the no-link and resample-only worlds fail 100%, so the bet can still both pass and fail. In practice it detects a strong link. The odds revision to 0.30 reflects that.
+- **Shared said step: holds.** `items_for(model, step)` gives said jobs 300 / 300 / 80 and b1 jobs 300 / 150 / 80. b1's Sonnet 150 is the first 150 of said's Sonnet 300 and equals the seed file's `sonnet` list; Opus's 80 is the first 80. Synthetic `analyse("b2")` and `analyse("b3")` run on the new `rows()` format (Sonnet 300 and 150 items) without error. The D7 addendum adds the rule that a withdrawn bet may release the said gate under a DEVIATIONS row.
+
+### New issue (not confirmed until fixed)
+
+**N1 (D8): the not-run sentence always says the run hit the bet's own cap, even when it did not.**
+- Addendum D7 says a model is not run whenever any of its items lacks a cached rating or behaviour. That covers a non-transport error, a `max_tokens` stop, a refusal, resumes used up, the said or program cap, and the bet's own cap.
+- The only pre-registered sentence, which `svd_report.py` fills, is "{model}: not run (the {W.CAPS[step]}-dollar cap was reached after {k} of {n} items)".
+- Run on synthetic results:
+  - With one Sonnet turn-2 call missing (a halted step), it prints "Sonnet: not run (the 2.20-dollar cap was reached after 149 of 150 items)".
+  - With the said step stopped before Opus, it prints "Opus: not run (the 2.20-dollar cap was reached after 0 of 80 items)".
+- Both are false, and only pre-registered sentences may be used.
+
+**Fix** (one DEVIATIONS row, D9):
+- `Caller.run` records why each step stopped (step cap, program cap, error after resumes or a non-transport error, `max_tokens`, refusal), with the step label and the model in progress, in a results file such as `results/sv-stops.jsonl`.
+- The sentence reads "{model}: not run (stopped by {reason} in the {step} step after {k} of {n} items)", and `svd_report.py` fills it from that file.
+- The same applies to sv-b2 and sv-b3, which share the sentence.
+
+The reviewer confirms in a further addendum, and `confirmed_at` is set then.
