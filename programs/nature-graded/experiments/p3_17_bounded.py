@@ -508,7 +508,7 @@ def run():
             bs = bootstrap(lr_b, f["cohR"].x, th_corner, ref, A, kb, ss_p, inf, warm, pool) if finite else None
             sat = F.saturated(counts)
             dev = 2 * (sat - l["full16R"]); df = 27 - 20
-            psl = {k: C.per_setting_ll(*state_and_A(k, f[k].x, ref, A), counts) for k in ("cohR", "full16R")}
+            psl = {k: (lambda rho_, A_: C.per_setting_ll(rho_, counts, A_))(*state_and_A(k, f[k].x, ref, A)) for k in ("cohR", "full16R")}
             contrib = {s: 2 * (psl["full16R"][s] - psl["cohR"][s]) for s in SETTINGS}
             top = max(contrib, key=contrib.get)
             r = {"id": it, "rates": rates(A), "knob_bounds": kb, "logL": l, "LR_blur_given_rotation_readout": lr_b,
