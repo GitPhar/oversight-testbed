@@ -696,6 +696,107 @@ def main():
         except Exception as e:  # noqa: BLE001
             rep.error(name, e)
 
+        # ---- P3-18: fresh chip job; fits archived, everything else recomputed from the raw counts and the nulls -----
+        import p3_18_fresh as P18  # noqa: E402  (scipy/qiskit stubbed: only numpy helpers and the sentence code run)
+        p18 = {}
+        name = "results/p3-18-fresh-job.json"
+        try:
+            d = json.loads(committed_json["p3-18-fresh-job.json"])
+            prep, raw = load("data/p3-18-prepared.json"), load("data/p3-18-raw.json")
+            pairs = P18.per_pair(prep, raw, {it: None for it in P18.ITEMS})
+            theirs, mine = {}, {}
+            for r in d["items"]:
+                it, P = r["id"], pairs[r["id"]]
+                lr_c, lr_i = 2 * (r["logL"]["full16"] - r["logL"]["inc9"]), 2 * (r["logL"]["full16"] - r["logL"]["coh"])
+                bc, bi = boot(r["boot_rotation"]["null"], lr_c), boot(r["boot_blur"]["null"], lr_i)
+                dev = 2 * (F.saturated(P["counts"]) - r["logL"]["full16"])
+                sc = max(1.0, dev / 11)
+                sh = {}
+                for kind, lr in (("rotation", lr_c), ("blur", lr_i)):
+                    ps = r["setting_shares"][kind]["per_setting"]
+                    top = max(ps, key=ps.get)
+                    sh[kind] = {"top_setting": top, "top_share": ps[top] / lr if lr > 0 else None}
+                mine[it] = {"assignment_matrix": P["A"].tolist(), "shots_per_setting": P["n"], "LR_rotation_given_blur": lr_c,
+                            "LR_blur_given_rotation": lr_i, "boot_rotation": bc, "boot_blur": bi,
+                            "label_rotation": "present" if bc["p"] < C.ALPHA else "not detected",
+                            "label_blur": "present" if bi["p"] < C.ALPHA else "not detected",
+                            "deviance": dev, "misfit": dev > chi2_ppf(0.99, 11), "overdispersion": sc, "shares": sh}
+                g = r["goodness_of_fit"]
+                theirs[it] = {"assignment_matrix": r["assignment_matrix"], "shots_per_setting": r["shots_per_setting"],
+                              **{k: r[k] for k in ("LR_rotation_given_blur", "LR_blur_given_rotation", "label_rotation", "label_blur")},
+                              "boot_rotation": {x: r["boot_rotation"][x] for x in ("p", "B", "floor", "q99")},
+                              "boot_blur": {x: r["boot_blur"][x] for x in ("p", "B", "floor", "q99")},
+                              "deviance": g["deviance"], "misfit": g["misfit"], "overdispersion": g["overdispersion"],
+                              "shares": {k: {x: r["setting_shares"][k][x] for x in ("top_setting", "top_share")} for k in sh}}
+                p18[it] = (r, mine[it])
+            labels = {it: {"rotation": m["label_rotation"] == "present", "blur": m["label_blur"] == "present"} for it, (_, m) in p18.items()}
+            infos = {it: {"shares": {k: r["setting_shares"][k]["per_setting"] for k in ("rotation", "blur")},
+                          "LR_rotation": m["LR_rotation_given_blur"], "LR_blur": m["LR_blur_given_rotation"],
+                          "gof": {"misfit": m["misfit"], "deviance": m["deviance"], "overdispersion": m["overdispersion"]},
+                          "q99_rotation": m["boot_rotation"]["q99"], "q99_blur": m["boot_blur"]["q99"]} for it, (r, m) in p18.items()}
+            v = P18.verdict(labels, infos=infos)
+            day = denver(raw["timestamps"]["running"])
+            sent = [x.replace("{date}", f"{day.day} November") for x in v["sentences"]]
+            sec2 = d["secondary_prepared_reference"]
+            lab2 = {r["id"]: {"rotation": boot(r["boot_rotation"]["null"], 2 * (r["logL"]["full16"] - r["logL"]["inc9"]))["p"] < C.ALPHA,
+                              "blur": boot(r["boot_blur"]["null"], 2 * (r["logL"]["full16"] - r["logL"]["coh"]))["p"] < C.ALPHA}
+                    for r in sec2["items"]}
+            word = lambda L: ("both" if L["rotation"] and L["blur"] else "rotation only" if L["rotation"] else "blur only" if L["blur"] else "neither")
+            sent.append("Under the reference prepared before submission (IBM's calibration read at preparation; nulls at "
+                        f"B = 100 only), the labels are {'; '.join(f'{it}: ' + word(lab2[it]) for it in P18.ITEMS)}. Reported, not scored.")
+            theirs["verdict"], mine["verdict"] = [d["verdict"], d["n_both"], d["sentences"]], [v["verdict"], v["n_both"], sent]
+            theirs["qpu_s"], mine["qpu_s"] = d["qpu_s"], raw["usage"]["quantum_seconds"]
+            check_fields(rep, name, theirs, mine, "assignment matrices from the raw calibration counts, LRs, bootstrap p and "
+                                                  "99th percentiles (archived null draws), labels, deviance (saturated logL from "
+                                                  "the raw counts), overdispersion, shares, verdict and every sentence "
+                                                  "(p3_18_fresh.verdict) recomputed; fits not repeated")
+        except Exception as e:  # noqa: BLE001
+            rep.error(name, e)
+
+        name = "results/p3-18-fresh-job.md"
+        try:
+            d = json.loads(committed_json["p3-18-fresh-job.json"])
+            p35 = {r["id"]: r for r in json.loads(committed_json["p3-5c-nested.json"])["items"]}
+            t = Tables(md[name])
+            rows = []
+            for it, (r, m) in p18.items():
+                both = m["label_rotation"] == m["label_blur"] == "present"
+                lab = "both present" if both else ("rotation only" if m["label_rotation"] == "present" else
+                                                   "blur only" if m["label_blur"] == "present" else "neither")
+                q = p35[it]
+                rows.append([f"{it} ({', '.join(map(str, q['physical_qubits']))})",
+                             f(m["LR_rotation_given_blur"], 1), f(m["boot_rotation"]["q99"], 1),
+                             f"{f(m['boot_rotation']['p'])} ({m['boot_rotation']['B']})",
+                             f(m["LR_blur_given_rotation"], 1), f(m["boot_blur"]["q99"], 1),
+                             f"{f(m['boot_blur']['p'])} ({m['boot_blur']['B']})", lab,
+                             f"{f(2 * (q['logL']['full16'] - q['logL']['inc9']), 1)} / {f(2 * (q['logL']['full16'] - q['logL']['coh']), 1)}"])
+            t.add(0, rows)
+            rows = []
+            for it, (r, m) in p18.items():
+                sc, ng, sh = m["overdispersion"], r["negativity"], m["shares"]
+                rows.append([it, f(m["deviance"], 1) + (" (misfit)" if m["misfit"] else ""), f(sc, 2),
+                             f"{f(m['LR_rotation_given_blur'] / sc, 1)} / {f(m['LR_blur_given_rotation'] / sc, 1)}",
+                             f"{f(sh['rotation']['top_share'], 2)} ({sh['rotation']['top_setting']})",
+                             f"{f(sh['blur']['top_share'], 2)} ({sh['blur']['top_setting']})",
+                             " / ".join(f(ng[k]) for k in ("ref", "coh", "inc9", "full16"))])
+            t.add(1, rows)
+            rows = []
+            for r in d["secondary_prepared_reference"]["items"]:
+                lc, li = 2 * (r["logL"]["full16"] - r["logL"]["inc9"]), 2 * (r["logL"]["full16"] - r["logL"]["coh"])
+                bc, bi = boot(r["boot_rotation"]["null"], lc), boot(r["boot_blur"]["null"], li)
+                pp = lambda x: f(x, 4) if x < 0.01 else f(x)
+                lab = {(True, True): "both", (True, False): "rotation only", (False, True): "blur only", (False, False): "neither"}[
+                    (bc["p"] < C.ALPHA, bi["p"] < C.ALPHA)]
+                rows.append([r["id"], f(lc, 1), pp(bc["p"]), f(li, 1), pp(bi["p"]), lab])
+            t.add(2, rows)
+            t.check(rep, name)
+            sent = json.loads(committed_json["p3-18-fresh-job.json"])["sentences"]
+            missing = [x for x in sent if x not in md[name]]
+            rep.compare(name + " (pre-registered sentences)", "all present", "all present" if not missing else
+                        "missing from the write-up: " + " | ".join(missing), what=f"{len(sent)} sentences found verbatim")
+        except Exception as e:  # noqa: BLE001
+            rep.error(name, e)
+
         return rep.finish()
     finally:
         R.cleanup(tmp)
