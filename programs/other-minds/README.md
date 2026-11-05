@@ -46,3 +46,27 @@ Proposed first wave, each test pre-registered in its own commit before its first
 ## Rules inherited from the engine
 
 Odds before data, both sides, in writing. Cheapest falsifier first. Every test pre-registered in its own commit before its first call. One scale direction in all graded designs (0 = certainly false, 100 = certainly true). Budgets enforced in code. Stop-on-refusal. No result without an independent audit. Nothing disappears: dead directions stay on the map with a diagnosis. Plain English first.
+
+## Reproducibility
+
+One command, from the repository root, with numpy installed:
+
+```
+python3 programs/other-minds/reproduce.py
+```
+
+The root `python3 reproduce.py` runs it too. It needs no API key and no network, and uses only Python's standard library and numpy.
+
+What it does:
+- It copies the program's files as they are in the last commit into a temporary folder, so unfinished work cannot leak in. Program 1's files (`programs/entangled-mind`) come too, because this program's code reads them.
+- For each test it runs the test's own analysis code on the saved model answers (`results/p2-*-calls.json`). The statistics are worked out again, not just copied.
+- It rebuilds every table in `results/` from those numbers and checks it against the committed file, line by line.
+  - `p2-6-tables.md` and `p2-6r-tables.md` are written whole by code, so they must match byte for byte.
+  - The other results files are hand-written reports. Their tables must match; their prose is not checked.
+  - Each analysis also writes its summary file again (`results/p2-*.json`), and every number in it must match the committed one.
+- P2-3 stopped after 26 answers. Its one table (calls planned and made at each step) is rebuilt from the item list, the 26 saved answers and the refusal record.
+- `refusal-p2-3.md` is a record of a refused call, not a table, so it is skipped.
+
+The last line says `ALL TABLES REPRODUCED` (exit 0) or `NOT REPRODUCED` with the first difference (exit 1).
+
+Gaps: none. Every table can be rebuilt from files in the repository.
