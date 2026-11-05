@@ -53,7 +53,7 @@ Written and frozen 2026-11-05 (America/Denver), in its own commit, before any ca
 - **Calls:** 20 trials × 3 docs × 3 models = **180 calls**.
 - **Scale:** no graded prompt (multiple choice), so the scale rule does not arise.
 - **Seed** (`operators/hardware.md`): CURBY-Q's latest completed round is **28297**, result pulse 2025-08-22 13:42 America/Denver (checked 2026-11-05 04:37): **CURBY-Q stalled. Seed: the first CURBy-RNG pulse timestamped after this commit.** seed = first 8 bytes of SHA-256(randomness ‖ bet-id), unsigned big-endian; sub-seeds `items` (the questions), `order` (shuffle within each trial's block), `boot`, by `ledger/seed.py <randomness> ta-b3 --purpose <p>`, written to `experiments/ta-b3-seed.json` by the seed commit, which fills in:
-  `chain:` ___ · `pulse_index:` ___ · `pulse_time:` ___ · `randomness:` ___ · `client:` ___ · `certificate_verified:` ___ · `seeds:` ___
+  `chain:` CURBy-RNG · `pulse_index:` 1592197 · `pulse_time:` 2026-11-05 05:13:00 America/Denver (2026-11-05T12:13:00.171Z; previous pulse 1592196 at 05:12:00, before this file's commit 979ec5d at 05:12:51) · `randomness:` 063a046f5a20785e5dbc95c46ab85c16a0a0cc2038a548936aa45b7ece89ae675c5409ab110ad453e2be41ec857de12d9ac0637bc64392aed9f3a405d5066301 · `client:` @buff-beacon-project/curby-client@1.2.0 (`Client.randomness(1592197)`) · `certificate_verified:` false (classical chain) · `seeds:` seed 13131135240070297457; items 2655124431632842595; order 14988616904853451708; boot 16324835490127411211
 
 ## 3. Calls
 
