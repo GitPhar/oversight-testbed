@@ -29,9 +29,9 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-34 audits prepared with a sealed plant line: 2 still sealed, 32 revealed, of which 12 carried a plant. 
+34 audits prepared with a sealed plant line: 1 still sealed, 33 revealed, of which 13 carried a plant. 
 
-**Catch rate: 12/12 = 1.00, 95% Wilson interval [0.76, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
+**Catch rate: 13/13 = 1.00, 95% Wilson interval [0.77, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
 
 | class / subclass | planted | caught | missed: expected checklist line |
 |---|---|---|---|
@@ -39,7 +39,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 | miscount / total | 5 | 5 | — |
 | overclaim / mechanism | 2 | 2 | — |
 | overclaim / plain_vs_table | 1 | 1 | — |
-| overclaim / rank | 1 | 1 | — |
+| overclaim / rank | 2 | 2 | — |
 | overclaim / scope | 2 | 2 | — |
 
 | plant | bet | class | caught | where (from the audit) | planter model |
@@ -56,6 +56,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 | pl-023 | ta-b1r2 | miscount/total | yes | Required cuts, item 1: replace 'Phase 2 (behaviour) ran 840 calls ...' with '... ran 810 calls: 540 on Haiku (two per arm) and 270 on Sonnet.' | claude-opus-5-5 |
 | pl-029 | em-bm9f2 | overclaim/rank | yes | Required cuts 1: quotes the planted sentence and calls it unsupported (C14, C15) | claude-opus-5-5 |
 | pl-030 | em-gm2q | overclaim/scope | yes | Claims checked row 14 and Required cuts 4: 'The main paper can say: question order moves Claude models' answers ...' — hole: scope drift and an unreplicated one-model pass stated as general | claude-opus-5-5 |
+| pl-034 | sg-b5 | overclaim/rank | yes | ledger/audits/sg-b5.md, hole H1 (C14/C16/C18) and Required cuts item 4: 'Line 30 promotes a secondary that the pre-registration said was never to be promoted: on the 14 studies whose interval excludes 0, the ones where the gap is measurable ... it survives length matching' | claude-opus-5-5 |
 
 **Limits, stated with the number:**
 
