@@ -1,10 +1,10 @@
 # Walkthrough script: one kill, one steer, and the one place the odds carried judgment (about ten minutes)
 
-**For:** Sean, to record in his own voice. **Length:** about 1,300 spoken words (`wc -w` on the spoken lines), which is nine and a half to ten minutes at a relaxed pace.
+**For:** Sean, to record in his own voice. **Length:** about 1,350 spoken words (`wc -w` on the spoken lines), which is about ten minutes at a relaxed pace.
 
 **How to read this.** Plain text is what you say. Lines in **[SCREEN: …]** are what to have on screen; they are not read aloud. Commit hashes appear in full on screen; where the spoken text names one, the first four characters are enough ("commit seven-f-nine-c").
 
-**Sources.** Every number is from this repository as it stood on 2026-11-04 at 19:37 America/Denver (branch head `d02b645`): `ledger/bets.jsonl`, `ledger/brier.md`, `ledger/scores.md`, `ledger/steers.jsonl`, `ledger/audits/`, `ledger/design-reviews/ng-p3-15.md`, `paper/day-two.md`, and the program folders `programs/nature-graded/` and `programs/settled-science/`. Times are America/Denver, as git records them.
+**Sources.** Every number is from this repository as it stood on 2026-11-04 at 19:43 America/Denver (main at `9b3d222`): `ledger/bets.jsonl`, `ledger/brier.md`, `ledger/scores.md`, `ledger/steers.jsonl`, `ledger/audits/`, `ledger/design-reviews/ng-p3-15.md`, `paper/day-two.md`, and the program folders `programs/nature-graded/` and `programs/settled-science/`. Times are America/Denver, as git records them.
 
 **What changed from the earlier script.** The earlier version used program 1's quantum-encoding kill and the founding-week steers st-02 and st-03. Those steers were reconstructed after the fact. This version uses a kill refereed by the chip and a steer recorded at the moment it was made, in Sean's words. Program 1's kill is still in `site/kills.html` and in the numbers table of the old script (this file at commit `57b1a8b`).
 
@@ -98,9 +98,9 @@ Then the auditor tried to break it. It held up under clustering by paper, droppi
 
 And the limits stay with the number. On model psychology alone, it was not shown to beat a coin. One model, one prompt. And the biggest one: the same model family wrote the items and placed the bets. A model writing for its twin could leave cues nobody else sees. The auditor named that the cheapest test that could overturn the result.
 
-**[SCREEN: commit `29e8769`, 19:24, "Pre-register ss-b4/ss-b5 … template-written items (no model writer)".]**
+**[SCREEN: `ledger/design-reviews/ss-b4.md`, "In plain English"; commit `9b3d222`, 19:43, "ss-b4 withdrawn before data".]**
 
-That's the next test. The items are written by a template, not a model, and it's pre-registered with its dumb baseline built in.
+So the next round uses items written by a template, not a model. And the design reviewer has already been at it. Most of the template's sentences carry a word like "higher" or "better", so a dumb rule that just picks that word would pass the first bet. That bet was withdrawn before any data. The second bet is the real one: beat that dumb rule. It's waiting on its fixes, and nothing has run.
 
 **[SCREEN: `ledger/brier.md`, the "By referee" line.]**
 
@@ -140,7 +140,7 @@ Thanks for watching. Everything here is in the repository, with the commits on s
 | ss-b1 audit | all three pass-unreplicated; 34 claims, 7 holes, 7 cuts; best dumb predictor 0.233; plant pl-003 clean | `cdce1ba` (19:13), `ledger/audits/ss-b1.md` |
 | model psychology alone | Brier 0.235 [0.181, 0.293], 62% right | same |
 | engine odds on ss-b1..b3 | 0.50, 0.30, 0.35, all passed; Brier 0.388 on 3 | `ledger/brier.md`, by referee |
-| round 2 | ss-b4/ss-b5, template-written items; engine odds 70 and 35 | `8e87c59` (19:17), `29e8769` (19:24) |
+| round 2 | ss-b4/ss-b5, template-written items; engine odds 70 and 35; design review: ss-b4 redesign (up-word rule Brier 0.177 on the 92 drawn passes it), ss-b5 fix-first (7 flaws); ss-b4 withdrawn before data; no bettor call | `8e87c59` (19:17), `29e8769` (19:24), `03fa0a1` (19:42), `9b3d222` (19:43) |
 
 **Left out on purpose, or said only with its caveat.**
 - "Three tries reproduced nothing, so 3 November was a fluke." Not established. Two chip runs cannot say which afternoon was typical (`ledger/audits/ng-p3-2-3.md`).

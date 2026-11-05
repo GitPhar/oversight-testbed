@@ -2,7 +2,7 @@
 
 > **About this text.** Anthropic's candidate AI guidance (anthropic.com/candidate-ai-guidance) says of written application answers: "Please create your first draft yourself, then use Claude to refine it." This text was drafted by Claude. The form's "AI Policy for Application" box asks the applicant to confirm they have read that guidance. The route this folder plans for (`checklist.md`, S6) is that Sean writes his own first draft of this answer and uses this file to check numbers and wording.
 >
-> Every number is from this repository as of 2026-11-04 19:37 America/Denver (branch head `d02b645`): program 1 in `programs/entangled-mind/` (original repository `GitPhar/entangled-mind`, kept as the historical record), program 4 in `programs/settled-science/`, and `ledger/`. The wording follows the audits' cuts. It avoids mechanism words such as "consistency is memory", which the program 1 audit found the data cannot carry, and "cannot have read them", which the ss-b1 audit cut.
+> Every number is from this repository as of 2026-11-04 19:43 America/Denver (main at `9b3d222`): program 1 in `programs/entangled-mind/` (original repository `GitPhar/entangled-mind`, kept as the historical record), program 4 in `programs/settled-science/`, and `ledger/`. The wording follows the audits' cuts. It avoids mechanism words such as "consistency is memory", which the program 1 audit found the data cannot carry, and "cannot have read them", which the ss-b1 audit cut.
 >
 > **Mentors are named only where a result touches their work.** Jack Lindsey: introspection (our self-knowledge null). Samuel Marks: truth probes (Marks & Tegmark 2023, the probe our direction 5 used). Belinda Li: what language models represent (the same probe result). The answer names Model Psychology and Model Internals as the areas.
 
@@ -51,7 +51,7 @@ My background is psychology, philosophy and four years leading AI pipeline engin
 - "There is no stored credence to read out" (proposal.md). This holds for Haiku and is contradicted on Opus (D50).
 - "Eleven pre-registered tests overnight." Five of them re-analysed data that had already been opened (D54, D54a).
 - "The probe is unverified." That was true at 14:39 (D53). DP2 has since verified the probe run, with the verdict mixed. The answer says what DP2 found.
-- The audit counts from program 1 (0 of 39 verdicts reversed, 166 of 560 claims failed). They are still true, but the ledger now has a wider view: 31 of 33 bets audited, 2 verdicts reversed (`ledger/brier.md`). Neither fits in 400 words alongside program 4.
+- The audit counts from program 1 (0 of 39 verdicts reversed, 166 of 560 claims failed). They are still true, but the ledger now has a wider view: 31 of 35 bets audited, 2 verdicts reversed (`ledger/brier.md`). Neither fits in 400 words alongside program 4.
 - **"The model's confidence was too low."** The ss-b1 audit cut it to an exploratory reading; its interval touches zero.
 - **The model-psychology field in program 4** (not shown to beat a coin, Brier 0.235 [0.181, 0.293] on 29 items). It touches Model Psychology directly, but it is a descriptive split of one run.
 - The stage-by-stage quantum readout (0.63 → 0.49 against 0.68). It is exploratory, not pre-registered.

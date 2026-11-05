@@ -6,7 +6,7 @@
 
 Two or three beats make an essay of this length. All five would not fit.
 
-Facts are as of 2026-11-04 19:37 America/Denver (branch head `d02b645`).
+Facts are as of 2026-11-04 19:43 America/Denver (main at `9b3d222`).
 
 ---
 
@@ -43,7 +43,7 @@ Facts are as of 2026-11-04 19:37 America/Denver (branch head `d02b645`).
 - **Your record, in miniature:**
   - two scoring artefacts caught in the founding week (D32, D33);
   - program 1's audit failed 166 of 560 checked claims while reversing 0 of 39 verdicts ("the numbers are sound; the words are not", entangled-mind `audits/SUMMARY.md`);
-  - across the ledger, 31 of 33 bets audited and 2 verdicts reversed (`ledger/brier.md`);
+  - across the ledger, 31 of 35 bets audited and 2 verdicts reversed (`ledger/brier.md`);
   - the auditor caught 2 of 2 planted faults, too few to be a rate (`ledger/scores.md`);
   - the engine's odds on its own bets are no better than a coin so far (Brier 0.246 on 14).
 - **Only you:** why an organisation that publishes its own model gaming its scorer is where you want to do this.

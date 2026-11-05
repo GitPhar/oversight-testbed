@@ -1,6 +1,6 @@
 # Application checklist: Anthropic Residency, closes 2026-11-22
 
-Current with the ledger as of 2026-11-04 19:37 America/Denver (branch head `d02b645`). Sources: the residency page (alignment.anthropic.com/2026/anthropic-residency) and the US Greenhouse posting (job-boards.greenhouse.io/anthropic/jobs/5438311008), both fetched 2026-11-04; Anthropic's candidate AI guidance (anthropic.com/candidate-ai-guidance); `CONTEXT.md` §0, §2, §3 and §9; `TASKS.md`.
+Current with the ledger as of 2026-11-04 19:43 America/Denver (main at `9b3d222`). Sources: the residency page (alignment.anthropic.com/2026/anthropic-residency) and the US Greenhouse posting (job-boards.greenhouse.io/anthropic/jobs/5438311008), both fetched 2026-11-04; Anthropic's candidate AI guidance (anthropic.com/candidate-ai-guidance); `CONTEXT.md` §0, §2, §3 and §9; `TASKS.md`.
 
 Two kinds of item:
 - **S: Sean only.** Nobody else can do these. There are six: the five chores plus the form itself.
@@ -24,7 +24,7 @@ Tick each box when it's done.
   The question for support: is the claim-extractor design (claims taken only from the model's visible explanation) acceptable, and is the SimpleToM story set usable? Program 1's day-one extractor refusal (`results/refusal-attempt-2.md`) has no request id on file, so it cannot go on the ticket. Once the ticket exists, a session records its number (E11).
 - [ ] **S3. The essay, "Why Anthropic?"** It is required, and the form says 200–400 words is typical. `why-anthropic-outline.md` has the beats and the facts, but no sentences, by design. The guidance says to write the first draft yourself and then use Claude to refine it. A session refines it once a draft is in the folder (E12).
 - [ ] **S4. The title.** See `CONTEXT.md` §0. It comes from `proposal.md` when that reads right to you. Timing matters: GitHub redirects a renamed repository but not its Pages site, so a rename after submitting would break https://gitphar.github.io/oversight-testbed/ on the form. A session does the rename and fixes every link the day a title is chosen (E13).
-- [ ] **S5. Record the walkthrough.** Use `walkthrough-script.md`: about 1,300 spoken words, nine and a half to ten minutes. It covers one kill (ng-p3-15, three tries at 3 November's number), one steer (st-16, the chip budget and the lever handed over) and program 4's first audited passes. Record your screen with the files and commits the script names. Host it as an unlisted link (YouTube or Loom). A session puts the link in the READMEs and the site (E2). If ng-p3-15's run 2 or its audit has landed by then, the script will already say so (E1).
+- [ ] **S5. Record the walkthrough.** Use `walkthrough-script.md`: about 1,350 spoken words, about ten minutes. It covers one kill (ng-p3-15, three tries at 3 November's number), one steer (st-16, the chip budget and the lever handed over) and program 4's first audited passes. Record your screen with the files and commits the script names. Host it as an unlisted link (YouTube or Loom). A session puts the link in the READMEs and the site (E2). If ng-p3-15's run 2 or its audit has landed by then, the script will already say so (E1).
 - [ ] **S6. The form itself.** Submit on the US or the UK posting, not both. Everything on it is yours to enter:
   - **Required fields:**
     - [ ] first name, last name, email
@@ -52,10 +52,10 @@ Tick each box when it's done.
 
 ## E — Engine work
 
-- [ ] **E1. Keep the walkthrough current** (TASKS 8; the ng-p3-15 run is TASKS 4). When ng-p3-15's run 2 lands (scheduled no earlier than 21:30 on 2026-11-04) and then its audit, update the one Part 1 paragraph that says both are pending, and the numbers table. Do the same for Part 3 when program 4's round 2 (ss-b4, ss-b5) reports. Change nothing stronger than the audit allows.
+- [ ] **E1. Keep the walkthrough current** (TASKS 8; the ng-p3-15 run is TASKS 4). When ng-p3-15's run 2 lands (scheduled no earlier than 21:30 on 2026-11-04) and then its audit, update the one Part 1 paragraph that says both are pending, and the numbers table. Do the same for Part 3 when program 4's ss-b5 reports. Change nothing stronger than the audit allows.
 - [ ] **E2. Walkthrough link** (TASKS 8). After S5, add the unlisted link to `README.md`, `programs/entangled-mind/README.md` and the site's front page.
 - [ ] **E3. ng-p3-15 run 2 and audit** (TASKS 4). Run 2 is a secondary under the pre-registration (`7f9cedf`); run 1 decided the bet. Then a fresh auditor, and a plant drawn at random first (TASKS 6). If the audit changes the verdict, E1 follows.
-- [ ] **E4. Program 4, round 2** (TASKS 2). ss-b4 and ss-b5 are pre-registered (`29e8769`, 19:24) and seeded (`e8f921e`). Next comes the design review in `ledger/design-reviews/ss-b4.md`, then the run, then the audit. ss-b5 (beat the up-word rule) is the informative test; ss-b4 alone cannot show judgment, because the up-word rule passes it in the dry run (0.171). The audit's cheapest overturning test for ss-b1 (a non-Claude item-writer) is only partly answered by a template writer, and the write-up should say so.
+- [ ] **E4. Program 4, round 2** (TASKS 2). ss-b4 and ss-b5 were pre-registered (`29e8769`, 19:24) and seeded (`e8f921e`). The design review (`ledger/design-reviews/ss-b4.md`, `03fa0a1`) said redesign for ss-b4, because a dumb up-word rule passes it (Brier 0.177 on the 92 drawn), and ss-b4 was withdrawn before data (`9b3d222`). ss-b5 (beat the up-word rule, and per F2 the word-pair rule) is fix-first, with F2–F7 to be logged before data and confirmed; no bettor call until then. `ledger/scores.md` lists ss-b5 among its rule violations for now; the check's reason is in `ledger/check_prereg.py` output. The audit's cheapest overturning test for ss-b1 (a non-Claude item-writer) is only partly answered by a template writer, and the write-up should say so.
 - [ ] **E5. Bring `research-proposal.md` current** (TASKS 8). It still gives the engine's calibration as Brier 0.256 on five bets (now 0.246 on 14, `ledger/brier.md`) and calls the probe one to "do properly this time" (DP2 has since verified the run; verdict mixed). It has nothing on program 4 or on ng-p3-15.
 - [ ] **E6. Bring `proposal.md` current** (no TASKS item open; listed here so it is not lost). It still says "there is no stored credence to read out" and "six elicitation formats need six credences", which Opus contradicts (D49–D50). It says "consistency is memory" (an audit-flagged mechanism word), "five bets … Brier 0.256", and that the replications are "running". `proposal.md` is also where the title will come from (S4), so it should read right.
 - [ ] **E7. `paper/the-engine.md`** (TASKS 7). It still gives Brier 0.256 on five bets, and calls em-gm5 "unverified (D53)" (lines 20, 470, 523 and 544–554 as of `d02b645`). DP2 verified it, with the verdict mixed and the score still 0. Fold in program 4's design and ss-b1's audited passes, and ng-p3-15, keeping the referee comparison suggestive (nature-graded 0.062 on 3, published-record 0.388 on 3, model-graded 0.263 on 8).
@@ -82,7 +82,7 @@ Tick each box when it's done.
 
 | date | what |
 |---|---|
-| tonight | E1 and E3 after ng-p3-15's run 2 (≥ 21:30); E14 after the nightly updater (23:33) |
+| tonight | E1 and E3 after ng-p3-15's run 2 (≥ 21:30); E4's ss-b5 fixes; E14 after the nightly updater (23:33) |
 | now → 11-15 | S1, S2, S6's references asked; E4–E9 |
 | by 11-18 | S3 drafted and S5 recorded; E2, E12 |
 | 11-21 | E17 engine first analysis; E15 reproduction check |
