@@ -397,5 +397,69 @@ def main_r2():
     print(tables_r2(s))
 
 
+# ---------------- ss-b6: valence comparator (experiments/ss-b6.md) ----------------
+R2_VALENCE = ROOT / "bettor" / "r2-valence.jsonl"
+
+
+def score_b6(items, bets, valence):
+    """ss-b6: paired Brier difference, bettor minus the valence rule, on items with both; pass if upper bound < 0 on >= 60.
+    Leave-one-item-out and leave-one-query-bucket-out on the label; up-word / down-word subsets reported (pre-registered)."""
+    prim = {b["id"]: b for b in bets if b["kind"] == "primary"}
+    val = {v["id"]: v for v in valence}
+    rows = []
+    for iid in sorted(set(prim) & set(val)):
+        it = items[iid]
+        rows.append({"id": iid, "field": it["field"], "down": it["up_side"] != it["true_option"],
+                     "p_true": p_true_of(prim[iid], it), "v_true": p_true_of(val[iid], it)})
+    d = lambda rs: [(1 - r["p_true"]) ** 2 - (1 - r["v_true"]) ** 2 for r in rs]  # noqa: E731
+    f = lambda rs: boot_ci(d(rs))[1] < -EPS  # noqa: E731
+    mean = lambda v: sum(v) / len(v) if v else None  # noqa: E731
+    out = {"n": len(rows), "missing": sorted(set(prim) - set(val)),
+           "bettor_brier": mean([(1 - r["p_true"]) ** 2 for r in rows]),
+           "valence_brier": mean([(1 - r["v_true"]) ** 2 for r in rows]),
+           "valence_brier_ci": boot_ci([(1 - r["v_true"]) ** 2 for r in rows]),
+           "valence_accuracy": mean([1 if r["v_true"] > 0.5 else 0.5 if r["v_true"] == 0.5 else 0 for r in rows]),
+           "diff": mean(d(rows)), "diff_ci": boot_ci(d(rows))}
+    if len(rows) < 60:
+        out["label"], out["reason"] = "untestable", f"{len(rows)} items with both ratings, fewer than 60"
+        return out
+    full = f(rows)
+    out["label"] = "pass" if full else "null"
+    out["fragile_items"] = [rows[i]["id"] for i in range(len(rows)) if f(rows[:i] + rows[i + 1:]) != full]
+    lofo = {}
+    for fld in sorted({r["field"] for r in rows}):
+        rest = [r for r in rows if r["field"] != fld]
+        lofo[fld] = {"n": len(rest), "label": "untestable" if len(rest) < 60 else ("pass" if f(rest) else "null")}
+    out["leave_one_bucket_out"] = lofo
+    out["bucket_flips"] = [k for k, v in lofo.items() if v["label"] != "untestable" and (v["label"] == "pass") != full]
+    if out["fragile_items"] or out["bucket_flips"]:
+        out["label_reported"] = f"{out['label']}, fragile"
+    for lab, sub in (("up_word", [r for r in rows if not r["down"]]), ("down_word", [r for r in rows if r["down"]])):
+        out[lab] = {"n": len(sub), "bettor_brier": mean([(1 - r["p_true"]) ** 2 for r in sub]),
+                    "valence_brier": mean([(1 - r["v_true"]) ** 2 for r in sub]), "diff": mean(d(sub)), "diff_ci": boot_ci(d(sub))}
+    out["rows"] = rows
+    return out
+
+
+def main_b6():
+    items = {it["id"]: it for it in (json.loads(l) for l in R2_ITEMS.read_text().splitlines() if l.strip())}
+    bets = [json.loads(l) for l in R2_BETS.read_text().splitlines() if l.strip()]
+    if "--synthetic" in sys.argv:
+        kind = sys.argv[sys.argv.index("--synthetic") + 1]
+        prim = [b for b in bets if b["kind"] == "primary"]
+        val = []
+        for b in prim:
+            it, o1 = items[b["id"]], b["option_1_is"]
+            t1 = o1 == it["true_option"]
+            p = {"coin": 50, "copy": b["p_option_1"], "oracle": 90 if t1 else 10, "upword": 75 if it["up_side"] == o1 else 25}[kind]
+            val.append({"id": b["id"], "kind": "valence", "option_1_is": o1, "p_option_1": p})
+        s = score_b6(items, bets, val)
+        print(kind, "valence Brier", fmt(s["valence_brier"]), "diff", fmt(s["diff"]), s["diff_ci"], s.get("label_reported", s["label"]))
+        return
+    s = score_b6(items, bets, [json.loads(l) for l in R2_VALENCE.read_text().splitlines() if l.strip()])
+    (ROOT / "scoring" / "b6-scores.json").write_text(json.dumps(s, indent=1))
+    print(json.dumps({k: v for k, v in s.items() if k != "rows"}, indent=1))
+
+
 if __name__ == "__main__":
-    main_r2() if "--r2" in sys.argv else main()
+    main_b6() if "--b6" in sys.argv else main_r2() if "--r2" in sys.argv else main()

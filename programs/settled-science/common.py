@@ -30,7 +30,8 @@ BUDGET_USD = 5.00  # protocol/fixed-rules.md, lowered from 6.00 to the engine re
 ADAPTIVE_LOW = {"claude-opus-5-5"}  # D18: thinking cannot be disabled on this model
 THINKING_OFF = {}  # model -> the thinking setting that turns thinking off for it
 CACHES = [ROOT / "items" / "leakage-cache.json", ROOT / "bettor" / "bettor-cache.json", ROOT / "bettor" / "pilot-cache.json",
-          ROOT / "items" / "r2" / "leakage-cache.json", ROOT / "bettor" / "r2-bettor-cache.json"]
+          ROOT / "items" / "r2" / "leakage-cache.json", ROOT / "bettor" / "r2-bettor-cache.json",
+          ROOT / "bettor" / "r2-valence-cache.json"]
 
 
 def key_of(*parts) -> str:
