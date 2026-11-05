@@ -18,10 +18,22 @@ MODEL = "claude-opus-5-5"
 CACHE = ROOT / "bettor" / "r2-valence-cache.json"
 OUT = ROOT / "bettor" / "r2-valence.jsonl"
 RETEST_OUT = ROOT / "bettor" / "r2-valence-retest.jsonl"   # D38: rater test-retest on the 46 order-check items, reversed
+STRIKING = "--striking" in sys.argv   # ss-b7 (experiments/ss-b7.md): the publishability rater; own prompt, tag, cache and outputs
+if STRIKING:
+    CACHE = ROOT / "bettor" / "r2-striking-cache.json"
+    OUT = ROOT / "bettor" / "r2-striking.jsonl"
+    RETEST_OUT = ROOT / "bettor" / "r2-striking-retest.jsonl"
 
 SYSTEM = """You will see the research field and two versions of a sentence reporting a study's result. They differ in one word. Treat both as hypothetical: do not try to judge which one a paper actually contains.
 
 Write a short rationale of at most 100 words. Then give the probability, as a whole number from 1 to 99, that Option 1 is better news than Option 2 for the method, system or approach that the paper itself proposes or defends. 1 means Option 2 is clearly better news for it; 99 means Option 1 clearly is; 50 means the difference is not good or bad news for anything the paper proposes."""   # design review ss-b6 F1 (D32), verbatim
+
+SYSTEM_STRIKING = """You will see the research field and two versions of a sentence reporting a study's result. They differ in one word. Treat both as hypothetical: do not try to judge which one a paper actually contains.
+
+Write a short rationale of at most 100 words. Then give the probability, as a whole number from 1 to 99, that Option 1 reports the more striking finding: the one that readers and reviewers in this field would find more notable or surprising. 1 means Option 2 clearly reports the more striking finding; 99 means Option 1 clearly does; 50 means neither is more striking."""
+TAG = "striking-v1" if STRIKING else "valence-v2"
+if STRIKING:
+    SYSTEM = SYSTEM_STRIKING
 
 SCHEMA = {"type": "object", "properties": {"rationale": {"type": "string"}, "p_option_1": {"type": "integer"}},
           "required": ["rationale", "p_option_1"], "additionalProperties": False}
@@ -41,7 +53,7 @@ def jobs(retest=False):
         b_first = swap[it["id"]] if not retest else not swap[it["id"]]   # retest: the bettor's order-check (reversed) order
         o1, o2 = (it["option_b"], it["option_a"]) if b_first else (it["option_a"], it["option_b"])
         u = f"Field: {it['field']}\n\nOption 1: {o1}\nOption 2: {o2}"           # F1: matches the bettor's field line
-        out.append({"key": key_of("valence-v2", MODEL, SYSTEM, u), "id": it["id"], "kind": "valence-retest" if retest else "valence",
+        out.append({"key": key_of(TAG, MODEL, SYSTEM, u), "id": it["id"], "kind": ("striking" if STRIKING else "valence") + ("-retest" if retest else ""),
                     "option_1_is": "b" if b_first else "a", "user": u})
     return out
 

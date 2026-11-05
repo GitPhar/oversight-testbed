@@ -31,7 +31,7 @@ ADAPTIVE_LOW = {"claude-opus-5-5"}  # D18: thinking cannot be disabled on this m
 THINKING_OFF = {}  # model -> the thinking setting that turns thinking off for it
 CACHES = [ROOT / "items" / "leakage-cache.json", ROOT / "bettor" / "bettor-cache.json", ROOT / "bettor" / "pilot-cache.json",
           ROOT / "items" / "r2" / "leakage-cache.json", ROOT / "bettor" / "r2-bettor-cache.json",
-          ROOT / "bettor" / "r2-valence-cache.json"]
+          ROOT / "bettor" / "r2-valence-cache.json", ROOT / "bettor" / "r2-striking-cache.json"]
 
 
 def key_of(*parts) -> str:

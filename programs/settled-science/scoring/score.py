@@ -632,5 +632,115 @@ def main_b6():
     print(json.dumps({k: v for k, v in s.items() if k != "rows"}, indent=1))
 
 
+
+
+# ---------------- ss-b7: the publishability ("more striking finding") rater, with a P12 noise margin (experiments/ss-b7.md) ----------------
+R2_STRIKING = ROOT / "bettor" / "r2-striking.jsonl"
+R2_STRIKING_RETEST = ROOT / "bettor" / "r2-striking-retest.jsonl"
+N_NULL, NULL_BOOT, NULL_Q = 100, 2000, 0.10
+
+
+def retest_sigma(rat, ret):
+    """Single-rating logit noise from test-retest pairs (options reversed): SD of [logit(v) - logit(1 - v')] / sqrt(2)."""
+    dd = [_lg(rat[i]["p_option_1"] / 100) - _lg((100 - ret[i]["p_option_1"]) / 100) for i in ret if i in rat]
+    return float(np.std(dd) / math.sqrt(2)) if len(dd) > 1 else None
+
+
+def null_margin(rows, sigma, seed=BOOT_SEED):
+    """P12: the leg-2 margin m* = 10th percentile of leg-2 upper bounds in a null world where the bettor knows only what the
+    rater measures (rater = logit(bettor) + N(0, sigma), rounded to 1..99). A bettor in that world passes at most ~10%."""
+    y = np.array([r["y"] for r in rows]); up = np.array([r["up"] for r in rows]); pb = np.array([r["pb"] for r in rows], float)
+    lb = np.array([_lg(p / 100) for p in pb])
+    pbl = _loo(np.array([_feats(p, u) for p, u in zip(pb, up)]), y)
+    rng, ups = np.random.default_rng(seed), []
+    for _ in range(N_NULL):
+        pr = np.clip(np.round(100 / (1 + np.exp(-(lb + rng.normal(0, sigma, len(lb)))))), 1, 99)
+        d = (y - pbl) ** 2 - (y - _loo(np.array([_feats(p, u) for p, u in zip(pr, up)]), y)) ** 2
+        ups.append(boot_ci(list(d), n=NULL_BOOT)[1])
+    return float(np.quantile(ups, NULL_Q)), ups
+
+
+def score_b7(items, bets, rater, retest):
+    base = score_b6(items, bets, rater)        # legs, gates, subsets, discordant, secondaries; its label/sentence are NOT used
+    out = {k: base.get(k) for k in ("n", "missing", "gates", "leg1", "leg2", "leg2_up_word", "leg2_down_word", "discordant", "secondaries")}
+    if base["n"] < 60 or "leg1" not in base:
+        out["label"] = "untestable"
+        out["sentence"] = f"Too few ratings were returned to test it ({base['n']} of 92)."
+        return out
+    rows = base["rows"]
+    sigma = retest_sigma({v["id"]: v for v in rater}, {v["id"]: v for v in retest})
+    out["sigma_retest"], out["retest_n"] = sigma, len(retest)
+    if sigma is None:
+        out["label"], out["sentence"] = "untestable", "The rater's retest was not available, so the noise margin could not be set."
+        return out
+    m, ups = null_margin(rows, sigma)
+    out["margin"], out["null_false_pass_at_0"] = m, float(np.mean(np.array(ups) < 0))
+    y = np.array([r["y"] for r in rows]); up = np.array([r["up"] for r in rows])
+    d1 = np.array([(1 - r["p_true"]) ** 2 - (1 - r["v_true"]) ** 2 for r in rows])
+    pb = _loo(np.array([_feats(r["pb"], r["up"]) for r in rows]), y); pv = _loo(np.array([_feats(r["pv"], r["up"]) for r in rows]), y)
+    d2 = (y - pb) ** 2 - (y - pv) ** 2
+    lab = lambda a, b: boot_ci(list(a))[1] < -EPS and boot_ci(list(b))[1] < m - EPS  # noqa: E731
+    full = lab(d1, d2)
+    out["label"] = "pass" if full else "null"
+    idx = np.arange(len(rows))
+    out["fragile_items"] = [rows[i]["id"] for i in idx if lab(d1[idx != i], d2[idx != i]) != full]
+    lofo = {}
+    for fld in sorted({r["field"] for r in rows}):
+        keep = np.array([r["field"] != fld for r in rows])
+        lofo[fld] = {"n": int(keep.sum()), "label": "untestable" if keep.sum() < 60 else ("pass" if lab(d1[keep], d2[keep]) else "null")}
+    out["leave_one_bucket_out"] = lofo
+    out["bucket_flips"] = [k for k, v in lofo.items() if v["label"] != "untestable" and (v["label"] == "pass") != full]
+    f3 = lambda c: f"[{c[0]:.3f}, {c[1]:.3f}]"  # noqa: E731
+    L1, L2 = out["leg1"], out["leg2"]
+    if full:
+        sent = (f"On {len(rows)} round-2 sentence pairs, the bettor picked the published sentence better than the same model asked only which version "
+                f"reports the more striking finding (raw d₁ {L1['d']:.3f} {f3(L1['ci'])}, striking rule Brier {L1['valence_brier']:.3f}; recalibrated "
+                f"with the up word d₂ {L2['d']:.3f} {f3(L2['ci'])}, beyond the noise margin {m:.3f}). Round 2's pass is not only picking the more "
+                "striking version, as this rater judged it, though this does not separate knowing the result from reasoning within the sentence, "
+                "and the rater was the same model as the bettor")
+    else:
+        sent = (f"On {len(rows)} round-2 sentence pairs, the bettor was not shown to pick the published sentence better than the same model asked only "
+                f"which version reports the more striking finding (raw d₁ {L1['d']:.3f} {f3(L1['ci'])}; recalibrated with the up word d₂ {L2['d']:.3f} "
+                f"{f3(L2['ci'])}, against the noise margin {m:.3f}). Round 2's pass may reduce to picking the more striking version, or the rater, "
+                "being the same model, may have used the same judgment of which version is real; this test cannot tell those apart")
+    if out["fragile_items"] or out["bucket_flips"]:
+        out["label_reported"] = f"{out['label']}, fragile"
+        parts = []
+        if out["fragile_items"]:
+            fi = out["fragile_items"]; parts.append(f"the item{'s' if len(fi) > 1 else ''} {', '.join(fi)}")
+        if out["bucket_flips"]:
+            bf = out["bucket_flips"]; parts.append(f"the query bucket{'s' if len(bf) > 1 else ''} {', '.join(bf)}")
+        many = len(out["fragile_items"]) + len(out["bucket_flips"]) > 1
+        sent += f"; this label rests on {' and '.join(parts)}: without {'any one of them' if many else 'it'} the label would be {'null' if full else 'pass'}"
+    out["sentence"] = sent + "."
+    return out
+
+
+def main_b7():
+    items = {it["id"]: it for it in (json.loads(l) for l in R2_ITEMS.read_text().splitlines() if l.strip())}
+    bets = [json.loads(l) for l in R2_BETS.read_text().splitlines() if l.strip()]
+    if "--synthetic" in sys.argv:
+        prim = [b for b in bets if b["kind"] == "primary"]
+        chk = {b["id"] for b in bets if b["kind"] == "order-check"}
+        rng = np.random.default_rng(7)
+        for kind in [k for k in sys.argv[sys.argv.index("--synthetic") + 1:] if not k.startswith("--")]:
+            base = kind.split("+")[0]
+            sig = float(kind.split("+")[1]) if "+" in kind else 0.0
+            rat = synthetic_valence(items, prim, base)
+            def noisy(v):
+                if sig == 0 or v["p_option_1"] == 50:
+                    return v["p_option_1"]
+                return int(np.clip(round(100 / (1 + math.exp(-(_lg(v["p_option_1"] / 100) + rng.normal(0, sig))))), 1, 99))
+            rat = [dict(v, p_option_1=noisy(v)) for v in rat]
+            ret = [dict(v, option_1_is="b" if v["option_1_is"] == "a" else "a", p_option_1=100 - noisy(v)) for v in rat if v["id"] in chk]
+            s = score_b7(items, bets, rat, ret)
+            print(f"{kind:12s} sigma {s.get('sigma_retest')}  margin {s.get('margin')}  leg2 {s['leg2']['ci'] if s.get('leg2') else None}  -> {s.get('label_reported', s['label'])}")
+        return
+    s = score_b7(items, bets, [json.loads(l) for l in R2_STRIKING.read_text().splitlines() if l.strip()],
+                 [json.loads(l) for l in R2_STRIKING_RETEST.read_text().splitlines() if l.strip()])
+    (ROOT / "scoring" / "b7-scores.json").write_text(json.dumps(s, indent=1))
+    print(json.dumps(s, indent=1))
+
+
 if __name__ == "__main__":
-    main_b6() if "--b6" in sys.argv else main_r2() if "--r2" in sys.argv else main()
+    (main_b7() if "--b7" in sys.argv else main_b6() if "--b6" in sys.argv else main_r2() if "--r2" in sys.argv else main())
