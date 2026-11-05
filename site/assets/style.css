@@ -693,3 +693,4 @@ footer { max-width: 72rem; margin: 0 auto; padding: 24px; color: var(--muted); f
 table.hcol td { vertical-align: top; }
 .hc-q { display: block; max-width: 560px; }
 .hc-id { display: block; margin-top: 2px; }
+.found .score-h { margin: 28px 0 10px; }
