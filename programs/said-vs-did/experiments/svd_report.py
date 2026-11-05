@@ -6,6 +6,7 @@ Only the sentences pre-registered in each bet's addendum D7 are produced; the ha
 results file may use only these."""
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -23,18 +24,29 @@ def f3(x):
     return "—" if x is None else f"{x:+.3f}" if isinstance(x, float) else str(x)
 
 
-def stop_cause(model):
-    """D9: the recorded cause of a stop, from results/sv-run-log.md (caps) and results/sv-errors.md (errors), naming
-    every logged stop that touched this model's steps; neutral if none is logged."""
-    causes = []
-    for f in ("sv-run-log.md", "sv-errors.md"):
-        p = C.RESULTS / f
-        if p.exists():
-            for ln in p.read_text().splitlines():
-                # D11: cap stops name the model; error stops name the job, whose key holds the model's short name
-                if (f == "sv-run-log.md" and model in ln) or (f == "sv-errors.md" and f"|{C.SHORT[model]}|" in ln):
-                    causes.append(ln.lstrip("- ").split(" ", 1)[1])
-    rp = C.RESULTS / "refusal.md"           # D10: a refusal stops every later call in the program
+def stop_cause(model, step):
+    """D12: the recorded causes of a stop that left this model's items incomplete in this bet. Only stops in this
+    bet's own step or the shared said step count, and a stop logged while model M ran also stops every later model
+    (runs go Haiku, Sonnet, Opus). Cap stops come from results/sv-run-log.md, error stops from results/sv-errors.md
+    (the failing job's key gives its model), and a refusal (program-wide) from results/refusal.md."""
+    order = C.MODELS
+    short_to_model = {v: k for k, v in C.SHORT.items()}
+    steps = {f"sv-{step}", "sv-said"}
+    last = {}                     # step -> (timestamp, stopped model, text): only each step's last logged stop counts
+    p = C.RESULTS / "sv-run-log.md"
+    if p.exists():
+        for ln in p.read_text().splitlines():
+            m = re.match(r"- (\S+) (sv-\w+) stopped during (\S+): (.*)$", ln)
+            if m and m.group(2) in steps and (m.group(2) not in last or m.group(1) >= last[m.group(2)][0]):
+                last[m.group(2)] = (m.group(1), m.group(3), f"{m.group(2)} stopped during {m.group(3)}: {m.group(4)}")
+    p = C.RESULTS / "sv-errors.md"
+    if p.exists():
+        for ln in p.read_text().splitlines():
+            m = re.match(r"- (\S+) (sv-\w+): (.*?job `[^|`]+\|(\w+)\|[^`]*`.*)$", ln)
+            if m and m.group(2) in steps and (m.group(2) not in last or m.group(1) >= last[m.group(2)][0]):
+                last[m.group(2)] = (m.group(1), short_to_model[m.group(4)], f"{m.group(2)} error: {m.group(3)}")
+    causes = [txt for s, (ts, mm, txt) in sorted(last.items()) if order.index(mm) <= order.index(model)]
+    rp = C.RESULTS / "refusal.md"
     if rp.exists():
         rid = [ln for ln in rp.read_text().splitlines() if ln.startswith("Request ID")]
         causes.append("a refusal (" + (rid[0] if rid else "results/refusal.md") + ")")
@@ -62,7 +74,7 @@ def sentences(step, res):
         n = NAME[m]
         st = d["status"]
         if d.get("not_run"):
-            out.append(f"{n}: not run ({st['items'] - st['missing']} of {st['items']} items complete; stopped by {stop_cause(m)}).")
+            out.append(f"{n}: not run ({st['items'] - st['missing']} of {st['items']} items complete; stopped by {stop_cause(m, step)}).")
             continue
         if not d["testable"]:
             word = {"b1": "too few changed answers to test", "b2": "too few declines to test",
