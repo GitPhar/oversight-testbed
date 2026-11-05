@@ -18,6 +18,8 @@ export const CATALOG = [
   { p: "window-vignettes", kind: "Retired", blurb: "Notes from the “window” visualiser, which was retired because it was too complicated to help anyone." },
 ];
 export const ENGINE_DOCS = [
+  { p: "engine/paper/plain-words", title: "The project in plain words", kind: "Start here · plain words", blurb: "The whole project for a reader with no research background: what each program asked, what it found, what the engine's score means, what the audits caught, and what is still missing." },
+  { p: "engine/application/one-page-plain", title: "One page, plain words", kind: "One page · plain words", blurb: "The same, in 300 words." },
   { p: "engine/proposal", title: "The testbed's research proposal", kind: "Engine · proposal", blurb: "The research proposal for the testbed itself: five questions about calibration, audit, human oversight, path dependence and where good bets come from." },
 ];
 const SKIP = new Set(["README"]);
@@ -26,8 +28,10 @@ const SKIP = new Set(["README"]);
 export async function loadPaper(name) {
   const prog = SITE.programs["entangled-mind"];
   if (name.startsWith("engine/")) {
-    const f = name.slice(7);
-    return { text: await getText(`${DATA}engine/${f}.md`), base: `${DATA}engine/`, repo: SITE.engineRepo, blobBase: `${SITE.engineRepo}/blob/main/` };
+    const f = name.slice(7);                       // "proposal", or "paper/plain-words" for a file in a subfolder
+    const dir = f.includes("/") ? f.slice(0, f.lastIndexOf("/") + 1) : "";
+    return { text: await getText(`${DATA}engine/${f}.md`), base: `${DATA}engine/${dir}`, repo: SITE.engineRepo,
+      blobBase: `${SITE.engineRepo}/blob/main/${dir}`, source: `${SITE.engineRepo}/blob/main/${f}.md` };
   }
   const base = `${DATA}programs/entangled-mind/paper/`;
   let text = await getText(`${base}${name}.md`);

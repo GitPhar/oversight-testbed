@@ -5,7 +5,7 @@ header();
 const main = document.getElementById("main");
 
 const GROUPS = [
-  ["Read these first", (k) => /main paper|short paper|theory|one page/i.test(k)],
+  ["Read these first", (k) => /plain words|main paper|short paper|theory|one page/i.test(k)],
   ["The maps and the record", (k) => /map|record|related/i.test(k)],
   ["The engine", (k) => /engine/i.test(k)],
   ["Working notes and earlier drafts", () => true],

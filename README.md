@@ -2,6 +2,8 @@
 
 A scalable-oversight testbed for AI-driven research. The AI maps every candidate path and bets on them with stated odds; a human steers; an independent auditor tries to break every result; both the AI and the human are scored on their judgment. Built for trust, not volume.
 
+**New here? Start with [the project in plain words](paper/plain-words.md)** (under 1,500 words, no jargon) or [the same on one page](application/one-page-plain.md).
+
 Read in this order: `CONTEXT.md` (the living brain, rewritten nightly), `TASKS.md` (open items, decisions made, what waits on whom), `ARCHITECTURE.md` (the loop in pseudocode), `proposal.md` (the research proposal for the engine itself).
 
 ## The five commitments

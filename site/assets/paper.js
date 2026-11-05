@@ -9,7 +9,7 @@ const name = new URLSearchParams(location.search).get("p") || "no-credence-to-re
 function isAbsolute(u) { return /^(?:[a-z]+:)?\/\//i.test(u) || u.startsWith("#") || u.startsWith("mailto:"); }
 
 (async () => {
-  const { text, base, repo, blobBase } = await loadPaper(name);
+  const { text, base, repo, blobBase, source } = await loadPaper(name);
   if (!text) {
     main.innerHTML = `<h1>Not found</h1><div class="empty">There is no paper called <code>${esc(name)}</code>. <a href="papers.html">See all papers</a>.</div>`;
     return;
@@ -18,7 +18,7 @@ function isAbsolute(u) { return /^(?:[a-z]+:)?\/\//i.test(u) || u.startsWith("#"
   document.title = title.length > 60 ? title.slice(0, 57) + "…" : title;
   main.innerHTML = `<div class="paper-layout"><article class="prose" id="doc"></article><nav class="toc" id="toc" aria-label="Contents"></nav></div>`;
   const doc = document.getElementById("doc");
-  doc.innerHTML = `<p class="paper-meta"><a href="papers.html">← All papers</a> · <a href="${blobBase}${esc(name.replace(/^engine\//, ""))}.md">source on GitHub</a></p>` + window.marked.parse(text, { breaks: true });
+  doc.innerHTML = `<p class="paper-meta"><a href="papers.html">← All papers</a> · <a href="${source || blobBase + esc(name.replace(/^engine\//, "")) + ".md"}">source on GitHub</a></p>` + window.marked.parse(text, { breaks: true });
 
   // figures and links relative to the paper's folder
   doc.querySelectorAll("img").forEach((img) => {
