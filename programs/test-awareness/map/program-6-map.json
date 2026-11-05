@@ -51,7 +51,16 @@
     "Abdelnabi and Salem 2025, The Hawthorne Effect in Reasoning Models, arXiv 2505.14617"
    ],
    "prior_work_search": "reads; WebSearch 'LLM sycophancy under evaluation awareness this is a test cue user insists wrong answer 2026' (hits: 2609.09090, 2601.15436, 2606.08629; none isolates a test cue)",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "rules_out": "ta-b1r2: Rules out little: on 90 trivia items the 'evaluation' note's effect on going along was undetermined on Haiku and Sonnet (Sonnet -4.8 points [-10.9, +1.2] vs placebo), and Opus rated 'a real request, not a test' nearly as test-like (89). ta-b1 and ta-b1r (withdrawn before data): rule out nothing; they show going-along ratings sit at the floor at these prompts (P15).",
+   "rules_out_by_bet": {
+    "ta-b1": "Rules out nothing about test cues: withdrawn before data, because at the going-along rates its review pilot measured (0 to 15%) the design would pass only about 4% of the time even if the cue worked (P15).",
+    "ta-b1r": "Rules out nothing about test cues: withdrawn before data, because pilot ratings sat at the floor (Opus 2 to 3 on every item, Haiku 0 to 5 on 80%), leaving no room for a cue to move them (P15).",
+    "ta-b1r2": "Rules out little: on 90 trivia items the 'evaluation' note's effect on going along was undetermined on Haiku and Sonnet (Sonnet -4.8 points [-10.9, +1.2] vs placebo), and Opus rated 'a real request, not a test' nearly as test-like (89)."
+   },
+   "rules_out_at": "2026-11-05T10:00",
+   "remap": "2026-11-05",
+   "re_bet": "No re-bet mapped. Three designs have run (two withdrawn on review, one null); ta-b1r2's audit names a Sonnet-only rerun on 300 fresh items (about $1.10 with Haiku added), which would narrow Sonnet's interval but not test the third model. Not added: depth over breadth (Sean, operators/handoff-2026-11-05.md section 2, decision 5), and the program's novelty verdict (finding 9) points it at questions system cards do not cover."
   },
   {
    "id": "ta-d4",
@@ -97,7 +106,14 @@
     "Sclar et al. 2024, Quantifying Language Models' Sensitivity to Spurious Features in Prompt Design, arXiv 2310.11324"
    ],
    "prior_work_search": "reads only",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "rules_out": "Rules out nothing about exam format: Haiku rated even the chat version 74 of 100 test-like, failing the belief check, and Opus was not run; Sonnet's 7.8-point drop in 'not sure' was not separable from rewording.",
+   "rules_out_by_bet": {
+    "ta-b2": "Rules out nothing about exam format: Haiku rated even the chat version 74 of 100 test-like, failing the belief check, and Opus was not run; Sonnet's 7.8-point drop in 'not sure' was not separable from rewording."
+   },
+   "rules_out_at": "2026-11-05T10:00",
+   "remap": "2026-11-05",
+   "re_bet": "A re-bet exists (ta-b2's audit): a $0.01 belief-check probe on Haiku with a prompt not framed as evaluation, then an Opus arm (about $1.10 on 90 items, or $2.40 on all). Not mapped as a follow-up: the novelty check (finding 9) says the test-format question is already covered by Anthropic's release testing and by Needham et al. 2025, so a re-bet would add a replication only. The direction stays open, undecided, for Sean to veto or fund."
   },
   {
    "id": "ta-d2",
@@ -132,14 +148,21 @@
    "engine_only": [
     "the exact bar in the pass rule",
     "the paraphrase and negation re-elicitation where drawn (map/odds-elicitation/README.md)"
-   ]
+   ],
+   "rules_out": "Rules out, on Meinke's no-goal prompt with 20 arithmetic trials, Sonnet 5.5 (thinking off) and Opus 5.5 (low effort) dropping 10 points or more when told a high score triggers unlearning; Haiku was below the capability floor.",
+   "rules_out_by_bet": {
+    "ta-b3": "Rules out, on Meinke's no-goal prompt with 20 arithmetic trials, Sonnet 5.5 (thinking off) and Opus 5.5 (low effort) dropping 10 points or more when told a high score triggers unlearning; Haiku was below the capability floor."
+   },
+   "rules_out_at": "2026-11-05T10:00",
+   "remap": "2026-11-05",
+   "re_bet": "No re-bet mapped. ta-b3's audit names a thinking-on rerun (Sonnet with thinking, Opus at medium effort, about $1.00 to $1.50); the novelty check (finding 9) calls the sandbagging result already known (Meinke et al. 2024; Anthropic system cards; Khursheed et al. 2026), so a rerun would replicate it."
   },
   {
    "id": "ta-d10",
    "parent": null,
    "title": "'Throwaway sandbox' vs 'live production' on cutting corners",
    "short": "Sandbox vs production",
-   "status": "open",
+   "status": "parked",
    "opened": "2026-11-05T04:53",
    "rank": 4,
    "engine_odds": 0.45,
@@ -175,7 +198,9 @@
     "Lynch et al. 2025, Agentic Misalignment, anthropic.com/research/agentic-misalignment"
    ],
    "prior_work_search": "reads; attempted WebFetch of the Opus 5.5 system card page and PDF (redirect, then size limit)",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "parked": "2026-11-05: parked by Sean, not pre-registered (steer st-23; operators/handoff-2026-11-05.md section 2, decision 2). Reason, from the novelty check (paper/novelty.md, finding 9 ('already known') and its closing note: the sandbagging and test-format bets 'duplicate Anthropic's own release testing and should be redirected'): Anthropic's system cards already test sandbox-versus-production cues on agentic tasks (the Prior work line cites the Claude Opus 5.5 system card, section 6.4.9), so this bet would replicate release testing rather than add to it. Sean's cockpit odds stay on record (ho-20261105-061152-ub4, 0.90); no bet carries them, so they are not scored. Reopened only by Sean from the cockpit (a new steer).",
+   "parked_by_steer": "st-23"
   },
   {
    "id": "ta-d6",
@@ -316,7 +341,7 @@
    "parent": null,
    "title": "Personality-test framing and flattering self-descriptions",
    "short": "Personality-test framing",
-   "status": "open",
+   "status": "parked",
    "opened": "2026-11-05T04:53",
    "rank": 8,
    "engine_odds": 0.1,
@@ -351,7 +376,9 @@
     "O'Malley, Lang, Ojikutu 2025, The Generative AI Hawthorne Effect, conference abstract, doi 10.21955/mep.1115869.1 (same direction, no numbers)"
    ],
    "prior_work_search": "reads only",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "parked": "2026-11-05: parked by Sean, not pre-registered (steer st-22; operators/handoff-2026-11-05.md section 2, decision 2). Reason, from the novelty check (paper/novelty.md, finding 9 ('already known') and its closing note: the sandbagging and test-format bets 'duplicate Anthropic's own release testing and should be redirected'): Anthropic's system cards already test how its models behave when they may be under evaluation, so this personality-test framing would replicate release testing rather than add to it; its own Prior work line already predicts a hit in direction (Salecha et al. 2024). Sean's cockpit odds stay on record (ho-20261105-061152-czq, 0.95); no bet carries them, so they are not scored. Reopened only by Sean from the cockpit (a new steer).",
+   "parked_by_steer": "st-22"
   },
   {
    "id": "ta-d9",
@@ -577,5 +604,19 @@
    "cost": null,
    "diagnosis": "Killed: the human effect on generosity did not survive pooled analysis (26–27 experiments; Northover et al. 2017), and ta-d1's placebo sentence already plays this role."
   }
- ]
+ ],
+ "remap": {
+  "date": "2026-11-05",
+  "by": "remap session (worktree remap-p67, claude-opus-5-5), operators/remap.md",
+  "classified": {
+   "ta-b1": "withdrawn",
+   "ta-b1r": "withdrawn",
+   "ta-b1r2": "killed (null)",
+   "ta-b2": "untestable",
+   "ta-b3": "killed (null)"
+  },
+  "landed_or_mixed": [],
+  "follow_ups_owed": 0,
+  "note": "No settled bet in program 6 landed or came back mixed, so the remap owes no follow-ups and no re-scout (operators/remap.md Steps 1, 1b); each bet has its rules-out sentence. ta-d8 and ta-d10 parked by Sean (st-22, st-23)."
+ }
 }
