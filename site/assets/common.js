@@ -8,12 +8,14 @@ export const SITE = {
   operator: "Sean Pharris",              // the human whose odds and steers the cockpit records
   // Every program lives inside the engine repo as programs/<name>/, with its history imported (git subtree),
   // so commit hashes in the ledger resolve in the engine repo. Program 1's standalone repo is its historical record.
-  programs: Object.fromEntries(["entangled-mind", "other-minds", "nature-graded", "settled-science", "test-awareness", "said-vs-did"].map((name) => [name, {
+  // Any programs/<name> gets the same four links, so a new program's result files link correctly the day it
+  // lands in the ledger (program 5's did not: it was missing from a hand-kept list).
+  programs: new Proxy({}, { get: (_, name) => typeof name !== "string" ? undefined : ({
     commit: "https://github.com/GitPhar/oversight-testbed/commit/",
     blob: `https://github.com/GitPhar/oversight-testbed/blob/main/programs/${name}/`,
     raw: `https://raw.githubusercontent.com/GitPhar/oversight-testbed/main/programs/${name}/`,
     home: `https://github.com/GitPhar/oversight-testbed/tree/main/programs/${name}`,
-  }])),
+  }) }),
   history: { "entangled-mind": "https://github.com/GitPhar/entangled-mind" },   // left untouched; history to 795dadb
 };
 
@@ -22,7 +24,7 @@ export const DATA = "data/";
 // Names for programs whose map is not deployed with the site (their map file lives only under programs/<name>/map/).
 const PROGRAM_NAMES = { "entangled-mind": "Program 1: The Entangled Mind", "other-minds": "Program 2: Other Minds",
   "nature-graded": "Program 3: Nature-Graded", "settled-science": "Program 4: Settled Science",
-  "test-awareness": "Program 6: Test Awareness",
+  "self-grading": "Program 5: Self-Grading", "test-awareness": "Program 6: Test Awareness",
   "said-vs-did": "Program 7: Said vs Did" };
 export function programTitle(id, programs = []) {
   return programs.find((p) => p.id === id)?.title || PROGRAM_NAMES[id] || id;
@@ -31,7 +33,9 @@ export function programTitle(id, programs = []) {
 const PAGES = [
   ["index.html", "Home"],
   ["map.html", "Map"],
+  ["replay.html", "Replay"],
   ["cockpit.html", "Cockpit"],
+  ["human.html", "The human hand"],
   ["calibration.html", "Calibration"],
   ["instruments.html", "Instruments"],
   ["kills.html", "Kill log"],

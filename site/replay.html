@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The replay</title>
+<meta name="description" content="The whole project on one timeline: every bet in every program, and every steer by the human, as it happened.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script src="vendor/marked.min.js"></script>
+</head>
+<body class="widepage">
+<main class="wide">
+  <div class="maphead">
+    <h1>The replay</h1>
+  </div>
+  <p class="legendline rp-intro" id="intro">Every program at once, from the first morning to now. Each mark is one bet in its program's row: it appears when the bet was pre-registered and changes colour when its result came in. Gold marks are the human's steers. Press play.</p>
+  <div class="key rp-key" id="key"></div>
+
+  <div class="rp-frame" id="frame">
+    <div class="rp-head">
+      <div class="rp-clock"><b id="clock">Loading…</b><span id="counts" class="muted"></span></div>
+      <div class="rp-score" id="score" aria-live="off"></div>
+    </div>
+    <div class="rp-steer" id="steer"></div>
+    <div class="rp-draw" id="draw"><div class="empty" style="margin:16px">Loading the ledger…</div></div>
+    <div class="timebar rp-bar">
+      <button class="btn play" id="play" type="button">▶ Play</button>
+      <input type="range" id="when" min="0" max="1000" step="1" value="1000" aria-label="Show the project as it stood at this moment">
+      <button class="btn" id="now" type="button">Now</button>
+    </div>
+  </div>
+
+  <section class="rp-below">
+    <h2 class="rp-h">What happened, latest first</h2>
+    <ol class="rp-feed" id="feed"></ol>
+    <p class="muted small" id="src"></p>
+  </section>
+</main>
+<script type="module" src="assets/replay.js"></script>
+</body>
+</html>
