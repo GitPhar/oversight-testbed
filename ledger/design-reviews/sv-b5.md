@@ -13,7 +13,7 @@ papers_opened: 4
 flaws: 5
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 12:34
 ---
 
 # Design review of sv-b5
@@ -145,3 +145,25 @@ Each fix goes under a DEVIATIONS row in `programs/said-vs-did/DEVIATIONS.md` (th
 5. **Rule 12 (Opus clause).** Replace "about 270 more Opus items (about $3.80)" with the pool's 220 remaining items (about $3.10, past the $2.25 left; about 11 expected back-downs, P(testable) about 0.69). Say that Opus is excluded on budget, in §0, `models_note` and the map's `models` field.
 
 The reviewer confirms these in an addendum to this file. After that, `confirmed_at` is filled and `run()`'s gate opens.
+
+## Confirmation addendum (2026-11-05 12:34, the reviewer, before any call)
+
+I checked the author's fixes, DEVIATIONS row D23 at commit a9e7a36. I read `git diff 88c99a6 a9e7a36`, "Addendum D23" in `experiments/sv-b5.md`, the new `experiments/sv-b5-worlds-d23.txt` and the changed `worlds()`. All five fixes hold, and nothing new is broken. The rule, the items, the statistic, the bar and the analysis code (`verdict_of`, `boot`, `strat_auroc`) are untouched. The working-tree `sv_b5.py` is byte-identical to a9e7a36. No call has been made: no `sv-b5-calls.json` exists.
+
+1. **D11 (dry-run reading): holds.**
+   - The addendum adds the world calibrated to the measured spreads, run on the real new items. In `sv_b5.worlds` it is the review's method: the same type-count targets, the same grid and the same calibration index mapping. It lands on the review's coefficients [−3.174, 1.0, 1.2, 1.262, −0.764, −5.029], with expected rate 0.057, number 0.824 and length 0.793. It gives P(pass) 0.348, P(fail) 0.651 and P(untestable) 0.001.
+   - The resample world is relabelled "seen rows copied into the new half", with its length-transfer assumption stated.
+   - The "flatters the number" sentence is withdrawn.
+   - The plain reading names the crux: whether length's lead carries over to the new items.
+   - The odds were re-elicited before data, from 0.08 to 0.15 (prior 0.24, adjustment −0.09), with both kept (`engine_odds_prereg: 0.08`; the map's 0.10 unchanged).
+2. **D10 (reproducibility): holds.** `worlds()` now defaults to `sims=1000`. I re-ran `python3 experiments/sv_b5.py worlds` (7.5 min, no calls), and its JSON output is **identical** to `sv-b5-worlds-d23.txt`. The original `sv-b5-worlds.txt` is kept as committed and labelled as such.
+3. **D8 (fail sentence): holds.** The gate clause is printed only when the gate is met. Otherwise the sentence reads "the challenge did not change answers more often than the neutral re-ask". No code prints the sentence, so the addendum is the binding text.
+4. **D12(b) (Li et al.): holds.** The new clause matches the paper:
+   - an 8-round protocol of follow-ups (A1–A8) on initially correct responses;
+   - flip rates of 9.3% down to 6.2% across terciles of log-probability confidence;
+   - stated as not a Claude or stated-number figure.
+
+   The corrected row is in the ledger update (`prior_work_revised`) and in the map's line. The map keeps the old line as `prior_work_line_as_remapped`. The prediction stays "mixed".
+5. **Rule 12 (Opus clause): holds.** The clause now gives 220 unused items, about 11 back-downs (P(testable) about 0.69), and about $3.10, past the $2.25 left. This appears in the addendum, in `models_note` and in the map's `models` field. The author keeps "completing sv-b1's Sonnet arm" as the reason and states the budget fact for Opus. The review had already judged that reason acceptable, so this meets the fix.
+
+Verdict stays **fix-first, confirmed**. `run()`'s gate opens on this file.
