@@ -30,9 +30,11 @@ We asked the engine's own model to say which way 184 published findings went, wi
 | ss-b2 | 30 | **pass, unreplicated** | The bettor beat a predictor that only knows papers tend to report that their own method works. |
 | ss-b3 | 35 | **pass, unreplicated** | The bettor scored better on papers it may have read than on papers it cannot have read, consistent with memory (or with the older items being easier; this design cannot separate the two). |
 
+All three verdicts come from one bettor run on one item set; they are one piece of evidence scored three times in the ledger, not three replications (round-3 audit).
+
 **Scope (D20):** the bettor ran with adaptive thinking at effort low (the least thinking claude-opus-5-5 allows), with its reasoning hidden; every verdict above is about the bettor at that setting, not about the same model with thinking off or at higher effort.
 
-Leave-one-item-out (D16, 10,000 resamples per bound): no single item flips any of the three labels, so none is fragile. By field, ss-b1 and ss-b2 pass with any one field removed, but ss-b3 does not: without the model-psychology items its upper bound is +0.019, so the memory gap rests on that one field (pre 0.076 against post 0.235). This check was not pre-registered (audit).
+Leave-one-item-out (D16, 10,000 resamples per bound): no single item flips any of the three labels, so none is fragile. By field, ss-b1 and ss-b2 pass with any one field removed, but ss-b3 does not: without the model-psychology items its upper bound is +0.019, so the memory gap rests on that one field (pre 0.076 against post 0.235). This check was not pre-registered (audit). Treating the four fields as clusters, a jackknife interval on the pre-minus-post difference runs from −0.156 to +0.038 (four clusters, so wide by construction). On the 16 pre-cutoff items whose rationale recalls a specific study the Brier is 0.024, against 0.129 on the other 52, which favours memory over easiness (exploratory, round-3 audit).
 
 Engine calibration on these three: Brier (0.50−1)² + (0.30−1)² + (0.35−1)², divided by 3, gives **0.388**. Always saying 50% would have scored 0.25. With the odds written before the lesson (0.60 for ss-b1), it would have been 0.358.
 

@@ -18,7 +18,7 @@ All six use one scale direction. We then compared two descriptions:
 
 Each was scored on repeats it had not been fitted on.
 
-**What we found.** There is no single belief to read out.
+**What we found.** No single belief, read through a fixed lens per format, reproduces the answers; the follow-up (`gm3c-heldout-format.md`) finds that about 40% of each format's reproducible signal is still shared.
 - **The separate-belief model predicts held-out answers far better** on 86% of the statements, by a wide margin: +19.4 log-likelihood units per statement [+16.5, +22.1].
 - Taking any two formats, the order in which they rank the statements agrees only moderately (rank correlations 0.37–0.74). Overall agreement across all six is W = 0.56.
 - **The rating and the other formats often order the same two statements differently.** For 12–25% of statement pairs (20–30% of the pairs both formats separate), the 0–100 rating and another format put them in opposite orders.
@@ -36,7 +36,7 @@ Two things could explain the difference:
 **Caveats.**
 - **Two different criteria.** The test compares on held-out *repeats*. Smolin & Wilder judged usefulness on held-out *framings*. Haiku's repeats vary little, so any reproducible statement-by-format deviation favours the separate-belief model, even if one belief would still predict a new format reasonably well. "No single credence" holds by the pre-registered rule. It does not show that a single latent is useless, and it does not contradict Smolin & Wilder. A like-for-like follow-up would predict each left-out format from the other five. That would need its own pre-registration. (Point raised by the literature session.)
 - One model (Haiku), one context per statement.
-- **The per-format table below comes from an under-converged L1 fit** (its objective is at least 9.5 below the optimum, per the audit), so the by-format ΔLL and slopes depend on the optimiser. The headline survives an independent refit (+19.6 [+16.1, +22.9], 87% of claims).
+- **The per-format table below comes from an under-converged L1 fit** (its objective is at least 9.5 below the optimum, per the audit), so the by-format ΔLL and slopes depend on the optimiser. The headline survives an independent refit (+19.6 [+16.1, +22.9], 87% of claims). A second independent, converged refit (audit round 3, `ledger/audits/round-3/em-gm3b.md`) gives +19.4 [+16.5, +22.1] on 86%, with by-format ΔLL F1 +4.04, F2 +2.08, F3 +2.37, F4 +1.67, F5 +6.17, F6 +3.06 and an F6 slope of 4.32 on fold 0; without the coin and frequency formats the separate-belief model still wins by +11.6 [+9.7, +13.5] on 91% of claims; and a one-bit (yes/no verdict) latent with fitted per-format links is far worse than the graded one-belief model (−12.6 per claim), so Haiku's answers are graded and the round-2 Opus one-bit artefact does not transfer here.
 - Some formats, such as the coin comparison, may carry their own response biases. The per-format link absorbs any bias that is monotone, so a monotone bias is not the explanation. The ranking disagreements are.
 
 ## One credence (L1) against one credence per format (L6), held-out repeats

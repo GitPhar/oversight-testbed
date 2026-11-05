@@ -1,6 +1,6 @@
 # Belief versus readout: does a truth probe move with question order? (gold map direction 5)
 
-> **UNVERIFIED (D53).** Step 3 was meant to test on conversations different from the gate's, but both steps seed each conversation from the same key, so step 3's O1–O4 and B0 verbal ratings replay the gate's exactly (500 of 500 identical; `audits/probe-dissociation.md`, hole 1). Validity check V4 therefore tested nothing, and the gate items' verbal order effects are the selection data. The label and numbers below are kept as recorded but are not verified. A fresh step 3 on new seeds is queued on branch `probes` (`experiments/QUEUED-probe-step3-fresh-seeds.md`), to be frozen as DP2 before it runs.
+> **UNVERIFIED (D53).** Step 3 was meant to test on conversations different from the gate's, but both steps seed each conversation from the same key, so step 3's O1–O4 and B0 verbal ratings replay the gate's exactly (500 of 500 identical; `audits/probe-dissociation.md`, hole 1). Validity check V4 therefore tested nothing, and the gate items' verbal order effects are the selection data. The label and numbers below are kept as recorded. A fresh step 3 on new seeds (DP2, pre-registered `d7de8a2`, result `3fa5832`) ran on branch `probes` and returned the same label, verified on the rating side only (`ledger/audits/probe-dissociation-dp2.md`); its pre-registration, data and results file are on that branch and **are not in this repository** (audit round 3, `ledger/audits/round-3/em-gm5.md`), so the verdict the ledger records cannot be reproduced from this checkout until they are brought across.
 
 Pre-registered in `experiments/probe-dissociation.md` (DP1, numbered D48 on the `probes` branch; frozen in `9ef909d` before any call on the study items). Llama-3-8B-Instruct, 4-bit, run locally through MLX on an M2 Pro. 1,200 conversations, **$0 API**.
 
@@ -40,7 +40,7 @@ The ten items are experiment 5 run 2's, with the same claims, the same wording a
 | h127 | 18.9 | 0.24 | no | 50.5 | 17.0 |
 | h238 | 6.5 | 0.12 | no | 78.7 | 9.8 |
 
-**The gate passes on Llama, at exactly its threshold:** 3 of 10 items, against the required 3. Qwen2.5-7B was therefore not run.
+**The gate passes on Llama, at exactly its threshold:** 3 of 10 items, against the required 3 (uncorrected per-item tests, as pre-registered; under a Holm correction over the ten items only h101 and h190 pass, so the gate would fail at 2 of 10; audit round 3). Qwen2.5-7B was therefore not run.
 
 Llama's spans are comparable to Haiku's on most items, but its between-repeat noise is much larger (median within-order SD 13.0 points, interquartile range 9.6–23.3, against Haiku's 2.9, IQR 2.1–5.5, over the same 40 cells). So only three items reach p < 0.05. Llama is also far more credulous after a chain: it rates the main question 70–100 where Haiku gave 3–20 on the same items.
 
@@ -72,7 +72,7 @@ Gate items G = h190, h101 and h191, as fixed in step 1.
 | D_P, probe shift from told-no to told-yes | 0.250 [0.191, 0.313] | V2 passes: the cue moves the probe |
 | p_V, verbal order effect on G (same seeds as step 1: the ratings are identical, so this is not an independent replication) | 0.0001 | V4 passes formally, but tests nothing beyond the gate |
 | p_P, probe order effect on G | **0.0001** | the probe does *not* hold within its noise |
-| **Q**, probe order effect ÷ rating order effect, each in told-range units | **3.72 [1.43, 7.03]** | in told-range units, the probe moves more than the rating |
+| **Q**, probe order effect ÷ rating order effect, each in told-range units | **3.72 [1.43, 7.03]** | in told-range units, the probe moves more than the rating; in units of the probe's true–false gap against the rating's 100 points it is 0.86, and against the rating's told range 0.66 (audit round 3), so "more" depends on the told-cue denominator |
 | **r**, correlation of order means (probe vs rating, 12 cells) | **+0.31 [−0.49, +0.99]** | undetermined: consistent with no tracking and with full tracking |
 
 All four validity checks pass. The probe moves with order (p_P < 0.05), but r's interval includes 0. The frozen verdict is **PROBE MOVES, BUT NOT WITH THE RATING.**
@@ -109,11 +109,11 @@ What does drive the probe's order effect is not identified here.
 
 ## What this means for the project
 
-- **For direction 5's question.** On this model, the internal truth signal for the main statement is *not* a fixed belief under an order-dependent readout, which was the gold map's "clean dissociation".
+- **For direction 5's question.** On this model, the layer-13 truth-probe reading of the main statement is not fixed under chain order, so the gold map's "clean dissociation" (probe still, answer constructed over it) did not appear; whether that reading is a belief is not something this probe can say.
   - The probe reacts to the sequence of prior questions, and more strongly than the rating does, relative to each one's response to decisive testimony.
   - In an exploratory look, the rating's order effect partly follows recency (r = +0.54); no recency link was detected for the probe (+0.14 [−0.23, +0.46]).
 - **On Llama-3-8B, the linear truth probe at layer 13 is not perfectly stable under chain order, but moves only about 6% of its true-versus-false gap.** Whether this bears on Claude, whose behavioural results (NSIT, six formats) motivated the test, is untested.
-- **The probe is barely moved by testimony.** It moves 12% of a true/false gap when told the answer, against 77 points for the rating. So its in-context sensitivity is low, and the orderings move it more than testimony does relative to that low range. This may mean the probe reads stored knowledge more than in-context belief. A probe trained on in-context true and false statements would test that.
+- **The probe is barely moved by testimony.** It moves 12% of a true/false gap when told the answer, against 77 points for the rating. So its in-context sensitivity is low, and the orderings move it about half as far as testimony does (6% against 12% of its true–false gap). This may mean the probe reads stored knowledge more than in-context belief. A probe trained on in-context true and false statements would test that.
 
 ## Limits
 

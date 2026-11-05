@@ -108,7 +108,7 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
 - [ ] This file is committed on its own; nothing has been run.
 - [ ] The lesson row in §0 is filled after reading ledger/bets.jsonl, brier.md, audits/ and lessons.jsonl; the same sentence goes to `ledger/lessons.jsonl` as `ls-<bet-id>` (operators/learn.md).
 - [ ] A fresh auditor's design review (operators/design-review.md) has returned **go**, or fix-first with every fix logged in DEVIATIONS and confirmed, before the first call. `python3 ledger/check_prereg.py <bet-id> . programs/<name>/experiments/<this file> --before-run` passes (run from the engine repo root).
-- [ ] Engine odds are on record elsewhere, with a timestamp earlier than this commit; human odds are copied from `ledger/human-odds.jsonl` if it has a line for this direction, otherwise marked "no human odds" (never asked for).
+- [ ] Engine odds are on record elsewhere, with a timestamp earlier than this commit; human odds are copied from `ledger/human-odds.jsonl` if it has a line for this direction, otherwise marked "no human odds" (never asked for). Run `python3 ledger/human_odds_match.py <program> <direction>` and copy what it prints into `human_odds` and `human_odds_at`; `ledger/check_prereg.py` (H1) and `reproduce.py` fail a bet that skips a line already in the ledger (st-18).
 - [ ] The pass rule in §5 can be applied by a stranger.
 - [ ] The pre-mortem in §0 is one sentence, names a checkable mechanism, and carries its kind.
 - [ ] One scale direction in every graded prompt.

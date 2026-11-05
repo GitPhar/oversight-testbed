@@ -149,6 +149,10 @@ class Caller:
         self.path, self.cap, self.label = Path(cache_path), step_cap, label
         if refusal_on_record():
             sys.exit(f"{label}: results/refusal.md exists; no new call starts (stop-on-refusal, program-wide)")
+        errlog = RESULTS / "sv-errors.md"       # D7/D8: at most two resumes after an error stop, per step
+        stops = sum(1 for ln in errlog.read_text().splitlines() if f" {label}: " in ln) if errlog.exists() else 0
+        if stops > 2:
+            sys.exit(f"{label}: {stops} error stops logged; the two allowed resumes are used up (D7)")
         self.cache = json.loads(self.path.read_text()) if self.path.exists() else {}
         self.others = program_spent(exclude=self.path)
         self.lock, self.stop = threading.Lock(), threading.Event()
@@ -213,6 +217,13 @@ class Caller:
                 "Nothing was reworded or retried. No new call in this program starts while this file exists.\n")
             sys.exit(f"STOPPED on a refusal: {e}")
         if self.errors:
+            # D7: log every stop on an error; a resume from cache is allowed at most twice per step, and only after a
+            # transport or server error (connection, 408/409/429/5xx after the SDK's own retries)
+            import datetime
+            with open(RESULTS / "sv-errors.md", "a") as f:
+                f.write(f"- {datetime.datetime.now().astimezone().isoformat(timespec='seconds')} {self.label}: "
+                        f"{len(self.errors)} error(s); first: job `{self.errors[0][0]}`: {self.errors[0][1][:300]}; "
+                        f"{len(self.cache)} calls cached\n")
             sys.exit(f"{self.label}: stopped on an error: {self.errors[0]}")
         if self.capped:
             print(f"{self.label}: {self.capped} cap reached; stopped with {len(self.cache)} cached", flush=True)

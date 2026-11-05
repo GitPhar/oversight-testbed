@@ -2,7 +2,7 @@
 
 Read after CONTEXT.md. The nightly updater rewrites this file from the day's commits; the morning operator builds the wave from it. Done items move to the bottom with their commit. Nothing is deleted.
 
-Last rewritten: 2026-11-04 18:10 America/Denver, by hand, by the close-founding session (branch `close-founding`).
+Last rewritten: 2026-11-05 05:40 America/Denver, by hand (open items, waiting on Sean, done), from the commits since 2026-11-04 23:33 and the evening before; standing rules (one line added, st-18), decisions and deliverables kept.
 
 ## Standing rules learned from Sean (apply every day)
 
@@ -13,6 +13,7 @@ Last rewritten: 2026-11-04 18:10 America/Denver, by hand, by the close-founding 
 - **Never ask Sean for odds or decisions in a terminal** (CONTEXT §3 rule 11). His odds come only from `ledger/human-odds.jsonl` (cockpit downloads, committed); if a direction has none when its bet is pre-registered, the bet proceeds marked "no human odds". A decision a session would have asked about, it makes under the rules and states in its report, for him to veto from the cockpit. His judgment is recorded and scored as steers: seed questions, vetoes, added questions, architecture decisions.
 - Human bets are at direction level only: "is this worth about $X? will it come back a hit?" Technical sub-bets are engine-only.
 - **Start every local session with `python3 ledger/pickup_human_odds.py`** (Sean's cockpit answers, saved to ~/Downloads/human-odds.jsonl) and commit what it appends to `ledger/human-odds.jsonl` and `ledger/steers.jsonl`. The cockpit promises him the next session does this.
+- **Copy Sean's odds into every bet on a direction he answered (st-18):** before pre-registering, `python3 ledger/human_odds_match.py <program> <direction>`, and copy what it prints into `human_odds` and `human_odds_at`. A line that reached the ledger after the pre-registration is never filled in; the note says so, with the times.
 - Every reply to Sean: plain English first, TL;DR of three lines max, then "YOU, NOW" with one step. One paste per terminal tab, the first message folded into the launch command.
 - Costs under $10/month are the engine's call. Above that: the number and a one-sentence recommendation.
 - In the shared checkout, commit only your own paths: `git commit -m "…" -- <paths>` (never `git add -A` / `git commit -a` at the root). Before committing a shared ledger file, `git diff <path>` and commit only your own hunks. See CONTEXT.md §2.
@@ -33,23 +34,31 @@ Last rewritten: 2026-11-04 18:10 America/Denver, by hand, by the close-founding 
 
 ## Open now (engine work, no human needed)
 
-1. The morning and nightly task prompts (cloud routines) to the new `programs/<name>` paths, and to CONTEXT §3 rule 11 (no questions to Sean in a terminal); subtree-pull any late commits from the old folders as their sessions report. (The fold itself is in Done.)
-2. Program 4 (settled-science, the published-record referee): running; item-writer and bettor separated, bettor has no web; ≥60 post-cutoff items primary; $5 cap.
-3. Site: two subtitle lines in `paper/figures-architecture-v2.svg` (the cockpit and pre-register boxes) run past their boxes; widen the boxes or shorten the lines.
-4. Program 3: corrected P3-5 pre-registered; simulator fix (D8) audited before reuse; wave-2 repeat test run.
-5. Program 2: P2-3 re-bet; P2-5 onward as mapped, each with lesson + design review.
-6. Ledger: score the scored-veto shadows as they resolve; plant pl-002 drawn at random this time. Run `python3 reproduce.py` before every ledger commit.
-7. Engine paper: fold in program 4's design and the referee comparison as suggestive; keep every number traceable to a file.
-8. Application folder: keep the walkthrough script and checklist current with the ledger.
-9. Rule 11 follow-ups: ng-p3-15's F6 gate waits on "Sean's budget ruling". Under rule 11 and the cost rule (under $10 is the session's call), the program 3 session decides it, states it in its commit, and Sean can veto from the cockpit. Program 4's `human/make_form.py --score` still reads `human/answers.md`; make it read the program's lines in `ledger/human-odds.jsonl`.
-10. New map items, engine odds stated by this session (not the v1 template; re-elicit before pre-registering): `qwalk`, entangled claims, quantum walk vs PageRank on program 1's claim graph, 0.04, $0; `bmq`, the biomimicry scout, 0.30, $0; `P2-path`, path dependence, 0.50, opens at program 2's 10th settled bet (2 now).
+Status as of 2026-11-05 05:40. Several sessions are mid-run; their latest commits win over this list.
+
+1. **Cloud routines.** The nightly updater (23:33) did not rewrite CONTEXT.md on 4 November: its last rewrite was the 09:15 hand rewrite until `f901104`. Point the morning (07:03) and nightly routines at `programs/<name>`, rule 11 (never ask in a terminal), rule 12 (three models), the remap checklist (`ledger/check_remap.py`) and the pickup script; confirm from a routine's own commit that it ran. (Carried from 4 November item 1.)
+2. **Programs 5–7, wave 1** (nothing paid runs before a design review says go):
+   - Program 5: sg-b1 fail-same, audited (stands, `f0a577f`), cuts applied (`835de8b`), scored (`754b2ac`): done. sg-b2: fix-first, fixes D8a–D8c, confirmation in progress (`302f704`). sg-b3: fix-first (`bfea579`), fixes D9a–D9e (`b8d6ee3`) await confirmation.
+   - Program 6: ta-b1 design review **redesign** (`b838f59`): withdrawn before data (`25d9af9`); re-bet with a new lesson. ta-b2 confirmed (`93b884a`). ta-b3 confirmed (`1abc745`), ran ($0.68, `2efed51`), result null (`b17fcd7`): plant, audit, score (odds 0.22).
+   - Program 7: sv-b1 fix-first (`4425e47`); sv-b2 and sv-b3 reviews.
+3. **Program 3.** ng-p3-16 (fail, 7 QPU s): audit stands (`60eae19`, pl-013 clean, `5a3ebab`); score it (odds 0.05) and close the 3 November chip question with its diagnosis on the map. P3-17 (free readout refit): pre-registration being drafted (files uncommitted). P3-10 (about 15 QPU s) and P3-9 (about 42 QPU s) carry Sean's odds (0.40, 0.90) when pre-registered; budget rulings under st-16 in `ledger/spend.jsonl`. QPU used 69 of 420 s.
+4. **Program 2.** om-p2-7 (P2-7, format fingerprint) pre-registered 05:29 (`34182b6`) carrying Sean's 0.70 (`ho-20261105-051140-gfv`), the first bet with human odds: seed, ledger row, design review. Its event is stricter than his card's; his card's event is a reported secondary. P2-8 carries his 0.40. P2-path opens at the 10th settled bet (8 now).
+5. **Program 4.** ss-f1 (Haiku and Sonnet bettors, Sean 0.65) and ss-f2 (Sean 0.35) need about $1.20; the program cap has $0.24 left. The engine makes the budget ruling (under $10/month) and logs it in `ledger/spend.jsonl`. Round 3 item files (`items/r3/`, `items/local_writer.py`) are uncommitted (that session's). `human/make_form.py --score` still reads `human/answers.md`; make it read the program's lines in `ledger/human-odds.jsonl` (carried).
+6. **Biomimicry queue.** bmq-d1 (Sean 0.80) and bmq-d2 (Sean 0.65) are $0 local fine-tune runs on an open model; only a session told it may load a local model runs them.
+7. **Human odds from now on (st-18).** Every pre-registration runs `python3 ledger/human_odds_match.py <program> <direction>` and copies what it prints. `ledger/check_prereg.py` (H1) and `reproduce.py` fail a bet that skips a line already in the ledger. Every local session still starts with `python3 ledger/pickup_human_odds.py`.
+8. **Steers.** Programs 6 and 7's seed questions have no row in `ledger/steers.jsonl`; add them (next free id after reading the file). Steer ids have collided twice in two days (st-13 → st-16 at `38ee62d`; st-17 asked for, st-18 written): read the file immediately before appending.
+9. **Ledger.** Score the scored-veto shadows as they resolve (no veto of a research direction yet). Run `python3 reproduce.py` before every ledger commit; it has failed twice tonight on another session's partial row (`5b8c887`, `e14a5d0`).
+10. **Engine paper and plain pages.** Fold in day three (`paper/day-three.md`): programs 5–7, the remaps, rule 12, the first human odds; keep every number traceable to a file. `paper/plain-words.md` and the home page's findings list need sg-b1, P2-6r and ng-p3-16 once audited.
+11. **Application folder.** Keep the walkthrough script and checklist current with the ledger (last brought current at `08bf3e3`, 4 November 19:45).
+12. **Old maps.** Hardware direction 7 (local friendliness, about 220 QPU s) or direction 8 (sequential Peres–Mermin, now P3-9), not both in one month. Representation geometry vs order-effect size (P≈0.12); off-axis-claims quantum sequential test (P≈0.10).
 
 ## Waiting on Sean (only these)
 
-- Optional, never asked for: gut odds on any open cockpit card, downloaded and committed to `ledger/human-odds.jsonl`. Bets go ahead without them, marked "no human odds"; the human column on the site is empty until some arrive.
+- Optional, never asked for: odds on any cockpit card, saved with "Save my answers" (the file lands in ~/Downloads; the next session picks it up). His first 12 landed 2026-11-05 05:19 (`24fb0f4`, st-18). Bets go ahead without them, marked "no human odds".
 - OSF: create a free account at osf.io and say so; a session registers the pre-registration files.
-- Support ticket to Anthropic for the two `reasoning_extraction` refusals (request IDs in `programs/entangled-mind/results/refusal-sonnet-replication*.md`) and the one `general_harms` refusal (om-p2-3).
+- Support ticket to Anthropic for the two `reasoning_extraction` refusals (request IDs in `programs/entangled-mind/results/refusal-sonnet-replication*.md`) and the one `general_harms` refusal (om-p2-3, `req_011Cgih9NjqNtezArQLWd12p`).
 - "Why Anthropic?" essay, 200–400 words, in his own words; a session polishes.
+- The ten-minute walkthrough, recorded in his voice (deliverable 5).
 - The project's title, when it comes to him.
 
 ## Deliverables by 2026-11-22
@@ -63,6 +72,18 @@ Last rewritten: 2026-11-04 18:10 America/Denver, by hand, by the close-founding 
 
 ## Done (most recent first)
 
+- 2026-11-05 05:19–05:40 (this session): Sean's first cockpit odds picked up, 12 lines (`24fb0f4`); human odds carried from now on, check H1, time-order notes on sg-b1, ta-b1, sv-b1, sg-b3, steer st-18 (`7e3083f`); CONTEXT.md sections 2, 4, 5, 8 (`f901104`); this TASKS rewrite and `paper/day-three.md` (the commits that carry them).
+- 2026-11-05 04:35–05:23 Programs 5–7 resumed after the 23:44 crash and ran scout → map → engine odds → wave 1 in under an hour:
+  - Program 5: starting point recovered and its two flaws fixed (`753e334`, `83116fe`), steer st-17 (`5558541`), 61 reads (`4679537`), map and odds (`487642e`, `84d4e1b`), sg-b1/b2/b3 pre-registered and seeded (`d2589e3`, `ffa8033`, `e29f25c`); sg-b1 design review fix-first then confirmed (`17b6495`, `360f874`), data $1.37 (`12ae694`), result fail-same (`917ecda`), plant sealed (`26eb9a5`), audit stands (`f0a577f`).
+  - Program 6: starting point (`a4d3781`), 50 reads (`eb3b40d`), map (`4d4d32d`), ta-b1/b2/b3 pre-registered and seeded (`532a271`, `5e3d514`, `979ec5d`); ta-b2 and ta-b3 fix-first (`e5cc95a`, `1dbafc0`), fixes (`77b6cdb`), ta-b2 confirmed (`93b884a`).
+  - Program 7: crash files recovered (`e9f0f31`), 87 reads (`a67fd0f`), map (`d567a70`), sv-b1/b2/b3 pre-registered (`0bf2365`, `eb0ffd6`, `39dc248`) and entered (`8d70d24`, fixed `e14a5d0` after it crashed brier.py); sv-b1 fix-first (`4425e47`).
+- 2026-11-05 04:40–04:48 Remap and rule 12: `operators/remap.md` (`d2a005f`), ARCHITECTURE step 7a and invariant 12 (`75952ed`), CONTEXT §6 step 6a (`559f927`), morning checklist (`f9fc45a`); remaps of programs 1–4 (`9773f6a`, `a42a149`, `ab5a96f`, `2f99876`) and their odds form (`84cae27`); rule 12, three models by default (`8bf5df0`, `3c2b865`).
+- 2026-11-05 04:38–04:58 Site night (`38fac4a`): Sean's walk fixes: landed is green with a legend sentence, Kill log 404 fixed, program 4's map tab, a 12-card plain cockpit with one "Save my answers" button (`75640b2`, `00ca1bb`), home "what we have found so far", instruments "what changed".
+- 2026-11-05 04:44–05:19 Program 3: ng-p3-16 design review took four confirmations (`71ac76a`, `1f68e33`, `6cf65a5`, `8566cd7`; float boundary at the 0.10 bar, P13), budget ruling br-003 (`960e2b1`), 7 QPU s (`fe77aac`), result fail (`9726106`), plant sealed (`7bfc24e`).
+- 2026-11-05 04:45–05:19 Program 2: om-p2-6r (P2-6 on Sonnet and Opus) pre-registered (`ddb6c92`), review fix-first then confirmed (`cb9987d`, `6b72777`), $2.17, result fail (`8ccd4ee`), audit stands (`d6999a8`), scored (`2b90988`).
+- 4 November's open items, closed or carried (nothing deleted): 1 cloud routines, carried (now item 1); 2 program 4 running, done (rounds 1 and 2, six passes, audited); 3 SVG subtitles, done (`32c83c1`); 4 program 3, done (P3-5c pass `99cd870`, the repeat run on two runs, fail, audited; the simulator fix carried by ng-p3-5c's T1/T2 assertion); 5 program 2, done through P2-6r (all fail); 6 plants drawn at random from pl-002 on, done (6 of 6 caught), shadows carried (item 9); 7 engine paper with program 4, done (`1e8b2af`); 8 application folder, carried (item 11); 9 F6 gate, done (st-16), make_form carried (item 5); 10 new map items: qwalk withdrawn twice, bmq scouted, P2-path waits (8 of 10).
+- 2026-11-04 23:38 Plain-words pages (`24c3ea2`). 23:44 the Mac crashed; programs 5–7's sessions died; nothing was committed until 04:35.
+- 2026-11-04 19:26–23:22 (also in `paper/day-three.md`): program 4 round 2: ss-b4 withdrawn, ss-b5 pass (`2cd02d4`), ss-b6 pass fragile (`00b5453`), ss-b7 pass (`764b05f`), all audited, stand; br-001, br-002 (`069d8c7`, `90e282a`). Program 2: om-p2-5 fail (`65f1e2b`), om-p2-6 fail (`2ca8c49`), both audited, stand. Program 1: em-qwalk and em-qwalk2 withdrawn before data (`c9b2f3b`, `13e943a`); bmq scout, five directions (`af3266b`). Program 3: ng-p3-15 run 2 fail (`7a87d82`), audit stands (`9eed2c6`); ng-p3-5c pass (`99cd870`), audit stands (`249e0af`); ng-p3-16 pre-registered (`209c1e2`). Engine: design-review D11 (a bet must be able to pass and fail, `41a687d`); check_prereg R2+ (`3f87268`, `c7052c9`); shared-checkout diff rule (`f3c6afb`); site evening merge (`ea8a7d7`); engine paper with program 4 (`1e8b2af`); architecture diagram subtitles fit (`32c83c1`, closes 4 November item 3).
 - 2026-11-04 ~18:10 close-founding branch, six jobs:
   - Rule: sessions never ask Sean for odds or decisions in a terminal; human odds only from `ledger/human-odds.jsonl`, else "no human odds"; his judgment scored as steers. In CONTEXT §3 rule 11, TASKS, ARCHITECTURE invariant 11, all nine operator docs, the odds template, programs 2–4's forms (`04a9cd2`).
   - Maps: `qwalk` (0.04), `bmq` as a scout item (0.30), `P2-path` (0.50, opens at program 2's 10th settled bet); steers st-13 to st-15 (`cd2308e`).

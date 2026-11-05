@@ -4,7 +4,7 @@
 
 **How to read this.** Plain text is what you say. Lines in **[SCREEN: …]** are what to have on screen; they are not read aloud. Commit hashes appear in full on screen; where the spoken text names one, the first four characters are enough ("commit seven-f-nine-c").
 
-**Sources.** Every number is from this repository as it stood on 2026-11-04 at 19:45 America/Denver (main at `296d587`): `ledger/bets.jsonl`, `ledger/brier.md`, `ledger/scores.md`, `ledger/steers.jsonl`, `ledger/audits/`, `ledger/design-reviews/ng-p3-15.md`, `paper/day-two.md`, and the program folders `programs/nature-graded/` and `programs/settled-science/`. Times are America/Denver, as git records them.
+**Sources.** Every number is from this repository as it stood on 2026-11-04 at 19:45 America/Denver (main at `296d587`), with the stale ones corrected on 2026-11-05 as noted in square brackets: `ledger/bets.jsonl`, `ledger/brier.md`, `ledger/scores.md`, `ledger/steers.jsonl`, `ledger/audits/`, `ledger/design-reviews/ng-p3-15.md`, `paper/day-two.md`, and the program folders `programs/nature-graded/` and `programs/settled-science/`. Times are America/Denver, as git records them.
 
 **What changed from the earlier script.** The earlier version used program 1's quantum-encoding kill and the founding-week steers st-02 and st-03. Those steers were reconstructed after the fact. This version uses a kill refereed by the chip and a steer recorded at the moment it was made, in Sean's words. Program 1's kill is still in `site/kills.html` and in the numbers table of the old script (this file at commit `57b1a8b`).
 
@@ -54,7 +54,7 @@ So three times we asked, and three times the answer was no. Once a better simula
 
 **[SCREEN: the result file, "Noticed after the data; leads, not findings".]**
 
-Here's what that closes: the barrier, and idle decay in our simulator, as explanations. Here's what it doesn't. It doesn't show 3 November was a fluke afternoon; two runs can't say which day was typical. The shot grouping may matter a little, about three points, mostly on one qubit, and that can't be separated from when in the job it ran. A second run, three hours later, is scheduled, and the audit comes after it. This kill is not audited yet, and I'm saying so.
+Here's what that closes: the barrier, and idle decay in our simulator, as explanations. Here's what it doesn't. It doesn't show 3 November was a fluke afternoon; two runs can't say which day was typical. The shot grouping may matter a little, about three points, mostly on one qubit, and that can't be separated from when in the job it ran. A second run three hours later agreed, and the audit let the verdict stand. A fourth try on 5 November, the circuit alone in its own job, also said no, and that one is not audited yet, and I'm saying so.
 
 ---
 
@@ -72,7 +72,7 @@ At 6:26 I gave it. In my words: "Approve 10 s for ng-p3-15, the full design. Bud
 
 It was written into the record a minute later. Two minutes after that the job was running.
 
-That's two decisions in one sentence. The first is small: ten seconds. The second is the real one. I took my hand off a lever on purpose. Chip-time decisions under a hard stop of 420 seconds are now the engine's. The hard stop is enforced in code. Every job still needs its pre-registration, its lesson line and a design review's go. And every job's seconds are still reported. As of this job, 58 of the 420 are used.
+That's two decisions in one sentence. The first is small: ten seconds. The second is the real one. I took my hand off a lever on purpose. Chip-time decisions under a hard stop of 420 seconds are now the engine's. The hard stop is enforced in code. Every job still needs its pre-registration, its lesson line and a design review's go. And every job's seconds are still reported. As of this job, 58 of the 420 were used. [Now 69, after ng-p3-16 on 5 November.]
 
 **[SCREEN: `ledger/steers.jsonl`, st-16's `value: "pending"`.]**
 
@@ -82,9 +82,9 @@ Is that a good steer? The ledger says "pending", and that's right. Unlike my fir
 
 ## Part 3 — The one place the odds carried judgment (6:45–9:15)
 
-**[SCREEN: `ledger/brier.md`, the scores table: 14 bets, Brier 0.246.]**
+**[SCREEN: `ledger/brier.md`, the scores table: 21 bets, Brier 0.220.]**
 
-Now the honest number. On its own bets, the engine has 14 scored. Its Brier score is 0.246. Saying 50% every time scores 0.25. So far, the engine's odds on its own experiments are no better than a coin.
+Now the honest number. On its own bets, the engine has 21 scored. Its Brier score is 0.220, and guessing the pass rate scores 0.222. Saying 50% every time scores 0.25. So far, the engine's odds on its own experiments are no better than a coin.
 
 **[SCREEN: `programs/settled-science/results/ss-b1-results.md`, "In plain English".]**
 
@@ -129,17 +129,17 @@ Thanks for watching. Everything here is in the repository, with the commits on s
 | try 2, ng-p3-2/-3 | 0.246 vs 0.269 on the same nine qubits; no barrier, 20 × 100 shots; untestable, not scored; audited, stands | `programs/nature-graded/results/p3-2-3-job.md`; `ledger/audits/ng-p3-2-3.md` |
 | try 3, ng-p3-15 pre-registered | engine odds 0.07; human odds none ("Sean skipped") | `7f9cedf` (17:12); seed `8118e86`, CURBy-RNG 1591477 |
 | predictions before submission | ALAP 0.2685 | `11895cd` (18:28) |
-| run 1 | job `dbltng9kbkrc73cod80g`, 18:28:35–18:28:43; 4.0 QPU s billed; cumulative 58 of 420 | `7f30fe6` |
+| run 1 | job `dbltng9kbkrc73cod80g`, 18:28:35–18:28:43; 4.0 QPU s billed; cumulative 58 of 420 (69 after ng-p3-16, 5 November) | `7f30fe6`; `9726106` |
 | run 1 result | BB 0.311, NB 0.319, Δ −0.008 (z −0.39); barrier pooled +0.007, 90% CI −0.017 to +0.031; PUB grouping +0.030, 90% CI +0.006 to +0.054 ("between"); NI control 0.274 | `e7f8c5c` (18:30), `results/p3-15-repeat.md` |
 | ng-p3-15 status | fail on run 1 (decisive by the pre-registration); run 2 ≥ 21:30; unaudited; Brier term 0.0049 | `ledger/bets.jsonl` |
 | F6 budget gate | planned 3.4 s/run, 6.8 s total, 10 s budget vs st-11's "about 2.5 QPU s" | `ledger/design-reviews/ng-p3-15.md` |
 | steer st-16 | 18:26, words as quoted; `value: pending` | `ledger/steers.jsonl` |
 | ruling recorded | nature-graded D18 | `b097405` (18:27) |
-| engine calibration | 14 scored, Brier 0.246; always 0.5: 0.250; always the hit rate: 0.230 | `ledger/brier.md` |
+| engine calibration | 21 scored, Brier 0.220; always 0.5: 0.250; always the hit rate: 0.222 | `ledger/brier.md` |
 | ss-b1 result | 116 post-cutoff items, 76% right, Brier 0.163 [0.139, 0.190]; beat the headline baseline (0.232) by 0.068 [0.036, 0.099] | `230cbe4` (18:59), `programs/settled-science/results/ss-b1-results.md` |
 | ss-b1 audit | all three pass-unreplicated; 34 claims, 7 holes, 7 cuts; best dumb predictor 0.233; plant pl-003 clean | `cdce1ba` (19:13), `ledger/audits/ss-b1.md` |
 | model psychology alone | Brier 0.235 [0.181, 0.293], 62% right | same |
-| engine odds on ss-b1..b3 | 0.50, 0.30, 0.35, all passed; Brier 0.388 on 3 | `ledger/brier.md`, by referee |
+| engine odds on ss-b1..b3 | 0.50, 0.30, 0.35, all passed; Brier 0.388 on 3 (0.417 on 5 with round 2, ss-b6 reversed to undetermined) | `ledger/brier.md`, by referee |
 | round 2 | ss-b4/ss-b5, template-written items; engine odds 70 and 35, ss-b5 lowered to 25 before data (D23–D29); design review: ss-b4 redesign (up-word rule Brier 0.177 on the 92 drawn passes it), ss-b5 fix-first (7 flaws); ss-b4 withdrawn before data; no bettor call | `8e87c59` (19:17), `29e8769` (19:24), `03fa0a1` (19:42), `9b3d222` (19:43), `296d587` (19:45) |
 
 **Left out on purpose, or said only with its caveat.**

@@ -1,6 +1,6 @@
 # P3-16 result: running the 3 November circuit alone in its own job did not bring back 3 November's result
 
-Pre-registration: `experiments/p3-16-lone-job.md` (commit `209c1e2`, 2026-11-04 22:58; seed `d09f541`, CURBy-RNG 1591823). Design review `ledger/design-reviews/ng-p3-16.md`: fix-first (`960b1f1`), fixes D31–D35 (`4820d25`), then three confirmations that did not confirm (`71ac76a`, `1f68e33`, `6cf65a5`) with fixes D36–D38 (`cf84f77`, `05e3234`, `42f824a`), and a fourth that said go (`8566cd7`, confirmed 2026-11-05 05:13). Budget ruling br-003 in `ledger/spend.jsonl` (`960e2b1`): 10 QPU s under st-16. Predictions `39ffbff`; raw counts `fe77aac`. Engine odds 5%; human odds: none. **Verdict: fail** (unaudited).
+Pre-registration: `experiments/p3-16-lone-job.md` (commit `209c1e2`, 2026-11-04 22:58; seed `d09f541`, CURBy-RNG 1591823). Design review `ledger/design-reviews/ng-p3-16.md`: fix-first (`960b1f1`), fixes D31–D35 (`4820d25`), then three confirmations that did not confirm (`71ac76a`, `1f68e33`, `6cf65a5`) with fixes D36–D38 (`cf84f77`, `05e3234`, `42f824a`), and a fourth that said go (`8566cd7`, confirmed 2026-11-05 05:13). Budget ruling br-003 in `ledger/spend.jsonl` (`960e2b1`): 10 QPU s under st-16. Predictions `39ffbff`; raw counts `fe77aac`. Engine odds 5%; human odds: none. **Verdict: fail. Audited** (`ledger/audits/ng-p3-16.md`, `60eae19`): stands; 26 claims checked, 0 holes, 0 required cuts, 1 optional wording edit applied (D39); plant pl-013 was a clean draw.
 
 | job (ibm_fez) | what | executed (America/Denver) | QPU s billed | cumulative of 420 |
 |---|---|---|---|---|
@@ -15,13 +15,13 @@ The chip was a referee here: its counts decide a pre-registered bet, and it comp
 
 *These are the sentences pre-registered in §5 (as amended D31–D38 before any data), applied as the rule says.*
 
-Running the 3 November circuit (with its barrier) alone in its own job did not bring back 3 November's result, and for the barrier circuit, running alone or sharing a job made no difference larger than 0.05. This evening¹, running the barrier circuit alone in its own job did not raise its rate by more than 0.05 (assuming IBM's servers handled a one-circuit job the same way on 3 November).
+Running the 3 November circuit (with its barrier) alone in its own job did not bring back 3 November's result, and for the barrier circuit, running alone or sharing a job made no difference larger than 0.05. On this run (05:17–05:18 on the morning of 5 November), running the barrier circuit alone in its own job did not raise its rate by more than 0.05 (assuming IBM's servers handled a one-circuit job the same way on 3 November).
 
 Of the things the 4 November runs and this one varied (the barrier, the shot grouping, running alone), none brought back 3 November's result. The chip on that afternoon remains the main candidate among them, not a demonstrated cause.
 
 Run alone, the barrier made no difference larger than 0.05.
 
-¹ *The pre-registered sentence says "this evening"; the jobs actually ran at 05:17–05:18 in the morning of 5 November. The sentence is kept as frozen.*
+*Audit ng-p3-16 (`60eae19`) recommended one wording edit, applied (D39): the pre-registered "This evening" became "On this run (05:17–05:18 on the morning of 5 November)", because the jobs ran in the morning. Nothing else in the sentence changed.*
 
 *Which rules applied, so a stranger can check:*
 - A (the barrier circuit alone) read 0.306, below 0.40. A − CB was −0.013 (z −0.63), below +0.10. So the bet **fails** (§5.1, §5.2). All three jobs completed with 1,000 shots per PUB, so it is not untestable (§5.3).

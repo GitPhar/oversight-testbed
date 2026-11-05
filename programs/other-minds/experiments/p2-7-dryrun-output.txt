@@ -1,0 +1,68 @@
+# om-p2-7 dry run (every call stubbed; synthetic Sam data only)
+
+## 1. Settings, statements, calls, cost (D2/D10)
+- haiku: claude-haiku-5-5, {"thinking": {"type": "disabled"}}, max_tokens 100, repeats 2
+- sonnet: claude-sonnet-5-5, {"thinking": {"type": "between_tools"}}, max_tokens 1000, repeats 2
+- opus: claude-opus-5-5, {"output_config": {"effort": "low"}}, max_tokens 1000, repeats 2
+- shared items: 17 (h019, h048, h058, h101, h112, h127, h142, h149, h173, h187, h190, h191, h214, h221, h238, h261, h279)
+- statements drawn with a stand-in seed: 34 (2 per item)
+- jobs: 612; per model haiku 204, sonnet 204, opus 204; distinct keys 612
+- cost estimate at program 1's archived full-price per graded-format call (Haiku $0.000043, Sonnet $0.00086, Opus $0.0044): $1.08; the Sam prompts are one sentence longer, so about $1.19 (cap $1.50, ratio 1.26)
+
+## 2. The self prompts reproduce program 1's archived prompts exactly; Sam differs only by the framing (P4, P8)
+- self_prompt == gm3b prompt for all 102 (statement, format) pairs: True
+- F1: Sam prompt adds +95 characters; the shared head is identical: True
+- F5: Sam prompt adds +87 characters; the shared head is identical: True
+- F6: Sam prompt adds +95 characters; the shared head is identical: True
+- the same content hash for two models? False (must be False)
+
+## 3. Gate
+- gate now: no seed file at /Users/seanpharris/oversight-testbed/programs/other-minds/data/p2-7-seed.json
+- fix-first, unconfirmed: om-p2-7.md: verdict fix-first (not confirmed)
+- go: None
+
+## 4. Stop rules with a stub
+- refusal at call 15: status refusal; calls entered 15; refused entries 1; refusal.md True; any Sonnet or Opus call False
+- re-run on that cache: exits (stub: a refusal is on record (haiku|h048|1|F5|0); not resumed)
+- cap $0.40 at $0.01 a call: status cap; calls 40; spent $0.40
+/Users/seanpharris/entangled-mind/.venv/lib/python3.12/site-packages/numpy/lib/_nanfunctions_impl.py:1396: RuntimeWarning: All-NaN slice encountered
+  return _nanquantile_unchecked(
+- tampered entry: caught (cache entry haiku|h191|0|F5|0 does not match)
+
+## 5. The archived self data the worlds are built from (34 stand-in statements)
+- haiku: residual SD 0.173; split-half reliability of self residuals 0.97; mean per-call SD 0.078
+- sonnet: residual SD 0.106; split-half reliability of self residuals 0.97; mean per-call SD 0.046
+- opus: residual SD 0.043; split-half reliability of self residuals 0.94; mean per-call SD 0.027
+
+## 6. D1: one reading per table
+- holds: holds
+- fail-ceiling: fail-ceiling
+- fail-generic (small): fail-generic
+- fail-generic (CI): fail-generic
+- P13 boundary: rel 0.5, rho 0.5, delta 0.10 exactly (computed as sums): holds   (0.3 - 0.2 = 0.09999999999999998)
+- P13 just below: rho 0.4999: fail-ceiling   (0.3 - 0.2 = 0.09999999999999998)
+- P13 just below: delta 0.0999: fail-generic   (0.3 - 0.2 = 0.09999999999999998)
+- P13 just below: rel_sam 0.4999: unreliable   (0.3 - 0.2 = 0.09999999999999998)
+- unreliable: unreliable
+- overall: all hold pass; one unreliable, two hold pass; two unreliable untestable; one fails fail
+
+## 7. D11 / D5: readings under named worlds (60 simulated runs a world and model, bootstrap B = 400 here)
+Worlds for Sam's true means: 'shared' = the model's own archived means; 'shared-hedged' = the same pulled 30% toward 0.5 (an affine hedge); 'mix:w' = the one-credence fit plus w of the model's own residuals and (1 − w) of its residuals shuffled across statements; 'independent' = mix:0; 'generic' = the dumb rival itself (a smooth link from the latent credence: shared format shape, no statement-specific deviation); 'no-deviation' = the one-credence fit alone. Call noise: the model's archived per-call SD, rounded to each format's grid.
+| world | haiku | sonnet | opus |
+|---|---|---|---|
+| shared | {'holds': 60} | {'holds': 60} | {'holds': 60} |
+| shared-hedged | {'holds': 60} | {'holds': 60} | {'fail-generic': 50, 'unreliable': 8, 'holds': 2} |
+| mix:0.7 | {'holds': 60} | {'holds': 60} | {'fail-generic': 23, 'holds': 37} |
+| mix:0.5 | {'holds': 57, 'fail-generic': 3} | {'fail-generic': 34, 'holds': 26} | {'fail-generic': 59, 'holds': 1} |
+| independent | {'fail-ceiling': 60} | {'fail-ceiling': 60} | {'fail-ceiling': 60} |
+| generic | {'unreliable': 55, 'fail-ceiling': 5} | {'fail-generic': 42, 'fail-ceiling': 17, 'holds': 1} | {'fail-generic': 54, 'unreliable': 4, 'fail-ceiling': 2} |
+| no-deviation | {'unreliable': 60} | {'unreliable': 60} | {'fail-ceiling': 7, 'unreliable': 52, 'fail-generic': 1} |
+
+Overall P(pass) if every model is in the same world (readings assumed independent across models):
+- shared: P(pass) 1.00, P(untestable) 0.00, P(fail) 0.00
+- shared-hedged: P(pass) 0.17, P(untestable) 0.00, P(fail) 0.83
+- mix:0.7: P(pass) 0.62, P(untestable) 0.00, P(fail) 0.38
+- mix:0.5: P(pass) 0.01, P(untestable) 0.00, P(fail) 0.99
+- independent: P(pass) 0.00, P(untestable) 0.00, P(fail) 1.00
+- generic: P(pass) 0.00, P(untestable) 0.06, P(fail) 0.94
+- no-deviation: P(pass) 0.00, P(untestable) 1.00, P(fail) 0.00

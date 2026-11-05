@@ -343,6 +343,7 @@ Total if everything ran at the lean costs: about 184 QPU s. Recommended plan (be
 - **Pass rule:** Certified min-entropy ≥ 0.05 bits per round at 99% finite-size confidence.
 
 ### P3-15. What made 3 November different: the afternoon, or the circuit's barrier and shot grouping? — added 2026-11-04 17:00 · P = 0.07 · source P1 (audit round 2, ng-p3-2-3 "What would break it next")
+- **Closed 2026-11-05** with the 3 November question (see "After P3-16" below): fail, audited (ng-p3-15).
 - **Assumption at stake:** that program 1's 3 November gap (P(yes) 0.502 against a predicted ≈ 0.26) was the chip that afternoon, not the circuit's pre-measurement barrier or its single 1,000-shot block.
 - **Why now:** wave 1 ran the same gate list without the barrier and as interleaved 100-shot pieces, and found no P(yes) gap (0.246 against 0.269). So the two days differ in three things at once (P8).
 - **What we know offline:** in Qiskit's ALAP schedule the barrier changes no measurement time; in ASAP, removing it lets qubits be measured from 3.3 µs instead of 8.05 µs. How IBM's servers schedule is not documented in our reads. In the noise model, idle time does not move this circuit (P3-1).
@@ -351,6 +352,7 @@ Total if everything ran at the lean costs: about 184 QPU s. Recommended plan (be
 - **Odds:** elicited in a fresh context from `odds-elicitation/rows-v1-p3-15.md` alone (template v1, single row; `odds-elicitation/v1-p3-15.md`, 17:00:05). No elicitation check. Human odds: Sean skipped (no odds).
 
 ### P3-16. Does 3 November's result come back when the circuit runs alone in its own job? — added 2026-11-04 22:55 · P = 0.05 · source P1 (audit ng-p3-15, "What would break it next")
+- **Closed 2026-11-05** with the 3 November question (see "After P3-16" below): fail, audited (ng-p3-16, stands).
 - **Assumption at stake:** that program 1's 3 November gap (P(yes) 0.502 against a predicted ≈ 0.26) was the chip that afternoon, not the job it ran in: one circuit, alone in its job.
 - **Why now:** P3-15 found no effect of the barrier or of block-versus-pieces (0.28–0.32 in every arm, two runs), but in both its jobs the server ran the two 1,000-shot blocks together in one execution span. No 4 November job ran the circuit alone, which is the one 3 November feature not yet reproduced.
 - **What we know offline:** IBM's per-qubit calibration had not been re-measured between P3-15's two runs (values dated 12:04), so live predictions cannot see the ~0.2 per-qubit moves between runs.
@@ -395,7 +397,7 @@ Total if everything ran at the lean costs: about 184 QPU s. Recommended plan (be
 **Budget.**
 - IBM Open Plan: 600 QPU s a month.
 - Project hard stop: 420 s cumulative, enforced in code by `run_hardware`.
-- Used so far: 46 s, so **374 s remain**.
+- Used so far: 46 s when this map was written; **69 s as of 2026-11-05 05:18** (after P3-16), so **351 s remain** under the hard stop.
 - The monthly allowance resets in December; the hard stop does not. Raising it is Sean's call alone.
 
 **Rules for the month.**
@@ -437,6 +439,31 @@ Odds above are not revised. Outcomes, audited in round 2 (entangled-mind audit2 
 - **Corrected simulator: held.** The "P3-1-corrected simulator" named in the shared rules above is not used for any prediction until `p3sim.overwrite_calibration` (T1/T2 discarded) and E2's ZZ (overridden) are fixed, the fix is pre-registered as a deviation, and P3-1 is re-run.
 - **New leads, not bets:** qubit 141's measured readout error (P(1|0) 0.21) is about 20× its reported value; the mirror circuit succeeds 2.2% on the chip against 13.6% in a post-hoc run of the corrected sim (not pre-registered).
 - **QPU:** 8.0 s billed against 7.6 estimated; cumulative 54 s.
+
+## After P3-16 (2026-11-05): the 3 November question is closed
+
+**The question** (open since 4 November): why did program 1's circuit make the chip say "yes" 50% of the time on the afternoon of 3 November (0.502, against about 0.26 predicted)?
+
+**Diagnosis, in one sentence:** in every run since (4 and 5 November), putting back the barrier, changing how the shots were grouped, and running the circuit alone in its own job each left the chip at about 30% "yes", and a better-built simulator did not explain the gap either, so we ruled those out; we could not rule out that the chip itself was different that afternoon (its calibration, drift, or something IBM's servers did that day), because that afternoon cannot be run again.
+
+| bet | what it varied | result | verdict |
+|---|---|---|---|
+| ng-p3-1 | the simulator: idle decay, scheduling (archive, 0 QPU s) | 0.268 against 0.502 | fail |
+| ng-p3-2, ng-p3-3 | twirling, decoupling, other qubits (4 Nov, 8 s) | no gap to close: 0.246 on the chip | untestable |
+| ng-p3-15 | barrier × shot grouping, twice, 3 h apart (4 Nov, 8 s) | every arm 0.27–0.32 | fail |
+| ng-p3-16 | alone in its own job versus sharing a job (5 Nov, 7 s) | alone 0.306, shared 0.319; every arm 0.30–0.32 | fail |
+
+- **What this does not show.** It does not show that 3 November was "a fluke" or that the chip was faulty that afternoon. It shows that the features we could vary on later days do not bring the result back. The remaining candidate is the afternoon itself, which a referee cannot re-run.
+- **Closed, not killed for a flaw.** The directions P3-15 and P3-16 are closed with this diagnosis and stay on the map. A new reason to reopen would be a later run that comes back near 0.50 on this circuit under any condition.
+- **Leads, not bets** (from the audits): every arm on 4–5 November sat 0.03–0.05 above the live-calibration prediction, whose per-qubit inputs were IBM's 4 November measurements both days; job A's execution span took 4.6 s for 1,000 shots against job B's 2.2 s, with no difference in the "yes" rate. The ng-p3-16 audit's cheapest next test (rerun A and C at 3 November's clock time, about 16:00, about 7 QPU s) is recorded but **not** queued, under the roles below.
+
+**The chip's remaining roles in this program** (Sean's instruction, 2026-11-05, steer st-19): **seeds, tiebreaks, and at most one pre-registered foundations experiment.**
+- *Seeds* means random seeds for splits and orderings. They come from the public CURBy beacon (classical chain while its quantum chain is stalled), not from ibm_fez (`operators/hardware.md`, job 2).
+- *Tiebreaks* means simulator-against-chip disputes, each a logged `tiebreak` bet of at most 60 QPU s, 120 s a month (`operators/hardware.md`, job 1).
+- *At most one foundations experiment* means one of the instrument directions (P3-7, P3-9, P3-10, P3-11, P3-12, P3-14 and their kin), chosen later by a pre-registration with its own lesson, design review and budget ruling. The month plan's waves 2–4 above, which scheduled several, are superseded by this cap.
+- The chip is never a computational resource.
+
+**QPU:** P3-16 billed 7.0 s (3 + 2 + 2) against 7.12 estimated and 10 approved (br-003). Cumulative **69 s** of the 420 s hard stop: 46 s from program 1, 23 s from program 3 (wave 1 8 s, P3-15 8 s, P3-16 7 s).
 
 ## Notes for the engine
 

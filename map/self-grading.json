@@ -53,7 +53,9 @@
     "'harsher' (self-deprecating) is its own recorded verdict, not a hit",
     "per-item and leave-one-study-out secondaries"
    ],
-   "bets": []
+   "bets": [
+    "sg-b1"
+   ]
   },
   {
    "id": "sg-d3",
@@ -89,7 +91,9 @@
     "'harsher' (self-deprecating) is its own recorded verdict, not a hit",
     "per-item and leave-one-study-out secondaries"
    ],
-   "bets": []
+   "bets": [
+    "sg-b3"
+   ]
   },
   {
    "id": "sg-d2",
@@ -127,7 +131,9 @@
     "'harsher' (self-deprecating) is its own recorded verdict, not a hit",
     "per-item and leave-one-study-out secondaries"
    ],
-   "bets": []
+   "bets": [
+    "sg-b2"
+   ]
   },
   {
    "id": "sg-d5",

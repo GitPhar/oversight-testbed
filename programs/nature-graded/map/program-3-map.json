@@ -3,10 +3,12 @@
  "seed_question": "Open questions in quantum foundations and in Heron r2 device physics that fit the IBM Open Plan (600 QPU s/month, 374 s left, project hard stop 420 s), with the quantum chip as ground truth, never as a computational resource.",
  "scouted": "2026-11-04",
  "qpu": {
-  "used_s": 46,
+  "used_s": 69,
   "hard_stop_s": 420,
-  "remaining_s": 374,
-  "cost_rule": "0.28 ms x shots + ~2 s/job; x1.5 for mid-circuit measurement"
+  "remaining_s": 351,
+  "cost_rule": "0.28 ms x shots + ~2 s/job; x1.5 for mid-circuit measurement",
+  "as_of": "2026-11-05 05:18 America/Denver (after ng-p3-16)",
+  "used_s_when_mapped": 46
  },
  "expected_passes_nature_graded": 5.08,
  "directions": [
@@ -373,7 +375,7 @@
    "id": "P3-15",
    "title": "What made 3 November different: the afternoon, or the circuit's barrier and shot grouping?",
    "parent": "P3-3",
-   "status": "open",
+   "status": "killed",
    "rank": 15,
    "engine_odds": 0.07,
    "engine_odds_at": "2026-11-04T17:00:05-07:00",
@@ -386,18 +388,19 @@
    "prior_work": [
     "ng-p3-2-3 audit round 2"
    ],
-   "diagnosis": null,
+   "diagnosis": "Closed with the 3 November question: barrier, shot grouping and running alone in its own job were ruled out on 4-5 November (every arm about 0.30); the chip's state on the afternoon of 3 November (calibration, drift, or server behaviour that day) was not ruled out and cannot be, since that afternoon cannot be rerun.",
    "human_odds": null,
    "human_odds_note": "Sean skipped (no odds), 2026-11-04 ~17:00",
    "rules_out": "Rules out the pre-measurement barrier and the shot grouping as the cause of 3 November's 0.50: every arm in two runs gave 0.27-0.32.",
    "rules_out_at": "2026-11-05T04:45",
-   "question_line": "3 November"
+   "question_line": "3 November",
+   "closed_at": "2026-11-05"
   },
   {
    "id": "P3-16",
    "title": "Does 3 November's result come back when the circuit runs alone in its own job?",
    "parent": "P3-15",
-   "status": "open",
+   "status": "killed",
    "rank": 16,
    "engine_odds": 0.05,
    "engine_odds_at": "2026-11-04T22:54:53-07:00",
@@ -410,7 +413,7 @@
    "prior_work": [
     "ng-p3-15 audit"
    ],
-   "diagnosis": null,
+   "diagnosis": "Closed with the 3 November question: barrier, shot grouping and running alone in its own job were ruled out on 4-5 November (every arm about 0.30); the chip's state on the afternoon of 3 November (calibration, drift, or server behaviour that day) was not ruled out and cannot be, since that afternoon cannot be rerun.",
    "human_odds": null,
    "human_odds_note": "none in ledger/human-odds.jsonl when mapped (CONTEXT §3 rule 11)",
    "question_line": "3 November",
@@ -425,7 +428,8 @@
     "ng-p3-15",
     "ng-p3-16"
    ],
-   "closing_marked_at": "2026-11-05T04:45"
+   "closing_marked_at": "2026-11-05T04:45",
+   "closed_at": "2026-11-05"
   },
   {
    "id": "P3-17",
@@ -580,5 +584,32 @@
    "status": "killed",
    "diagnosis": "needs pulse or qutrit access"
   }
- ]
+ ],
+ "questions_closed": [
+  {
+   "id": "q-3-november",
+   "question": "Why did program 1's circuit read 0.502 on the chip on the afternoon of 3 November, against about 0.26 predicted?",
+   "closed_at": "2026-11-05",
+   "bets": [
+    "ng-p3-1",
+    "ng-p3-2",
+    "ng-p3-3",
+    "ng-p3-15",
+    "ng-p3-16"
+   ],
+   "diagnosis": "In every run since (4 and 5 November), putting back the barrier, changing how the shots were grouped, and running the circuit alone in its own job each left the chip at about 30% 'yes', and a better-built simulator did not explain the gap either, so we ruled those out; we could not rule out that the chip itself was different that afternoon (its calibration, drift, or something IBM's servers did that day), because that afternoon cannot be run again.",
+   "reopen_if": "a later run of this circuit comes back near 0.50 under any condition"
+  }
+ ],
+ "chip_roles": {
+  "set_at": "2026-11-05",
+  "steer": "st-19",
+  "roles": [
+   "seeds (from the CURBy beacon, not ibm_fez)",
+   "tiebreaks (<= 60 QPU s each, <= 120 s a month)",
+   "at most one pre-registered foundations experiment"
+  ],
+  "never": "a computational resource",
+  "supersedes": "month plan waves 2-4 (several foundations experiments)"
+ }
 }

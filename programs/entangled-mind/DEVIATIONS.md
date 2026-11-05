@@ -1206,3 +1206,13 @@ Details in `results/probe-dissociation.md`.
   - It does not affect any verdict: no score was ever computed, and every number in the results comes from shuffled or planted outcomes.
   - It does mean the labels are public in a review file, as they already were in the map and the ledger.
 - **Design-review miss** (audit header `design_review_missed`): neither em-qwalk review asked whether the design could pass in a world where the hypothesis holds. That is now design-review check D11 (engine session, 41a687d).
+
+## D60 — Audit round 3 (claude-fable-5-1) of the five scored phase-B bets: all stand with cuts; no outcome changes
+
+2026-11-05 ~06:00 America/Denver. `ledger/audits/round-3/em-gm1.md`, `em-gm2.md`, `em-gm3b.md`, `em-gm4.md`, `em-gm5.md`. Every headline number was re-derived from the archived JSON with independent code (scratch scripts named in each audit). Verdicts: gm1 null, gm2 pass, gm3b pass, gm4 mixed, gm5 mixed, all unchanged; outcomes 0, 1, 1, 0, 0 unchanged. Wording cuts applied verbatim from the audits, in the results files only (no data, code or pre-registration touched):
+- gm1: the all-298 interval excludes 0 only narrowly (28 of 298 single-question drops put its upper end at or above 0) and the sign is mostly the 26 disagreement questions (the other 272 give −0.036 [−0.103, +0.027]); the paper's two "Self-report is not privileged" headings and the README's "gives no advantage" now read "no privileged self-knowledge detected" / "no detectable advantage".
+- gm2: "redaction gives an even larger order effect than showing" is not established (difference 8.0 points [−0.8, +17.7]); the placeholder confound and the clipped estimator's permutation floor (0.34 against the 0.5 bar) are stated; R = 1.91 [0.93, 4.70] holds under every seed, drop and bias correction.
+- gm3b: "no single belief to read out" narrowed to what a non-invariance test shows; the by-format table is marked as coming from an under-converged fit (own converged fitter: +19.41 [+16.53, +22.09], 86.3%).
+- gm4: EIG's above-chance excess is entirely overlap with the confirmatory target; on disjoint menus EIG is at chance while confirmatory stays above it.
+- gm5: the Holm-corrected gate (2 of 10), the alternative Q scalings (0.86, 0.66) and the DP2 dependence on the unmerged `probes` branch are stated; the stale "queued" sentence and the `:116` contradiction round 2 flagged are fixed.
+

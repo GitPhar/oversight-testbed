@@ -21,7 +21,7 @@ On `claude-haiku-5-5`, in pre-registered tests, the results favour the second. T
   - Planting the model's own earlier answer pulls its re-rating 0.42 of the way toward the planted value. The same number attributed to another person, in a differently worded prompt, pulls it 0.05. Own beats other whether the planted number is 10, 30 or 60 points from the model's view, and the pull did not fall after three filler turns.
   - The model's agreement with itself on a repeated question falls from 86% to 36% when its first answer is hidden.
 - **Formats disagree.** Across six elicitation formats, a separate credence per format predicts held-out answers better than one credence per statement for 86% of 160 statements. The formats put statement pairs in opposite order about five to ten times more often than repeat noise does (exploratory: the noise baseline was computed after the run). Predicting each format from the other five recovers only 0.39 [0.30, 0.50] of what is reproducible in that format.
-- **Self-report is not privileged.** The model's confidence predicts its errors well (AUROC 0.85), but a stronger model reading the same answers predicts them better (0.93). The judge × author interaction is −0.055 [−0.103, −0.007].
+- **No privileged self-report detected.** The model's confidence predicts its errors well (AUROC 0.85), but a stronger model reading the same answers predicts them better (0.93). The judge × author interaction is −0.055 [−0.103, −0.007].
 
 **What replicates on Sonnet and Opus** (Section 4.6):
 - **No self-advantage was detected in either pair (Haiku × Sonnet, Sonnet × Opus).** With Sonnet and Opus judging each other's answers, the judge × author interaction is −0.045 [−0.107, +0.017]; the disagreement subset (21 questions, 4 Opus errors) is uninformative.
@@ -249,7 +249,7 @@ In the archived condition, 7 item-orders moved *away* from another person's high
 
 **Test A.** In unedited single-scale conversations, the shift in the main rating rises with the level of the sub-question rating just given, beyond the claim's content: **β = +0.27 [+0.11, +0.43]** (+0.27 [+0.05, +0.58] on new conversations for 10 of the same items). No contrast appears. Most of β reflects the main rating being less extreme after the sub-question; the sub-rating's own coefficient is +0.13 [−0.04, +0.28].
 
-### 4.4 Self-reported confidence is not privileged
+### 4.4 No privileged self-knowledge detected in self-reported confidence
 
 **Test P.** AUROC for each author's errors, judge first and author second:
 

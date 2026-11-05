@@ -1,6 +1,6 @@
 // The record as a timeline, parsed from entangled-mind's paper/record.md.
 // Dated paragraphs and table rows become events; whatever follows the last table is shown as written.
-import { header, esc, inline, slug, wrapTables, markSVG, STATUS, SITE, parseDate, fmtDate, programTitle, REFEREE, refKey } from "./common.js";
+import { header, esc, inline, slug, wrapTables, markSVG, STATUS, SITE, parseDate, fmtDate, programTitle, REFEREE, refKey, DATA, getJSON } from "./common.js";
 import { loadPaper, linkCommits } from "./papers-common.js";
 import { loadBets, loadMaps } from "./data.js";
 
@@ -69,9 +69,17 @@ const VERDICT_WORDS = {
   pass: "passed its pre-registered rule", fail: "failed its pre-registered rule", running: "pre-registered; no result yet", untestable: "its rule could not be applied",
   undetermined: "neither a pass nor a fail is established", mixed: "partly passed", open: "pre-registered; no result yet",
 };
-function ledgerCards(bets, maps) {
+const hasClock = (s) => /\d{1,2}:\d{2}/.test(String(s || ""));
+function ledgerCards(bets, maps, commitTimes = {}) {
   // A bet still running has no landing time; it is placed by its pre-registration and drawn last.
-  const when = (b) => b.status === "running" ? (b.raw?.prereg_time || b.opened) : (b.raw?.result_time || b.landed || b.opened);
+  // A row whose result_time has no clock (or is missing) takes the time of its result commit, read from git by
+  // the deploy (data/commit-times.json); failing that it shows the date alone, never a made-up 00:00.
+  const when = (b) => {
+    const r = b.raw || {};
+    if (b.status === "running") return r.prereg_time || b.opened;
+    if (hasClock(r.result_time)) return r.result_time;
+    return String(commitTimes[r.result_commit] || r.result_time || b.landed || b.opened || "").replace("T", " ");   // one format, so the order sorts right
+  };
   const later = bets.filter((b) => b.program && b.program !== "entangled-mind" && b.prereg && b.raw?.verdict !== "withdrawn")
     .sort((a, b) => (a.status === "running") - (b.status === "running") || String(when(a)).localeCompare(String(when(b))));
   if (!later.length) return "";
@@ -85,11 +93,12 @@ function ledgerCards(bets, maps) {
   let html = `<section id="ledger" class="ledger-record"><h2>${progs.length === 1 ? esc(programTitle(progs[0], maps)) : `Programs ${progs.map((id) => programTitle(id, maps).match(/\d+/)?.[0]).filter(Boolean).join(", ")}`}, from the ledger</h2>
     <p class="how">Every bet these programs placed, in the order it landed, read from <code>ledger/bets.jsonl</code>. The verdict is the one the audit left standing, in the audit's own words.</p>
     ${p4.length ? `<p class="lede">${esc(programTitle("settled-science", maps).replace(/:.*/, ""))}'s first results: ${p4.length} pass${p4.length === 1 ? "" : "es"}${p4u ? `, ${p4u === p4.length ? "all" : p4u} audited as <b class="scope">pass-unreplicated</b>` : ""}.${later.some((b) => b.program !== "settled-science" && b.status === "hit") ? "" : " No other program after program 1 has a pass in the ledger."}${p4u ? " Each has held once, on one model and one item set." : ""}</p>` : ""}
-    <ol class="timeline">`;
+    ${summary(later, progs, maps)}
+    <ol class="timeline" id="ledger-tl">`;
   let cur = null;
   for (const b of later) {
     const day = String(when(b) || "").slice(0, 10);
-    if (day !== cur) { cur = day; html += `<li class="day"><h2>${esc(dayTitle(day))}</h2><p>${later.filter((x) => String(when(x) || "").slice(0, 10) === day).length} bets</p></li>`; }
+    if (day !== cur) { cur = day; html += `<li class="day" data-day="${esc(day)}"><h2>${esc(dayTitle(day))}</h2><p class="daycount">${later.filter((x) => String(when(x) || "").slice(0, 10) === day).length} bets</p></li>`; }
     // The ledger writes a failed rule as "null"; on the page it is a fail. Every other verdict is shown as written.
     const v0 = b.verdictAfterAudit || b.verdictRaw || "";
     const v = b.status === "running" ? "running" : String(v0).toLowerCase() === "null" ? "fail" : v0;
@@ -102,8 +111,8 @@ function ledgerCards(bets, maps) {
       ["Pre-registered", commit(b.prereg)], ["Result", b.resultFile ? link(b, b.resultFile) : ""], ["Result commit", commit(b.resultCommit)],
       ["The rule's own reading", b.verdictPrereg ? inline(b.verdictPrereg) : ""],
     ].filter(([, x]) => x);
-    html += `<li class="ev-item${b.status === "hit" ? " milestone" : ""}"><div class="ev-card">
-      <div class="ev-time">${t ? esc(b.status === "running" ? `pre-registered ${fmtDate(t)}` : fmtDate(t)) : ""} · ${esc(programTitle(b.program, maps))}${ref ? ` · ${refKey(b.referee, 13)} ${esc(ref.word.toLowerCase())}` : ""}</div>
+    html += `<li class="ev-item${b.status === "hit" ? " milestone" : ""}" data-p="${esc(b.program)}" data-day="${esc(day)}"><div class="ev-card">
+      <div class="ev-time">${t ? esc(b.status === "running" ? `pre-registered ${fmtDate(t)}` : fmtDate(t, hasClock(when(b)))) : ""} · ${esc(programTitle(b.program, maps))}${ref ? ` · ${refKey(b.referee, 13)} ${esc(ref.word.toLowerCase())}` : ""}</div>
       <div class="ev-q">${esc(b.title)}</div>
       <p class="ev-verdict">${markSVG(b.status, 14)} <b class="scope">${esc(v || STATUS[b.status]?.word || "")}</b>${vword ? ` <span class="muted">· ${esc(vword)}</span>` : ""}</p>
       ${b.result ? `<p class="ev-r">${inline(b.result)}</p>` : ""}
@@ -112,14 +121,41 @@ function ledgerCards(bets, maps) {
       ${det.length ? `<details><summary>Details</summary><dl>${det.map(([k, x]) => `<dt>${k}</dt><dd>${x}</dd>`).join("")}</dl></details>` : ""}
     </div></li>`;
   }
-  return { html: html + `</ol></section>`, days, label: progs.length === 1 ? programTitle(progs[0], maps).replace(/:.*/, "") : "Programs 2 onward" };
+  return { html: html + `</ol></section>`, days, label: progs.length === 1 ? programTitle(progs[0], maps).replace(/:.*/, "") : `Programs ${progs.map((id) => programTitle(id, maps).match(/\d+/)?.[0]).filter(Boolean).join(", ")}` };
+}
+
+// One row per program after program 1, counted from the ledger, and a button that shows only that program's cards.
+function summary(later, progs, maps) {
+  const c = (id, st) => later.filter((b) => b.program === id && (st ? b.status === st : true)).length;
+  const rows = progs.map((id) => `<tr><td><button class="btn rf" type="button" data-p="${esc(id)}" aria-pressed="false">${esc(programTitle(id, maps)).replace(/^Program\s+/, '<span class="rs-long">Program </span>')}</button></td>
+    <td class="num">${c(id)}</td><td class="num">${c(id, "hit")}</td><td class="num">${c(id, "killed")}</td><td class="num">${c(id, "mixed")}</td><td class="num">${c(id, "running")}</td></tr>`).join("");
+  return `<div class="tablewrap rec-sum"><table><thead><tr><th>Program <span class="muted rs-long" style="font-weight:400">(tap to show only its bets)</span></th><th class="num">bets</th><th class="num">landed</th><th class="num">killed</th><th class="num">mixed</th><th class="num"><span class="rs-long">no result yet</span><span class="rs-short">open</span></th></tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="rf-all"><button class="btn rf" type="button" data-p="" aria-pressed="true">All programs</button> <span class="muted small" id="rf-state"></span></p>`;
+}
+function wireFilter() {
+  const tl = document.getElementById("ledger-tl");
+  if (!tl) return;
+  const btns = [...document.querySelectorAll(".rf")];
+  const apply = (p) => {
+    btns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.p === p)));
+    let shown = 0;
+    tl.querySelectorAll(".ev-item").forEach((li) => { const on = !p || li.dataset.p === p; li.hidden = !on; if (on) shown++; });
+    tl.querySelectorAll(".day").forEach((d) => {
+      const n = [...tl.querySelectorAll(`.ev-item[data-day="${d.dataset.day}"]`)].filter((li) => !li.hidden).length;
+      d.hidden = !n;
+      d.querySelector(".daycount").textContent = `${n} bet${n === 1 ? "" : "s"}`;
+    });
+    document.getElementById("rf-state").textContent = p ? `Showing ${shown} bet${shown === 1 ? "" : "s"} from one program.` : "";
+  };
+  btns.forEach((b) => b.addEventListener("click", () => apply(b.dataset.p)));
 }
 
 (async () => {
-  const [{ text, repo }, bets, maps] = await Promise.all([loadPaper("record"), loadBets(), loadMaps()]);
-  const L = ledgerCards(bets, maps);
+  const [{ text, repo }, bets, maps, ct] = await Promise.all([loadPaper("record"), loadBets(), loadMaps(), getJSON(DATA + "commit-times.json")]);
+  const L = ledgerCards(bets, maps, ct || {});
   if (!text) {
     main.innerHTML = `<h1>The record</h1><div class="empty">Could not load <code>paper/record.md</code> from the entangled-mind repository.</div>${L ? L.html : ""}`;
+    wireFilter();
     return;
   }
   const rec = parseRecord(text);
@@ -156,6 +192,7 @@ function ledgerCards(bets, maps) {
   }
   const tl = document.getElementById("tl");
   tl.innerHTML = html;
+  wireFilter();
   const st = document.getElementById("standing");
   st.innerHTML = rec.trailing.trim() ? `<h2>Where it stands</h2>` + window.marked.parse(rec.trailing) : "";
   wrapTables(st);

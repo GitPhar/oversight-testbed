@@ -1,0 +1,33 @@
+{
+ "chain": "CURBy-RNG",
+ "pulse_index": 1592214,
+ "pulse_time_utc": "2026-11-05T12:30:00.154Z",
+ "previous_index": 1592213,
+ "previous_time_utc": "2026-11-05T12:29:00.139Z",
+ "commit_time_utc": "2026-11-05T12:29:59.000Z",
+ "randomness": "8caed94e7e0a7210ff99187f4eab49f2653128ff03bdaa5115065a1310339577f773fcba9298fd2f6447ae3b60bc000edc8b527b85f0c5878e04dbaa35e7a9bc",
+ "client": "@buff-beacon-project/curby-client@1.2.0",
+ "certificate_verified": false,
+ "seed_source": "curby-rng",
+ "bet_id": "om-p2-7",
+ "purpose": [
+  "order",
+  "boot",
+  "items"
+ ],
+ "seed": 3738687062774756507,
+ "seed_order": 13533806480269411703,
+ "seed32_order": 3814098295,
+ "seed_boot": 9867349086274622913,
+ "seed32_boot": 3928790465,
+ "seed_items": 3655526655814506593,
+ "seed32_items": 717985889,
+ "pulse_time_denver": "2026-11-05 05:30:00",
+ "previous_time_denver": "2026-11-05 05:29:00",
+ "prereg_commit": "34182b6",
+ "prereg_time_denver": "2026-11-05 05:29:59",
+ "curbyq_latest_completed_round": 28297,
+ "curbyq_round_time_denver": "2025-08-22 13:42",
+ "curbyq_checked_denver": "2026-11-05 05:19",
+ "code": "experiments/curby_seed.mjs rng <prereg commit time>; then oversight-testbed/ledger/seed.py <randomness> om-p2-7 (no purpose, --purpose order, --purpose boot, --purpose items)"
+}

@@ -8,7 +8,7 @@ Pre-registered in `experiments/p2-2-perspective.md` (D2), commit `fc00c58`, befo
 
 **The question.** Is saying what Noor believes the same as judging the world from only what Noor saw? We asked "how likely is it that Noor believes X?" about each whole BigToM story. Separately, we retold the story to the model as if it were Noor, leaving out what Noor did not see, and asked "how likely is X?".
 
-**Pre-registered verdict: fail, even on the lenient test.**
+**Pre-registered verdict: fail.**
 - The pre-registration said in advance that the pooled test would be easy: most of the variation is the gap between stories where Noor saw the change and stories where she did not. It did not. Rendering (i) varies a lot within each kind of story, so even a rendering that tracked only seeing would have scored about 0.48. Allowing for noise between repeats, the two versions share **50%** of their variation across the 390 story-and-condition items, and almost all of that is the seen/not-seen split (with each condition's mean removed, 8%) (Q = 0.50 [0.41, 0.59]; the bar was 80%).
 - Within each kind of story, they share almost nothing: Q = 0.07 for stories where Noor saw the change and 0.09 where she did not. Both versions are highly repeatable (reliability 0.99), so this is not noise. The two questions rank the stories differently.
 - Both versions do separate "saw" from "didn't see": a 55-point gap in the attribution version and 69 points in the filtered version.

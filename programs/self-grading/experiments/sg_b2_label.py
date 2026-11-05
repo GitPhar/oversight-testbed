@@ -21,11 +21,13 @@ Noise-floor gate, free: the "none" arm's prompt is byte-identical to sg-b1's "fr
 import hashlib
 import json
 import random
+import subprocess
 import sys
 
 import numpy as np
 
-from sg_common import DATA, MODELS, RESULTS, SHORT, Caller, call, int_schema
+import sg_prompts
+from sg_common import DATA, MODELS, RESULTS, ROOT, SHORT, Caller, call, int_schema
 from sg_prompts import labelled
 from sg_stats import boot_ci, pooled, reading, robustness, spend_by_model, verdict
 
@@ -47,6 +49,47 @@ def seeds():
     return json.loads((DATA / "sg-b2-seed.json").read_text())["seeds"]
 
 
+def frozen(commit, names):
+    old = subprocess.run(["git", "-C", str(ROOT), "show", f"{commit}:programs/self-grading/experiments/sg_prompts.py"],
+                         capture_output=True, text=True, check=True).stdout
+    ns = {}
+    exec(compile(old.replace("from sg_common import SCALE", f"SCALE = {sg_prompts.SCALE!r}"), "frozen", "exec"), ns)
+    return [k for k in names if ns[k] != getattr(sg_prompts, k)]
+
+
+def preflight(ts, cs, models):
+    """Review fix D8a (ledger/design-reviews/sg-b2.md, flaw 2): the prompts are the frozen ones (WRITE, GRADE_Q, FRESH
+    as at sg-b1's d2589e3; LABELS as at this bet's ffa8033), each arm carries exactly its sentence, and every model has
+    a conclusion for all 60 studies. Otherwise the run does not start."""
+    bad = frozen("d2589e3", ("WRITE", "GRADE_Q", "FRESH")) + frozen("ffa8033", ("LABELS",))
+    if bad:
+        raise SystemExit(f"sg-b2 prompts differ from the frozen ones: {bad}")
+    missing = [(m, x["id"]) for m in models for x in ts if (m, x["id"]) not in cs]
+    if missing:
+        raise SystemExit(f"sg-b2: {len(missing)} conclusions missing from sg-b1's write cache, e.g. {missing[:3]}")
+    from sg_prompts import fresh
+    sentences = [v for v in sg_prompts.LABELS.values() if v]
+    bad = []
+    for m in models:                                   # D8c: every (model, study), not one
+        for x in ts:
+            c = cs[(m, x["id"])]
+            none = labelled(x["study"], c, "none")
+            if none != fresh(x["study"], c):
+                bad.append((m, x["id"], "none != sg-b1 fresh"))
+            nb = none[0]["content"]
+            for a in ("self", "other"):
+                body = labelled(x["study"], c, a)[0]["content"]
+                lab = sg_prompts.LABELS[a]
+                counts = [body.count(sv) for sv in sentences]
+                at_spot = nb.replace("Grade the conclusion. ", lab + " Grade the conclusion. ", 1)   # D8d: its frozen place
+                if body.count(lab) != 1 or sum(counts) != 1 or body.replace(lab + " ", "", 1) != nb or body != at_spot:
+                    bad.append((m, x["id"], a))
+            if any(nb.count(sv) for sv in sentences):
+                bad.append((m, x["id"], "label sentence in none"))
+    if bad:
+        raise SystemExit(f"sg-b2 preflight: {len(bad)} arm(s) malformed, e.g. {bad[:3]}")
+
+
 def sha(x):
     return hashlib.sha256(x.encode()).hexdigest()[:16]
 
@@ -56,9 +99,11 @@ def conclusions(pilot):
     return {(v["model"], v["task"]): v["conclusion"] for v in json.loads(f.read_text()).values()}
 
 
-def run(pilot, models=MODELS, caller_cls=Caller, call_fn=call, concl=None):
+def run(pilot, models=MODELS, caller_cls=Caller, call_fn=call, concl=None, check=True):
     ts = tasks(pilot)
     cs = concl if concl is not None else conclusions(pilot)
+    if check:
+        preflight(ts, cs, models)
     rng = random.Random(seeds()["order"])
     jobs = []
     for m in MODELS:                       # model by model (Haiku, Sonnet, Opus), shuffled within: a cap stop leaves whole models
@@ -151,6 +196,10 @@ def dryrun():
                    (gate["D0_ci"][0] <= 0 <= gate["D0_ci"][1]) or 2.5 < GATE_MIN) == "untestable"
     print("D3 a model whose identical calls disagree (D0 CI excludes 0) -> untestable")
     print("D2 labels: self and other differ from none by exactly one sentence; conclusion identical")
+    print("D10 frozen prompts:", "ok" if not (frozen("d2589e3", ("WRITE", "GRADE_Q", "FRESH")) + frozen("ffa8033", ("LABELS",))) else "DIFFER")
+    if (RESULTS / "sg-b1-write-calls.json").exists():
+        preflight(tasks(False), conclusions(False), MODELS)
+        print("D10 preflight on the real write cache: all 60 conclusions per model present; arms carry their sentences")
     rng = np.random.default_rng(2)
     for name, eff in [("null", 0.0), ("Popov-size, Sonnet only harsher", None), ("Chae-size kinder (+6)", 6.0), ("Khullar-size (+2)", 2.0)]:
         for sd in (3.0, 6.0, 10.0):
@@ -197,7 +246,7 @@ def stubrun(shift=5.0):
         return {"grade": int(round(88 + (shift if "written by you" in body else 0) + rr.gauss(0, 2)))}, 0.0, None
 
     try:
-        g = run(False, MODELS, caller_cls=StubCaller, call_fn=stub_call, concl=cs)
+        g = run(False, MODELS, caller_cls=StubCaller, call_fn=stub_call, concl=cs, check=False)
         r = analyse(False, grade_cache=g.cache, b1=b1, concl=cs)
     finally:
         tasks, seeds = to, so

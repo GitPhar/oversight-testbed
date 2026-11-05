@@ -12,8 +12,9 @@ Pre-registered in `experiments/gm4-evidence-seeking.md` (D39), committed before 
   - the informative check under both frozen experiment-5 models: +14 and +21 points over chance;
   - the expected-change rules;
   - the confirmatory check: +21 points.
+  - (Exploratory, after the verdict; audit round 3: the informative rule's excess comes entirely from the 74 (D5) and 94 (BA5) menus where its target is also the confirmatory claim. On the 46 and 26 menus where they differ it is at chance, −0.002 [−0.135, +0.137] and 0.000 [−0.150, +0.183], while the confirmatory rule stays above chance on the D5 menus, +0.197 [+0.038, +0.357]. So this excess does not show that the model seeks informative checks.)
 - **It avoids the most uncertain-sounding claim,** picking it 13 points less often than chance. So "informative" here is not "most hedged".
-- **The decisive comparison is undecided.** On the menus where the informative and confirmatory checks differ (46 and 26 menus), the model picks the confirmatory claim more often: −0.24 [−0.52, +0.04] and −0.14 [−0.40, +0.14]. Neither difference is reliable. Under the pre-registered rule the verdict is **mixed**.
+- **The decisive comparison is undecided.** On the menus where the informative and confirmatory checks differ (46 and 26 menus, from 23 and 14 items), the model picks the confirmatory claim more often: −0.24 [−0.52, +0.04] and −0.14 [−0.40, +0.14]. Neither difference is reliable. Under the pre-registered rule the verdict is **mixed**.
 
 **What it means.** The model reliably chooses claims that bear strongly on its question, which is partly what an inquiring mind would do. When they come apart it shows no detectable preference for the informative check; if anything it leans confirmatory, as Jhaveri et al. found for hypothesis testing. Active-inference-style evidence seeking is not shown. Neither is a clear confirmation bias.
 

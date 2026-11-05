@@ -1,6 +1,6 @@
 # P3-1 re-run with the bugs fixed: still fail; the gate twist, now actually applied, is the one variation that moves
 
-Pre-registered as DEVIATIONS.md **D8** (commit `7acdc3c`, 16:48, before running), after audit round 2 (entangled-mind audit2 `8091d01`, `audits/ng-p3-1.md`). Same seed (seed32 1158620522; no new beacon draw), same shots, same §5 rule as `experiments/p3-1-scheduled-sim.md`. Run 2026-11-04 on the laptop: $0, 0 QPU s. **Verdict: fail** (re-run, not yet audited). The first run and its write-up (`results/p3-1-scheduled-sim.md`, `.json`) are unchanged and still reproduce exactly with `--legacy`.
+Pre-registered as DEVIATIONS.md **D8** (commit `7acdc3c`, 16:48, before running), after audit round 2 (entangled-mind audit2 `8091d01`, `audits/ng-p3-1.md`). Same seed (seed32 1158620522; no new beacon draw), same shots, same §5 rule as `experiments/p3-1-scheduled-sim.md`. Run 2026-11-04 on the laptop: $0, 0 QPU s. **Verdict: fail** (re-run; audited in round 3, `ledger/audits/round-3/ng-p3-1.md`: fail stands, and the loaded T1/T2 equal the 3 November snapshot on all nine qubits). The first run and its write-up (`results/p3-1-scheduled-sim.md`, `.json`) are unchanged and still reproduce exactly with `--legacy`.
 
 ## In plain English
 
@@ -37,6 +37,6 @@ E2 moves every qubit except 141 toward the 3 November chip values, qubit 125 by 
 
 **Marginal control** (reported, not a gate; D8): max over the 9 qubits of |marginal − archived noisy-sim marginal| / that marginal's 1,000-shot SE. Noiseless model: **2.61** (P(yes) 0.279). Our unscheduled control: **1.78**. The check does not discriminate at this archive size.
 
-**Corrected-simulator adoption** stays **held** until an auditor checks this fix (D8).
+**Corrected-simulator adoption** was **held** until an auditor checked this fix (D8). It has now been checked twice on the record: the ng-p3-15 design review ran the fixed code (its `dry4.py`: the snapshot's T1/T2 reach the noise model, and a 0.1 rad ZZ moves P(yes) from 0.268 to 0.337), and audit round 3 confirmed that this re-run's `t1t2_check` equals the snapshot on all nine qubits and that its P(yes) values regenerate from the archived counts. Lifting the hold needs a DEVIATIONS row from the owning session.
 
 Data: `results/p3-1-rerun.json`. Code: `experiments/p3_1_scheduled.py --rerun`, `experiments/p3sim.py` (fixed `overwrite_calibration` and `simulator`).
