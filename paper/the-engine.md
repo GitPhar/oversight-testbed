@@ -51,7 +51,7 @@ The engine is built for trust, not volume. A system that reported a surprising p
 **Contributions.**
 - A loop and data model in which every research bet carries the agent's and the human's probability of passing a pre-registered rule, written before data and kept separately (§3).
 - A standing adversarial auditor with a fixed checklist drawn from observed failure classes. Planted-fault canaries make its catch rate measurable (§3.4), and a second-level audit makes its precision measurable (§3.10).
-- Three kinds of referee for the same engine: a language model's behaviour; a quantum chip that shares none of the engine's habits; and the published record, read with the direction masked and scored on findings posted after the model's training cutoff (§3.7).
+- Three kinds of referee for the same engine: a language model's behaviour; a quantum chip that shares none of the engine's habits; and the published record, read with the direction masked and scored on findings first posted after the model's stated knowledge cutoff (§3.7).
 - A scored veto (§3.8) and a written pre-mortem before each bet (§3.9).
 - Five pre-registered hypotheses about the engine with metrics, pass criteria and minimum sample sizes (§4), plus secondary measures added in this revision (§4.6).
 - A founding-week case study and its first independent audit, reported with their numbers, including the ones that do not flatter the engine (§6).
