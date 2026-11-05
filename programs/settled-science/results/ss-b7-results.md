@@ -1,6 +1,6 @@
 # ss-b7 results: does round 2 reduce to "picks the more striking version"?
 
-Pre-registration `3d73273` (`experiments/ss-b7.md`), map odds `0b8255c`. Design review `ledger/design-reviews/ss-b7.md`: fix-first (`da40046`), fixes D40–D47, confirmed `d0270cb`. Spend approved as br-001. There was no new random draw: the items and option order come from the ss-b4 seed `e8f921e`. **Unaudited**: the engine session draws the plant and launches the audit next.
+Pre-registration `3d73273` (`experiments/ss-b7.md`), map odds `0b8255c`. Design review `ledger/design-reviews/ss-b7.md`: fix-first (`da40046`), fixes D40–D47, confirmed `d0270cb`. Spend approved as br-001. There was no new random draw: the items and option order come from the ss-b4 seed `e8f921e`. **Audited** (`ledger/audits/ss-b7.md`, engine `1e2f461`): the pass stands as pass-unreplicated, and the test was easy. Cuts 2–7 are applied here (DEVIATIONS D48). Cut 1 was the sealed plant pl-010, which the audit caught; its replacement wording is adopted for the original sentence.
 
 ## In plain English
 
@@ -11,9 +11,9 @@ So a fresh session of the same model saw the same 92 sentence pairs, with only t
 - no single item or query bucket changes the verdict;
 - all 20 extra seeds agree.
 
-On the 39 items where the two favoured different sentences, the bettor was right on 37.
+The bettor and the rater favoured different sentences on 42 items, and the bettor was right on 40. (The pre-registered discordant count, which counts the rater's six ratings within 5 points of 50 as the up word, gives 39 items and 37.)
 
-**What this rules out, and what it doesn't.** It rules out "the bettor picks the more striking version" as an explanation of round 2: this rater's sense of what is striking barely tracks which sentence was published. It does **not** show that the bettor knows results. The flattery rule from ss-b6 still matches most of round 2. This rater is also so different from the bettor that almost any reasonable bettor would beat it: a bettor that differed from it only by stable item-level noise of the size observed would pass about 98% of the time. So the pass is decisive against this one rival, and it says nothing beyond that.
+**What this rules out, and what it doesn't.** It rules out "the bettor only picks the more striking version, as this one prompt judged it" as an explanation of round 2: this rater's sense of what is striking barely tracks which sentence was published. It does not say where the bettor's edge comes from: the design cannot separate knowing the result from reasoning within the sentence. It does **not** show that the bettor knows results. The flattery rule from ss-b6 still matches most of round 2. This rater is also so different from the bettor that almost any reasonable bettor would beat it: a bettor that differed from it only by stable item-level noise of the size observed would pass about 98% of the time. So the pass is decisive against this one rival, and it says nothing beyond that.
 
 **Both the bettor and the rater ran as claude-opus-5-5 with adaptive thinking at effort low, with reasoning hidden; the result is about that setting.**
 
@@ -44,7 +44,7 @@ On the 39 items where the two favoured different sentences, the bettor was right
 | G1: non-50 ratings favouring the up word | 49 of 92 (0.53) |
 | G3: rationales reasoning about which version is real | 14 of 92 |
 
-G3 would qualify a null, and it does not affect a pass. Fourteen rationales still reasoned about which version is real, despite the hypothetical framing.
+G3 would qualify a null, and it does not affect a pass. Fourteen rationales contain a G3 keyword (real, actually, genuine, plausible). Read one by one, at most one (r2-022, "though also less plausible") weighs which version is true; the others use the words in their ordinary sense ("genuine multipartite nonlocality", "longer than real ones").
 
 ## Tables
 
@@ -73,7 +73,7 @@ From `scoring/b7-scores.json`.
 | discordant pairs (rater where \|v − 50\| > 5, otherwise the up word) | 39; bettor right on 37; one-sided sign test p = 1.4 × 10⁻⁹ |
 | opposite sentences (bettor vs rater, raw) | 42 items; bettor right on 40 |
 
-Unlike ss-b6, both legs pass on both word subsets.
+Unlike ss-b6, both legs' upper bounds are below 0 on both word subsets (reported, not tested). Leg 2 rests mostly on the 21 down-word items: they carry 82% of its gap, and removing 17 of them would flip it. On the 71 up-word items leg 2's bound (−0.002) is below that subset's own null margin (+0.0001, recomputed by the auditor from the stored null simulations) but not the full-set margin (−0.0031).
 
 ## What it cannot do
 
@@ -95,7 +95,7 @@ Unlike ss-b6, both legs pass on both word subsets.
 |---|---|---|
 | 1 (ss-b1–b3) | Can the bettor tell which way post-cutoff findings went, on curated, Claude-written items? | Yes against a coin and a publication-bias shortcut (audited) |
 | 2 (ss-b5) | On template items no model wrote, does it beat dumb word rules? | Yes (audited) |
-| 2b (ss-b6) | Does that reduce to picking the flattering version? | Mostly. A flattery rater matches 90% against 93%, and the bettor's edge is fragile (audited, weak) |
-| 2c (ss-b7) | Does it reduce to picking the more striking version? | No. That rater is near a coin (unaudited) |
+| 2b (ss-b6) | Does that reduce to picking the flattering version? | A same-model flattery rater matches most of it (90% against 93%); the bettor's edge over it passes narrowly and is fragile (audited, weak) |
+| 2c (ss-b7) | Does it reduce to picking the more striking version? | Not as this one prompt judged it. That rater is near a coin, so the test was easy (audited) |
 
 The cap has $0.24 left, so the program has no room for another round without a budget decision.
