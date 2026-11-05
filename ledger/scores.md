@@ -29,7 +29,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-29 audits prepared with a sealed plant line: 2 still sealed, 27 revealed, of which 10 carried a plant. 
+30 audits prepared with a sealed plant line: 3 still sealed, 27 revealed, of which 10 carried a plant. 
 
 **Catch rate: 10/10 = 1.00, 95% Wilson interval [0.72, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
 
@@ -98,7 +98,7 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
 
-Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 16 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 35 lesson lines written.
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 16 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 36 lesson lines written.
 
 | | count |
 |---|---|
@@ -116,7 +116,7 @@ Design reviews: 0 go, 28 fix-first, 6 redesign; 19 later found by the post-resul
 |---|---|---|---|
 | P1 | Odds too high where the engine had a story | 13 | 9 of 13 scored |
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 4 | 4 of 4 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 23 | 13 of 21 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 24 | 13 of 21 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 5 | 3 of 5 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 3 | 0 of 1 scored |
 | P6 | A control that cannot fail | 3 | 1 of 3 scored |
