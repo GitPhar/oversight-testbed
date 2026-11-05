@@ -70,7 +70,7 @@
   },
   {
    "id": "ss-b6",
-   "title": "Round 2b: the bettor beats a valence ('which flatters the paper') comparator on the 92 round-2 items",
+   "title": "Round 2b: the bettor beats a valence comparator on both legs (raw and recalibrated with the up word)",
    "parent": "ss-b5",
    "status": "open",
    "engine_odds": 0.35,
@@ -82,7 +82,8 @@
    "engine_odds_first": 0.25,
    "odds_after_review": 0.35,
    "engine_odds_revised_at": "2026-11-04 20:26 America/Denver",
-   "revision_reason": "D33: design review ss-b6 F2; valence50 synthetic rater beaten under both legs"
+   "revision_reason": "D37: moved toward the running base rate (0.41) before data, a move that needs no further reason (operators/learn.md). The pull runs both ways: F2's second leg makes passing harder, while F1's hypothetical prompt probably makes the rater a cleaner flattery judge (more 50s on neutral items), which the bettor's up-word habit can beat. D33's reason ('valence50 is beaten') is withdrawn: valence50 is the bettor's own confident ratings with 50 elsewhere, not an honest flattery rater.",
+   "odds_event": "Both legs' paired Brier upper bounds below 0 on at least 60 items: raw (bettor minus valence rule) and recalibrated (each side's rating plus the up word, same leave-one-out logistic); untestable if gate G1 fails (rater favours the up word on fewer than half its non-50 ratings)"
   }
  ]
 }

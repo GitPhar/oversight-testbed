@@ -43,6 +43,6 @@ The ss-b5 audit's open rival is that the bettor "picks the version that flatters
 
 | id | event the odds are for | engine P(pass) |
 |---|---|---|
-| ss-b6 | The bettor's paired Brier difference against the valence rule has a 95% upper bound below 0, on at least 60 items. | **25** |
+| ss-b6 | Both legs' paired Brier upper bounds below 0 on at least 60 items: raw (bettor minus valence rule) and recalibrated (each side's rating plus the up word, same leave-one-out logistic); untestable if gate G1 fails (rater favours the up word on fewer than half its non-50 ratings). | **35** (first 25; revised before data, D33/D37: moved toward the running base rate (0.41) before data, a move that needs no further reason (operators/learn.md).) |
 
 Rationale (under 100 words): the audit found most of the bettor's down-word hits were sentences where the down word is the paper's win ("lower noise", "costing less"), and three of its four misses reported limitations. Published sentences mostly report wins, so a flattery rule should score close to the bettor. To beat it, the bettor would need to be right where the published sentence is unflattering, and there are few such items. Below even odds.

@@ -514,7 +514,7 @@ def score_b6(items, bets, valence):
         sent = (f"On {len(rows)} round-2 sentence pairs, the bettor picked the published sentence better than the same model asked only which version "
                 f"is better news for the paper's own method (raw: d₁ {out['leg1']['d']:.3f} {f3(out['leg1']['ci'])}, valence rule Brier "
                 f"{out['leg1']['valence_brier']:.3f}), and better than that rating combined with the up word once both were recalibrated the same way "
-                f"(d₂ {out['leg2']['d']:.3f} {f3(out['leg2']['ci'])}). Round 2's pass is not only picking the flattering version or the up word, though "
+                f"(d₂ {out['leg2']['d']:.3f} {f3(out['leg2']['ci'])}). Round 2's pass is not only picking the flattering version, as this rater judged it, or the up word, though "
                 "this does not separate knowing the result from reasoning within the sentence, and the rater was the same model as the bettor")
     else:
         sent = (f"On {len(rows)} round-2 sentence pairs, the bettor was not shown to pick the published sentence better than the same model asked only "
@@ -528,16 +528,26 @@ def score_b6(items, bets, valence):
     if not full and g3 >= 10:
         sent += (f"; in {g3} of {len(rows)} rationales the rater reasoned about which version is real, so it may share the bettor's judgment, "
                  "and this null does not show the pass reduces to flattery")
+    nu, nd = out["leg2_up_word"]["n"], out["leg2_down_word"]["n"]
     if full and out["leg2_up_word"]["ci"][0] is not None and out["leg2_up_word"]["ci"][0] > 0:
-        sent += (f"; on the 71 up-word items the bettor was worse than the comparator (d {out['leg2_up_word']['d']:.3f} "
-                 f"{f3(out['leg2_up_word']['ci'])}), so the pass rests on the 21 down-word items")
+        sent += (f"; on the {nu} up-word items the bettor was worse than the comparator (d {out['leg2_up_word']['d']:.3f} "
+                 f"{f3(out['leg2_up_word']['ci'])}), so the pass rests on the {nd} down-word items")
     if full and greedy:
-        sent += f"; removing {greedy['k']} chosen items ({greedy['down_word']} of them down-word) would flip it"
-    if out["fragile_items"] or out["bucket_flips"]:
+        k = greedy["k"]
+        which = (f"{greedy['down_word']} of them down-word" if k != 1 else ("a down-word item" if greedy["down_word"] else "an up-word item"))
+        sent += f"; removing {k} chosen item{'s' if k != 1 else ''} ({which}) would flip it"
+    if out["fragile_items"] or out["bucket_flips"]:          # D37 (N3): name items and buckets; plural agreement
         out["label_reported"] = f"{out['label']}, fragile"
-        what = (f"the item{'s' if len(out['fragile_items']) > 1 else ''} {', '.join(out['fragile_items'])}" if out["fragile_items"]
-                else f"the query bucket {', '.join(out['bucket_flips'])}")
-        sent += f"; this label rests on {what}: without it the label would be {'null' if full else 'pass'}"
+        parts = []
+        if out["fragile_items"]:
+            fi = out["fragile_items"]
+            parts.append(f"the item{'s' if len(fi) > 1 else ''} {', '.join(fi)}")
+        if out["bucket_flips"]:
+            bf = out["bucket_flips"]
+            parts.append(f"the query bucket{'s' if len(bf) > 1 else ''} {', '.join(bf)}")
+        many = len(out["fragile_items"]) + len(out["bucket_flips"]) > 1
+        sent += (f"; this label rests on {' and '.join(parts)}: without {'any one of them' if many else 'it'} "
+                 f"the label would be {'null' if full else 'pass'}")
     out["sentence"] = sent + "."
     out["rows"] = [{k: v for k, v in r.items() if k != "rationale"} for r in rows]
     return out
@@ -562,7 +572,7 @@ def main_b6():
     bets = [json.loads(l) for l in R2_BETS.read_text().splitlines() if l.strip()]
     if "--synthetic" in sys.argv:
         prim = [b for b in bets if b["kind"] == "primary"]
-        kinds = sys.argv[sys.argv.index("--synthetic") + 1:] or ["coin"]
+        kinds = [k for k in sys.argv[sys.argv.index("--synthetic") + 1:] if not k.startswith("--")] or ["coin"]
         for kind in kinds:
             s = score_b6(items, bets, synthetic_valence(items, prim, kind))
             if "leg1" not in s:
@@ -571,6 +581,8 @@ def main_b6():
             print(f"{kind:11s} leg1 {s['leg1']['d']:+.3f} [{s['leg1']['ci'][0]:+.3f},{s['leg1']['ci'][1]:+.3f}]  "
                   f"leg2 {s['leg2']['d']:+.3f} [{s['leg2']['ci'][0]:+.3f},{s['leg2']['ci'][1]:+.3f}]  -> {s.get('label_reported', s['label'])}"
                   f"  G1 {s['gates']['G1_share_up']}  greedy {s['greedy_flip']}")
+            if "--sentences" in sys.argv:
+                print("   ", s["sentence"])
         return
     s = score_b6(items, bets, [json.loads(l) for l in R2_VALENCE.read_text().splitlines() if l.strip()])
     (ROOT / "scoring" / "b6-scores.json").write_text(json.dumps(s, indent=1))
