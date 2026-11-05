@@ -11,7 +11,7 @@ checks: {D1: flaw, D2: flaw, D3: flaw, D4: holds, D5: flaw, D6: holds, D7: flaw,
 flaws: 5
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 07:08 America/Denver   # addendum 1: fixes F1-F5 (D57, 52fd0a4) confirmed; go
 ---
 
 # Design review of ss-b12
@@ -144,3 +144,38 @@ Each fix goes in a dated DEVIATIONS.md row naming this review (`ledger/design-re
 - **F5 (D11): the bootstrap at the realised n, and the dry-run text.**
   - **Permutation p.** Report a one-sided label-permutation p (10,000 permutations, `default_rng(20261104)`) beside the bootstrap. If the label is pass and p ≥ 0.025, the sentence adds "a permutation test does not confirm it (p = …)". The bar is unchanged.
   - **Dry-run text.** Correct `--dry-run` and §0/§3 to "about 44 clean (round-2 keep rate 40–44%), about 38 unrecognised", and cite this review's measured-world table as the D11 dry run in place of the exponential `--synthetic` worlds (P15).
+
+## Addendum 1: confirmation of the fixes (2026-11-05 07:08 America/Denver)
+
+I checked the fixes in D57 at `52fd0a4` (the `f4.py` and `score_f4.py` diffs, the new `scoring/test_recog_f4.py`, and the D57 row). Nothing was fetched or called. `bettor/f4-run-status.json`, `items/f4/` and the f4 caches still do not exist. Scratch scripts: `conf_branches.py` (the scorer's branches on synthetic "pre" files, made from r2 item texts with random bets, in scratch paths) and an inline `run_caller` test, also in scratch. **All five fixes hold. Verdict: go.**
+
+- **F1 holds.** `test_recog_f4.py` prints "all 20 labels right". The binding rule `recognised2` flags 3 of round 2's 92 primary rationales:
+  - r2-018 ("Lites et al.", 2026-08-04);
+  - r2-052 ("Fanous et al. 2025");
+  - r2-084 ("contradicts well-known results").
+
+  The frozen rule flags 0, so the newer side is 89 items. On round 1's 68 pre-cutoff rationales (counts only), it flags 19 against the frozen rule's 5 and the round-3 audit's 16. So it now catches the naming form at about the audit's rate.
+  - The negator guard applies to a match and to a year not in the item text.
+  - The frozen rule is kept as a reported secondary, with its own gap.
+  - Residual risk, not blocking: a negator within four words before a true citation suppresses it ("Not surprisingly, Marks et al. …"); r2-084 is a generic "well-known results". Both errors fall on both sides.
+- **F2 holds, with one count to correct.** The sentences use "papers first posted between January 2024 and June 2026" and "first posted after its stated knowledge cutoff of June 2026". The null sentence carries the 0.05 clause. But the "(34 of them in July–August)" wording I wrote in F2 is no longer true once F1 drops r2-018 (v1 2026-08-04): the unrecognised newer side has **33** July–August items of 89. This is my wording error, not the author's. **Required before the results are written** (wording only, its own DEVIATIONS row): have `NEWER` count the July–August items from the scored post rows, or read "33 of them". Small fix in the same pass: "a error" in the untestable sentence should read "an error".
+- **F3 holds.** Every verdict sentence carries the bundle clause. `score_f4` reports:
+  - the up-word share per side;
+  - the up-word (0.75) and swap-pair (D24) rules' gaps on the same unrecognised items, with bootstrap intervals;
+  - the conditional "A rule that reads only the comparative word also scores better…" clause.
+
+  On the 89 newer items the up-word rule's Brier is 0.177 and the swap-pair rule's 0.165, as in ss-b5. `swap_brier` returns a value for every item, with no `None`. The leak-drop share per side is not computed in `score_f4`. I accept it being read from `items/f4/leakage-status.json`, with round 2's 146/243 beside it, but the results file must report it.
+- **F4 holds.** `run_caller` records `complete`, `cap`, `refusal` and `error` for the right `Caller` exit messages (tested in scratch with stub callers). On synthetic files, `score_f4.main()` returns the right label in each branch:
+
+  | case | label |
+  |---|---|
+  | refusal in the bet step | untestable, "stopped on a refusal" |
+  | error in the leak step | untestable |
+  | 45 of 60 bets with no cap recorded | untestable |
+  | a cap stop with no model-psychology item | scored, and the sentence names the missing bucket |
+  | complete runs | pass or null, as built |
+
+  `rng.shuffle(jobs)` runs after the swap draw, so option orders are unchanged.
+- **F5 holds.** `perm_p` (10,000 permutations, one-sided, `default_rng(20261104)`) goes in the table. It adds "A permutation test does not confirm it" to a pass when p ≥ 0.025, and the bar is unchanged. `--dry-run` now says about 44 clean and about 38 unrecognised items. The scorer's `--synthetic` outputs moved, because the new fields consume draws from the same rng: same → null +0.022, memory → null (lower bound −0.00003), easier → pass, ceiling → null. Each world still gives exactly one label.
+
+Not taking the optional "check every candidate before sampling" suggestion is the engine's call, and it changes no check. D11's table above stands. With about 25% now plausibly recognised (19/68 on round 1), the realistic P(untestable) is nearer the 25%-recognised column (about 0.3). P(pass) in the round-1-calibrated worlds is about 0.07–0.26.
