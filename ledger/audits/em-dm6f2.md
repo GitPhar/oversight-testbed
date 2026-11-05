@@ -189,3 +189,6 @@ with
 2. **Paid, the real test.** Re-ask Sonnet on the 94 science questions plus the 118 simpleqa questions, two formats × two askings, with the probability template rephrased so that the number refers unambiguously to the stated guess. That is about 850 calls, roughly $0.50 at em-dm6's $0.0006 per Sonnet call. Pass rule: as here, read on each category group separately. Then do the same 300 × 4 fresh cells on Opus, the model the remap row named, which this archive lacks: about 1,200 calls, very roughly $2–4. Either one would test whether "the list changes with format" survives a template that fixes what the number means.
 
 VERDICT_AFTER_AUDIT: pass-unreplicated; STANDS: true; CUTS: 3
+
+
+Revealed 2026-11-05: pl-024, clean; nothing to catch.
