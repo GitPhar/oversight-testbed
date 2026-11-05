@@ -46,3 +46,13 @@ The ss-b5 audit's open rival is that the bettor "picks the version that flatters
 | ss-b6 | Both legs' paired Brier upper bounds below 0 on at least 60 items: raw (bettor minus valence rule) and recalibrated (each side's rating plus the up word, same leave-one-out logistic); untestable if gate G1 fails (rater favours the up word on fewer than half its non-50 ratings). | **35** (first 25; revised before data, D33/D37: moved toward the running base rate (0.41) before data, a move that needs no further reason (operators/learn.md).) |
 
 Rationale (under 100 words): the audit found most of the bettor's down-word hits were sentences where the down word is the paper's win ("lower noise", "costing less"), and three of its four misses reported limitations. Published sentences mostly report wins, so a flattery rule should score close to the bettor. To beat it, the bettor would need to be right where the published sentence is unflattering, and there are few such items. Below even odds.
+
+## Round 2c: the "more striking finding" rater (written 2026-11-04 21:05 America/Denver, before any striking-rater call)
+
+ss-b6's audit named the rival its prompt left untested: the bettor may pick whichever version reports the more *striking* (publishable) finding. Test it the same way: on the same 92 items, a fresh no-tools claude-opus-5-5 at the bettor's setting is asked only which version reports the more striking finding. A pattern from the ledger (P12) applies: at margin 0, ss-b6's rule let a bettor that knows nothing beyond the rater pass 24–61% of the time. So ss-b7 adds a **noise margin**. Leg 2 must clear the 10th percentile of a null world built from the rater's own test-retest noise.
+
+| id | event the odds are for | engine P(pass) |
+|---|---|---|
+| ss-b7 | On at least 60 items, leg 1's upper bound is below 0, and leg 2's upper bound is below the null-world margin m*, where m* is set from this rater's own retest noise. | **40** |
+
+Rationale (under 100 words): the flattery rater matched 90% of round 2. A "striking" rater is probably a weaker match: striking can mean surprising, and surprising findings can run against the paper's own claim. That makes the bettor more likely to beat it on leg 1. But the margin is stricter than ss-b6's rule, and ss-b6 itself would have failed it (upper −0.0018 against a margin of about −0.003). These pull in opposite directions, so I set it near the running base rate.
