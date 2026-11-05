@@ -1,0 +1,52 @@
+{
+ "dry_run": {
+  "cut_rate": 0.05357142857142857,
+  "opus_flag_rate_unsure": 0.20689655172413793,
+  "sonnet_flag_rate_unsure": 0.6366666666666667,
+  "k_confident": 0.31,
+  "worlds": {
+   "sonnet-like": {
+    "pass": 0.75,
+    "fail": 0.24,
+    "untestable": 0.01,
+    "mean_usable": 29.73,
+    "mean_flagged": 19.73
+   },
+   "opus-confident": {
+    "pass": 0.55,
+    "fail": 0.32,
+    "untestable": 0.13,
+    "mean_usable": 30.0,
+    "mean_flagged": 7.88
+   },
+   "haiku-like": {
+    "pass": 0.12,
+    "fail": 0.88,
+    "untestable": 0.0,
+    "mean_usable": 32.73,
+    "mean_flagged": 24.44
+   },
+   "no format effect (sonnet-like)": {
+    "pass": 0.0,
+    "fail": 1.0,
+    "untestable": 0.0,
+    "mean_usable": 33.66,
+    "mean_flagged": 15.0
+   },
+   "no format effect (opus-confident)": {
+    "pass": 0.0,
+    "fail": 0.19,
+    "untestable": 0.81,
+    "mean_usable": 33.59,
+    "mean_flagged": 4.23
+   }
+  }
+ },
+ "cost_sim": {
+  "p_all_run": 0.9985,
+  "mean_spend": 0.26599290400000003,
+  "p95_spend": 0.27810769999999996,
+  "max_spend": 0.285816,
+  "mean_batches": 4.708
+ }
+}
