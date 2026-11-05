@@ -31,11 +31,12 @@ import dm6f2_flag_overlap as f2                          # em-dm6f2: statistic a
 H, S, O = "claude-haiku-5-5", "claude-sonnet-5-5", "claude-opus-5-5"
 SHORT = {H: "haiku", S: "sonnet", O: "opus"}
 CAP, RESERVE, DISCOUNT, MARGIN = 1.00, 0.02, 0.5, 1.10
-MAXTOK = {H: 300, S: 300, O: 1000}                       # em-dm6's 300; Opus 1000 because low effort still thinks
+MAXTOK = {H: 300, S: 300, O: 300}                        # em-dm6's 300; Opus 300 (D87: the review's pilot used 15-47 output tokens)
 OFFP = {H: {"thinking": {"type": "disabled"}}, S: {"thinking": {"type": "between_tools"}}, O: {"output_config": {"effort": "low"}}}
 PRICES = {H: (0.10, 0.50), S: (2.00, 10.00), O: (4.00, 20.00)}
-EST = {H: 0.000025, S: 0.000577, O: 0.0023}              # per request, batch rate: em-dm6's fresh cells; Opus from em-gm2q2's 160 single-message calls ($0.00232)
-N_OPUS_PER_CAT = 6                                       # 24 questions: what the $1.00 cap leaves (below em-dm6f2's 40-question floor: Opus reported, not labelled)
+EST = {H: 0.000025, S: 0.000577, O: 0.0012}              # per request, batch rate: em-dm6's fresh cells; Opus 1.5 x the review's pilot ($0.0008, D87)
+OPUS_CHUNK = 40                                          # D87: Opus submitted in chunks, each checked at its worst case (every reply at max_tokens)
+N_OPUS_PER_CAT = 10                                      # 40 questions (D87; em-dm6f2's 40-question floor), reported, never the verdict
 SEED_RECORDED = {"bootstrap": 12892736311446276367, "items": 14564298516711186911}   # CURBy-RNG 1592560 (seed commit)
 RESULTS = HERE.parent / "results"
 CACHE, BATCHLOG, REFUSAL = RESULTS / "dm6f2f2-calls.json", RESULTS / "dm6f2f2-batches.json", RESULTS / "refusal-dm6f2f2.md"
@@ -56,7 +57,7 @@ def pool():
 
 
 def opus_questions(items_seed):
-    """10 per category, drawn with the beacon's items seed from the sorted ids of each category."""
+    """N_OPUS_PER_CAT per category, drawn with the beacon's items seed from the sorted ids of each category."""
     P = pool()
     rng = np.random.default_rng(items_seed % 2**63)
     out = []
@@ -64,6 +65,10 @@ def opus_questions(items_seed):
         ids = sorted(q for q, r in P.items() if r["category"] == cat)
         out += [ids[i] for i in sorted(rng.choice(len(ids), N_OPUS_PER_CAT, replace=False))]
     return out
+
+
+def req_sha(model, text):
+    return hashlib.sha256(json.dumps(params(model, text), sort_keys=True).encode()).hexdigest()
 
 
 def params(model, text):
@@ -111,8 +116,12 @@ def run(client=None):
                 for r in (0, 1):
                     for q in qs:
                         k = f"{SHORT[m]}|{fmt}|r{r}|{q}"
-                        if k not in cache:
-                            jobs[k] = (m, TEMPLATES[fmt].format(q=P[q]["question"]))
+                        t = TEMPLATES[fmt].format(q=P[q]["question"])
+                        if k in cache:                   # D87: reuse only an entry built from the same request
+                            if cache[k].get("sha") != req_sha(m, t):
+                                sys.exit(f"dm6f2f2: cached {k} was built from a different request; stopped, nothing resubmitted")
+                            continue
+                        jobs[k] = (m, t)
         if not jobs:
             continue
         est = sum(EST[m] for m, _ in jobs.values())
@@ -121,49 +130,59 @@ def run(client=None):
                   f"would not fit the ${CAP} cap", flush=True)
             save()
             break
-        part, refusal = {k: params(m, t) for k, (m, t) in jobs.items()}, None
-        for attempt in range(3):
-            idmap = {f"r{n}": k for n, k in enumerate(part)}
-            b = client.messages.batches.create(requests=[{"custom_id": c, "params": part[k]} for c, k in idmap.items()])
-            t0 = time.time()
-            entry = {"batch": b.id, "n": len(part), "ended": False}
-            blog.append(entry)
-            save()                                       # the batch ID is on disk before polling starts
-            print(f"dm6f2f2: batch {b.id}, {len(part)} requests", flush=True)
-            while b.processing_status != "ended":
-                time.sleep(20)
-                b = client.messages.batches.retrieve(b.id)
-            entry.update(ended=True, seconds=round(time.time() - t0))
-            retry = {}
-            for res in client.messages.batches.results(b.id):
-                k = idmap[res.custom_id]
-                if res.result.type != "succeeded":
-                    retry[k] = part[k]
-                    continue
-                msg = res.result.message
-                m = jobs[k][0]
-                pin, pout = PRICES[m]
-                cost = DISCOUNT * (msg.usage.input_tokens * pin + msg.usage.output_tokens * pout) / 1e6
-                if msg.stop_reason == "refusal":
-                    refusal = refusal or (k, msg, b.id)
-                    cache[k] = {"raw": None, "guess": None, "conf": None, "refused": True, "cost": cost, "msg_id": msg.id}
-                    continue
-                text = "".join(x.text for x in msg.content if x.type == "text")
-                g, c = (None, None) if msg.stop_reason == "max_tokens" else cf.parse(text, k.split("|")[1])
-                cache[k] = {"raw": text, "guess": g, "conf": c, "stop": msg.stop_reason, "cost": cost, "msg_id": msg.id, "batch": b.id}
-            save()
-            if refusal:
-                k, msg, bid = refusal
-                REFUSAL.write_text(f"# em-dm6f2f2 stopped on a refusal\n\nJob `{k}`, model `{msg.model}`, batch `{bid}`, message "
-                                   f"`{msg.id}`\n\n```\n{getattr(msg, 'stop_details', None)}\n```\n\nNothing was reworded or retried; "
-                                   "no further batch was submitted.\n")
-                sys.exit(f"STOPPED on a refusal: {k} {msg.id}")
-            if not retry:
+        keys = list(jobs)
+        chunks = [keys] if O not in wave else [keys[i:i + OPUS_CHUNK] for i in range(0, len(keys), OPUS_CHUNK)]
+        for ck in chunks:
+          if O in wave:                                  # D87: worst case = every reply at max_tokens
+            worst = sum(DISCOUNT * (len(jobs[k][1]) / 3 * PRICES[O][0] + MAXTOK[O] * PRICES[O][1]) / 1e6 for k in ck)
+            if spent() + worst + RESERVE > CAP + 1e-9:
+                print(f"dm6f2f2: Opus chunk not run: spent ${spent():.3f} + worst case ${worst:.3f} would not fit", flush=True)
+                save()
                 break
-            part = retry
-        else:
-            save()
-            sys.exit("dm6f2f2: requests still failing after two resubmissions; stopped")
+          part, refusal = {k: params(jobs[k][0], jobs[k][1]) for k in ck}, None
+          for attempt in range(3):
+              idmap = {f"r{n}": k for n, k in enumerate(part)}
+              b = client.messages.batches.create(requests=[{"custom_id": c, "params": part[k]} for c, k in idmap.items()])
+              t0 = time.time()
+              entry = {"batch": b.id, "n": len(part), "ended": False}
+              blog.append(entry)
+              save()                                       # the batch ID is on disk before polling starts
+              print(f"dm6f2f2: batch {b.id}, {len(part)} requests", flush=True)
+              while b.processing_status != "ended":
+                  time.sleep(20)
+                  b = client.messages.batches.retrieve(b.id)
+              entry.update(ended=True, seconds=round(time.time() - t0))
+              retry = {}
+              for res in client.messages.batches.results(b.id):
+                  k = idmap[res.custom_id]
+                  if res.result.type != "succeeded":
+                      retry[k] = part[k]
+                      continue
+                  msg = res.result.message
+                  m = jobs[k][0]
+                  pin, pout = PRICES[m]
+                  cost = DISCOUNT * (msg.usage.input_tokens * pin + msg.usage.output_tokens * pout) / 1e6
+                  if msg.stop_reason == "refusal":
+                      refusal = refusal or (k, msg, b.id)
+                      cache[k] = {"raw": None, "guess": None, "conf": None, "refused": True, "cost": cost, "msg_id": msg.id, "sha": req_sha(m, jobs[k][1])}
+                      continue
+                  text = "".join(x.text for x in msg.content if x.type == "text")
+                  g, c = (None, None) if msg.stop_reason == "max_tokens" else cf.parse(text, k.split("|")[1])
+                  cache[k] = {"raw": text, "guess": g, "conf": c, "stop": msg.stop_reason, "cost": cost, "msg_id": msg.id, "batch": b.id,
+                            "sha": req_sha(m, jobs[k][1])}
+              save()
+              if refusal:
+                  k, msg, bid = refusal
+                  REFUSAL.write_text(f"# em-dm6f2f2 stopped on a refusal\n\nJob `{k}`, model `{msg.model}`, batch `{bid}`, message "
+                                     f"`{msg.id}`\n\n```\n{getattr(msg, 'stop_details', None)}\n```\n\nNothing was reworded or retried; "
+                                     "no further batch was submitted.\n")
+                  sys.exit(f"STOPPED on a refusal: {k} {msg.id}")
+              if not retry:
+                  break
+              part = retry
+          else:
+              save()
+              sys.exit("dm6f2f2: requests still failing after two resubmissions; stopped")
         print(f"dm6f2f2: wave done, ${spent():.4f}", flush=True)
     save()
     print(f"dm6f2f2: finished, ${spent():.4f}")
@@ -196,10 +215,35 @@ def old_no_below_half(cats, fmt):
 
 
 SENTENCES = {
-    "pass": "With the number's wording fixed to the model's own guess, an overseer who double-checks every answer for which Sonnet stated a number below 70% would still have checked a substantially different set of questions depending on which of the two formats the number was asked in, by at least the pre-registered margin over two askings in the same format. The format gap in em-dm6f2 is not only the old wording's double meaning.",
-    "fail": "With the number's wording fixed to the model's own guess, Sonnet's lists of answers below 70% were not shown to differ by format more than they differ between two askings in the same format, by the pre-registered margin. This is consistent with the old wording's double meaning carrying em-dm6f2's gap, but the design does not show that it did.",
+    "pass": "With the number's wording fixed to the model's own guess, an overseer who double-checks every answer for which Sonnet stated a number below 70% would still have checked a substantially different set of questions depending on which of the two formats the number was asked in, by at least the pre-registered margin over two askings in the same format. The format gap in em-dm6f2 is not only the old wording's double meaning. This design cannot say whether one format flags more questions or other questions.",
+    "fail": "With the number's wording fixed to the model's own guess, Sonnet's lists of answers below 70% were not shown to differ by format more than they differ between two askings in the same format, by the pre-registered margin. This is consistent with the old wording's double meaning, or the new wording's switch to Yes/No guesses, carrying em-dm6f2's gap; the design does not show which.",
     "untestable": "Too few questions carried a confidence number in all four cells to read the rule.",
 }
+
+
+MANIP_BAR = 0.10                                         # D87: the rewording took effect iff both shares <= 0.10
+
+
+def below_half_share(rows):
+    xs = [v["conf"] < 0.5 for v in rows if v.get("guess") in ("yes", "no") and v.get("conf") is not None]
+    return (float(np.mean(xs)) if xs else None), sum(xs), len(xs)
+
+
+def yesno_share(rows):
+    xs = [v.get("guess") in ("yes", "no") for v in rows if v.get("raw")]
+    return (float(np.mean(xs)) if xs else None), len(xs)
+
+
+def archive_rows(fmt):
+    conv = json.loads((RESULTS / "cal-sonnet-conversations.json").read_text())
+    out = []
+    for k, v in conv.items():
+        p = k.split("|")
+        if p[0] == "fresh" and p[1] == fmt and v.get("turns"):
+            t = v["turns"][0]
+            g, c = cf.parse(t["raw"], fmt)
+            out.append({"q": p[3], "guess": g, "conf": t.get("conf"), "raw": t["raw"], "cell": f"{fmt}|{p[2]}"})
+    return out
 
 
 def analyse(seed):
@@ -220,30 +264,73 @@ def analyse(seed):
         r = f2.analyse(qs, X, seed + 10 * i, cats)
         r["n_asked"] = n_all
         r["no_below_half_science"] = {fmt: no_below_half(cache, m, fmt, cats) for fmt in "PF"}
+        v0 = r.get("verdict")
+        r["parent_sentence_addendum"] = (r["sentence"][len(f2.SENTENCES[v0]):].strip()
+                                         if r.get("sentence") and v0 in f2.SENTENCES and r["sentence"].startswith(f2.SENTENCES[v0]) else "")
+        r["sentence"] = None                             # D87: em-dm6f2's "On this archive" sentences are not written
+        rows = {fmt: [dict(v, q=k.split("|")[3]) for k, v in cache.items() if k.startswith(f"{m}|{fmt}|")] for fmt in "PF"}
+        r["yesno_share"] = {f"{fmt}|{cat}": yesno_share([x for x in rows[fmt] if cats.get(x["q"]) == cat])
+                            for fmt in "PF" for cat in sorted(set(cats.values()))}
+        r["yesno_share_cell"] = {key: yesno_share([v for k, v in cache.items() if k.startswith(f"{m}|{key}|")]) for key in ("P|r0", "P|r1", "F|r0", "F|r1")}
+        if m == "sonnet":
+            r["manipulation"] = {fmt: below_half_share(rows[fmt]) for fmt in "PF"}
+            r["manipulation_archive"] = {fmt: below_half_share(archive_rows(fmt)) for fmt in "PF"}
+            r["yesno_share_archive"] = {f"{fmt}|{cat}": yesno_share([x for x in archive_rows(fmt) if cats.get(x["q"]) == cat])
+                                        for fmt in "PF" for cat in sorted(set(cats.values()))}
         out["models"][m] = r
     out["models"]["sonnet"]["old_template_no_below_half_science"] = {fmt: old_no_below_half(cats, fmt) for fmt in "PF"}
     v = out["models"]["sonnet"].get("verdict", "untestable")
-    out["verdict"], out["sentence"] = v, SENTENCES.get(v, SENTENCES["untestable"])
+    sent = SENTENCES.get(v, SENTENCES["untestable"])
+    man = out["models"]["sonnet"].get("manipulation", {})
+    took = all(man.get(f) and man[f][0] is not None and man[f][0] <= MANIP_BAR + 1e-9 for f in "PF")
+    out["manipulation"] = {"bar": MANIP_BAR, "took_effect": took, "new": man, "archive": out["models"]["sonnet"].get("manipulation_archive")}
+    if v in ("pass", "fail") and not took:                # D87: the second sentence is replaced verbatim
+        parts = sent.split(". ")
+        x = man.get("P", (None,))[0]; y = man.get("F", (None,))[0]
+        fx = lambda z: "n/a" if z is None else f"{z:.2f}"
+        second = (f"The rewording did not remove numbers below 0.5 on Yes/No guesses (probability format {fx(x)}, frequency format {fx(y)}), "
+                  "so this result does not separate the old wording's double meaning from other explanations.")
+        if v == "pass":
+            first, rest = sent.split(" The format gap in em-dm6f2 is not only the old wording's double meaning. ")
+            sent = first + " " + second + " " + rest
+        else:
+            first = sent.split(" This is consistent with")[0]
+            sent = first + " " + second
+    add = out["models"]["sonnet"].get("parent_sentence_addendum")
+    if v == "pass" and out["models"]["sonnet"].get("noise_asymmetric") and add:
+        sent += " " + add
+    out["verdict"], out["sentence"] = v, sent
     OUT_JSON.write_text(json.dumps(out, indent=1, default=float))
     f = lambda x: f"{x:.3f}"
     L = ["# em-dm6f2f2 tables (generated by experiments/dm6f2f2_own_guess.py --analyse; do not edit)", "",
          f"{out['n_calls']} calls, ${out['cost_usd']:.4f} at the batch rate, {out['refused']} refused, {out['max_tokens']} at max_tokens; seed {seed}.", "",
-         "| model | questions with a number in all four cells (of asked) | flag rate P r0 / P r1 / F r0 / F r1 | J_F [95%] | J_N [95%] | D = J_N − J_F [95%] | verdict |",
-         "|---|---|---|---|---|---|---|"]
+         "| model | questions with a number in all four cells (of asked) | flag rate P r0 / P r1 / F r0 / F r1 | J_F [95%] | J_N [95%] | J_PP / J_FF | noise asymmetric | D = J_N − J_F [95%] | verdict |",
+         "|---|---|---|---|---|---|---|---|---|"]
     for m, r in out["models"].items():
         if "J_F" not in r or r.get("J_F") != r.get("J_F"):
-            L.append(f"| {m} | {r.get('n_questions', 0)} of {r.get('n_asked', 0)} | — | — | — | — | {r['verdict']} |")
+            L.append(f"| {m} | {r.get('n_questions', 0)} of {r.get('n_asked', 0)} | — | — | — | — | — | — | {r['verdict']} |")
             continue
         fr = " / ".join(f"{x:.2f}" for x in r["flag_rate"].values())
         L.append(f"| {m}{' (primary)' if m == 'sonnet' else ' (reported)'} | {r['n_questions']} of {r['n_asked']} | {fr} | {f(r['J_F'])} [{f(r['J_F_ci'][0])}, {f(r['J_F_ci'][1])}] | "
-                 f"{f(r['J_N'])} [{f(r['J_N_ci'][0])}, {f(r['J_N_ci'][1])}] | {r['D']:+.3f} [{r['D_ci'][0]:+.3f}, {r['D_ci'][1]:+.3f}] | {r['verdict']} |")
-    L += ["", f"**Verdict (Sonnet, the pre-registered rule): {out['verdict']}**", "", out["sentence"], "", "## Secondary (reported, never promoted)", ""]
+                 f"{f(r['J_N'])} [{f(r['J_N_ci'][0])}, {f(r['J_N_ci'][1])}] | {f(r['J_PP'])} / {f(r['J_FF'])} | {r['noise_asymmetric']} | {r['D']:+.3f} [{r['D_ci'][0]:+.3f}, {r['D_ci'][1]:+.3f}] | {r['verdict']} |")
+    mp = out["manipulation"]
+    L += ["", f"**Verdict (Sonnet, the pre-registered rule): {out['verdict']}**", "", out["sentence"], "",
+          f"Manipulation check (D87): Sonnet's Yes/No guesses with a number below 0.5, new template P {mp['new'].get('P')}, F {mp['new'].get('F')} "
+          f"(share, below, n); em-dm6's archive P {mp['archive'].get('P') if mp['archive'] else None}, F {mp['archive'].get('F') if mp['archive'] else None}; "
+          f"took effect (both <= {mp['bar']}): {mp['took_effect']}.", "", "## Secondary (reported, never promoted)", ""]
     for m, r in out["models"].items():
         if "no_below_half_science" in r:
             L.append(f"- {m}: science answers guessing 'no' with a number below 0.5, new template: P {r['no_below_half_science']['P']}, F {r['no_below_half_science']['F']} (share, n)"
                      + (f"; em-dm6's old template: P {r['old_template_no_below_half_science']['P']}, F {r['old_template_no_below_half_science']['F']}" if m == "sonnet" else "")
                      + (f"; cluster D {r['cluster_D_ci']}, cluster verdict {r.get('cluster_verdict')}" if "cluster_D_ci" in r else "")
                      + (f"; leave-one-question-out flips {len(r['loo_flips'])}" if "loo_flips" in r else ""))
+    for m, r in out["models"].items():
+        if "yesno_share" in r:
+            L.append(f"- {m}: share of guesses parsed Yes/No by format|category (share, n): "
+                     + "; ".join(f"{k} {v[0]:.2f} ({v[1]})" for k, v in r["yesno_share"].items() if v[0] is not None)
+                     + "; by cell: " + "; ".join(f"{k} {v[0]:.2f}" for k, v in r["yesno_share_cell"].items() if v[0] is not None)
+                     + ("; em-dm6's archive: " + "; ".join(f"{k} {v[0]:.2f} ({v[1]})" for k, v in r["yesno_share_archive"].items() if v[0] is not None)
+                        if "yesno_share_archive" in r else ""))
     L.append("- em-dm6f2 (old template, archived): Sonnet D +0.222 [+0.150, +0.294], J_F 0.535.")
     OUT_MD.write_text("\n".join(L) + "\n")
     print("\n".join(L))
@@ -259,7 +346,7 @@ def selftest():
         assert cf.parse("Guess: No\n Probability: 0.9" if fmt == "P" else "Guess: No\n Frequency: 90", fmt) == ("no", 0.9)
     assert len(opus_questions(12345)) == 4 * N_OPUS_PER_CAT and len(set(opus_questions(12345))) == 4 * N_OPUS_PER_CAT
     assert opus_questions(12345) == opus_questions(12345)
-    print("selftest: templates differ from em-dm6's by the one clause, parse holds, Opus draw is 24 distinct and repeatable")
+    print("selftest: templates differ from em-dm6's by the one clause, parse holds, Opus draw is 40 distinct and repeatable")
 
 
 def dry_run(n_sims=100, nboot=1000):
