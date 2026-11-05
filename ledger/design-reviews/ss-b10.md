@@ -158,3 +158,30 @@ Each goes in one dated DEVIATIONS row (D-next, naming this review), written befo
 - **Order of work.** Re-run `--dry-run` and show the 7-step plan and estimate before the confirmation.
 
 Recommended, not required: a stronger answer-free baseline than the five above, which are all at chance, for example "the version whose changed words recur more often in the unchanged sentences". It is not needed for this bet's claim once F2 removes the mechanism wording.
+
+## Addendum 1: check of the D54 fixes (2026-11-05 06:59 America/Denver)
+
+I checked 386d462 (code and the D54 row), 05e13e6 (the row's time) and 5ee223a (ledger) against F1–F4. No paid call, no pilot ($0.00). **Not confirmed yet: one phrase from F2 is still in the code. Everything else holds.**
+
+- **F1: holds.** I ran `score_bb.score()` on hand-built tables with the real option labels.
+
+  | Haiku | Sonnet | verdict |
+  |---|---|---|
+  | 0.55 | stopped at 100 ratings | `fail-partial`, reported "fail (one model untestable)" |
+  | stopped at 100 ratings | 0.55 | `fail-partial` |
+  | 0.80 | stopped at 100 ratings | untestable |
+
+  The D54 row scores fail-partial as 0. The sentence names the per-model n and the untested model.
+- **F2: one phrase not applied.** The pass, fail and n-below-200 wording are as required. The n=160 case prints "(Haiku: 160 of 200 scored; Sonnet: 200 of 200 scored)". "But was not shown to on <other>" is in. But the mixed sentence still ends "**so the shortcut beats the experts on one of the two models only**" (`scoring/score_bb.py` line 249, and the D54 row's text). F2 required "so this prompt beats the experts' published rate on one of the two models only". "The shortcut" claims what the design cannot show: that the prompt succeeds by a route other than knowledge. That is the noun F2 removed from the pass sentence.
+- **F3: holds.** The forecasting-prompt sentence names the bundle: "a different instruction, a question line, and a note that one version was altered by an expert". The share is worded as the flattery prompt's above-chance accuracy over the forecasting prompt's, and the §6 line is in D54.
+- **F4: holds, and the $2.50 cap is acceptable.**
+  - **The step.** The dry run shows step 7: `claude-opus-5-5`, 50 calls, kind `opus-secondary`, all of them in the beacon-drawn order-check half (bb-005 to bb-100). All five sections appear (16, 11, 9, 9, 5). The user text is identical to the Haiku primary text (same option order). There are 1,050 unique cache keys, and `max_tokens` is 4000 for Opus only. `model_block` filters by model, so Opus rows cannot enter the pass rule.
+  - **The cap.** A stubbed run at $0.0017/call completes all 7 steps for $1.785. At $0.00235/call the cap binds at $7.2605, after steps 1–6 complete, and step 7 stops at 48 of 50. S9 is then reported on n = 48.
+
+  A binding cap therefore cuts only the secondary, and rule 12 accepts fewer Opus items. Steps 1–6 measure about $1.70, so step 7's about $0.40 fits under the cap's $2.45 stop. Even at the conservative $2.09, Opus would still get about 35 items. Recommended, not required: if step 7 is cut, have the S9 sentence say "n of the 50 items (cut by the cap)".
+
+  The program cap now reads $8.25 (br-005 for ss-b12, 8140cf6). The bet's own cap still binds first: min($8.25, others + $2.50 − pilot).
+- **Ledger note: fixed.** `ls-ss-b10.read` now says read_at ef2fa6b, newest audit ta-b1r2.md. `check_prereg.py` gives L1–L3 ok and R1 ok. R2 is "fix-first, confirmed null", as expected until confirmation.
+- **Regression:** all seven synthetic worlds give the same verdicts as before.
+
+**Remaining fix (F2a), before any call:** in `scoring/score_bb.py` `sentences()`, mixed branch, replace "so the shortcut beats the experts on one of the two models only." with "so this prompt beats the experts' published rate on one of the two models only." Do the same in the D54 sentence text, through a dated DEVIATIONS row or an amendment to D54 written before any call. Once that commit exists, I confirm with no further change needed.
