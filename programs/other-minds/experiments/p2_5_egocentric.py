@@ -40,7 +40,8 @@ from bm_runs import ITEMS, RATE, SCALE, ask          # program 1, unchanged
 
 ANCHORS = ITEMS.parent / "exp4-run-3-anchors.json"   # program 1, unchanged
 CACHE, OUT, SEEDF = om.RESULTS / "p2-5-calls.json", om.RESULTS / "p2-5-egocentric.json", om.DATA / "p2-5-seed.json"
-REVIEW = om.ROOT.parents[1] / "ledger" / "design-reviews" / "om-p2-5.md"
+REVIEW_DIR = om.ROOT.parents[1] / "ledger" / "design-reviews"
+REVIEW = REVIEW_DIR / "om-p2-5.md"           # D12 (F5): gate() reads every om-p2-5*.md in REVIEW_DIR
 CAP = 1.00
 R = 5                                     # repeats per cell
 DS = (-60, -30, -10, 10, 30, 60)
@@ -54,31 +55,83 @@ QUESTIONS = ("self", "sam_p", "sam_i", "sam_inf")
 CONDS = ("OWN", "SWAP")
 EST_COST_PER_CALL = 4.8e-5                # bm0's archived lag-0 own conversations: $9.48e-5 per two calls
 
+V0 = "On Haiku, on program 1's 16 vignettes, "
+ALEX = "with another reader's (Alex's) answer also shown, "
+PPP = "points per point of displacement (averaged over the 10-, 30- and 60-point classes)"
+BUNDLE = ("The two conditions differ in whose number it is, its turn, its format and its place in the conversation (Alex's "
+          "answer comes just before the question) together, so this cannot say which of those carries it.")
+# D12 (review om-p2-5 F1, F3, F4; review om-p2-5-1b F1): every Sam sentence names Alex's answer; "points per point" says
+# how it is averaged; the bundle names the place in the conversation; fail (not inherited) added.
 SENTENCES = {
-    "pass": "On Haiku, on program 1's 16 vignettes, a rating planted as the model's own earlier answer pulled the rating "
-            "it attributed to Sam, a person who had seen neither that answer nor another reader's, by at least 0.10 "
-            "points per point of displacement, and by at least 0.05 more than the same number shown as another "
-            "reader's (Alex's) answer; and the model moved Sam's rating further when told Sam had seen its answer. The "
-            "two conditions differ in whose number it is, its turn and its format together, so this cannot say which "
-            "of those carries it.",
-    "fail_small": "On Haiku, on program 1's 16 vignettes, a rating planted as the model's own earlier answer did not "
-                  "pull the rating it attributed to Sam, who had not seen it, by at least 0.10 points per point of "
-                  "displacement with the interval above 0.",
-    "fail_anchoring": "On Haiku, on program 1's 16 vignettes, the model's own planted answer pulled the rating it "
-                      "attributed to Sam, who had not seen it, but not by at least 0.05 more (with the interval above 0) "
-                      "than the same number shown as another reader's answer, so the pull cannot be told apart from any "
-                      "number in the conversation pulling Sam's rating.",
-    "fail_copy": "On Haiku, on program 1's 16 vignettes, the model's own planted answer pulled the rating it attributed "
-                 "to Sam by more than the bar and more than another reader's number did, but not detectably less than when "
-                 "Sam was said to have seen that answer, so it cannot be told apart from the model repeating its own earlier "
-                 "answer whoever is asked.",
+    "pass": V0 + ALEX + "a rating planted as the model's own earlier answer pulled the rating it attributed to Sam, a "
+            "person who had seen neither answer, by at least 0.10 " + PPP + ", and by at least 0.05 more than the same "
+            "number did when it was shown as Alex's answer; Sam's rating moved no more than the model's own re-rating, "
+            "and further when Sam was said to have seen the model's answer. " + BUNDLE,
+    "fail_small": V0 + ALEX + "a rating planted as the model's own earlier answer did not pull the rating it attributed "
+                  "to Sam, who had seen neither answer, by at least 0.10 " + PPP + " with the interval above 0.",
+    "fail_anchoring": V0 + "the model's own planted answer pulled the rating it attributed to Sam, who had seen neither "
+                      "its answer nor another reader's (Alex's), but not by at least 0.05 more (with the interval above "
+                      "0) than the same number did when it was shown as Alex's answer, so the pull cannot be told apart "
+                      "from any number in the conversation pulling Sam's rating.",
+    "fail_copy": V0 + ALEX + "the model's own planted answer pulled the rating it attributed to Sam by more than the bar "
+                 "and more than Alex's number did, but not detectably less than when Sam was said to have seen that "
+                 "answer, so it cannot be told apart from the model repeating its own earlier answer whoever is asked.",
+    "fail_not_inherited": V0 + ALEX + "the model's own planted answer pulled the rating it attributed to Sam more than "
+                          "it pulled the model's own re-rating, so the pull on Sam cannot be the model's own shifted "
+                          "rating carried over to Sam.",
     "untestable_manipulation": "The test could not answer: the planted answer did not move the model's own re-rating "
                                "(its interval is not above 0), so there was no shift of the model's own for Sam's rating "
                                "to inherit. It says nothing either way.",
     "untestable_few": "The test could not answer: fewer than 12 of the 16 vignettes have every cell answered (for "
-                      "example after a refusal stopped the run). It says nothing either way.",
+                      "example after a refusal stopped the run in its first repeat). It says nothing either way.",
     "fragile": "The label depends on one vignette: removing {vid} changes it.",
 }
+
+# D12 (review om-p2-5-1b F4): a reported sub-reading beside the label. It never replaces the label or changes the score;
+# the leave-one-out flip test stays on (label, reason). {x}, {y}, {lo}, {hi} are filled from the run.
+SUB_SENTENCES = {
+    "pass": SENTENCES["pass"].replace("by at least 0.10 " + PPP + ", and by at least 0.05 more",
+                                      "by an estimated {x} " + PPP + " (at least 0.10, with the 95% interval above 0), "
+                                      "and by an estimated {y} more (at least 0.05, interval above 0)"),
+    "small_bounded": V0 + ALEX + "a rating planted as the model's own earlier answer pulled the rating it attributed to "
+                     "Sam, who had seen neither answer, by less than 0.10 " + PPP + " (95% interval [{lo}, {hi}], wholly "
+                     "below 0.10).",
+    "small_open": V0 + ALEX + "the test did not show that a rating planted as the model's own earlier answer pulled the "
+                  "rating it attributed to Sam, who had seen neither answer, by 0.10 " + PPP + " or more (estimate {x}, "
+                  "95% interval [{lo}, {hi}]); a pull of that size is not ruled out.",
+    "anchoring_reversed": V0 + "the same number pulled the rating the model attributed to Sam, who had seen neither "
+                          "answer, more when it was shown as another reader's (Alex's) answer than when it was the "
+                          "model's own earlier answer (difference {x}, 95% interval [{lo}, {hi}], wholly below 0). " + BUNDLE,
+    "anchoring_bounded": SENTENCES["fail_anchoring"].replace(
+        "shown as Alex's answer,", "shown as Alex's answer (estimate {x}, 95% interval [{lo}, {hi}], wholly below 0.05),"),
+    "anchoring_open": SENTENCES["fail_anchoring"].replace(
+        "shown as Alex's answer,", "shown as Alex's answer (estimate {x}, 95% interval [{lo}, {hi}]); an own-over-other "
+                                   "difference of 0.05 is not ruled out,"),
+    "copy": SENTENCES["fail_copy"][:-1] + " (guard {x}, 95% interval [{lo}, {hi}]).",
+    "not_inherited": SENTENCES["fail_not_inherited"][:-1] + " (Sam minus own {x}).",
+}
+assert all("{" in v for v in SUB_SENTENCES.values()) and SUB_SENTENCES["pass"] != SENTENCES["pass"]
+
+
+def fail_bound(label, reason, point, ci):
+    """(sub-reading, its sentence filled with this run's numbers), or (None, None) for untestable."""
+    f = lambda v: f"{v:+.3f}"
+    if label == "pass":
+        return "pass", SUB_SENTENCES["pass"].format(x=f"{point['U_sam_own']:.2f}", y=f"{point['dU']:.2f}")
+    if label != "fail":
+        return None, None
+    if reason == "not_inherited":
+        return "not_inherited", SUB_SENTENCES["not_inherited"].format(x=f(point["U_sam_own"] - point["U_self_own"]))
+    if reason == "small":
+        st, (lo, hi) = point["U_sam_own"], ci["U_sam_own"]
+        sub = "small_bounded" if hi < BAR - EPS else "small_open"
+    elif reason == "anchoring":
+        st, (lo, hi) = point["dU"], ci["dU"]
+        sub = "anchoring_reversed" if hi < -EPS else "anchoring_bounded" if hi < MARGIN - EPS else "anchoring_open"
+    else:
+        st, (lo, hi) = point["copy_guard"], ci["copy_guard"]
+        sub = "copy"
+    return sub, SUB_SENTENCES[sub].format(x=f(st), lo=f(lo), hi=f(hi))
 
 
 # --- design ------------------------------------------------------------------------------------------------------
@@ -193,6 +246,7 @@ class GuardedCaller:
                     return
             try:
                 d_, cost, rid = self.call(msgs)
+                raw = int(d_["probability"])          # D12 (review om-p2-5 F5a): a malformed value stops the run cleanly
             except om.llm.RefusalError as e:
                 with self.lock:
                     self.cache[key] = {"refused": True, "request_id": e.request_id, "cost": 0.0, "sha256": h}
@@ -206,7 +260,7 @@ class GuardedCaller:
             with self.lock:
                 if self.stop.is_set():
                     self.after_stop += 1
-                self.cache[key] = {"value": min(100, max(0, int(d_["probability"]))), "raw": int(d_["probability"]),
+                self.cache[key] = {"value": min(100, max(0, raw)), "raw": raw,
                                    "cost": cost, "request_id": rid, "sha256": h}
                 if len(self.cache) % 250 == 0:
                     self.path.write_text(json.dumps(self.cache))
@@ -238,16 +292,25 @@ class GuardedCaller:
         print(f"{self.label}: complete, {len(self.cache)} cached calls, ${self.spent():.4f}", flush=True)
 
 
-def gate(review=None):
-    """No call before the design review's go (or a confirmed fix-first) and before the seed commit."""
-    review = Path(review or REVIEW)
-    if not review.exists():
-        return f"no design review at {review}"
-    head = review.read_text().split("\n---", 2)[0]
+def review_state(path):
+    head = Path(path).read_text().split("\n---", 2)[0]
     v = (re.search(r"^verdict:\s*(\S+)", head, re.M) or [None, ""])[1]
     conf = (re.search(r"^confirmed_at:\s*(.+)$", head, re.M) or [None, "null"])[1].strip()
-    if not (v == "go" or (v == "fix-first" and conf not in ("", "null"))):
-        return f"design review verdict {v or '?'}" + (" (not confirmed)" if v == "fix-first" else "")
+    return v, conf
+
+
+def gate(review_dir=None):
+    """No call before every design review of this bet says go (or a confirmed fix-first), and before the seed commit.
+    D12 (F5): every ledger/design-reviews/om-p2-5*.md is read; the gate opens only if at least one exists and each is
+    go or fix-first with confirmed_at set; any redesign closes it."""
+    review_dir = Path(review_dir or REVIEW_DIR)
+    reviews = sorted(review_dir.glob("om-p2-5*.md"))
+    if not reviews:
+        return f"no design review om-p2-5*.md in {review_dir}"
+    for rv in reviews:
+        v, conf = review_state(rv)
+        if not (v == "go" or (v == "fix-first" and conf not in ("", "null"))):
+            return f"{rv.name}: design review verdict {v or '?'}" + (" (not confirmed)" if v == "fix-first" else "")
     if not SEEDF.exists():
         return "no data/p2-5-seed.json (the seed commit comes before any call)"
     return None
@@ -255,30 +318,69 @@ def gate(review=None):
 
 # --- analysis ----------------------------------------------------------------------------------------------------
 
-def cell_means(items, anchors, cache):
-    """{(vid, o, cond, d, q): mean rating over repeats}; cells with any repeat missing or refused are absent."""
+def complete_repeats(items, anchors, cache):
+    """D12 (F3): k, the number of leading repeats in which every planned job is in the cache (answered or refused)."""
+    keys = {}
+    for j in jobs(items, anchors):
+        keys.setdefault(j[-1], []).append(j[0])
+    k = 0
+    while k < R and all(key in cache for key in keys[k]):
+        k += 1
+    return k
+
+
+def cell_means(items, anchors, cache, k=None):
+    """{(vid, o, cond, d, q): mean rating over repeats 0 .. k-1}, k = complete_repeats() unless given (D12, F3: a stop
+    after whole repeats leaves a testable run). A cell is absent if any of those repeats is refused or missing."""
+    k = complete_repeats(items, anchors, cache) if k is None else k
     out = {}
+    if k == 0:
+        return out
     for vid, o, d, m, v in cells(items, anchors):
         for cond in (("REF",) if d == 0 else CONDS):
             for q in QUESTIONS:
-                vals = [cache.get(f"{vid}|{o}|{cond}|{d}|{q}|{r}") for r in range(R)]
+                vals = [cache.get(f"{vid}|{o}|{cond}|{d}|{q}|{r}") for r in range(k)]
                 if all(x is not None and not x.get("refused") for x in vals):
                     out[(vid, o, cond, d, q)] = float(np.mean([x["value"] for x in vals]))
     return out
 
 
-def uptake_table(items, anchors, M):
+BANDS = ((5, 15), (15, 35), (35, 61))      # D12 (F2): secondary, by the real displacement |V - m|
+
+
+def band_of(D):
+    return next(i for i, (lo, hi) in enumerate(BANDS) if lo <= abs(D) < hi)
+
+
+def duplicate_cells(items, anchors):
+    """D12 (F2): displaced cells whose V equals a cell with a smaller |d| for the same statement (clipping at 2 or 98).
+    Their prompts are identical to that cell's."""
+    dup, seen = [], {}
+    for vid, o, d, m, v in sorted(cells(items, anchors), key=lambda c: (c[0], c[1], abs(c[2]))):
+        if d == 0:
+            continue
+        if (vid, o, v) in seen:
+            dup.append((vid, o, d, m, v, seen[(vid, o, v)]))
+        else:
+            seen[(vid, o, v)] = d
+    return dup
+
+
+def uptake_table(items, anchors, M, dedup=False, bands=False):
     """Per vignette, per (cond, q, class): (sum of u, count of cells), u = (y_cell - y_REF) / (V - m), from the cell
-    means M. A vignette is complete if every cell of both statements is in M."""
+    means M. A vignette is complete if every cell of both statements is in M.
+    D12 (F2), secondaries only: dedup=True counts each distinct prompt once, in the class of its smallest |d|;
+    bands=True groups cells by the real displacement |V - m| (BANDS) instead of by |d|."""
     vids = [it["id"] for it in items]
     keys = [(c, q, k) for c in CONDS for q in QUESTIONS for k in CLASSES]
+    drop = {(x[0], x[1], x[2]) for x in duplicate_cells(items, anchors)} if dedup else set()
     S = np.zeros((len(vids), len(keys)))
     N = np.zeros((len(vids), len(keys)))
     complete = np.ones(len(vids), bool)
     col = {k: j for j, k in enumerate(keys)}
     for vi, vid in enumerate(vids):
         for (vid_, o, d, m, v) in [c for c in cells(items, anchors) if c[0] == vid]:
-            if d == 0:
+            if d == 0 or (vid, o, d) in drop:
                 continue
             for cond in CONDS:
                 for q in QUESTIONS:
@@ -286,7 +388,7 @@ def uptake_table(items, anchors, M):
                     if y is None or y0 is None:
                         complete[vi] = False
                         continue
-                    j = col[(cond, q, abs(d))]
+                    j = col[(cond, q, CLASSES[band_of(v - m)] if bands else abs(d))]
                     S[vi, j] += (y - y0) / (v - m)
                     N[vi, j] += 1
     return vids, keys, S, N, complete
@@ -342,6 +444,8 @@ def rule(point, ci, n_complete):
         return "fail", "anchoring"
     if not ci["copy_guard"][0] > EPS:
         return "fail", "copy"
+    if not point["U_sam_own"] <= point["U_self_own"] + EPS:     # D12 (review om-p2-5 F1): 5b, not inherited
+        return "fail", "not_inherited"
     return "pass", None
 
 
@@ -358,10 +462,12 @@ def analyse_tables(vids, keys, S, N, complete, seed_boot):
     for drop in idx:
         sub = idx[idx != drop]
         p2, c2 = boot(S, N, keys, seed_boot, sub)
-        l2, r2 = rule(p2, c2, len(sub))
+        l2, r2 = rule(p2, c2, len(idx))     # D12 (review om-p2-5 F5c): the 12-vignette floor applies to the run's count
         loo.append({"dropped": vids[drop], "U_sam_own": p2["U_sam_own"], "dU": p2["dU"], "label": l2, "reason": r2})
     flips = [x["dropped"] for x in loo if (x["label"], x["reason"]) != (label, reason)]
+    sub, sub_sentence = fail_bound(label, reason, point, ci)
     return {"label": label, "reason": reason, "point": point, "ci": ci, "n_complete_vignettes": int(len(idx)),
+            "fail_bound": sub, "fail_bound_sentence": sub_sentence,
             "map_rule": map_rule(point, ci), "loo": loo, "loo_flips": flips,
             "fragile": bool(flips), "sentence": SENTENCES["pass" if label == "pass" else f"{label}_{reason}"]}
 
@@ -387,11 +493,22 @@ def analyse():
     cache = json.loads(CACHE.read_text())
     verify_cache(items, anchors, cache)
     seed = json.loads(SEEDF.read_text())
-    M = cell_means(items, anchors, cache)
+    k = complete_repeats(items, anchors, cache)
+    M = cell_means(items, anchors, cache, k)
     vids, keys, S, N, complete = uptake_table(items, anchors, M)
     res = analyse_tables(vids, keys, S, N, complete, seed["seed32_boot"])
+    res["complete_repeats_k"] = k
     idx = np.flatnonzero(complete)
     res["by_class"] = by_class(S, N, keys, idx)
+    # D12 (F2) secondaries, never promoted
+    _, _, Sd, Nd, cd = uptake_table(items, anchors, M, dedup=True)
+    pd, cid = boot(Sd, Nd, keys, seed["seed32_boot"], np.flatnonzero(cd))
+    res["dedup"] = {"point": pd, "ci": cid, "rule_would_give": list(rule(pd, cid, int(cd.sum())))}
+    _, _, Sb, Nb, cb = uptake_table(items, anchors, M, bands=True)
+    res["by_band"] = {"bands": [list(b) for b in BANDS], "uptake": by_class(Sb, Nb, keys, np.flatnonzero(cb)),
+                      "cells_per_band": {str(BANDS[i]): int(sum(1 for c in cells(items, anchors) if c[2] != 0
+                                                                 and band_of(c[4] - c[3]) == i)) for i in range(3)}}
+    res["duplicate_cells"] = [list(x) for x in duplicate_cells(items, anchors)]
     res["calls"] = len(cache)
     res["planned_calls"] = len(jobs(items, anchors))
     res["refused"] = sum(1 for v in cache.values() if v.get("refused"))
@@ -400,11 +517,11 @@ def analyse():
     res["ref_cells"] = {f"{vid}|{o}|{q}": M.get((vid, o, "REF", 0, q)) for vid in vids for o in "XY" for q in QUESTIONS}
     res["anchor_vs_ref_self"] = float(np.mean([M[(vid, o, "REF", 0, "self")] - round(anchors[vid][f"m_{o}"])
                                                for vid in vids for o in "XY" if (vid, o, "REF", 0, "self") in M]))
-    res["within_cell_sd_median"] = float(np.median([np.std([cache[f"{vid}|{o}|{c}|{d}|{q}|{r}"]["value"] for r in range(R)])
-                                                    for (vid, o, c, d, q) in M]))
+    res["within_cell_sd_median"] = float(np.median([np.std([cache[f"{vid}|{o}|{c}|{d}|{q}|{r}"]["value"] for r in range(k)])
+                                                    for (vid, o, c, d, q) in M])) if M else None
     OUT.write_text(json.dumps(res, indent=1))
-    print(json.dumps({k: res[k] for k in ("label", "reason", "map_rule", "n_complete_vignettes", "loo_flips", "calls",
-                                          "cost_usd")}, indent=1))
+    print(json.dumps({x: res[x] for x in ("label", "reason", "fail_bound", "map_rule", "n_complete_vignettes",
+                                          "complete_repeats_k", "loo_flips", "calls", "cost_usd")}, indent=1))
     print(json.dumps(res["point"], indent=1))
     print(json.dumps(res["ci"], indent=1))
     return res
@@ -416,6 +533,8 @@ def plan():
     js = jobs(items, anchors)
     n_by_d = {d: sum(1 for c in cs if c[2] == d) for d in (0,) + DS}
     print(f"item-statements: {len(items) * 2}; kept cells by d: {n_by_d}")
+    print(f"distinct prompts: {len({content_hash(messages(next(i for i in items if i['id'] == j[1]), j[2], j[5], j[6], j[7])) for j in js if j[-1] == 0})}; "
+          f"duplicate cells (clipping): {len(duplicate_cells(items, anchors))}")
     print(f"calls: {len(js)} ({len(js) // R} per repeat x {R}); estimated ${len(js) * EST_COST_PER_CALL:.3f} (cap ${CAP:.2f})")
 
 

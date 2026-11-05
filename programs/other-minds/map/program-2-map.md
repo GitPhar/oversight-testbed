@@ -177,7 +177,7 @@ API tier P2-1 to P2-9 and P2-11: about $7.00 estimated, $8.70 in caps. Recommend
 - **Cost.** About 6,400 calls ≈ $0.80 (cap $1.00).
 - **Event and odds.** In arm (b), the Sam rating moves at least 0.10 points per point of planted displacement, with the CI excluding 0. **P = 0.30.** Secondary: in arm (a), Plausible minus Ignorance on the red container is at least 5 points with the CI excluding 0, a curse of knowledge on the graded scale, P = 0.70.
 - **Source.** L (D12, C13, C14, D16, D13, D19, A2, A5, A8, A10, D4 for the model 3 vs 4 framing).
-- **Bet, 2026-11-04 (D11, `om-p2-5`).** Arm (b) only, on program 1's bm0 vignettes, with a source-blind baseline in the run (the same displaced number as another reader's answer) that the own-answer pull must beat by 0.05, and a copy guard. Engine odds revised before data by its lesson, **0.30 → 0.33** (running base rate 0.375; held below it by the added margin and om-p2-3b's other-over-own pull). The 0.30 above stays as the map's odds for the map's event. Arm (a) is not run and stays open.
+- **Bet, 2026-11-04 (D11, `om-p2-5`).** Arm (b) only, on program 1's bm0 vignettes, with a source-blind baseline in the run (the same displaced number as another reader's answer) that the own-answer pull must beat by 0.05, and a copy guard. Engine odds revised before data by its lesson, **0.30 → 0.33** (running base rate 0.375; held below it by the added margin and om-p2-3b's other-over-own pull). The 0.30 above stays as the map's odds for the map's event. Arm (a) is not run and stays open. Revised again before data by its design reviews (D12), **0.33 → 0.25**, for archive-calibrated power and an added "not inherited" conjunct.
 
 ### P2-6. Is "own" a position or a label? — rank 6
 

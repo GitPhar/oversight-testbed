@@ -88,7 +88,27 @@ On a scale from 0 to 100, where 0 = certainly false and 100 = certainly true, ho
 
 Checks: OWN and SWAP hold the same two numbers in swapped slots; the own slot moves with d; the four questions give four different final turns; X and Y give different first turns. All assertions passed.
 
-Planned calls: 7360; distinct prompts: 1472 x 5 repeats; estimated $0.353, cap $1.00.
+Distance (D12, review 1b F2): 1472 job keys per repeat but 1328 distinct prompts; 18 displaced cells repeat a smaller-|d| cell's prompt because V is clipped at 2 or 98 (144 prompts per repeat). Asserted. The cells (vignette, statement, d, m, V, same prompt as d):
+  ('co-lin06', 'X', 60, 85, 98, 30)
+  ('co-lin06', 'Y', -30, 7, 2, -10)
+  ('co-lin06', 'Y', -60, 7, 2, -10)
+  ('co-lin09', 'X', 60, 70, 98, 30)
+  ('co-lin10', 'X', 60, 85, 98, 30)
+  ('co01', 'X', 60, 85, 98, 30)
+  ('co02', 'Y', -30, 8, 2, -10)
+  ('co02', 'Y', -60, 8, 2, -10)
+  ('co03', 'X', 60, 85, 98, 30)
+  ('co04', 'X', 60, 78, 98, 30)
+  ('co04', 'Y', -60, 27, 2, -30)
+  ('co06', 'Y', -30, 10, 2, -10)
+  ('co06', 'Y', -60, 10, 2, -10)
+  ('co08', 'X', 60, 80, 98, 30)
+  ('co08', 'Y', -60, 15, 2, -30)
+  ('co09', 'X', 60, 82, 98, 30)
+  ('co10', 'X', 60, 78, 98, 30)
+  ('co11', 'X', 60, 80, 98, 30)
+
+Planned calls: 7360; job keys per repeat: 1472 x 5 repeats (1328 distinct prompts each); estimated $0.353, cap $1.00.
 
 ## 2. The rule against synthetic responders (P3: the dumb ones first)
 
@@ -102,21 +122,58 @@ U = mean over |d| in {10, 30, 60} of the pooled uptake (y - y_REF) / (V - m); dU
 | source-blind anchor (own slot and Alex weigh 0.5 each) | +0.494 | +0.497 [+0.491, +0.503] | +0.501 | -0.003 [-0.010, +0.003] | +0.001 [-0.008, +0.011] | pass | fail (anchoring) |
 | recency anchor (own 0.3, Alex 0.6) | +0.297 | +0.300 [+0.295, +0.306] | +0.597 | -0.297 [-0.306, -0.286] | +0.001 [-0.009, +0.011] | pass | fail (anchoring) |
 | own-slot copier (repeats its own answer whoever is asked) | +0.997 | +0.999 [+0.992, +1.006] | +0.004 | +0.995 [+0.989, +1.001] | +0.003 [-0.006, +0.011] | pass | fail (copy) |
+| label-blind turn anchor (assistant turn 0.4, Alex 0.1; 0.8 if Sam saw it) | +0.396 | +0.399 [+0.394, +0.405] | +0.103 | +0.296 [+0.288, +0.303] | +0.394 [+0.374, +0.409] | pass | fail (not_inherited) |
+| Sam pulled more than its own re-rating (own 0.017, Sam 0.145) | +0.013 | +0.145 [+0.139, +0.152] | +0.003 | +0.142 [+0.134, +0.148] | +0.157 [+0.146, +0.166] | pass | fail (not_inherited) |
+| fixed 4-point nudge toward its own answer (8 if Sam saw it) | +0.238 | +0.242 [+0.221, +0.269] | +0.003 | +0.239 [+0.218, +0.265] | +0.234 [+0.210, +0.263] | pass | fail (not_inherited) |
 | planted answer does not move its own re-rating | -0.003 | +0.001 [-0.005, +0.008] | +0.501 | -0.499 [-0.508, -0.489] | +0.000 [-0.009, +0.010] | fail | untestable (manipulation) |
 | egocentric leakage, lambda 0.5, Alex 0 | +0.523 | +0.268 [+0.225, +0.309] | +0.003 | +0.265 [+0.223, +0.308] | +0.210 [+0.179, +0.241] | pass | pass |
 | egocentric leakage, lambda 0.25, Alex 0 | +0.523 | +0.136 [+0.112, +0.159] | +0.003 | +0.133 [+0.104, +0.163] | +0.343 [+0.292, +0.392] | pass | pass |
 | leakage lambda 0.5 plus Alex pulling Sam as much as own pulls self | +0.523 | +0.268 [+0.225, +0.309] | +0.516 | -0.248 [-0.288, -0.208] | +0.210 [+0.179, +0.241] | pass | fail (anchoring) |
 
-The map's rule alone (U_sam(OWN) >= 0.10, CI above 0) is passed by the source-blind and recency anchors and by the own-slot copier; the full rule rejects all three, and passes the leakage responders that have no source-blind pull.
+The map's event as measured on this design (U_sam(OWN) >= 0.10, CI above 0) is passed by the source-blind and recency anchors, the own-slot copier, the turn anchor, the Sam-over-self responder and the fixed nudge. The full rule rejects the anchors (anchoring), the copier (copy) and the Sam-over-self responder (not inherited). It does NOT reject the label-blind turn anchor or the fixed 4-point nudge: a pass is about the bundle (whose number, turn, format, place) and 'points per point' is an average over the three distance classes.
 
-## 3. Power of the full rule (60 synthetic runs per cell, 400 resamples each)
+## 3. Power of the full rule (50 synthetic runs per cell, 400 resamples each)
 
-Sam's uptake in OWN is lambda x the model's own (F3 profile, vignette factor 1 + N(0, 0.5)); Alex's pull on Sam is alpha + N(0, 0.1) per item-statement wherever the displaced number is Alex's (SWAP). True U_sam(OWN) is about 0.45 x lambda; true dU is about 0.45 x lambda - alpha.
+Sam's uptake in OWN is lambda x the model's own; Alex's pull on Sam is alpha wherever the displaced number is Alex's (SWAP). True U_sam(OWN) is about lambda x the mean own uptake; true dU is that minus alpha. Noise models:
+- synthetic: own uptake on F3's profile x 1 + N(0, 0.5) per statement; Alex N(0, 0.1) per statement; call SD 1;
+- D12 (review om-p2-5 F2), own uptake per statement and class from bm0's archived lag-0 cells, with per-cell noise (sigma Sam, sigma Alex, REF SD, call SD): 'moderate' (0.3, 0.3, 2, 3) and 'bm0-like' (0.43, 0.6, 3, 5).
 
-| alpha \ lambda | 0.0 | 0.15 | 0.25 | 0.35 | 0.5 | 0.75 |
-|---|---|---|---|---|---|---|
-| 0.0 | 0.00 | 0.00 | 1.00 | 1.00 | 1.00 | 1.00 |
-| 0.1 | 0.00 | 0.00 | 0.17 | 0.88 | 1.00 | 1.00 |
+Columns after P(pass) are the shares of each sub-reading (fail_bound; D12, review om-p2-5-1b F4).
+
+| noise | alpha | lambda | P(pass) | small_bounded | small_open | anchoring_reversed | anchoring_bounded | anchoring_open | copy | not_inherited | None |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| synthetic | 0.0 | 0.0 | 0.00 | 1.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| synthetic | 0.0 | 0.25 | 1.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| synthetic | 0.0 | 0.35 | 1.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| synthetic | 0.0 | 0.5 | 1.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| synthetic | 0.0 | 0.75 | 1.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| synthetic | 0.1 | 0.0 | 0.00 | 1.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| synthetic | 0.1 | 0.25 | 0.14 | 0.00 | 0.00 | 0.00 | 0.26 | 0.60 | 0.00 | 0.00 | 0.00 |
+| synthetic | 0.1 | 0.35 | 0.86 | 0.00 | 0.00 | 0.00 | 0.00 | 0.14 | 0.00 | 0.00 | 0.00 |
+| synthetic | 0.1 | 0.5 | 1.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| synthetic | 0.1 | 0.75 | 1.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| moderate | 0.0 | 0.0 | 0.00 | 0.90 | 0.10 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| moderate | 0.0 | 0.25 | 0.94 | 0.00 | 0.04 | 0.00 | 0.00 | 0.02 | 0.00 | 0.00 | 0.00 |
+| moderate | 0.0 | 0.35 | 0.98 | 0.00 | 0.00 | 0.00 | 0.00 | 0.02 | 0.00 | 0.00 | 0.00 |
+| moderate | 0.0 | 0.5 | 1.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| moderate | 0.0 | 0.75 | 0.40 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.60 | 0.00 | 0.00 |
+| moderate | 0.1 | 0.0 | 0.00 | 0.90 | 0.10 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| moderate | 0.1 | 0.25 | 0.22 | 0.00 | 0.04 | 0.00 | 0.02 | 0.72 | 0.00 | 0.00 | 0.00 |
+| moderate | 0.1 | 0.35 | 0.64 | 0.00 | 0.00 | 0.00 | 0.00 | 0.36 | 0.00 | 0.00 | 0.00 |
+| moderate | 0.1 | 0.5 | 0.98 | 0.00 | 0.00 | 0.00 | 0.00 | 0.02 | 0.00 | 0.00 | 0.00 |
+| moderate | 0.1 | 0.75 | 0.40 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.60 | 0.00 | 0.00 |
+| bm0-like | 0.0 | 0.0 | 0.02 | 0.46 | 0.52 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| bm0-like | 0.0 | 0.25 | 0.50 | 0.00 | 0.06 | 0.00 | 0.00 | 0.44 | 0.00 | 0.00 | 0.00 |
+| bm0-like | 0.0 | 0.35 | 0.82 | 0.00 | 0.00 | 0.00 | 0.00 | 0.18 | 0.00 | 0.00 | 0.00 |
+| bm0-like | 0.0 | 0.5 | 0.84 | 0.00 | 0.00 | 0.00 | 0.00 | 0.04 | 0.12 | 0.00 | 0.00 |
+| bm0-like | 0.0 | 0.75 | 0.20 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.80 | 0.00 | 0.00 |
+| bm0-like | 0.1 | 0.0 | 0.00 | 0.46 | 0.52 | 0.00 | 0.00 | 0.02 | 0.00 | 0.00 | 0.00 |
+| bm0-like | 0.1 | 0.25 | 0.12 | 0.00 | 0.06 | 0.00 | 0.04 | 0.78 | 0.00 | 0.00 | 0.00 |
+| bm0-like | 0.1 | 0.35 | 0.30 | 0.00 | 0.00 | 0.00 | 0.00 | 0.70 | 0.00 | 0.00 | 0.00 |
+| bm0-like | 0.1 | 0.5 | 0.52 | 0.00 | 0.00 | 0.00 | 0.00 | 0.36 | 0.12 | 0.00 | 0.00 |
+| bm0-like | 0.1 | 0.75 | 0.18 | 0.00 | 0.00 | 0.00 | 0.00 | 0.02 | 0.80 | 0.00 | 0.00 |
+
+Archive own uptake by class (bm0 means): {10: 0.715, 30: 0.411, 60: 0.18}; under the archive models the true U_sam(OWN) is about lambda x 0.435.
 
 ## 4. Machinery (stubbed calls; a temporary results folder)
 
@@ -124,7 +181,11 @@ Sam's uptake in OWN is lambda x the model's own (F3 profile, vignette factor 1 +
 - re-run after the refusal: exits before any call (dry rerun: a refusal is on record (co03|X|OWN|-30|sam_i|0); the run is not resumed past it); calls made 0
 - cap stub (cap = 20 calls' cost): dry cap: budget cap $0.00096 reached; stopped; calls cached 20
 - tampered entry caught: cache entry co11|Y|OWN|30|sam_i|0 does not match its prompt
-- gate with no design review file: no design review at /var/folders/j5/5jnsx25s2cl9q71wg6jyc6v00000gn/T/tmpnd57_tps/none.md
-- gate with an unconfirmed fix-first: design review verdict fix-first (not confirmed)
-- gate with go (seed file present: False): no data/p2-5-seed.json (the seed commit comes before any call)
+- malformed value (D12, F5a): stops cleanly (dry malformed: stopped on an error: ('co11|Y|OWN|30|sam_i|0', 'ValueError("invalid literal for int() with base 10: \'x\'")')); stop record written: True
+- stop after 90% of the calls: k = 4 complete repeats, 16 complete vignettes, label ('pass', None)
+- stop after 10% of the calls: k = 0 complete repeats, 0 complete vignettes, label ('untestable', 'few')
+- gate with no design review file: no design review om-p2-5*.md in /var/folders/j5/5jnsx25s2cl9q71wg6jyc6v00000gn/T/tmpxasptezn
+- gate with om-p2-5.md go and om-p2-5-1b.md unconfirmed fix-first: om-p2-5-1b.md: design review verdict fix-first (not confirmed)
+- gate with om-p2-5-1b.md redesign: om-p2-5-1b.md: design review verdict redesign
+- gate with go and a confirmed fix-first (seed file present: True): None
 
