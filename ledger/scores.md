@@ -29,7 +29,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-11 audits prepared with a sealed plant line: 1 still sealed, 10 revealed, of which 6 carried a plant. 
+11 audits prepared with a sealed plant line: 0 still sealed, 11 revealed, of which 6 carried a plant. 
 
 **Catch rate: 6/6 = 1.00, 95% Wilson interval [0.61, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 6 is below that, so the arm is untestable for now.
 
@@ -103,15 +103,15 @@ Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denv
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 3 |
 
-Design reviews: 0 go, 11 fix-first, 3 redesign; 7 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 11 fix-first, 3 redesign; 8 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
 | P1 | Odds too high where the engine had a story | 7 | 5 of 7 scored |
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 2 | 2 of 2 scored |
 | P3 | No dumb baseline: a trivial predictor would pass the rule | 8 | 6 of 8 scored |
-| P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 2 | 1 of 1 scored |
-| P5 | Unmatched rivals: the contest is decided by how the families were built | 1 | 0 of 0 scored |
+| P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 2 | 1 of 2 scored |
+| P5 | Unmatched rivals: the contest is decided by how the families were built | 1 | 0 of 1 scored |
 | P6 | A control that cannot fail | 2 | 1 of 1 scored |
 | P7 | A foreseeable execution risk run without a pilot | 1 | 0 of 1 scored |
 | P8 | Comparing across conditions that differ in more than the factor named | 6 | 4 of 5 scored |

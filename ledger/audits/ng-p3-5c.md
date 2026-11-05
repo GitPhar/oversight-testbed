@@ -179,3 +179,7 @@ The cheapest test that could overturn part of the reading costs $0 and about 1�
 - If the bounds that A's sampling error allows (about ±0.5%) leave LR_i above its new null, the blur labels are secured against readout.
 
 A hardware answer needs an interleaved readout calibration in a new job, which is a separate bet. The device-level twirling and dynamical-decoupling direction (P3-2) is already on the map.
+
+---
+
+Revealed 2026-11-04 23:12 America/Denver: pl-011, **clean** (no plant; drawn at random, ½, sealed in `ledger/plants.jsonl` before this audit began, 13ec573; `plants.py verify`: ok). Every finding above is the audit of the real result; its four required cuts go to the owning session. The engine session launched the auditor. The header's typed `date: 23:20` is later than this reveal; the audit's commit time (249e0af) is the record.
