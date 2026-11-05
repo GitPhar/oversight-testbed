@@ -12,3 +12,4 @@ Instance `open-instance` (Open Plan, 600 s/month). Hard stop for this project: 4
 | 2026-11-05 05:17:19 | Program 3 P3-16 job C: CB + CN (2 pubs, 2000 shots) | ibm_fez | `dbm77dpkbkrc73covuu0` | 2 | 1000 | 3.0 | 65 | 62 |
 | 2026-11-05 05:18:08 | Program 3 P3-16 job B: B (1 pub, 1000 shots) | ibm_fez | `dbm77kd8ft8s738ub8j0` | 1 | 1000 | 2.0 | 67 | 65 |
 | 2026-11-05 05:18:35 | Program 3 P3-16 job A: A (1 pub, 1000 shots) | ibm_fez | `dbm780u74qds73droub0` | 1 | 1000 | 2.0 | 69 | 67 |
+| 2026-11-05 07:53:02 | Program 3 P3-18 fresh job: 39 pubs, 66000 shots | ibm_fez | `dbm9gcm74qds73drshgg` | 39 | 2000 | 20.0 | 89 | 69 |

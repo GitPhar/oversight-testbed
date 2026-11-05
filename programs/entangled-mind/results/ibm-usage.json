@@ -350,5 +350,49 @@
         "end_time": "2026-11-05T12:18:35.783Z"
       }
     }
+  },
+  {
+    "when": "2026-11-05 14:53:02",
+    "purpose": "Program 3 P3-18 fresh job: 39 pubs, 66000 shots",
+    "backend": "ibm_fez",
+    "job_id": "dbm9gcm74qds73drshgg",
+    "batch_id": "c3264ef9-c204-4d08-a159-0808ab3ad4b7",
+    "circuits": 39,
+    "shots": 2000,
+    "quantum_seconds": 20.0,
+    "job_metrics_usage": {
+      "qpu_charge_time_seconds": 20,
+      "value": 0.323711,
+      "unit": "resource_units",
+      "status": "pending",
+      "details": [
+        {
+          "value": 0.323711,
+          "unit": "resource_units",
+          "metric": {
+            "id": "caffe3ca-729c-5750-8777-df63bbf8bfd9",
+            "value": 20
+          }
+        }
+      ]
+    },
+    "service_before": {
+      "usage_consumed_seconds": 69,
+      "usage_limit_seconds": 600,
+      "usage_remaining_seconds": 531,
+      "usage_period": {
+        "start_time": "2026-10-08T14:52:32.935Z",
+        "end_time": "2026-11-05T14:52:32.935Z"
+      }
+    },
+    "service_after": {
+      "usage_consumed_seconds": 69,
+      "usage_limit_seconds": 600,
+      "usage_remaining_seconds": 531,
+      "usage_period": {
+        "start_time": "2026-10-08T14:53:02.875Z",
+        "end_time": "2026-11-05T14:53:02.875Z"
+      }
+    }
   }
 ]
