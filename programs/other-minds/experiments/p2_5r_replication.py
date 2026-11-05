@@ -44,38 +44,48 @@ MODELS = {"sonnet": "claude-sonnet-5-5", "opus": "claude-opus-5-5"}
 ORDER = ("sonnet", "opus")
 SETTINGS = {"sonnet": {"thinking": {"type": "between_tools"}}, "opus": {"output_config": {"effort": "low"}}}
 MAX_TOKENS = {"sonnet": 200, "opus": 4000}
-CAPS = {"sonnet": 1.50, "opus": 3.50}
-CAP = 5.00
+CAPS = {"sonnet": 1.50, "opus": 4.25}                    # D18b (review F2): Opus re-estimated $3.03-3.49
+CAP = 5.75
 R = 2
 DS, CLASSES = p5.DS, p5.CLASSES
 B = 4000
 EPS = 1e-9
 MIN_VIGNETTES = 12
 PLAN = {"REF": ("self", "sam_p"), "OWN": ("self", "sam_p"), "SWAP": ("sam_p",)}
-EST = {"sonnet": 0.7451 / 864, "opus": 1.4205 / 576}    # om-p2-6r's archived cost per call (same items, same settings)
+EST = {"sonnet": 0.7451 / 864, "opus": 3.49 / 1136}     # Sonnet: om-p2-6r per call; Opus: D18b, om-p2-6r three-turn calls scaled by prompt length
 NAME = {"sonnet": "Sonnet 5.5", "opus": "Opus 5.5", "haiku": "Haiku 5.5 (om-p2-5 archive, 5 repeats)"}
 
+WORDING = (" Own and Sam answer differently worded questions ('give your rating again' against 'what rating would Sam "
+           "give'), so this cannot say whether the gap belongs to the person asked about or to the wording.")  # D18b (F3)
 SENTENCES = {
     "pass": ("On {M}, on program 1's 16 vignettes, the rating the model attributed to Sam, a person who had seen neither "
              "its planted earlier answer nor another reader's, moved further toward that planted answer than the model's "
-             "own re-rating did, both for answers planted above its usual rating (Sam minus own {gu}, 95% interval "
-             "[{gul}, {guh}]) and for answers planted below it ({gd}, [{gdl}, {gdh}])."),
+             "own re-rating did, both for answers planted above Haiku's usual rating (Sam minus own {gu}, 95% interval "
+             "[{gul}, {guh}]) and for answers planted below it ({gd}, [{gdl}, {gdh}]); and the model's own planted answer pulled Sam's rating more "
+             "than the same number shown as another reader's (Alex's) did ({du}, [{dul}, {duh}])." + WORDING),
     "up_only": ("On {M}, Sam's rating moved further toward the model's planted answer than its own re-rating did only "
-                "for answers planted above its usual rating ({gu}, [{gul}, {guh}]); for answers planted below, the gap "
-                "was {gd} [{gdl}, {gdh}], not detectably above 0."),
+                "for answers planted above Haiku's usual rating ({gu}, [{gul}, {guh}]); for answers planted below, the gap "
+                "was {gd} [{gdl}, {gdh}], not detectably above 0." + WORDING),
     "down_only": ("On {M}, Sam's rating moved further toward the model's planted answer than its own re-rating did only "
-                  "for answers planted below its usual rating ({gd}, [{gdl}, {gdh}]); for answers planted above, the gap "
-                  "was {gu} [{gul}, {guh}], not detectably above 0."),
+                  "for answers planted below Haiku's usual rating ({gd}, [{gdl}, {gdh}]); for answers planted above, the gap "
+                  "was {gu} [{gul}, {guh}], not detectably above 0." + WORDING),
     "reversed": ("On {M}, Sam's rating moved less toward the model's planted answer than the model's own re-rating did "
-                 "(Sam minus own, both directions together, {g}, 95% interval [{gl}, {gh}], wholly below 0)."),
+                 "(Sam minus own, both directions together, {g}, 95% interval [{gl}, {gh}], wholly below 0)." + WORDING),
+    "sam_follows_any_number": ("On {M}, Sam's rating moved further toward the planted number than the model's own "
+                               "re-rating did in both directions (upward {gu} [{gul}, {guh}]; downward {gd} [{gdl}, {gdh}]), "
+                               "but not detectably more when the number was the model's own earlier answer than when it was "
+                               "another reader's (Alex's) ({du}, [{dul}, {duh}]), so this cannot be told apart from Sam's "
+                               "rating following any number in view." + WORDING),
     "none": ("On {M}, this test did not show Sam's rating moving further toward the model's planted answer than its own "
              "re-rating in either direction (upward {gu} [{gul}, {guh}]; downward {gd} [{gdl}, {gdh}])."),
     "untestable_nothing_moved": ("On {M}, the planted answer did not detectably move either the model's own re-rating "
                                  "or Sam's rating (both intervals reach 0), so there was no pull to compare."),
     "untestable_few": "On {M}, fewer than 12 of the 16 vignettes have every cell answered; the test could not answer.",
     "not_run": "{M} was not run: {why}.",
-    "bet_pass": "The pre-registered event occurred: on {models}, Sam moved further than the model's own re-rating in both directions.",
-    "bet_fail": "The pre-registered event did not occur: on neither Sonnet 5.5 nor Opus 5.5 did Sam move further than the model's own re-rating in both directions.",
+    "bet_pass": ("The pre-registered event occurred: on {models}, Sam moved further than the model's own re-rating in "
+                 "both directions, and more for the model's own number than for another reader's{others}." + WORDING),
+    "bet_fail": ("The pre-registered event did not occur: on {models}, Sam did not move further than the model's own "
+                 "re-rating in both directions while also following the model's own number more than another reader's{others}."),
     "bet_untestable": "The test could not answer: neither model gave a testable reading.",
     "fragile": "On {M}, the reading depends on one vignette: removing {vid} changes it to {to}.",
 }
@@ -313,8 +323,8 @@ def reading(point, ci, n_complete):
     if not (ci["self_all"][0] > EPS or ci["sam_all"][0] > EPS):
         return "untestable_nothing_moved"
     up, down = ci["gap_up"][0] > EPS, ci["gap_down"][0] > EPS
-    if up and down:
-        return "pass"
+    if up and down:                                   # D18b (review F1): and the own number must beat Alex's for Sam
+        return "pass" if ci["dU_all"][0] > EPS else "sam_follows_any_number"
     if up:
         return "up_only"
     if down:
@@ -328,7 +338,8 @@ def fmt(point, ci, M):
     f = lambda x: f"{x:+.3f}"
     return dict(M=M, g=f(point["gap_all"]), gl=f(ci["gap_all"][0]), gh=f(ci["gap_all"][1]),
                 gu=f(point["gap_up"]), gul=f(ci["gap_up"][0]), guh=f(ci["gap_up"][1]),
-                gd=f(point["gap_down"]), gdl=f(ci["gap_down"][0]), gdh=f(ci["gap_down"][1]))
+                gd=f(point["gap_down"]), gdl=f(ci["gap_down"][0]), gdh=f(ci["gap_down"][1]),
+                du=f(point["dU_all"]), dul=f(ci["dU_all"][0]), duh=f(ci["dU_all"][1]))
 
 
 def model_result(items, anchors, M, seed, label):
@@ -358,24 +369,27 @@ def model_result(items, anchors, M, seed, label):
 def bet_reading(per_model):
     tested = [mk for mk in ORDER if mk in per_model and not per_model[mk]["reading"].startswith(("untestable", "not_run"))]
     passed = [mk for mk in tested if per_model[mk]["reading"] == "pass"]
+    others = lambda keep: "".join(f"; on {NAME[m]} the reading was {per_model[m]['reading']}" for m in ORDER
+                                  if m in per_model and m not in keep)
     if passed:
-        return "pass", SENTENCES["bet_pass"].format(models=" and ".join(NAME[m] for m in passed))
+        return "pass", SENTENCES["bet_pass"].format(models=" and ".join(NAME[m] for m in passed), others=others(passed))
     if tested:
-        return "fail", SENTENCES["bet_fail"]
+        return "fail", SENTENCES["bet_fail"].format(models=" or ".join(NAME[m] for m in tested), others=others(tested))
     return "untestable", SENTENCES["bet_untestable"]
 
 
-def analyse_cache(cache, items, anchors, seed_boot, status=None):
+def analyse_cache(cache, items, anchors, seed_boot, status=None, stop_record=None):
     per = {}
     for mk in ORDER:
         mc = {k: v for k, v in cache.items() if k.startswith(mk + "|")}
         planned = [j for j in jobs(items, anchors) if j[1] == mk]
-        if not mc or (status and status.get(mk) not in (None, "complete") and len(mc) < len(planned)):
-            why = "the run stopped before it" if not mc else f"{len(planned) - len(mc)} of {len(planned)} calls missing ({(status or {}).get(mk)})"
-            if len(mc) < len(planned):
-                per[mk] = {"reading": "not_run", "sentence": SENTENCES["not_run"].format(M=NAME[mk], why=why),
-                           "calls": len(mc)}
-                continue
+        answered = sum(1 for v in mc.values() if not v.get("refused"))
+        if answered < len(planned):                    # D18b (review F5): any missing or refused call means not_run
+            stop = stop_record.get("reason") if stop_record else (status or {}).get(mk)
+            why = ("the run stopped before it" if not mc else
+                   f"{len(planned) - answered} of {len(planned)} calls missing or refused ({stop or 'no stop record'})")
+            per[mk] = {"reading": "not_run", "sentence": SENTENCES["not_run"].format(M=NAME[mk], why=why), "calls": len(mc)}
+            continue
         M = cell_means(items, anchors, cache, mk + "|", R)
         per[mk] = model_result(items, anchors, M, seed_boot, NAME[mk])
         per[mk]["calls"], per[mk]["cost_usd"] = len(mc), sum(v["cost"] for v in mc.values())
@@ -429,10 +443,11 @@ def analyse(status=None):
             assert cache[j[0]].get("sha256") == content_hash(j[1], job_messages(j, by_id)), f"{j[0]} does not match"
     assert not set(cache) - {j[0] for j in jobs(items, anchors)}, "cache holds keys the design does not"
     seed = json.loads(SEEDF.read_text())
-    res = analyse_cache(cache, items, anchors, seed["seed32_boot"], status)
-    res["haiku_reference"] = haiku_reference(items, anchors, seed["seed32_boot"])
     stopf = CACHE.with_name(CACHE.stem + "-stop.json")
-    res["stop_record"] = json.loads(stopf.read_text()) if stopf.exists() else None
+    stop_record = json.loads(stopf.read_text()) if stopf.exists() else None
+    res = analyse_cache(cache, items, anchors, seed["seed32_boot"], status, stop_record)
+    res["haiku_reference"] = haiku_reference(items, anchors, seed["seed32_boot"])
+    res["stop_record"] = stop_record
     res["calls"], res["cost_usd"] = len(cache), sum(v["cost"] for v in cache.values())
     res["refused"] = sum(1 for v in cache.values() if v.get("refused"))
     res["out_of_range"] = sum(1 for v in cache.values() if not v.get("refused") and v["raw"] != v["value"])
@@ -473,13 +488,15 @@ def dry_run(sims=60):
     js = jobs(items, anchors)
     worlds = {
         "Haiku-like (own .36, Sam up .58 / down .40)": dict(self=0.36, sam_up=0.58, sam_down=0.40, alex=0.02, alex_self=0.07, sd=2),
-        "Haiku as measured, up-only gap (Sam up .58 / down .36)": dict(self=0.36, sam_up=0.58, sam_down=0.36, alex=0.02, alex_self=0.07, sd=2),
+        "up-only gap, downward gap 0 (Sam up .58 / down .36)": dict(self=0.36, sam_up=0.58, sam_down=0.36, alex=0.02, alex_self=0.07, sd=2),
         "Sam = own (.36)": dict(self=0.36, sam_up=0.36, sam_down=0.36, alex=0.02, alex_self=0.07, sd=2),
         "Sam half of own (reversed)": dict(self=0.36, sam_up=0.18, sam_down=0.18, alex=0.02, alex_self=0.07, sd=2),
         "Opus-like weak pull (own .07, Sam .07)": dict(self=0.07, sam_up=0.07, sam_down=0.07, alex=0.0, alex_self=0.0, sd=3),
         "nothing moves": dict(self=0.0, sam_up=0.0, sam_down=0.0, alex=0.0, alex_self=0.0, sd=3),
         "small gap both ways (+.08)": dict(self=0.30, sam_up=0.38, sam_down=0.38, alex=0.02, alex_self=0.05, sd=3),
         "clear gap both ways (+.15)": dict(self=0.30, sam_up=0.45, sam_down=0.45, alex=0.02, alex_self=0.05, sd=3),
+        "D5 dumb: Sam = mean of the two numbers shown (own .36)": dict(self=0.36, sam_up=0.5, sam_down=0.5, alex=0.5, alex_self=0.07, sd=2),
+        "D5 dumb: source-blind Sam (.45 toward any number; own .30)": dict(self=0.30, sam_up=0.45, sam_down=0.45, alex=0.45, alex_self=0.05, sd=3),
         "Haiku-like, larger vignette spread (vsd .6)": dict(self=0.36, sam_up=0.58, sam_down=0.40, alex=0.02, alex_self=0.07, sd=2, vsd=0.6),
     }
     for name, w in worlds.items():
@@ -497,12 +514,26 @@ def dry_run(sims=60):
     # boundary checks (P13)
     z = {k: [0.0, 0.0] for k in ("self_all", "sam_all", "gap_up", "gap_down", "gap_all")}
     z["self_all"] = [0.1, 0.5]
+    z["dU_all"] = [0.1, 0.5]
     assert reading({}, dict(z, gap_up=[0.0, 1], gap_down=[0.3 - 0.1 - 0.2, 1]), 16) == "none"
     assert reading({}, dict(z, gap_up=[1e-4, 1], gap_down=[1e-4, 1]), 16) == "pass"
     assert reading({}, dict(z, gap_up=[1e-4, 1], gap_down=[-1, 1]), 16) == "up_only"
     assert reading({}, dict(z, gap_all=[-1, -1e-4]), 16) == "reversed"
     assert reading({}, dict(z, self_all=[0.0, 1], sam_all=[-0.1, 1]), 16) == "untestable_nothing_moved"
     assert reading({}, z, 11) == "untestable_few"
+    z2 = dict(z, gap_up=[1e-4, 1], gap_down=[1e-4, 1], dU_all=[0.0, 1])
+    assert reading({}, z2, 16) == "sam_follows_any_number"
+    assert reading({}, dict(z2, dU_all=[1e-4, 1]), 16) == "pass"
+    # D18b (F5): a model missing its last calls reads not_run under --analyse as on the run path
+    rng, vf = np.random.default_rng(0), {}
+    w = dict(self=0.3, sam_up=0.45, sam_down=0.45, alex=0.02, alex_self=0.05, sd=3)
+    cache = {j[0]: {"value": stub_value(w, j, rng, vf), "cost": 0.0} for j in js}
+    for k in [j[0] for j in js if j[1] == "opus"][-3:]:
+        del cache[k]
+    res = analyse_cache(cache, items, anchors, 1, status=None, stop_record=None)
+    assert res["per_model"]["opus"]["reading"] == "not_run", res["per_model"]["opus"]["reading"]
+    assert res["per_model"]["sonnet"]["reading"] != "not_run"
+    print("  sonnet reading on the complete stub:", res["per_model"]["sonnet"]["reading"], "| bet:", res["label"], "|", res["sentence"][:160])
     print("  boundary and order checks: hold")
 
 
