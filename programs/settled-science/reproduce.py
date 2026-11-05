@@ -461,6 +461,7 @@ NEW_SCORERS = (  # (results file, scorer module in scoring/, generated files)
     ("results/ss-b10-results.md", "score_bb", ("scoring/bb-tables.md", "scoring/bb-scores.json")),
     ("results/ss-b11-results.md", "score_f3", ("scoring/f3-tables.md", "scoring/f3-scores.json")),
     ("results/ss-b12-results.md", "score_f4", ("scoring/f4-tables.md", "scoring/f4-scores.json")),
+    ("results/ss-b13-results.md", "score_f1", ("scoring/f1-tables.md", "scoring/f1-scores.json")),   # D62
 )
 
 
