@@ -9,11 +9,11 @@ reviewer_model: claude-opus-5-5
 author_model: claude-opus-5-5
 same_model_family: true          # reviewer, author, bettor and the planned valence rater are all claude-opus-5-5
 date: 2026-11-04 20:22 America/Denver
-checks: {D1: holds, D2: holds, D3: flaw, D4: flaw, D5: flaw, D6: holds, D7: flaw, D8: flaw, D9: holds, D10: holds, E23: holds (no draw; no seed needed), E25: holds}
+checks: {D1: holds, D2: holds, D3: flaw, D4: flaw, D5: flaw, D6: holds, D7: flaw, D8: flaw, D9: holds, D10: holds, D11: holds (checked at confirmation 2, after the rule was added), E23: holds (no draw; no seed needed), E25: holds}
 flaws: 5
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-04 20:36 America/Denver (fixes D32-D37 at 730a4af)
 ---
 
 # Design review of ss-b6
@@ -263,3 +263,52 @@ I made no new paid call and wrote nothing in the program tree. Scratch scripts a
 - **N4 (pass sentence, one phrase).** Change "Round 2's pass is not only picking the flattering version or the up word" to "Round 2's pass is not only picking the flattering version, as this rater judged it, or the up word". This is the valence-noise residual above.
 
 When D37 is committed, with the re-run `--synthetic` output pasted into it (valence50's sentence must name the buckets), I will confirm it in a second short addendum and set `confirmed_at`. No valence call runs before then.
+
+## Confirmation 2 (2026-11-04 20:36 America/Denver; D37 at 730a4af)
+
+**Plain English.** The four leftover items are fixed. The bet also meets the new D11 rule, that it must be able both to pass and to fail. I checked that with simulated raters, not by restating the odds. The run may start.
+
+One limit is now measured and should go to the audit: a valence rater whose answers are merely noisier than the bettor's can lose to it even if the bettor knows nothing extra, and the noisier it is, the more often that happens. The pass sentence's "as this rater judged it" covers this. It is not a reason to block.
+
+Scratch scripts are in `/private/tmp/claude-501/-Users-seanpharris-oversight-testbed/19f84df9-a6ff-48ba-89d6-d3f43e5d1747/scratchpad/fix2/`. They run `score.py` from 730a4af as is. No paid call was made and nothing in the program tree was written. D37 changes no bettor, item or prompt file.
+
+| item | status | evidence |
+|---|---|---|
+| N1 | **holds** | The ss-b6 `odds_event` in `ledger/bets.jsonl`, the map JSON (`odds_event`, title) and the map page all name both legs and the G1 gate. The map page shows **35** (first 25), revised before data. |
+| N2 | **holds**, with a note | The reason is now a move toward the running base rate of 0.41, which `operators/learn.md` allows without a further reason. The two-way pull is stated, and the valence50 reason is withdrawn and correctly described. Note for the record: the clause "more 50s on neutral items, which the bettor's up-word habit can beat" is true of leg 1 only. Leg 2 gives the up word to the rival too, including on its 50s (feature u·[\|r − 50\| ≤ 5]). Since both legs must pass, that clause does not raise P(pass). The move needs no reason, so this does not block. |
+| N3 | **holds** | Re-run through `score_b6` at 730a4af. valence50 prints "removing 1 chosen item (a down-word item) would flip it; this label rests on the items r2-011, r2-091, r2-094 and the query buckets interpretability, model-psychology, quantum-devices: without any one of them the label would be null." The hand-coded raters name their two flipping buckets. The up-word and down-word counts now come from the data. |
+| N4 | **holds** | The pass sentence reads "not only picking the flattering version, as this rater judged it, or the up word" in every pass line. |
+| re-run | **holds** | All 14 raters give the same labels as before: coin, up-word, always-up-99 and swap-pair pass; copy is exactly 0, null; oracle is null; val_neutral50 and val_neutral_up are "pass, fragile"; valence50 is "pass, fragile"; both inverted raters are untestable through G1. Leg 2 still matches the reference (largest difference 2.8e-17). |
+
+**D11. The bet can both pass and fail: holds.** The evidence is simulated worlds, not the odds (`fix2/d11.py`).
+- **Set-up.** The real bettor ratings are fixed; only the valence rater is simulated, with 150 draws per world. The label is the pre-registered one: both legs' upper bounds below 0, plus G1, computed with the author's own `_feats`, `_loo`, `boot_ci` and `p_true_of`.
+- **Hypothesis-false worlds.** The bettor's skill is valence, so the rater reports the bettor's own signal plus logit noise with standard deviation σ.
+- **Hypothesis-true worlds.** The rater carries valence only, from a randomized version of this review's hand coding:
+  - 15% of neutral items become flattering and 5% unflattering;
+  - confidence on valenced items is drawn from U(0.65, 0.97);
+  - neutral items get 50 with probability 0.6, otherwise a lean of 5–20 points toward the up word;
+  - logit noise has σ = 0.3;
+  - a share w of the bettor's own signal leaks in, to model same-model contamination.
+
+| world | P(pass) | P(fail) |
+|---|---|---|
+| H0, σ = 0.1 | 0.01 | 0.99 |
+| H0, σ = 0.25 | 0.08 | 0.92 |
+| H0, σ = 0.5 | 0.20 | 0.80 |
+| H0, σ = 1.0 | 0.66 | 0.34 |
+| H1, no leak (w = 0) | 1.00 | 0.00 |
+| H1, w = 0.3 | 0.87 | 0.13 |
+| H1, w = 0.6 | 0.30 | 0.70 |
+
+- **Can it pass?** Yes: P(pass) is at least 0.30 in every hypothesis-true world.
+- **Can it fail?** Yes: P(fail) is at least 0.80 in hypothesis-false worlds with low noise, and 0.70 in a hypothesis-true world with heavy contamination.
+- **Verdict.** Both are well above the 10% floor in plausible worlds, so the result is not known before the run. D37's own D11 line ("P(pass) 35 leaves P(fail) at 65") restates the odds and is not evidence. Its synthetic list (copy and oracle null) points the right way but holds no noise. The table above is the evidence.
+
+**Note for the audit: the false-pass channel, now measured.** If the hypothesis is false, a pass can still come from rater noise alone.
+- At σ = 0.25, roughly the same-model test-retest noise implied by the bettor's order check (mean |p + p′ − 100| = 4.2 points), P(pass) is 0.08.
+- At σ = 0.5 it is 0.20, and at σ = 1.0 it is 0.66.
+- The rater's prompt differs from the bettor's, so its noise relative to the bettor's signal is probably above test-retest. A pass is therefore evidence against "only flattery" with a false-pass rate that is not negligible.
+- The pass sentence's "as this rater judged it" (N4) is the right scope. The auditor should read a pass with this table in hand.
+- An optional tightening the author may pre-register before data, under its own DEVIATIONS row: re-ask the rater on the bettor's 46 order-check items in reversed order (about $0.22, within the cap). That would measure its noise, report the implied σ beside the verdict, and append "the rater's own retest noise (σ ≈ s) would give a false pass about p of the time" to a pass. This review does not require it.
+
+**Verdict:** go. Fixes D32–D37 are confirmed, and `confirmed_at` is set in the header.
