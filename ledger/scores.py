@@ -197,7 +197,9 @@ def section_learning(w):
     since = [b for b in bets if (b.get("prereg_time") or "") >= RULE_FROM and b.get("verdict") != "withdrawn"]
     withdrawn = [b for b in bets if b.get("verdict") == "withdrawn"]
     no_lesson = [b["id"] for b in since if b["id"] not in lessons]
-    no_review = [b["id"] for b in since if not (b.get("design_review") or {}).get("path")]
+    reviewed = lambda b: (b.get("design_review") or {}).get("verdict") in ("go", "fix-first", "redesign")
+    awaiting = [b["id"] for b in since if not reviewed(b) and not b.get("result_commit")]
+    no_review = [b["id"] for b in since if not reviewed(b) and b.get("result_commit")]   # ran without a review: a violation
     flagged = [b["id"] for b in bets if b.get("rule_violation")]
     w("## The feedback loop (operators/learn.md) and design review (operators/design-review.md)")
     w("")
@@ -208,8 +210,9 @@ def section_learning(w):
     w("|---|---|")
     w(f"| pre-registrations since the rule | {len(since)} |")
     w(f"| with a lesson line | {len(since) - len(no_lesson)} |")
-    w(f"| with a design review | {len(since) - len(no_review)} |")
-    w(f"| **violations** (missing lesson or review) | {len(set(no_lesson) | set(no_review))}{': ' + ', '.join(sorted(set(no_lesson) | set(no_review))) if no_lesson or no_review else ''} |")
+    w(f"| with a design review verdict | {sum(1 for b in since if reviewed(b))} |")
+    w(f"| awaiting their design review (nothing may run yet) | {len(awaiting)}{': ' + ', '.join(awaiting) if awaiting else ''} |")
+    w(f"| **violations** (no lesson, or a result without a review) | {len(set(no_lesson) | set(no_review))}{': ' + ', '.join(sorted(set(no_lesson) | set(no_review))) if no_lesson or no_review else ''} |")
     w(f"| bets flagged `rule_violation` | {len(flagged)}{': ' + ', '.join(flagged) if flagged else ''} |")
     w(f"| withdrawn after a design review said redesign | {len(withdrawn)} |")
     w("")

@@ -151,6 +151,7 @@ oversight_test:
 oversight-testbed/           # the engine (placeholder slug until the title is chosen; see CONTEXT.md §0)
   README.md                  # the five commitments, the ledger, the map, links to programs
   CONTEXT.md                 # the living brain; rewritten nightly; read first by every session
+  TASKS.md                   # open items, decisions made, what waits on whom; read second
   ARCHITECTURE.md            # this file
   proposal.md                # the research proposal for the engine itself
   ledger/                    # bets.jsonl (engine odds, human odds, verdicts), steers.jsonl, shadows.jsonl, plants.jsonl (sealed), lessons.jsonl (patterns + lessons), audits/, design-reviews/;
@@ -159,11 +160,14 @@ oversight-testbed/           # the engine (placeholder slug until the title is c
   map/                       # per-program maps as markdown + json
   operators/                 # morning brief, nightly updater, auditor, plant, scout, veto, premortem, hardware, learn, design-review, pre-registration template
   site/                      # GitHub Pages: papers as pages, record as timeline, calibration chart, map view
-programs/
-  entangled-mind/            # program 1 (own repo, already exists): quantum encoding (closed) → self-reports (open)
-  other-minds/               # program 2 (own repo): theory of mind as third-person self-report
-  nature-graded/             # program 3 (own repo): the engine's odds graded by nature (ibm_fez as referee)
+  programs/                  # every program lives here, history imported by git subtree add: one repository, no others
+    entangled-mind/          # program 1: quantum encoding (closed) → self-reports (open); GitPhar/entangled-mind kept as its historical record
+    other-minds/             # program 2: theory of mind as third-person self-report
+    nature-graded/           # program 3: the engine's odds graded by nature (ibm_fez as referee)
+    settled-science/         # program 4: the engine's odds graded by the published record
 ```
+
+Paths inside a bet (`result_file`, `test`) are relative to `programs/<name>/`. Commits from before the fold keep their hashes and show files at their pre-fold paths.
 
 ## Operators
 

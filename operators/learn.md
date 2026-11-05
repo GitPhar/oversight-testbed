@@ -73,6 +73,6 @@ For each lesson, once its bet's audit is in:
 ## Enforcement
 
 - **`operators/prereg-template.md`** has the `lesson` row in §0 and an item in the §9 checklist. A pre-registration without them is incomplete.
-- **The programs' odds forms** (`map/human-odds-template.md` for program 1, `other-minds/map/human-odds.md` and `nature-graded/map/human-odds.md`) say that no direction answered on the form may be pre-registered without a lesson and a design review.
-- **`ledger/check_prereg.py <bet-id> <program-repo> <prereg-path>`** checks the lesson in §0, the matching line in `lessons.jsonl`, and the design review's verdict and timing. The ledger session runs it before appending the bet row, and a bet that fails is appended with `rule_violation` set, never silently.
+- **The programs' odds forms** (`map/human-odds-template.md` for programs 1 and 4, `programs/other-minds/map/human-odds.md` and `programs/nature-graded/map/human-odds.md`) say that no direction answered on the form may be pre-registered without a lesson and a design review.
+- **`python3 ledger/check_prereg.py <bet-id> . programs/<name>/experiments/<file>.md`** (from the engine repo root) checks the lesson in §0, the matching line in `lessons.jsonl`, and the design review's verdict and timing. The ledger session runs it before appending the bet row, and a bet that fails is appended with `rule_violation` set, never silently.
 - **The auditor's E25** treats a missing, late or mismatched lesson as a hole in the pre-registration.

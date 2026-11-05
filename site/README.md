@@ -58,4 +58,4 @@ Then open http://localhost:8000. `LEDGER_DIR=…` and `MAP_DIR=…` read the dat
 
 ## Deploy
 
-`.github/workflows/pages.yml` runs `assemble.sh` against a fresh checkout of `GitPhar/entangled-mind` (and of `GitPhar/nature-graded`, if that repository exists; the step is allowed to fail) and publishes the result. It runs on every push to `main` that touches the site, the ledger, the map, the README or the proposal. It also runs nightly at 23:50 America/Denver, on demand, and on a `program-updated` repository dispatch. In the repository's settings, Pages must be set to **Source: GitHub Actions** once.
+`.github/workflows/pages.yml` runs `assemble.sh` on `programs/entangled-mind` and `programs/nature-graded` in this same repository (no other repository is checked out) and publishes the result. It runs on every push to `main` that touches the site, the ledger, the map, the README or the proposal. It also runs nightly at 23:50 America/Denver, on demand, and on a `program-updated` repository dispatch. In the repository's settings, Pages must be set to **Source: GitHub Actions** once.

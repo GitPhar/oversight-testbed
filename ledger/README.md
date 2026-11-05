@@ -79,11 +79,14 @@ Turns a CURBy beacon pulse into a bet's seed: `python3 ledger/seed.py <randomnes
 
 ## Programs in the ledger
 
-| program | repository | map | referee | bets so far |
+| program | folder | map | referee | bets so far |
 |---|---|---|---|---|
-| 1 · The Entangled Mind | `GitPhar/entangled-mind` | `map/entangled-mind.json` | model | 19 |
-| 2 · Other Minds | `GitPhar/other-minds` (local; push pending) | `map/other-minds.json` | model | 1 open |
-| 3 · Nature-Graded | `GitPhar/nature-graded` (local; push pending) | `map/nature-graded.json` | nature (the `ibm_fez` chip), some mathematics | 0: 14 open directions carry engine odds, none pre-registered |
+| 1 · The Entangled Mind | `programs/entangled-mind/` (history: `GitPhar/entangled-mind`) | `map/entangled-mind.json` | model | 19 |
+| 2 · Other Minds | `programs/other-minds/` | `map/other-minds.json` | model | 1 open |
+| 3 · Nature-Graded | `programs/nature-graded/` | `map/nature-graded.json` | nature (the `ibm_fez` chip), some mathematics | 0: 14 open directions carry engine odds, none pre-registered |
+| 4 · Settled Science | `programs/settled-science/` | (in the program folder) | the published record | 0 |
+
+Paths inside a bet (`result_file`, `test`) are relative to the program's folder.
 
 Program 3 exists to test whether the engine's calibration survives a referee that shares none of its habits (steer st-10). Its bets enter `bets.jsonl` at pre-registration like any other, with `referee` set, so `brier.py` and the instruments page can compare AI-graded with chip-graded calibration.
 

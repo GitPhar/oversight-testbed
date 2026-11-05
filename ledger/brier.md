@@ -68,7 +68,7 @@ Predicted = mean stated probability in the bucket; observed = fraction that hit;
 
 ## What is not scored, and why
 
-18 of the 27 bets in the ledger are not scored:
+19 of the 28 bets in the ledger are not scored:
 
 - **em-gm9** (Clonable minds: NSIT on archived experiment-5 conversations): Not scored: the stated P is for 'a publishable conceptual result', which the pre-registered NSIT rule does not decide. It resolves when an audit or a reviewer judges paper/clonable-minds.md. brier.md shows both possible outcomes as a sensitivity row.
 - **em-gm3a** (Free look: does the scale-direction gap predict errors?): Not scored: the gold map gave this free look no probability ('—'). The 0.45 sometimes attached to it was direction 3's original P, not 3a's.
@@ -88,5 +88,6 @@ Predicted = mean stated probability in the bucket; observed = fraction that hit;
 - **om-p2-3** (SimpleToM decomposed: is the 'stated but not used' gap a memory effect?): not scored: the pre-registered event was not decided (run stopped on a refusal, request req_011Cgih9NjqNtezArQLWd12p); failed/premortem fields left for the auditor Audited (round 2): verdict stands.
 - **ng-p3-2** (Coherent or stochastic? Twirling and DD on the Stage 1 circuit): Not scored: untestable by its pre-registered rule 5.1. Audited (round 2): verdict stands. Audited (round 2): verdict stands.
 - **ng-p3-3** (Is the gap nine particular qubits, or one afternoon?): Not scored: untestable by its pre-registered rule 5.1. Audited (round 2): verdict stands. QPU seconds are booked once, under ng-p3-2 (shared job). Audited (round 2): verdict stands.
+- **ng-p3-15** (What made 3 November different: the afternoon, or the circuit's barrier and shot grouping?): open: pre-registered and seeded; waiting for its design review (no submission before go)
 
-8 of the 27 bets have an audit in `ledger/audits/`; 4 of the 9 scored bets are audited, and the audit reversed 1 verdict: om-p2-4 → undetermined. The founding-week audits (entangled-mind `audits/`, round 1) are not yet linked here. When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.
+8 of the 28 bets have an audit in `ledger/audits/`; 4 of the 9 scored bets are audited, and the audit reversed 1 verdict: om-p2-4 → undetermined. The founding-week audits (entangled-mind `audits/`, round 1) are not yet linked here. When an audit overturns a verdict, the outcome here changes and the change is logged in the bet's `scoring_note`.

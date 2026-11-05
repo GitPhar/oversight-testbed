@@ -2,7 +2,7 @@
 
 A scalable-oversight testbed for AI-driven research. The AI maps every candidate path and bets on them with stated odds; a human steers; an independent auditor tries to break every result; both the AI and the human are scored on their judgment. Built for trust, not volume.
 
-Read in this order: `CONTEXT.md` (the living brain, rewritten nightly), `ARCHITECTURE.md` (the loop in pseudocode), `proposal.md` (the research proposal for the engine itself).
+Read in this order: `CONTEXT.md` (the living brain, rewritten nightly), `TASKS.md` (open items, decisions made, what waits on whom), `ARCHITECTURE.md` (the loop in pseudocode), `proposal.md` (the research proposal for the engine itself).
 
 ## The five commitments
 
@@ -14,9 +14,12 @@ Read in this order: `CONTEXT.md` (the living brain, rewritten nightly), `ARCHITE
 
 ## Programs
 
-- Program 1 — [The Entangled Mind](https://github.com/GitPhar/entangled-mind): a quantum encoding of a model's competing beliefs (closed, negative, with diagnosis) that produced a live finding about what a model's self-reports measure.
-- Program 2 — Other Minds (open): does a model's account of another mind behave like its account of its own? First bet om-p2-1 pre-registered.
-- Program 3 — Nature-Graded (open): the same engine's odds, graded by a quantum chip instead of a language model. The chip is a referee, never a computational resource (`operators/hardware.md`).
+Every program lives in this repository under `programs/`, with its git history imported. There are no separate program repositories.
+
+- Program 1, [The Entangled Mind](programs/entangled-mind/): a quantum encoding of a model's competing beliefs (closed, negative, with diagnosis) that produced a live finding about what a model's self-reports measure. Its original repository, [GitPhar/entangled-mind](https://github.com/GitPhar/entangled-mind), is kept untouched as the historical record.
+- Program 2, [Other Minds](programs/other-minds/) (open): does a model's account of another mind behave like its account of its own?
+- Program 3, [Nature-Graded](programs/nature-graded/) (open): the same engine's odds, graded by a quantum chip instead of a language model. The chip is a referee, never a computational resource (`operators/hardware.md`).
+- Program 4, [Settled Science](programs/settled-science/) (opening): the engine's odds graded by the published record.
 
 ## Ledger, audits, map, site
 

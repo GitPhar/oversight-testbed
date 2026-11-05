@@ -1,7 +1,9 @@
 """Check a pre-registration against the feedback-loop rules before its bet row is appended,
 and before its first call. No network, no keys.
 
-    python3 ledger/check_prereg.py <bet-id> <program-repo> <prereg-path> [--before-run]
+    python3 ledger/check_prereg.py <bet-id> <repo> <prereg-path> [--before-run]
+
+<repo> is the engine repo (/Users/seanpharris/oversight-testbed); <prereg-path> is programs/<name>/experiments/<file>.
 
 Checks (operators/learn.md, operators/design-review.md):
   L1  the pre-registration's §0 has a filled `lesson` row, committed with the pre-registration
@@ -49,10 +51,22 @@ def main():
     ok = lambda k, good, msg: res.append((k, "ok" if good else "FAIL", msg))
     warn = lambda k, msg: res.append((k, "warn", msg))
 
-    # The pre-registration commit: the commit that added the file.
-    pc = git(repo, "log", "--diff-filter=A", "--format=%h", "--", path).splitlines()
-    pc = pc[-1] if pc else ""
-    text = git(repo, "show", f"{pc}:{path}") if pc else ""
+    # The pre-registration commit: the commit that added the file. Programs folded in with `git subtree add`
+    # keep their original commits, where the file sits at its pre-fold path (without programs/<name>/), so try both.
+    cands = [path]
+    m0 = re.match(r"^programs/[^/]+/(.+)$", path)
+    if m0:
+        cands.append(m0.group(1))
+    pc, text = "", ""
+    for cand in cands:
+        hits = git(repo, "log", "--all", "--full-history", "--diff-filter=A", "--format=%h", "--", cand).splitlines()
+        for h in reversed(hits):                       # oldest first: the commit that froze it
+            t = git(repo, "show", f"{h}:{cand}")
+            if t:
+                pc, text = h, t
+                break
+        if pc:
+            break
     m = re.search(r"^\|\s*lesson\s*\|\s*(.+?)\s*\|\s*$", text, re.M | re.I)
     lesson = m.group(1) if m else ""
     low = lesson.lower()

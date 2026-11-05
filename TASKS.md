@@ -19,7 +19,7 @@ Last rewritten: 2026-11-04 17:10 America/Denver, by hand, from the founding sess
 
 ## Decisions made (do not reopen)
 
-- Programs are folded into this repo under `programs/` with their git histories imported (subtree); `entangled-mind` stays its own repo as program 1's record.
+- Programs are folded into this repo under `programs/` with their git histories imported (subtree), entangled-mind included; the standalone `GitPhar/entangled-mind` repo is left untouched as program 1's historical record. No separate program repos, ever.
 - Program 3 wave-2 repeat test approved (~2.5 QPU s, two runs ≥3 h apart), under lesson + design-review rules.
 - P2-3 re-bet on lower-severity stories approved, under lesson + design-review rules.
 - D46 relabelled exploratory. Experiment 5 re-issued CLASSICAL under its own rule on single-scale q. Probe result verified by DP2.
@@ -28,9 +28,9 @@ Last rewritten: 2026-11-04 17:10 America/Denver, by hand, from the founding sess
 
 ## Open now (engine work, no human needed)
 
-1. Fold `nature-graded`, `other-minds` and `settled-science` into `programs/` with history; update CONTEXT.md §2, the site's data loaders, the operators, and the morning/nightly task prompts to the new paths; push.
+1. ~~Fold the programs into `programs/`~~ done 2026-11-04 17:40 (all four, entangled-mind included). Still to do: the morning and nightly task prompts (cloud routines) to the new paths; subtree-pull any late commits from the old folders as their sessions report.
 2. Program 4 (settled-science, the published-record referee): running; item-writer and bettor separated, bettor has no web; ≥60 post-cutoff items primary; $5 cap.
-3. Site: every gauge regenerates on each push (chip seconds 54 not 46; reversals 1 not 0; API spend current); open map directions show cheapest test + cost on hover; cockpit "next to run" strip.
+3. ~~Site fixes~~ done 2026-11-04 (15ec83d, rebuilt after the fold): gauges regenerate on every push (54 s, 1 of 8 reversed, API from ledger/spend.jsonl); map hover shows cheapest test and cost; cockpit "Next to run" strip.
 4. Program 3: corrected P3-5 pre-registered; simulator fix (D8) audited before reuse; wave-2 repeat test run.
 5. Program 2: P2-3 re-bet; P2-5 onward as mapped, each with lesson + design review.
 6. Ledger: link the founding-week audits (entangled-mind audits/) into ledger/audits/; score the scored-veto shadows as they resolve; plant pl-002 drawn at random this time.
@@ -41,7 +41,7 @@ Last rewritten: 2026-11-04 17:10 America/Denver, by hand, from the founding sess
 
 - Cockpit: enter gut odds on a few open cards (Program 2 or 3), download, and tell any session "commit my odds". The human column on the site is empty until then.
 - OSF: create a free account at osf.io and say so; a session registers the pre-registration files.
-- Support ticket to Anthropic for the two `reasoning_extraction` refusals (request IDs in `programs/entangled-mind` results/refusal-sonnet-replication*.md) and the one `general_harms` refusal (om-p2-3).
+- Support ticket to Anthropic for the two `reasoning_extraction` refusals (request IDs in `programs/entangled-mind/results/refusal-sonnet-replication*.md`) and the one `general_harms` refusal (om-p2-3).
 - "Why Anthropic?" essay, 200–400 words, in his own words; a session polishes.
 - The project's title, when it comes to him.
 

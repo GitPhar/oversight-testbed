@@ -2,7 +2,7 @@
 
 > **Read this before using it.** Anthropic's candidate AI guidance (anthropic.com/candidate-ai-guidance) says of written application answers: "Please create your first draft yourself, then use Claude to refine it." This text was drafted by Claude at your request. You will have to tick the form's "AI Policy for Application" box. So the safe way to use this file is as a fact sheet: write your own first draft, then check it against the numbers and wording below. Don't paste this in. The decision is yours; see `checklist.md`, item H3.
 >
-> Every number is from `GitPhar/entangled-mind` (`paper/record.md`, `results/`, `audits/SUMMARY.md`) or this repository (`ledger/brier.md`). The wording follows the audit's cuts (D51). It avoids mechanism words such as "consistency is memory" and "treats its answers as commitments", which the audit found the data cannot carry.
+> Every number is from program 1 (`programs/entangled-mind/` in this repository; original repository `GitPhar/entangled-mind`, kept as the historical record) (`paper/record.md`, `results/`, `audits/SUMMARY.md`) or this repository (`ledger/brier.md`). The wording follows the audit's cuts (D51). It avoids mechanism words such as "consistency is memory" and "treats its answers as commitments", which the audit found the data cannot carry.
 
 ---
 

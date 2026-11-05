@@ -1,6 +1,6 @@
 # Pre-registration template
 
-Copy this file to `experiments/<bet-id>.md` in the program's repository, fill every section, and commit it **on its own, before the first API call and before any archive is opened for analysis** (CONTEXT §3 rule 1; ARCHITECTURE invariants 1, 2 and 6). The commit hash is the bet's `prereg_commit`. Nothing below may change after that commit except through a dated row in DEVIATIONS.md, written before the result it affects.
+Copy this file to `programs/<name>/experiments/<bet-id>.md` in the engine repo (every program lives there), fill every section, and commit it **on its own, before the first API call and before any archive is opened for analysis** (CONTEXT §3 rule 1; ARCHITECTURE invariants 1, 2 and 6). The commit hash is the bet's `prereg_commit`. Nothing below may change after that commit except through a dated row in DEVIATIONS.md, written before the result it affects.
 
 Delete the guidance in *italics* when you fill it in. Keep the headings.
 
@@ -104,7 +104,7 @@ A pass is reported as **pass, unreplicated** until it holds on more than one mod
 
 - [ ] This file is committed on its own; nothing has been run.
 - [ ] The lesson row in §0 is filled after reading ledger/bets.jsonl, brier.md, audits/ and lessons.jsonl; the same sentence goes to `ledger/lessons.jsonl` as `ls-<bet-id>` (operators/learn.md).
-- [ ] A fresh auditor's design review (operators/design-review.md) has returned **go**, or fix-first with every fix logged in DEVIATIONS and confirmed, before the first call. `python3 /Users/seanpharris/oversight-testbed/ledger/check_prereg.py <bet-id> <repo> <this file> --before-run` passes.
+- [ ] A fresh auditor's design review (operators/design-review.md) has returned **go**, or fix-first with every fix logged in DEVIATIONS and confirmed, before the first call. `python3 ledger/check_prereg.py <bet-id> . programs/<name>/experiments/<this file> --before-run` passes (run from the engine repo root).
 - [ ] Engine odds and human odds are on record elsewhere, with timestamps earlier than this commit.
 - [ ] The pass rule in §5 can be applied by a stranger.
 - [ ] The pre-mortem in §0 is one sentence, names a checkable mechanism, and carries its kind.

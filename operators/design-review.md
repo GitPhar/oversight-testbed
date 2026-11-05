@@ -19,10 +19,11 @@ The design review is the cheap version of the audit, run while the design can st
 - **A fresh session.** It is not the session that wrote the pre-registration, and it has not seen the chat. It follows `operators/auditor.md`'s independence rules. Where possible it is a different model family; when it is not, the header says so.
 - **What it reads:** the pre-registration at its commit, the analysis and run code, the map entry, the lesson line (`operators/learn.md`), and the archives the test will use.
 - **What it may run:** the code with every paid call stubbed or replayed from cache, the chip replaced by its simulator, and synthetic data built to have a known answer. It may make **no paid calls**, with one exception: a pilot of at most $0.10, on items excluded from the test, when the pre-mortem names an execution risk (check D6). Pilot results are not test data.
-- **Launch** (one local tab, in a fresh worktree of the program at the pre-registration commit):
+- **Launch** (one local tab, in a fresh worktree of the engine repo at the pre-registration commit; programs are under `programs/<name>/`):
   ```
-  cd /Users/seanpharris/<program-repo> && git worktree add ../<program-repo>-review-<bet-id> <prereg-commit> && cd ../<program-repo>-review-<bet-id> && claude --model opus "Read /Users/seanpharris/oversight-testbed/operators/design-review.md and follow it. Bet: <bet-id>. Pre-registration: <path> at <prereg-commit>. Write the review to /Users/seanpharris/oversight-testbed/ledger/design-reviews/<bet-id>.md."
+  cd /Users/seanpharris/oversight-testbed && git worktree add ../oversight-testbed-review-<bet-id> <prereg-commit> && cd ../oversight-testbed-review-<bet-id> && claude --model opus "Read /Users/seanpharris/oversight-testbed/operators/design-review.md and follow it. Bet: <bet-id>. Pre-registration: programs/<name>/experiments/<file>.md at <prereg-commit>. Write the review to /Users/seanpharris/oversight-testbed/ledger/design-reviews/<bet-id>.md."
   ```
+  The engine session may instead launch the reviewer as a fresh subagent with a brief that names the files; either way the reviewer has not seen the work.
 
 ## The checks
 

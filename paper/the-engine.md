@@ -639,7 +639,7 @@ One partial control is real. Each hardware bet also scores the chip's departure 
 ## 8. Reproducibility
 
 - **The engine** is plain files in one public repository: `CONTEXT.md`, `ARCHITECTURE.md`, `proposal.md`, `operators/` (scout, auditor and the pre-registration template, the standing instructions every session follows), and `ledger/`, `map/` and `related-work/`. Every judgment is a commit with a timestamp: odds, pre-registrations, results, audits and steers. "Odds before data" is checkable from `git log` alone.
-- **Program 1** is in `GitPhar/entangled-mind`.
+- **Program 1** is in `programs/entangled-mind/` (history imported; the original `GitPhar/entangled-mind` repository is kept untouched as its historical record). Programs 2–4 are in `programs/other-minds/`, `programs/nature-graded/` and `programs/settled-science/`.
   - `python experiments/reproduce.py` regenerates every results table from archived JSON, with no API keys.
   - The audit is in `audits/`. Its request-ID decoder, which dates every archived call independently of git, runs as `python audits/tools/ridtime.py results/*.json`.
   - The audit's own recomputation scripts were not committed (`audits/SUMMARY.md`), which is a gap.

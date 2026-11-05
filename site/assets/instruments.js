@@ -420,7 +420,9 @@ function gaugeLearning(bets, lessons) {
   const pats = L.filter((r) => r.kind === "pattern");
   const les = new Map(L.filter((r) => r.kind === "lesson").map((r) => [r.bet, r]));
   const since = bets.filter((b) => (b.raw?.prereg_time || "") >= RULE_FROM && b.raw?.verdict !== "withdrawn");
-  const bad = since.filter((b) => !les.has(b.id) || !b.raw?.design_review?.path).map((b) => b.id);
+  const reviewed = (b) => ["go", "fix-first", "redesign"].includes(b.raw?.design_review?.verdict);
+  const bad = since.filter((b) => !les.has(b.id) || (!reviewed(b) && b.raw?.result_commit)).map((b) => b.id);
+  const awaiting = since.filter((b) => !reviewed(b) && !b.raw?.result_commit).map((b) => b.id);
   const pairs = [...les.values()].flatMap((l) => {
     const b = bets.find((x) => x.id === l.bet); const o = b ? outcomeOf(b) : null;
     return o != null && l.odds_before_lesson != null && l.odds_after_lesson != null ? [[l.odds_before_lesson, l.odds_after_lesson, o]] : [];
@@ -428,8 +430,8 @@ function gaugeLearning(bets, lessons) {
   const bb = brier(pairs.map(([p, , o]) => ({ p, o }))), ba = brier(pairs.map(([, q, o]) => ({ p: q, o })));
   const box = card("g-learn", {
     label: "Learning: lessons before every bet",
-    value: since.length ? `${since.length - bad.length} of ${since.length}` : "0", unit: since.length ? "new bets with a lesson and a design review" : "new bets since the rule",
-    caption: `${pats.length} patterns from past misses and audit cuts are on file. Before each new bet the engine must say which one it is correcting and how its odds reflect it, and a fresh auditor must dry-run the design. ${bad.length ? `<b>Violations: ${bad.map(esc).join(", ")}.</b> ` : ""}${pairs.length ? `Brier with the odds before the lesson ${f3(bb)}, after it ${f3(ba)} (n = ${pairs.length}).` : "Whether the lessons improve the odds is measured once lesson-carrying bets resolve: Brier before the lesson against after it."}`,
+    value: since.length ? `${since.length - bad.length} of ${since.length}` : "0", unit: since.length ? "new bets with a lesson, none run without a design review" : "new bets since the rule",
+    caption: `${pats.length} patterns from past misses and audit cuts are on file. Before each new bet the engine must say which one it is correcting and how its odds reflect it, and a fresh auditor must dry-run the design. ${bad.length ? `<b>Violations: ${bad.map(esc).join(", ")}.</b> ` : ""}${awaiting.length ? `Awaiting their design review: ${awaiting.map(esc).join(", ")}. ` : ""}${pairs.length ? `Brier with the odds before the lesson ${f3(bb)}, after it ${f3(ba)} (n = ${pairs.length}).` : "Whether the lessons improve the odds is measured once lesson-carrying bets resolve: Brier before the lesson against after it."}`,
     source: `${src("ledger/lessons.jsonl")} · ${src("operators/learn.md", "learn.md")} · ${src("operators/design-review.md", "design-review.md")}`,
   });
   cells(box, [{ n: since.length - bad.length, cls: "c-clean", word: "with lesson + review" }, { n: bad.length, cls: "c-over", word: "violation" }]);

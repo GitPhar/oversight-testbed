@@ -1,6 +1,6 @@
 # CONTEXT.md — the persistent brain
 
-Every operator session (morning brief, nightly updater, auditor, scout, any build session) reads this file first, then ARCHITECTURE.md and proposal.md. The nightly updater rewrites sections 4, 5 and 8 from the day's commits. If this file and a chat disagree, this file wins; if this file and a results file disagree, the results file wins and this file is corrected and the correction logged.
+Every operator session (morning brief, nightly updater, auditor, scout, any build session) reads this file first, then `TASKS.md` (open items, decisions made, what waits on whom), then ARCHITECTURE.md and proposal.md. The nightly updater rewrites sections 4, 5 and 8 from the day's commits. If this file and a chat disagree, this file wins; if this file and a results file disagree, the results file wins and this file is corrected and the correction logged.
 
 Last rewritten: 2026-11-04 09:15 America/Denver, by hand, from the full founding session (Nov 3–4).
 
@@ -26,13 +26,20 @@ Primary goal: a submission to the Anthropic Residency (applications close 2026-1
 
 ## 2. Repositories
 
-- `GitPhar/oversight-testbed` (public; placeholder slug, see §0) — the engine: CONTEXT.md, ARCHITECTURE.md, proposal.md, README.md (the five commitments), ledger/ (bets.jsonl with engine and human odds, steers.jsonl, audits/), map/, operators/, site/. One repo per program; the engine holds the trajectory, the programs hold the work. Local: `/Users/seanpharris/oversight-testbed`.
-- `GitPhar/entangled-mind` (public, MIT) — program 1. Full pipeline, all results, two papers, the record. Do not rename; its commit history is evidence. Worktrees on Sean's Mac: `/Users/seanpharris/entangled-mind` (main session), `../entangled-mind-lit` (branch related-work; papers), `../entangled-mind-bio` (branch biomimetics; figures), `../entangled-mind-models` (branch multi-model), `../entangled-mind-probe` (branch probes). The main session merges branches into main and pushes; other worktrees cannot push (no token) and commit locally.
+**One repository, final (Sean, 2026-11-04 17:30): no separate program repositories, ever.** Programs live inside the engine repo as `programs/<name>/`, each with its full git history imported (`git subtree add`), so every commit hash in the ledger resolves here. Never ask Sean to create a repository.
 
-- `GitPhar/other-minds` — program 2 (model psychology: does a model's account of another mind behave like its account of its own?). Local: `/Users/seanpharris/other-minds`. Scout, map and first pre-registration (om-p2-1) committed; not yet on GitHub (the repo must be created first).
-- `GitPhar/nature-graded` — program 3 (the engine's odds graded by the `ibm_fez` chip, not by a language model; the chip is a referee, never a computational resource). Local: `/Users/seanpharris/nature-graded`. Scout (81 reads) and map (14 open directions with engine odds) committed; no bet pre-registered, no QPU spent; not yet on GitHub.
+- `GitPhar/oversight-testbed` (public; placeholder slug, see §0). Local: `/Users/seanpharris/oversight-testbed`. The engine: CONTEXT.md, TASKS.md, ARCHITECTURE.md, proposal.md, README.md (the five commitments), ledger/, map/, operators/, site/, paper/, application/. Then the programs:
+  - `programs/entangled-mind/`: program 1. Full pipeline, all results, two papers, the record, audit round 1 (`audits/`). History imported up to `795dadb`.
+    - The standalone `GitPhar/entangled-mind` repository (public, MIT) is **left untouched as program 1's historical record**; link to it, but do not push new work there.
+    - Its unmerged branches (`related-work`, `biomimetics`, `multi-model`, `probes`, `audit`, `audit2`) are still in `/Users/seanpharris/entangled-mind`. Audit round 2's files are copied into `ledger/audits/`.
+  - `programs/other-minds/`: program 2 (model psychology: does a model's account of another mind behave like its account of its own?). Wave 1: P2-1 fail, P2-2 fail, P2-4 undetermined, P2-3 untestable (a refusal); the P2-3 low-severity re-bet is approved (st-12).
+  - `programs/nature-graded/`: program 3 (the engine's odds graded by the `ibm_fez` chip, not by a language model; the chip is a referee, never a computational resource). Wave 1: P3-1 and P3-5 fail, P3-2 and P3-3 untestable; ng-p3-15, the 3 November repeat, is pre-registered and awaiting its design review (st-11).
+  - `programs/settled-science/`: program 4 (the published-record referee: the engine bets on settled items, graded by the literature). Tooling committed; item drafts and first pre-registration in progress.
+- **The old folders** `/Users/seanpharris/{entangled-mind,other-minds,nature-graded,settled-science}` each carry a `NOTE.md` (git-excluded there) telling a still-running session to commit, report the hash, and continue inside `programs/`. The engine session brings late commits across with `git subtree pull --prefix=programs/<name> /Users/seanpharris/<name> main`.
+- **Paths in the ledger.** `result_file`, `test` and the other paths in `ledger/bets.jsonl` are relative to the program folder (`programs/<name>/`). A bet's pre-registration commit from before the fold shows its files at their pre-fold path: `git show <prereg-commit>:experiments/<file>.md`.
+- **Pushing.** Only the session in the main checkout pushes, with the token in `.env` (never printed).
 
-Key files in entangled-mind: `README.md`, `DEVIATIONS.md` (D1–D47+, every departure from a pre-registration, dated), `paper/record.md` (commit-by-commit timeline), `paper/gold-map.md` (11 ranked directions with odds), `paper/biomimetic-map.md` (10 brain mechanisms vs the measured fingerprint), `paper/morning-brief.md`, `paper/no-credence-to-read.md` (main paper), `paper/the-entangled-mind-paper.md` (short negative-result paper), `paper/clonable-minds.md` (theory note), `paper/one-page.md`, `paper/figures/`, `experiments/reproduce.py` (regenerates every results table from archived JSON with no keys; last run printed ALL TABLES REPRODUCED), `results/*.md`.
+Key files in programs/entangled-mind: `README.md`, `DEVIATIONS.md` (D1–D47+, every departure from a pre-registration, dated), `paper/record.md` (commit-by-commit timeline), `paper/gold-map.md` (11 ranked directions with odds), `paper/biomimetic-map.md` (10 brain mechanisms vs the measured fingerprint), `paper/morning-brief.md`, `paper/no-credence-to-read.md` (main paper), `paper/the-entangled-mind-paper.md` (short negative-result paper), `paper/clonable-minds.md` (theory note), `paper/one-page.md`, `paper/figures/`, `experiments/reproduce.py` (regenerates every results table from archived JSON with no keys; last run printed ALL TABLES REPRODUCED), `results/*.md`.
 
 ## 3. Rules every session follows
 
