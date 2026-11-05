@@ -1432,3 +1432,7 @@ What changed, said plainly: the 30% wrong-target world now passes the bet 0.005 
 ## D85 — seeds for em-gm2bf1f1 and em-dm6f2f2
 
 2026-11-05 (commit author time is the record), before any call. Both from CURBy-RNG pulse 1592560 (18:16:00.198Z), the first after both pre-registration commits (`df30f78`, `33d18d7`, author time 11:15:51; pulse 1592559 at 18:15:00 predates them): em-gm2bf1f1 bootstrap 10269032153479545163; em-dm6f2f2 bootstrap 12892736311446276367, items 14564298516711186911 (`ledger/seed.py <randomness> <bet> --purpose …`). Written into each §2 and each script's `SEED_RECORDED`. Note: D84's row was committed with D83 in `df30f78`, before em-dm6f2f2's own pre-registration commit, not with it.
+
+## D86 — em-gm2q2 audit applied (fail stands; 3 cuts, 1 plant)
+
+2026-11-05, after the audit (`ledger/audits/em-gm2q2.md`, `3f52855`; pl-039 caught, `c927c5f`). Cuts 2, 3 and 4 applied verbatim to `results/gm2q2-opus-sonnet30.md`: without h058 Opus's questions-only gates also fail (p = 0.126 raw, 0.138 cleaned), so the fail is only partly about the yardstick; on Sonnet the wrong-target check flags answers far from turn by turn, and does not single out the first- or last-listed statement (a middle-statement version flags more, 13.5% against 9.8%). Cut 1 was the plant and is not applied. The results file links the audit.
