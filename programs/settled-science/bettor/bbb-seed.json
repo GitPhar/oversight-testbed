@@ -1,0 +1,19 @@
+{
+ "bet": "ss-b10b",
+ "chain": "CURBy-RNG",
+ "pulse_index": 1592503,
+ "pulse_time": "2026-11-05 10:19:00 America/Denver",
+ "pulse_time_utc": "2026-11-05T17:19:00.201Z",
+ "previous_index": 1592502,
+ "previous_time_utc": "2026-11-05T17:18:00.189Z",
+ "prereg_commit": "1181659",
+ "prereg_commit_time": "2026-11-05 10:18:42 America/Denver",
+ "randomness": "93bc65ec387e1b9d0aac36e6cf6c0828138c39aca4db9b5e64f44d477d2e1d5c9a286dc2690b58960b4cb3490cc4c2ce63da35c26d3847fbd2e3b70fd496f73d",
+ "client": "@buff-beacon-project/curby-client@1.2.0",
+ "certificate_verified": false,
+ "curby_q_status": "stalled (round 28297, 2025-08-22 13:42 America/Denver; checked 2026-11-05 09:58)",
+ "derivation": "ledger/seed.py derive(<randomness>, 'ss-b10b', 'opus-order'): the 64-bit seed",
+ "seeds": {
+  "opus-order": 13824542590128467770
+ }
+}
