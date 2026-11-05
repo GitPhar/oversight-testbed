@@ -12,13 +12,19 @@ What earlier programs already say, on Haiku: a number framed as the model's own 
 
 ## Status
 
-Opened 2026-11-04 23:38 America/Denver; the session crashed at 23:44 and was resumed on 2026-11-05 (starting point `753e334`). Budget **$5.00 of API for the whole program**, enforced in code (`experiments/sg_common.py`). Models: `claude-haiku-5-5`, `claude-sonnet-5-5`, `claude-opus-5-5`.
+Opened 2026-11-04 23:38 America/Denver. The session crashed at 23:44 and was resumed on 2026-11-05 (starting point `753e334`).
+- **Budget:** $5.00 of API for the whole program, enforced in code (`experiments/sg_common.py`); **$3.63 spent**.
+- **Models:** `claude-haiku-5-5`, `claude-sonnet-5-5`, `claude-opus-5-5`.
+- **The scout and the map:** 61 reads in four clusters (`map/reads/`), and ten directions with the engine's odds written before any data (`map/program-5-map.md`).
+- **Wave 1, 2026-11-05:** three bets, each pre-registered in its own commit with a lesson, a dumb baseline and frozen verdict sentences. Each had a fresh design review (all three fix-first, then confirmed), a sealed plant draw and a fresh audit. No refusals. No human odds: Sean's first cockpit lines reached the ledger after these pre-registrations.
 
-- `map/reads/`: the scout's Read records, one file per cluster.
-- `map/program-5-map.md` (and `map/self-grading.json` at the engine root, for the site): ranked directions with the engine's odds stated before any data.
-- `map/human-odds.md`: the form for Sean's odds (no engine odds shown); his odds come only from `ledger/human-odds.jsonl`.
-- `experiments/`: pre-registrations and code. `results/`: results files, plain English first.
-- `DEVIATIONS.md`: every departure from a pre-registration, dated.
+| bet | question | verdict (audited) | engine odds | result file |
+|---|---|---|---|---|
+| sg-b1 | Is a model kinder to its own conclusion when it grades it in the conversation that wrote it? | **fail-same**: own minus fresh −1.1 (Haiku), −0.4 (Sonnet), −0.9 (Opus) points of 100, all within ±3; audit stands, 3 cuts | 24 | `results/sg-b1-placement.md` |
+| sg-b2 | Does "written by you" earn a kinder grade than "written by another AI model", words unchanged? | **fail-same**: −0.0, +0.2, −0.5, all within ±3; audit stands, 3 cuts | 13 | `results/sg-b2-label.md` |
+| sg-b3 | Grading in the conversation that wrote it, does a model dock a planted overclaim less? | **pass, unreplicated**: Haiku docked it 12.6 points less, Opus 6.0 less, Sonnet 1.4 (not over the bar); audit stands, 5 cuts (one was the plant, caught) | 18 | `results/sg-b3-flaw.md` |
+
+**In one line:** on this work, these models were not kinder to their own good work, whether told they wrote it or grading it where they wrote it. But two of the three went easier on a planted exaggeration sitting in their own turn of the conversation. That is the self-grading failure this testbed was built to catch, seen here on one design and not yet replicated.
 
 ## Rules inherited from the engine
 
