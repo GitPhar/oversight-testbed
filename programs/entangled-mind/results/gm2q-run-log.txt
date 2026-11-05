@@ -1,0 +1,47 @@
+gm2q: 50 done, $0.003
+gm2q: 100 done, $0.006
+gm2q: 150 done, $0.008
+gm2q: 200 done, $0.011
+gm2q: 250 done, $0.014
+gm2q: 300 done, $0.017
+gm2q: 350 done, $0.020
+gm2q: 400 done, $0.023
+gm2q: haiku qonly finished; total $0.0233
+gm2q: 450 done, $0.037
+gm2q: 500 done, $0.049
+gm2q: 550 done, $0.061
+gm2q: 600 done, $0.074
+gm2q: 650 done, $0.088
+gm2q: 700 done, $0.101
+gm2q: 750 done, $0.114
+gm2q: 800 done, $0.128
+gm2q: haiku shown finished; total $0.1283
+gm2q: 850 done, $0.142
+gm2q: 900 done, $0.154
+gm2q: 950 done, $0.166
+gm2q: 1000 done, $0.179
+gm2q: 1050 done, $0.193
+gm2q: 1100 done, $0.205
+gm2q: 1150 done, $0.218
+gm2q: 1200 done, $0.233
+gm2q: haiku redacted finished; total $0.2329
+gm2q: 1250 done, $0.293
+gm2q: 1300 done, $0.348
+gm2q: 1350 done, $0.403
+gm2q: 1400 done, $0.459
+gm2q: 1450 done, $0.520
+gm2q: 1500 done, $0.577
+gm2q: 1550 done, $0.634
+gm2q: 1600 done, $0.699
+gm2q: sonnet qonly finished; total $0.6992
+gm2q: 1650 done, $0.966
+gm2q: 1700 done, $1.215
+gm2q: 1750 done, $1.461
+gm2q: 1800 done, $1.712
+gm2q: 1850 done, $1.989
+gm2q: 1900 done, $2.248
+gm2q: 1950 done, $2.506
+gm2q: 2000 done, $2.801
+gm2q: sonnet shown finished; total $2.8012
+gm2q: complete, $2.8012
+exit=0
