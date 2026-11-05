@@ -1216,3 +1216,7 @@ Details in `results/probe-dissociation.md`.
 - gm4: EIG's above-chance excess is entirely overlap with the confirmatory target; on disjoint menus EIG is at chance while confirmatory stays above it.
 - gm5: the Holm-corrected gate (2 of 10), the alternative Q scalings (0.86, 0.66) and the DP2 dependence on the unmerged `probes` branch are stated; the stale "queued" sentence and the `:116` contradiction round 2 flagged are fixed.
 
+
+## D61 — em-dm6f2 pre-registered (remap follow-up dm6-f2, archive only, $0)
+
+2026-11-05 06:15 America/Denver, before the archive is opened for this analysis. Follow-up `dm6-f2` of `em-dm6` (remap `9773f6a`): does a fixed "flag anything under 70% confidence" rule flag different answers by format, beyond same-format repeat noise? Pre-registration `experiments/dm6f2-flag-overlap.md`, code `experiments/dm6f2_flag_overlap.py`. Two departures from the remap's row, both before data: (1) em-dm6 holds Haiku and Sonnet, not Sonnet and Opus, so Haiku is the secondary and Opus is not reported; (2) the event adds a same-format replicate baseline (D = J_N − J_F ≥ 0.10, lower bound above 0), per the lesson (P3), and restricts every overlap to questions with a number in all four fresh cells (P8). Engine odds: map 0.55, v1 0.76, after the lesson 0.55. No human odds. The same session parked g-f1, g-f2, dm6-f1 and gm3c-f2 before betting (`experiments/remap-free-check.md`, `fe80338`).
