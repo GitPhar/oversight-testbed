@@ -12,6 +12,8 @@ Checks (operators/learn.md, operators/design-review.md):
   R1  ledger/design-reviews/<bet-id>.md exists, committed after the pre-registration
   R2  its verdict is go, or fix-first with confirmed_at set (redesign: the bet must be withdrawn)
   R3  if the bet has a result commit, the review was committed before it
+  H1  if Sean's cockpit line for this direction reached ledger/human-odds.jsonl before the pre-registration
+      commit, the bet row carries its human_odds and names its id in human_odds_at (ledger/human_odds_match.py)
 With --before-run, a missing L2 is a warning (the ledger row follows the pre-registration) and R3 is skipped.
 Exit 0 if every check passes, 1 otherwise. Prints one line per check.
 """
@@ -144,6 +146,24 @@ def main():
                 ok("R3", t_res and t_rev < t_res, f"review {t_rev} before result {t_res}")
             else:
                 warn("R3", "no result commit yet: the review must land before the first call")
+    # H1: Sean's cockpit odds (rule 11, st-18). A line for this direction committed to ledger/human-odds.jsonl
+    # before the pre-registration must be copied into the bet row; one that came later is never filled in.
+    sys.path.insert(0, str(HERE))
+    import human_odds_match as hom
+    _bets = [json.loads(l) for l in (HERE / "bets.jsonl").read_text().splitlines() if l.strip()]
+    _row = next((x for x in _bets if x["id"] == bet), None)
+    if _row is None:
+        prog = (re.match(r"^programs/([^/]+)/", path) or [None, ""])[1]
+        warn("H1", "no bet row yet; before appending it run: python3 ledger/human_odds_match.py "
+                   f"{prog or '<program>'} <direction>, and copy what it prints")
+    else:
+        if pc and not _row.get("prereg_commit"):
+            _row = dict(_row, prereg_commit=pc)
+        good, msg = hom.check_bet(_row)
+        if good is None:
+            warn("H1", msg)
+        else:
+            ok("H1", good, msg)
     for k, s, msg in res:
         print(f"{k} {s:4} {msg}")
     sys.exit(1 if any(s == "FAIL" for _, s, _ in res) else 0)

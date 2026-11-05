@@ -103,6 +103,15 @@ def read_ledger():
     audited = [b for b in bets if b.get("audit_path")]
     if not any("audit_path" in p for p in problems):
         ok(f"{len(audited)} of {len(bets)} bets carry an audit; every audit path resolves")
+    # Sean's cockpit odds (rule 11, st-18): a line committed before a bet's pre-registration must be in its row.
+    sys.path.insert(0, str(LEDGER))
+    import human_odds_match as hom
+    ho_rows, ho_arr = hom.lines(), hom.arrivals()
+    missing = [msg for ok_, msg in (hom.check_bet(b, ho_rows, ho_arr) for b in bets) if ok_ is False]
+    for msg in missing:
+        fail(msg)
+    if not missing:
+        ok(f"human odds: every bet pre-registered after a cockpit line for its direction carries it ({len(ho_rows)} line(s))")
     for s in rows["steers"]:
         for ev in s.get("evidence") or []:
             path = ev.split(" ")[0]
@@ -166,7 +175,7 @@ def brier_check(bets):
         h = sum((b["human_odds"] - b["outcome"]) ** 2 for b in hum) / len(hum)
         ok(f"human Brier {h:.3f} on {len(hum)} bets")
     else:
-        ok("human Brier: no scored bet has human odds (ledger/human-odds.jsonl is the only source; none committed yet)")
+        ok("human Brier: no scored bet has human odds yet (ledger/human-odds.jsonl is the only source; its lines wait for their bets)")
 
 
 # ---------- 4. plants ----------
