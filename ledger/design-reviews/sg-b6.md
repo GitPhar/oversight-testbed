@@ -13,7 +13,7 @@ papers_opened: 5
 flaws: 2
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 12:02 America/Denver
 ---
 
 # Design review of sg-b6
@@ -129,3 +129,35 @@ Both go in one DEVIATIONS row, D22, dated before any data and naming this review
 Recommended, not required: add same-run fresh-clean and fresh-flawed cells for Haiku (about $0.018) so that today's G, and T as a share of it, are reported beside the reading (D7); and re-elicit the engine's odds before data with sg-b4's same-run drift-study T (+12.1) in the description, keeping both numbers (D12 observation).
 
 Sources (web reads, 2026-11-05): [arXiv 2507.02778](https://arxiv.org/abs/2507.02778v3), [arXiv 2603.04582](https://arxiv.org/abs/2603.04582), [arXiv 2604.23478](https://arxiv.org/abs/2604.23478v3), [arXiv 2604.16790](https://arxiv.org/abs/2604.16790), [arXiv 2608.29517](https://arxiv.org/abs/2608.29517); search results also listed [arXiv 2504.13557](https://arxiv.org/pdf/2504.13557) and [the DRIFT model paper](https://jps.ecnu.edu.cn/EN/Y2018/V41/I1/196) (search summary only).
+
+## Confirmation addendum (2026-11-05 12:02 America/Denver, same reviewer, at 124b665)
+
+I checked the fixes under DEVIATIONS D23 in the review worktree, detached at 124b665. I made no paid call, and no sg-b6 cache exists in `results/`. Scratch scripts: `sim.py` and `fresh_iso.py` in `/private/tmp/claude-501/-Users-seanpharris-oversight-testbed-sg-wave3/d5ddd046-4e62-4fcb-9e09-18990f49f5f0/scratchpad/rev/`.
+
+**Fix 1 (D11/P15): confirmed.**
+- *Noise constants.* `sg_samerun.REPEAT_SD` is now per model and per cell kind: Haiku clean 1.89 and flawed 5.53, Sonnet 1.95 and 2.98, Opus 0.95 and 1.80. These are the values in my D11. `synth_cache` picks the flawed SD for cells ending in "flawed" and the clean SD otherwise. `noise_sd()` recomputes them from sg-b4's drift-own records against sg-b3's own records, and `check_noise()` stops the dry run if they differ. They do not differ.
+- *At-the-bar world.* Where `of − bar` falls below 0, quoted-clean is raised by the deficit and quoted-flawed set to 0. The dry run prints true T = 6.3 for Haiku and 3.0 for Opus.
+- *D23 table.* `experiments/sg_b6_samerun.py dryrun` (45 s, exit 0) gives exactly D23's figures:
+  - as sg-b4: pass 0.745, mixed 0.255
+  - drift: pass 1.00
+  - layout: fail 1.00
+  - at the bar: pass 0.305, mixed 0.595, fail 0.10
+  - regression: fail 0.98, mixed 0.02
+  - kinder-clean: mixed 0.97, pass 0.03
+- *D11.* P(pass) and P(fail) are each at least about 10% in the named worlds, so D11 holds.
+- *No effect on the statistics.* `REPEAT_SD` is used only by `synth_cache`, so no statistic or reading changed.
+
+**Fix 2 (D12(b)): confirmed.** The bet row's `prior_work` in `ledger/inbox/sg-wave3.jsonl` (update op, 12:00) carries the review's JudgeSense and Zhao text word for word. The frozen text is kept as `prior_work_frozen`, with `prior_work_revised_by: D23`, and D23 states the replacement. `prior_work_predicts` stays unknown. One leftover, not blocking: the corrected row still ends "The engine's 16 sits below the papers' direction…", but the odds are now 0.55. The ledger session should drop or update that sentence when it folds the row.
+
+**Recommended changes taken: checked.**
+- *Fresh cells as a secondary only.* Haiku's plan is now 60 studies × 6 cells × 2 (960 calls in all, about $0.66 at archived prices, cap $0.80 unchanged).
+  - The fresh prompts equal sg-b3's `fresh` cells on all 60 studies.
+  - FRESH is in `FROZEN` with the correct hash, and changing one word of it makes the hash check refuse to run.
+  - `usable`, the gate, the guard, `read`, `_study_read` and the robustness checks all use `CELLS` only. On synthetic caches whose fresh cells were normal, missing, random 0 to 100, or present on half the studies, Haiku's reading, T and every CI, F, q, gate, usable share and robustness output were identical. Only `G_today` changed.
+  - One residual: a refusal or error on a fresh call would stop the whole run under stop-on-refusal, because the fresh calls are shuffled in among the scored ones. sg-b3 ran these exact fresh prompts on Haiku with no refusal, so I accept the risk.
+- *Odds re-elicitation.* This is recorded as a revision before data:
+  - `engine_odds_first` 0.16 (with `odds_first` holding its prior, adjustment and reason), `engine_odds` 0.55 at 2026-11-05T12:00, before any sg-b6 call.
+  - It is mirrored in `ls-sg-b6` (`odds_after_lesson_first` 0.16), and the frozen lesson sentence is not revised.
+  - The number is not mine to set. Two notes for the ledger: the new reason says "with low repeat noise", while the measured per-call noise on Haiku's flawed cells is 5.5 points; and the fresh context was given sg-b4's audit figure (+12.1) and this review's noise, which rule 14's "no audit or review notes about it" may be read to exclude. Both were done at this review's recommendation and are disclosed in D23.
+
+**Verdict after the fixes: go.** Both flaws are fixed without changing the rule, the bar, the gate, the guard, the scored cells or the budget. The run may start.
