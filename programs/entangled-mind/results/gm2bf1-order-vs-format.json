@@ -1,0 +1,47 @@
+{
+ "seed": 12485997366771242721,
+ "archive_sha256": {
+  "gm2-conversations.json": "e9d59385c62d2e489bfc480e07dd2d1d19e81abd87a618b351fd01e3adf832d3",
+  "gm2b-conversations.json": "a7cbe10e6329cfe75637207bba717bb8a09ba60fb3f27f966029cfe8886e0581",
+  "gm3b-calls.json": "0a5a27a4fda3b66285148a238cd41293a0ddb5fd44bcd85ce29fbf4b247d84b9"
+ },
+ "primary": {
+  "n_claims": 160,
+  "rho": 0.3360017111189896,
+  "rho_ci": [
+   0.1592950443431517,
+   0.4865556970549873
+  ],
+  "partial_rho": 0.24593819668591246,
+  "partial_rho_ci": [
+   0.09223737907461013,
+   0.3681022161660097
+  ],
+  "n_items": 40,
+  "rho_S_E": -0.23957885605946358,
+  "rho_G_E": -0.23360189459381664,
+  "rho_S_W": 0.77231389478084,
+  "rho_G_W": 0.3768744364697698,
+  "rho_S_Eo": -0.7874076538368833,
+  "rho_G_Eo": -0.22573467099502653,
+  "loo_item_flips": [],
+  "verdict": "pass",
+  "verdict_label": "pass",
+  "sentence": "On Haiku's 160 deliberation claims, the claims whose rating moved more with question order tended also to be the ones whose rank moved more across answer formats (Spearman \u03c1 = +0.34), and this held after allowing for how extreme the claim's rating was in both archives and how noisy its ratings were in the order conversations."
+ },
+ "secondary_redacted": {
+  "n_claims": 160,
+  "rho": 0.32540353996009336,
+  "rho_ci": [
+   0.13725230880484085,
+   0.46909408320786095
+  ],
+  "partial_rho": 0.2022932354883037,
+  "partial_rho_ci": [
+   0.02587393943222482,
+   0.35389526793883025
+  ]
+ },
+ "median_order_span": 15.1,
+ "median_format_spread": 0.16451620256140032
+}
