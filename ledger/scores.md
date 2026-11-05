@@ -29,7 +29,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-33 audits prepared with a sealed plant line: 0 still sealed, 33 revealed, of which 12 carried a plant. 
+34 audits prepared with a sealed plant line: 1 still sealed, 33 revealed, of which 12 carried a plant. 
 
 **Catch rate: 12/12 = 1.00, 95% Wilson interval [0.76, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
 
@@ -65,7 +65,7 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-46 of 69 bets carry an engine pre-mortem; 29 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+47 of 70 bets carry an engine pre-mortem; 29 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
@@ -94,21 +94,21 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 | Brier on tiebreaks, engine (n = 0) | — |
 | Brier on tiebreaks, human (n = 0) | — |
 | QPU seconds used by tiebreaks | 0 |
-| bets by seed source: curby-rng | 44 |
+| bets by seed source: curby-rng | 45 |
 | bets by seed source: fixed | 1 |
 | bets by seed source: inherited (ss-b4 seed e8f921e; no new draw) | 2 |
 | bets by seed source: none recorded | 22 |
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
 
-Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 17 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 39 lesson lines written.
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 17 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 40 lesson lines written.
 
 | | count |
 |---|---|
-| pre-registrations since the rule | 36 |
-| with a lesson line | 33 |
+| pre-registrations since the rule | 37 |
+| with a lesson line | 34 |
 | with a design review verdict | 35 |
-| awaiting their design review (nothing may run yet) | 1: om-p2-path |
+| awaiting their design review (nothing may run yet) | 2: om-p2-path, om-p2-14 |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 6 |
@@ -118,20 +118,20 @@ Design reviews: 0 go, 35 fix-first, 6 redesign; 23 later found by the post-resul
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
 | P1 | Odds too high where the engine had a story | 14 | 9 of 13 scored |
-| P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 4 | 4 of 4 scored |
+| P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 5 | 4 of 4 scored |
 | P3 | No dumb baseline: a trivial predictor would pass the rule | 26 | 16 of 25 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 5 | 3 of 5 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 3 | 0 of 2 scored |
 | P6 | A control that cannot fail | 3 | 1 of 3 scored |
 | P7 | A foreseeable execution risk run without a pilot | 3 | 1 of 3 scored |
-| P8 | Comparing across conditions that differ in more than the factor named | 21 | 10 of 19 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 22 | 10 of 19 scored |
 | P9 | The right rule, then the wrong noun | 12 | 10 of 11 scored |
-| P10 | A label that hangs on one item | 15 | 12 of 13 scored |
+| P10 | A label that hangs on one item | 16 | 12 of 13 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 2 | 2 of 2 scored |
-| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 18 | 9 of 16 scored |
-| P13 | A boundary the rule names, compared in plain floating point | 5 | 3 of 3 scored |
-| P14 | Items that share a template or domain bootstrapped as if independent | 4 | 1 of 3 scored |
-| P15 | A dry run built on assumed spreads or base rates, not measured ones | 3 | 1 of 2 scored |
+| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 19 | 9 of 16 scored |
+| P13 | A boundary the rule names, compared in plain floating point | 6 | 3 of 3 scored |
+| P14 | Items that share a template or domain bootstrapped as if independent | 5 | 1 of 3 scored |
+| P15 | A dry run built on assumed spreads or base rates, not measured ones | 4 | 1 of 2 scored |
 | P16 | A dumb baseline that is an item property, in dry-run worlds where item properties reach the outcome only through the predictor | 0 | 0 of 0 scored |
 | P17 | A design-review fix that replaces a guard can loosen it on the real data | 0 | 0 of 0 scored |
 
