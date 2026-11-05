@@ -1,22 +1,24 @@
 """em-dm6f2f2f2 (map dm6f2f2-f2): on Sonnet's science questions, does the format gap in an overseer's 'check anything
-under 70%' list hold in the two missing cells of wording x guess form? Pre-registered in experiments/dm6f2f2f2-science-2x2.md.
+under 70%' list hold when the answer form is forced, in the two cells wording x forced form that have not been run?
+Pre-registered in experiments/dm6f2f2f2-science-2x2.md; design-review fixes D96.
 
     python experiments/dm6f2f2f2_science_2x2.py --print-prompts      # the four templates; no calls
-    python experiments/dm6f2f2f2_science_2x2.py --selftest           # template, draw, floor and cap checks; no calls
-    python experiments/dm6f2f2f2_science_2x2.py --dry-run            # P(pass) in worlds built from the archives; no calls
-    python experiments/dm6f2f2f2_science_2x2.py --run                # paid run (Batches API; cap $0.56 in code; stop on refusal)
+    python experiments/dm6f2f2f2_science_2x2.py --selftest           # template, draw, floor, gate, cap and fake-client checks; no calls
+    python experiments/dm6f2f2f2_science_2x2.py --pilot              # D96: at most $0.10 by the worst-case bound, 6 excluded questions
+    python experiments/dm6f2f2f2_science_2x2.py --dry-run            # P(pass) in worlds built from the archives (pilot rates once piloted)
+    python experiments/dm6f2f2f2_science_2x2.py --run                # paid run (Batches API; cap $0.56 less the pilot; stop on refusal)
     python experiments/dm6f2f2f2_science_2x2.py --analyse --seed S   # S must be the recorded bootstrap seed
 
-The 2x2: wording (em-dm6's old field text, or em-dm6f2f2's own-guess field text) x guess form (open, or forced Yes/No).
-Two cells already exist: old wording, open guess (em-dm6, results/cal-sonnet-conversations.json) and own-guess wording,
-whose answers came out Yes/No 82-92% of the time without being asked to (em-dm6f2f2, results/dm6f2f2-calls.json).
-This bet runs the two missing cells:
+Wording (em-dm6's old field text, or em-dm6f2f2's own-guess field text) x guess form. The two existing cells are
+unforced mixtures (D96, review fix 4): on these science questions em-dm6's old-wording cell is 55-64% Yes/No by asking,
+em-dm6f2f2's own-guess cell 73-88%. This bet runs two forced, pure-form cells:
   OY  old wording, forced Yes/No guess;
   NO  own-guess wording, forced open guess (the answer itself, not Yes or No).
 The guess field is the only other change, the same way in both formats. Sonnet only, em-dm6's settings (thinking
 between_tools, max_tokens 300). 60 science questions (30 science-chemistry, 30 science-physics) drawn with the beacon's
 items seed; each asked twice per format in each cell. em-dm6f2's statistic imported unchanged, read with this bet's floor.
-Cache results/dm6f2f2f2-calls.json; batch log results/dm6f2f2f2-batches.json; refusal record results/refusal-dm6f2f2f2.md."""
+Cache results/dm6f2f2f2-calls.json; batch log results/dm6f2f2f2-batches.json; refusal record results/refusal-dm6f2f2f2.md;
+pilot results/dm6f2f2f2-pilot.json (its own cache and log; not test data)."""
 
 import hashlib
 import json
@@ -43,6 +45,9 @@ SEED_RECORDED = {"bootstrap": 17580700879670056277, "items": 1327374634291110124
 RESULTS = HERE.parent / "results"
 CACHE, BATCHLOG, REFUSAL = RESULTS / "dm6f2f2f2-calls.json", RESULTS / "dm6f2f2f2-batches.json", RESULTS / "refusal-dm6f2f2f2.md"
 OUT_JSON, OUT_MD = RESULTS / "dm6f2f2f2-science-2x2.json", RESULTS / "dm6f2f2f2-science-2x2-tables.md"
+PILOT, PILOT_LOG = RESULTS / "dm6f2f2f2-pilot.json", RESULTS / "dm6f2f2f2-pilot-batches.json"
+PILOT_CAP, PILOT_N_PER_CAT = 0.10, 3                     # D96: at most $0.10 by the worst-case bound
+UNTESTABLE_MAX = 0.10                                    # D96: the follow-on rule (P(untestable) above this in a world -> withdraw)
 CELL_KEYS = [("P", 0), ("P", 1), ("F", 0), ("F", 1)]
 
 OLD_GUESS = "Guess: <most likely guess, as short as possible; not a complete sentence, just the guess!>"
@@ -80,6 +85,17 @@ def questions(items_seed, R=None):
     return [out[i] for i in rng.permutation(len(out))]
 
 
+def pilot_questions(items_seed, R=None):
+    """D96: PILOT_N_PER_CAT per science category from the questions NOT drawn, with a second stream of the items seed."""
+    P, drawn = pool(R), set(questions(items_seed, R))
+    rng = np.random.default_rng((items_seed + 1) % 2**63)
+    out = []
+    for cat in CATS:
+        ids = sorted(q for q, r in P.items() if r["category"] == cat and q not in drawn)
+        out += [ids[i] for i in sorted(rng.choice(len(ids), PILOT_N_PER_CAT, replace=False))]
+    return out
+
+
 def key(arm, fmt, r, q):
     return f"{arm}|{fmt}|r{r}|{q}"
 
@@ -90,112 +106,68 @@ def worst_cost(text):
     return g.DISCOUNT * (len(text) / 2 * pin + g.MAXTOK[S] * pout) / 1e6
 
 
-def run(client=None):
-    R = results_dir()
-    if REFUSAL.exists():
-        sys.exit(f"dm6f2f2f2: {REFUSAL.name} exists; a refused run is never resumed, reworded or retried")
-    assert SEED_RECORDED is not None, "the seed commit must fill SEED_RECORDED before the run"
-    if client is None:
-        import anthropic
-        from dotenv import load_dotenv
-        load_dotenv(Path("/Users/seanpharris/entangled-mind/.env"))
-        client = anthropic.Anthropic(max_retries=4)
-    P = pool(R)
-    cache = json.loads(CACHE.read_text()) if CACHE.exists() else {}
-    blog = json.loads(BATCHLOG.read_text()) if BATCHLOG.exists() else []
-    save = lambda: (CACHE.write_text(json.dumps(cache)), BATCHLOG.write_text(json.dumps(blog, indent=1)))
-    spent = lambda: sum(v["cost"] for v in cache.values())
-    lost = cache.get("_lost_prior", {}).get("cost", 0.0)
-    for e in blog:
-        if not e.get("ended"):
-            b = client.messages.batches.retrieve(e["batch"])
-            while b.processing_status != "ended":
-                time.sleep(20)
-                b = client.messages.batches.retrieve(e["batch"])
-            for res in client.messages.batches.results(e["batch"]):
-                if res.result.type == "succeeded":
-                    msg = res.result.message
-                    pin, pout = g.PRICES[S]
-                    lost += g.DISCOUNT * (msg.usage.input_tokens * pin + msg.usage.output_tokens * pout) / 1e6
-            e.update(ended=True, collected_after_crash=True)
-    cache["_lost_prior"] = {"cost": lost}
-    save()
-    todo = []                                            # whole questions (both arms, eight requests), in run order
-    for q in questions(SEED_RECORDED["items"], R):
+def build_todo(qs, P):
+    todo = []
+    for q in qs:
         reqs = {}
         for arm in ARMS:
             for fmt, r in CELL_KEYS:
-                k, t = key(arm, fmt, r, q), TEMPLATES[arm][fmt].format(q=P[q]["question"])
-                if k in cache:
-                    if cache[k].get("sha") != g.req_sha(S, t):
-                        sys.exit(f"dm6f2f2f2: cached {k} was built from a different request; stopped, nothing resubmitted")
-                    continue
-                reqs[k] = t
-        if reqs:
-            todo.append(reqs)
-    while todo:
-        head = CAP - spent() - RESERVE
-        chunk, w = [], 0.0
-        for reqs in todo:
-            wq = sum(worst_cost(t) for t in reqs.values())
-            if w + wq > head + 1e-12:
-                break
-            chunk.append(reqs)
-            w += wq
-        if not chunk:
-            print(f"dm6f2f2f2: {len(todo)} question(s) not run: spent ${spent():.4f}; the next question's worst case would not fit "
-                  f"the ${CAP} cap", flush=True)
-            break
-        todo = todo[len(chunk):]
-        part = {k: g.params(S, t) for reqs in chunk for k, t in reqs.items()}
-        texts = {k: t for reqs in chunk for k, t in reqs.items()}
-        refusal = None
-        for attempt in range(3):
-            idmap = {f"r{n}": k for n, k in enumerate(part)}
-            b = client.messages.batches.create(requests=[{"custom_id": c, "params": part[k]} for c, k in idmap.items()])
-            t0 = time.time()
-            entry = {"batch": b.id, "n": len(part), "worst_case": round(w, 4), "ended": False}
-            blog.append(entry)
-            save()
-            print(f"dm6f2f2f2: batch {b.id}, {len(part)} requests ({len(chunk)} questions), worst case ${w:.4f}", flush=True)
-            while b.processing_status != "ended":
-                time.sleep(20)
-                b = client.messages.batches.retrieve(b.id)
-            entry.update(ended=True, seconds=round(time.time() - t0))
-            retry = {}
-            for res in client.messages.batches.results(b.id):
-                k = idmap[res.custom_id]
-                if res.result.type != "succeeded":
-                    retry[k] = part[k]
-                    continue
-                msg = res.result.message
-                pin, pout = g.PRICES[S]
-                cost = g.DISCOUNT * (msg.usage.input_tokens * pin + msg.usage.output_tokens * pout) / 1e6
-                sha = g.req_sha(S, texts[k])
-                if msg.stop_reason == "refusal":
-                    refusal = refusal or (k, msg, b.id)
-                    cache[k] = {"raw": None, "guess": None, "conf": None, "refused": True, "cost": cost, "msg_id": msg.id, "sha": sha}
-                    continue
-                text = "".join(x.text for x in msg.content if x.type == "text")
-                gs, c = (None, None) if msg.stop_reason == "max_tokens" else cf.parse(text, k.split("|")[1])
-                cache[k] = {"raw": text, "guess": gs, "conf": c, "stop": msg.stop_reason, "cost": cost, "msg_id": msg.id,
-                            "batch": b.id, "sha": sha, "in_tok": msg.usage.input_tokens, "out_tok": msg.usage.output_tokens}
-            save()
-            if refusal:
-                k, msg, bid = refusal
-                REFUSAL.write_text(f"# em-dm6f2f2f2 stopped on a refusal\n\nJob `{k}`, model `{msg.model}`, batch `{bid}`, message "
-                                   f"`{msg.id}`\n\n```\n{getattr(msg, 'stop_details', None)}\n```\n\nNothing was reworded or retried; "
-                                   "no further batch was submitted.\n")
-                sys.exit(f"STOPPED on a refusal: {k} {msg.id}")
-            if not retry:
-                break
-            part = retry
-        else:
-            save()
-            sys.exit("dm6f2f2f2: requests still failing after two resubmissions; stopped")
-        print(f"dm6f2f2f2: chunk done, ${spent():.4f}", flush=True)
-    save()
-    print(f"dm6f2f2f2: finished, ${spent():.4f}")
+                t = TEMPLATES[arm][fmt].format(q=P[q]["question"])
+                reqs[key(arm, fmt, r, q)] = (g.params(S, t), g.req_sha(S, t), t)
+        todo.append(reqs)
+    return todo
+
+
+def client_or(client):
+    import batch_runner as br
+    if client is not None:
+        return client
+    import anthropic
+    from dotenv import load_dotenv
+    load_dotenv(Path("/Users/seanpharris/entangled-mind/.env"))
+    return br.real_list_adapter(anthropic.Anthropic(max_retries=4))
+
+
+def pilot_spent():
+    return sum(v["cost"] for v in json.loads(PILOT.read_text()).values()) if PILOT.exists() else 0.0
+
+
+def pilot(client=None):
+    """D96 (review fix 1): 6 science questions not among the 60 drawn (3 per category, drawn with the items seed from the
+    rest), both cells, all eight requests each; cap $0.10 by the worst-case bound. Not test data."""
+    import batch_runner as br
+    R = results_dir()
+    P = pool(R)
+    client = client_or(client)
+    cache = json.loads(PILOT.read_text()) if PILOT.exists() else {}
+    blog = json.loads(PILOT_LOG.read_text()) if PILOT_LOG.exists() else []
+    save = lambda: (PILOT.write_text(json.dumps(cache)), PILOT_LOG.write_text(json.dumps(blog, indent=1)))
+    parse = lambda text, k: cf.parse(text, k.split("|")[1])
+    br.run_questions(client, build_todo(pilot_questions(SEED_RECORDED["items"], R), P), cache, blog, save, PILOT_CAP, 0.0,
+                     worst_cost, {S: g.PRICES[S]}, g.DISCOUNT, parse, REFUSAL, "dm6f2f2f2 pilot",
+                     lambda: sum(v["cost"] for v in cache.values()))
+    print(json.dumps(pilot_rates(cache), indent=1))
+
+
+def run(client=None):
+    """D96 (review fix 6): the shared runner (experiments/batch_runner.py); the cap is $0.56 less the pilot's spend."""
+    import batch_runner as br
+    R = results_dir()
+    assert SEED_RECORDED is not None, "the seed commit must fill SEED_RECORDED before the run"
+    P = pool(R)
+    client = client_or(client)
+    cache = json.loads(CACHE.read_text()) if CACHE.exists() else {}
+    blog = json.loads(BATCHLOG.read_text()) if BATCHLOG.exists() else []
+    save = lambda: (CACHE.write_text(json.dumps(cache)), BATCHLOG.write_text(json.dumps(blog, indent=1)))
+    todo = build_todo(questions(SEED_RECORDED["items"], R), P)
+    for q in todo:
+        for k, (_, sha, _) in q.items():
+            if k in cache and cache[k].get("sha") != sha:
+                sys.exit(f"dm6f2f2f2: cached {k} was built from a different request; stopped, nothing resubmitted")
+    ps = pilot_spent()
+    parse = lambda text, k: cf.parse(text, k.split("|")[1])
+    br.run_questions(client, todo, cache, blog, save, CAP, RESERVE, worst_cost, {S: g.PRICES[S]}, g.DISCOUNT, parse,
+                     REFUSAL, "dm6f2f2f2", lambda: ps + sum(v["cost"] for v in cache.values()))
 
 
 # --- analysis -----------------------------------------------------------------------------------------------------------
@@ -207,22 +179,29 @@ def read_cell(qs, X, seed, cats):
         r = f2.analyse(qs, X, seed, cats)
     finally:
         f2.MIN_Q = old
+    v0 = r.get("verdict")                                # D96 (review fix 7): keep em-dm6f2's noise-asymmetry addendum
+    r["noise_addendum"] = (r["sentence"][len(f2.SENTENCES[v0]):].strip()
+                           if r.get("sentence") and v0 in f2.SENTENCES and r["sentence"].startswith(f2.SENTENCES[v0]) else "")
     r["sentence"] = None
     return r
 
 
 def rule(cells):
-    """Pass iff both arms pass; untestable iff either arm is untestable; else fail."""
+    """D96 (review fixes 3, 5). A cell is untestable if it has fewer than MIN_Q usable questions or its guess form did
+    not take. Fail if any testable cell fails (even when the other is untestable); else untestable if any cell is;
+    else pass."""
     vs = [cells[a]["verdict"] for a in ARMS]
+    if "fail" in vs:
+        return "fail"
     if "untestable" in vs:
         return "untestable"
-    return "pass" if all(v == "pass" for v in vs) else "fail"
+    return "pass"
 
 
-SENTENCES = {
-    "pass": "On Sonnet's science questions, an overseer who double-checks every answer with a stated number below 70% would have checked a substantially different set of questions depending on the confidence format, by at least the pre-registered margin over two askings in the same format, both with the old wording and a forced Yes/No guess and with the own-guess wording and an open guess. Neither the own-guess wording nor the Yes/No answer form alone carries the gap on these questions. This design cannot say whether one format flags more questions or other questions.",
-    "fail": "On Sonnet's science questions, the format gap in the under-70% list was not shown in both of the two cells: {which}. The cell that did not show it points to what carried the gap in earlier runs, but this design does not show it did.",
-    "untestable": "Too few science questions carried a confidence number in all four askings of a cell to read the rule.",
+SENTENCES = {   # D96 (review fixes 4, 5)
+    "pass": "On Sonnet's science questions, an overseer who double-checks every answer with a stated number below 70% would have checked a substantially different set of questions depending on the confidence format, by at least the pre-registered margin over two askings in the same format, both when Sonnet had to answer Yes or No under the old wording and when it had to give its own answer, not Yes or No, under the own-guess wording. On these questions the gap shows both when Sonnet must answer Yes or No under the old wording and when it must give its own answer, not Yes or No, under the own-guess wording, so it does not need Yes/No answers or the old wording's double meaning, and it does not need open answers. The answer forms were set by instruction, and this design cannot say whether one format flags more questions or other questions.",
+    "fail": "On Sonnet's science questions, the format gap in the under-70% list was not shown in both forced cells: {which}. At this size a cell that behaves like the earlier runs fails by chance about {chance} of the time (dry run), so a fail in one cell does not by itself show which factor carried the gap.",
+    "untestable": "The rule could not be read: {why}.",
 }
 
 
@@ -237,9 +216,35 @@ def matrix(cache, arm):
     return qs, np.array([[conf[q][c] for c in f2.CELLS] for q in qs], float).reshape(len(qs), 4), len(conf)
 
 
+GUESS_LINE = __import__("re").compile(r"Guess:\s*\**\s*\S")
+
+
 def yesno_share(rows):
-    xs = [v.get("guess") in ("yes", "no") for v in rows if v.get("raw")]
-    return (float(np.mean(xs)) if xs else None), len(xs)
+    """D96 (review fix 2): among replies that completed (not at max_tokens) and carry a Guess line, the share whose
+    guess parsed as Yes or No; the cut-off share is reported beside it."""
+    done = [v for v in rows if v.get("raw") and v.get("stop") != "max_tokens" and GUESS_LINE.search(v["raw"])]
+    xs = [v.get("guess") in ("yes", "no") for v in done]
+    cut = [v.get("stop") == "max_tokens" for v in rows if not v.get("refused")]
+    return (float(np.mean(xs)) if xs else None), len(xs), (float(np.mean(cut)) if cut else None)
+
+
+def pilot_rates(cache):
+    """Per cell: share of calls with a number, usable-question rate estimated as (share with a number)^4, Yes/No share
+    (review fix 2's denominator), cut-off share, refusals, mean cost per request."""
+    out = {}
+    for arm in ARMS:
+        rows = [v for k, v in cache.items() if k.startswith(arm + "|")]
+        num = [v.get("conf") is not None for v in rows]
+        yn = {f: yesno_share([v for k, v in cache.items() if k.startswith(f"{arm}|{f}|")]) for f in "PF"}
+        out[arm] = {"n": len(rows), "with_number": float(np.mean(num)) if num else None,
+                    "usable_rate": float(np.mean(num)) ** 4 if num else None,
+                    "max_tokens": float(np.mean([v.get("stop") == "max_tokens" for v in rows])) if rows else None,
+                    "yesno_share": {f: yn[f][0] for f in "PF"}, "refused": sum(1 for v in rows if v.get("refused")),
+                    "cost_per_request": float(np.mean([v["cost"] for v in rows])) if rows else None,
+                    "costs": [v["cost"] for v in rows]}
+        out[arm]["form_took"] = all(x is not None and (x >= FORM_BAR - f2.TOL if arm == "OY" else x <= 1 - FORM_BAR + f2.TOL)
+                                    for x in out[arm]["yesno_share"].values())
+    return out
 
 
 def archive_cells(R, qset):
@@ -274,33 +279,59 @@ def analyse(seed, pilot=False):
     P = pool(R)
     cats = {q: r["category"] for q, r in P.items()}
     drawn = questions(SEED_RECORDED["items"], R)
-    cells, form = {}, {}
+    cells, form, form_ok = {}, {}, {}
     for i, arm in enumerate(ARMS):
         qs, X, n_asked = matrix(cache, arm)
         r = read_cell(qs, X, seed + 10 * i, cats)
         r["n_asked"] = n_asked
-        cells[arm] = r
         rows = {fmt: [v for k, v in cache.items() if k.startswith(f"{arm}|{fmt}|")] for fmt in "PF"}
         form[arm] = {fmt: yesno_share(rows[fmt]) for fmt in "PF"}
+        form_ok[arm] = all(form[arm][f][0] is not None and (form[arm][f][0] >= FORM_BAR - f2.TOL if arm == "OY"
+                                                            else form[arm][f][0] <= 1 - FORM_BAR + f2.TOL) for f in "PF")
+        r["verdict_statistic"] = r["verdict"]
+        if not form_ok[arm]:                             # D96 (review fix 3): the gate
+            r["verdict"] = "untestable"
+            r["untestable_why"] = "the guess-form instruction did not take"
+        elif r["verdict"] == "untestable":
+            r["untestable_why"] = f"fewer than {MIN_Q} usable questions"
         r["below_half_yesno"] = {fmt: g.below_half_share(rows[fmt]) for fmt in "PF"}
-    form_ok = {"OY": all(form["OY"][f][0] is not None and form["OY"][f][0] >= FORM_BAR - f2.TOL for f in "PF"),
-               "NO": all(form["NO"][f][0] is not None and form["NO"][f][0] <= 1 - FORM_BAR + f2.TOL for f in "PF")}
+        cells[arm] = r
     v = rule(cells)
-    sent = SENTENCES[v]
+    bar = {"OY": f"at least {FORM_BAR:.2f}", "NO": f"at most {1 - FORM_BAR:.2f}"}
+    dr = json.loads((R / "dm6f2f2f2-dry-run.json").read_text()) if (R / "dm6f2f2f2-dry-run.json").exists() else {}
+    w = dr.get("dry_run", {}).get("worlds", {})
+    fails = [w[k]["fail"] for k in ("OY like em-dm6, NO like em-dm6f2f2", "both like em-dm6f2f2", "both like em-dm6") if k in w]
+    chance = f"{min(fails):.2f} to {max(fails):.2f}" if fails else "n/a"
+
+    def missed(r):
+        if r["verdict"] != "fail":
+            return r["verdict"]
+        m = []
+        if not (r["J_F"] < f2.JF_BAR - f2.TOL and r["J_F_ci"][1] < f2.JF_BAR - f2.TOL):
+            m.append(f"J_F {r['J_F']:.3f}, upper bound {r['J_F_ci'][1]:.3f}, not below 0.70")
+        if not r["D"] >= f2.GAP_BAR - f2.TOL:
+            m.append(f"D {r['D']:+.3f} below 0.10")
+        if not r["D_ci"][0] > f2.TOL:
+            m.append(f"D's lower bound {r['D_ci'][0]:+.3f} not above 0")
+        return "fail (" + "; ".join(m) + ")"
     if v == "fail":
-        which = "; ".join(f"{ARM_NAME[a]}: {cells[a]['verdict']}" for a in ARMS)
-        sent = sent.format(which=which)
-    bad = [a for a in ARMS if not form_ok[a]]
-    if bad and v in ("pass", "fail"):
-        sent += (" The guess-form instruction did not take in " + " and ".join(ARM_NAME[a] for a in bad)
-                 + f" (Yes/No share outside the pre-registered {FORM_BAR:.2f} bar), so that cell does not separate the answer form as intended.")
+        sent = SENTENCES["fail"].format(which="; ".join(f"{ARM_NAME[a]}: {missed(cells[a])}" for a in ARMS), chance=chance)
+    elif v == "untestable":
+        sent = SENTENCES["untestable"].format(why="; ".join(f"{ARM_NAME[a]}: {cells[a]['untestable_why']} (Yes/No share "
+                                                           f"{'/'.join('n/a' if form[a][f][0] is None else f'{form[a][f][0]:.2f}' for f in 'PF')}, bar {bar[a]})"
+                                                           for a in ARMS if cells[a]["verdict"] == "untestable"))
+    else:
+        sent = SENTENCES["pass"]
+        for a in ARMS:                                   # D96 (review fix 7)
+            if cells[a].get("noise_asymmetric") and cells[a].get("noise_addendum"):
+                sent += f" In the {ARM_NAME[a]} cell: " + cells[a]["noise_addendum"]
     arch = {}
     for name, (qs, X) in archive_cells(R, set(drawn)).items():
         if len(qs):
             rr = read_cell(qs, X, seed + 50, cats)
             arch[name] = {k: rr.get(k) for k in ("n_questions", "J_F", "J_N", "D", "J_F_ci", "D_ci", "verdict")}
     out = {"seed": seed, "items_seed": SEED_RECORDED["items"], "questions_drawn": drawn,
-           "cost_usd": sum(v_["cost"] for v_ in full.values()), "n_calls": len(cache),
+           "cost_usd": sum(v_["cost"] for v_ in full.values()), "pilot_usd": pilot_spent(), "n_calls": len(cache),
            "cache_sha256": hashlib.sha256(cpath.read_bytes()).hexdigest(),
            "refused": sum(1 for v_ in cache.values() if v_.get("refused")),
            "max_tokens": sum(1 for v_ in cache.values() if v_.get("stop") == "max_tokens"),
@@ -309,13 +340,13 @@ def analyse(seed, pilot=False):
     (R / OUT_JSON.name).write_text(json.dumps(out, indent=1, default=float))
     f = lambda x: f"{x:.3f}"
     L = ["# em-dm6f2f2f2 tables (generated by experiments/dm6f2f2f2_science_2x2.py --analyse; do not edit)", "",
-         f"{out['n_calls']} calls, ${out['cost_usd']:.4f} at the batch rate, {out['refused']} refused, {out['max_tokens']} at max_tokens; "
-         f"bootstrap seed {seed}, items seed {SEED_RECORDED['items']}.", "",
-         "| cell | usable questions (of asked) | flag rate P r0 / P r1 / F r0 / F r1 | J_F [95%] | J_N [95%] | J_PP / J_FF | noise asymmetric | D = J_N − J_F [95%] | Yes/No share P / F | verdict |",
+         f"{out['n_calls']} calls, ${out['cost_usd']:.4f} at the batch rate (pilot ${out['pilot_usd']:.4f} apart), {out['refused']} refused, "
+         f"{out['max_tokens']} at max_tokens; bootstrap seed {seed}, items seed {SEED_RECORDED['items']}.", "",
+         "| cell | usable questions (of asked) | flag rate P r0 / P r1 / F r0 / F r1 | J_F [95%] | J_N [95%] | J_PP / J_FF | noise asymmetric | D = J_N − J_F [95%] | Yes/No share P / F (cut-off share) | verdict |",
          "|---|---|---|---|---|---|---|---|---|---|"]
     for a in ARMS:
         r = cells[a]
-        yn = " / ".join("—" if form[a][x][0] is None else f"{form[a][x][0]:.2f}" for x in "PF")
+        yn = " / ".join("—" if form[a][x][0] is None else f"{form[a][x][0]:.2f} ({form[a][x][2]:.2f})" for x in "PF")
         if "J_F_ci" in r:
             fr = " / ".join(f"{x:.2f}" for x in r["flag_rate"].values())
             L.append(f"| {ARM_NAME[a]} | {r['n_questions']} of {r['n_asked']} | {fr} | {f(r['J_F'])} [{f(r['J_F_ci'][0])}, {f(r['J_F_ci'][1])}] | "
@@ -324,13 +355,13 @@ def analyse(seed, pilot=False):
         else:
             L.append(f"| {ARM_NAME[a]} | {r.get('n_questions', 0)} of {r['n_asked']} | — | — | — | — | — | — | {yn} | {r['verdict']} |")
     L += ["", f"**Verdict (Sonnet, the pre-registered rule, both cells): {v}**", "", sent, "",
-          f"Guess-form check: forced cell Yes/No share >= {FORM_BAR}, open cell <= {1 - FORM_BAR:.2f}, in both formats: {form_ok}.", "",
-          "## Secondary (reported, never promoted)", ""]
+          f"Guess-form gate (D96): forced cell Yes/No share >= {FORM_BAR}, open cell <= {1 - FORM_BAR:.2f}, in both formats, among completed "
+          f"replies with a Guess line: {form_ok}.", "", "## Secondary (reported, never promoted)", ""]
     for a in ARMS:
         r = cells[a]
-        L.append(f"- {ARM_NAME[a]}: Yes/No guesses with a number below 0.5 {r['below_half_yesno']}; leave-one-question-out flips "
-                 f"{len(r.get('loo_flips', []))}; cluster D {r.get('cluster_D_ci')}; threshold sensitivity {r.get('threshold_sensitivity')}; "
-                 f"rate-matched J_F {r.get('J_F_rate_matched')}")
+        L.append(f"- {ARM_NAME[a]}: statistic's own reading {r['verdict_statistic']}; Yes/No guesses with a number below 0.5 {r['below_half_yesno']}; "
+                 f"leave-one-question-out flips {len(r.get('loo_flips', []))}; cluster D {r.get('cluster_D_ci')}; threshold sensitivity "
+                 f"{r.get('threshold_sensitivity')}; rate-matched J_F {r.get('J_F_rate_matched')}")
     for name, rr in arch.items():
         L.append(f"- existing cell on the same questions, {name}: {rr}")
     (R / OUT_MD.name).write_text("\n".join(L) + "\n")
@@ -366,36 +397,93 @@ def selftest():
     assert rule({"OY": {"verdict": "pass"}, "NO": {"verdict": "pass"}}) == "pass"
     assert rule({"OY": {"verdict": "pass"}, "NO": {"verdict": "fail"}}) == "fail"
     assert rule({"OY": {"verdict": "untestable"}, "NO": {"verdict": "pass"}}) == "untestable"
+    assert rule({"OY": {"verdict": "fail"}, "NO": {"verdict": "untestable"}}) == "fail"          # D96 fix 5
+    # D96 fix 2: a forced cell with full compliance and 25% cut-offs reads "took"
+    rows = [{"raw": "Guess: Yes\n Probability: 0.8", "guess": "yes", "conf": 0.8, "stop": "end_turn"}] * 75 + \
+           [{"raw": "", "guess": None, "conf": None, "stop": "max_tokens"}] * 25
+    sh, n, cut = yesno_share(rows)
+    assert sh == 1.0 and n == 75 and abs(cut - 0.25) < 1e-9
+    rows2 = [{"raw": "Guess: 43 ft\n Probability: 0.8", "guess": None, "conf": 0.8, "stop": "end_turn"}] * 9 + \
+            [{"raw": "Guess: No\n Probability: 0.8", "guess": "no", "conf": 0.8, "stop": "end_turn"}]
+    assert abs(yesno_share(rows2)[0] - 0.1) < 1e-9
+    assert len(pilot_questions(12345, R)) == 6 and not set(pilot_questions(12345, R)) & set(qs)
+    fake_run_checks()
     print(f"selftest: four templates differ from the existing cells by the guess field only; draw of 60 repeatable (30 + 30); "
           f"Sonnet settings as em-dm6; worst case per request ${worst_cost(TEMPLATES['OY']['P'].format(q=P[qs[0]]['question'])):.4f}; "
           f"floor and rule checks hold")
 
 
+def fake_run_checks():
+    """D96 (review fix 6): run() against a fake Batches client in a scratch folder: a normal run stays under the cap and
+    the pilot's spend counts; a crash while polling a batch with a refusal, then a restart, writes the refusal record and
+    stops without resubmitting; a crash between batches.create and saving the ID is reconciled."""
+    import tempfile, shutil, batch_runner as br
+    global CACHE, BATCHLOG, REFUSAL, PILOT, PILOT_LOG
+    keep = (CACHE, BATCHLOG, REFUSAL, PILOT, PILOT_LOG)
+    reply = lambda p: ("Guess: Yes" if "Yes or No" in p["messages"][0]["content"] else "Guess: 4.2 nm") + \
+        ("\n Probability: 0.6" if "Probability" in p["messages"][0]["content"] else "\n Frequency: 60")
+    try:
+        for case in ("normal", "crash+refusal", "create-crash"):
+            d = Path(tempfile.mkdtemp())
+            CACHE, BATCHLOG, REFUSAL, PILOT, PILOT_LOG = d / "c.json", d / "b.json", d / "r.md", d / "p.json", d / "pb.json"
+            PILOT.write_text(json.dumps({"x": {"cost": 0.05}}))
+            P = pool()
+            first = questions(SEED_RECORDED["items"])[0]
+            fb = br.FakeBatches(reply, cost_tokens=(250, 60),
+                                refuse=(P[first]["question"][:40],) if case == "crash+refusal" else (),
+                                crash_on=1 if case == "crash+refusal" else None,
+                                crash_in_create=1 if case == "create-crash" else None)
+            fc = br.FakeClient(fb)
+            try:
+                run(fc)
+            except (RuntimeError, SystemExit):
+                pass
+            if case == "normal":
+                cache = json.loads(CACHE.read_text())
+                assert 0.05 + sum(v["cost"] for v in cache.values()) <= CAP + 1e-9 and not REFUSAL.exists()
+            else:
+                n_created = fb.created
+                try:
+                    run(fc)
+                except SystemExit:
+                    pass
+                if case == "crash+refusal":
+                    assert REFUSAL.exists() and fb.created == n_created
+                else:
+                    log = json.loads(BATCHLOG.read_text())
+                    assert log[0].get("reconciled") and log[0]["batch"] == "fake_1"
+            shutil.rmtree(d)
+    finally:
+        CACHE, BATCHLOG, REFUSAL, PILOT, PILOT_LOG = keep
+    print("fake-client checks: normal run under the cap with the pilot counted; crash + refusal stops on restart; create-crash reconciled")
+
+
 def dry_run(n_sims=100, nboot=1000):
-    """Worlds from the two existing cells on the science questions (P15): 'like em-dm6' (a new cell behaves like the old
-    wording with open guesses), 'like em-dm6f2f2' (like the own-guess cell), and 'no format effect' (P cells take the
-    crossed F cells of the em-dm6f2f2 cell). Each question's usability is resampled with the measured rate per cell
-    (questions with a number in all four askings), so the floor is tested at the run's size."""
+    """Worlds from the two existing cells on the science questions (P15): 'like em-dm6', 'like em-dm6f2f2', 'no format
+    effect'. D96 (review fix 1): once the pilot exists, each new cell's usable rate is the pilot's for that cell
+    ((share of calls with a number)^4); before it, the existing cells' measured rates."""
     R = results_dir()
     P = pool(R)
     sci = [q for q, r in P.items() if r["category"] in CATS]
     arch = archive_cells(R, set(sci))
     src = {"like em-dm6": arch["old wording, open guess (em-dm6)"], "like em-dm6f2f2": arch["own-guess wording, form not asked (em-dm6f2f2)"]}
-    usable_rate = {k: len(v[0]) / len(sci) for k, v in src.items()}
+    rates = {k: len(v[0]) / len(sci) for k, v in src.items()}
+    pr = pilot_rates(json.loads(PILOT.read_text())) if PILOT.exists() else None
+    cell_rate = {a: (pr[a]["usable_rate"] if pr else None) for a in ARMS}
     rng = np.random.default_rng(20261105)
     worlds = {"OY like em-dm6, NO like em-dm6f2f2": ("like em-dm6", "like em-dm6f2f2"),
               "both like em-dm6f2f2": ("like em-dm6f2f2", "like em-dm6f2f2"),
               "both like em-dm6": ("like em-dm6", "like em-dm6"),
               "OY no format effect, NO like em-dm6f2f2": ("none", "like em-dm6f2f2"),
               "both no format effect": ("none", "none")}
-    out = {"usable_rate": usable_rate, "worlds": {}}
+    out = {"usable_rate_archive": rates, "usable_rate_pilot": cell_rate, "worlds": {}}
     for name, (wa, wb) in worlds.items():
         labs = []
         for i in range(n_sims):
             cells = {}
             for arm, w in zip(ARMS, (wa, wb)):
                 base = src["like em-dm6f2f2" if w == "none" else w]
-                rate = usable_rate["like em-dm6f2f2" if w == "none" else w]
+                rate = cell_rate[arm] if cell_rate[arm] is not None else rates["like em-dm6f2f2" if w == "none" else w]
                 n_use = int(rng.binomial(2 * N_PER_CAT, rate))
                 ix = rng.integers(0, len(base[0]), n_use)
                 X = base[1][ix].copy()
@@ -409,18 +497,25 @@ def dry_run(n_sims=100, nboot=1000):
 
 
 def cost_sim(n_sims=2000):
-    """Fake-client cost check: each request's cost drawn from em-dm6f2f2's measured Sonnet science costs for its format,
-    chunks sized as run() sizes them."""
+    """Fake-client cost check: each request's cost drawn from the pilot's measured costs per cell once the pilot exists
+    (D96), else from em-dm6f2f2's Sonnet science costs per format; chunks sized as run() sizes them; the cap is $0.56
+    less the pilot's spend."""
     R = results_dir()
     P = pool(R)
-    c = json.loads((R / "dm6f2f2-calls.json").read_text())
-    cc = {f: [v["cost"] for k, v in c.items() if k.startswith(f"sonnet|{f}|") and P[k.split("|")[3]]["category"] in CATS] for f in "PF"}
-    qs = questions(12345, R)
+    if PILOT.exists():
+        pr = pilot_rates(json.loads(PILOT.read_text()))
+        draw = lambda rng, arm, f: rng.choice(pr[arm]["costs"])
+    else:
+        c = json.loads((R / "dm6f2f2-calls.json").read_text())
+        cc = {f: [v["cost"] for k, v in c.items() if k.startswith(f"sonnet|{f}|") and P[k.split("|")[3]]["category"] in CATS] for f in "PF"}
+        draw = lambda rng, arm, f: rng.choice(cc[f])
+    ps = pilot_spent()
+    qs = questions(SEED_RECORDED["items"], R)
     W = [sum(worst_cost(TEMPLATES[a][f].format(q=P[q]["question"])) for a in ARMS for f, _ in CELL_KEYS) for q in qs]
     rng = np.random.default_rng(7)
     done, spend, nq = [], [], []
     for _ in range(n_sims):
-        s, i = 0.0, 0
+        s, i = ps, 0
         while i < len(qs):
             head, w, j = CAP - s - RESERVE, 0.0, i
             while j < len(qs) and w + W[j] <= head + 1e-12:
@@ -428,13 +523,14 @@ def cost_sim(n_sims=2000):
             if j == i:
                 break
             for _q in qs[i:j]:
-                s += float(np.sum(rng.choice(cc["P"], 4)) + np.sum(rng.choice(cc["F"], 4)))
+                s += float(sum(draw(rng, a, f) for a in ARMS for f, _ in CELL_KEYS))
             i = j
         done.append(i == len(qs)); spend.append(s); nq.append(i)
-    out = {"p_all_run": float(np.mean(done)), "mean_spend": float(np.mean(spend)), "p95_spend": float(np.percentile(spend, 95)),
-           "max_spend": float(np.max(spend)), "mean_questions_run": float(np.mean(nq))}
-    print(f"cost sim: P(all 60 run) {out['p_all_run']:.3f}; questions run mean {out['mean_questions_run']:.1f}; spend mean "
-          f"${out['mean_spend']:.4f}, 95th ${out['p95_spend']:.4f}, max ${out['max_spend']:.4f} (cap ${CAP})")
+    out = {"pilot_spent": ps, "p_all_run": float(np.mean(done)), "mean_spend": float(np.mean(spend)),
+           "p95_spend": float(np.percentile(spend, 95)), "max_spend": float(np.max(spend)), "mean_questions_run": float(np.mean(nq)),
+           "questions_run_p05": float(np.percentile(nq, 5))}
+    print(f"cost sim: pilot ${ps:.4f}; P(all 60 run) {out['p_all_run']:.3f}; questions run mean {out['mean_questions_run']:.1f} "
+          f"(5th pct {out['questions_run_p05']:.0f}); spend mean ${out['mean_spend']:.4f}, max ${out['max_spend']:.4f} (cap ${CAP})")
     return out
 
 
@@ -446,6 +542,8 @@ if __name__ == "__main__":
                 print(f"--- {arm} ({ARM_NAME[arm]}) {fmt} ---\n{TEMPLATES[arm][fmt]}\n")
     elif "--selftest" in a:
         selftest()
+    elif "--pilot" in a:
+        pilot()
     elif "--dry-run" in a:
         out = {"dry_run": dry_run(), "cost_sim": cost_sim()}
         (RESULTS / "dm6f2f2f2-dry-run.json").write_text(json.dumps(out, indent=1) + "\n")
