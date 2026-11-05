@@ -1,0 +1,197 @@
+{
+ "bet": "ss-b12",
+ "n_pre": 43,
+ "n_post": 92,
+ "n_pre_recognised": 3,
+ "n_post_recognised": 3,
+ "n_pre_unrecognised": 40,
+ "n_post_unrecognised": 89,
+ "d": -0.008207,
+ "d_ci": [
+  -0.044235,
+  0.031372
+ ],
+ "label": "null",
+ "pre_unrecognised": {
+  "n": 40,
+  "brier": 0.06316,
+  "brier_ci": [
+   0.035602,
+   0.096593
+  ],
+  "acc": 0.925
+ },
+ "post_unrecognised": {
+  "n": 89,
+  "brier": 0.071367,
+  "brier_ci": [
+   0.050969,
+   0.094915
+  ],
+  "acc": 0.932584
+ },
+ "pre_all": {
+  "n": 43,
+  "brier": 0.060588,
+  "brier_ci": [
+   0.034719,
+   0.0915
+  ],
+  "acc": 0.930233
+ },
+ "post_all": {
+  "n": 92,
+  "brier": 0.069729,
+  "brier_ci": [
+   0.049721,
+   0.093073
+  ],
+  "acc": 0.934783
+ },
+ "pre_recognised": {
+  "n": 3,
+  "brier": 0.0263,
+  "brier_ci": [
+   0.0064,
+   0.0625
+  ],
+  "acc": 1.0
+ },
+ "d_all": -0.009141,
+ "d_all_ci": [
+  -0.043537,
+  0.028093
+ ],
+ "by_window": {
+  "2024": {
+   "n": 11,
+   "brier": 0.021827,
+   "d": -0.04954,
+   "ci": [
+    -0.076952,
+    -0.022734
+   ]
+  },
+  "2025": {
+   "n": 10,
+   "brier": 0.09742,
+   "d": 0.026053,
+   "ci": [
+    -0.054002,
+    0.1245
+   ]
+  },
+  "2026H1": {
+   "n": 19,
+   "brier": 0.069058,
+   "d": -0.00231,
+   "ci": [
+    -0.044031,
+    0.046945
+   ]
+  }
+ },
+ "by_field": {
+  "interpretability": {
+   "n_pre": 12,
+   "n_post": 26,
+   "pre": 0.062258,
+   "post": 0.074988
+  },
+  "model-psychology": {
+   "n_pre": 9,
+   "n_post": 29,
+   "pre": 0.120767,
+   "post": 0.086779
+  },
+  "quantum-devices": {
+   "n_pre": 8,
+   "n_post": 14,
+   "pre": 0.032538,
+   "post": 0.034957
+  },
+  "scalable-oversight": {
+   "n_pre": 11,
+   "n_post": 20,
+   "pre": 0.039282,
+   "post": 0.0698
+  }
+ },
+ "loo_flips": [],
+ "field_out": {
+  "interpretability": {
+   "d": -0.006327,
+   "ci": [
+    -0.052169,
+    0.042559
+   ],
+   "label": "null"
+  },
+  "model-psychology": {
+   "d": -0.017483,
+   "ci": [
+    -0.050707,
+    0.01815
+   ],
+   "label": "null"
+  },
+  "quantum-devices": {
+   "d": -0.007348,
+   "ci": [
+    -0.050595,
+    0.038834
+   ],
+   "label": "null"
+  },
+  "scalable-oversight": {
+   "d": 0.000396,
+   "ci": [
+    -0.044206,
+    0.050012
+   ],
+   "label": "null"
+  }
+ },
+ "field_jackknife": {
+  "clusters": 4,
+  "ci": [
+   -0.029896,
+   0.013481
+  ]
+ },
+ "n_post_jul_aug": 33,
+ "perm_p": 0.349365,
+ "frozen_rule": {
+  "n_pre_flagged": 1,
+  "n_post_flagged": 0,
+  "d": -0.007936,
+  "ci": [
+   -0.042411,
+   0.029245
+  ]
+ },
+ "up_share": {
+  "pre": 0.767442,
+  "post": 0.771739
+ },
+ "up_word_rule": {
+  "pre": 0.1875,
+  "post": 0.17486,
+  "d": 0.01264,
+  "ci": [
+   -0.065449,
+   0.093258
+  ]
+ },
+ "swap_pair_rule": {
+  "pre": 0.134943,
+  "post": 0.165719,
+  "d": -0.030776,
+  "ci": [
+   -0.11119,
+   0.052182
+  ]
+ },
+ "sentence": "On 40 papers first posted between January 2024 and June 2026 whose rationales showed no sign of recognising the study, the bettor was not shown to score better than on 89 papers first posted after its stated knowledge cutoff of June 2026 (33 of them in July–August) (Brier 0.063 against 0.071; difference -0.008 [-0.044, 0.031]), so this test finds no advantage on older papers beyond recall; an advantage smaller than about 0.05 in Brier could not reliably have been seen. The two sides differ in more than date: the older items are the latest 100 papers of each window and were leakage-checked by a Claude model that may know them; the newer are up to 600 papers over four months. Recognition was coded from the rationale by a fixed word rule (3 of 43 older and 3 of 92 newer items flagged); a model can remember without saying so. One bettor (claude-opus-5-5 at effort low), template-written sentence pairs only.",
+ "verdict_reported": "null"
+}
