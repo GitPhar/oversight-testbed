@@ -104,7 +104,7 @@ def write_out(steps):
                 r["source"] = "ss-b10 archive"
             elif j["key"] in new:
                 r = dict(new[j["key"]])
-                r["source"] = "ss-b10b"
+                r["source"] = "ss-b10c"
             else:
                 continue
             r["order"] = j["kind"]
