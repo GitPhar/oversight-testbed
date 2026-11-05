@@ -62,7 +62,7 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-42 of 65 bets carry an engine pre-mortem; 25 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+43 of 66 bets carry an engine pre-mortem; 25 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
@@ -91,7 +91,7 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 | Brier on tiebreaks, engine (n = 0) | — |
 | Brier on tiebreaks, human (n = 0) | — |
 | QPU seconds used by tiebreaks | 0 |
-| bets by seed source: curby-rng | 41 |
+| bets by seed source: curby-rng | 42 |
 | bets by seed source: fixed | 1 |
 | bets by seed source: inherited (ss-b4 seed e8f921e; no new draw) | 2 |
 | bets by seed source: none recorded | 21 |
@@ -102,10 +102,10 @@ Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denv
 
 | | count |
 |---|---|
-| pre-registrations since the rule | 32 |
-| with a lesson line | 29 |
+| pre-registrations since the rule | 33 |
+| with a lesson line | 30 |
 | with a design review verdict | 28 |
-| awaiting their design review (nothing may run yet) | 4: ng-p3-17, ng-p3-18, em-gm2bf1, em-bm9f2 |
+| awaiting their design review (nothing may run yet) | 5: ng-p3-17, ng-p3-18, em-gm2bf1, em-bm9f2, em-dm6f2f1 |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 6 |
