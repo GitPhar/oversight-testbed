@@ -122,15 +122,15 @@ U = mean over |d| in {10, 30, 60} of the pooled uptake (y - y_REF) / (V - m); dU
 | source-blind anchor (own slot and Alex weigh 0.5 each) | +0.494 | +0.497 [+0.491, +0.503] | +0.501 | -0.003 [-0.010, +0.003] | +0.001 [-0.008, +0.011] | pass | fail (anchoring) |
 | recency anchor (own 0.3, Alex 0.6) | +0.297 | +0.300 [+0.295, +0.306] | +0.597 | -0.297 [-0.306, -0.286] | +0.001 [-0.009, +0.011] | pass | fail (anchoring) |
 | own-slot copier (repeats its own answer whoever is asked) | +0.997 | +0.999 [+0.992, +1.006] | +0.004 | +0.995 [+0.989, +1.001] | +0.003 [-0.006, +0.011] | pass | fail (copy) |
-| label-blind turn anchor (assistant turn 0.4, Alex 0.1; 0.8 if Sam saw it) | +0.396 | +0.399 [+0.394, +0.405] | +0.103 | +0.296 [+0.288, +0.303] | +0.394 [+0.374, +0.409] | pass | fail (not_inherited) |
+| label-blind turn anchor (assistant turn 0.4, Alex 0.1; 0.8 if Sam saw it) | +0.396 | +0.399 [+0.394, +0.405] | +0.103 | +0.296 [+0.288, +0.303] | +0.394 [+0.374, +0.409] | pass | pass |
 | Sam pulled more than its own re-rating (own 0.017, Sam 0.145) | +0.013 | +0.145 [+0.139, +0.152] | +0.003 | +0.142 [+0.134, +0.148] | +0.157 [+0.146, +0.166] | pass | fail (not_inherited) |
-| fixed 4-point nudge toward its own answer (8 if Sam saw it) | +0.238 | +0.242 [+0.221, +0.269] | +0.003 | +0.239 [+0.218, +0.265] | +0.234 [+0.210, +0.263] | pass | fail (not_inherited) |
+| fixed 4-point nudge toward its own answer (8 if Sam saw it) | +0.238 | +0.242 [+0.221, +0.269] | +0.003 | +0.239 [+0.218, +0.265] | +0.234 [+0.210, +0.263] | pass | pass |
 | planted answer does not move its own re-rating | -0.003 | +0.001 [-0.005, +0.008] | +0.501 | -0.499 [-0.508, -0.489] | +0.000 [-0.009, +0.010] | fail | untestable (manipulation) |
 | egocentric leakage, lambda 0.5, Alex 0 | +0.523 | +0.268 [+0.225, +0.309] | +0.003 | +0.265 [+0.223, +0.308] | +0.210 [+0.179, +0.241] | pass | pass |
 | egocentric leakage, lambda 0.25, Alex 0 | +0.523 | +0.136 [+0.112, +0.159] | +0.003 | +0.133 [+0.104, +0.163] | +0.343 [+0.292, +0.392] | pass | pass |
 | leakage lambda 0.5 plus Alex pulling Sam as much as own pulls self | +0.523 | +0.268 [+0.225, +0.309] | +0.516 | -0.248 [-0.288, -0.208] | +0.210 [+0.179, +0.241] | pass | fail (anchoring) |
 
-The map's event as measured on this design (U_sam(OWN) >= 0.10, CI above 0) is passed by the source-blind and recency anchors, the own-slot copier, the turn anchor, the Sam-over-self responder and the fixed nudge. The full rule rejects the anchors (anchoring), the copier (copy) and the Sam-over-self responder (not inherited). It does NOT reject the label-blind turn anchor or the fixed 4-point nudge: a pass is about the bundle (whose number, turn, format, place) and 'points per point' is an average over the three distance classes.
+The map's event as measured on this design (U_sam(OWN) >= 0.10, CI above 0) is passed by the source-blind and recency anchors, the own-slot copier, the turn anchor, the Sam-over-self responder and the fixed nudge. The full rule rejects the anchors (anchoring), the copier (copy) and the Sam-over-self responder (not inherited, D12a: its Sam-minus-own interval is above 0). It does NOT reject the label-blind turn anchor or the fixed 4-point nudge, whose Sam uptake equals their own: a pass is about the bundle (whose number, turn, format, place) and 'points per point' is an average over the three distance classes.
 
 ## 3. Power of the full rule (50 synthetic runs per cell, 400 resamples each)
 
@@ -184,7 +184,7 @@ Archive own uptake by class (bm0 means): {10: 0.715, 30: 0.411, 60: 0.18}; under
 - malformed value (D12, F5a): stops cleanly (dry malformed: stopped on an error: ('co11|Y|OWN|30|sam_i|0', 'ValueError("invalid literal for int() with base 10: \'x\'")')); stop record written: True
 - stop after 90% of the calls: k = 4 complete repeats, 16 complete vignettes, label ('pass', None)
 - stop after 10% of the calls: k = 0 complete repeats, 0 complete vignettes, label ('untestable', 'few')
-- gate with no design review file: no design review om-p2-5*.md in /var/folders/j5/5jnsx25s2cl9q71wg6jyc6v00000gn/T/tmpxasptezn
+- gate with no design review file: no design review om-p2-5*.md in /var/folders/j5/5jnsx25s2cl9q71wg6jyc6v00000gn/T/tmpix3yb2tv
 - gate with om-p2-5.md go and om-p2-5-1b.md unconfirmed fix-first: om-p2-5-1b.md: design review verdict fix-first (not confirmed)
 - gate with om-p2-5-1b.md redesign: om-p2-5-1b.md: design review verdict redesign
 - gate with go and a confirmed fix-first (seed file present: True): None

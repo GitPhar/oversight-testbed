@@ -65,8 +65,8 @@ BUNDLE = ("The two conditions differ in whose number it is, its turn, its format
 SENTENCES = {
     "pass": V0 + ALEX + "a rating planted as the model's own earlier answer pulled the rating it attributed to Sam, a "
             "person who had seen neither answer, by at least 0.10 " + PPP + ", and by at least 0.05 more than the same "
-            "number did when it was shown as Alex's answer; Sam's rating moved no more than the model's own re-rating, "
-            "and further when Sam was said to have seen the model's answer. " + BUNDLE,
+            "number did when it was shown as Alex's answer; Sam's rating did not move detectably more than the model's "
+            "own re-rating, and it moved further when Sam was said to have seen the model's answer. " + BUNDLE,
     "fail_small": V0 + ALEX + "a rating planted as the model's own earlier answer did not pull the rating it attributed "
                   "to Sam, who had seen neither answer, by at least 0.10 " + PPP + " with the interval above 0.",
     "fail_anchoring": V0 + "the model's own planted answer pulled the rating it attributed to Sam, who had seen neither "
@@ -76,8 +76,8 @@ SENTENCES = {
     "fail_copy": V0 + ALEX + "the model's own planted answer pulled the rating it attributed to Sam by more than the bar "
                  "and more than Alex's number did, but not detectably less than when Sam was said to have seen that "
                  "answer, so it cannot be told apart from the model repeating its own earlier answer whoever is asked.",
-    "fail_not_inherited": V0 + ALEX + "the model's own planted answer pulled the rating it attributed to Sam more than "
-                          "it pulled the model's own re-rating, so the pull on Sam cannot be the model's own shifted "
+    "fail_not_inherited": V0 + ALEX + "the model's own planted answer pulled the rating it attributed to Sam detectably "
+                          "more than it pulled the model's own re-rating, so the pull on Sam cannot be the model's own shifted "
                           "rating carried over to Sam.",
     "untestable_manipulation": "The test could not answer: the planted answer did not move the model's own re-rating "
                                "(its interval is not above 0), so there was no shift of the model's own for Sam's rating "
@@ -108,7 +108,7 @@ SUB_SENTENCES = {
         "shown as Alex's answer,", "shown as Alex's answer (estimate {x}, 95% interval [{lo}, {hi}]); an own-over-other "
                                    "difference of 0.05 is not ruled out,"),
     "copy": SENTENCES["fail_copy"][:-1] + " (guard {x}, 95% interval [{lo}, {hi}]).",
-    "not_inherited": SENTENCES["fail_not_inherited"][:-1] + " (Sam minus own {x}).",
+    "not_inherited": SENTENCES["fail_not_inherited"][:-1] + " (Sam minus own {x}, 95% interval [{lo}, {hi}], wholly above 0).",
 }
 assert all("{" in v for v in SUB_SENTENCES.values()) and SUB_SENTENCES["pass"] != SENTENCES["pass"]
 
@@ -121,7 +121,8 @@ def fail_bound(label, reason, point, ci):
     if label != "fail":
         return None, None
     if reason == "not_inherited":
-        return "not_inherited", SUB_SENTENCES["not_inherited"].format(x=f(point["U_sam_own"] - point["U_self_own"]))
+        lo, hi = ci["sam_minus_self"]
+        return "not_inherited", SUB_SENTENCES["not_inherited"].format(x=f(point["sam_minus_self"]), lo=f(lo), hi=f(hi))
     if reason == "small":
         st, (lo, hi) = point["U_sam_own"], ci["U_sam_own"]
         sub = "small_bounded" if hi < BAR - EPS else "small_open"
@@ -411,6 +412,7 @@ def stats_of(U):
             "U_self_own": U[("OWN", "self")], "U_self_swap": U[("SWAP", "self")],
             "U_inf_own": U[("OWN", "sam_inf")], "U_inf_swap": U[("SWAP", "sam_inf")],
             "copy_guard": U[("OWN", "sam_inf")] - U[("OWN", "sam_p")],
+            "sam_minus_self": U[("OWN", "sam_p")] - U[("OWN", "self")],      # D12a (review om-p2-5 F1')
             "U_inst_own": U[("OWN", "sam_i")], "U_inst_swap": U[("SWAP", "sam_i")],
             "dU_inst": U[("OWN", "sam_i")] - U[("SWAP", "sam_i")],
             "inst_minus_person_own": U[("OWN", "sam_i")] - U[("OWN", "sam_p")],
@@ -444,7 +446,7 @@ def rule(point, ci, n_complete):
         return "fail", "anchoring"
     if not ci["copy_guard"][0] > EPS:
         return "fail", "copy"
-    if not point["U_sam_own"] <= point["U_self_own"] + EPS:     # D12 (review om-p2-5 F1): 5b, not inherited
+    if ci["sam_minus_self"][0] > EPS:     # D12a (review om-p2-5 F1'): 5b, Sam moves detectably more than own
         return "fail", "not_inherited"
     return "pass", None
 

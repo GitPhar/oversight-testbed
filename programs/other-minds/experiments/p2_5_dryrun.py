@@ -227,9 +227,10 @@ def section2():
               f"{fmt(p['dU'], c['dU'])} | {fmt(p['copy_guard'], c['copy_guard'])} | {x['map_rule']} | {lab} |")
     print("\nThe map's event as measured on this design (U_sam(OWN) >= 0.10, CI above 0) is passed by the source-blind and "
           "recency anchors, the own-slot copier, the turn anchor, the Sam-over-self responder and the fixed nudge. The "
-          "full rule rejects the anchors (anchoring), the copier (copy) and the Sam-over-self responder (not inherited). "
-          "It does NOT reject the label-blind turn anchor or the fixed 4-point nudge: a pass is about the bundle (whose "
-          "number, turn, format, place) and 'points per point' is an average over the three distance classes.\n")
+          "full rule rejects the anchors (anchoring), the copier (copy) and the Sam-over-self responder (not inherited, "
+          "D12a: its Sam-minus-own interval is above 0). It does NOT reject the label-blind turn anchor or the fixed "
+          "4-point nudge, whose Sam uptake equals their own: a pass is about the bundle (whose number, turn, format, "
+          "place) and 'points per point' is an average over the three distance classes.\n")
 
 
 def section3(nsim=50, nboot=400):
