@@ -60,3 +60,16 @@ Each direction's assumption, prior work, our data, cheapest test, cost and draft
 - **Payoffs spelled out** for declining and asking (I-CALM: announced payoffs are the strongest lever), with the rational threshold stated, so the stated number's implied choice can be checked.
 - **A monotonicity check across confidence bins** (Yamin et al. 2026) and accuracy-split AUROCs (does the number predict the action among correct answers and among wrong ones alone?), always secondary.
 - **Dumb baselines** (pattern P3): a constant, the item's source (one bit), the answer's yes/no bit, question length, each in its better direction.
+
+## After wave 1 (2026-11-05, audited)
+
+| bet | direction | verdict (audit stands) | in one line |
+|---|---|---|---|
+| sv-b1 | SV-1 | untestable | Sonnet (8 of 150) and Opus (3 of 80) almost never changed their answer under "are you sure?"; Haiku did (57 of 300), but its separately stated number predicted which answers no better than question length. |
+| sv-b2 | SV-2 | fail | The number tracked declining (Sonnet AUROC 0.82) but did not beat the one-bit "is it SimpleQA trivia?" guess (0.78) by 0.10; declining followed question type directly. |
+| sv-b3 | SV-3 | fail | The same for choosing to check (Sonnet 0.82 vs 0.77); Sonnet's margin clears 0.10 only with physics left out. |
+
+**Re-weighting.** No direction heats: nothing passed. SV-2 and SV-3 close as head-to-head tests, with the diagnosis that an item property (question type) carries the behaviour as well as the number (new pattern P16); they re-open only as within-type tests. SV-1 stays open: it was not decided. Candidates from the audits, to get fresh-context odds before any pre-registration:
+- **SV-1r** (sv-b1's audit): Sonnet's challenge and re-ask on the other 150 items it already rated, about $0.35, so Sonnet is testable with probability about 0.96 at its measured 5.3% rate.
+- **SV-2w / SV-3w** (sv-b2's audit): the number against the remaining simple guesses within SimpleQA only, on fresh items, Haiku and Sonnet, about $0.55; on this data that comparison gave margins of +0.14 (Haiku) and +0.26 (Sonnet), so the outcome is not foregone.
+- **SV-8** (map rank 5, $0): whether the action adds information about errors beyond the number, on the wave-1 data, pre-registered before it opens them.

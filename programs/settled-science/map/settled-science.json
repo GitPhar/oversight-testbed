@@ -314,6 +314,39 @@
    "odds_template": "remap one pass (operators/remap.md), not v1; re-elicit under v1 before pre-registration",
    "diagnosis": null,
    "opened": "2026-11-05T04:45"
+  },
+  {
+   "id": "ss-f7",
+   "parent": "ss-b6",
+   "from_bet": "ss-b6",
+   "referee": "published-record",
+   "short": "Flattery rule on BrainBench",
+   "title": "How much of BrainBench (200 expert-written neuroscience items) does a 'which version is better news for the paper' rule solve, against the bettor on the same items and the published 81.4% for LLMs?",
+   "assumption_at_stake": "Published 'LLMs beat experts at predicting results' (Luo et al. 2024, BrainBench) reflects knowledge of results, not a one-line valence shortcut.",
+   "cheapest_test": "The ss-b6 flattery prompt (adapted from 'method' to 'hypothesis, method or account') and the program's bettor prompt, each on BrainBench's 200 human-written pairs (original vs expert-altered abstract), on Haiku and Sonnet; accuracy against 0.634 (experts) and 0.814 (LLMs, perplexity).",
+   "models": "claude-haiku-5-5 and claude-sonnet-5-5 (not Opus: the novelty page's replication names these two, and Opus at its least-thinking setting would cost about $2.90 for both prompts on 200 items, over the whole ruling)",
+   "cost": "about $1.70 (Sonnet about $1.60, Haiku about $0.10); cap $2.50 in code",
+   "engine_odds": 0.35,
+   "engine_odds_at": "2026-11-05T06:25",
+   "odds_event": "On BrainBench's 200 human-written items, for both claude-haiku-5-5 and claude-sonnet-5-5, the flattery rater's accuracy has a 95% item-bootstrap lower bound above 0.634 (the published human-expert mean).",
+   "odds_rationale": "ss-b6's same-model flattery rater reached 90% on template sentence pairs, but BrainBench's altered abstracts were written by experts to stay coherent, and neuroscience abstracts defend hypotheses more than methods, so the rule has less to grip. Needing about 70% on both models, with Haiku the weak link, puts it below a coin. Running base rate 8/26 = 0.31 (ledger/brier.md at HEAD); program 4's record (passes at low odds) argues slightly up.",
+   "question": "A famous study found that AI models beat neuroscientists at telling a real research abstract from a doctored one; can a model do almost as well just by picking whichever version is better news for the paper's own idea, without knowing any results?",
+   "known": [
+    "On our own sentence pairs, the strongest model asked only which version flatters the paper was right 90% of the time, against 93% when forecasting (ss-b6, undetermined after audit).",
+    "BrainBench reports 81.4% for LLMs (scored by perplexity) and 63.4% for 171 neuroscientists; it never tested a valence shortcut (paper/novelty.md, finding 8)."
+   ],
+   "human_prompt": "Would you spend about $2.50 to find out whether a model can beat neuroscientists at spotting the real version of a research abstract just by picking whichever version is better news for the paper's own idea? Will it come back a hit (here, a hit means both smaller Claude models do clearly better than the neuroscientists did that way)?",
+   "engine_only": [
+    "Sonnet alone clears 0.634: engine odds 0.55",
+    "the bettor beats the flattery rule by at least 5 points on Sonnet: engine odds 0.55"
+   ],
+   "kind": "follow-up",
+   "status": "open",
+   "source": "literature",
+   "source_note": "paper/novelty.md, ranked replication 1 (finding 8)",
+   "odds_template": "engine session, one direction, not v1 fresh context; stated before the pre-registration",
+   "diagnosis": null,
+   "opened": "2026-11-05T06:25"
   }
  ]
 }

@@ -1,0 +1,3 @@
+0a9acfeb177c1b412fb44f72c283193d0d3b909a2cd0879284be39d0929827a3  items/brainbench/items.jsonl
+d57fd577e988aec937c56ea87d71196f38be78d53257138ad2782e9144175464  items/brainbench/gpt4-pilot-pool.jsonl
+65452762ace1add3371b78d05db23bb498e750f9723f4766ac944df96d7a59e6  (source) BrainGPT/BrainBench_Human_v0.1.csv data/train-00000-of-00001-66ef3edf3e27f0a2.parquet, HF revision 71bdea4638607bf3953ecdbb721428100d29c62a
