@@ -357,6 +357,27 @@
    ],
    "diagnosis": null,
    "human_odds": null
+  },
+  {
+   "id": "P3-15",
+   "title": "What made 3 November different: the afternoon, or the circuit's barrier and shot grouping?",
+   "parent": "P3-3",
+   "status": "open",
+   "rank": 15,
+   "engine_odds": 0.07,
+   "engine_odds_at": "2026-11-04T17:00:05-07:00",
+   "odds_template": "v1-single",
+   "referee": "nature",
+   "source": "P1",
+   "cost": "~3.4 QPU s per run, 2 runs",
+   "assumption_at_stake": "Program 1's 3 November gap was the chip that afternoon, not the circuit's barrier or its one-block shot grouping",
+   "cheapest_test": "{barrier, no barrier} x {one 1,000-shot block, 10 x 100 interleaved} + R0/R1 on the original nine qubits; repeated >= 3 h later; pass if the barrier block gives P(yes) >= 0.40 and beats the no-barrier block by >= 0.10 at z >= 3 in job 1",
+   "prior_work": [
+    "ng-p3-2-3 audit round 2"
+   ],
+   "diagnosis": null,
+   "human_odds": null,
+   "human_odds_note": "Sean skipped (no odds), 2026-11-04 ~17:00"
   }
  ],
  "closed": [

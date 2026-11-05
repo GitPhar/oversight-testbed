@@ -81,6 +81,10 @@ Your odds (0–100): ____ Why (one line): ____
 
 Your odds (0–100): closed Why: ____
 
+**Q15 (P3-15), added 2026-11-04 17:00, answered: skipped.** Is re-running program 1's circuit on the same qubits, once with the pre-measurement "barrier" it had on 3 November and once without, to find out whether that day's surprise came from the circuit or from the chip that afternoon, worth about 7 seconds of chip time? Will it come back a hit?
+
+Your odds (0–100): skipped (no odds), 2026-11-04 ~17:00 Why: ____
+
 ---
 
 **Optional, one line each:**

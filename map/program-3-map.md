@@ -76,6 +76,7 @@ The odds were not used to rank, so a long shot is not demoted for being one.
 | 12 | P3-6 | Does ibm_fez leak settings between qubits? | On-chip no-signalling holds on this Heron r2 | Rybotycki idle test on ~40 pairs | 13 (30 full) | 0.50 | 0.15 |
 | 13 | P3-14 | Maximally ψ-epistemic models in d = 4, no fair sampling | Maximally ψ-epistemic models | 30 circuits × 2,000 shots + 9 tomography | 21 | 0.12 | — |
 | 14 | P3-13 | LG-certified randomness from P3-11's data | Semi-DI randomness from one transmon's LG violation | Nath Theorem 2 bound on P3-11's data | 0 extra | 0.35 | 0.30 |
+| 15 (added 2026-11-04 17:00) | P3-15 | What made 3 November different: the afternoon, or the circuit's barrier and shot grouping? | Program 1's gap was the chip that afternoon, not the circuit build or job grouping | {barrier, no barrier} × {one 1,000-shot block, 10 × 100 interleaved} + R0/R1; repeated ≥ 3 h later | ≈ 3.4 per run (2 runs) | 0.07 | — |
 
 Total if everything ran at the lean costs: about 184 QPU s. Recommended plan (below): about 146 s in waves 1–3, up to 60 s more conditionally, and a reserve of at least 120 s kept for replication.
 
@@ -339,6 +340,14 @@ Total if everything ran at the lean costs: about 184 QPU s. Recommended plan (be
 - **Cheapest test:** Nath's Theorem 2 bound with a finite-size correction, applied to P3-11's mixed-preparation correlator data (about 72,000 rounds) after the circuit order is seeded from the beacon.
 - **Cost:** 0 extra QPU s.
 - **Pass rule:** Certified min-entropy ≥ 0.05 bits per round at 99% finite-size confidence.
+
+### P3-15. What made 3 November different: the afternoon, or the circuit's barrier and shot grouping? — added 2026-11-04 17:00 · P = 0.07 · source P1 (audit round 2, ng-p3-2-3 "What would break it next")
+- **Assumption at stake:** that program 1's 3 November gap (P(yes) 0.502 against a predicted ≈ 0.26) was the chip that afternoon, not the circuit's pre-measurement barrier or its single 1,000-shot block.
+- **Why now:** wave 1 ran the same gate list without the barrier and as interleaved 100-shot pieces, and found no P(yes) gap (0.246 against 0.269). So the two days differ in three things at once (P8).
+- **What we know offline:** in Qiskit's ALAP schedule the barrier changes no measurement time; in ASAP, removing it lets qubits be measured from 3.3 µs instead of 8.05 µs. How IBM's servers schedule is not documented in our reads. In the noise model, idle time does not move this circuit (P3-1).
+- **Cheapest test:** one job on the original nine qubits: barrier/no barrier × one 1,000-shot block / 10 × 100 interleaved, plus R0/R1 (5 × 100 each). An identical job ≥ 3 h later. ≈ 3.4 QPU s each.
+- **Pass rule (draft):** in the first job, the barrier block gives P(yes) ≥ 0.40 and beats the no-barrier block by ≥ 0.10 at z ≥ 3.
+- **Odds:** elicited in a fresh context from `odds-elicitation/rows-v1-p3-15.md` alone (template v1, single row; `odds-elicitation/v1-p3-15.md`, 17:00:05). No elicitation check. Human odds: Sean skipped (no odds).
 
 ---
 
