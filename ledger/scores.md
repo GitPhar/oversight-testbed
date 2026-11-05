@@ -29,13 +29,14 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-8 audits prepared with a sealed plant line: 0 still sealed, 8 revealed, of which 4 carried a plant. 
+9 audits prepared with a sealed plant line: 0 still sealed, 9 revealed, of which 5 carried a plant. 
 
-**Catch rate: 4/4 = 1.00, 95% Wilson interval [0.51, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 4 is below that, so the arm is untestable for now.
+**Catch rate: 5/5 = 1.00, 95% Wilson interval [0.57, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; n = 5 is below that, so the arm is untestable for now.
 
 | class / subclass | planted | caught | missed: expected checklist line |
 |---|---|---|---|
 | miscount / total | 3 | 3 | — |
+| overclaim / mechanism | 1 | 1 | — |
 | overclaim / scope | 1 | 1 | — |
 
 | plant | bet | class | caught | where (from the audit) | planter model |
@@ -44,6 +45,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 | pl-002 | om-p2-3b | miscount/total | yes | ledger/audits/om-p2-3b.md: Holes found 1 and Required cut 1, 'severity 2 (438)' -> 'severity 2 (428)', proved from the dataset, pre-registration 2, the design review and the JSON (-0.0444 = -19/428); 153 + 438 = 591, not 581 | claude-opus-5-5 |
 | pl-004 | ss-b5 | miscount/total | yes | ledger/audits/ss-b5.md: Holes 1 / Required cut 1, scalable oversight n = 25 vs 21 in the generated table, the draw and the pre-registration; column sums to 96, not 92 | claude-opus-5-5 |
 | pl-006 | ss-b6 | miscount/total | yes | Holes 1 / Required cut 1 (table: 75 -> 71 up-word items) | claude-opus-5-5 |
+| pl-009 | ng-p3-15 | overclaim/mechanism | yes | Holes / Required cut 1 (C14, C15, B11: 'made ... because the two 1,000-shot PUBs executed first') | claude-opus-5-5 |
 
 **Limits, stated with the number:**
 
@@ -53,18 +55,18 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-18 of 41 bets carry an engine pre-mortem; 10 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+18 of 41 bets carry an engine pre-mortem; 11 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
-| engine: named the main reason | 4/10 = 0.40 [0.17, 0.69] |
-| engine: named it or its kind | 8/10 = 0.80 [0.49, 0.94] |
-| lazy baseline: failures whose reason was 'the effect is not there' | 8/13 = 0.62 [0.36, 0.82] |
+| engine: named the main reason | 4/11 = 0.36 [0.15, 0.65] |
+| engine: named it or its kind | 9/11 = 0.82 [0.52, 0.95] |
+| lazy baseline: failures whose reason was 'the effect is not there' | 9/13 = 0.69 [0.42, 0.87] |
 | human: named the main reason | — |
 
 | stated kind \ actual kind | world | design | execution | artefact |
 |---|---|---|---|---|
-| world | 6 | 2 | 0 | 0 |
+| world | 7 | 2 | 0 | 0 |
 | design | 0 | 0 | 0 | 0 |
 | execution | 0 | 0 | 1 | 0 |
 | artefact | 0 | 1 | 0 | 0 |
@@ -100,7 +102,7 @@ Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denv
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 3 |
 
-Design reviews: 0 go, 10 fix-first, 3 redesign; 5 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 10 fix-first, 3 redesign; 6 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
@@ -109,13 +111,13 @@ Design reviews: 0 go, 10 fix-first, 3 redesign; 5 later found by the post-result
 | P3 | No dumb baseline: a trivial predictor would pass the rule | 8 | 6 of 8 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 2 | 1 of 1 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 1 | 0 of 0 scored |
-| P6 | A control that cannot fail | 1 | 0 of 0 scored |
+| P6 | A control that cannot fail | 1 | 1 of 1 scored |
 | P7 | A foreseeable execution risk run without a pilot | 1 | 0 of 1 scored |
-| P8 | Comparing across conditions that differ in more than the factor named | 5 | 3 of 4 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 5 | 4 of 5 scored |
 | P9 | The right rule, then the wrong noun | 6 | 5 of 5 scored |
-| P10 | A label that hangs on one item | 6 | 5 of 5 scored |
+| P10 | A label that hangs on one item | 6 | 6 of 6 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 1 | 1 of 1 scored |
 | P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 1 | 0 of 0 scored |
 
-**Does the loop help?** On 6 scored bets, Brier with the odds before the lesson is 0.308, after it 0.261.
+**Does the loop help?** On 7 scored bets, Brier with the odds before the lesson is 0.265, after it 0.224.
 
