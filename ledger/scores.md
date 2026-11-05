@@ -97,15 +97,15 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
 
-Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 0 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 0 lesson lines written.
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 16 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 31 lesson lines written.
 
 | | count |
 |---|---|
 | pre-registrations since the rule | 29 |
-| with a lesson line | 0 |
+| with a lesson line | 26 |
 | with a design review verdict | 23 |
 | awaiting their design review (nothing may run yet) | 6: em-dm6f2, em-gm3cf1, ng-p3-17, ng-p3-18, em-gm2q, ss-b10 |
-| **violations** (no lesson, or a result without a review) | 29: em-dm6f2, em-gm2q, em-gm3cf1, ng-p3-15, ng-p3-16, ng-p3-17, ng-p3-18, ng-p3-5c, om-p2-3b, om-p2-5, om-p2-6, om-p2-6r, om-p2-7, sg-b1, sg-b2, sg-b3, ss-b1, ss-b10, ss-b2, ss-b3, ss-b5, ss-b6, ss-b7, sv-b1, sv-b2, sv-b3, ta-b1r2, ta-b2, ta-b3 |
+| **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 0 |
 | withdrawn after a design review said redesign | 5 |
 
@@ -113,6 +113,22 @@ Design reviews: 0 go, 23 fix-first, 5 redesign; 16 later found by the post-resul
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
+| P1 | Odds too high where the engine had a story | 12 | 7 of 10 scored |
+| P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 4 | 4 of 4 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 22 | 11 of 17 scored |
+| P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 5 | 2 of 4 scored |
+| P5 | Unmatched rivals: the contest is decided by how the families were built | 2 | 0 of 1 scored |
+| P6 | A control that cannot fail | 3 | 1 of 3 scored |
+| P7 | A foreseeable execution risk run without a pilot | 3 | 1 of 3 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 17 | 8 of 13 scored |
+| P9 | The right rule, then the wrong noun | 11 | 9 of 10 scored |
+| P10 | A label that hangs on one item | 12 | 9 of 10 scored |
+| P11 | Leave-one-out leak: a held-out item's own label shapes its score | 1 | 1 of 1 scored |
+| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 15 | 7 of 12 scored |
+| P13 | A boundary the rule names, compared in plain floating point | 2 | 1 of 1 scored |
+| P14 | Items that share a template or domain bootstrapped as if independent | 1 | 0 of 0 scored |
+| P15 | A dry run built on assumed spreads or base rates, not measured ones | 1 | 0 of 1 scored |
+| P16 | A dumb baseline that is an item property, in dry-run worlds where item properties reach the outcome only through the predictor | 0 | 0 of 0 scored |
 
-**Does the loop help?** Not measurable yet: no bet with a lesson has a scored outcome. The test is Brier with the odds before the lesson against after it, paired.
+**Does the loop help?** On 16 scored bets, Brier with the odds before the lesson is 0.195, after it 0.157.
 
