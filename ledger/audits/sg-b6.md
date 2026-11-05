@@ -244,3 +244,7 @@ Mixed is overturned only by narrowing the interval, and its width comes from stu
 - **Cheapest overturning test.** Run the identical four-cell Haiku design again on the same 60 studies, twice each: 480 calls, about $0.04. Pre-register reading the mean of the two same-run T's against 6.3 on the domain-cluster bootstrap. This tests whether +5.26 or sg-b4's same-run +12.1 on its 10 drift studies (today's +9.1 on the same 10) is the run-to-run outlier.
 - **Better test.** Write conclusions for 60 new studies in 20 new domains (Haiku write plus four-cell grade, about $0.06) and read T on all 120. That roughly halves the cluster interval and can push it wholly above or below 6.3.
 - **Opus.** The "larger than sg-b4" question needs two repeats on its 30 studies (120 calls, about $0.40).
+
+---
+
+Revealed 2026-11-05 12:24 America/Denver: pl-041, planted miscount/total at Tables, spend table, row "test run", column "total" ($0.642 → $0.652); **caught** (hole 1, required cut 1). Cut 1 is the plant: not applied to the real record (the real file reads $0.642). Every other finding stands as the real audit of the real result; cuts 2-6 are applied under program 5 D27.
