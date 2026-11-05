@@ -1,0 +1,41 @@
+# Runs the root reproduce.py: every ledger table, brier.md, scores.md, the sealed plants, the site data, and every
+# program's results tables (programs/<name>/reproduce.py), rebuilt from the archived files in this repository.
+# No secrets are referenced, so the job has no keys; nothing in reproduce.py touches the network (the programs' scripts
+# block sockets). The only package installed is numpy, pinned in requirements-reproduce.txt.
+# macOS arm64 and Python 3.12 match the machine the archives were made on, so the local check
+# (fresh venv, pip install -r requirements-reproduce.txt, python reproduce.py) is the same run as this one.
+# Program 1's own reproduce.py needs qiskit and its own environment and is not run here (reproduce.py --program-1).
+name: Reproduce
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "41 13 * * *"     # daily, 13:41 UTC = 06:41 America/Denver in winter (07:41 in summer), before the morning brief
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: reproduce-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  reproduce:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    env:
+      TZ: America/Denver
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fresh virtual environment with numpy only
+        run: |
+          python -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/pip" install --quiet -r requirements-reproduce.txt
+          "$RUNNER_TEMP/venv/bin/pip" list
+      - name: Reproduce every table (no keys, no network)
+        run: env -i PATH=/usr/bin:/bin HOME="$HOME" LANG=en_US.UTF-8 TZ=America/Denver "$RUNNER_TEMP/venv/bin/python" reproduce.py

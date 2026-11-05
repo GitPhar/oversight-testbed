@@ -1,10 +1,14 @@
 # (working title — see CONTEXT.md §0)
 
+[![Reproduce](https://github.com/GitPhar/oversight-testbed/actions/workflows/reproduce.yml/badge.svg?branch=main)](https://github.com/GitPhar/oversight-testbed/actions/workflows/reproduce.yml)
+
 A scalable-oversight testbed for AI-driven research. The AI maps every candidate path and bets on them with stated odds; a human steers; an independent auditor tries to break every result; both the AI and the human are scored on their judgment. Built for trust, not volume.
 
 **New here? Start with [the project in plain words](paper/plain-words.md)** (under 1,500 words, no jargon) or [the same on one page](application/one-page-plain.md).
 
 Read in this order: `CONTEXT.md` (the living brain, rewritten nightly), `TASKS.md` (open items, decisions made, what waits on whom), `ARCHITECTURE.md` (the loop in pseudocode), `proposal.md` (the research proposal for the engine itself).
+
+**Reproduce everything with one command:** `python3 reproduce.py` (Python 3 and numpy, `pip install -r requirements-reproduce.txt`; no keys, no network). It rebuilds every ledger table, the site data and every program's results tables from the archived files and checks them against what is committed; each program also has its own `programs/<name>/reproduce.py`. The badge above is that command's state on `main`, run on every push and daily (`.github/workflows/reproduce.yml`).
 
 ## The five commitments
 
