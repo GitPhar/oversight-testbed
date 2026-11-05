@@ -1,0 +1,93 @@
+{
+ "rule": "A pattern is coded 'program 1' if an instance of its fault (its title, read with its do_this line) appears in a program 1 (entangled-mind) result, write-up, design or audit committed, by author time, before commit a20824d (2026-11-04T10:19:55-07:00), when program 2 opened. Program 1 is everything under programs/entangled-mind/ (dated by its original pre-subtree history, merged at 32ca722 from 795dadb), its audits (programs/entangled-mind/audits/, ledger/audits/em-*.md, SUMMARY-1.md and the program 1 parts of SUMMARY-2.md) and bets with ids em-*. Otherwise it is 'not program 1'. The pattern's own sources, evidence and first_seen fields were treated as leads and checked against the commits; files were read to judge whether an instance is really the pattern. The round 1 audit (b009a15, 2026-11-04T10:27:49) is after the gate, so it was used only to find faults, which were then confirmed in pre-gate results, designs or code.",
+ "gate": "a20824d 2026-11-04T10:19:55-07:00",
+ "coded_by": "claude-opus-5-5",
+ "coded_at": "2026-11-05T11:05:47-07:00",
+ "patterns": {
+  "P1": {
+   "origin": "not program 1",
+   "earliest_program1_instance": null,
+   "why": "Program 1's stated odds were 0.15-0.45 (gold map, ledger 216aec1); both hits got 0.25 and the pre-gate brier.md says 'if anything the odds were too low'. No odds above evidence before the gate."
+  },
+  "P2": {
+   "origin": "program 1",
+   "earliest_program1_instance": "experiments/preregistration-v2.md Addendum D (f7afd8a, 2026-11-03T21:03:08) and results/sonnet-ablation.md (db2eb02, 2026-11-03T21:30:25)",
+   "why": "Addendum D defines 'matches' as the 95% CI containing 0, no margin or power check, and outcome 1 was reported as met. exp5-run-2's 'near-zero q survives' (CI contains 0; bffc4ab) is another."
+  },
+  "P3": {
+   "origin": "program 1",
+   "earliest_program1_instance": "results/stage2-run-2.md (3204d10, 2026-11-03T15:14:50; design afe1c1b); also D49 F' rule (19715a3, 2026-11-04T09:51:06)",
+   "why": "v1 arms' reported error signals were tied by a one-bit 'model said no' predictor (AUROC 0.675); no dumb baseline was pre-registered. D49's fixed-bar F' 'one belief' rule, frozen pre-gate, is passed by a one-bit predictor."
+  },
+  "P4": {
+   "origin": "program 1",
+   "earliest_program1_instance": "experiments/probe-dissociation.md + probe_dissociation.py (9ef909d, 2026-11-04T07:39:41); results/probe-dissociation.md (8685008, 2026-11-04T09:18:09)",
+   "why": "Pre-registration says selection and test use different conversations; the frozen code reused identical seeds, so step 3 replayed the gate data (500/500 identical) and V4 tested nothing. Code did not do what was pre-registered."
+  },
+  "P5": {
+   "origin": "program 1",
+   "earliest_program1_instance": "results/sonnet-ablation.md (db2eb02, 2026-11-03T21:30:25), diagnosing v2's A2-vs-F2 edges (preregistration-v2.md 8a4faa2; v2-run-1 49dd6f7; sonnet-replication b584386)",
+   "why": "A2's 'quantum edges' over F2 came from per-claim tilted-readout geometry F2's family could not represent; F2+ with the same readout matched them. The contest was decided by how the families were built."
+  },
+  "P6": {
+   "origin": "program 1",
+   "earliest_program1_instance": "experiments/exp5-sequential-judgment.md gate G1 (2c2ef6c, 2026-11-03T20:15:54); results/exp5-pilot.md (8881a0a, 2026-11-03T20:29:58)",
+   "why": "G1, the go/no-go check that ratings move with sequence, passes under a no-order-effect null with P 0.98-1.00, so it could not reject the set-up it existed to catch."
+  },
+  "P7": {
+   "origin": "program 1",
+   "earliest_program1_instance": "DEVIATIONS.md D21 (1335301, 2026-11-03T19:59:39) then D25 (3d7a47e, 2026-11-03T20:29:18); also experiments/exp4-run-3.md §6 (fbc2fbf) -> results/exp4-run-3.md (de38306)",
+   "why": "After D20's refusal, D21 named a second refusal as the risk and resumed with no pilot or item filter; it recurred and halted run 6. exp4 run 3 named anchor rejection, ran unpiloted, came back untestable."
+  },
+  "P8": {
+   "origin": "program 1",
+   "earliest_program1_instance": "results/bm1-serial-dependence.md (e806ea4, 2026-11-04T05:34:32)",
+   "why": "Own-versus-other was read as source ('own > other', 'commitments') though the conditions also differed in wording, schema and turn position; the result file's own caveat notes the wording difference."
+  },
+  "P9": {
+   "origin": "program 1",
+   "earliest_program1_instance": "results/stage1-run-1.md (98d6ac6, 2026-11-03T16:07:46); clearest results/gm1-self-knowledge.md (bc0f125, 2026-11-04T04:15:08)",
+   "why": "Pre-gate results apply frozen rules correctly then use nouns the design cannot carry: 'decoheres', 'text-reading', 'memory, not stability' (gm2 4c5c34f/bc9e70d), 'commitments' (ledger 216aec1). Same fault as round 2's, whatever round 1 called commonest."
+  },
+  "P10": {
+   "origin": "program 1",
+   "earliest_program1_instance": "results/stage2-run-1.md (0bc5a96, 2026-11-03T14:39:58)",
+   "why": "H3 and H4 were reported as firm verdicts that flip on dropping one item (x75, x68). Later pre-gate instances: exp5-run-1 h183, mm-gm2/mm-gm3b h058 (82c5d91, 7ac6c83)."
+  },
+  "P11": {
+   "origin": "not program 1",
+   "earliest_program1_instance": null,
+   "why": "The leave-one-out label leak is em-qwalk's (prereg 680f128, 2026-11-04T19:46:46), after the gate. No pre-gate program 1 design scored a held-out item from the other items' labels; the probe replay is a different fault."
+  },
+  "P12": {
+   "origin": "program 1",
+   "earliest_program1_instance": "results/stage2-run-1.md (0bc5a96, 2026-11-03T14:39:58; D5 fallback in 2248e54); also exp4 run 2 rule (cb4e96e) with D19 (2bac6be, 2026-11-03T19:36:43)",
+   "why": "Stage 2 run 1 ran H2 knowing 4 wrong items could decide nothing. Exp4 run 2's frozen rule could return only 'static twin' (D19); v2's primary was nearly unpassable at its n."
+  },
+  "P13": {
+   "origin": "program 1",
+   "earliest_program1_instance": "src/entangled_mind/config.py+readout.py STRONG_TAU=1.0/3.0 (afe1c1b) used in results/stage2-run-2.md (3204d10, 2026-11-03T15:14:50); DEVIATIONS D32 with results/exp5-run-1.md (75744dc, 2026-11-03T22:24:31)",
+   "why": "The rule's P(m >= 1/3) boundary was compared in plain floats, so votes exactly at 1/3 were decided by rounding. D32 records exact-float comparison deciding exp5's 'larger' QQ pair (28-9 spurious, 1-2 with tolerance)."
+  },
+  "P14": {
+   "origin": "not program 1",
+   "earliest_program1_instance": null,
+   "why": "Pre-gate program 1 designs resampled items with their claims, menus or chains (gm3b, gm4, exp5 item bootstraps). No pre-gate template- or domain-shared items were bootstrapped as independent."
+  },
+  "P15": {
+   "origin": "not program 1",
+   "earliest_program1_instance": null,
+   "why": "Program 1 had no pre-gate dry runs estimating P(pass) from assumed spreads or base rates. Its cost misses (DM4a, D47a) came from a measured, if unrepresentative, pilot or estimates outside any dry run."
+  },
+  "P16": {
+   "origin": "not program 1",
+   "earliest_program1_instance": null,
+   "why": "The fault is dry-run worlds letting item properties act only through the predictor. Program 1 had none before the gate. v2's item-type baseline (0.71) is the P3 fault, not this one."
+  },
+  "P17": {
+   "origin": "not program 1",
+   "earliest_program1_instance": null,
+   "why": "No design reviews before the gate. Pre-gate amendments (D32 tolerance, DM4a cap rule) either were not guard swaps meant to tighten or were openly loosening; em-gm2bf1's D71 is post-gate."
+  }
+ }
+}

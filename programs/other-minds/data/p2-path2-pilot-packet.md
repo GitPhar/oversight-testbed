@@ -1,0 +1,275 @@
+# Classification packet
+
+You will tag each numbered unit below with the failure patterns it carries. A unit is either a *miss* (why a pre-registered test failed, in its auditor's words) or a *cut* (a passage an auditor required to be removed or rewritten in a write-up, with the replacement). The units come from several research programs, in a random order.
+
+**Rule.** A unit carries a pattern when the fault the unit describes is an instance of that pattern's title, read with its 'what to do' line: the same kind of mistake, not merely the same topic. Tag every pattern the unit carries, and only those; tag `none` if it carries none. Judge each unit on its own text.
+
+Reply with JSON only: `{"<unit id>": {"patterns": ["P3", ...] or ["none"], "why": "<at most 25 words>"}, ...}`, one entry for every unit.
+
+## Patterns
+
+- **P1. Odds too high where the engine had a story.** What to do: Start from the running base rate ((passes + 1) / (resolved + 2), 3/11 = 0.27 at 16:46) and move away from it only for a named reason. Odds above 0.5 need evidence from a pilot or an archive, not a plausible mechanism.
+- **P2. A null-type rule with no power check or equivalence margin, reported as a pass.** What to do: Any 'no difference' or 'no better than' pass rule pre-registers an equivalence margin and a power check (MDE below the margin) from a pilot or the archive. Without one, it is not a bet.
+- **P3. No dumb baseline: a trivial predictor would pass the rule.** What to do: Pre-register the dumbest predictor that could pass (constant, one-bit, label-only, noiseless) and make the rule 'beat it by a margin', not 'clear a fixed bar'.
+- **P4. A manipulation that never took effect: the code did not do what the pre-registration says.** What to do: Before the first call, dry-run every manipulation at two settings and check the output moves, and print the parameters the run will actually use (operators/design-review.md, check D2).
+- **P5. Unmatched rivals: the contest is decided by how the families were built.** What to do: Check that each rival can, in principle, reproduce the other's best case on synthetic data before the real fit (design-review check D4).
+- **P6. A control that cannot fail.** What to do: For every control, name a wrong set-up it must reject and show that it does (design-review check D3).
+- **P7. A foreseeable execution risk run without a pilot.** What to do: When the pre-mortem names an execution risk, pilot it first on items excluded from the test (at most $0.10), or filter the items by a rule written before the pilot.
+- **P8. Comparing across conditions that differ in more than the factor named.** What to do: List every difference between the two conditions being compared. If more than the named factor differs, the claim is about the bundle, or the design matches them.
+- **P9. The right rule, then the wrong noun.** What to do: Write the plain-English sentence for each possible verdict in the pre-registration (§5), before data, and use only those sentences afterwards.
+- **P10. A label that hangs on one item.** What to do: Pre-register leave-one-item-out as a reported robustness check, and state in the verdict rule what happens if one item flips the label.
+- **P11. Leave-one-out leak: a held-out item's own label shapes its score.** What to do: When a held-out item's score is built from the other items' labels, read every verdict against a label-permutation null on the same structure (counts fixed), and show on a dry run, with the most influential item's label held each way, that random labels give false-verdict rates at or below nominal.
+- **P12. A bet that cannot pass (or cannot fail) at the available n buys calibration without information.** What to do: Before pre-registering, show in a committed dry run that P(pass) and P(fail) are each at least about 10% under plausible worlds for the answer (one favouring each side), at the n actually available. If not, park the direction with the n it would need, unscored.
+- **P13. A boundary the rule names, compared in plain floating point.** What to do: Every threshold the pre-registration names (filters, gates, floors, bars) is compared with the same stated tolerance in code, not only in the verdict function; the dry run feeds a value exactly on each boundary and shows the side it lands on.
+- **P14. Items that share a template or domain bootstrapped as if independent.** What to do: When items are generated from shared templates, domains or sources, pre-register a cluster bootstrap (or leave-one-cluster-out) over that unit beside the item bootstrap, and say which one the bar is read on. A miss named by one bet's audit is applied to every sibling bet that has not yet run.
+- **P15. A dry run built on assumed spreads or base rates, not measured ones.** What to do: Build every dry-run world from numbers measured on excluded items with the exact prompts (a review pilot, an archive, or a sibling bet's pilot): base rate, per-model spread, call-to-call noise and cost per call. State the source of each number beside the world. Where none exists, the design waits for a pilot rather than assuming one.
+- **P16. A dumb baseline that is an item property, in dry-run worlds where item properties reach the outcome only through the predictor.** What to do: In every dry-run world, let each item-property baseline (type, source, length, label) affect the outcome directly at a plausible size taken from a pilot, an archive or a sibling bet, not only through the predictor, and report P(pass) with it. If an item property may carry the outcome, pre-register the predictor's test within that property (stratified AUROC) beside the head-to-head margin.
+- **P17. A design-review fix that replaces a guard can loosen it on the real data.** What to do: A design-review fix to a guard or control adds conditions; it never swaps one out. The pass must meet both the frozen guard and the fixed one, so that the fix can only make passing harder on any data.
+
+## Units
+
+### X002 (cut)
+
+Test: Coherent or stochastic? Twirling and DD on the Stage 1 circuit
+
+map/program-3-map.md (e8ddf34): "the mirror circuit succeeds 2.2% on the chip against 13.6% in the corrected sim" → "the mirror circuit succeeds 2.2% on the chip against 13.6% in a post-hoc run of the corrected sim (not pre-registered)".
+
+### X004 (cut)
+
+Test: Interpersonal replication: does the model's theory of another assistant predict its own measured fingerprint?
+
+"**Both arms know the fingerprint.** Each reproduces the eleven effects closely. … The pre-registered gate is passed with room to spare." → "**Both arms beat chance.** Their departures from an always-50 predictor correlate with the measured ones at 0.98 (self) and 0.96 (Sam). A predictor that assumes no uptake at all and copies the visible answer also passes this gate (0.81 [0.48, 0.95]), so the gate shows little beyond reading the transcript."
+
+### X005 (cut)
+
+Test: Does a correctly scheduled noise model close the Stage 1 gap?
+
+"Gap closed: … = **7%**. The scheduled-minus-control difference is +0.001." → keep the pre-registered 7% and add: "Almost all of it (95%) is the difference between our rebuild and program 1's 1,000-shot estimate (SE 0.014). Scheduling alone closes about 0% (−0.0002 ± 0.0010 over ten seeds)."
+
+### X006 (cut)
+
+Test: Interpersonal replication: does the model's theory of another assistant predict its own measured fingerprint?
+
+"The interpersonal test, Bem's and Nisbett and Wilson's, comes out on this model the way it came out in people. Given the same transcript, the model predicts "Sam" nearly as well as itself, and its causal self-reports are no better than its reports about Sam. Both are wrong." → "The interpersonal test does not decide on this model. The self arm's error is about half of Sam's, and the label changes the predicted own-answer uptake by −0.21 [−0.28, −0.14]. The causal reports are equally wrong in both arms."
+
+### X008 (cut)
+
+Test: Do both error terms show up again when the three entangled pairs are measured in a fresh chip job?
+
+**Add** after "The bet passes by its rule (both terms on at least 2 of 3 pairs)." the sentence: "Six primary tests were run (3 pairs × 2 terms). All five present labels have p = 0.001, below the Bonferroni line of 0.0017, so the labels and the verdict are the same with that correction."
+
+### X009 (cut)
+
+Test: Corrected P3-5: steering given blur, and blur given steering (nested, bootstrap)
+
+**[pattern]-5 comparison, last bullet.** "The nested tests above say why that contest was the wrong question: each kind is needed given the other on every pair." → "The nested tests above say why that contest was the wrong question: in the 16-knob model, each term is needed given the other on all three pairs."
+
+### X012 (cut)
+
+Test: Interpersonal replication: does the model's theory of another assistant predict its own measured fingerprint?
+
+"This fits program 1's F5 (no privileged self-knowledge), now measured against the model's own behavioural fingerprint rather than against its errors." → delete, or "It neither confirms nor contradicts program 1's F5."
+
+### X013 (miss)
+
+Test: Interpersonal replication: does the model's theory of another assistant predict its own measured fingerprint?
+
+the pass's main conjunct is a non-detection with no power check, its percentile interval is biased toward 0 for the more accurate arm (bias-corrected intervals exclude 0), and the gate and r>=0.70 bar are met by a predictor that predicts no uptake at all
+
+### X015 (cut)
+
+Test: Does a correctly scheduled noise model close the Stage 1 gap?
+
+Commit message 280e180, "idle decay closes 7% of the Stage 1 gap" and "Exploratory E2 (ZZ 0.1 rad) 0.267": correct in the next commit's message to "the gap-closed figure is 7% by the pre-registered formula, nearly all reconstruction offset; idle decay ≈ 0%; E2 was not applied".
+
+### X019 (cut)
+
+Test: Coherent or stochastic? Twirling and DD on the Stage 1 circuit
+
+Line 18: "A simulation run afterwards with the same noise model (not pre-registered) expects 13.6%. So on a circuit twice as deep, the chip still falls well short of its description, even on a day when the forward circuit agrees." → "A simulation run afterwards with the same noise model, idle periods included (not pre-registered; code not committed), expects 13.6%; without idle decay, 19.8%. The chip's 2.2% is far below either. On a circuit twice as deep, that is a lead for a pre-registered test, not a finding."
+
+### X021 (cut)
+
+Test: Does a correctly scheduled noise model close the Stage 1 gap?
+
+Exploratory table, E3 row label "scheduled, every error ×3, T1 and T2 ÷3" → "scheduled, every gate and readout error ×3 (T1, T2 unchanged by a bug)".
+
+### X024 (cut)
+
+Test: Coherent or incoherent, from the archived tomography
+
+Table caption "(reference: the [pattern]-1-corrected simulator's reduced state; …)" → add "(T1/T2 not overwritten from the snapshot: FakeFez values; with them overwritten, ΔlogL −41.8, −29.3, +86.0)".
+
+### X025 (cut)
+
+Test: Coherent or incoherent, from the archived tomography
+
+Title: "the chip's errors in program 1's entanglement data look mostly like random blur, not steering" → "On two of three archived qubit pairs, a blurring model fits better than a steering model with the same number of knobs; both kinds of error are present on every pair".
+
+### X026 (cut)
+
+Test: Interpersonal replication: does the model's theory of another assistant predict its own measured fingerprint?
+
+"The difference, −0.043, has a 95% interval of [−0.074, +0.043], which includes 0. By the pre-registered rule that is "no detectable self advantage"." → add: "The interval is lopsided because the bootstrap inflates the smaller error more: 82% of resamples favour the self arm, and the basic and BCa intervals are [−0.129, −0.012] and [−0.105, −0.004]. No power check was pre-registered; only a true difference of about 0.08 (nearly all of Sam's error) was detectable with 80% power."
+
+### X031 (cut)
+
+Test: Does a correctly scheduled noise model close the Stage 1 gap?
+
+"which reproduces program 1's 25.1% within the pre-registered tolerance, so the rebuild is faithful" → "which lies within the pre-registered tolerance of program 1's 25.1%. That control is weak: a simulator with no noise at all gives 27.9% and would also pass it."
+
+### X034 (cut)
+
+Test: Coherent or stochastic? Twirling and DD on the Stage 1 circuit
+
+Line 7: "we ran the identical circuit on the identical nine qubits, 2,000 times" → "we ran program 1's gate list on the same nine qubits, 2,000 times (without the one pre-measurement barrier the 3 November circuit had, and as 20 interleaved blocks of 100 shots rather than one block of 1,000)".
+
+### X039 (cut)
+
+Test: Coherent or stochastic? Twirling and DD on the Stage 1 circuit
+
+Line 3: "submitted 15:52:35 and run 15:52:36–15:52:51" → "submitted 15:52:32 (local clock); execution started 15:52:37 (IBM)".
+
+### X041 (cut)
+
+Test: Does a correctly scheduled noise model close the Stage 1 gap?
+
+"loaded the chip's error rates from that afternoon" → "loaded the chip's gate and readout error rates from that afternoon (a bug left T1 and T2 at the library's 2025 values; with the afternoon's T1 and T2 the result is the same, 26.8%, auditor's re-run)".
+
+### X042 (cut)
+
+Test: Coherent or stochastic? Twirling and DD on the Stage 1 circuit
+
+Line 16: "**The two other sets of nine qubits** also agree with the simulator: 0.277 against 0.265, and 0.297 against 0.264." → "**The two other sets of nine qubits** are also close to the simulator in P(yes): 0.277 against 0.265 (about 1 SE) and 0.297 against 0.264 (about 3 SE). Each has one qubit 0.12–0.14 below the simulator."
+
+### X051 (cut)
+
+Test: Does a correctly scheduled noise model close the Stage 1 gap?
+
+Title "[pattern]-1 result: the simulator was not just set up wrong" → "[pattern]-1 result: idle decay does not explain the Stage 1 gap".
+
+### X057 (cut)
+
+Test: Does a correctly scheduled noise model close the Stage 1 gap?
+
+"Tripling every error rate, about what published work says such models need on this chip family, only reaches 27.7%." → "Tripling every gate and readout error (T1 and T2 were meant to be divided by 3 but a bug left them unchanged) gave 27.7%; with T1 and T2 also divided by 3 it gives 28.8% (auditor's re-run). Published work on Heron chips needed ×2.3–4.0."
+
+### X058 (miss)
+
+Test: Whose belief is a rating? The framing check
+
+Haiku rates a minority of claims very differently under "how confident are you" (18 of 160 move by more than 30 points, against 3 of 160 in the same-wording retest), so Q(a, b) is 0.77; the design was adequate (rho 0.98, retest Q 0.96).
+
+### X060 (cut)
+
+Test: Corrected P3-5: steering given blur, and blur given steering (nested, bootstrap)
+
+**Pre-mortem paragraph.** "For the auditor: no steering was hidden." → "For the auditor: no rotation-type term was hidden."
+
+### X061 (cut)
+
+Test: Does a correctly scheduled noise model close the Stage 1 gap?
+
+"Either the chip's errors were larger than its calibration said that afternoon, or they were of a kind the simulator does not model." → "Other explanations remain: the chip's errors were larger than its calibration said, or of a kind the simulator does not model, or our simulation differs from the run in ways this test did not touch (IBM's actual schedule, readout asymmetry)."
+
+### X066 (cut)
+
+Test: Does a correctly scheduled noise model close the Stage 1 gap?
+
+"Adding a small systematic "twist" to every two-qubit gate changes nothing (26.7%)." → delete. Replace with: "The planned twist on every two-qubit gate (E2) was not applied because of a bug, so E2 is untested."
+
+### X068 (cut)
+
+Test: Whose belief is a rating? The framing check
+
+Replace "Here, the wording that names the self changes which statements get high numbers." with: "Here, changing the wording, both the verb ('likely' to 'confident') and the subject ('it' to 'you'), changes which statements get high numbers. The design cannot say which of the two does it, and the third-person framings, which do not name the self, differ from (a) as much or more."
+
+### X069 (cut)
+
+Test: Interpersonal replication: does the model's theory of another assistant predict its own measured fingerprint?
+
+"Eleven effects are few, which is why the error-difference interval is wide." → "The interval's width comes from resampling 16 and 40 items. No power check was pre-registered, although the map's standing rule requires one for a self/other null."
+
+### X072 (cut)
+
+Test: Perspective-filter equivalence: is attributing a belief judging the world from the other's evidence?
+
+"(2) A confidence gap: the attributions are more extreme than the world-judgments." → "(2) On false-belief stories only, the attribution is higher than the world-judgment (88 vs 82; 98 vs 84 with the event deleted from both). On true-belief stories the world-judgment is the more extreme (13 vs 33)."
+
+### X076 (cut)
+
+Test: Interpersonal replication: does the model's theory of another assistant predict its own measured fingerprint?
+
+§In plain English, "**Pre-registered verdict: pass.** On this test, the model knows itself about as well as it knows "Sam", and its two accounts look alike." → "**Pre-registered rule: met by its letter; audited verdict: null.** The test could not tell whether the model predicts itself better than "Sam". Its self-prediction error is about half of Sam's (0.054 vs 0.097). The pre-registered interval includes 0 only under a percentile bootstrap that is biased toward 0 here; basic and bias-corrected intervals exclude 0 (audit om-p2-4)."
+
+### X077 (miss)
+
+Test: Does 3 November's result come back when the circuit runs alone in its own job?
+
+Running the barrier circuit alone in its own job did not raise P(yes): A 0.306 against CB 0.319 sharing a job (Δ −0.013, 90% CI −0.047 to +0.021), and every arm read 0.297–0.319, near the 0.27 prediction and nowhere near 3 November's 0.502; why 3 November differed is not observed. (Audit ng-p3-16; the pre-mortem was seen in §0 before this line was written.)
+
+### X079 (cut)
+
+Test: Coherent or stochastic? Twirling and DD on the Stage 1 circuit
+
+README (e8ddf34): "So far, the program's starting surprise looks like one unusual afternoon." → "So far, the program's starting surprise did not recur on the next day's run; whether 3 November was unusual is untested."
+
+### X081 (cut)
+
+Test: Coherent or stochastic? Twirling and DD on the Stage 1 circuit
+
+Line 14: "It went *past* the simulator, to 0.293 against 0.269, so it changed the error without simply removing it." → "It ended above the simulator (0.293; the model predicts 0.270 for the twirled circuits), by about 2.3 standard errors, which is not enough to say how it changed the error."
+
+### X083 (miss)
+
+Test: SimpleToM decomposed: is the 'stated but not used' gap a memory effect?
+
+the API refused the 22nd step-1 call (story gen8_sev3, explosives), and stop-on-refusal ended the run with 0 of the 300 required stories in the planted conditions
+
+### X085 (cut)
+
+Test: Does the separately stated number predict declining under a stated penalty
+
+In "In plain English", replace
+   > Shuffling the number within each question type drops the margin far below 0 (Haiku −0.23, Sonnet −0.25), so the number does carry information about declining inside each type; it just does not add 0.10 over the trivia bit.
+
+   with
+   > Shuffling the number within each question type drops the margin further (Haiku −0.23, Sonnet −0.25; one shuffle, seed 7002), which suggests the number carries information about declining within question types, mainly within SimpleQA, where most declines fall (neither model declined on any of the 60 author-written claims). The pre-registered test asks whether the number on its own beats the trivia bit on its own by 0.10; it does not ask whether the number adds to the trivia bit.
+
+### X092 (cut)
+
+Test: Interpersonal replication: does the model's theory of another assistant predict its own measured fingerprint?
+
+"**The two accounts move together:** r = 0.95 [0.82, 0.98] across the eleven effects (the bar was 0.70)." → "r(a, b) on departures from always-50 is 0.95 [0.82, 0.98] (bar 0.70). A no-uptake predictor reaches 0.72 with the self arm on the same statistic, and the two arms' errors correlate at only 0.14, so this shows shared structure, not shared mistakes."
+
+### X093 (cut)
+
+Test: Interpersonal replication: does the model's theory of another assistant predict its own measured fingerprint?
+
+"**Where Sam's account goes wrong.** Almost all of the self arm's edge is one effect: commitment to one's own earlier answer." → "… All of the self arm's edge, and more, comes from the three own-answer uptakes (block ΔMAE −0.193 [−0.237, −0.016], exploratory); on other-person uptake the self arm is worse (+0.034), and on order and repeat effects they tie (+0.001)."
+
+### X095 (cut)
+
+Test: Coherent or stochastic? Twirling and DD on the Stage 1 circuit
+
+Line 7: "The big disagreement did not come back." → "The big disagreement in P(yes) did not come back. Qubit by qubit it is smaller but not gone: qubit 125 still reads 0.14 below the simulator (about 12 standard errors)."
+
+### X096 (cut)
+
+Test: Does the separately stated number predict asking to check a reference
+
+Rewrite "Sonnet chose to check on 66% of its lowest-confidence quarter and 3% of its highest; Opus on 45% and 0%." as:
+   > "Sonnet chose to check on 66% of its lowest-confidence items (32 of 150) and 3% of its highest (60 items; ties at the quartile cuts make the bins unequal); Opus on 45% (of 20) and 0% (of 32)."
+
+### X097 (cut)
+
+Test: Coherent or incoherent, from the archived tomography
+
+"The incoherent fits put their weight on local Pauli errors of 1–13% on one qubit of each pair" → "The incoherent fits put their weight on local Pauli errors of 5–10% (largest per qubit)".
+
+### X099 (cut)
+
+Test: Coherent or incoherent, from the archived tomography
+
+"All six fits converged." → "All six best fits report optimiser success. With 251 starts, the coherent fits improve by 0.9 (h221) and 4.1 (h268), giving ΔlogL −42.7, −34.9, +67.1; the verdict is unchanged."
+

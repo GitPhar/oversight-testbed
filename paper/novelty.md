@@ -2,6 +2,8 @@
 
 *Written 2026-11-05 by a Claude Fable 5.1 session on the `novelty-check` branch. Every project number is from a results file in this repository; every prior-work claim is from a paper read on the web that day (arXiv abstract or full text, as named). The ledger was not touched. Where a paper and this page disagree, the paper wins.*
 
+*Brought to the end of 5 November by a writing session on the `papers-day4` branch (ledger on `main` at `078e0bc`): the results that landed after the page was written are added under the finding they bear on, each marked with its date, and findings 11 and 12 are new. Where the addendum cites a paper it did not read itself, it says whose reading it takes (the ledger's Novelty line or a map's Prior work line, both written by fresh sessions under rule 13). The page's original text is left as written, as is the dated correction under the ranked list.*
+
 **Short answer.** Most of what the record shows is already in print, some of it from Anthropic staff. Three findings are partly new, and one is new in form but too small to count. Nothing here is new and replicated.
 
 The rule used for each verdict:
@@ -36,6 +38,11 @@ Model names: Haiku, Sonnet and Opus mean Claude Haiku 5.5, Sonnet 5.5 and Opus 5
 **How ours differs.** Ours is a graded penalty rather than a catch-or-miss count, on the 5.5 generation, and one model (Sonnet) showed no gap at all, which neither prior paper reports for any model. That is a footnote to a known effect, not a new one.
 
 **Cheapest test to make it new.** Rerun sg-b3 with "Wait" (Tsui's fix) prepended to the grading request in the own-conversation cell, on all three models: about $1.30. If the blunting on Haiku and Opus does not shrink, that would be the first report that Tsui's fix fails on a graded penalty. If it does shrink, the finding is fully absorbed by prior work.
+
+**Run 2026-11-05 as sg-b4 and sg-b5, the two follow-ups the sg-b3 audit asked for** (`programs/self-grading/results/sg-b4-quoted.md`, `sg-b5-length.md`; both audited, stand).
+- **sg-b4 (pass, unreplicated): verdict partly new.** Shown the writing conversation as a quoted copy inside one user message, with the same request-then-reply layout and the same closing line, Haiku lost about half of its leniency (6.8 of 12.6 points, interval +4.3 to +9.5 against a 6.3 bar) and Opus most of its (4.0 of 5.5 on 30 studies, +2.7 to +5.4 against 3.0). The Novelty line, written by a fresh session before the bet was scored, cites Tsui 2025, Khullar et al. 2026 and Sanz-Guerrero, Mager and von der Wense 2026 (arXiv 2606.03437, ACL 2026 Findings: up to 19.5% higher confidence on GSM8K when the answer sits in the assistant message, six open-weight models) for the own-turn leniency itself, and finds no prior report of the quoted-transcript split with the lead-in kept, nor that it removes only part of the gap. Tsui's own paper says its design cannot separate the role from the message structure, and neither can this one. Haiku's reading is fragile to one domain.
+- **sg-b5 (fail).** With the exaggeration replacing the conclusion's last sentence instead of lengthening the text, Opus's leniency fell to 3.4 points (+2.5 to +4.4), below the 5-point bar; Haiku's was unchanged at 12.5. Length, the lost caveat and the lost contradiction moved together, so the file cannot say which took the rest. A fail is not a novelty item; it narrows finding 2 on Opus.
+- **What remains cheapest.** The "Wait" test above is still unrun. The remap of 5 November (`4bddc82`) added sg-d13 (a same-run Haiku re-grade, about $0.04) and sg-d14 (swapping only the lead-in, about $0.46, past the program's cap). sg-d14 is the one that could separate the role from the layout, which no paper found has done.
 
 ## 3. An earlier number pulls because of where it sits, not whose it is said to be (bet om-p2-6)
 
@@ -77,6 +84,8 @@ Model names: Haiku, Sonnet and Opus mean Claude Haiku 5.5, Sonnet 5.5 and Opus 5
 
 **Run 2026-11-05 as em-gm2q (mixed; audited, stands; `programs/entangled-mind/results/gm2q-questions-only.md`, $2.80).** With nothing in the transcript but the questions, their order still moved the final rating on both Haiku and Sonnet (raw gate p = 0.0002 each). Sonnet met the full pre-registered rule (R = 1.88 [0.75, 8.38]). Haiku failed it on a wrong-target check: three cells lost too many answers that sat on a listed statement's rating. So removing the placeholder does not remove order effects, but the surviving effect is not the turn-by-turn one. It falls on different items and orders (pattern correlation 0.04 and 0.16), and one item carries 88% (Haiku) and 82% (Sonnet) of it. (b) is therefore new in this narrower form, on one model by the full rule and unreplicated. The pre-registration's fail sentence ("the gm2 pass was the placeholder") does not apply.
 
+*Run again 2026-11-05 as em-gm2q2, on the `p1-wave3` branch (not yet folded; `5489563`): **fail** at engine odds 0.07. With only questions in the message, both Opus (gm2's 10 items) and Sonnet (gm2b's 30 further items) showed significant raw order gates, but neither met the rule: Opus passed on all 10 items and broke under leave-one-item-out, and the audit says its fail is partly the yardstick. Audited, stands, 3 cuts; plant caught. So (b) stands as it was after em-gm2q: new in a narrow form, on one model by the full rule, unreplicated, and now with one failed replication on a third model.*
+
 ## 6. The model's own planted answer leaks into what it says another person believes, more than into its own re-rating (bet om-p2-5)
 
 **What we found.** On Haiku, a planted earlier answer moved the model's own re-rating 0.36 of the way; it moved the rating the model attributed to "Sam", who had seen nothing, 0.50 of the way; the same number as a third person's ("Alex's") moved Sam's rating 0.02. The frozen rule failed because Sam moved more than the model itself, which the rule had treated as impossible for simple carry-over.
@@ -88,6 +97,8 @@ Model names: Haiku, Sonnet and Opus mean Claude Haiku 5.5, Sonnet 5.5 and Opus 5
 **How ours differs.** Choi et al. did not compare the pull on others with the pull on the model's own re-rating, and did not show a third party's number for contrast. Ours found the prediction of another mind moved *more* than the model's own answer did (by 0.14, interval above 0), and that a third party's number barely moved it. The excess comes from upward plants only, so it may be an artefact of the scale.
 
 **Cheapest test to make it new.** Repeat on Sonnet and Opus with 2 repeats per cell instead of 5: about $1.50 on Sonnet and $3.50 on Opus. If "Sam moves more than self" holds on either, with the downward-plant split pre-registered, it is a result the false-consensus literature does not have.
+
+*Run 2026-11-05 as om-p2-5r, on the `p2-wave3` branch (not yet folded into the ledger when this was written; `3a02570`): **fail** on both Sonnet and Opus. On both, "Sam" followed a third person's number about as much as the model's own, unlike Haiku (Sam minus own, upward plants: +0.001 Sonnet, +0.089 Opus; downward: −0.057, +0.008). Audited, stands, 5 cuts. Finding 6 is therefore a Haiku result that did not hold on the two larger models, and it stays partly new only in that narrower form.*
 
 ## 7. A model with no internet picks the direction of post-cutoff published findings 76% of the time, and does better on papers it may have read (bets ss-b1 and ss-b3; one bettor, Opus)
 
@@ -101,6 +112,8 @@ Model names: Haiku, Sonnet and Opus mean Claude Haiku 5.5, Sonnet 5.5 and Opus 5
 
 **Cheapest test to make it new.** Not the bettor again. The next item is the flattery rule below, which is where the question got interesting.
 
+*Run 2026-11-05 as ss-b13 (`programs/settled-science/results/ss-b13-results.md`; mixed; audited, stands; plant caught): Haiku and Sonnet as bettors on the same 116 post-cutoff findings. **Verdict for the new part: partly new.** Sonnet matched Opus (Brier 0.168 and beat the good-news rule by 0.064); Haiku beat a coin (0.208) but not the good-news rule by the pre-registered margin. The Novelty line, by a fresh session, finds the size pattern in print, BrainBench's 7B models "performed comparably to larger models" while a 1.1B model fell behind, and SciPredict's Sonnet 4.5 at 22.55% against Opus 4.5 at 23.05%, and no paper that tests a smaller same-family model against a publication-bias rule or a flattery rater. Still one item set written by the bettor's family.*
+
 ## 8. A rule that only asks "which version flatters the paper's own method?" matches most of the bettor's skill (bet ss-b6)
 
 **What we found.** On 92 pairs (the published sentence against one with a word flipped), Opus picked the real one 93% of the time; the same model asked only which version is better news for the paper's method, told both were hypothetical, picked the real one 90% of the time. The bettor's edge was small and the test could not tell it from no edge (reversed to undetermined by audit round 3, because a bettor that knows nothing beyond flattery passes the rule about half the time).
@@ -112,6 +125,11 @@ Model names: Haiku, Sonnet and Opus mean Claude Haiku 5.5, Sonnet 5.5 and Opus 5
 **How ours differs.** Ours is the measurement the April 2026 paper asks for, on our own items only, and it came out that the shortcut explains most of the score. Our items were written by the same model family that bet on them, which the audit named as the cheapest thing that could overturn the whole program.
 
 **Cheapest test to make it new.** Run the flattery rater on BrainBench's 200 public human-written items (the benchmark is open) with Haiku and Sonnet, and compare with the 81% the paper reports for LLMs: about $0.20 on Haiku, $1.50 on Sonnet. If a flattery rule scores near 80% on BrainBench, that is a published superhuman result partly explained by a one-line shortcut, and it is new.
+
+**Run 2026-11-05 as ss-b10, ss-b10b and ss-b10c** (`programs/settled-science/results/ss-b10-results.md`, `ss-b10c-results.md`; the design review withdrew ss-b10b before any call because the archive already decided it).
+- **ss-b10 (mixed).** On the 200 expert-written items the flattery prompt alone reached 81.8% [76.5, 86.8] on Sonnet, level with the published 81.4% for LLMs, and Haiku cleared the experts' 63.4% in one option order but not the other. Audited, stands, 9 cuts.
+- **ss-b10c (pass, unreplicated): verdict new.** With both option orders averaged, read on the items ss-b10 had rated once, the "better news for the paper's own idea?" question alone beat the neuroscientists on Haiku (77.5% [69.5, 85.0]) and Sonnet (89.7% [84.5, 94.4]); Opus 97.6% on 41 items as a capped secondary. The Novelty line, by a fresh session, found no paper that tests a valence question on BrainBench or any real-versus-altered task; BrainBench's own controls were local context, swapped sentences, memorisation, dates and calibration. Audited, stands, 5 cuts; plant clean. One benchmark, one run, no non-Claude rater; the comparison with the forecasting prompt was gated out by the design review, so the file does not say how much of BrainBench the shortcut explains, only that the shortcut alone is superhuman on it.
+- **The paper this page first cited as asking for the test did not ask for it.** Lee 2026 (arXiv 2604.06236) asks for clinical-trial-registry tests (dated correction below, `d870107`). The result is related to that paper's hypothesis, not its proposed test.
 
 ## 9. Told that a high score triggers unlearning, the models did not lower their score (bet ta-b3), and the test-format bet could not be scored (bet ta-b2)
 
@@ -125,6 +143,8 @@ Model names: Haiku, Sonnet and Opus mean Claude Haiku 5.5, Sonnet 5.5 and Opus 5
 
 **Cheapest test to make it new.** None. This program should be pointed at something Anthropic's system cards do not already cover, or closed.
 
+*5 November: Sean parked the program's two highest-odds cards, ta-d8 (told it is taking a personality test, does it describe itself more flatteringly? his 0.95) and ta-d10 (does it cut corners more when told the task runs in a throwaway sandbox? his 0.90), on this page's say-so (steers st-22, st-23; shadow checks sh-002, sh-003 scheduled). The remap found no landed or mixed bet in the program and wrote a rules-out sentence for each of its five bets (`c913153`).*
+
 ## 10. The engine's own pre-registered odds on its experiments are at coin level (the ledger)
 
 **What we found.** Across 21 scored bets the AI's stated odds, written before data, score 0.220 against 0.250 for always saying 50-50 and 0.222 for the hindsight hit rate; passes and misses got the same range of odds. Six of eight hits are two runs of one model counted as six bets.
@@ -137,17 +157,43 @@ Model names: Haiku, Sonnet and Opus mean Claude Haiku 5.5, Sonnet 5.5 and Opus 5
 
 **Cheapest test to make it a finding.** No cheap one. It needs about 20 more scored bets that are not secondary bets on one run, at roughly $1 each, and the ledger rule the audit asked for on how secondary bets count.
 
+*5 November: the ledger rule exists (rule 15, `69fb813`; six rows marked secondary) and the count is 35 scored bets one per run, Brier 0.164 against 0.250 and 0.191 (`ledger/brier.md` at `078e0bc`; 0.190 on 41 counting every row). Rule 14 adds the comparison the October 2026 agent paper warns about: the record's own hit rate alone scores 0.282 and the engine's adjusted odds 0.211 on the 4 bets that carry both, after reading "did not help" on the first 2. Still not a finding; the form is still new.*
+
+## 11. On a fresh day, the chip's three entangled pairs again needed both a rotation-type and a blur-type error term (bet ng-p3-18; the chip as referee)
+
+**What we found.** In a fresh `ibm_fez` job on 5 November (20.0 QPU s), the 16-knob model of P3-5c needed both a rotation-type (coherent) term and a blur-type (incoherent) term beyond the simulator's state on two of the three pairs (h088, h268), and only the blur term on the third (h221), where the rotation term had been the weakest on 3 November. Pass, unreplicated, by the frozen rule; audited, stands (`programs/nature-graded/results/p3-18-fresh-job.md`). The first chip-graded hit in the ledger; Sean's 0.55 against the engine's 0.60.
+
+**Verdict: already known, as a kind of result.** That superconducting processors carry coherent errors their vendor's stochastic noise model leaves out, large enough to change circuit outcomes, is established: Hashim and colleagues (*Randomized Compiling for Scalable Quantum Computing on a Noisy Superconducting Quantum Processor*, Physical Review X 11, 041039, 2021; arXiv 2010.00215, abstract read on the web for this addendum) measure exactly that on a transmon processor and show randomized compiling converting the coherent part into stochastic noise so that circuit error becomes predictable from benchmarked gate rates. What is ours is one device's three pairs needing both terms on two days with the simulator's state as the reference, which is a replication of our own 3 November reading, not a finding about chips. The file says so: two jobs on one chip are not a description of the chip.
+
+**Cheapest test to make it new.** None recommended. The chip is a referee in this project, never its subject; a result about the chip is not what program 3 is for, and the program's closing review is due once P3-17 and P3-9 score.
+
+## 12. Program 7's two free follow-ups: one withdrawn, one parked, no result (SV-8 as bet sv-b4; SV-12)
+
+**What happened.** SV-8 asked whether what the model does (backing down, declining) adds to its stated confidence in predicting its own mistakes, re-using wave 1's data at $0. Its design review, re-anchored to the decline rates the sv-b2 audit had published, found no plausible world in which the rule passes 10% of the time at the archive's size, and the bet was withdrawn before the archive was opened (D17, `7efdb9a`); Sean's 0.55 stays on record. SV-12 asked whether Haiku's "no single belief across formats" goes away under a looser published scoring (a per-format offset and slope, after Smolin and Wilder 2026, arXiv 2609.07943, as the map's Prior work line reads it); its author's record check found that program 1's already-published cross-format agreement implies a concordance near 0.77, below the drafted 0.85 bar, so no bet was pre-registered (D18, `8396a42`).
+
+**Verdict: none.** Nothing was found, so nothing is known, partly new or new. The two are listed because this page's reader would otherwise look for them. What the program's wave 1 did find (the stated number predicts declining and checking no better than a one-bit "is it trivia?" guess, sv-b2 and sv-b3) is still unchecked against the literature on this page; the remap's re-scout around those two bets (`428bcc3`) is the place to start.
+
 ---
 
 ## Ranked: the three replications most worth running this week
 
 These are the three that, if they hold, give a panel something it has not seen. Costs are from the original runs' spend, scaled by the model price ratios the program files record (Sonnet about 8 times Haiku, Opus about 20 times).
 
-1. **The flattery rule on BrainBench** (from finding 8). Run the "which version is better news for the paper's method?" rater on BrainBench's 200 human-written items with Haiku and Sonnet, and compare with the published 81% for LLMs. **About $2** ($0.20 Haiku, $1.50 Sonnet, plus a $0.10 pilot). This is the only item on this page where a cheap test can speak to a result in Nature Human Behaviour, and it is the test an April 2026 paper asked for and did not run. It needs the item writer problem out of the way, and BrainBench's items were written by neuroscientists, which removes it.
+**Re-ranked at the end of 5 November.** All three of the morning's items ran the same day: item 1 as ss-b10 and ss-b10c (new, unreplicated), item 2 as em-gm2q (mixed) and em-gm2q2 (fail), item 3 as om-p2-5r (fail). The list below is the new ranking; the morning's three entries are kept under it, each with what happened.
+
+1. **The valence shortcut on BrainBench, replicated where it can be overturned** (from finding 8, ss-b10c). Two cheap ways, either of which turns "new, unreplicated" into a claim or a kill: the same "better news for the paper's own idea?" question put by a model that is not Claude, on the same 200 items, both orders (about $3 of another provider's API, which needs a budget line the ledger does not yet have); or the same question on a second human-written real-versus-altered set, with the forecasting prompt run beside it so the file can say how much of the benchmark the shortcut explains, which ss-b10c's review gated out. **About $3.** This is the only new result on the page, and a one-benchmark, one-family result is exactly what the panel review said a reader would discount.
+2. **Program 4's passes with a non-Claude item writer** (direction ss-f5, named by the ss-b1 audit as the cheapest overturning test of the whole program, still unrun). Sixty post-cutoff items written by a different family, the Opus bettor against the up-word and good-news rules. **About $5.** Finding 7 (known) and ss-b13's partly-new size pattern both rest on items written by the bettor's family; this is the test that either removes that caveat or ends the program's claim.
+3. **Separating the role from the layout in the own-turn leniency** (from finding 2, sg-b4). The remap's sg-d14, swapping only the lead-in (about $0.46, past program 5's cap, so it needs a budget ruling), with Tsui's "Wait" fix on the own-conversation cell beside it (about $1.30). **About $1.80.** Tsui 2025 says its own design cannot separate the role from the message structure, sg-b4 says the same, and nothing found in print has done it; a clean split either way would be the first.
+
+Dropped from the ranking: "another mind moves more than the self" (om-p2-5r failed on Sonnet and Opus; the Haiku result stays partly new in its narrow form) and the questions-only order effect (em-gm2q passed on Sonnet by the full rule and em-gm2q2 failed on Opus; the next free step, em-gm2bf1f1 on fresh conversations, is already pre-registered on the `p1-wave3` branch).
+
+**The morning's ranking, as written, with what happened:**
+
+1. **The flattery rule on BrainBench** (from finding 8). Run the "which version is better news for the paper's method?" rater on BrainBench's 200 human-written items with Haiku and Sonnet, and compare with the published 81% for LLMs. **About $2** ($0.20 Haiku, $1.50 Sonnet, plus a $0.10 pilot). This is the only item on this page where a cheap test can speak to a result in Nature Human Behaviour, and it is the test an April 2026 paper asked for and did not run. It needs the item writer problem out of the way, and BrainBench's items were written by neuroscientists, which removes it. *Run as ss-b10 (mixed, $2.48) and ss-b10c (pass, unreplicated, new, $3.16); see finding 8. The "asked for" clause was wrong: see the dated correction below.*
 
 2. **Order effect with nothing in the transcript but questions** (from finding 5b). The sub-questions in each of four orders inside one user message, no answer turns, no placeholder, then the main question; 10 items, 10 repeats. **About $3.30** ($0.30 Haiku, $3 Sonnet). If the order effect survives, the project's belief claim ("the number is built by the asking") has a result with no placeholder confound and no prior in the LLM literature. If it dies, the gm2 pass was the placeholder, and the paper should say so. *Run as em-gm2q: mixed. It did not die: order moved the answer with only questions on both models, Sonnet passed the full rule, and Haiku failed its wrong-target check; the surviving effect sits on different items from the turn-by-turn one (see finding 5).*
 
-3. **Another mind moves more than the self** (from finding 6). The egocentric-leakage design on Sonnet and Opus at 2 repeats per cell, with the upward-versus-downward split pre-registered this time. **About $5** ($1.50 Sonnet, $3.50 Opus). The false-consensus paper has the manipulation but not the comparison; one more model showing "Sam moves more than self" makes it a claim, and a second model showing the opposite kills it cleanly.
+3. **Another mind moves more than the self** (from finding 6). The egocentric-leakage design on Sonnet and Opus at 2 repeats per cell, with the upward-versus-downward split pre-registered this time. **About $5** ($1.50 Sonnet, $3.50 Opus). The false-consensus paper has the manipulation but not the comparison; one more model showing "Sam moves more than self" makes it a claim, and a second model showing the opposite kills it cleanly. *Run as om-p2-5r on the `p2-wave3` branch: fail on both models; see finding 6.*
 
 *Correction, 2026-11-05 11:08 America/Denver (settled-science wave-4 session; arXiv 2604.06236 HTML v1 read twice that day, by the ss-b10b design review and by ss-b10c's fresh Novelty session).* Item 1 and finding 8 say this run is "the test an April 2026 paper asked for" and "the measurement the April 2026 paper asks for". It is not. Lee (2026, arXiv 2604.06236) proposes, with no data (§5.5), clinical-trial tests: LLM success probabilities for 200–500 completed ClinicalTrials.gov trials scored by AUC-ROC, expecting overestimation on failed trials (§4.1); five failure-data context conditions with a dose-response (§4.2); a cross-field correlation of published positive-result ratios with registry success ratios, and an OpenReview reviewer test (§5.3). It does not mention BrainBench, valence or a shortcut. The BrainBench flattery run (ss-b10, then ss-b10c with both option orders: Haiku 77.5%, Sonnet 89.7% on its scored items; Novelty: new) is related to that paper's hypothesis, not its test.
 
@@ -178,3 +224,9 @@ Not ranked: the "Wait" fix on sg-b3 (finding 2, about $1.30) is cheap but can on
 - *Same Answer, Different Confidence: Protocol Sensitivity in Measuring LLM Confidence.* arXiv 2605.27752, 2026.
 - *Can an Agent Learn to Predict Its Own Failure? Outcome-Grounded Confidence Calibration in LLM Agents.* arXiv 2610.18614, October 2026.
 - Vaccaro. *Preregistration for Experiments with AI Agents.* arXiv 2606.11217, ICML 2026.
+
+Cited in the 5 November addendum, with how each was read:
+- Hashim, Naik and colleagues. *Randomized Compiling for Scalable Quantum Computing on a Noisy Superconducting Quantum Processor.* Physical Review X 11, 041039, 2021; arXiv 2010.00215. Abstract read on the web by the addendum's session.
+- Sanz-Guerrero, Mager, von der Wense. arXiv 2606.03437, ACL 2026 Findings. Taken from sg-b4's Novelty line (`ledger/bets.jsonl`), written by a fresh session; not read by the addendum's session.
+- Smolin and Wilder 2026. arXiv 2609.07943. Taken from program 7's map, SV-12's Prior work line; not read by the addendum's session.
+- BrainBench (Luo et al. 2024) and SciPredict (2026), as cited in ss-b13's and ss-b10c's Novelty lines, which re-read them on 5 November.

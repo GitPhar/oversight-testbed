@@ -1,0 +1,24 @@
+phone index.html: height 8474, overflow 0px, errors 1 :: Failed to load resource: the server responded with a status of 404 (File not found)
+phone map.html: height 19805, overflow 0px, errors 0
+phone replay.html: height 4325, overflow 0px, errors 0
+phone cockpit.html: height 8653, overflow 0px, errors 0
+phone human.html: height 32881, overflow 0px, errors 0
+phone calibration.html: height 30227, overflow 0px, errors 0
+phone instruments.html: height 9845, overflow 0px, errors 40 :: Error: <rect> attribute width: A negative value is not valid. ("-0.09999999999999964") | Error: <rect> attribute width: A negative value is not valid. ("-0.09999999999999964") | Error: <rect> attribute width: A negative value is not valid. ("-0.09999999999999964")
+phone kills.html: height 36429, overflow 0px, errors 0
+phone record.html: height 52458, overflow 0px, errors 0
+phone papers.html: height 4755, overflow 0px, errors 0
+phone paper.html?p=engine/paper/plain-words: height 14880, overflow 0px, errors 0
+phone 404.html: height 844, overflow 0px, errors 0
+desk index.html: height 5159, overflow 0px, errors 0
+desk map.html: height 1052, overflow 0px, errors 0
+desk replay.html: height 2427, overflow 0px, errors 0
+desk cockpit.html: height 3704, overflow 0px, errors 0
+desk human.html: height 18192, overflow 0px, errors 0
+desk calibration.html: height 24626, overflow 0px, errors 0
+desk instruments.html: height 5462, overflow 0px, errors 40 :: Error: <rect> attribute width: A negative value is not valid. ("-0.27500000000000036") | Error: <rect> attribute width: A negative value is not valid. ("-0.27500000000000036") | Error: <rect> attribute width: A negative value is not valid. ("-0.27500000000000036")
+desk kills.html: height 21514, overflow 0px, errors 0
+desk record.html: height 31928, overflow 0px, errors 0
+desk papers.html: height 3349, overflow 0px, errors 0
+desk paper.html?p=engine/paper/plain-words: height 9675, overflow 0px, errors 0
+desk 404.html: height 900, overflow 0px, errors 0

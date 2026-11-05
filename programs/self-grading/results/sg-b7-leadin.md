@@ -2,7 +2,7 @@
 
 Pre-registered in `experiments/sg-b7-leadin.md` (`7041920`, 2026-11-05 11:43 America/Denver), direction sg-d14. The seed is CURBy-RNG pulse 1592588 (`5ccc6a6`).
 - **Design review** (`ledger/design-reviews/sg-b7.md`): fix-first with 2 flaws (`f3994ff`), no pilot. The fixes are D22 (`6d4e69c`) and, for the shared dry run, D23 (`124b665`), confirmed go at 12:02 (`ac24166`), before the first call.
-- **Run:** 2026-11-05, 12:02:54 to 12:04:47 America/Denver. **480 calls, complete, no refusal, $0.598** of the $0.75 cap. The program had then spent $5.29 of $7.65 (br-016, D19).
+- **Run:** 2026-11-05, 12:02:54 to 12:04:47 America/Denver. **480 calls, complete, no refusal, $0.598** of the $0.75 cap. The program had then spent $5.29 of $7.65 (br-019, D19).
 - **Odds:** engine 14 (v2; the map stated none). Sean's odds: 50 (`ho-20261105-112945-mjj`).
 - **Audit:** `ledger/audits/sg-b7.md` (`ed37f87`). The verdict stands as mixed, with 4 required cuts; cuts 2–4 are applied under D26, and cut 1 named the planted cell (pl-042, caught) and is not applied: the real file reads [−0.44, +1.15].
 

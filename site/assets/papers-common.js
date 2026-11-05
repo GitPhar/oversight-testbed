@@ -3,7 +3,7 @@ import { DATA, SITE, getText, esc } from "./common.js";
 
 // The reading list, in the order a newcomer should read it. Anything else in paper/ is listed after these.
 export const CATALOG = [
-  { p: "no-credence-to-read", kind: "Main paper", blurb: "The live finding. A model's stated confidence is built by the question, the format and its own transcript. There is no stored credence for it to read out." },
+  { p: "no-credence-to-read", kind: "Main paper", blurb: "The live finding, as its section 5.1 puts it: a stable generator, not a credence. On Haiku the stated confidence depends on the question, the format and the model's own recorded answers, so there is no format-free, transcript-free number to read; on Sonnet a single credence is partly usable, and on Opus there is one to read. A finding about Haiku, and less so Sonnet, not about language models in general." },
   { p: "the-entangled-mind-paper", kind: "Short paper · negative result", blurb: "The original hypothesis, and how it died. Entangled belief states do not help a model judge, and here is the diagnosis." },
   { p: "clonable-minds", kind: "Theory note", blurb: "A model's state is a copyable string, so every order effect it shows must come from the question disturbing it. That is why editing the transcript can tell the causes apart." },
   { p: "one-page", kind: "One page", blurb: "The whole program on one page." },

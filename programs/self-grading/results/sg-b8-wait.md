@@ -2,7 +2,7 @@
 
 Pre-registered in `experiments/sg-b8-wait.md` (`98d403a`, 2026-11-05 12:20 America/Denver), direction sg-d15. The seed is CURBy-RNG pulse 1592625 (`1389f07`). The direction's cockpit card went up first (`829d4ed`, 11:31).
 - **Design review** (`ledger/design-reviews/sg-b8.md`): fix-first with 1 flaw (`06bbb46`), no pilot. The fix is D28 (`8b65ee9`), confirmed go at 12:32, before the first call.
-- **Run:** 2026-11-05, 12:33:09 to 12:37:18 America/Denver. **900 calls, complete, no refusal, $1.219** of the $1.40 cap. The program has spent **$7.15 of $7.65** (budget ruling br-016, D19).
+- **Run:** 2026-11-05, 12:33:09 to 12:37:18 America/Denver. **900 calls, complete, no refusal, $1.219** of the $1.40 cap. The program has spent **$7.15 of $7.65** (budget ruling br-019, D19).
 - **Odds:** engine 12 (v2; the map stated none). No human odds.
 - **Audit:** pending.
 

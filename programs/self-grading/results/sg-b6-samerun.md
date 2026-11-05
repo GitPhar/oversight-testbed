@@ -2,7 +2,7 @@
 
 Pre-registered in `experiments/sg-b6-samerun.md` (`738472c`, 2026-11-05 11:40 America/Denver), direction sg-d13. The seed is CURBy-RNG pulse 1592585 (`08043ce`).
 - **Design review** (`ledger/design-reviews/sg-b6.md`): fix-first with 2 flaws (`20c8185`), no pilot. The fixes are D23 (`124b665`), confirmed go at 12:02 (`4a55e29`), before the first call.
-- **Run:** 2026-11-05, 12:05:20 to 12:08:53 America/Denver. **960 calls, complete, no refusal, $0.642** of the $0.80 cap. The program has spent **$5.93 of $7.65** (budget ruling br-016, D19).
+- **Run:** 2026-11-05, 12:05:20 to 12:08:53 America/Denver. **960 calls, complete, no refusal, $0.642** of the $0.80 cap. The program has spent **$5.93 of $7.65** (budget ruling br-019, D19).
 - **Odds:** engine 55 (v2, re-elicited before data under D23; that elicitation was given this bet's design-review noise figures and sg-b4's audit figure (+12.1), which rule 14 excludes, so the bet is also scored at the first number, 0.16; the first v2 number was 16; the map stated none). Sean's odds: 55 (`ho-20261105-112945-5te`).
 - **Audit:** `ledger/audits/sg-b6.md` (`9c34f86`). The verdict stands as mixed, with 6 required cuts; cuts 2–6 are applied under D27, and cut 1 named the planted cell (pl-041, caught) and is not applied: the real file reads $0.642.
 

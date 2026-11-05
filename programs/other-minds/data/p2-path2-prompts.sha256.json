@@ -1,0 +1,12 @@
+{
+ "pilot": {
+  "file": "p2-path2-prompt-pilot.txt",
+  "sha256": "0051453254545b61fe98bac1bcf73b00a120c57e06e4cd518391633f8a8234bc",
+  "chars": 22256
+ },
+ "test": {
+  "file": "p2-path2-prompt-test.txt",
+  "sha256": "c70026607c8a6ccaa1ef2c5ef2197f51202896981e775d68634c4ce5754c0b69",
+  "chars": 59337
+ }
+}

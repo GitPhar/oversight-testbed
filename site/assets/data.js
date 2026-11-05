@@ -191,3 +191,43 @@ export async function loadKills() {
   for (const k of out) k.programTitle = k.programTitle || programTitle(k.program, maps);
   return out;
 }
+
+// The plain question for every bet id, so a page can show it beside the id on first use (panel review, Part 3:
+// "bet ids appear with no plain question beside them"). Read, never typed, from, in this order:
+//   1. map/plain-questions.jsonl  (`test`: the cockpit's one plain sentence for the bet's direction)
+//   2. map/cockpit-cards.jsonl    (`question`)
+//   3. ledger/human-odds.jsonl    (`question`: the card Sean answered for that direction)
+//   4. the map node's own plain `question`
+// A bet's direction is the map node that lists it in `bets`, else the node of its program whose id is the last word
+// of the bet's `direction` (the rule ledger/human_odds_match.py uses). With none of these, `q` is null and `title`
+// (the ledger's own title for the bet) is all a page has.
+export async function loadPlainQuestions(bets, maps) {
+  const [pq, cards, odds] = await Promise.all([
+    getJSONL(DATA + "map/plain-questions.jsonl"), getJSONL(DATA + "map/cockpit-cards.jsonl"), loadHumanOdds(),
+  ]);
+  const key = (p, d) => `${p}|${d}`;
+  const src = [
+    [new Map((pq || []).map((r) => [key(r.program, r.direction), r.test])), "map/plain-questions.jsonl"],
+    [new Map((cards || []).map((r) => [key(r.program, r.direction), r.question])), "map/cockpit-cards.jsonl"],
+    [new Map([...(odds || [])].reverse().map((r) => [key(r.program, r.direction), r.question])), "ledger/human-odds.jsonl"],
+  ];
+  const byBet = new Map();
+  for (const p of maps) for (const d of p.directions) for (const id of [].concat(d.raw.bets || d.raw.bet || [])) byBet.set(String(id), { p, d });
+  const out = new Map();
+  for (const b of bets) {
+    let hit = byBet.get(b.id);
+    if (!hit) {
+      const p = maps.find((x) => x.id === b.program);
+      const tok = String(b.direction ?? "").trim().split(/\s+/).pop();
+      const d = p?.directions.find((x) => x.id === tok);
+      if (d) hit = { p, d };
+    }
+    let q = null, from = null;
+    if (hit) {
+      for (const [m, name] of src) { const v = m.get(key(hit.p.id, hit.d.id)); if (v) { q = v; from = name; break; } }
+      if (!q && hit.d.raw.question) { q = hit.d.raw.question; from = `map/${hit.p.id}.json`; }
+    }
+    out.set(b.id, { q, from, title: b.title, direction: hit ? hit.d.id : null, program: b.program });
+  }
+  return out;
+}

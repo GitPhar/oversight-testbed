@@ -1,0 +1,11 @@
+gm2q2: round 1 batch msgbatch_012BXec3pNQ4dTq9wQWaQ8KD submitted, 1520 requests
+gm2q2: round 1 done; spent $1.3163
+gm2q2: round 2 batch msgbatch_01TqsNo21gRvcmyYq6map8MF submitted, 760 requests
+gm2q2: round 2 done; spent $1.9124
+gm2q2: round 3 batch msgbatch_01GLiZ75mgoMUpCcFQVJvPru submitted, 760 requests
+gm2q2: round 3 done; spent $2.5284
+gm2q2: round 4 batch msgbatch_014Ghka8uk5U3ap4jFkChtc3 submitted, 760 requests
+gm2q2: round 4 done; spent $3.1827
+gm2q2: round 5 batch msgbatch_01VFNPmaU7GZNfFH5B4afVqG submitted, 760 requests
+gm2q2: round 5 done; spent $3.8298
+gm2q2: complete, $3.8298
