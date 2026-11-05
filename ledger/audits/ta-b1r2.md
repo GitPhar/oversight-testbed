@@ -195,3 +195,6 @@ The verdict "the data do not say" can only be overturned by data that do say. Th
 - one call per arm.
 
 Sonnet costs about $0.0008 a call. 900 behaviour calls plus a 64-call belief check comes to about $0.80, with a +15% pre-flight. Two models are needed for a hit, so Haiku should be added with four calls per arm, averaged, on the same items: about 3,600 calls at $0.00004, about $0.15. That gives a cap of about $1.10. If Sonnet's E − P stays near −5 with its interval clear of zero, and Haiku remains `undetermined`, the direction narrows to a Sonnet-specific question. If both read `equivalent`, ta-d1 gets the clean null this bet could not give.
+
+
+Revealed 2026-11-05: pl-023, planted miscount/total at §Table, Process bullet ("Phase 2 (behaviour) ran 840 calls", true 810); caught (Required cuts, item 1). That cut is marked plant: not applied to the real record. Every other finding stands as the real audit of the real result.
