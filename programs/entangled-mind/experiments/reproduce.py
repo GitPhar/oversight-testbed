@@ -51,6 +51,7 @@ SKIPPED = {
     "refusal-sonnet-replication.md": "log of a refused call",
     "gm2q-questions-only.md": "hand-written write-up (em-gm2q); its tables are gm2q-questions-only-tables.md, which the gm2q step recomputes",
     "gm2q2-opus-sonnet30.md": "hand-written write-up (em-gm2q2); its tables are gm2q2-opus-sonnet30-tables.md, which the gm2q2 step recomputes",
+    "dm6f2f2-own-guess.md": "hand-written write-up (em-dm6f2f2); its tables are dm6f2f2-own-guess-tables.md, which the dm6f2f2 step recomputes",
 }
 
 # Tables whose inputs the archive does not contain (README, "Reproducibility"). Each is reported as a gap, not a
@@ -185,6 +186,15 @@ def main() -> int:
             m.q1.RESULTS = config.RESULTS
             m.analyse(m.SEED_RECORDED)
         step("gm2q2-opus-sonnet30-tables.md", gm2q2)
+    if "dm6f2f2-own-guess-tables.md" in committed:     # em-dm6f2f2 (D84-D89), from its batch cache with its beacon seed
+        def dm6f2f2():
+            m = importlib.import_module("dm6f2f2_own_guess")
+            m.RESULTS = config.RESULTS
+            m.CACHE, m.OUT_JSON = config.RESULTS / "dm6f2f2-calls.json", config.RESULTS / "dm6f2f2-own-guess.json"
+            m.OUT_MD, m.REFUSAL = config.RESULTS / "dm6f2f2-own-guess-tables.md", config.RESULTS / "refusal-dm6f2f2.md"
+            m.f2.RESULTS = config.RESULTS
+            m.analyse(m.SEED_RECORDED["bootstrap"])
+        step("dm6f2f2-own-guess-tables.md", dm6f2f2)
     if "mm-gm3b-opus-completion-with-h291.md" in committed:     # D49a sensitivity
         step("mm-gm3b-opus-completion-with-h291.md", lambda: importlib.import_module("mm_gm3b_opus_complete").analyse_with_h291())
 
