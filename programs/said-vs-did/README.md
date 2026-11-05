@@ -8,7 +8,7 @@ Program 7 of the scalable-oversight testbed (the engine: this repository's root)
 
 - `map/reads/`: the scout's reads (87, six readers on disjoint lists plus one scout read).
 - `map/program-7-map.md` (and `.json`): thirteen open directions and one killed, with the engine's odds stated before any data.
-- `experiments/`: the wave-1 pre-registrations (`sv-b1.md`, `sv-b2.md`, `sv-b3.md`), their shared code and committed dry runs.
+- `experiments/`: the wave-1 pre-registrations (`sv-b1.md`, `sv-b2.md`, `sv-b3.md`), their shared code and committed dry runs; wave 2's `sv-b5.md` (SV-1r, Sonnet backing down) and `sv-b6.md` (SV-2w, declining within trivia), each with its own script (`sv_b5.py`, `sv_b6.py`) and dry runs.
 - `DEVIATIONS.md`: every pre-registration and every departure from one, dated.
 
 All times America/Denver.
@@ -40,5 +40,7 @@ Not checked:
 - sv-b2's "stated confidence is about the same on trivia and non-trivia questions". It is the auditor's exploratory re-analysis and states no number.
 - Commit hashes.
 - The thresholds the prose restates (75%, 87.5%). They are fixed in the code, not results.
+
+**Wave 2 (sv-b5, sv-b6).** Each bet's own script has an `analyse` step that makes no calls (`experiments/sv_b5.py`, `sv_b6.py`). The script runs it on the archived caches (`results/sv-b5-calls.json`; `results/sv-b6-said-calls.json` and `sv-b6-decline-calls.json`, with `data/sv-b6-items.json`), and `results/sv-b5-analysis.json` and `sv-b6-analysis.json` must come out byte for byte the same. Each write-up (`results/sv-b5-pushback.md`, `sv-b6-decline-trivia.md`) must contain the script's own `report` output verbatim. Every decimal of two or more places in its plain-English and limits sections must appear in that generated block. The Novelty line is excepted, since it quotes papers. Not checked: the header's odds, and the Run section's program-wide spend (a budget figure that later bets change). sv-b6's item draw needs the SimpleQA CSV, which is not archived; the draw is checked by its pre-registered SHA-256 and the committed items file, not rebuilt here.
 
 Wave 1 wrote no run log, error log or refusal record. The "Run" check relies on their absence. Nothing the tables need is missing from the archive. A new results file fails the script until it is taught there.
