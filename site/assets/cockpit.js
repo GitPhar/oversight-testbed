@@ -3,7 +3,7 @@
 // No backend: entries live in this browser (localStorage, best effort) until downloaded as JSON lines and
 // appended to ledger/human-odds.jsonl and ledger/steers.jsonl by hand. Once committed, the ledger is the truth
 // and the local copy of that entry is dropped.
-import { header, esc, inline, markSVG, STATUS, SITE, fmtDate, parseDate } from "./common.js";
+import { header, esc, inline, markSVG, STATUS, SITE, fmtDate, parseDate, outcomeOf, programTitle } from "./common.js";
 import { loadBets, loadMaps, joinBets, loadSteers, loadHumanOdds } from "./data.js";
 
 header();
@@ -116,7 +116,7 @@ function cardHTML(c) {
 
   let oddsBlock;
   if (closed) {
-    oddsBlock = `<p class="event"><b>Closed for your odds.</b> This direction was pre-registered (${esc(c.betId)}) before you gave a number, so a number now would not be scored. Your odds: not recorded.</p>`;
+    oddsBlock = `<p class="event"><b>Closed for your odds.</b> This direction was pre-registered (${esc(c.betId)}) before you gave a number, so a number now would not be scored. Human column: <b>no human odds</b>.</p>`;
   } else if (last && !c._changing) {
     const changed = odds.length > 1 ? ` <span class="muted">(first said ${Math.round(first.odds_pct)}%)</span>` : "";
     oddsBlock = `<div class="oddsrow">
@@ -196,7 +196,7 @@ function nextToRun(programs, bets, steers) {
     items.push({ state, word, prog: title(b.program), text: b.title, cost: b.cost || (r.budget_usd != null ? "$" + r.budget_usd : ""), ref: b.id });
   }
   for (const p of programs) {
-    const open = p.directions.filter((d) => d.status === "open" && !d.bet && !d.raw.moved_to)
+    const open = p.directions.filter((d) => d.status === "open" && !d.bet && !d.raw.moved_to && !d.raw.opens_when)
       .sort((a, b) => (a.raw.rank ?? 999) - (b.raw.rank ?? 999));
     if (open[0]) items.push({ state: "map", word: "next on the map", prog: title(p.id), text: open[0].raw.question || open[0].title, cost: open[0].cost, ref: open[0].id, key: `${p.id}|${open[0].id}` });
   }
@@ -207,6 +207,54 @@ function renderNext(items) {
       <span class="nr-state">${esc(i.word)}</span><span class="nr-prog">${esc(i.prog)} · ${esc(i.ref)}</span>
       ${i.key ? `<a class="nr-text" href="#${encodeURIComponent(i.key)}">${esc(i.text)}</a>` : `<span class="nr-text">${esc(i.text)}</span>`}
       ${i.cost ? `<span class="costpill">${esc(i.cost)}</span>` : ""}</li>`).join("")}</ol>` : "";
+}
+
+// ---------- the human column ----------
+// Every pre-registered bet, engine beside human. The human side is shown as it is in the ledger: empty says
+// "no human odds", and nothing is filled in later. Engine odds on a bet still running stay hidden until it lands.
+function renderHumanColumn(programs, bets) {
+  const placed = bets.filter((b) => b.prereg && b.raw?.verdict !== "withdrawn");
+  if (!placed.length) { el("humancol").innerHTML = ""; return; }
+  const withHuman = placed.filter((b) => b.human != null).length;
+  const title = (id) => programTitle(id, programs);
+  const groups = [...new Set(placed.map((b) => b.program))].map((id) => ({ id, title: title(id), rows: placed.filter((b) => b.program === id) }))
+    .sort((a, b) => progNum(a) - progNum(b));
+  const pct = (x) => `${Math.round(x * 100)}%`;
+  const row = (b) => {
+    const landed = b.status !== "running" && b.status !== "open";
+    const eng = b.engine == null ? `<span class="muted">none stated</span>` : landed ? `<b>${pct(b.engine)}</b>` : `<span class="muted">hidden until it lands</span>`;
+    const hum = b.human != null ? `<b>${pct(b.human)}</b>` : `<span class="nohuman">no human odds</span>`;
+    const o = outcomeOf(b);
+    const what = o === 1 ? "came true" : o === 0 ? "did not" : STATUS[b.status]?.word.toLowerCase() || b.status;
+    return `<li><span class="hc-bet">${markSVG(b.status, 13)} <code>${esc(b.id)}</code> <span class="hc-title">${esc(b.title)}</span> <span class="muted small">· ${esc(what)}</span></span>
+      <span class="hc-e"><span class="hc-lbl">engine</span> ${eng}</span><span class="hc-h"><span class="hc-lbl">human</span> ${hum}</span></li>`;
+  };
+  el("humancol").innerHTML = `<h2>The human column</h2>
+    <p class="hc-sum"><b>${withHuman}</b> of ${placed.length} placed bets carry a human number. ${withHuman ? "" : "The column is empty because none was given before any of them was pre-registered, and none is filled in afterwards."}</p>
+    ${groups.map((g) => { const h = g.rows.filter((b) => b.human != null).length; return `<details class="hc-group"${h ? " open" : ""}>
+      <summary><b>${esc(g.title)}</b> · ${g.rows.length} bet${g.rows.length === 1 ? "" : "s"} · ${h ? `human odds on ${h}` : `<span class="nohuman">no human odds</span>`}</summary>
+      <ol class="hc">${g.rows.map(row).join("")}</ol></details>`; }).join("")}
+    <p class="muted small" style="margin-top:8px">Open a program to see each bet, the engine's odds beside the human's. From <code>ledger/bets.jsonl</code> (<code>engine_odds</code>, <code>human_odds</code>).</p>`;
+}
+
+// ---------- the path-dependence counter (P2-path) ----------
+// It opens when program 2 has N settled bets; N is read from the direction's own opens_when sentence.
+// Settled = scored hit or miss whose audit is done (the same sentence's definition).
+function renderPathCounter(programs, bets) {
+  const host = el("p2path");
+  let node = null, prog = null;
+  for (const p of programs) for (const d of p.directions) if (d.id === "P2-path") { node = d; prog = p; }
+  const m = String(node?.raw?.opens_when || "").match(/has\s+(\d+)\s+settled bets/i);
+  if (!node || !m) { host.innerHTML = ""; return; }
+  const need = +m[1];
+  const settled = bets.filter((b) => b.program === prog.id && b.raw?.scored === true && outcomeOf(b) != null
+    && b.audit && /^audited/i.test(b.auditStatus || "")).sort((a, b) => String(a.landed).localeCompare(String(b.landed)));
+  const n = settled.length;
+  host.innerHTML = `<h2>Path-dependence counter</h2>
+    <p>The comparison of program 1 with program 2 (<code>P2-path</code>) opens when program 2 has <b>${need}</b> settled bets: a scored hit or miss whose audit is done. It has <b>${n}</b>${n >= need ? ": it is open now." : `, so ${need - n} to go.`}</p>
+    <div class="p2cells" role="img" aria-label="${n} of ${need} settled bets">${Array.from({ length: Math.max(need, n) }, (_, i) =>
+      `<span class="p2cell${i < n ? " on" : ""}" title="${i < n ? esc(settled[i].id) : "not yet"}">${i < n ? esc(settled[i].id.replace(/^om-/, "")) : ""}</span>`).join("")}</div>
+    <p class="muted small">Counted on every page load from <code>ledger/bets.jsonl</code> (program ${esc(String(progNum(prog)))}, <code>scored: true</code>, audit done); the threshold from <code>map/${esc(prog.id)}.json</code>.</p>`;
 }
 
 function visibleCards() {
@@ -427,6 +475,8 @@ el("newqbtn").addEventListener("click", () => {
   if (local.odds.length + local.steers.length !== before) save();
   cards = buildCards(programs, bets);
   renderNext(nextToRun(programs, bets, steers));
+  renderPathCounter(programs, bets);
+  renderHumanColumn(programs, bets);
   el("newprog").innerHTML = programs.map((p) => `<option value="${esc(p.id)}">${esc(p.title)}</option>`).join("");
   render();
   if (location.hash) document.querySelector(`.card[data-key="${CSS.escape(decodeURIComponent(location.hash.slice(1)))}"]`)?.scrollIntoView();
