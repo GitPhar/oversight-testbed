@@ -23,11 +23,22 @@ The root `python3 reproduce.py` runs it too and prints one line for this program
 
 What it checks:
 - **The analyses.** It runs the wave-1 script's own `analyse` step (`experiments/svd_wave1.py analyse b1|b2|b3`) on the archived call caches (`results/sv-said-calls.json`, `results/sv-<bet>-calls.json`). Each `results/sv-<bet>-analysis.json` comes out byte for byte the same.
-- **The generated part of each write-up.** `results/sv-b1-pushback.md`, `sv-b2-decline.md` and `sv-b3-ask.md` each hold a section printed by `experiments/svd_report.py`: the verdict, the pre-registered sentences and every table in the file. The script runs `svd_report.py` on the regenerated analysis and checks that its output appears in the write-up exactly. No cell is copied. The file's table count must match, so no table sits outside the check.
-- **The hand-written part.** The plain-English lead and the "Run" section copy numbers from the analysis and the caches: counts, AUROCs, margins and intervals, secondary percentages, and costs. Each is rebuilt and checked. So is the lead's verdict and its first sentence, which must be the first pre-registered sentence.
+- **The generated part of each write-up.** `results/sv-b1-pushback.md`, `sv-b2-decline.md` and `sv-b3-ask.md` each hold a section printed by `experiments/svd_report.py`: the verdict, the pre-registered sentences and every table in the file. The script runs `svd_report.py` on the regenerated analysis. Every line it prints must appear in the write-up, in order. No cell is copied. The file's table count must match, so no table sits outside the check.
+- **Insertions in that section.** A paragraph between generated lines is allowed only if it says it is the auditor's or exploratory. The script names each one. Today there is one: sv-b1's below-floor figures for Sonnet and Opus, added by the audit. Anything else between generated lines fails.
+- **The hand-written part.** The plain-English lead and the "Run" section copy numbers from the analysis and the caches: counts, AUROCs, margins and intervals, confidence bins, secondary percentages, and costs. Each is rebuilt and checked. So is the lead's verdict and its first sentence, which must be the first pre-registered sentence.
+- **The audit's own figures.** Where the program's code can compute them, they are recomputed and checked:
+  - sv-b1: Sonnet's and Opus's below-floor AUROC, best simple guess and margin, with the bet's own bootstrap and seed;
+  - sv-b1: question length doing worse than chance inside every question type;
+  - sv-b2: most declines falling within SimpleQA, and no decline on the 60 author-written claims;
+  - sv-b3: leaving out one question type at a time (Sonnet clears the 0.10 condition only without physics; Haiku stays below 0).
 
 Two values are accepted in a second faithful printing, and the script names both:
 - Opus's agreement with the never-check rule in sv-b3 is 71 of 80, exactly 88.75%. The write-up prints 88.7%; Python prints 88.8%. Either is accepted.
-- sv-b3's cost is printed as $0.600, the sum of its rounded parts ($0.424 + $0.176). The exact cost is $0.6006, which rounds to $0.601. Both printings are accepted, and the script says which one the write-up used.
+- sv-b3's cost is printed as $0.600, the sum of its printed parts ($0.424 + $0.176). The exact cost is $0.6006, which rounds to $0.601. Both printings are accepted, and the script says which one the write-up used.
 
-Not checked: commit hashes, and the thresholds the prose restates (75%, 87.5%, 0.10), which are fixed in the code, not results. Wave 1 wrote no run log, error log or refusal record. The "Run" check relies on their absence. Nothing the tables need is missing from the archive. A new results file fails the script until it is taught there.
+Not checked:
+- sv-b2's "stated confidence is about the same on trivia and non-trivia questions". It is the auditor's exploratory re-analysis and states no number.
+- Commit hashes.
+- The thresholds the prose restates (75%, 87.5%). They are fixed in the code, not results.
+
+Wave 1 wrote no run log, error log or refusal record. The "Run" check relies on their absence. Nothing the tables need is missing from the archive. A new results file fails the script until it is taught there.
