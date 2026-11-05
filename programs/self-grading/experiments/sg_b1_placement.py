@@ -26,13 +26,15 @@ from sg_prompts import WRITE, fresh, own_turn
 
 BET = "sg-b1"
 CAP = {"write": 0.45, "grade": 0.90}          # run caps; the program cap ($5.00) is checked too, in Caller
+PILOT_CAP = {"write": 0.035, "grade": 0.055}  # design-review pilot: at most $0.10 in all (operators/design-review.md D6)
+PILOT_TASKS = ("p01", "p02", "p03")
 MARGIN = 3.0                                   # points on the 0-100 scale (§5)
 N_BOOT = 10000
 
 
 def tasks(pilot):
     t = json.loads((DATA / "sg-tasks.json").read_text())["tasks"]
-    return [x for x in t if x["id"].startswith("p" if pilot else "t")]
+    return [x for x in t if x["id"] in PILOT_TASKS] if pilot else [x for x in t if x["id"].startswith("t")]
 
 
 def seeds():
@@ -58,7 +60,7 @@ def run(pilot, models, caller_cls=Caller, call_fn=call):
     # step 1: write
     wjobs = [(f"write|{m}|{t['id']}", m, t) for m in models for t in ts]
     rng.shuffle(wjobs)
-    w = caller_cls(RESULTS / f"{BET}-write-calls{tag(pilot)}.json", CAP["write"] * (0.2 if pilot else 1), f"{BET} write")
+    w = caller_cls(RESULTS / f"{BET}-write-calls{tag(pilot)}.json", (PILOT_CAP if pilot else CAP)["write"], f"{BET} write")
 
     def do_write(job):
         _, m, t = job
@@ -75,7 +77,7 @@ def run(pilot, models, caller_cls=Caller, call_fn=call):
             for cond in ("own", "fresh", "fresh2"):
                 gjobs.append((f"grade|{m}|{t['id']}|{cond}", m, t, cond, c))
     rng.shuffle(gjobs)
-    g = caller_cls(RESULTS / f"{BET}-grade-calls{tag(pilot)}.json", CAP["grade"] * (0.2 if pilot else 1), f"{BET} grade")
+    g = caller_cls(RESULTS / f"{BET}-grade-calls{tag(pilot)}.json", (PILOT_CAP if pilot else CAP)["grade"], f"{BET} grade")
 
     def do_grade(job):
         _, m, t, cond, c = job
@@ -152,7 +154,7 @@ def analyse(pilot, grade_cache=None, n_expected=None):
     for v in gc.values():
         by.setdefault(v["model"], {})[(v["task"], v["cond"])] = v["grade"]
     s = seeds()["boot"]
-    n_expected = n_expected or (6 if pilot else 60)
+    n_expected = n_expected or (len(PILOT_TASKS) if pilot else 60)
     res = {SHORT[m]: per_model(by[m], m, s, n_expected) for m in MODELS if m in by}
     readings = {k: model_reading(r) for k, r in res.items()}
     out = {"bet": BET, "pilot": pilot, "per_model": res, "readings": readings,
