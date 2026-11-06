@@ -211,3 +211,6 @@ The pre-registered sentences are not touched. They are generated, and they read 
 The gap rests on 16 discordant items, split 14 to 2, each a single draw at effort-low thinking. Redraw all four Opus calls on those 16 items once: 64 calls at about $0.0094, so **about $0.60**, plus the same on 16 concordant items as a noise control (about $0.60 more). If the 14 to 2 split collapses under redraw (say, fewer than 10 of the 14 repeat), the C2 failure is call noise and "mixed" is fragile.
 
 The order finding gives a second test: on all 199 items, ask the flattery question with the two versions labelled A and B in a randomised position (398 calls, about $3.75). If the gap disappears, it was the flattery prompt's position handling, not what the forecasting prompt knows. Either test needs its own pre-registration.
+
+
+Revealed 2026-11-05: pl-047, planted overclaim/plain_vs_table at "## In plain English, bullet 4, sentence 2" (Haiku 5.3 -> 2.3 points); caught (Required cuts 2, and cut 5 on commit 6916fa7, which exists only in the audit clone). Plant: not applied to the real record, which reads 5.3; cut 2's rewrite of the bullet (similar gap on Sonnet, not shown on Haiku) is a real finding and is applied. Cut 5 needs no DEVIATIONS row: 6916fa7 is the clone's plant commit, not in the record.
