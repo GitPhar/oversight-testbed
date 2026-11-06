@@ -263,3 +263,37 @@ Ranked by what each can change. sg-d13 can turn sg-b4's pass into mixed. sg-d14 
 The sentence was checked against the audit: Opus's G′ is +3.42 [+2.52, +4.35], and its upper end stays under 5 on every seed and leave-one-out the audit tried. It is scoped to Opus, the model the rule turned on (Haiku stayed blunted), and it does not rule out a smaller own-conversation effect (the interval excludes 0).
 
 **Cockpit.** Cards for sg-d13 and sg-d14 are added to `map/cockpit-cards.jsonl`, without engine odds. The cards for sg-d11 and sg-d12 are dropped, because both directions already have a bet (sg-b5, sg-b4). That keeps the cockpit at 20 cards or fewer once this branch meets main, which already holds 20.
+
+## Follow-ups (remap 2026-11-05c)
+
+*Written 2026-11-05 by a fresh remap session (claude-opus-5-5) that ran none of program 5's bets; re-scouts by fresh reader subagents; odds by fresh blind contexts (rule 14).*
+
+**What came back.** Two of the quoted-copy follow-ups came back mixed. Graded all in one sitting, Haiku was still stricter about a planted exaggeration when it saw its own conversation as a quoted copy, but by 5.3 points against a 6.3-point bar, with an interval on both sides of the bar (sg-b6). Swapping only the closing line "Now grade the conclusion above." for "Grade the conclusion." moved Haiku 2.5 points and Opus 0.3, both too close to call (sg-b7). The "Wait." fix from Tsui 2025 did not take away the leniency (sg-b8, killed; its rules-out sentence is below).
+
+**What the follow-ups would show.** For sg-b6: whether twice as many studies, graded in one run, put Haiku clearly above or below its bar (more studies, not more repeats, narrow this interval: Miller 2024), and whether Opus's same-run reading holds on a second scored run. For sg-b7: whether the closing-line swap reads either way once Opus has all 60 studies, and whether what is left of the quoted copy's leniency on Haiku sits in the "User:/Assistant:" labels or in the sentence that introduces the conversation.
+
+**Two citations corrected (Job 2, `a4f011e`).** JudgeSense (Bellibatlu, Raff and Zhang 2026) compares rewording against identical-prompt repeats, on which Claude Haiku 4.5 agreed with itself 99.8% of the time; it does not show judges disagreeing with themselves on identical prompts, and it never says "same run". Chen et al. 2026 add a copy of the claim under another role rather than moving it out of the model's turn, and their 70.0% holds for one audit wording only. The sg-d13 and sg-d14 nodes, sg-b7's Novelty line and the 2026-11-05b reads file carry the corrections, with the old text in dated notes.
+
+**Budget.** Program 5 has spent $7.15 of its $7.65 cap (br-019), so about $0.50 is left. sg-d16 (about $0.10) and sg-d19 (about $0.11) fit together; sg-d17 (about $0.40) fits alone; sg-d18 (about $0.79) needs a budget ruling, which is the engine's call under rule 4 while the program's month stays under $10. This remap approves none.
+
+### What the re-scouts change
+
+- **sg-b6** (Novelty: partly new; stands; `programs/self-grading/map/reads/remap-2026-11-05c-sg-b6.md`). Miller 2024 and Messing 2026 show that repeats on the same items cannot shrink the part of an interval that comes from item spread, and the audit says spread sets sg-b6's width. So the audit's cheapest test, a third run on the same 60 studies, is dropped as a standalone follow-up. It is folded into an expanded-set run (Westfall, Judd and Kenny 2015): the old 60 plus 60 new studies, graded together. Atil et al. 2024 name a whole-run shift as an unseparated rival; the old-60 half and the Opus repeat test it. No odds are stated.
+- **sg-b7** (Novelty: partly new; corrected; `programs/self-grading/map/reads/remap-2026-11-05c-sg-b7.md`). Adds F2 (header or labels, Haiku, about $0.11). DialDefer names a rival: an AI-assistant label can make judges stricter, against sg-b4's leniency. Chen's nonsense tag and DialDefer's A/B labels give a neutral-label control. Farzi et al. show a label-only swap moves judgments. Keeps the audit's Opus re-run as F1. Per Miller, a 60-study single run (about $0.79) reads undetermined again if Opus's S stays near +0.33; three repeats (about $2.33) could read "not the lead-in". Corrects two readings: Chen's out-of-turn row shows closing-instruction effects up to 30 points; JudgeSense measures agreement, not direction. No odds stated.
+
+### Follow-ups
+
+| id | parent (bet, novelty) | follow-up | models | cost | engine odds (prior + adjustment) | prior work predicts | card |
+|---|---|---|---|---|---|---|---|
+| sg-d16 | sg-d13 (sg-b6, partly new) | Expanded study set: does Haiku's same-run turn-role change clear or miss its 6.3 bar when sg-b6's 60 studies are graded again beside 60 new studies in 20 new domains, all in one run? | haiku | about $0.095 | 0.28 (0.25 +0.03) | unknown | yes |
+| sg-d17 | sg-d13 (sg-b6, partly new) | Opus second same-run repeat: does Opus 5.5's turn-role reading (T +5.03 against a 3.0 bar in sg-b6, one repeat, reported, not scored) hold as a scored reading on a new same-run grading of sg-b4's 30 studies? | opus | about $0.40 | 0.65 (0.25 +0.40) | unknown | no (not among the two cheapest) |
+| sg-d18 | sg-d14 (sg-b7, partly new) | Closing-line swap again, with enough Opus data to read: does 'Grade the conclusion.' in place of 'Now grade the conclusion above.' make Haiku and Opus clearly stricter about the planted overclaim? | haiku, opus | about $0.79 | 0.08 (0.25 -0.17) | mixed | no (not among the two cheapest) |
+| sg-d19 | sg-d14 (sg-b7, partly new) | Header or labels: once the closing line is plain, is what is left of the quoted copy's leniency carried by the 'User:/Assistant:' labels or by the header sentence? | haiku | about $0.11 | 0.13 (0.25 -0.12) | mixed | yes |
+
+Each row's Prior work line, pass rule, cost arithmetic and cap note are on its node in `map/self-grading.json`; the odds record is in `programs/self-grading/map/odds-elicitation/v2-remap-2026-11-05c.md`.
+
+### Rules out (killed or withdrawn bets that had no sentence)
+
+| node | bet(s) | rules out |
+|---|---|---|
+| sg-d15 | sg-b8 | Rules out, on Haiku and Opus 5.5, that 'Wait.' opening the grading request removes half their own-conversation leniency on a planted overclaim (Opus +0.9 of 6.0; Haiku -4.5, more lenient; sg-b8); Tsui's placement, after the model's text, is untested. |

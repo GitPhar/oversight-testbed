@@ -255,7 +255,10 @@
    "audit": "ledger/audits/ss-b13.md",
    "novelty": "partly new",
    "novelty_line": "**Novelty:** partly new. Published work already shows that a model one tier down from the top forecasts research results about as well as the top one, and that much smaller models do worse. BrainBench (Luo et al., 2024, arXiv 2403.03230; Nature Human Behaviour) found that 7B models \"performed comparably to larger models\", while TinyLlama (1.1B) was \"falling much behind the 7B models\". SciPredict (arXiv 2604.10718, 2026) has Claude Sonnet 4.5 at 22.55% against Opus 4.5 at 23.05% and Llama 3.1 8B at 14.65%. Hewitt et al. (2024, working paper) found that accuracy \"improved steadily and markedly across generations of LLMs\". Ours agrees on the size pattern: Sonnet is not shown different from Opus (Brier 0.168 against 0.163; paired difference +0.004, interval −0.018 to +0.027) and Haiku is weaker (0.208; paired difference from Opus +0.044, interval +0.012 to +0.076). What we found in no paper is a test of a same-family smaller model against a publication-bias rule (\"bet on the paper's good-news side\") or a \"which version flatters the paper\" rater. Wen et al. (2025, arXiv 2506.00794) do not mention publication bias, and CUSP (Wu et al., 2026, arXiv 2605.22681) has always-No, chance and mean-date baselines but no publication-bias one; Jin et al. (2024, arXiv 2411.17595) found GPT-4o-mini predicting every clinical trial a success, a smaller same-family model collapsing onto a positive-outcome rule, but report no such rule as a baseline. So the result that Haiku beats a coin but is not shown to beat the good-news rule by the 0.01 margin, and that neither smaller model beats the flattery rater on round 2's items (a reported row), is new. Search: \"smaller language models predict research findings model size\", \"BrainBench small models scaling\", \"LLM predict experimental outcomes publication bias positive-result baseline\", \"predict outcome of new arXiv papers after training cutoff Claude Haiku Sonnet\", \"LLM forecasting scientific results larger vs smaller models same family\" on web search and arXiv, plus the full texts of 2403.03230, 2604.10718, 2506.00794, 2605.22681 and Hewitt et al., 2026-11-05; claude-opus-5-5 (a fresh subagent that did not run ss-b13).",
-   "what_would_break_it_next": "ss-b13 audit: run Opus's flattery rater on round 1's 116 items (about $0.30) and score Sonnet's C3 against it; on round 2 Sonnet only ties that rater (+0.002)."
+   "what_would_break_it_next": "ss-b13 audit: run Opus's flattery rater on round 1's 116 items (about $0.30) and score Sonnet's C3 against it; on round 2 Sonnet only ties that rater (+0.002).",
+   "rescout": [
+    "programs/settled-science/map/reads/remap-2026-11-05c-ss-b13.md"
+   ]
   },
   {
    "id": "ss-f2",
@@ -322,7 +325,10 @@
    "bets_withdrawn": [
     "ss-b14",
     "ss-b15"
-   ]
+   ],
+   "rules_out": "Rules out nothing about the bettor on model-psychology findings; it shows the July-November 2026 arXiv window holds too few on-field template items (9, then about 17 to 24) for the rule's 50 (ss-b14, ss-b15); a later window reopens it.",
+   "rules_out_at": "2026-11-05T16:18",
+   "rules_out_by": "remap 2026-11-05c (fresh remap session, claude-opus-5-5)"
   },
   {
    "id": "ss-f3",
@@ -365,7 +371,12 @@
     "Yang, Youyou and Uzzi 2020, PNAS 117(20):10762-10768 (text model 0.68 against a 0.61 predict-all-fail dummy); from related-work/metascience-prereg.md, not re-opened this session"
    ],
    "prior_work_search": "WebSearch 'LLM predict research outcomes publication bias baseline positive result shortcut benchmark field base rate' (extended) and 'Altmejd 2019 Predicting the replicability of social science lab experiments base rate features' (standard); related-work/metascience-prereg.md Parts C to E",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "novelty": "partly new",
+   "novelty_line": "**Novelty:** partly new. No paper found scores a language model's predictions of published findings against a rule that knows each field's base rates. The nearest work finds that field labels carry little outcome signal: discipline explained at most 5.1% of the variance in positive results across 2,434 papers (Fanelli 2010, PLoS ONE 5:e10068), and discipline dummies had \"little bearing\" on a replication predictor (Altmejd et al. 2019, PLOS ONE 14:e0225826). Ours agrees: the Opus bettor beat the field-aware rule (Brier 0.163 against 0.223), but the four fields fit no better than shuffled labels, so in effect it beat pooled rates, which ss-b2 had already shown; what is new is only the comparison itself, on one run scored a fourth time. Search: \"language model predicts research findings field-specific base rate baseline\", \"Fanelli positive results hierarchy of the sciences\", \"predicting replicability prediction market base rate\", \"discipline-wide replicability psychology subfields\" on web search, PMC and arXiv, 2026-11-05; claude-opus-5-5 (a fresh reader subagent of the 2026-11-05c remap session that did not run ss-b11).",
+   "rescout": [
+    "programs/settled-science/map/reads/remap-2026-11-05c-ss-b11.md"
+   ]
   },
   {
    "id": "ss-f4",
@@ -412,7 +423,10 @@
     "Lopez-Lira, Tang and Zhu 2025, The Memorization Problem, arXiv 2504.14765; opened abstract (masking and boundary instructions fail to prevent recall)"
    ],
    "prior_work_search": "WebSearch 'LLM forecasting accuracy before vs after training cutoff memorization recognize paper recall leakage' (standard); no recognition-coded split found",
-   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)"
+   "prior_work_at": "2026-11-05 backward pass (rule 13; paper/informed-engine.md)",
+   "rules_out": "Rules out, for the Opus bettor on 40 pre-cutoff template items it showed no sign of recognising, a Brier advantage over round 2's post-cutoff items larger than about 0.044 (difference -0.008 [-0.044, +0.031]; ss-b12); a smaller one stays possible.",
+   "rules_out_at": "2026-11-05T16:18",
+   "rules_out_by": "remap 2026-11-05c (fresh remap session, claude-opus-5-5)"
   },
   {
    "id": "ss-f5",
@@ -603,7 +617,15 @@
    "audit": "ledger/audits/ss-b10c.md",
    "novelty": "new",
    "novelty_line": "**Novelty:** new. No published work I found reports that a valence question (\"which version is better news for the paper's own idea?\") solves BrainBench or any real-versus-altered results task. BrainBench (Luo et al., 2024, arXiv 2403.03230, *Nature Human Behaviour*) ran local-context, swapped-sentence, zlib-perplexity memorisation, publication-date, calibration and GPT-4-item controls, and found \"no indication that BrainBench was memorized\". It tests no valence, positive-result or publication-bias shortcut, and neither do its follow-ups (Luo, Sun and Love, 2024, arXiv 2405.09395; Luo, Ramscar and Love, 2024, arXiv 2411.11061) or Wen et al. (2025, arXiv 2506.00794, which checks \"superficial features like idea complexity\"). Lee (2026, arXiv 2604.06236) is not this test, and it does not mention BrainBench, valence or shortcuts. It proposes, without running anything (§5.5: \"does not include empirical validation\"), three things. §4.1: give LLMs only the starting information of 200–500 completed ClinicalTrials.gov trials, ask for a probability of success, and score with AUC-ROC and with the probabilities given to failed trials, hypothesising that \"LLMs systematically overestimate the probability of experimental success\". §4.2: compare five context conditions (none, successes only, failures only, both, failures classified by cause), with a dose-response at 10, 50, 100 and 200 failure records. §5.3: correlate \"the published positive-result ratio and the actual success ratio (obtainable from trial registries)\" across medical subfields, plus a peer-review test on OpenReview. So this project's earlier statement that ours is \"the test an April 2026 paper asked for\" (paper/novelty.md finding 8, ranked replication 1) overstates the link. The swap-both-orders-and-average fix and the first-position pull are known: Zheng et al. (2023, arXiv 2306.05685) found Claude-v1 consistent on swapped order 23.8% of the time and favouring the first answer 75.0%; Wang et al. (2023, arXiv 2305.17926, Balanced Position Calibration) average the scores over both orders. LLMs swayed by favourable framing is in print in another form (Yun et al., CHIL 2025, arXiv 2502.07963, spin in medical abstracts), but not as a rule for picking real results. What is new is only the headline, a one-line valence question beating the 63.4% for experts on BrainBench, and it cannot be told apart from memory or plausibility. Search: \"BrainBench\" with shortcut, valence, positive result, publication bias, memorization, contamination, follow-up; \"LLMs predict scientific results publication bias\"; \"LLM spin medical abstracts\"; \"position bias swap LLM judge\"; general web search and arxiv.org abstract and HTML pages, 2026-11-05. Model: claude-opus-5-5 (a fresh subagent that did not run ss-b10c).",
-   "what_would_break_it_next": "see ledger/audits/ss-b10c.md, 'What would break it next'"
+   "what_would_break_it_next": "see ledger/audits/ss-b10c.md, 'What would break it next'",
+   "rules_out_bets": {
+    "ss-b10b": "Rules out nothing about the flattery question on BrainBench; it shows that with half of Haiku's statistic already in ss-b10's archive the rule would pass in 99 to 100% of runs. Re-bet: ss-b10c, on the items ss-b10 rated once."
+   },
+   "rules_out_at": "2026-11-05T16:18",
+   "rules_out_by": "remap 2026-11-05c (fresh remap session, claude-opus-5-5)",
+   "rescout": [
+    "programs/settled-science/map/reads/remap-2026-11-05c-ss-b10c.md"
+   ]
   },
   {
    "id": "ss-f9",
@@ -719,6 +741,360 @@
    "novelty": "partly new",
    "novelty_line": "**Novelty:** partly new. Luo et al. (2024, arXiv 2403.03230v4, *Nature Human Behaviour*) scored 15 open-weight models (Galactica 6.7B, 30B and 120B; Falcon-40B and 180B; Llama-2 7B, 13B and 70B; Mistral-7B; base and chat or instruct versions; GPT-2, TinyLlama, Phi-3 and their LoRA-tuned BrainGPT in the supplement) by the perplexity of each abstract, each scored on its own under one fixed prefix (\"You are a neuroscientist with deep knowledge in neuroscience. Here is an abstract from a neuroscience publication:\"). Its controls were local context only, results sentences swapped within a subfield, memorisation (zlib-perplexity ratio against a Gettysburg Address anchor, publication date against difficulty), calibration, and items written by GPT-4; it asked no model a question in words (\"Our approach diverged from the popular approach of prompting models for responses through natural language\"), so it ran no valence or flattery question, no option-order test and no second prompt wording, and it tested no Claude or other closed model. The kind of result is in print: Hua et al. (2025, arXiv 2509.01790; 7 LLMs, 6 benchmarks, 12 templates) trace much prompt sensitivity to log-likelihood scoring and rigid answer matching, with \"a substantial reduction in performance variance\" when an LLM judge reads the answers, which agrees with our near-equal totals; JudgeSense (Bellibatlu, Raff and Zhang, 2026, arXiv 2604.23478v3; 25 judges including claude-haiku-4-5 and claude-sonnet-4-5) finds \"rewording moves a judge's verdict by more than its own decoding noise does\", the pattern in Haiku's item scores (70.5% the same against an 81.8% noise floor), though on its two pairwise tasks the cost did not clear its threshold; Mizrahi et al. (2024, arXiv 2401.00595) and Sclar et al. (2023, arXiv 2310.11324; up to 76 accuracy points from formatting, LLaMA-2-13B, few-shot) report larger brittleness elsewhere. Nearest on the task, Chen, Hu and Lu (2025, arXiv 2504.01167) carried Luo's real-versus-reversed design to 1,261 conclusions from 276 field experiments on GPT models and found that conclusion sentiment, interacting with topic, predicted accuracy, but they asked which conclusion is true, not which flatters the authors; in metascience terms, Fanelli (2012, *Scientometrics* 90:891) found 85.9% of papers that tested a hypothesis in 2007 reported support for it, the base rate that would let \"pick the version better for the authors' idea\" beat chance, yet no paper found tests that rule on a real-versus-altered task, or its robustness to a second wording, which is what this bet adds. Search: \"BrainBench\" with shortcut, valence, positive result, prompting chat models, follow-up; \"LLM distinguish real from altered scientific findings prompt wording\"; \"LLM bias toward positive results predicting experimental outcomes\"; \"LLM-as-a-judge pairwise robustness to prompt paraphrase\"; \"sycophancy paraphrased prompt confirmation bias scientific results\"; \"positive results bias heuristic forecasting replication\"; \"Fanelli negative results are disappearing\"; general web search, then arxiv.org abstract and HTML pages, the Scientometrics PDF on gwern.net, 2026-11-05. Model: claude-opus-5-5 (a fresh subagent that did not run ss-b17).",
    "what_would_break_it_next": "see ledger/audits/ss-b17.md, 'What would break it next'"
+  },
+  {
+   "id": "ss-f11",
+   "parent": "ss-f1",
+   "from_bet": "ss-b13",
+   "kind": "follow-up",
+   "remap": "2026-11-05c",
+   "status": "open",
+   "rank": 4,
+   "short": "Flattery rater on round 1's 116",
+   "title": "Do Sonnet and Opus, as bettors, beat a 'which version is better news for the paper' rater asked on every one of round 1's 116 findings?",
+   "assumption_at_stake": "Sonnet's (and Opus's) edge over the good-news rule is knowledge of results, not a good-news judgment the rule could not make on the 78 untagged items where it says 50%.",
+   "cheapest_test": "The ss-b6 Opus flattery prompt (first sentence adapted: the two versions may differ in more than one word), once per item, on round 1's 116 post-cutoff items, in the bettor's archived option order (field and the two options, no methods summary).\nScore the archived Sonnet and Haiku bettors (ss-b13) and the Opus bettor (ss-b1) against the rater's probability, item and paper-cluster bootstraps, 0.01 margin.",
+   "models": [
+    "claude-opus-5-5"
+   ],
+   "models_note": "New calls are the Opus rater only (the audit's named comparator, and the one ss-b13 used on round 2); all three bettors are scored from the archive, so the bettor side covers Haiku, Sonnet and Opus at no cost; Haiku is reported, not in the rule, because it already missed the weaker good-news rule.",
+   "cost": "About $0.72: 116 Opus rater calls x $0.0049 (measured, ss-b6 rater on round 2: $0.6794 / 138 calls) = $0.57 to 116 x $0.0056 (measured, round-1 Opus bettor: $1.5472 / 276 calls, longer items) = $0.65, plus a 12-item pilot on excluded pre-cutoff items, 12 x $0.0056 = $0.07.",
+   "cap_note": "Does not fit the engine's call: program 4 has spent $11.57 this month (the committed caches; ledger cost_usd $11.566), already past rule 4's $10 per month engine limit, so it needs Sean's decision with the number and a one-sentence recommendation. It fits the code cap (BUDGET_USD $13.40, about $1.83 left). Secondary under rule 15 (new rater calls on ss-b13's and ss-b1's bettor runs, as ss-b6 was secondary of ss-b5). No budget approved.",
+   "odds_event": "On round 1's 116 post-cutoff items, for both the claude-sonnet-5-5 bettor (ss-b13 archive) and the claude-opus-5-5 bettor (ss-b1 archive): Brier minus the Opus flattery rater's Brier (raw rater probability that Option 1 is better news, used as P(Option 1 is the reported result)) has a 95% upper bound below -0.01 on both the item and the paper-cluster bootstrap (seed 20261104). Scoreable: yes.",
+   "engine_odds": 0.15,
+   "engine_odds_first": 0.15,
+   "odds_prior": 0.25,
+   "odds_adjustment": -0.1,
+   "odds_reason": "Settled-science (0.50) and published-record (0.67) rows are small (n=6, n=3); the conjunctive rule (two bettors, two bootstraps, 0.01 margin) is strict, and the parent found Sonnet only tied this rater.",
+   "odds_prior_commit": "34d6b1f",
+   "engine_odds_at": "2026-11-05T16:33",
+   "odds_template": "v2",
+   "odds_rationale": "Elicited under rule 14 in a fresh context that read only ledger/prior.md at 34d6b1f and this node's own row (programs/settled-science/map/odds-elicitation/rows-remap-2026-11-05c.md); its row on prior.md's tables: settled-science, referee published-record, under $1, literature, layer 3. Re-scout (programs/settled-science/map/reads/remap-2026-11-05c-ss-b13.md): F1 stays the audit's cheapest overturning test: the Opus flattery rater on round 1's 116 items. It is re-priced from the audit's $0.30 to about $0.65, at the measured $0.0049–0.0056 per Opus call. F2 is new: Haiku with thinking on. Chen et al. 2025 found chain-of-thought helped the weaker same-family models most, and ss-b13 ran Haiku with thinking off. This replaces the audit's Haiku order check, which its own option-order split (C3 −0.016 and −0.031) makes unlikely to move anything. A Schoenegger-style lean row (Haiku's agreement with the good-news tag) is added to F1 as reported. The Novelty line stands.",
+   "question": "When a 'which version is better news for the paper' guess is made on every finding instead of only some, do the larger Claude models still beat it?",
+   "known": [
+    "Sonnet beat the good-news rule mostly on findings where that rule just said 50-50, and on round 2's sentence pairs Sonnet only tied an Opus flattery rater while Haiku was worse (ss-b13, ss-b6).",
+    "Published forecasting work finds models and people lean toward the favoured or positive side (Schoenegger et al. 2024; Gordon et al. 2021), but no paper scores a flattery rater as a shortcut on items like these (re-scout remap-2026-11-05c-ss-b13)."
+   ],
+   "human_prompt": "Would you spend about seventy cents to find out whether the Claude models that guess which way new research findings went still win when compared with a simple guess that always picks the version that sounds like better news for the paper? Will it come back a hit (here, a hit means both the middle and the largest Claude model beat that better-news guess by a clear margin)?",
+   "hit_means": "Both the middle-sized and the largest Claude model beat the better-news guess by a clear margin, on findings and on papers.",
+   "engine_only": [
+    "rater prompt: bettor/valence.py SYSTEM (ss-b6, D32), first sentence adapted for multi-word option differences; fixed before the pilot",
+    "rater sees field and the two options, no methods summary, in the bettor's archived option order (items/items.jsonl, bettor/bets.jsonl)",
+    "item and paper-cluster bootstraps (108 clusters), seed 20261104, margin -0.01 as ss-b13 (P3, P14)",
+    "reported: recalibrated rater leg (as ss-b6), Haiku's row, tagged/untagged split (38/78), Haiku's and Sonnet's agreement with the headline tag against the tag's accuracy (Schoenegger-style lean)",
+    "secondary_of ss-b13 and ss-b1 under rule 15",
+    "re-priced from the audit's $0.30 at measured per-call cost"
+   ],
+   "prior_work_line": "No paper scores a flattery or valence rater on items like these. Schoenegger et al. 2024 (arXiv 2402.19379) found an LLM ensemble leaning 'yes' (mean 57.35% where 45% resolved yes); Gordon et al. 2021 (PLOS ONE 16:e0248780) found forecasters' mean belief 0.63 against a 0.49 replication rate. Both show a positive lean, not its score as a rule. Adds: the good-news idea applied to every round-1 item.",
+   "prior_work_predicts": "unknown",
+   "prior_work_sources": [
+    "Schoenegger, Tuminauskaite, Park and Tetlock 2024, arXiv 2402.19379v6; opened HTML in full",
+    "Gordon, Viganola, Dreber, Johannesson and Pfeiffer 2021, PLOS ONE 16(4):e0248780; opened PMC8046229 full text",
+    "Chauhan 2026, arXiv 2606.04220v1; opened HTML in full (position paper, proposes positive-versus-null LLM-judge tests, no data)"
+   ],
+   "source": "literature",
+   "source_note": "re-scout programs/settled-science/map/reads/remap-2026-11-05c-ss-b13.md; audit ledger/audits/ss-b13.md, 'What would break it next'",
+   "our_results": "On round 2's sentence pairs Sonnet only tied the Opus flattery rater and Haiku was worse than it, and on round 1 Sonnet beat the good-news rule only where that rule said 50-50.",
+   "our_results_from": [
+    "ss-b13",
+    "ss-b6"
+   ],
+   "layer_depth": 3
+  },
+  {
+   "id": "ss-f12",
+   "parent": "ss-f1",
+   "from_bet": "ss-b13",
+   "kind": "follow-up",
+   "remap": "2026-11-05c",
+   "status": "open",
+   "rank": 3,
+   "short": "Haiku with thinking on",
+   "title": "Does Haiku beat the good-news rule on round 1's 116 findings when it runs at the thinking setting Opus ran at?",
+   "assumption_at_stake": "Haiku's miss against the good-news rule reflects the smaller model, not that it ran with thinking off while Opus could not.",
+   "cheapest_test": "The bettor's prompt and archived option order, unchanged, on claude-haiku-5-5 over round 1's 116 post-cutoff items, at Opus's archived setting (thinking omitted, so adaptive, effort low; common.py ADAPTIVE_LOW), after a 12-item pilot on excluded pre-cutoff items.\nScore ss-b13's rule for one model (C1 to C3, 0.01 margin, item and paper-cluster bootstraps); the paired difference from Haiku's thinking-off archive is reported.",
+   "models": [
+    "claude-haiku-5-5"
+   ],
+   "models_note": "Opus already ran at this setting (ss-b1 archive) and cannot turn thinking off; Sonnet at this setting is an optional reported row only if its 12-item pilot prices the 116 calls under $0.40, because its thinking tokens bill at about 19 times Haiku's rate and the rival is about the model that missed.",
+   "cost": "At most about $0.14 for Haiku: its measured $0.00015 per call (f1-cache, 208 calls) at 166 output tokens bounds output at under $0.0000009 per token, so even 1,000 extra thinking tokens add under $0.0009 per call; 116 x $0.00105 = $0.12, plus a 12-call pilot under $0.013. Optional Sonnet row up to $0.40 if its pilot allows (total up to about $0.54).",
+   "cap_note": "Does not fit the engine's call: program 4 is at $11.57 this month, past rule 4's $10 per month engine limit, so it needs Sean's decision. It fits the code cap ($13.40, about $1.83 left), with or without the optional Sonnet row. New bettor calls, so a primary scored bet, not a secondary. No budget approved.",
+   "odds_event": "For claude-haiku-5-5 at thinking omitted (adaptive) and effort low, on round 1's 116 post-cutoff items: Brier 95% upper bound below 0.25, and Brier minus the up-word rule's and minus the good-news (headline-tag) rule's each with 95% upper bound below -0.01, every bound on both the item and the paper-cluster bootstrap (seed 20261104). Scoreable: yes.",
+   "engine_odds": 0.28,
+   "engine_odds_first": 0.28,
+   "odds_prior": 0.25,
+   "odds_adjustment": 0.03,
+   "odds_reason": "The settled-science (0.50, n=6), published-record (0.67, n=3) and layer 3 (0.36) rows pull up; literature (0.19) and under $1 (0.23) pull down. Haiku already missed this margin, and low-effort thinking adds little.",
+   "odds_prior_commit": "34d6b1f",
+   "engine_odds_at": "2026-11-05T16:33",
+   "odds_template": "v2",
+   "odds_rationale": "Elicited under rule 14 in a fresh context that read only ledger/prior.md at 34d6b1f and this node's own row (programs/settled-science/map/odds-elicitation/rows-remap-2026-11-05c.md); its row on prior.md's tables: settled-science, referee published-record, under $1, literature, layer 3. Re-scout (programs/settled-science/map/reads/remap-2026-11-05c-ss-b13.md): F1 stays the audit's cheapest overturning test: the Opus flattery rater on round 1's 116 items. It is re-priced from the audit's $0.30 to about $0.65, at the measured $0.0049–0.0056 per Opus call. F2 is new: Haiku with thinking on. Chen et al. 2025 found chain-of-thought helped the weaker same-family models most, and ss-b13 ran Haiku with thinking off. This replaces the audit's Haiku order check, which its own option-order split (C3 −0.016 and −0.031) makes unlikely to move anything. A Schoenegger-style lean row (Haiku's agreement with the good-news tag) is added to F1 as reported. The Novelty line stands.",
+   "question": "Did the smallest Claude model fall short because it is smaller, or because it was not allowed to think before answering?",
+   "known": [
+    "Haiku, run without thinking, beat a coin on these 116 findings but was not shown to beat the good-news rule by the margin; Sonnet, also without thinking, did, and Opus ran with a little thinking (ss-b13, ss-b1).",
+    "Asking GPT models to reason step by step raised their accuracy at picking economics field-experiment conclusions most for the weaker models (Chen, Hu and Lu 2025; re-scout remap-2026-11-05c-ss-b13)."
+   ],
+   "human_prompt": "Would you spend about fifteen cents to find out whether the smallest Claude model does better at guessing which way new research findings went when it is allowed to think first, the way the largest model did? Will it come back a hit (here, a hit means the small model beats always guessing even odds, and beats both simple wording and good-news guesses by a clear margin)?",
+   "hit_means": "The small model, allowed to think, beats always guessing even odds and beats both simple shortcut guesses by a clear margin, on findings and on papers.",
+   "engine_only": [
+    "setting: omit `thinking`, output_config effort 'low' (the ADAPTIVE_LOW path in common.structured), the same as the Opus archive; fixed before the pilot",
+    "pilot: 12 excluded pre-cutoff items, as D69",
+    "rule: score_f1.passes() for one model; margin -0.01 (P3); item and paper-cluster bootstraps (P14)",
+    "reported: paired Brier difference from Haiku's thinking-off archive (bettor/f1-bets.jsonl), tagged/untagged C3 split, output tokens per call",
+    "replaces the audit's Haiku order check (~$0.02), deprioritised because the audit's option-order split (C3 -0.016 / -0.031) already shows no order effect"
+   ],
+   "prior_work_line": "Chen, Hu and Lu 2025 (arXiv 2504.01167) found chain-of-thought raised GPT accuracy on economics field-experiment conclusions by 7 points (GPT-3.5 Turbo, 61% to 68%), 10 (GPT-4 Turbo) and 3 (GPT-4o): the weaker models gained most, which predicts a Haiku gain. Whether the gain clears a 0.01 Brier margin against a publication-bias rule is in no paper. Adds: separates thinking from size in ss-b13's Haiku miss.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Chen, Hu and Lu 2025, Predicting Field Experiments with Large Language Models, arXiv 2504.01167v3; opened HTML in full",
+    "Karger et al. 2025, ForecastBench, arXiv 2409.19839v5; opened HTML in full in two passes (small models near 0.25; Brier tracks capability)"
+   ],
+   "source": "literature",
+   "source_note": "re-scout programs/settled-science/map/reads/remap-2026-11-05c-ss-b13.md; audit ledger/audits/ss-b13.md, 'What would break it next'",
+   "our_results": "Haiku without thinking beat a coin on these 116 findings but was not shown to beat the good-news rule by the margin, while Sonnet without thinking and Opus with a little thinking did.",
+   "our_results_from": [
+    "ss-b13",
+    "ss-b1"
+   ],
+   "layer_depth": 3
+  },
+  {
+   "id": "ss-f13",
+   "parent": "ss-f3",
+   "from_bet": "ss-b11",
+   "kind": "follow-up",
+   "remap": "2026-11-05c",
+   "status": "open",
+   "rank": 2,
+   "short": "Fair-fit answer-free rule, 3 bettors",
+   "title": "Do all three Claude bettors beat a finer answer-free rule on round 1's 116 findings when the rule is fitted fairly by cross-validation?",
+   "assumption_at_stake": "No answer-free cue on round 1's items reaches the bettors once overfitting is netted out; the in-sample bar mostly rewarded fitted cells (ss-b11 audit B9).",
+   "cheapest_test": "Archive only: a ridge logistic rule on item-level answer-free cues (field, the up word, option order, the headline tag, option length difference), penalty fixed in advance, scored by 10-fold cross-validation with folds by paper (seed 20261104), plus a word-shuffle null on the same cells.\nPaired Brier difference for each archived bettor: Opus (ss-b1's run), Haiku and Sonnet (ss-b13's run), on round 1's 116 post-cutoff items.",
+   "models": [
+    "claude-haiku-5-5",
+    "claude-sonnet-5-5",
+    "claude-opus-5-5"
+   ],
+   "models_note": "All three are archived answers (no new calls): Opus from ss-b1's run, Haiku and Sonnet from ss-b13's run.",
+   "cost": "$0: no API call, no QPU second, no local model (scoring script on items/items.jsonl, bettor/bets.jsonl, bettor/f1-bets.jsonl).",
+   "cap_note": "Fits: $0 adds nothing to program 4's $11.57 this month, so neither rule 4 nor the code cap ($13.40) is touched. Stated plainly: a $0 secondary re-analysis under rule 15, secondary of ss-b1 (Opus) and ss-b13 (Haiku, Sonnet), with no new data. No budget approved.",
+   "odds_event": "On round 1's 116 post-cutoff items, for each of the three archived bettors (claude-opus-5-5 from ss-b1, claude-haiku-5-5 and claude-sonnet-5-5 from ss-b13): Brier minus the 10-fold cross-validated answer-free rule's Brier has a paired 95% upper bound below -0.01 on both the item and the paper-cluster bootstrap (seed 20261104). Scoreable: yes.",
+   "engine_odds": 0.2,
+   "engine_odds_first": 0.2,
+   "odds_prior": 0.25,
+   "odds_adjustment": -0.05,
+   "odds_reason": "Rows split (settled-science 0.50 on 6; model/free/literature 0.19-0.22; layer 4 0/5). Conjunctive rule: all three bettors, margin -0.01, both bootstraps, n=116; Haiku likely weakest.",
+   "odds_prior_commit": "34d6b1f",
+   "engine_odds_at": "2026-11-05T16:33",
+   "odds_template": "v2",
+   "odds_rationale": "Elicited under rule 14 in a fresh context that read only ledger/prior.md at 34d6b1f and this node's own row (programs/settled-science/map/odds-elicitation/rows-remap-2026-11-05c.md); its row on prior.md's tables: settled-science, referee model, free ($0), literature, layer 4. Re-scout (programs/settled-science/map/reads/remap-2026-11-05c-ss-b11.md): The weakness of field labels is already shown (Fanelli 2010: R² 0.051 across disciplines; Altmejd et al. 2019), and it is what ss-b11's audit found. So no follow-up on round 1's four fields can test 'more than field habits'. F2 adds new items in fields chosen for a measured spread, with rates fitted on pre-cutoff items: neither in-sample nor leave-one-out (P11). Gordon et al. 2021 shows item-level answer-free cues beat field labels (R² 0.2), so F1, the audit's $0 finer rule, uses item-level cues under cross-validation. F1 is a secondary of ss-b1 and ss-b13.",
+   "question": "Is there any simple clue in how the test questions are worded that does as well as the Claude models, once that clue is tested fairly?",
+   "known": [
+    "The largest model beat every answer-free rule tried on these 116 findings, including one fitted on the answers, but the four research fields carried no real signal (ss-b11, ss-b2, ss-b1 audit); the smaller models have not been scored against such rules.",
+    "In replication forecasting an item-level cue (the original p-value) carried far more signal than field labels, which added almost nothing (Gordon et al. 2021; Altmejd et al. 2019; re-scout remap-2026-11-05c-ss-b11)."
+   ],
+   "human_prompt": "Would you spend about zero dollars, using answers already on file, to find out whether any simple clue in the wording of the test questions, checked fairly, predicts new research findings as well as the three Claude models do? Will it come back a hit (here, a hit means every one of the three models beats the best fair wording clue by a clear margin)?",
+   "hit_means": "Each of the three Claude models beats the best fairly fitted wording-clue rule by a clear margin, on findings and on papers.",
+   "engine_only": [
+    "rule: ridge logistic on field, up word (template_writer PAIRS list), option order, headline_side tag, |len(option_a) - len(option_b)|; penalty fixed in the pre-registration",
+    "10-fold CV, folds by paper (cid), seed 20261104; word-shuffle null (500 shuffles) reported",
+    "margin -0.01 (P3); item and paper-cluster bootstraps (P14)",
+    "secondary_of ss-b1 and ss-b13 (rule 15)",
+    "the ss-b11 audit's exploratory leave-one-out rules all scored 0.238 or worse; seen by this reader, disclosed"
+   ],
+   "prior_work_line": "Gordon et al. 2021 (PLOS ONE 16:e0248780) found an answer-free item cue, the original p-value, explained R² 0.2 of replication outcomes, while Altmejd et al. 2019 (PLOS ONE 14:e0225826) found discipline dummies had 'little bearing': item cues can carry signal that field labels lack. No paper scores an LLM against a cross-validated answer-free rule. Adds: the ss-b11 audit's fair-fit test, on three bettors.",
+   "prior_work_predicts": "unknown",
+   "prior_work_sources": [
+    "Gordon, Viganola, Dreber, Johannesson and Pfeiffer 2021, PLOS ONE 16(4):e0248780; opened PMC8046229 full text",
+    "Altmejd et al. 2019, PLOS ONE 14(12):e0225826; re-opened PMC6894796 for the discipline-dummy result only",
+    "Fanelli 2010, PLoS ONE 5(4):e10068; opened PMC2850928 full text"
+   ],
+   "source": "literature",
+   "source_note": "re-scout programs/settled-science/map/reads/remap-2026-11-05c-ss-b11.md; audit ledger/audits/ss-b11.md, 'What would break it next'",
+   "our_results": "The largest model beat every answer-free rule tried on these findings, including one fitted on the answers themselves, but the audit found the research fields carried no real signal.",
+   "our_results_from": [
+    "ss-b11",
+    "ss-b2",
+    "ss-b1"
+   ],
+   "layer_depth": 4
+  },
+  {
+   "id": "ss-f14",
+   "parent": "ss-f3",
+   "from_bet": "ss-b11",
+   "kind": "follow-up",
+   "remap": "2026-11-05c",
+   "status": "open",
+   "rank": 5,
+   "short": "Field rule where fields differ",
+   "title": "On new findings from research fields chosen because their results lean differently, do the Claude bettors beat a rule that knows each field's lean, learned only from older papers?",
+   "assumption_at_stake": "The bettor's edge is more than knowing each field's habits, which round 1's four fields could not test because they barely differ.",
+   "cheapest_test": "Measure the arXiv pool first (P15): pick four fields by the spread of their up-word rates on at least 40 pre-cutoff template items each, gate at a 0.20 spread, then build at least 60 leakage-clean post-cutoff template items in them (round 2's writer, no model; Sonnet leakage drop).\nFit the field rule on the pre-cutoff items only (shrink weight 4 to pooled); bettors on Haiku, Sonnet and Opus; paired Brier difference.",
+   "models": [
+    "claude-haiku-5-5",
+    "claude-sonnet-5-5",
+    "claude-opus-5-5"
+   ],
+   "models_note": "All three as bettors (rule 12); Opus on the same 60 items, since at round 2's measured $0.0048 per call it costs $0.29, and fewer items would leave the bound too wide.",
+   "cost": "About $0.91: pool measurement and template writer $0 (arXiv API, no model); leakage drop about 150 candidates (round 2 kept 97 of 243) x $0.00294 (measured, items/r2/leakage-cache.json) = $0.44; bettors on 60 items: Opus 60 x $0.0048 (r2-bettor-cache) = $0.29, Sonnet 60 x $0.00287 (f1-cache) = $0.17, Haiku 60 x $0.00015 = $0.01.",
+   "cap_note": "Does not fit the engine's call: program 4 is at $11.57 this month, past rule 4's $10 per month engine limit, so it needs Sean's decision. It fits the code cap ($13.40, about $1.83 left) on its own; with ss-b13's flattery follow-up (about $0.72) the pair is about $1.63, still under it. New items, so a primary scored bet. No budget approved.",
+   "odds_event": "Gate (before any post-cutoff item is built): the four chosen fields' pre-cutoff up-word rates span at least 0.20, else untestable and not run. Rule: on at least 60 leakage-clean post-cutoff items, for each of claude-haiku-5-5, claude-sonnet-5-5 and claude-opus-5-5, Brier minus the field rule's (rates fitted on pre-cutoff items only, shrink weight 4) has a 95% upper bound below -0.01 on both the item and the paper-cluster bootstrap (seed fixed in the pre-registration). Scoreable: yes.",
+   "engine_odds": 0.18,
+   "engine_odds_first": 0.18,
+   "odds_prior": 0.25,
+   "odds_adjustment": -0.07,
+   "odds_reason": "Layer 4 (0 of 5), literature (0.19) and model referee (0.22) rows outweigh settled-science (0.50, n=6); all three bettors must clear both bootstraps on 60 items, and the gate may fail.",
+   "odds_prior_commit": "34d6b1f",
+   "engine_odds_at": "2026-11-05T16:33",
+   "odds_template": "v2",
+   "odds_rationale": "Elicited under rule 14 in a fresh context that read only ledger/prior.md at 34d6b1f and this node's own row (programs/settled-science/map/odds-elicitation/rows-remap-2026-11-05c.md); its row on prior.md's tables: settled-science, referee model, under $1, literature, layer 4. Re-scout (programs/settled-science/map/reads/remap-2026-11-05c-ss-b11.md): The weakness of field labels is already shown (Fanelli 2010: R² 0.051 across disciplines; Altmejd et al. 2019), and it is what ss-b11's audit found. So no follow-up on round 1's four fields can test 'more than field habits'. F2 adds new items in fields chosen for a measured spread, with rates fitted on pre-cutoff items: neither in-sample nor leave-one-out (P11). Gordon et al. 2021 shows item-level answer-free cues beat field labels (R² 0.2), so F1, the audit's $0 finer rule, uses item-level cues under cross-validation. F1 is a secondary of ss-b1 and ss-b13.",
+   "question": "When research fields really differ in which way their results usually go, do the Claude models still beat a guess that only knows each field's usual direction?",
+   "known": [
+    "In round 1 the four fields barely differed, so beating a field-aware rule there showed only that the largest model beats pooled rates (ss-b11, ss-b2).",
+    "Fields do differ in how often they report positive results (70% to 92% across disciplines), but field explains at most about 5% of the outcomes (Fanelli 2010; Youyou, Yang and Uzzi 2023; re-scout remap-2026-11-05c-ss-b11)."
+   ],
+   "human_prompt": "Would you spend about ninety cents to find out whether the Claude models still beat a guess that knows which way results usually go in each research field, on new findings from fields picked because they really do differ? Will it come back a hit (here, a hit means all three models beat that field-habit guess by a clear margin, on findings and on papers)?",
+   "hit_means": "All three Claude models beat the field-habit guess by a clear margin, on findings and on papers, in fields that really differ.",
+   "engine_only": [
+    "pool measured by regex on on-field candidates before pre-registering (P15; ss-b14/ss-b15 withdrawals)",
+    "fields chosen on pre-cutoff up-word rates only; post-cutoff labels unseen before freeze",
+    "template writer v1 (items/template_writer.py), round 2's leakage check (items/leakcheck.py, Sonnet)",
+    "field rule fitted out of sample on pre-cutoff items: sidesteps the in-sample vs leave-one-out problem (P11)",
+    "reported: field rule vs pooled pre-cutoff rule, and a within-field method feature (Youyou et al.'s experiment-or-not analogue) to check the spread is the field's",
+    "margin -0.01 (P3); paper-cluster bootstrap (P14)"
+   ],
+   "prior_work_line": "Fanelli 2010 (PLoS ONE 5:e10068): positive results ranged from 70.2% (space science) to 91.5% (psychology), yet discipline explained at most 5.1% of the variance; Youyou, Yang and Uzzi 2023 (PNAS 120:e2208863120): psychology subfields' predicted replicability means span 0.36 to 0.55, partly a method mix. Field habits are real but weak, which predicts the bettors beat a field rule even where fields differ. Adds: fields chosen to differ, rates fitted out of sample.",
+   "prior_work_predicts": "pass",
+   "prior_work_sources": [
+    "Fanelli 2010, PLoS ONE 5(4):e10068; opened PMC2850928 full text",
+    "Youyou, Yang and Uzzi 2023, PNAS 120(6):e2208863120; opened UCL Discovery PDF, main text pp. 1-8 in full (SI not read)",
+    "Gordon et al. 2021, PLOS ONE 16(4):e0248780; opened PMC8046229 full text (project base rates 38% to 62%, forecasters 73%)"
+   ],
+   "source": "literature",
+   "source_note": "re-scout programs/settled-science/map/reads/remap-2026-11-05c-ss-b11.md; audit ledger/audits/ss-b11.md, 'What would break it next'",
+   "our_results": "In round 1's four fields the field labels fit no better than shuffled ones, so the question of field habits was never really tested.",
+   "our_results_from": [
+    "ss-b11"
+   ],
+   "layer_depth": 4
+  },
+  {
+   "id": "ss-f15",
+   "parent": "ss-f8",
+   "from_bet": "ss-b10c",
+   "kind": "follow-up",
+   "remap": "2026-11-05c",
+   "status": "open",
+   "rank": 6,
+   "short": "BrainBench better-news, one at a time",
+   "title": "Rate each BrainBench abstract on its own for how good news it is for the paper's idea, so option order cannot matter; does the higher-rated version still beat the experts' 63.4% on Haiku and Sonnet?",
+   "assumption_at_stake": "Haiku's orders-averaged pass reflects a real lean toward the original abstract, not the size of its confidence when the original happens to be shown first (52 of its 100 scored items were right only when the original was shown first).",
+   "cheapest_test": "ss-b10c's flattery wording adapted to one abstract per call ('how good news is this result for the paper's own idea, 0-100'); both versions rated separately; the pick is the higher rating, equal ratings score 0.5, tie rate reported.\nSame scored items as ss-b10c (Haiku 100, Sonnet 126), Opus on 20 beacon-drawn items; plus a repeat of Haiku's 100 reversed-order paired calls as a reported noise row.",
+   "models": [
+    "claude-haiku-5-5",
+    "claude-sonnet-5-5",
+    "claude-opus-5-5"
+   ],
+   "models_note": "Opus on 20 items only (about 100 times Haiku's cost per call); it is a reported row, not part of the rule.",
+   "cost": "about $1.69 (upper bound at ss-b10c's measured per-call costs for paired calls: Haiku 200 x $0.000259 = $0.052; Haiku repeat 100 x $0.000259 = $0.026; Sonnet 252 x $0.004955 = $1.249; Opus 40 x $0.009041 = $0.362)",
+   "cap_note": "Program 4 has spent $11.566 this month (ledger cost_usd), already over rule 4's $10 a month that is the engine's call; the $1.69 fits the $1.83 left under the code cap ($13.40, br-009), but the number and a recommendation go to Sean. No budget approved here.",
+   "odds_event": "On the BrainBench items ss-b10c scored (claude-haiku-5-5: 100, claude-sonnet-5-5: 126), with each abstract of a pair rated alone in its own call for how good news it is for the paper's own idea (0-100), the higher-rated version taken as the pick and equal ratings scored 0.5, for both models the accuracy has a 95% item-bootstrap lower bound above 0.634 (the published human-expert mean).",
+   "engine_odds": 0.18,
+   "engine_odds_first": 0.18,
+   "odds_prior": 0.25,
+   "odds_adjustment": -0.07,
+   "odds_reason": "Settled-science (0.50) and the $1-5 row (0.31) pull up, but both models must clear the bar; ties scored 0.5 on coarse ratings, and Haiku's 67.0% two-pick result, point to Haiku failing.",
+   "odds_prior_commit": "34d6b1f",
+   "engine_odds_at": "2026-11-05T16:33",
+   "odds_template": "v2",
+   "odds_rationale": "Elicited under rule 14 in a fresh context that read only ledger/prior.md at 34d6b1f and this node's own row (programs/settled-science/map/odds-elicitation/rows-remap-2026-11-05c.md); its row on prior.md's tables: settled-science, referee model, $1 to under $5, literature, layer 7. Re-scout (programs/settled-science/map/reads/remap-2026-11-05c-ss-b10c.md): Adds the audit's neutral presentation in pointwise form: each abstract rated alone, so no order exists. Tripathi et al. 2025 make pointwise ratings robust but tie-prone; Yin et al. name the rival, primacy on pairs that both look good. Adds a $0 comparison with BrainBench's public per-item LLM and human data, against Luo et al.'s 0.15 and 0.75. Drops the second human-written set (none found) and the non-Claude rater (no key, no budget line). Prior work re-prices neither follow-up.",
+   "question": "If a model sees each version of a neuroscience abstract on its own, so it cannot just favour whichever one comes first, does asking which version is better news for the paper still pick the real one more often than neuroscientists did?",
+   "known": [
+    "With each pair shown both ways round and the answers averaged, the better-news question picked the real abstract 77.5% on Haiku and 89.7% on Sonnet; counted by its two picks, Haiku drops to 67.0% (ss-b10c, audited; ss-b10).",
+    "Rating items one at a time is much less swayed by distracting features than choosing between two, but it ties far more often (Tripathi et al. 2025); models favour the first option when both look good (Yin et al. 2025)."
+   ],
+   "human_prompt": "Would you spend about one dollar and seventy cents to find out whether the smaller Claude models still pick the real neuroscience abstract more often than neuroscientists did when they see each version on its own, so that which one comes first cannot matter? Will it come back a hit (here, a hit means both smaller models still clearly beat the neuroscientists' score)?",
+   "hit_means": "Both Haiku and Sonnet, rating each version on its own, still pick the real abstract clearly more often than the neuroscientists' 63.4%.",
+   "engine_only": [
+    "single-abstract prompt adapted from ss-b10c FLATTERY; one scale, 0 = bad news, 100 = good news",
+    "ties (equal ratings) scored 0.5; tie rate pre-registered as a reported row (Tripathi et al. found 84.6-93.2% ties on identical-quality pairs)",
+    "scored items fixed by bb-cache.json as in ss-b10c",
+    "reported rows: Opus on 20 beacon-drawn items; Haiku repeat of 100 reversed paired calls, count of sign flips of p_avg on the 52 first-only items (audit bar about 6)",
+    "10,000-resample item bootstrap, section-cluster CI beside it",
+    "cost budgeted from counted tokens (ss-b10 audit)"
+   ],
+   "prior_work_line": "Tripathi et al. 2025 (arXiv 2504.14716; Llama and Qwen judges) find absolute ratings flip about 9% under distractors against about 35% for pairwise, but tie 84.6-93.2% on identical-quality pairs; Yin et al. 2025 (arXiv 2506.14092; Claude 3 Haiku among models) find primacy when both options look good, and say averaging over orders does not recover preferences. Together they predict Sonnet holds and leave Haiku open. Adds: the audit's overturning test, on Claude, on BrainBench.",
+   "prior_work_predicts": "mixed",
+   "prior_work_sources": [
+    "Tripathi, Wadhwa, Durrett, Niekum 2025, arXiv 2504.14716, full read (HTML v2), 2026-11-05",
+    "Yin, Vardi, Choudhary, arXiv 2506.14092 v4, partial read (first 100k of 161k characters), 2026-11-05",
+    "ledger/audits/ss-b10c.md, 'What would break it next' (this repository)"
+   ],
+   "source": "literature",
+   "source_note": "re-scout programs/settled-science/map/reads/remap-2026-11-05c-ss-b10c.md; audit ledger/audits/ss-b10c.md, 'What would break it next'",
+   "our_results": "With both orders averaged the better-news question beat the neuroscientists on Haiku (77.5%) and Sonnet (89.7%), but Haiku was right only when the real abstract came first on 52 of its 100 items, and counted by its two picks it was 67.0%.",
+   "our_results_from": [
+    "ss-b10c",
+    "ss-b10"
+   ],
+   "layer_depth": 7
+  },
+  {
+   "id": "ss-f16",
+   "parent": "ss-f8",
+   "from_bet": "ss-b10c",
+   "kind": "follow-up",
+   "remap": "2026-11-05c",
+   "status": "open",
+   "rank": 1,
+   "short": "Better-news vs published LLMs, per item",
+   "title": "Do the BrainBench items the better-news question gets right line up with the items the published LLMs got right? A $0 item-level comparison with BrainBench's public per-item results",
+   "assumption_at_stake": "The published LLMs' 81.4% on BrainBench rests on something other than the valence shortcut, so the items the shortcut solves are not the items those models solve.",
+   "cheapest_test": "From the ss-b10/ss-b10c archive, each model's orders-averaged flattery probability for the original on all 200 items; from braingpt-lovelab/brainbench_results (model_results/*/human_abstracts), each published LLM's per-item correct/incorrect, averaged per item.\nSpearman correlation over the 200 items, item bootstrap; the forecasting prompt's and the human experts' per-item accuracy (brainbench_participant_data) as reported rows.",
+   "models": "none: an archive comparison of ratings already collected (ss-b10, ss-b10c) with BrainBench's published per-item data; no model is called",
+   "models_note": "Uses Haiku's and Sonnet's archived ratings on all 200 items; Opus has only 41 items and is a reported row.",
+   "cost": "$0 of API (0 calls); a few laptop minutes to download the public files at a pinned commit and run the correlation",
+   "cap_note": "Fits: $0, no budget ruling needed, nothing approved.",
+   "odds_event": "Over BrainBench's 200 human-written items, for both claude-haiku-5-5 and claude-sonnet-5-5, the Spearman correlation between the model's orders-averaged flattery probability for the original abstract (ss-b10 and ss-b10c archive) and the published LLMs' mean per-item accuracy (models in brainbench_results/model_results with human_abstracts results) has a 95% item-bootstrap lower bound above 0.15 (Luo et al.'s mean LLM-human item correlation).",
+   "engine_odds": 0.3,
+   "engine_odds_first": 0.3,
+   "odds_prior": 0.25,
+   "odds_adjustment": 0.05,
+   "odds_reason": "By program, settled-science (3 of 6) and By layer depth, layers 5 to 6 (3 of 5) pull up; model, free, literature rows (about 0.2) pull down; both models need rho near 0.3.",
+   "odds_prior_commit": "34d6b1f",
+   "engine_odds_at": "2026-11-05T16:33",
+   "odds_template": "v2",
+   "odds_rationale": "Elicited under rule 14 in a fresh context that read only ledger/prior.md at 34d6b1f and this node's own row (programs/settled-science/map/odds-elicitation/rows-remap-2026-11-05c.md); its row on prior.md's tables: settled-science, referee model, free ($0), literature, layer 7. Re-scout (programs/settled-science/map/reads/remap-2026-11-05c-ss-b10c.md): Adds the audit's neutral presentation in pointwise form: each abstract rated alone, so no order exists. Tripathi et al. 2025 make pointwise ratings robust but tie-prone; Yin et al. name the rival, primacy on pairs that both look good. Adds a $0 comparison with BrainBench's public per-item LLM and human data, against Luo et al.'s 0.15 and 0.75. Drops the second human-written set (none found) and the non-Claude rater (no key, no budget line). Prior work re-prices neither follow-up.",
+   "question": "Are the neuroscience abstracts that the 'which version is better news' question gets right mostly the same ones the AI models in the famous study got right?",
+   "known": [
+    "The better-news question alone picked the real abstract 76.2% (Haiku) and 88.2% (Sonnet) on all 200 items with both orders averaged; simple text rules scored at chance (ss-b10c, ss-b10).",
+    "BrainBench reports that published LLMs agree with each other on which items are hard (0.75) far more than with human experts (0.15), and tests no valence shortcut (Luo et al. 2024)."
+   ],
+   "human_prompt": "Would you spend nothing but a few minutes of laptop time to find out whether the abstracts that the better-news question gets right are the same ones the AI models in the famous study got right? Will it come back a hit (here, a hit means the two lists of easy and hard abstracts clearly line up, more than the AI models' list lined up with the neuroscientists')?",
+   "hit_means": "On both smaller Claude models, the abstracts the better-news question finds easy are clearly the same ones the published AI models found easy, more than the published models matched the neuroscientists.",
+   "engine_only": [
+    "files: brainbench_results model_results/<model>/human_abstracts and brainbench_participant_data data/participant_data.csv plus abstract_id_doi.csv, pinned commit and SHA-256 recorded, treated as untrusted data, matched to items.jsonl by DOI",
+    "per-item LLM accuracy = mean over the published models of (perplexity of original < perplexity of altered)",
+    "reported rows: forecasting prompt's correlation; flattery minus forecasting difference; correlation with human per-item accuracy (about 7-8 trials per item, noisy); Opus on 41 items",
+    "10,000-resample item bootstrap; section-cluster CI beside it",
+    "dry run on a simulated null before the pre-registration (P12)"
+   ],
+   "prior_work_line": "Luo et al. 2024 (arXiv 2403.03230; 15 open LLMs, 171 experts) report a mean Spearman item-difficulty correlation of 0.75 among LLMs and 0.15 between LLMs and experts, and test no valence rater, so where a valence rule falls between them is unstated. No prior statement found after Semantic Scholar citations of arXiv:2403.03230 and web searches for BrainBench with valence, shortcut and item-level analysis, 2026-11-05. Adds: how much of the published LLMs' item pattern the shortcut shares.",
+   "prior_work_predicts": "unknown",
+   "prior_work_sources": [
+    "Luo et al. 2024, arXiv 2403.03230 v4, partial re-read (alterations, item correlations, data release), 2026-11-05",
+    "GitHub braingpt-lovelab/brainbench_results and brainbench_participant_data README and folder listings, opened 2026-11-05",
+    "Semantic Scholar citations of arXiv:2403.03230 (217 records, titles scanned), 2026-11-05"
+   ],
+   "source": "literature",
+   "source_note": "re-scout programs/settled-science/map/reads/remap-2026-11-05c-ss-b10c.md; audit ledger/audits/ss-b10c.md, 'What would break it next'",
+   "our_results": "Asked only which version is better news for the paper, Haiku and Sonnet picked the real abstract 76.2% and 88.2% of the time on all 200 items with both orders averaged, while text-only rules scored at chance.",
+   "our_results_from": [
+    "ss-b10c",
+    "ss-b10"
+   ],
+   "layer_depth": 7
   }
  ]
 }

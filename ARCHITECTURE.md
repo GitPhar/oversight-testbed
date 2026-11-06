@@ -135,6 +135,12 @@ loop(program):
                 b.direction.rules_out = one_sentence(b)               # "Rules out …", scoped to what was tested
         assert no_landed_leaf(program.map)                           # ledger/check_remap.py: no map ends at a landed bet
 
+    # 7b. LIMIT (rule 16) — five layers and $15 a month, unless the newest layer landed something partly new or new, or Sean says go on
+    released = any(b.landed and b.novelty in {partly_new, new} for b in newest_settled_layer(program)) or steer(program).rule16_release
+    if not released and (depth(program) >= 5 or spent_this_month(program) >= 15):
+        program.next_action = closing_review(program)                # operators/remap.md, Closing a program; no new layer, no paid call
+        # enforced: ledger/check_remap.py (nothing open past layer 5), the programs' budget code (the dollar line, every call)
+
     # 8. STEER — the human's hand
     for s in human.steers_since_last_cycle: log(Steer s)             # every veto, question, budget call, override
         if s.action == veto and s.target is a research direction:     # a veto is a bet that the direction would not pay
@@ -195,6 +201,7 @@ oversight_test:
 13. The engine knows what it is testing against: no direction without a Prior work line (what published work predicts for this exact test, with citations, or a described search that found none), no pre-registration whose design review skipped D12, and no landed or mixed result called final before a fresh session that searched the literature has written its Novelty line (known, partly new or new), which the audit checks (F27) and the map and the site show. A known result is reported as a replication of the paper that found it (CONTEXT.md §3 rule 13; `paper/informed-engine.md`).
 14. Odds start from the record: every odds elicitation is a fresh context holding `ledger/prior.md` and the bet's own description, nothing of its history, and writes prior, adjustment and a one-line reason; the ledger keeps all three and `ledger/brier.md` scores the prior alone against the adjusted odds (CONTEXT.md §3 rule 14).
 15. One scored bet per run: a bet that re-scores a run an earlier scored bet was scored on (same program and result file, or the same raw data with nothing new, or an audit says so) carries `secondary_of`; the primary Brier counts each run once and `ledger/brier.md` shows every row in a Sensitivity row beside it (CONTEXT.md §3 rule 15).
+16. A program has a limit: at most five layers deep and at most $15 of API a month without a landed result labelled partly new or new in its newest layer, or a steer from Sean (`rule16_release`); past either line, its next action is a closing review. `ledger/rule16.py` counts both; `ledger/prior.py`'s closing-review table reports both per program; `ledger/check_remap.py` enforces the layer line (nothing open past layer 5 in a program not released; nothing open in a closed program); each program's budget code enforces the dollar line before every paid call and refuses any paid call in a closed program (CONTEXT.md §3 rule 16).
 
 ## Repositories
 
@@ -233,7 +240,7 @@ review   (per prereg, before 1st call):  fresh auditor dry-runs the design, D1�
 novelty  (per landed or mixed result, before the write-up is final): fresh session searches the literature around the result; writes the Novelty line (known | partly new | new) into the results file and the ledger row (operators/prereg-template.md §10); the remap's re-scout does it for results that predate rule 13
 shadow   (per veto, 7–30 days later):    fresh session, argued neither side; pre-registers and runs the cheapest look at a vetoed direction (operators/veto.md)
 remap    (per settled round, local tab): fresh session reads every settled result; two cheapest follow-ups per landed or mixed bet, a "rules out" sentence per kill (operators/remap.md)
-closing  (per program due, local tab):   fresh session; when ledger/prior.md lists a program whose last three layers hold no landed bet and no partly-new finding: diagnosis, then closed or kept open with a stated reason (operators/remap.md)
+closing  (per program due, local tab):   fresh session; when ledger/prior.md lists a program whose last three layers hold no landed bet and no partly-new finding, or one at rule 16's five-layer or $15-a-month line without a release, or when Sean closes it by a steer: diagnosis, then closed or kept open with a stated reason (operators/remap.md)
 session  (any build tab):                reads CONTEXT.md first; obeys the invariants; commits with the deviation row it adds
 ```
 

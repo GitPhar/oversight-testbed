@@ -42,6 +42,37 @@ CACHES = [ROOT / "items" / "leakage-cache.json", ROOT / "bettor" / "bettor-cache
           ROOT / "bettor" / "bbv2-pilot-cache.json"]                                               # ss-b17 review pilot (br-023, D82)
 
 
+def _rule16(spent_usd=0.0):
+    """Rule 16's dollar line (CONTEXT.md section 3; ledger/rule16.py): at most $15 of API a month without a landed
+    partly-new or new result in the program's newest layer, or a steer from Sean; a closed program makes no paid
+    call. Read only on a paid run (analyses never call it); refuses with SystemExit."""
+    led = str(ROOT.parents[1] / "ledger")
+    if led not in sys.path:
+        sys.path.insert(0, led)
+    import rule16
+    return rule16.DollarLine("settled-science", spent_usd, root=ROOT.parents[1])
+
+
+def _guard_client(factory, spent_fn=lambda: 0.0):
+    """The first paid client of a process passes rule 16's dollar line, so a script that calls llm.client() without
+    this module's Caller is still checked at the start of its run."""
+    if getattr(factory, "rule16_guarded", False):
+        return factory
+    seen = []
+
+    def client(*a, **k):
+        if not seen:
+            _rule16(spent_fn())
+            seen.append(True)
+        return factory(*a, **k)
+
+    client.rule16_guarded = True
+    return client
+
+
+llm.client = _guard_client(llm.client, spent_total)
+
+
 def key_of(*parts) -> str:
     return hashlib.sha256(json.dumps(parts, sort_keys=True).encode()).hexdigest()[:24]
 
@@ -67,12 +98,18 @@ class Caller:
         return self.others + sum(v["cost"] for v in self.cache.values())
 
     def run(self, jobs, fn, workers=6):
+        line, base = _rule16(self.spent()), self.spent()     # rule 16, checked again before every call
+
         def work(job):
             k = job["key"]
             if k in self.cache or self.stop.is_set():
                 return
             with self.lock:
                 if self.spent() >= self.cap - 0.05:
+                    self.stop.set()
+                    return
+                if line.blocks(self.spent() - base):
+                    self.rule16_stop = line.message(line.start + self.spent() - base)
                     self.stop.set()
                     return
             try:
@@ -105,6 +142,8 @@ class Caller:
             sys.exit(f"STOPPED on a refusal: {e}")
         if self.errors:
             sys.exit(f"{self.label}: stopped on an error: {self.errors[0]}")
+        if getattr(self, "rule16_stop", None):
+            sys.exit(self.rule16_stop)
         if self.stop.is_set():
             sys.exit(f"{self.label}: budget cap ${self.cap} reached; stopped")
         print(f"{self.label}: complete, {len(self.cache)} cached calls, total spent ${self.spent():.4f}", flush=True)
