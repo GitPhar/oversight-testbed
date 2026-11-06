@@ -560,3 +560,32 @@ Every landed or mixed bet of this program carries a Novelty line in its results 
 | bet | direction | ledger verdict | novelty | the line |
 |---|---|---|---|---|
 | ng-p3-5c | P3-5 | pass-unreplicated | **known** | Tripathi et al. 2022 (Phys. Rev. Applied 18, 024068; arXiv 2108.04530) state that on IBM fixed-frequency transmons the always-on ZZ coupling "contributes to both coherent and incoherent crosstalk errors", alongside open-system decoherence; Carignan-Dugas et al. 2024 (Quantum 8, 1367; arXiv 2303.09945) measure "substantial coherent errors biased in Z" on three IBM chips next to decoherent error; Georgopoulos et al. 2021 (Phys. Rev. A 104, 062432) find operations "more or less erroneous than the hardware-calibrated parameters show". Our finding that ibm_fez pairs need both a rotation term and a blur term beyond the calibrated simulator is the same statement in the same direction, on a tunable-coupler Heron device. Search: WebSearch for "superconducting qubits coherent and incoherent errors gate set tomography IBM ZZ calibration noise model underpredicts", "ibm_fez Heron coherent errors", "gate set tomography IBM coherent stochastic"; arXiv abstract pages for each lead. |
+
+## Follow-ups (remap 2026-11-05c)
+
+*Written 2026-11-05 by a fresh remap session (claude-opus-5-5) that ran none of program 3's bets; re-scout by a fresh reader subagent; odds by fresh blind contexts (rule 14). The chip is a referee here, never the subject.*
+
+**What came back.** In a fresh ibm_fez job (20.0 QPU s), the 16-knob model needed both a rotation-type (coherent) and a blur-type (incoherent) error term beyond the simulator's state on two of three entangled pairs, and only the blur term on the third (ng-p3-18, pass, unreplicated). Its Novelty line, added by this remap, is **known**: coherent and stochastic error together on superconducting processors are in print (Hashim et al. 2021, read in full; Carignan-Dugas et al. 2024 on three IBM chips; Seif et al. 2024), so the result is a replication of our own ng-p3-5c, not a finding about chips. Two rivals neither run excludes: ZZ crosstalk from neighbouring qubits (Seif) and coherent readout error in the x/y bases (Aasen et al. 2024). ng-p3-16's rules-out sentence is below.
+
+**What the follow-ups would show.** P3-19 ($0, laptop about 6 h): whether either error term on 5 November can be stood in for by extra readout error, with P3-17's bounded readout knobs applied to that job; it is a secondary of ng-p3-18 under rule 15, and is pre-registered only after ng-p3-17 is scored and audited. P3-20 (about 36 QPU s): one job with the two-qubit gates randomly twirled beside a bare arm; if the rotation term is coherent gate error, twirling should turn it into blur (Hashim et al.). It is the only candidate that adds a primary chip-graded bet; its bare arm replicates P3-18 and is reported, not scored.
+
+**Budget.** QPU used 89 of the 420 s hard stop; P3-9 (about 42 s, the month's foundations experiment) would bring it to about 131 and P3-20 to about 167. P3-20 would use st-19's tiebreak role (at most 60 s each, 120 s a month); whether that role covers it is the engine's ruling at pre-registration under st-16, which Sean can veto. This remap approves none. Noted for the program's next session, not changed here: `map/nature-graded.json` and `program-3-map.json` disagree on the seed question and on P3-15 and P3-16's status; both show P3-17 and P3-18 as open although both have bets; the bet rows' `qpu_s_used` sum to 85 s against 89 s cumulative; and `programs/nature-graded/reproduce.py` fails on `results/p3-17-bounded-readout.run2-partial.json`, a file from main that is not registered.
+
+### What the re-scouts change
+
+- **ng-p3-18** (Novelty: known; added; `programs/nature-graded/map/reads/remap-2026-11-05c-ng-p3-18.md`). Keeps the audit's readout refit of the 5 November job (P3-19, $0, secondary to ng-p3-18 under rule 15), with a caveat from Aasen et al.: coherent x/y readout error is outside P3-17's knobs. Adds P3-20, a twirled-versus-bare job (about 36 QPU s, st-19's tiebreak role): Hashim, Carignan-Dugas, Seif and Vyas predict twirled two-qubit layers turn the rotation term into blur; it is the only candidate adding a primary chip-graded bet, and its bare arm replicates P3-18. Drops a plain third job (no st-19 role), a resampled-A null and a cross-day refit. Finding 11's verdict stands; its Hashim description is corrected.
+
+### Follow-ups
+
+| id | parent (bet, novelty) | follow-up | models | cost | engine odds (prior + adjustment) | prior work predicts | card |
+|---|---|---|---|---|---|---|---|
+| P3-19 | P3-18 (ng-p3-18, known) | Can extra readout error stand in for either error term in the 5 November job? | none: archived chip counts, no model in the loop (rule 12 does not apply) | $0, 0 QPU s; laptop <= 6 h | 0.22 (0.25 -0.03) | pass | yes |
+| P3-20 | P3-18 (ng-p3-18, known) | With the chip's two-qubit gates randomly twirled, does the rotation-type term go away? | none: the chip is the referee, no model in the loop (rule 12 does not apply) | about 36 QPU s, $0 API | 0.33 (0.25 +0.08) | mixed | yes |
+
+Each row's Prior work line, pass rule, cost arithmetic and cap note are on its node in `map/nature-graded.json`; the odds record is in `programs/nature-graded/map/odds-elicitation/v2-remap-2026-11-05c.md`.
+
+### Rules out (killed or withdrawn bets that had no sentence)
+
+| node | bet(s) | rules out |
+|---|---|---|
+| P3-16 | P3-16 | Rules out, on ibm_fez on 5 November, that running the 3 November circuit alone in its own job brings back that day's 50% 'yes' rate: alone it gave 31%, sharing a job 32% (ng-p3-16). |

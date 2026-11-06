@@ -191,3 +191,35 @@ dm6f2-f2 ran as bet `em-dm6f2f2` (pre-registration `33d18d7`, results `494d968`,
 | dm6f2f2-f2 | dm6f2-f2, bet `em-dm6f2f2` | On science questions, the two missing cells of wording × forced Yes/No | Sonnet | about $0.56 | 36 (v2) |
 
 What the re-scout changes (its closing paragraph): adds a half-range follow-up (Hansson, Juslin and Winman 2003) and re-prices a threshold-free rank version upward (round-number heaping is a rival); Opus needs at least 40 questions to be readable; odds unmoved by the reads.
+
+## Follow-ups (remap 2026-11-05c)
+
+*Written 2026-11-05 by a fresh remap session (claude-opus-5-5) that ran none of program 1's bets; re-scouts by a fresh reader subagent; odds by fresh blind contexts (rule 14).*
+
+**What came back.** No new program 1 result; three landed or mixed nodes had only one not-yet-run follow-up each. gm3c (em-gm3c, undetermined): Haiku's other five answer formats recover only about 40% of what one format reproducibly says. bm9 (em-bm9, pass): the main rating moves toward the sub-rating just given, but the audit found that is mostly the main rating becoming less extreme. gm2b-f1 (em-gm2bf1, pass, unreplicated, a secondary of em-gm3b): claims that move most with question order also move most with format, but only under the design review's guard; under the guard first frozen, and under noise alone, the link goes. Novelty lines: em-gm3c's stands, em-bm9's was corrected, em-gm2bf1's was added (all partly new). em-gm3cf1's withdrawal gets its rules-out sentence below.
+
+**What the follow-ups would show.** gm3c-f3: whether a plain rewording of the same format changes the answers as much as switching formats does; if it does, "no single credence across formats" is any-wording fragility (about $2.01, three models). bm9-f3 ($0): whether the main rating is less extreme after four sub-questions than when asked first, beyond regression to the mean, from saved conversations on all three models; the parked bm9-f1 (about $3) should wait for it. gm2bf1-f3 ($0): the test the audit and D88 named, with the noise guard taken from separate repeats and corrected for its imprecision (Westfall and Yarkoni 2016). Both $0 follow-ups re-analyse scored runs, so they are secondary under rule 15. The re-scout also notes that gm2bf1-f2 (Sonnet, priced at $2) may need no new calls (D88 lists free Sonnet order archives on all 40 items).
+
+**Budget.** Program 1's November bet rows total about $32.73 (plus $6.04 in sp-001), past rule 4's $10 a month that is the engine's call. The two $0 follow-ups need nothing; gm3c-f3 (about $2.01) is Sean's number, with this recommendation: run the two free ones first, because bm9-f3 decides whether bm9-f1's $3 is worth spending. This remap approves none.
+
+### What the re-scouts change
+
+- **em-bm9** (Novelty: partly new; corrected; `programs/entangled-mind/map/reads/remap-2026-11-05c-em-bm9.md`). Adds **bm9-f3**: a free three-model check of the audit's moderation reading. The gm2/gm2b (Haiku) and em-dm4 (Sonnet, Opus) archives hold the main question asked first (MF arm, turn 1) and the main question asked after four sub-questions (O1-O4 shown chains, no earlier main answer). Compare slopes against a split-half baseline so regression to the mean cannot fake moderation; AMEL's one-way shift goes to the intercept. Kapetanovic and Owusu predict little graded pull, so the old "pull toward the number" reading (bm9-f1, parked, about $3) is now the less likely one and should wait for this. Odds are elicited later.
+- **em-gm2bf1** (Novelty: partly new; added; `programs/entangled-mind/map/reads/remap-2026-11-05c-em-gm2bf1.md`). Adds **gm2bf1-f3**, the free test D88 and the audit named: take the order span from repeats 0-4 and the noise and extremity covariates from repeats 5-9 (and the reverse), so the guard no longer shares draws with the span. Westfall and Yarkoni make one addition necessary: the split covariate is less reliable, so the rule also needs a reliability-corrected partial, or a pass could be residual confounding. ProSA, Owusu-Feldman and AMEL predict a shared uncertainty driver. Re-prices gm2bf1-f2: D88 (F3) lists free Sonnet order archives on all 40 items, so it may need no new calls. Odds are elicited later.
+- **em-gm3c** (Novelty: partly new; stands; `programs/entangled-mind/map/reads/remap-2026-11-05c-em-gm3c.md`). Adds **gm3c-f3**: reword two formats while keeping them the same format, and measure how much of the original each rewording recovers against the same split-half ceiling. If rewordings recover far more than other formats do, the unshared part is format-specific; if not, it is any-wording fragility, which changes what gm3b and gm3c mean. Drops a two-dimensional-latent archive test: Smolin and Wilder found it adds nothing, and the audit's cross-validated linear prediction (Q 0.435) largely bounds it for linear combinations. gm3c-f2 stays parked (Sonnet answered). The re-scout lowers no bar and moves no odds; odds are elicited later.
+
+### Follow-ups
+
+| id | parent (bet, novelty) | follow-up | models | cost | engine odds (prior + adjustment) | prior work predicts | card |
+|---|---|---|---|---|---|---|---|
+| bm9-f3 | bm9 (em-bm9, partly new) | Is the main rating less extreme after sub-questions than when asked first, beyond regression to the mean, on Haiku, Sonnet and Opus? | haiku, sonnet, opus | $0 | 0.40 (0.25 +0.15) | unknown | yes |
+| gm2bf1-f3 | gm2b-f1 (em-gm2bf1, partly new) | Does the order-format link survive a noise guard measured on separate repeats, with the guard's imprecision corrected? | haiku | $0 | 0.15 (0.25 -0.10) | fail | yes |
+| gm3c-f3 | gm3c (em-gm3c, partly new) | Is the format gap the format, or any rewording? Reword two formats and measure how much of the original each recovers | haiku, sonnet, opus | about $2.00 at measured per-call batch costs | 0.30 (0.25 +0.05) | unknown | no (not among the two cheapest) |
+
+Each row's Prior work line, pass rule, cost arithmetic and cap note are on its node in `map/entangled-mind.json`; the odds record is in `programs/entangled-mind/map/odds-elicitation/v2-remap-2026-11-05c.md`.
+
+### Rules out (killed or withdrawn bets that had no sentence)
+
+| node | bet(s) | rules out |
+|---|---|---|
+| gm3c-f1 | em-gm3cf1 | Rules out nothing about held-out format recovery on Haiku; it shows the frozen rule's answer was known from the em-gm3c audit's numbers (about a 1% pass rate). No Haiku re-bet; gm3c-f2 (Sonnet, Opus) is parked. |

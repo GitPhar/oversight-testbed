@@ -13,6 +13,38 @@ from entangled_mind import config, llm, readout
 
 load_dotenv(config.ROOT / ".env")
 PLAIN = "## In plain English\n\n(Hand-written after the run; excluded from reproduce.py's comparison.)\n"
+ENGINE = __import__("pathlib").Path(__file__).resolve().parents[3]      # oversight-testbed
+
+def _rule16(spent_usd=0.0):
+    """Rule 16's dollar line (CONTEXT.md section 3; ledger/rule16.py): at most $15 of API a month without a landed
+    partly-new or new result in the program's newest layer, or a steer from Sean; a closed program makes no paid
+    call. Read only on a paid run (analyses never call it); refuses with SystemExit."""
+    led = str(ENGINE / "ledger")
+    if led not in sys.path:
+        sys.path.insert(0, led)
+    import rule16
+    return rule16.DollarLine("entangled-mind", spent_usd, root=ENGINE)
+
+
+def _guard_client(factory, spent_fn=lambda: 0.0):
+    """The first paid client of a process passes rule 16's dollar line, so a script that calls llm.client() without
+    this module's Caller is still checked at the start of its run."""
+    if getattr(factory, "rule16_guarded", False):
+        return factory
+    seen = []
+
+    def client(*a, **k):
+        if not seen:
+            _rule16(spent_fn())
+            seen.append(True)
+        return factory(*a, **k)
+
+    client.rule16_guarded = True
+    return client
+
+
+llm.client = _guard_client(llm.client)
+
 
 
 def auroc(pos, neg) -> float:
@@ -51,12 +83,18 @@ class Caller:
         return sum(v["cost"] for v in self.cache.values())
 
     def run(self, jobs, fn, workers=6):
+        line, base = _rule16(), self.spent()     # rule 16 (the ledger's month count), checked again before every call
+
         def work(job):
             key = job[0]
             if key in self.cache or self.stop.is_set():
                 return
             with self.lock:
                 if self.spent() >= self.cap:
+                    self.stop.set()
+                    return
+                if line.blocks(self.spent() - base):
+                    self.rule16_stop = line.message(line.start + self.spent() - base)
                     self.stop.set()
                     return
             try:
@@ -87,6 +125,8 @@ class Caller:
             sys.exit(f"STOPPED on a refusal: {e}")
         if self.errors:
             sys.exit(f"{self.label}: stopped on an error: {self.errors[0]}")
+        if getattr(self, "rule16_stop", None):
+            sys.exit(self.rule16_stop)
         if self.stop.is_set():
             sys.exit(f"{self.label}: budget cap ${self.cap} reached; stopped")
 

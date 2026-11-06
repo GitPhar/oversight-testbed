@@ -81,21 +81,21 @@ How many steps from its program's first map the bet's direction sits: layer 1 is
 | layer 5 | 3 | 1 | 0.33 | [0.06, 0.79] | 0.31 | 0.099 |
 | layer 6 | 2 | 2 | 1.00 | [0.34, 1.00] | 0.67 | 0.113 |
 
-Placed by the bet they repeat (not on the map themselves): om-p2-6r.
-
 ## Closing reviews due
 
 A program whose last three layers with settled bets hold no landed bet and no finding labelled partly new or new is due a closing review by a fresh session (`operators/remap.md`, "Closing a program"). The review writes a diagnosis and either marks the seed question closed on the map or keeps it open with a stated reason. Settled means a verdict other than open or withdrawn; landed means pass, pass-unreplicated or hit; novelty is the bet's `novelty` field (rule 13), else its map node's.
 
-| program | layers with settled bets | last three | settled bets in them | novelty not recorded | due | why |
-|---|---|---|---|---|---|---|
-| entangled-mind | 1, 3, 4, 5, 6 | 4, 5, 6 | 15 | 8 | no | landed: em-gm2b, em-bm0, em-dm6f2, em-gm2bf1, em-dm6f2f2; partly new or new: em-gm2b, em-gm3c, em-bm0, em-dm2, em-dm4, em-dm6, em-dm6f2f2 |
-| nature-graded | 1, 2, 3, 4 | 2, 3, 4 | 5 | 5 | no | landed: ng-p3-18; partly new or new: none |
-| other-minds | 1, 2 | 1, 2 | 11 | 9 | no | 2 layers with settled bets; the rule needs three |
-| said-vs-did | 1, 2 | 1, 2 | 5 | 3 | no | 2 layers with settled bets; the rule needs three |
-| self-grading | 1, 2, 3, 4 | 2, 3, 4 | 6 | 1 | no | landed: sg-b3, sg-b4; partly new or new: sg-b4, sg-b8, sg-b6, sg-b7 |
-| settled-science | 1, 2, 3, 4, 5, 6 | 4, 5, 6 | 4 | 1 | no | landed: ss-b7, ss-b10c; partly new or new: ss-b6, ss-b7, ss-b10c |
-| test-awareness | 1 | 1 | 3 | 3 | no | 1 layer with settled bets; the rule needs three |
+**Rule 16** (CONTEXT.md §3; `ledger/rule16.py`): a program runs at most 5 layers deep and at most $15 of API a month without a landed result labelled partly new or new in its newest layer, or a steer from Sean; past either line its next action is a closing review. The two columns before *due* are those counts: the deepest layer holding a bet that was not withdrawn, and the dollars of the program's bet rows dated 2026-11 (pilots and probes outside the ledger are not in it; the budget code counts them too and enforces the line before every paid call). A count past its line with a release names the release.
+
+| program | layers with settled bets | last three | settled bets in them | novelty not recorded | layers deep (line 5) | $ in 2026-11 (line $15) | due | why |
+|---|---|---|---|---|---|---|---|---|
+| entangled-mind | 1, 3, 4, 5, 6 | 4, 5, 6 | 15 | 7 | 6 | 32.73 | no | landed: em-gm2b, em-bm0, em-dm6f2, em-gm2bf1, em-dm6f2f2; partly new or new: em-gm2b, em-gm3c, em-bm0, em-dm2, em-dm4, em-dm6, em-gm2bf1, em-dm6f2f2; rule 16: past a line by count, released by em-dm6f2f2 in layer 6 |
+| nature-graded | 1, 2, 3, 4 | 2, 3, 4 | 5 | 4 | 4 | 0.00 | no | landed: ng-p3-18; partly new or new: none |
+| other-minds | 1, 2 | 1, 2 | 11 | 9 | 2 | 9.84 | no | 2 layers with settled bets; the rule needs three |
+| said-vs-did | 1, 2 | 1, 2 | 5 | 3 | 2 | 4.35 | no | 2 layers with settled bets; the rule needs three |
+| self-grading | 1, 2, 3, 4 | 2, 3, 4 | 6 | 1 | 4 | 7.15 | no | landed: sg-b3, sg-b4; partly new or new: sg-b4, sg-b8, sg-b6, sg-b7 |
+| settled-science | 1, 2, 3, 4, 5, 6 | 4, 5, 6 | 4 | 1 | 6 | 11.57 | no | landed: ss-b7, ss-b10c; partly new or new: ss-b6, ss-b7, ss-b10c; rule 16: past a line by count, released by ss-b10c in layer 6 |
+| test-awareness | 1 | 1 | 3 | 3 | 1 | 1.58 | no | 1 layer with settled bets; the rule needs three; closed: closing review 2026-11-05 (closed) |
 
 ## What is not counted
 

@@ -25,6 +25,20 @@ from dotenv import load_dotenv
 from entangled_mind import config, llm
 
 load_dotenv(config.ROOT / ".env")
+ENGINE = __import__("pathlib").Path(__file__).resolve().parents[3]      # oversight-testbed
+
+
+def _rule16(spent_usd=0.0):
+    """Rule 16's dollar line (CONTEXT.md section 3; ledger/rule16.py): at most $15 of API a month without a landed
+    partly-new or new result in the program's newest layer, or a steer from Sean; a closed program makes no paid
+    call. Read only on a paid run; refuses with SystemExit."""
+    led = str(ENGINE / "ledger")
+    if led not in sys.path:
+        sys.path.insert(0, led)
+    import rule16
+    return rule16.DollarLine("entangled-mind", spent_usd, root=ENGINE)
+
+
 H, S, O = "claude-haiku-5-5", "claude-sonnet-5-5", "claude-opus-5-5"
 SHORT = {H: "haiku", S: "sonnet", O: "opus"}
 DISCOUNT = 0.5
@@ -88,10 +102,14 @@ class BatchRunner:
     def run(self, reqs, on_result, store, save, est_per_req):
         """reqs: {key: params}; store(key, record); save() persists. Returns the observed mean cost per request."""
         keys, costs, refusal = list(reqs), [], None
+        line, base = _rule16(), self.spent_fn()     # rule 16 (the ledger's month count), checked before every batch
         for start in range(0, len(keys), self.chunk):
             part = {k: reqs[k] for k in keys[start:start + self.chunk]}
             for attempt in range(3):
                 est = len(part) * (max(est_per_req, (sum(costs) / len(costs)) if costs else 0) * 1.25)
+                if line.blocks(self.spent_fn() - base + est):
+                    save()
+                    raise Stop(line.message(line.start + self.spent_fn() - base + est))
                 if self.spent_fn() + est > self.cap:
                     save()
                     raise Stop(f"{self.label}: budget cap ${self.cap} would be exceeded "
