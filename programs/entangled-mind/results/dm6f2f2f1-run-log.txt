@@ -1,0 +1,16 @@
+dm6f2f2f1: batch msgbatch_01QMDAGit41fr8ZrBmTbeyUF, 72 requests (18 questions), worst case $0.2804
+dm6f2f2f1: chunk done, $0.1537
+dm6f2f2f1: batch msgbatch_01WV8mBPQHkzxer1QyswfGgA, 36 requests (9 questions), worst case $0.1360
+dm6f2f2f1: chunk done, $0.2114
+dm6f2f2f1: batch msgbatch_01PY8ztzmM3UJGtpRaKAmTKH, 20 requests (5 questions), worst case $0.0749
+dm6f2f2f1: chunk done, $0.2442
+dm6f2f2f1: batch msgbatch_01Boi1wbD8pRzkoipnvgDeRz, 12 requests (3 questions), worst case $0.0473
+dm6f2f2f1: chunk done, $0.2667
+dm6f2f2f1: batch msgbatch_019YPUwg2F4XdEjAfSRxj3ew, 4 requests (1 questions), worst case $0.0152
+dm6f2f2f1: chunk done, $0.2718
+dm6f2f2f1: batch msgbatch_01BpVVT82KvVjEbziSodgc7d, 4 requests (1 questions), worst case $0.0149
+dm6f2f2f1: chunk done, $0.2743
+dm6f2f2f1: batch msgbatch_01VPnDkUPCQYgrNhrgzgAPAc, 4 requests (1 questions), worst case $0.0160
+dm6f2f2f1: chunk done, $0.2803
+dm6f2f2f1: 2 question(s) not run: spent $0.2803; the next question's worst case would not fit the $0.3 cap
+dm6f2f2f1: finished, $0.2803
