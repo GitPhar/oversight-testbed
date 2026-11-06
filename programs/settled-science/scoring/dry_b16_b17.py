@@ -226,6 +226,20 @@ def rules():
         print(f"  {lab:18s} -> {o['verdict']}" + (f" (C2 bound {o['bettor_minus_flattery']['ub95']:+.3f}; C2 leave-one-out flips "
                                                    f"{len(o['c2_loo_flips'])}, section flips {len(o['c2_section_flips'])})" if 'c2_loo_flips' in o else ""))
 
+    # the boundary case from the ss-b16 review's addendum: flattery right on 192 items; forecasting right where flattery is
+    # wrong on 8 items (+1) and wrong where flattery is right on 3 (-1), so C2's bound sits next to 0.05
+    rows = [r for r in opus_rows(1.0, 1.0) ]
+    up, down = set(ids[:8]), set(ids[8:11])
+    for r in rows:
+        right = not ((r["task"] == "flattery" and r["id"] in up) or (r["task"] == "bettor" and r["id"] in down))
+        po = 80 if right else 20
+        r["p_option_1"] = po if r["original_is_option"] == 1 else 100 - po
+    o = B16.score(items, rows, v1)
+    d = o["bettor_minus_flattery"]
+    print(f"  boundary (8 up, 3 down) -> {o['verdict']} (C2 {o['c2']}; bound {d['ub95']:+.4f}; ten seeds {d['ub95_seeds'][0]:+.4f} to "
+          f"{d['ub95_seeds'][-1]:+.4f}; B=100,000 {d['ub95_b100k']}; C2 leave-one-out flips {len(o['c2_loo_flips'])}, "
+          f"items changing the verdict {len(o['loo_changes_verdict'])})")
+
     def v2_rows(acc, n=200):
         rows = []
         for m, a in acc.items():

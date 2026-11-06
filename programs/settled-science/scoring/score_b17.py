@@ -73,6 +73,7 @@ def model_block(items, rows, v1rows, model, sset):
     out["c2"] = bool(abs(np.mean(d)) <= MARGIN + EPS)
     out["label"] = "meets" if out["c1"] and out["c2"] else "does not meet"
     out["same_pick"] = r3(np.mean([(sum(F2[i]) / 2 > 0.5) == (sum(F1[i]) / 2 > 0.5) for i in ids]))
+    out["same_score"] = r3(np.mean([a == b for a, b in zip(h2, h1)]))   # D85: the noise floor's own measure (same item score)
     out["vs_llms"] = A["vs_llms"]
     out["loo_flips"] = [ids[k] for k in range(len(ids)) if (c1(h2[:k] + h2[k + 1:]) and abs(np.mean(d[:k] + d[k + 1:])) <= MARGIN + EPS) != (out["label"] == "meets")]
     secs = sorted({items[i]["journal_section"] for i in ids})
@@ -159,8 +160,8 @@ def sentences(o):
     out = [s]
     for m in MODELS:
         M = ms[m]
-        out.append(f"{NAME[m]} gave the same pick under both wordings on {pct(M['same_pick'])} of the items (call noise alone gives "
-                   f"about {pct(NOISE_FLOOR[m])}); with the second wording "
+        out.append(f"{NAME[m]} gave the same pick under both wordings on {pct(M['same_pick'])} of the items, and the same item score "
+                   f"on {pct(M['same_score'])} (call noise alone gives about {pct(NOISE_FLOOR[m])} the same item score); with the second wording "
                    f"it was right {pct(M['v2']['acc_orig_first'])} with the original shown first and {pct(M['v2']['acc_orig_second'])} "
                    f"with it second (Option-1 pull {M['v2']['option1_pull']:+.1f} points; {M['v1']['option1_pull']:+.1f} with the first wording).")
         if "ss_b10c_scored_items" in M:

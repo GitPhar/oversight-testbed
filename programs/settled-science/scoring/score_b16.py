@@ -102,9 +102,12 @@ def score(items, rows, others, status=None):
     out["loo_flips"] = [fids[k] for k in range(len(fids)) if c1(h[:k] + h[k + 1:]) != out["c1"]]
     secs = sorted({items[i]["journal_section"] for i in fids})
     out["section_flips"] = [s for s in secs if c1([x for x, i in zip(h, fids) if items[i]["journal_section"] != s]) != out["c1"]]
-    # D84 (review ss-b16 F4): leave-one-out on C2 too (reported; the verdict is unchanged). Single-seed bound for speed.
-    c2s = lambda dd: bool(ub95(dd) <= MARGIN + EPS)  # noqa: E731
-    base2 = c2s(d)
+    # D84 (review ss-b16 F4): leave-one-out on C2 too (reported; the verdict is unchanged). The baseline is the verdict's own
+    # C2, and every left-out bound is read at the same B the verdict used (100,000 when the ten seeds disagreed), seed 20261104
+    # (the review's addendum: a single-seed 10,000 baseline listed false flips next to the boundary).
+    b_used = 100_000 if big is not None else SB.BOOT_N
+    c2s = lambda dd: bool(ub95(dd, n=b_used) <= MARGIN + EPS)  # noqa: E731
+    base2 = out["c2"]
     out["c2_loo_flips"] = [both[k] for k in range(len(both)) if c2s(d[:k] + d[k + 1:]) != base2]
     out["c2_section_flips"] = [s for s in secs if c2s([x for x, i in zip(d, both) if items[i]["journal_section"] != s]) != base2]
     def verdict_of(a, b):
