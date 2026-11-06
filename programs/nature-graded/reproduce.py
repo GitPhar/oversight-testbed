@@ -829,12 +829,18 @@ def main():
                            "means": {f"{CB.LINE_NAMES[i]}:{q}": x for (i, q), x in CB.means_pm1(sm).items()}}
                 theirs[k] = {x: v[x] for x in ("chi", "delta0", "masse_cntx", "chi_lb99", "chi_se", "label", "means")}
                 p9[k] = (v, mine[k])
+            pinned = np.__version__ == "2.5.4"               # requirements-reproduce.txt; the analysis ran on it
+            if not pinned:                                   # other numpy versions draw other multinomials
+                for k in d["systems"]:
+                    for x in ("chi_se", "chi_lb99"):
+                        mine[k][x], theirs[k][x] = round(mine[k][x], 3), round(theirs[k][x], 3)
             mine["verdict"], theirs["verdict"] = P9.verdict(cls), d["verdict"]
             mine["qpu_s"], theirs["qpu_s"] = raw["usage"]["quantum_seconds"], d["usage"]["quantum_seconds"]
             check_fields(rep, name, theirs, mine, "counts put back in canonical order, chi, delta0, Masse CNTX, means, chi's "
                                                   "1,000 bootstrap draws (beacon seed) and 99% lower bound, labels, verdict and "
                                                   "every sentence (p3_9_pm.verdict) recomputed; CNT2 and its bootstrap archived "
-                                                  "(the LP needs scipy)")
+                                                  "(the LP needs scipy)" + ("" if pinned else f"; numpy {np.__version__}, not "
+                                                  "the pinned 2.5.4: chi's SE and lower bound compared to 3 places"))
         except Exception as e:  # noqa: BLE001
             rep.error(name, e)
 
