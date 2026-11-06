@@ -1,52 +1,78 @@
 {
  "dry_run": {
-  "cut_rate": 0.05357142857142857,
+  "cut_rate_unsure": 0.09375,
+  "n_opus_unsure_numbers": 29,
   "opus_flag_rate_unsure": 0.20689655172413793,
   "sonnet_flag_rate_unsure": 0.6366666666666667,
-  "k_confident": 0.31,
+  "questions_run_median": 36.0,
   "worlds": {
    "sonnet-like": {
-    "pass": 0.75,
-    "fail": 0.24,
-    "untestable": 0.01,
-    "mean_usable": 29.73,
-    "mean_flagged": 19.73
+    "pass": 0.605,
+    "fail": 0.2325,
+    "untestable": 0.1625,
+    "mean_usable": 26.785,
+    "mean_flagged": 17.8425
    },
-   "opus-confident": {
-    "pass": 0.55,
-    "fail": 0.32,
-    "untestable": 0.13,
-    "mean_usable": 30.0,
-    "mean_flagged": 7.88
+   "referent fixed (sonnet)": {
+    "pass": 0.59,
+    "fail": 0.2525,
+    "untestable": 0.1575,
+    "mean_usable": 27.0875,
+    "mean_flagged": 14.0075
+   },
+   "opus-quantile": {
+    "pass": 0.4125,
+    "fail": 0.36,
+    "untestable": 0.2275,
+    "mean_usable": 26.9875,
+    "mean_flagged": 7.77
    },
    "haiku-like": {
-    "pass": 0.12,
-    "fail": 0.88,
-    "untestable": 0.0,
-    "mean_usable": 32.73,
-    "mean_flagged": 24.44
+    "pass": 0.0925,
+    "fail": 0.7375,
+    "untestable": 0.17,
+    "mean_usable": 26.94,
+    "mean_flagged": 19.5475
    },
    "no format effect (sonnet-like)": {
     "pass": 0.0,
-    "fail": 1.0,
-    "untestable": 0.0,
-    "mean_usable": 33.66,
-    "mean_flagged": 15.0
+    "fail": 0.855,
+    "untestable": 0.145,
+    "mean_usable": 27.0775,
+    "mean_flagged": 11.705
    },
-   "no format effect (opus-confident)": {
+   "no format effect (opus-quantile)": {
     "pass": 0.0,
-    "fail": 0.19,
-    "untestable": 0.81,
-    "mean_usable": 33.59,
-    "mean_flagged": 4.23
+    "fail": 0.16,
+    "untestable": 0.84,
+    "mean_usable": 27.0025,
+    "mean_flagged": 4.115
    }
+  },
+  "parent_opus_unsure_complete": {
+   "questions": [
+    "h065",
+    "h081",
+    "h039",
+    "h034",
+    "h157",
+    "h112"
+   ],
+   "flagged": [
+    "h039"
+   ]
   }
  },
  "cost_sim": {
-  "p_all_run": 0.9985,
-  "mean_spend": 0.26599290400000003,
-  "p95_spend": 0.27810769999999996,
-  "max_spend": 0.285816,
-  "mean_batches": 4.708
+  "p_all_run": 0.0,
+  "questions_run_median": 36.0,
+  "questions_run_p05_p95": [
+   34.0,
+   37.0
+  ],
+  "mean_spend": 0.284159881,
+  "max_spend": 0.29218999999999995,
+  "unsure_cost_mean": 0.0023944375,
+  "n_unsure_costs": 32
  }
 }

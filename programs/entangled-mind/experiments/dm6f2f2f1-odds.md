@@ -9,3 +9,13 @@ Its reply, verbatim:
 > reason: The entangled-mind row (0.40) and the Sonnet parent pass back the move away from model/literature/under-$1 (~0.2). Weighting the dry-run worlds (0.75/0.55/0.12/0.00) gives about 0.45.
 
 Engine odds **0.45** (prior 0.25 + adjustment 0.20). The map's one-pass v2 number for dm6f2f2-f1 was 0.18 (12:18, prior 0.24, adjustment −0.06, for the map's draft: 10 random questions per category, 40-question floor). Both are kept: `engine_odds_first` 0.18, `engine_odds` 0.45. The design changed between them (questions drawn from the unsure set, floor 25 usable plus 6 flagged), which the pre-registration states.
+
+## Re-elicitation before data (D98), 2026-11-05 17:11 America/Denver
+
+After the design review (`2cf972e`, fix-first) corrected the inputs (the question set described as selected, the cost and cut-off rates measured on these questions, the dry run rebuilt at 400 draws), a new fresh subagent read only `ledger/prior.md` and the corrected description. Its reply, verbatim:
+
+> prior: 0.25
+> adjustment: +0.03
+> reason: entangled-mind 0.40 offsets model/literature/under-$1 (0.19-0.23); weighted dry-run worlds ~0.29; Opus's stable single flag in parent and the ≥6-flagged threshold make untestable or fail likely.
+
+Engine odds revised before data **0.45 → 0.28**; both kept (0.18 on the map's draft, 0.45 at pre-registration, 0.28 after the review's fixes).
