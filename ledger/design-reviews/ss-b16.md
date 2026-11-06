@@ -13,7 +13,7 @@ papers_opened: 2
 flaws: 4
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 17:12 America/Denver
 ---
 
 # Design review of ss-b16
@@ -176,3 +176,34 @@ Each fix needs one dated DEVIATIONS.md row, written before any call and naming t
 - Show both on synthetic rows in `dry_b16_b17.py --rules`.
 
 When F1–F4 are committed, the reviewer checks them in an addendum to this file and sets `confirmed_at`. No call runs before then.
+
+## Addendum 1: fixes checked (b5787de, D84), 2026-11-05 17:05 America/Denver
+
+**Not confirmed yet.** F1, F2 and F3 hold. F4 holds in the normal case but gives false output in the one case where it matters. `confirmed_at` stays null.
+
+What I checked (no paid calls; scratch script `addendum_check.py` in the review-b16 scratchpad folder):
+
+- **F1 holds.**
+  - `score_b16.c2_bound` implements the D84 rule as written: the one-sided 95% bound at index `int(0.95·10000) − 1`, the ten seeds 20261104 to +9, and a fallback to B = 100,000 when the seeds disagree.
+  - The `odds_event` is revised on the map node ss-f9 and in the inbox row, with `odds_event_first` kept.
+  - The pass sentence now reads "no more than 5 points worse than the program's forecasting prompt". The mixed and fail sentences no longer claim the forecasting prompt "does clearly better".
+  - `scoring/dry_b16_b17.txt` reproduces my numbers: Sonnet-conditional w = 0.5, 2, 5 give P(pass) 0.702, 0.437, 0.178; Sonnet-like 0.030; Opus-41 1.000. The valence-only world is relabelled "hypothesis holds" (0.140 to 1.000). P(pass) and P(fail) are each at least 10% under named plausible worlds.
+  - The odds were re-elicited afterwards (773b566, 0.50 → 0.45, first number kept). Not checked, as asked.
+- **F2 holds.** `fc` names the bundle in ss-b10c's audited words, and the pass sentence says "the program's forecasting prompt".
+- **F3 holds.** "too" is gone. Haiku's and Sonnet's own forecasting − flattery on Opus's items is reported as a sentence and a table row (point, interval, one-sided bound).
+- **F4 gives false output when the seeds disagree.** The leave-one-out checks on C2 use a single-seed, B = 10,000 bound (`c2s`), and their baseline `base2 = c2s(d)` is not the verdict's C2.
+  - When the ten seeds disagree, the verdict reads C2 at B = 100,000. That happens exactly when the bound is near 0.05, which is when leave-one-out matters. The baseline and the verdict can then differ.
+  - Reproduced: 8 items +1 and 3 items −1 out of 200. The seed bounds are 0.050 or 0.055, and B = 100,000 gives 0.055, so C2 is false and the verdict is mixed. But `base2` is true, so `c2_loo_flips` lists **192 of 200 items**.
+  - The scorer then prints the false reported sentence "Leaving out any one of 192 items … would change whether the forecasting-prompt condition holds".
+  - The bound sits on a 0.005 lattice (0.05, 0.055, …), so landing at 0.05 or 0.055 is a live case, not a curiosity.
+
+**Remaining fix (F4a, needs a line in D84 or a new dated row before any call).**
+- In `score_b16.py`, set `base2 = out["c2"]`.
+- Compute each leave-one-out and leave-one-section-out C2 at the B the verdict used: `c2s = (lambda dd: bool(ub95(dd, n=100_000) <= MARGIN + EPS)) if big is not None else (lambda dd: bool(ub95(dd) <= MARGIN + EPS))`. This takes about a minute in the borderline case.
+- Add the 8-up/3-down configuration as a `--rules` synthetic case in `dry_b16_b17.py`, showing C2 false, mixed, and a small or empty `c2_loo_flips`.
+
+Once that is committed, I confirm with one more line and set `confirmed_at`.
+
+## Addendum 2: F4a checked (51d36bd, 65f9b97, D85), 2026-11-05 17:12 America/Denver
+
+**Confirmed: go.** The leave-one-out baseline is now the verdict's own C2, read at the B the verdict used. On the 8-up/3-down case it gives mixed, C2 false (B = 100,000: 0.055) and 8 leave-one-out flips, which is correct: dropping any one of the 8 items where the forecasting prompt beats flattery makes C2 hold and the verdict pass. The normal case is unchanged. One cosmetic note: the dry-run line's "ten seeds +0.0500 to +0.0500" prints the first and last seed, not the range (0.050 to 0.055). This does not affect the scorer.
