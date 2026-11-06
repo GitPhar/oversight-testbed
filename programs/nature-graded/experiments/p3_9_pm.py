@@ -656,11 +656,25 @@ def retrieve():
     if not MARKER.exists():
         raise SystemExit("no marker: nothing was submitted")
     m = json.loads(MARKER.read_text())
-    if not m.get("job_id"):
-        raise SystemExit("the marker holds no job id; nothing to retrieve")
     raw = json.loads(RAW.read_text()) if RAW.exists() else {}
     if "counts_in_job_order" in raw:
         raise SystemExit("the raw file already holds counts; nothing to retrieve")
+    if not m.get("job_id"):                     # confirmation F1(ii): the client failed before IBM returned an id
+        since = dt.datetime.fromisoformat(m["submitting_at"]) - dt.timedelta(minutes=2)
+        listed = backends.service().jobs(backend_name=backends.backend().name, created_after=since, limit=50)
+        ids = [j.job_id() for j in listed]
+        raw |= {"job_list_read_at": dt.datetime.now(dt.timezone.utc).isoformat(), "job_list_since": since.isoformat(),
+                "job_list_ids": ids}
+        if not ids:
+            raw |= {"ibm_status": "NOT_SUBMITTED", "order": m["order"]}
+            RAW.write_text(json.dumps(raw, indent=1))
+            print("no ibm_fez job created since", since.isoformat(), "-> NOT_SUBMITTED (untestable)")
+            return
+        if len(ids) > 1:
+            RAW.write_text(json.dumps(raw, indent=1))
+            raise SystemExit(f"{len(ids)} jobs on the backend since the marker: {ids}; none adopted (recorded)")
+        m["job_id"] = ids[0]; m["job_id_from"] = "job list (one job since the marker)"
+        MARKER.write_text(json.dumps(m, indent=1))
     jb = backends.service().job(m["job_id"])
     st = str(jb.status()).split(".")[-1].upper()
     raw |= {"job_id": m["job_id"], "order": m["order"], "ibm_status": st,
@@ -684,12 +698,14 @@ def untestable(prep, raw):
     of circuits; a circuit under 90% of its shots."""
     if "not_submitted" in raw:
         return "not submitted: " + raw["not_submitted"]
-    if raw.get("ibm_status") in ("ERROR", "CANCELLED"):
-        return f"IBM reports the job {raw['ibm_status']}"
-    if "counts_in_job_order" not in raw:
-        if "client_error" in raw and "ibm_status" not in raw:
-            raise SystemExit("client error and IBM's job status not yet read: run --retrieve first (a free read)")
-        return "the job returned no counts"
+    st = raw.get("ibm_status")
+    if st in ("ERROR", "CANCELLED"):
+        return f"IBM reports the job {st}"
+    if st == "NOT_SUBMITTED":
+        return "not submitted: the client failed before IBM returned a job id, and IBM lists no job since the marker"
+    if "counts_in_job_order" not in raw:      # confirmation F1(i): QUEUED, RUNNING, DONE-without-counts or unread: no call
+        raise SystemExit(f"no counts and IBM's status is {st or 'not yet read'}: run --retrieve (a free read) "
+                         "until the job is DONE, ERROR or CANCELLED; nothing is decided before then")
     if len(raw["counts_in_job_order"]) != len(prep["labels"]):
         return "the job returned the wrong number of circuits"
     for c in raw["counts_in_job_order"]:
@@ -858,14 +874,21 @@ def check():
         untestable(p_, ce); raise AssertionError("client error without a status must refuse")
     except SystemExit:
         pass
+    for st_ in ("RUNNING", "QUEUED", "DONE", "INITIALIZING"):      # not finished, or DONE but counts not yet fetched
+        try:
+            untestable(p_, ce | {"ibm_status": st_}); raise AssertionError(f"status {st_} without counts must refuse")
+        except SystemExit:
+            pass
+    assert untestable(p_, ce | {"ibm_status": "NOT_SUBMITTED"}).startswith("not submitted")
     assert untestable(p_, ce | {"ibm_status": "ERROR"}) == "IBM reports the job ERROR"
     assert untestable(p_, ce | {"ibm_status": "CANCELLED"}) == "IBM reports the job CANCELLED"
     assert untestable(p_, ce | {"ibm_status": "DONE", "retrieved": True, "counts_in_job_order": good}) is None
     assert untestable(p_, {"counts_in_job_order": good[:23]}) is not None
     assert untestable(p_, {"counts_in_job_order": [{"000": 3500}] * 24}) is not None
     assert untestable(p_, {"not_submitted": "reserve rule"}).startswith("not submitted")
-    print("(5) untestable(): a client error alone refuses (run --retrieve); DONE with counts is data; ERROR or "
-          "CANCELLED, short or missing counts, wrong circuit count, not submitted are untestable")
+    print("(5) untestable(): no counts refuses unless ERROR, CANCELLED or NOT_SUBMITTED (QUEUED, RUNNING, DONE without "
+          "counts, unread all refuse: run --retrieve); DONE with counts is data; short counts, wrong circuit count, not "
+          "submitted are untestable")
     print("check OK")
 
 

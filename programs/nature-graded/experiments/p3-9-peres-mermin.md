@@ -160,7 +160,7 @@ The sentences are produced by `p3_9_pm.verdict()` (`--check` prints them for eve
    - the wrong number of circuits came back;
    - any circuit returned under 90% of its 4,000 shots.
 
-   A client error is never by itself untestable (D49, F1). If IBM reports the job DONE, its counts are the data and are fetched with `--retrieve` (a free read). `--analyse` refuses to run on a client error until IBM's status has been read.
+   A client error is never by itself untestable (D49, F1). If IBM reports the job DONE, its counts are the data and are fetched with `--retrieve` (a free read). `--analyse` refuses to decide anything while there are no counts and IBM's status is not ERROR, CANCELLED or NOT_SUBMITTED: a QUEUED or RUNNING job is waited for with further `--retrieve` reads, never called untestable. If the client failed before IBM returned a job id, `--retrieve` reads IBM's job list on ibm_fez from two minutes before the marker. No job means NOT_SUBMITTED (untestable). Exactly one job is adopted as this bet's job. More than one is refused and recorded (D50).
 
    Sentence: "The test could not be run as pre-registered (<reason>), so it says nothing about the check or the chip; it is not scored."
 5. **Reported in every case:** the four systems' χ (with SE), CNT2 (point, 99% lower bound, bootstrap median, draws at zero), Δ0 and Massé's CNTX; the connection table; measured against simulated values; the job id, billed QPU seconds, execution timestamps, and the triple's calibration at submission and at run time.
