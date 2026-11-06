@@ -241,3 +241,39 @@ Each fix goes under one dated DEVIATIONS.md row, written before any submission a
   - Note that Laghaout's 4.987 is also a best-of.
   - In the write-up, describe the "χ against 5.31" secondary as a comparison with an upward-selected figure on a different device and readout (D7).
 - The predicted outcome (pass) and the odds do not move.
+
+## Confirmation (fixes at 102f7e8)
+
+I read 102f7e8 and the DEVIATIONS.md row D49 against the code. I did not run `--submit`, `--select`, `--worlds` or `--retrieve`, and made no IBM contact. I tested `untestable()` by importing it directly (`review/r4_untestable.py`). **Three of the four fixes are confirmed. F1 is not, so `confirmed_at` stays null.**
+
+- **F1: not confirmed.**
+  - *What works:*
+    - `run_hardware` calls `on_submit(job_id, batch_id)` right after `sampler.run`, before `job.result()`, and `submit` writes the id into the marker there.
+    - A raising `job.result()` logs a usage entry before re-raising. Its purpose still starts "Program 3 P3-9 ", so `already_ran()` sees it.
+    - `--retrieve` is a free read that never submits.
+    - `untestable()` refuses on a client error until IBM's status is read, returns untestable on ERROR or CANCELLED, and treats DONE with counts as data.
+  - *Two raw-file states a crash can leave are still wrong.* Block (5) drives neither.
+    - **(i) A job that has not finished becomes untestable.** If `--retrieve` runs while the job is RUNNING or QUEUED, it records `ibm_status` and no counts. `untestable()` then returns "the job returned no counts" for a job that may still finish DONE. That is the forking path F1 was about: analyse now, or wait and fetch.
+    - **(ii) A client error before IBM returns a job id dead-ends.** This happens when the exception is raised inside `run_hardware` before submission: a network error in `service_usage()`, the new `expected_s` hard-stop `RuntimeError`, or `Batch` or `sampler.run` raising. `submit` records it as `client_error` with `job_id: null`. `untestable()` then refuses ("run --retrieve first") and `--retrieve` refuses ("the marker holds no job id"). The marker blocks any resubmission, so the bet can never be analysed or declared untestable, though §5.4 lists "the job was not submitted" as untestable.
+  - *Fix:*
+    - (a) In `untestable()`, with no counts, refuse (SystemExit "job not finished: run --retrieve again") unless `ibm_status` is ERROR, CANCELLED or NOT_SUBMITTED. DONE without counts also refuses.
+    - (b) When the marker has no job id, `--retrieve` makes a free read: `service().jobs(backend_name="ibm_fez", created_after=<marker submitting_at − 2 min>, limit=10)`.
+      - No job found: write `ibm_status: "NOT_SUBMITTED"`, which is untestable ("not submitted").
+      - Exactly one: adopt its id and proceed as now.
+      - More than one: refuse and record the ids.
+    - (c) Add the RUNNING, QUEUED, DONE-without-counts and NOT_SUBMITTED cases to `--check` block (5).
+    - (d) Put one sentence in §5.4/§7 under D49 (or a new row).
+- **F2: confirmed.**
+  - `--check` block (1b) asserts that the LP, KDL at n = 2 and program 1's Γ (|q_QQ| − OSS, the same formula as `exp4_run.py`) agree, and that 25–75% of the systems are contextual. The author reports 154 of 154, 92 contextual; my own run of the same construction gave 305 of 305.
+  - `verdict()`'s pass headline and §5.1 now say "the exact CbD 2.0 linear program, which reduces to program 1's rank-2 Gamma on two-question systems (shown in --check)".
+  - §6 has the power sentence.
+- **F3: confirmed.**
+  - The header, §0, §3, §7 and §9 now say the estimate and the cap are gated and the bill is not, with an overrun reported against the ruling.
+  - `run_hardware(expected_s=45)` refuses when used + 45 > 420.
+  - The budget figures are unchanged: 89 + 45 = 134 s, under the 300 s reserve line and the 420 s hard stop.
+- **F4: confirmed.**
+  - §0 (and the ledger inbox update), §4's secondary list, `program-3-map.md`'s P3-9 entry and Prior work table, `program-3-map.json` and `map/nature-graded.json` now say "the best of several embedded squares, 10,000 shots, no error bars". "Product-only" is gone from each.
+  - Laghaout is marked as a best-of too.
+  - *New, small:* `programs/nature-graded/map/program-3-map.md` line 11 still says "On a Heron r2, Peres–Mermin has been run only with product-only readout, which CbD cannot analyse". The same unsupported claim should be reworded in the F1 fix commit.
+
+Nothing else new. The pass rule, bars, circuits (the qpy hash is untouched), shots, seed, worlds and odds are unchanged by 102f7e8.
