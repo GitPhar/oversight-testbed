@@ -324,7 +324,7 @@
    ],
    "diagnosis": null,
    "human_odds": null,
-   "prior_work_line": "Peres-Mermin reaches χ 5.46(4) on ions (Kirchmair et al. 2009, arXiv:0904.1655), 5.618(5) with MCM on Google Willow (Kumar et al. 2025, arXiv:2512.02284, no CbD) and 5.31, the best of several embedded squares, on ibm_kingston Heron r2 (Kelleher and Holweck 2025, arXiv:2505.21243, 10,000 shots, no error bars). Massé 2021 (arXiv:2105.13821, unrefereed) found Kirchmair's data stay contextual under an adapted CbD correction by 0.566, so a CbD pass is predicted for both states; the exact LP is unapplied on hardware.",
+   "prior_work_line": "Peres-Mermin reaches χ 5.46(4) on ions (Kirchmair et al. 2009, arXiv:0904.1655), 5.618(5) with MCM on Google Willow (Kumar et al. 2025, arXiv:2512.02284, no CbD) and 5.31, the best of several embedded squares of three-qubit operators in W(5,2), not the two-qubit square, on ibm_kingston Heron r2 (Kelleher and Holweck 2025, arXiv:2505.21243, 10,000 shots, no error bars). Massé 2021 (arXiv:2105.13821, unrefereed) found Kirchmair's data stay contextual under an adapted CbD correction by 0.566, so a CbD pass is predicted for both states; the exact LP is unapplied on hardware.",
    "prior_work_predicts": "pass",
    "prior_work_sources": [
     "Kirchmair et al. 2009, state-independent quantum contextuality with single trapped ions, Nature 460:494, arXiv:0904.1655",
