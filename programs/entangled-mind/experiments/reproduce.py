@@ -52,6 +52,7 @@ SKIPPED = {
     "gm2q-questions-only.md": "hand-written write-up (em-gm2q); its tables are gm2q-questions-only-tables.md, which the gm2q step recomputes",
     "gm2q2-opus-sonnet30.md": "hand-written write-up (em-gm2q2); its tables are gm2q2-opus-sonnet30-tables.md, which the gm2q2 step recomputes",
     "dm6f2f2-own-guess.md": "hand-written write-up (em-dm6f2f2); its tables are dm6f2f2-own-guess-tables.md, which the dm6f2f2 step recomputes",
+    "dm6f2f2f1-opus.md": "hand-written write-up (em-dm6f2f2f1); its tables are dm6f2f2f1-opus-tables.md, which the dm6f2f2f1 step recomputes",
 }
 
 # Tables whose inputs the archive does not contain (README, "Reproducibility"). Each is reported as a gap, not a
@@ -195,6 +196,12 @@ def main() -> int:
             m.f2.RESULTS = config.RESULTS
             m.analyse(m.SEED_RECORDED["bootstrap"])
         step("dm6f2f2-own-guess-tables.md", dm6f2f2)
+    if "dm6f2f2f1-opus-tables.md" in committed:     # em-dm6f2f2f1 (D92-D99), from its batch cache with its beacon seeds
+        def dm6f2f2f1():
+            m = importlib.import_module("dm6f2f2f1_opus")
+            m.RESULTS = config.RESULTS                   # analyse() reads config.RESULTS through results_dir()
+            m.analyse(m.SEED_RECORDED["bootstrap"])
+        step("dm6f2f2f1-opus-tables.md", dm6f2f2f1)
     if "mm-gm3b-opus-completion-with-h291.md" in committed:     # D49a sensitivity
         step("mm-gm3b-opus-completion-with-h291.md", lambda: importlib.import_module("mm_gm3b_opus_complete").analyse_with_h291())
 

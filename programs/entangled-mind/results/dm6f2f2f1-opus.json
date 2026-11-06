@@ -1,0 +1,186 @@
+{
+ "seed": 1922030650083322747,
+ "items_seed": 5271620121328318991,
+ "questions_drawn": [
+  "h062",
+  "h285",
+  "h018",
+  "h079",
+  "h240",
+  "h298",
+  "h204",
+  "h253",
+  "h058",
+  "h284",
+  "h237",
+  "h299",
+  "h060",
+  "h065",
+  "h267",
+  "h032",
+  "h026",
+  "h088",
+  "h156",
+  "h069",
+  "h080",
+  "h138",
+  "h150",
+  "h249",
+  "h242",
+  "h273",
+  "h087",
+  "h127",
+  "h140",
+  "h201",
+  "h300",
+  "h261",
+  "h208",
+  "h081",
+  "h031",
+  "h159",
+  "h041",
+  "h282",
+  "h112",
+  "h158"
+ ],
+ "n_asked": 38,
+ "cost_usd": 0.280318,
+ "n_calls": 152,
+ "cache_sha256": "1b6f7790f406affabbc4a7d254ad427fcce9bc84039e66d1501bcf85febdaaca",
+ "refused": 0,
+ "max_tokens": 9,
+ "floor": {
+  "min_q": 25,
+  "min_flagged": 6
+ },
+ "opus": {
+  "n_questions": 34,
+  "J_F": 0.775,
+  "J_N": 0.6,
+  "D": -0.17500000000000004,
+  "flag_rate": {
+   "Pr0": 0.08823529411764706,
+   "Pr1": 0.14705882352941177,
+   "Fr0": 0.11764705882352941,
+   "Fr1": 0.11764705882352941
+  },
+  "J_F_ci": [
+   0.5,
+   1.0
+  ],
+  "J_N_ci": [
+   0.25,
+   1.0
+  ],
+  "D_ci": [
+   -0.6666666666666666,
+   0.0
+  ],
+  "verdict": "untestable",
+  "J_PP": 0.6,
+  "J_FF": 0.6,
+  "J_PP_ci": [
+   0.0,
+   1.0
+  ],
+  "J_FF_ci": [
+   0.0,
+   1.0
+  ],
+  "noise_asymmetric": true,
+  "noisier_format": "probability",
+  "loo_flips": [],
+  "cluster_D_ci": [
+   -0.24999999999999994,
+   0.0
+  ],
+  "cluster_J_F_hi": 1.0,
+  "cluster_verdict": "untestable",
+  "n_categories": 4,
+  "threshold_sensitivity": {
+   "0.5": {
+    "J_F": 1.0,
+    "J_N": 1.0,
+    "D": 0.0
+   },
+   "0.6": {
+    "J_F": 0.0,
+    "J_N": 1.0,
+    "D": 1.0
+   },
+   "0.8": {
+    "J_F": 0.8660714285714286,
+    "J_N": 0.75,
+    "D": -0.1160714285714286
+   }
+  },
+  "J_F_rate_matched": 0.5833333333333333,
+  "J_F_independent_sets": 0.061513707531406656,
+  "sentence": null,
+  "n_flagged_questions": 5,
+  "loo_floor_flips": []
+ },
+ "secondary": {
+  "no_guess_below_half": {
+   "P": [
+    0.0,
+    0,
+    39
+   ],
+   "F": [
+    0.0,
+    0,
+    38
+   ]
+  },
+  "below_half_yesno": {
+   "P": [
+    0.013888888888888888,
+    1,
+    72
+   ],
+   "F": [
+    0.0,
+    0,
+    71
+   ]
+  },
+  "yesno_share": {
+   "P": [
+    0.9863013698630136,
+    73
+   ],
+   "F": [
+    1.0,
+    71
+   ]
+  },
+  "usable_by_category": {
+   "claim": 9,
+   "science-chemistry": 7,
+   "science-physics": 10,
+   "simpleqa": 8
+  },
+  "flag_rate_by_category": {
+   "P|claim": 0.0,
+   "P|science-chemistry": 0.125,
+   "P|science-physics": 0.2,
+   "P|simpleqa": 0.2222222222222222,
+   "F|claim": 0.0,
+   "F|science-chemistry": 0.125,
+   "F|science-physics": 0.2,
+   "F|simpleqa": 0.17647058823529413
+  },
+  "overlap_with_em_dm6f2f2_opus": {
+   "questions": [
+    "h041",
+    "h065",
+    "h081"
+   ],
+   "flagged_now": 1,
+   "flagged_then": 0
+  }
+ },
+ "verdict": "untestable",
+ "sentence": "Too few questions carried a confidence number in all four cells, or too few were flagged under 70% in any cell, to read the rule on Opus."
+}
