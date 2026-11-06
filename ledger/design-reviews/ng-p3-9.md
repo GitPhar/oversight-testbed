@@ -13,7 +13,7 @@ papers_opened: 5
 flaws: 4
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 17:53 America/Denver
 ---
 
 # Design review of ng-p3-9
@@ -277,3 +277,21 @@ I read 102f7e8 and the DEVIATIONS.md row D49 against the code. I did not run `--
   - *New, small:* `programs/nature-graded/map/program-3-map.md` line 11 still says "On a Heron r2, Peres–Mermin has been run only with product-only readout, which CbD cannot analyse". The same unsupported claim should be reworded in the F1 fix commit.
 
 Nothing else new. The pass rule, bars, circuits (the qpy hash is untouched), shots, seed, worlds and odds are unchanged by 102f7e8.
+
+## Second confirmation (fixes at d9fbab1)
+
+I read d9fbab1 and DEVIATIONS.md row D50 against the code. I ran block (5) myself: I extracted it verbatim from `check()` at d9fbab1 and executed it alone (`review/r5_block5.py`). All its asserts pass. I also drove `untestable()` on the crash states the first confirmation named. I did not run `--submit`, `--select`, `--worlds` or `--retrieve`, and made no IBM contact.
+
+- **F1 (a): confirmed.** With no counts, `untestable()` decides only on ERROR, CANCELLED or NOT_SUBMITTED. RUNNING, QUEUED, INITIALIZING, DONE without fetched counts, and an unread status all refuse, telling the analyst to run `--retrieve` again until the job ends. So an unfinished job is never called untestable. DONE with counts is data. The other rules are unchanged: 23 circuits are untestable; 3,599 of 4,000 shots is untestable and exactly 3,600 is data ("under 90%", P13).
+- **F1 (b): confirmed.** With no job id in the marker, `--retrieve` reads IBM's job list on the backend from two minutes before the marker's `submitting_at`:
+  - none found: it records `ibm_status: NOT_SUBMITTED`, and `untestable()` returns "not submitted …";
+  - exactly one: it is adopted, with `job_id_from` written to the marker;
+  - more than one: it refuses and records the ids.
+
+  Every branch writes the raw file before deciding, and none submits. That is the fix as I specified it. (Read, not executed: it needs IBM.)
+- **F1 (c): confirmed.** Block (5) now covers RUNNING, QUEUED, DONE and INITIALIZING without counts, and NOT_SUBMITTED, alongside the earlier cases, and it passes.
+- **F1 (d): confirmed.** §5.4 states the waiting rule, the job-list rule and NOT_SUBMITTED, under D50.
+- **F4 leftover: confirmed.** `program-3-map.md` line 11 no longer says "product-only". It says the Heron r2 result was "reported only as a χ value (the best of several embedded squares, no error bars; Kelleher & Holweck 2025), with no context-wise outcome data for CbD to analyse".
+- **Not blocking (advice for whoever runs the job):** the job list in (b) is account-wide on ibm_fez, so a job from another session in the same minutes could be the "one" found. Before an adopted job's counts are used, compare its PUB count and shots (24 × 4,000) with this bet's. `untestable()`'s circuit-count check already rejects most mismatches. The more-than-one branch is resolved the same way, and the step should be written in the results file if it is ever used.
+
+All four fixes (F1–F4) are now confirmed. The verdict stays **fix-first**, now confirmed, so the design-review gate in `--submit` is satisfied once this commit exists. The pass rule, bars, circuits (qpy hash), shots, seed, worlds and odds are unchanged by d9fbab1. The remaining gates in `--submit` (the budget ruling under st-16, `check_prereg --before-run`, every file committed) are the author's.
