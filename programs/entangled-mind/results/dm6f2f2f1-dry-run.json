@@ -7,29 +7,29 @@
   "questions_run_median": 36.0,
   "worlds": {
    "sonnet-like": {
-    "pass": 0.605,
-    "fail": 0.2325,
+    "pass": 0.575,
+    "fail": 0.2625,
     "untestable": 0.1625,
     "mean_usable": 26.785,
     "mean_flagged": 17.8425
    },
    "referent fixed (sonnet)": {
-    "pass": 0.59,
-    "fail": 0.2525,
+    "pass": 0.6225,
+    "fail": 0.22,
     "untestable": 0.1575,
     "mean_usable": 27.0875,
-    "mean_flagged": 14.0075
+    "mean_flagged": 13.93
    },
    "opus-quantile": {
-    "pass": 0.4125,
-    "fail": 0.36,
-    "untestable": 0.2275,
+    "pass": 0.4,
+    "fail": 0.365,
+    "untestable": 0.235,
     "mean_usable": 26.9875,
-    "mean_flagged": 7.77
+    "mean_flagged": 7.6875
    },
    "haiku-like": {
-    "pass": 0.0925,
-    "fail": 0.7375,
+    "pass": 0.08,
+    "fail": 0.75,
     "untestable": 0.17,
     "mean_usable": 26.94,
     "mean_flagged": 19.5475
@@ -39,14 +39,14 @@
     "fail": 0.855,
     "untestable": 0.145,
     "mean_usable": 27.0775,
-    "mean_flagged": 11.705
+    "mean_flagged": 11.6725
    },
    "no format effect (opus-quantile)": {
     "pass": 0.0,
-    "fail": 0.16,
-    "untestable": 0.84,
+    "fail": 0.1975,
+    "untestable": 0.8025,
     "mean_usable": 27.0025,
-    "mean_flagged": 4.115
+    "mean_flagged": 4.2
    }
   },
   "parent_opus_unsure_complete": {

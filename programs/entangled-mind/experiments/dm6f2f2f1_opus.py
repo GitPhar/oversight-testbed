@@ -383,7 +383,7 @@ def dry_run(n_sims=400, nboot=1000):
         src = "haiku" if name.startswith("haiku") else "sonnet"
         qs = list(rng.choice([q for q in claims if complete(src, q)], N_PER_CAT, replace=False))
         for c in ("science-chemistry", "science-physics", "simpleqa"):
-            ids = [q for q in U if P[q]["category"] == c and complete(src, q)]
+            ids = [q for q in sorted(U) if P[q]["category"] == c and complete(src, q)]
             qs += list(rng.choice(ids, N_PER_CAT, replace=False))
         qs = [qs[i] for i in rng.permutation(len(qs))][: int(rng.choice(runs))]
         X = np.array([[cells[src][q][c][0] for c in f2.CELLS] for q in qs], float)
