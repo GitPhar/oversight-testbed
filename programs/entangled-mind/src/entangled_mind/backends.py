@@ -118,19 +118,45 @@ def repair_ledger() -> None:
         _log(ledger[-1])
 
 
-def run_hardware(isa_circuits: list[QuantumCircuit], purpose: str, shots: int = config.SHOTS) -> tuple[list[dict], dict]:
-    """Submit all circuits as ONE SamplerV2 job inside a Batch. Returns counts per circuit and the usage entry."""
+def run_hardware(isa_circuits: list[QuantumCircuit], purpose: str, shots: int = config.SHOTS,
+                 on_submit=None, expected_s: float | None = None) -> tuple[list[dict], dict]:
+    """Submit all circuits as ONE SamplerV2 job inside a Batch. Returns counts per circuit and the usage entry.
+
+    on_submit(job_id, batch_id), if given, is called right after submission and before waiting for the result, so a
+    caller can record the job id even if the client later crashes (ng-p3-9 design review F1a). expected_s, if given,
+    refuses submission when used + expected_s would pass the hard stop (F3). If the result raises, a usage entry is
+    logged before re-raising (F1b): billed seconds from the job's metrics when IBM reports them, else 0 with a note."""
     from qiskit_ibm_runtime import Batch, SamplerV2
 
     before = service_usage()
     used = max(cumulative_qpu_seconds(), float(before["usage_consumed_seconds"] or 0))
     if used >= config.QPU_STOP_SECONDS:
         raise RuntimeError(f"QPU hard stop: {used} s used >= {config.QPU_STOP_SECONDS} s")
+    if expected_s is not None and used + expected_s > config.QPU_STOP_SECONDS:
+        raise RuntimeError(f"QPU hard stop: {used} s used + {expected_s} s expected > {config.QPU_STOP_SECONDS} s")
     be = backend()
     with Batch(backend=be) as batch:
         sampler = SamplerV2(mode=batch)
         job = sampler.run(isa_circuits, shots=shots)
-        result = job.result()
+        if on_submit is not None:
+            on_submit(job.job_id(), batch.session_id)
+        try:
+            result = job.result()
+        except BaseException as err:
+            try:
+                m = job.metrics() or {}
+            except Exception as e2:  # noqa: BLE001
+                m = {"metrics_error": repr(e2)}
+            try:
+                after = service_usage()
+            except Exception as e3:  # noqa: BLE001
+                after = {"usage_consumed_seconds": None, "error": repr(e3)}
+            _log({"when": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S"), "purpose": purpose + " (result raised)",
+                  "backend": be.name, "job_id": job.job_id(), "batch_id": batch.session_id, "circuits": len(isa_circuits),
+                  "shots": shots, "quantum_seconds": qpu_seconds(m.get("usage") or {}), "job_metrics_usage": m.get("usage"),
+                  "service_before": before, "service_after": after,
+                  "note": f"job.result() raised {err!r}; seconds from job.metrics() if IBM reported them, else 0 (unknown)"})
+            raise
     counts = [pub.data.meas.get_counts() for pub in result]
     metrics = job.metrics()
     qsec = qpu_seconds(metrics.get("usage") or {})

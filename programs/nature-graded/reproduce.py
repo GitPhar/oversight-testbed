@@ -906,6 +906,87 @@ def main():
         except Exception as e:  # noqa: BLE001
             rep.error(name, e)
 
+        # ---- P3-9: sequential Peres-Mermin under exact CbD; CNT2 (an LP, scipy) archived, everything else recomputed -----
+        import cbd_lp as CB  # noqa: E402  (scipy stubbed: linprog is never called below)
+        import p3_9_pm as P9  # noqa: E402
+        p9 = {}
+        name = "results/p3-9-peres-mermin.json"
+        try:
+            d = json.loads(committed_json["p3-9-peres-mermin.json"])
+            prep, raw, sd = load("data/p3-9-prepared.json"), load("data/p3-9-raw.json"), load("data/p3-9-seed.json")
+            labs = prep["labels"]
+            counts = [None] * len(labs)
+            for pos, i in enumerate(raw["order"]):
+                counts[i] = raw["counts_in_job_order"][pos]
+            dists = [P9.probs_from_counts(c) for c in counts]
+            pts = P9.systems_from(dists, labs)
+            chis = {k: [] for k in d["systems"]}            # chi's bootstrap: the analysis's own draws, from the beacon seed
+            for sb in [int(x) for x in np.random.SeedSequence(sd["seed_boot"]).generate_state(P9.B)]:
+                rng = np.random.default_rng(sb)
+                sy = P9.systems_from([rng.multinomial(P9.SHOTS, q / q.sum()) / P9.SHOTS for q in dists], labs)
+                for (s_, o), v in sy.items():
+                    chis[f"{s_}-{o}"].append(CB.chi(v))
+            mine, theirs, cls = {"counts": counts}, {"counts": d["counts"]}, {}
+            for k, v in d["systems"].items():
+                s_, o = k.split("-")
+                sm, ch = pts[(s_, o)], np.array(chis[k])
+                chi_lb, lb = P9.lower(ch), v["cnt2_lb99"]     # CNT2's lower bound: archived (the LP needs scipy)
+                lab = "contextual" if lb > P9.TOL else ("absorbed" if chi_lb > 4 + P9.TOL else "below")
+                cls[k] = (lab, lb, chi_lb)
+                mine[k] = {"chi": CB.chi(sm), "delta0": CB.delta0(sm), "masse_cntx": CB.masse_cntx(sm), "chi_lb99": chi_lb,
+                           "chi_se": float(ch.std(ddof=1)), "label": lab,
+                           "means": {f"{CB.LINE_NAMES[i]}:{q}": x for (i, q), x in CB.means_pm1(sm).items()}}
+                theirs[k] = {x: v[x] for x in ("chi", "delta0", "masse_cntx", "chi_lb99", "chi_se", "label", "means")}
+                p9[k] = (v, mine[k])
+            pinned = np.__version__ == "2.5.4"               # requirements-reproduce.txt; the analysis ran on it
+            if not pinned:                                   # other numpy versions draw other multinomials
+                for k in d["systems"]:
+                    for x in ("chi_se", "chi_lb99"):
+                        mine[k][x], theirs[k][x] = round(mine[k][x], 3), round(theirs[k][x], 3)
+            mine["verdict"], theirs["verdict"] = P9.verdict(cls), d["verdict"]
+            mine["qpu_s"], theirs["qpu_s"] = raw["usage"]["quantum_seconds"], d["usage"]["quantum_seconds"]
+            check_fields(rep, name, theirs, mine, "counts put back in canonical order, chi, delta0, Masse CNTX, means, chi's "
+                                                  "1,000 bootstrap draws (beacon seed) and 99% lower bound, labels, verdict and "
+                                                  "every sentence (p3_9_pm.verdict) recomputed; CNT2 and its bootstrap archived "
+                                                  "(the LP needs scipy)" + ("" if pinned else f"; numpy {np.__version__}, not "
+                                                  "the pinned 2.5.4: chi's SE and lower bound compared to 3 places"))
+        except Exception as e:  # noqa: BLE001
+            rep.error(name, e)
+
+        name = "results/p3-9-peres-mermin.md"
+        try:
+            d = json.loads(committed_json["p3-9-peres-mermin.json"])
+            prep = load("data/p3-9-prepared.json")
+            labs = prep["labels"]
+            t = Tables(md[name])
+            rows = []
+            for k, (v, m) in p9.items():
+                pn = prep["prediction"]["noisy"]["systems"][k]
+                rows.append([K, m["label"], f"{f(m['chi'])} (± {f(m['chi_se'])})", f(m["chi_lb99"]), f(v["cnt2"], 4),
+                             f(v["cnt2_lb99"], 4), f(v["cnt2_boot_median"], 4), str(v["n_boot_zero"]), f(m["delta0"]),
+                             f(m["masse_cntx"]), f"{f(pn['chi'])} / {f(pn['cnt2'])} / {f(pn['delta0'])}"])
+            t.add(0, rows)
+            t.add(1, [[K] + [f(d["leave_one_out"][k][ln], 4) for ln in CB.LINE_NAMES] for k in d["leave_one_out"]])
+            noisy = [np.array(x) for x in prep["prediction"]["noisy"]["dists"]]
+            chip = [P9.probs_from_counts(c) for c in d["counts"]]
+            mean = lambda q, j: sum(q[x] * (1 - 2 * ((x >> j) & 1)) for x in range(8))
+            prod = lambda q: sum(q[x] * (-1) ** bin(x).count("1") for x in range(8))
+            rows = []
+            for st in P9.STATES:
+                for ln in ("R3", "C3"):
+                    for o in P9.ORDERS:
+                        i = next(j for j, l in enumerate(labs) if l["state"] == st and l["line_name"] == ln and l["order"] == o)
+                        rows.append([K, K, K, K, ", ".join(s(mean(chip[i], j)) for j in range(3)), s(prod(chip[i])),
+                                     ", ".join(s(mean(noisy[i], j)) for j in range(3)), s(prod(noisy[i]))])
+            t.add(2, rows)
+            t.check(rep, name)
+            sent = [d["verdict"]["headline"]] + d["verdict"]["sentences"]
+            missing = [x for x in sent if x not in md[name]]
+            rep.compare(name + " (pre-registered sentences)", "all present", "all present" if not missing else
+                        "missing from the write-up: " + " | ".join(missing), what=f"{len(sent)} sentences found verbatim")
+        except Exception as e:  # noqa: BLE001
+            rep.error(name, e)
+
         return rep.finish()
     finally:
         R.cleanup(tmp)

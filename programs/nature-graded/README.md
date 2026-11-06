@@ -84,6 +84,8 @@ Two printing rules. A time printed to the second matches IBM's timestamp floored
 
 Gaps: none. No table needs a file the archive lacks. The `.qpy` circuit files need qiskit to read, but no table depends on them.
 
+- **P3-9** (sequential Peres–Mermin): the raw counts `data/p3-9-raw.json`, the prepared prediction `data/p3-9-prepared.json` and the beacon seed `data/p3-9-seed.json`. Counts, χ, Δ0, Massé's CNTX, the outcome means, χ's 1,000 bootstrap draws (exact under the pinned numpy 2.5.4; to 3 places under another version), the labels and every pre-registered sentence are recomputed. CNT2 and its bootstrap are a linear program (scipy), so `results/p3-9-peres-mermin.json`'s values are inputs, as P3-5's fits are. Prose ranges in the write-up's bullets (χ 4.35–4.69, line products 0.65–0.74, the calibration values) are not checked.
+
 Not checked, because the number does not come from this archive:
 - `results/p3-1-rerun.md`, first table, column "auditor's fixed re-run" (4 cells): the auditor's own runs, not archived here.
 - `results/p3-15-repeat.md`, first table, column "predictions" (2 cells): commit hashes, from git history, not from JSON.

@@ -394,5 +394,49 @@
         "end_time": "2026-11-05T14:53:02.875Z"
       }
     }
+  },
+  {
+    "when": "2026-11-06 01:08:53",
+    "purpose": "Program 3 P3-9 sequential Peres-Mermin: 24 pubs, 96000 shots",
+    "backend": "ibm_fez",
+    "job_id": "dbmib3t8mdtc73d80on0",
+    "batch_id": "8d777025-4fb1-4202-80e8-ac59c3d43e49",
+    "circuits": 24,
+    "shots": 4000,
+    "quantum_seconds": 28.0,
+    "job_metrics_usage": {
+      "qpu_charge_time_seconds": 28,
+      "value": 0.457304,
+      "unit": "resource_units",
+      "status": "complete",
+      "details": [
+        {
+          "value": 0.457304,
+          "unit": "resource_units",
+          "metric": {
+            "id": "caffe3ca-729c-5750-8777-df63bbf8bfd9",
+            "value": 28
+          }
+        }
+      ]
+    },
+    "service_before": {
+      "usage_consumed_seconds": 89,
+      "usage_limit_seconds": 600,
+      "usage_remaining_seconds": 511,
+      "usage_period": {
+        "start_time": "2026-10-09T00:55:42.268Z",
+        "end_time": "2026-11-06T00:55:42.268Z"
+      }
+    },
+    "service_after": {
+      "usage_consumed_seconds": 117,
+      "usage_limit_seconds": 600,
+      "usage_remaining_seconds": 483,
+      "usage_period": {
+        "start_time": "2026-10-09T01:08:54.049Z",
+        "end_time": "2026-11-06T01:08:54.049Z"
+      }
+    }
   }
 ]
