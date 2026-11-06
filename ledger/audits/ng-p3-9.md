@@ -240,3 +240,5 @@ Not a cut, but recorded: `reproduce.py` copies CNT2 and its bootstrap from the a
 - **Free, offline.** Fit a single-qubit rotation on data qubit 5 after the Y1Y2 block to the 24 archived distributions and see whether it explains Δ0 0.70.
 
 Either would be its own pre-registered bet. This audit makes no hardware call.
+
+Revealed 2026-11-05: pl-051, clean.
