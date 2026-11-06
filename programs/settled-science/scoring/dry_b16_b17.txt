@@ -54,6 +54,7 @@ score_b16 on synthetic rows:
   mixed (C2 only)    -> mixed (C2 bound +0.030; C2 leave-one-out flips 0, section flips 0)
   fail               -> fail (C2 bound +0.130; C2 leave-one-out flips 0, section flips 0)
   untestable         -> untestable
+  boundary (8 up, 3 down) -> mixed (C2 False; bound +0.0550; ten seeds +0.0500 to +0.0500; B=100,000 0.055; C2 leave-one-out flips 8, items changing the verdict 8)
 score_b17 on synthetic rows (first wording: Haiku 0.762, Sonnet 0.882):
   pass                   -> pass
   mixed                  -> mixed
