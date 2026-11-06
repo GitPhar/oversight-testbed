@@ -26,7 +26,7 @@ import anthropic  # noqa: E402
 from entangled_mind import llm  # noqa: E402
 
 load_dotenv(P1 / ".env")
-BUDGET_USD = 13.40  # $6.00 (protocol/fixed-rules.md) -> $5.00 before any call (D3) -> $7.50 by br-004 for ss-b10 (D51) -> $8.25 by br-005 for ss-b12 (D53) -> $8.95 by br-007 for ss-b13 (D62) -> $10.20 by br-008 for ss-b14 (D64) -> $13.40 by br-009 for ss-b10b (D65)
+BUDGET_USD = 21.40  # $6.00 (protocol/fixed-rules.md) -> $5.00 before any call (D3) -> $7.50 by br-004 for ss-b10 (D51) -> $8.25 by br-005 for ss-b12 (D53) -> $8.95 by br-007 for ss-b13 (D62) -> $10.20 by br-008 for ss-b14 (D64) -> $13.40 by br-009 for ss-b10b (D65) -> $21.40 by br-020 for ss-b16 and ss-b17 (D79; Sean's budget steer)
 ADAPTIVE_LOW = {"claude-opus-5-5"}  # D18: thinking cannot be disabled on this model
 THINKING_OFF = {}  # model -> the thinking setting that turns thinking off for it
 CACHES = [ROOT / "items" / "leakage-cache.json", ROOT / "bettor" / "bettor-cache.json", ROOT / "bettor" / "pilot-cache.json",
@@ -37,7 +37,40 @@ CACHES = [ROOT / "items" / "leakage-cache.json", ROOT / "bettor" / "bettor-cache
           ROOT / "bettor" / "f1-cache.json", ROOT / "bettor" / "f1-pilot-cache.json",            # ss-b13 (D62, D69)
           ROOT / "items" / "f2" / "leakage-cache.json", ROOT / "bettor" / "f2-cache.json",       # ss-b14 (D64; withdrawn D67, never used)
           ROOT / "items" / "f2b" / "leakage-cache.json", ROOT / "bettor" / "f2b-cache.json",     # ss-b15 (D74)
-          ROOT / "bettor" / "bbb-cache.json", ROOT / "bettor" / "bbb-opus-cache.json"]           # ss-b10b (D65)
+          ROOT / "bettor" / "bbb-cache.json", ROOT / "bettor" / "bbb-opus-cache.json",           # ss-b10b (D65)
+          ROOT / "bettor" / "bbo-cache.json", ROOT / "bettor" / "bbv2-cache.json",                # ss-b16, ss-b17 (br-020)
+          ROOT / "bettor" / "bbv2-pilot-cache.json"]                                               # ss-b17 review pilot (br-023, D82)
+
+
+def _rule16(spent_usd=0.0):
+    """Rule 16's dollar line (CONTEXT.md section 3; ledger/rule16.py): at most $15 of API a month without a landed
+    partly-new or new result in the program's newest layer, or a steer from Sean; a closed program makes no paid
+    call. Read only on a paid run (analyses never call it); refuses with SystemExit."""
+    led = str(ROOT.parents[1] / "ledger")
+    if led not in sys.path:
+        sys.path.insert(0, led)
+    import rule16
+    return rule16.DollarLine("settled-science", spent_usd, root=ROOT.parents[1])
+
+
+def _guard_client(factory, spent_fn=lambda: 0.0):
+    """The first paid client of a process passes rule 16's dollar line, so a script that calls llm.client() without
+    this module's Caller is still checked at the start of its run."""
+    if getattr(factory, "rule16_guarded", False):
+        return factory
+    seen = []
+
+    def client(*a, **k):
+        if not seen:
+            _rule16(spent_fn())
+            seen.append(True)
+        return factory(*a, **k)
+
+    client.rule16_guarded = True
+    return client
+
+
+llm.client = _guard_client(llm.client, spent_total)
 
 
 def key_of(*parts) -> str:
@@ -65,12 +98,18 @@ class Caller:
         return self.others + sum(v["cost"] for v in self.cache.values())
 
     def run(self, jobs, fn, workers=6):
+        line, base = _rule16(self.spent()), self.spent()     # rule 16, checked again before every call
+
         def work(job):
             k = job["key"]
             if k in self.cache or self.stop.is_set():
                 return
             with self.lock:
                 if self.spent() >= self.cap - 0.05:
+                    self.stop.set()
+                    return
+                if line.blocks(self.spent() - base):
+                    self.rule16_stop = line.message(line.start + self.spent() - base)
                     self.stop.set()
                     return
             try:
@@ -103,6 +142,8 @@ class Caller:
             sys.exit(f"STOPPED on a refusal: {e}")
         if self.errors:
             sys.exit(f"{self.label}: stopped on an error: {self.errors[0]}")
+        if getattr(self, "rule16_stop", None):
+            sys.exit(self.rule16_stop)
         if self.stop.is_set():
             sys.exit(f"{self.label}: budget cap ${self.cap} reached; stopped")
         print(f"{self.label}: complete, {len(self.cache)} cached calls, total spent ${self.spent():.4f}", flush=True)

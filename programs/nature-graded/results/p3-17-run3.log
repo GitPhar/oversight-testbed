@@ -1,0 +1,14 @@
+Python 3.12.11
+2026-11-05 16:12:56
+exit=0
+2026-11-05 17:49:29
+h221 LR_b 59.68 p 0.000999000999000999 q99 13.72 label still needed | secondary LR_b {'knob': 40.47, '3se': 108.97, 'wide': 9.47}
+h088 LR_b 110.99 p 0.000999000999000999 q99 14.37 label still needed | secondary LR_b {'knob': 76.76, '3se': 216.24, 'wide': 38.89}
+h268 LR_b 34.46 p 0.000999000999000999 q99 14.48 label still needed | secondary LR_b {'knob': 21.84, '3se': 61.98, 'wide': 7.67}
+VERDICT pass
+  On pair h221, the blur-type term is still needed even when per-qubit readout error of the modelled kind (each qubit separately, fixed over the job) may be up to three times its calibration value in that job: readout knobs of this kind, that large, cannot stand in for it.
+  On pair h088, the blur-type term is still needed even when per-qubit readout error of the modelled kind (each qubit separately, fixed over the job) may be up to three times its calibration value in that job: readout knobs of this kind, that large, cannot stand in for it. Its full model misfits these counts (deviance 59.6 on 7 df); scaled for that misfit, the blur-type term's gain is within its null, so on this pair the label rests on a null the counts reject.
+  On pair h268, the blur-type term is still needed even when per-qubit readout error of the modelled kind (each qubit separately, fixed over the job) may be up to three times its calibration value in that job: readout knobs of this kind, that large, cannot stand in for it.
+  Overall: on all three archived pairs (one job, 3 November), P3-5c's blur-type term is still needed when per-qubit readout error of the modelled kind (each qubit separately, fixed over the job) may be up to three times the job's own calibration value. These are terms in a fitted model, not identified physical mechanisms; larger readout drift, and readout errors of other kinds (correlated between qubits, or drifting during the job), are not excluded.
+
+[exited with code 0]

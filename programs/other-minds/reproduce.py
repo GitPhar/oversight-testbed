@@ -10,7 +10,8 @@ Each analysis also rewrites its results JSON inside the snapshot; that JSON is c
 tolerance 1e-9), with the committed one.
 
   p2-6-tables.md, p2-6r-tables.md,  written whole by write_md() in p2_6_position_label.py / p2_6r_replication.py /
-  p2-7-tables.md, p2-15-tables.md   p2_7_format_fingerprint.py (p2-15: analyse() in p2_15_no_uptake.py). Regenerated from p2-6-calls.json / p2-6r-calls.json /
+  p2-7-tables.md, p2-15-tables.md   p2_7_format_fingerprint.py (p2-15: analyse() in p2_15_no_uptake.py; p2-14-tables.md:
+  p2-14-tables.md                   analyse() in p2_14_self_vs_observer.py, compared byte for byte, its write-up's tables too). Regenerated from p2-6-calls.json / p2-6r-calls.json /
                                     p2-7-calls.json (with program 1's gm3b and mm-gm3b archives) and compared byte for
                                     byte.
   p2-6-position-or-label.md,        hand-written write-ups that reproduce those generated tables under "## Tables".
@@ -152,7 +153,7 @@ def load_modules(tmp, root):
     mods = {"om": om}
     for m in ("p2_1_framing", "p2_1_exploratory", "p2_2_perspective", "p2_3_simpletom", "p2_3b_simpletom_lowsev",
               "p2_4_interpersonal", "p2_5_egocentric", "p2_6_position_label", "p2_6r_replication",
-              "p2_7_format_fingerprint", "p2_15_no_uptake", "p2_5r_replication"):
+              "p2_7_format_fingerprint", "p2_15_no_uptake", "p2_5r_replication", "p2_14_self_vs_observer"):
         mods[m] = importlib.import_module(m)
     for name, mod in list(sys.modules.items()):  # nothing of either program may come from outside the snapshot
         f = getattr(mod, "__file__", None) or ""
@@ -575,6 +576,17 @@ def main():
             new = (root / "results/p2-5r-tables.md").read_text()
             ck.tables("results/p2-5r-tables.md", None, ["results/p2-5r-replication.json"], whole=new)
             ck.tables("results/p2-5r-replication.md", R.tables_of(new))
+
+        # P2-14: from p2-14-calls.json (all three models), p2-4's cells and program 1's bm0 archive, p2-6r-calls.json
+        # (the Sonnet/Opus base comparison) and p2-14-run-cap.json; analyse() writes p2-14-tables.md whole, compared byte
+        # for byte; the write-up must contain every generated table
+        ok = rep.run("results/p2-14-tables.md", lambda: mods["p2_14_self_vs_observer"].analyse() and True)
+        if ok is None:
+            rep.error("results/p2-14-self-vs-observer.md", RuntimeError("not compared: p2-14-tables.md could not be regenerated"))
+        else:
+            new = (root / "results/p2-14-tables.md").read_text()
+            ck.tables("results/p2-14-tables.md", None, ["results/p2-14-self-vs-observer.json"], whole=new)
+            ck.tables("results/p2-14-self-vs-observer.md", R.tables_of(new))
 
         # P2-6 then P2-6r (P2-6r's Haiku column reads the P2-6 JSON just regenerated): write_md() output compared
         # byte for byte; the write-ups must contain every generated table.

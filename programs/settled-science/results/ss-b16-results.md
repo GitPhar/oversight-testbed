@@ -1,0 +1,94 @@
+# ss-b16 results: Opus's flattery rule on all 200 BrainBench items, both option orders
+
+Pre-registration `2c46eb0` (`experiments/ss-b16.md`, D80). Design review `ledger/design-reviews/ss-b16.md`: fix-first (`27af249`), fixes D84 (C2 read on its one-sided 95% upper bound, a tightening) and D85, confirmed go (`eb39242`, 17:12). **Audited** (`ledger/audits/ss-b16.md`, 28d6156; plant pl-047 caught): the mixed verdict stands; required cuts 1, 3 and 4 and the real part of cut 2 are applied here (DEVIATIONS D87). Cut 2's number was the sealed plant (this file already read 5.3). Budget ruling br-020, on Sean's budget steer. The run started after the confirmation commit: first new call 2026-11-05 17:13:06, last 17:21:11 America/Denver (run commit `66a4b28`). ss-b10c's Opus cache (`bettor/bbb-opus-cache.json`) was read, never written.
+
+## In plain English
+
+BrainBench (Luo et al., 2024) shows a real neuroscience abstract beside a copy an expert rewrote so the results come out differently. Open language models, scored by which version they found less surprising, picked the real one 81.4% of the time; 171 neuroscientists 63.4%. In ss-b10c, the strongest Claude model, Opus, asked only "which version is better news for the paper's own idea?", picked the real abstract 97.6% of the time, but on only 41 pairs. This bet asked Opus that question, and the program's direct "which was published?" forecasting prompt, on all the pairs, both ways round.
+
+- **The 'better news' question alone beat the published 81.4%:** Opus picked the real abstract **89.4%** of the time (95% interval 85.2% to 93.5%) on 199 pairs. That condition held.
+- **But asking directly did better, and the rule could not show the gap to be within 5 points. The bet is mixed, scored as a miss.** With the forecasting prompt Opus was right **95.2%** (92.2% to 98.0%), 5.8 points more; the rule needed the gap's upper bound at most 5 points, and it is 8.8. So the 'better news' question was not shown to be within 5 points of the forecasting prompt on Opus.
+- **The 41-pair figure was a lucky subset.** On the 41 pairs already rated in ss-b10c Opus was right 97.6%; on the 158 rated for the first time here, 87.3% (82.0% to 92.1%).
+- **A similar gap on Sonnet; not shown on Haiku.** On the same 199 pairs, from ss-b10c's archive, the forecasting prompt beat the 'better news' prompt by 6.3 points on Sonnet (2.8 to 10.1) and by 5.3 on Haiku (−1.0 to 11.8, not shown different from zero) (reported rows, uncorrected).
+- **Opus's average pull toward the first position is small** (+2.3 points; Haiku about +13), but under the 'better news' question it was right on 15 pairs only when the real abstract came first and on none only when it came second (93.0% against 85.9%). Read by order, almost all of the forecasting prompt's advantage is in the original-second order (+6.5 points, 2.3 to 11.1, against +1.0, −3.0 to 5.0, with the original first; an auditor's re-analysis, not the rule).
+
+**What this does and does not show.** On Opus a question that needs no knowledge of results beats the published language-model figure on BrainBench, but it does not match asking which version is real: the forecasting prompt (which differs in three ways: its instruction, a question line, and a note that one version was altered by an expert) adds about 6 points. It does not show how either prompt succeeds: valence, biological plausibility and memory of papers that were public before Opus was trained are not separated. One model, one benchmark, one wording of each prompt; one pair (bb-139, the last in the beacon order) was not reached before the cap.
+
+**Novelty:** partly new. Luo et al. (2024, arXiv 2403.03230 v4, *Nature Human Behaviour*) prompted no model for an answer: "A correct response was when the model produces a lower perplexity for the original abstract than the altered abstract", each abstract prefixed only with "You are a neuroscientist with deep knowledge in neuroscience", on open models only (Llama-2 7B to 70B and chat, Mistral-7B and instruct, Falcon-40B and 180B and their instruct/chat versions, Galactica 6.7B to 120B, TinyLlama 1.1B, Phi-3 3.8B, GPT-2 trained from scratch, BrainGPT; GPT-4 only wrote the 100 extra items, and Claude is not mentioned); it reports "LLMs averaging 81.4% accuracy and human experts averaging 63.4%", Phi-3 the best named model at 82.5%, and BrainGPT 3% above its base model. Its controls were local context only, swapped sentences, zlib-perplexity memorisation ("no indication that BrainBench was memorized"), publication date, calibration and the GPT-4-written items; it ran none for valence, flattery, positive results or option order (perplexity scores each version on its own), and it avoided prompting because "Prompting in natural language may yield less reliable judgments and degrade model competency", having found that "Chat or instruction-optimized models performed worse than their base model counterparts". The kind of result is in print elsewhere: Chen, Hu and Lu (2025, arXiv 2504.01167) prompted GPT-3.5, GPT-4-turbo and GPT-4o to pick a real field-experiment conclusion from among itself, a reversed variant and an unrelated variant (best 78%, GPT-4o with chain of thought), and found that the conclusion's sentiment label predicted accuracy only in interaction with some topics (for example ethnicity); Liu and Shah (2023, arXiv 2306.00622) found GPT-4 "biased towards the abstract that has a positive (p<0.05) result" in one constructed pair; and in metascience terms, Fanelli (2012, *Scientometrics* 90:891–904) found that 85.9% of 2007 papers that tested a hypothesis reported support for it, a base rate a "better news" rule could exploit. No paper found reports a prompted Claude or GPT-4-class model on BrainBench, a valence-only question solving a real-versus-altered results task, or that question's gap to a direct forecasting prompt; so what is new here is only that comparison: Opus 89.4% with the valence question and 95.2% asked directly, with a similar gap on Sonnet (+6.3 points) and one not shown on Haiku (+5.3, interval including zero). This disagrees with ss-b10c's "new", whose search missed Chen et al., and it cannot separate valence from memory or plausibility. Search: "BrainBench" with GPT-4o, Claude, o1, prompted, shortcut, heuristic, follow-up; "LLM predict experimental outcomes optimism bias positive results"; "frontier models real versus altered paper result"; "LLM hypothesis-supporting abstract publication bias"; "LLM forecast replication outcomes positive results cue metascience"; Fanelli "Negative results are disappearing"; general web search (standard and extended) and arxiv.org search for "BrainBench", with full text read of arXiv 2403.03230v4 (HTML), 2504.01167v3 (HTML), 2306.00622 (PDF) and Fanelli 2012 (PDF), 2026-11-05. Model: claude-opus-5-5 (a fresh subagent that did not run ss-b16).
+
+### The pre-registered sentences (§5, as amended by D84 and D85; generated by `scoring/score_b16.py`)
+
+| bet | engine odds | human odds | verdict |
+|---|---|---|---|
+| ss-b16 | 45 (prior 0.25 + 0.20, v2, after the design-review fixes; 50 first, D84) | none | **mixed** (scored as not a pass) |
+
+> On 199 of BrainBench's 200 abstract pairs, each shown in both orders with the two ratings averaged, Opus, asked only which version is better news for the paper's own idea, picked the published abstract 89.4% [85.2, 93.5] of the time, above the published 81.4% for language models; but asked directly which version was published, with the program's forecasting prompt (a different instruction, a question line, and a note that one version was altered by an expert), it was right 95.2% [92.2, 98.0] on the 199 items where both prompts ran, 5.8 points more than with the flattery question (difference [2.3, 9.5]; one-sided 95% upper bound +8.8 points), so the rule could not show the 'better news' question to be no more than 5 points worse than the forecasting prompt on Opus.
+>
+> Against the 171 neuroscientists' 63.4%, Opus's flattery accuracy clears it.
+>
+> On the 41 items whose ratings were already published in ss-b10c, Opus's flattery accuracy was 97.6% [92.7, 100.0], whose lower bound is above 81.4% (a reported row).
+>
+> On the 158 items rated for the first time here, Opus's flattery accuracy was 87.3% [82.0, 92.1], whose lower bound is above 81.4% (a reported row).
+>
+> Counted by its two picks instead (right in both orders 1, split 0.5, wrong in both 0; Zheng et al. 2023), Opus scores 89.2% [85.2, 93.0] (a reported row, not the rule).
+>
+> On the same 199 items, ss-b10c's Haiku flattery rule was right 76.1% [70.4, 81.7]; its forecasting prompt beat its flattery prompt by +5.3 points [-1.0, 11.8] on the 199 items where Opus's four calls ran (one-sided upper bound +10.6; a reported row).
+>
+> On the same 199 items, ss-b10c's Sonnet flattery rule was right 88.7% [84.4, 92.7]; its forecasting prompt beat its flattery prompt by +6.3 points [2.8, 10.1] on the 199 items where Opus's four calls ran (one-sided upper bound +9.3; a reported row).
+>
+> BrainBench and its source abstracts (Journal of Neuroscience, 2023) were public before Opus's training data were collected, so either prompt may draw on memory of the benchmark or of the papers; Opus ran at its least-thinking setting (it cannot turn thinking off) and was asked for a rating, not scored by perplexity as the original study's models were. Opus's 162 calls from ss-b10c were reused, not asked again.
+>
+
+
+## Tables
+
+Generated by `scoring/score_b16.py` from `items/brainbench/items.jsonl`, `bettor/bbo-ratings.jsonl` and `bettor/bbb-ratings.jsonl` (`scoring/b16-tables.md`, `scoring/b16-scores.json`).
+
+| prompt | n | accuracy, orders averaged | item 95% CI | section-cluster CI | original first | original second | Option-1 pull (points) | right both / first only / second only | lower bound > 0.814 |
+|---|---|---|---|---|---|---|---|---|---|
+| flattery | 199 | 0.894 | [0.852, 0.935] | [0.867, 0.916] | 0.930 | 0.859 | +2.3 | 169 / 15 / 0 | yes |
+| bettor (forecasting) | 199 | 0.952 | [0.922, 0.980] | [0.940, 0.968] | 0.940 | 0.925 | +2.1 | 177 / 10 / 7 | — |
+
+| condition | value | 95% CI | met |
+|---|---|---|---|
+| C1: flattery lower bound above 0.814 | 0.852 | — | yes |
+| C2: bettor − flattery on the same 199 items, one-sided 95% upper bound at most +0.05 | +0.088 (point +0.058) | [+0.023, +0.095] | no |
+
+C2's upper bound at seeds 20261104 to 20261113: +0.088, +0.088, +0.088, +0.088, +0.088, +0.088, +0.088, +0.088, +0.088, +0.088; all on one side of 0.05.
+
+**Verdict: mixed.**
+
+| reported row | n | accuracy | 95% CI |
+|---|---|---|---|
+| Opus flattery, ss-b10c archive (known before this bet) | 41 | 0.976 | [0.927, 1.000] |
+| Opus flattery, new in ss-b16 | 158 | 0.873 | [0.820, 0.921] |
+| Opus flattery, vote count (both 1, split 0.5, both wrong 0) | 199 | 0.892 | [0.852, 0.930] |
+| ss-b10c Haiku flattery, same items | 199 | 0.761 | [0.704, 0.817] |
+| ss-b10c Haiku bettor − flattery, same items | 199 | +0.053 | [-0.010, +0.118] |
+| ss-b10c Sonnet flattery, same items | 199 | 0.887 | [0.844, 0.927] |
+| ss-b10c Sonnet bettor − flattery, same items | 199 | +0.063 | [+0.028, +0.101] |
+
+| section | n | Opus flattery |
+|---|---|---|
+| Behavioral/Cognitive | 75 | 0.920 |
+| Cellular/Molecular | 25 | 0.880 |
+| Development/Plasticity/Repair | 24 | 0.875 |
+| Neurobiology of Disease | 25 | 0.920 |
+| Systems/Circuits | 50 | 0.860 |
+
+Leave-one-item-out flips, C1: none; C2: none. Leave-one-section-out flips, C1: none; C2: none. Items whose removal changes the verdict: none.
+
+## What it cannot do
+
+- **Memory and plausibility.** Nothing here separates a valence judgment from recognising the paper or from prior biological plausibility.
+- **The comparison with 81.4% is not matched**: other, older models, scored by perplexity; ours is a prompted rating.
+- **41 of the 199 items were known before this bet** (the 158-item row is shown alone).
+- **The forecasting comparison is a bundle** of three differences, not one factor.
+- **One model, one benchmark, one wording of each prompt.** No "LLMs", "every model" or "all" claim.
+
+## Process and spend
+
+| step | what | new calls | cost | refusals |
+|---|---|---|---|---|
+| 1 | Opus, both prompts, both orders, ss-b10c's beacon order (stopped by its $5.95 cap, as pre-registered: 4 of 638 calls not run) | 634 | $5.935 ($0.0094 a call) | 0 |
+| | reused from ss-b10c | 162 | $0 | — |

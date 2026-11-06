@@ -17,8 +17,10 @@ prompts unchanged (predict_prompt: arm a "you", arm b "an AI assistant called Sa
           itself (3 repeats). Predictions a and b, 3 repeats.
   Opus    the same on 8 of the 16 vignettes (beacon-drawn), 2 repeats of ground truth, 1 of each prediction.
 Settings: Haiku thinking disabled, max_tokens 100 (om-p2-4); Sonnet thinking between_tools, max_tokens 200; Opus effort
-low, max_tokens 4000 (om-p2-6r). Caps in code: Haiku $0.30, Sonnet $2.00, Opus $1.70, total $4.00. Haiku, then Sonnet,
-then Opus, each only if the previous completed. Any refusal stops every later call; nothing is reworded or retried."""
+low, max_tokens 4000 (om-p2-6r). Caps in code: Haiku $0.30, Sonnet $2.90, Opus $2.40, total $5.60 (D20a), and program 2's
+November 2026 limit of $13.75 (br-020, D20c): the run's total cap is min($5.60, $13.75 minus program 2's ledger spend).
+Haiku, then Sonnet, then Opus. A refusal stops every later call; an error stops the run (resumable from cache); a cap
+stop on one model does not block the next. Nothing is reworded or retried."""
 
 import hashlib
 import json
@@ -39,6 +41,7 @@ om = p4.om
 RESULTS = om.RESULTS
 CACHE, OUT, SEEDF = RESULTS / "p2-14-calls.json", RESULTS / "p2-14-self-vs-observer.json", om.DATA / "p2-14-seed.json"
 TABLES = RESULTS / "p2-14-tables.md"
+RUNF = RESULTS / "p2-14-run-cap.json"               # D20d: the run cap as computed at launch (analyse never reads the ledger)
 REVIEW_DIR = om.ROOT.parents[1] / "ledger" / "design-reviews"
 REFUSAL_FILES = ("refusal-p2-14.md", "refusal.md")
 ORDER = ("haiku", "sonnet", "opus")
@@ -48,6 +51,8 @@ SETTINGS = {"haiku": {"thinking": {"type": "disabled"}}, "sonnet": {"thinking": 
 MAX_TOKENS = {"haiku": 100, "sonnet": 200, "opus": 4000}
 CAPS = {"haiku": 0.30, "sonnet": 2.90, "opus": 2.40}     # D20a (F3): caps >= 1.5x the length-calibrated estimates
 CAP = 5.60
+PROGRAM_LIMIT, PROGRAM_MONTH = 13.75, "2026-11"   # br-020 (Sean's approval of $3.75): program 2's November limit, D20c
+LEDGER_BETS = om.ROOT.parents[1] / "ledger" / "bets.jsonl"
 R_PRED = {"haiku": 10, "sonnet": 3, "opus": 1}
 R_TRUTH = {"sonnet": 3, "opus": 2}
 OPUS_VIGNETTES = 8
@@ -141,6 +146,18 @@ def jobs(own, items, bmit, seed32_items, seed32_order=None):
     return out
 
 
+def program_spent():
+    """Program 2's spend this month in the ledger (cost_usd of other-minds rows dated in PROGRAM_MONTH), om-p2-14 excluded."""
+    rows = [json.loads(x) for x in LEDGER_BETS.read_text().splitlines() if x.strip()]
+    return sum(r.get("cost_usd") or 0 for r in rows if r.get("program") == "other-minds" and r.get("id") != "om-p2-14"
+               and str(r.get("date", "")).startswith(PROGRAM_MONTH))
+
+
+def run_cap():
+    """D20c: the run's total cap, the lesser of the bet's $5.60 and what program 2's $13.75 limit leaves."""
+    return round(min(CAP, PROGRAM_LIMIT - program_spent()), 4)
+
+
 def content_hash(mk, msgs, schema):
     return hashlib.sha256(json.dumps({"model": MODELS[mk], "settings": SETTINGS[mk], "max_tokens": MAX_TOKENS[mk],
                                       "messages": msgs, "schema": schema}, sort_keys=True).encode()).hexdigest()
@@ -165,6 +182,12 @@ class GuardedCaller:
             sys.exit(f"{label}: a refusal is on record ({refused[0] if refused else on_file[0]}); not resumed")
         self.lock, self.stop = threading.Lock(), threading.Event()
         self.refusal, self.errors, self.after_stop = {}, [], 0
+        self.cap = run_cap()                                  # D20c: min($5.60, program 2's $13.75 limit minus its spend)
+        recs = json.loads(RUNF.read_text()) if RUNF.exists() else []
+        RUNF.write_text(json.dumps(recs + [{"label": label, "run_cap": self.cap, "program_spent": round(program_spent(), 4),
+                                            "program_limit": PROGRAM_LIMIT}], indent=1))
+        print(f"{label}: run cap ${self.cap:.4f} (bet cap ${CAP:.2f}; program 2 spent ${program_spent():.4f} of "
+              f"${PROGRAM_LIMIT:.2f})", flush=True)
 
     def spent(self, mk=None):
         return sum(v["cost"] for k, v in self.cache.items() if mk is None or k.startswith(mk + "|"))
@@ -181,7 +204,7 @@ class GuardedCaller:
             with self.lock:
                 if self.stop.is_set():
                     return
-                if self.spent() >= CAP or self.spent(mk) >= CAPS[mk]:
+                if self.spent() >= self.cap or self.spent(mk) >= CAPS[mk]:
                     self.stop.set()
                     return
             try:
@@ -219,7 +242,8 @@ class GuardedCaller:
         prev = CACHE.with_name(CACHE.stem + "-stop.json")
         recs = json.loads(prev.read_text()) if prev.exists() else []
         recs = recs if isinstance(recs, list) else [recs]
-        prev.write_text(json.dumps(recs + [dict(rec, model=next((k.split("|")[0] for k in [rec["job"] or ""]), None))], indent=1))
+        model = jobs_[0][1] if jobs_ else None                # D20c (O1): the model is recorded on every stop, cap included
+        prev.write_text(json.dumps(recs + [dict(rec, model=model)], indent=1))
         if self.refusal:
             k, e = self.refusal["e"]
             (RESULTS / REFUSAL_FILES[0]).write_text(
@@ -268,10 +292,10 @@ def mean_vals(cache, prefix, reps):
     return float(np.mean([v["value"] for v in vals])) / 100
 
 
-def cell_rows(mk, own, base_h, items, cache, opus_v, reps=None):
+def cell_rows(mk, own, base_h, items, cache, opus_v, reps=None, with_cross=False):
     """[(q, cls, u_measured, u_a, u_b)] for kept own cells. Haiku: program 1's measured r1 and base (om-p2-4).
     Sonnet, Opus: the base and re-rating measured here. Drop rule |A - base| < 0.05 (program 1's)."""
-    rows, missing = [], 0
+    rows, missing, cross = [], 0, []
     vs = [q for q in items if mk != "opus" or q in opus_v]
     for q in vs:
         for o in "XY":
@@ -296,7 +320,8 @@ def cell_rows(mk, own, base_h, items, cache, opus_v, reps=None):
                     missing += 1
                     continue
                 rows.append((q, abs(d), (m - b) / D, (pa - b) / D, (pb - b) / D))
-    return rows, missing
+                cross.append(bool(np.sign(D) != np.sign(d)))  # D20c (O2): planted across the model's own base
+    return (rows, missing, cross) if with_cross else (rows, missing)
 
 
 def block_stat(S, N):
@@ -356,7 +381,7 @@ def reading(ci, n_complete, mk, arms_beat_zero=True):
 
 def model_result(mk, own, base_h, items, cache, opus_v, seed, reps=None):
     reps = reps or {"truth": R_TRUTH.get(mk), "pred": R_PRED[mk]}
-    rows, missing = cell_rows(mk, own, base_h, items, cache, opus_v, reps)
+    rows, missing, cross = cell_rows(mk, own, base_h, items, cache, opus_v, reps, with_cross=True)
     vids = sorted({r[0] for r in rows})
     S, N = tables(rows, vids)
     complete = [q for q in vids if all(N[vids.index(q), k] > 0 for k in range(3))]
@@ -384,10 +409,45 @@ def model_result(mk, own, base_h, items, cache, opus_v, seed, reps=None):
                                 e=f"{max(err_a, err_b):.3f}", z=f"{err_0:.3f}") + BUNDLE
     if flips:
         sent += f" Leaving out one vignette changes the reading: without any one of {', '.join(flips)}."
-    return {"reading": rd, "block_error_self": err_a, "block_error_sam": err_b, "block_error_no_uptake": err_0,
+    extra = {}
+    if mk != "haiku":                                         # D20c (O2): descriptive, never the model's reading
+        extra["cells_across_own_base"] = int(sum(cross))
+        rows2 = [r for r, c in zip(rows, cross) if not c]
+        v2 = sorted({r[0] for r in rows2})
+        S2, N2 = tables(rows2, v2)
+        c2 = [q for q in v2 if all(N2[v2.index(q), k] > 0 for k in range(3))]
+        if c2 and sum(cross):
+            k2 = [v2.index(q) for q in c2]
+            p_2, ci_2, _ = bca_interval(S2[k2], N2[k2], seed)
+            extra["without_cross_base"] = {"reading": reading(ci_2, len(c2), mk, beat), "dmae_block": p_2, "bca": ci_2,
+                                           "n_vignettes": len(c2), "n_cells": len(rows2)}
+        extra["base_vs_om_p2_6r"] = base_vs_6r(mk, cache, items, opus_v, reps["truth"])
+    return {**extra, "reading": rd, "block_error_self": err_a, "block_error_sam": err_b, "block_error_no_uptake": err_0,
             "reps_used": reps, "dmae_block": point, "bca": ci, "pct": pct, "n_vignettes": len(complete), "n_cells": len(rows),
             "missing_cells": missing, "effects_measured_a_b": dict(zip([f"u_own_{c}" for c in CLASSES], eff)),
             "loo_flips": flips, "sentence": sent}
+
+
+P6R_CACHE = RESULTS / "p2-6r-calls.json"
+
+
+def base_vs_6r(mk, cache, items, opus_v, reps):
+    """D20c (O2): this run's measured base against om-p2-6r's on the same statements (identical first prompt)."""
+    if not P6R_CACHE.exists():
+        return None
+    old = json.loads(P6R_CACHE.read_text())
+    pairs = []
+    for q in [q for q in items if mk != "opus" or q in opus_v]:
+        for o in "XY":
+            b_new = mean_vals(cache, f"{mk}|base|{q}|{o}", reps)
+            olds = [v["value"] for k, v in old.items() if k.startswith(f"{mk}|base|{q}|{o}|0|") and not v.get("refused")]
+            if b_new is not None and olds:
+                pairs.append((b_new * 100, float(np.mean(olds))))
+    if len(pairs) < 3:
+        return {"n_statements": len(pairs)}
+    a = np.array(pairs)
+    return {"n_statements": len(pairs), "mean_abs_diff_points": float(np.mean(np.abs(a[:, 0] - a[:, 1]))),
+            "mean_diff_points": float(np.mean(a[:, 0] - a[:, 1])), "r": float(np.corrcoef(a[:, 0], a[:, 1])[0, 1])}
 
 
 def analyse(status=None):
@@ -400,6 +460,9 @@ def analyse(status=None):
     opus_v = set(opus_vignettes(items, seed["seed32_items"]))
     planned = {mk: [j for j in jobs(own, items, bmit, seed["seed32_items"]) if j[1] == mk] for mk in ORDER}
     res = {"per_model": {}, "opus_vignettes": sorted(opus_v)}
+    stopf = CACHE.with_name(CACHE.stem + "-stop.json")
+    stops = json.loads(stopf.read_text()) if stopf.exists() else []
+    stops = stops if isinstance(stops, list) else [stops]
     for mk in ORDER:
         answered = sum(1 for j in planned[mk] if j[0] in cache and not cache[j[0]].get("refused"))
         reps = None
@@ -407,6 +470,15 @@ def analyse(status=None):
             # D20a (F3): a model stopped by its cap is analysed on its complete repeat blocks (truth and predictions of
             # repeats 0..k-1); a refusal anywhere, or k = 0, reads not_run
             refused = any(cache.get(j[0], {}).get("refused") for j in planned[mk])
+            last = next((r for r in reversed(stops) if r.get("model") == mk), None)
+            if not refused and (last is None or last.get("reason") != "cap"):
+                # D20c (O1): only a cap stop is analysed on complete repeat blocks; an error stop (or a model never
+                # reached) reads not_run until the run is resumed from cache
+                why = ("stopped on an error; resumable from cache" if last and last.get("reason") == "error" else
+                       "not reached: an earlier model's run stopped")
+                res["per_model"][mk] = {"reading": "not_run", "sentence": SENTENCES["not_run"].format(
+                    M=NAME[mk], why=f"{why} ({len(planned[mk]) - answered} of {len(planned[mk])} calls missing)")}
+                continue
             k = 0
             while not refused and k < max(R_PRED[mk], R_TRUTH.get(mk, 0)) and all(
                     j[0] in cache for j in planned[mk] if j[0].rsplit("|", 1)[1] == str(k)):
@@ -426,8 +498,8 @@ def analyse(status=None):
         res["per_model"]["haiku"]["sentence"]
     res["calls"], res["cost_usd"] = len(cache), sum(v["cost"] for v in cache.values())
     res["refused"] = sum(1 for v in cache.values() if v.get("refused"))
-    stopf = CACHE.with_name(CACHE.stem + "-stop.json")
-    res["stop_record"] = json.loads(stopf.read_text()) if stopf.exists() else None
+    res["stop_record"] = stops or None
+    res["run_caps"] = json.loads(RUNF.read_text()) if RUNF.exists() else None   # D20d: as recorded at launch
     OUT.write_text(json.dumps(res, indent=1))
     L = ["# P2-14 tables (generated by experiments/p2_14_self_vs_observer.py; do not edit)", "",
          f"**Bet: {res['label']}.** {res['sentence']}", "",
@@ -445,6 +517,19 @@ def analyse(status=None):
         r = res["per_model"][mk]
         for k, v in r.get("effects_measured_a_b", {}).items():
             L.append(f"| {NAME[mk]} | {k} | {v[0]:+.3f} | {v[1]:+.3f} | {v[2]:+.3f} |")
+    L += ["", "Sonnet and Opus, descriptive (D20c, O2): cells planted across the model's own measured base, the reading without "
+          "them, and this run's base against om-p2-6r's on the same statements.", "",
+          "| model | cells across own base | reading without them | dMAE without | 95% BCa without | base vs om-p2-6r: statements, mean |diff| (points), mean diff, r |",
+          "|---|---|---|---|---|---|"]
+    for mk in ("sonnet", "opus"):
+        r = res["per_model"][mk]
+        if "cells_across_own_base" not in r:
+            continue
+        w, bv = r.get("without_cross_base"), r.get("base_vs_om_p2_6r") or {}
+        wt = (f"{w['reading']} | {w['dmae_block']:+.3f} | [{w['bca'][0]:+.3f}, {w['bca'][1]:+.3f}]" if w else "— | — | —")
+        bt = (f"{bv['n_statements']}, {bv['mean_abs_diff_points']:.1f}, {bv['mean_diff_points']:+.1f}, {bv['r']:.2f}"
+              if "r" in bv else str(bv.get("n_statements", "—")))
+        L.append(f"| {NAME[mk]} | {r['cells_across_own_base']} | {wt} | {bt} |")
     L += ["", "Per-model sentences:", ""] + [f"- {res['per_model'][mk]['sentence']}" for mk in ORDER]
     TABLES.write_text("\n".join(L) + "\n")
     print(TABLES.read_text())
@@ -461,7 +546,8 @@ def plan():
         n = sum(1 for j in js if j[1] == mk)
         tot += n * EST[mk]
         print(f"{mk}: {n} calls; est ${n * EST[mk]:.2f} (cap ${CAPS[mk]:.2f})")
-    print(f"total est ${tot:.2f} (cap ${CAP:.2f}); own cells {len(own)}")
+    print(f"total est ${tot:.2f} (cap ${CAP:.2f}; run cap ${run_cap():.2f} under program 2's ${PROGRAM_LIMIT:.2f}, D20c); "
+          f"own cells {len(own)}")
 
 
 def dry_run(sims=200):
@@ -523,6 +609,8 @@ def main():
         why = gate()
         if why:
             sys.exit(f"p2-14: not running: {why}")
+        if run_cap() < CAPS["haiku"]:                       # D20d: the scored model's whole cap must fit the run cap
+            sys.exit(f"p2-14: not running: run cap ${run_cap():.2f} is below Haiku's cap ${CAPS['haiku']:.2f}")
         own, base_h, items, bmit = load()
         seed = json.loads(SEEDF.read_text())
         c = GuardedCaller("p2-14", real_call())
