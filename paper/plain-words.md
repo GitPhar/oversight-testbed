@@ -62,10 +62,10 @@ Sean has entered <!--n:human_lines-->37<!--/n--> odds in the cockpit, each on a 
 - **Round one, 39 results:** every number recomputed, but 38 of 39 write-ups said more than the data showed; 166 of 560 claims failed; no verdict reversed.
 - **Round two, 14 results:** 133 sentences cut, 3 verdicts changed.
 - **Round three, 21 results, by a stronger Claude model (Fable 5.1):** every headline number reproduced; one verdict reversed (ss-b6, pass to undecided, because its rule passes about half the time in a world with no real edge); one label changed with no score change; and the "six hits are two runs" hole above (`ledger/audits/SUMMARY-3.md`).
-- **Across the ledger:** <!--n:audited-->62<!--/n--> of <!--n:bets_total-->90<!--/n--> bets checked; <!--n:reversals-->4<!--/n--> verdicts reversed.
+- **Across the ledger:** <!--n:audited-->62<!--/n--> of <!--n:bets_total-->92<!--/n--> bets checked; <!--n:reversals-->4<!--/n--> verdicts reversed.
 - **Real catches:** a chip simulation that never loaded that day's settings; a "repeat" replaying the same 500 conversations; program 2's only pass; a contest decided by how its sides were built; Opus's "single belief" cut to "single verdict".
 - **Checking the checkers:** another session secretly planted a known mistake in some checks, drawn at random; <!--n:plants_caught-->25<!--/n--> of <!--n:plants_planted-->25<!--/n--> were caught (`ledger/scores.md`). The catch-rate test needs at least 10 plants and a lower bound above one half, and one of the plants was placed by hand rather than drawn at random.
-- **Before spending,** a reviewer dry-runs each test: "go" first time <!--n:dr_go-->0<!--/n--> of <!--n:dr_total-->63<!--/n--> times (<!--n:dr_fix-->51<!--/n--> fix-first, <!--n:dr_redesign-->12<!--/n--> redesign); <!--n:withdrawn-->13<!--/n--> tests withdrawn before data; <!--n:dr_missed-->30<!--/n--> reviews missed flaws found later (`ledger/scores.md`).
+- **Before spending,** a reviewer dry-runs each test: "go" first time <!--n:dr_go-->0<!--/n--> of <!--n:dr_total-->65<!--/n--> times (<!--n:dr_fix-->53<!--/n--> fix-first, <!--n:dr_redesign-->12<!--/n--> redesign); <!--n:withdrawn-->14<!--/n--> tests withdrawn before data; <!--n:dr_missed-->31<!--/n--> reviews missed flaws found later (`ledger/scores.md`).
 - **Who did the checking:** every checker, reviewer, planter and bettor so far is a Claude model (Opus 5.5, with round three by Fable 5.1), and a few checks were started by the same session that wrote the result. No check by a non-Claude model has been run.
 
 ## What holds up
@@ -79,7 +79,7 @@ Sean has entered <!--n:human_lines-->37<!--/n--> odds in the cockpit, each on a 
 - Most of what the record shows is already in print, some of it from Anthropic staff. Three findings are partly new; none is new and repeated.
 - Sean's own odds: on only <!--n:human_n-->14<!--/n--> scored bets so far.
 - One model family does nearly everything: Claude writes, checks, plants mistakes and is studied. The best belief finding is mostly Haiku, and Opus partly contradicts it.
-- <!--n:bets_total-->90<!--/n--> bets in a few days can look like volume. The numbers to defend are <!--n:scored-->48<!--/n--> scored (one per run), <!--n:audited-->62<!--/n--> checked, <!--n:reversals-->4<!--/n--> reversed, <!--n:withdrawn-->13<!--/n--> withdrawn before data.
+- <!--n:bets_total-->92<!--/n--> bets in a few days can look like volume. The numbers to defend are <!--n:scored-->48<!--/n--> scored (one per run), <!--n:audited-->62<!--/n--> checked, <!--n:reversals-->4<!--/n--> reversed, <!--n:withdrawn-->14<!--/n--> withdrawn before data.
 
 ## What it needs before 22 November
 

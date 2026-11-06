@@ -14,7 +14,7 @@ Sean Pharris · 2026-11-04, numbers brought current 2026-11-05 · long version: 
 
 **The AI's score.** <!--n:brier-->0.170<!--/n--> on <!--n:scored-->48<!--/n--> tests counted one per run (<!--n:brier_all-->0.189<!--/n--> on <!--n:scored_all-->54<!--/n--> counting every scored row), where a coin scores <!--n:coin-->0.250<!--/n--> and guessing the pass rate scores <!--n:hit_rate_ref-->0.188<!--/n-->. Too few tests to say its odds separate passes from misses, and they shift when reworded.
 
-**The checks.** Every number held up, but 38 of 39 early write-ups overstated. Across the record <!--n:audited-->62<!--/n--> of <!--n:bets_total-->90<!--/n--> bets are checked and <!--n:reversals-->4<!--/n--> verdicts were reversed. The checks caught real set-up errors and caught <!--n:plants_caught-->25<!--/n--> of <!--n:plants_planted-->25<!--/n--> mistakes planted to test them. Every checker so far is a Claude model.
+**The checks.** Every number held up, but 38 of 39 early write-ups overstated. Across the record <!--n:audited-->62<!--/n--> of <!--n:bets_total-->92<!--/n--> bets are checked and <!--n:reversals-->4<!--/n--> verdicts were reversed. The checks caught real set-up errors and caught <!--n:plants_caught-->25<!--/n--> of <!--n:plants_planted-->25<!--/n--> mistakes planted to test them. Every checker so far is a Claude model.
 
 **Strong:** rules written before data, plain failures, cheap (about $<!--n:api_usd-->108<!--/n--> of API and <!--n:chip_s-->117<!--/n--> chip seconds), fully rebuildable.
 **Weak:** too few tests to judge anything, human odds on only <!--n:human_n-->14<!--/n--> scored bets, and nearly everything done by Claude.

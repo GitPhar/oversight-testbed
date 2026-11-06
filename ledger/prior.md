@@ -90,7 +90,7 @@ A program whose last three layers with settled bets hold no landed bet and no fi
 
 | program | layers with settled bets | last three | settled bets in them | novelty not recorded | layers deep (line 5) | $ in 2026-11 (line $15) | due | why |
 |---|---|---|---|---|---|---|---|---|
-| entangled-mind | 1, 3, 4, 5, 6 | 4, 5, 6 | 15 | 7 | 6 | 32.73 | no | landed: em-gm2b, em-bm0, em-dm6f2, em-gm2bf1, em-dm6f2f2; partly new or new: em-gm2b, em-gm3c, em-bm0, em-dm2, em-dm4, em-dm6, em-gm2bf1, em-dm6f2f2; rule 16: past a line by count, released by em-dm6f2f2 in layer 6 |
+| entangled-mind | 1, 3, 4, 5, 6, 7 | 5, 6, 7 | 6 | 4 | 7 | 33.05 | **yes** | rule 16: at the five layers and the $15 this month line with no landed partly-new or new result in the newest layer (7) and no steer from Sean |
 | nature-graded | 1, 2, 3, 4 | 2, 3, 4 | 7 | 4 | 4 | 0.00 | no | landed: ng-p3-18; partly new or new: ng-p3-17, ng-p3-9 |
 | other-minds | 1, 2 | 1, 2 | 12 | 9 | 2 | 12.97 | no | 2 layers with settled bets; the rule needs three |
 | said-vs-did | 1, 2 | 1, 2 | 5 | 3 | 2 | 4.35 | no | 2 layers with settled bets; the rule needs three |
@@ -100,6 +100,6 @@ A program whose last three layers with settled bets hold no landed bet and no fi
 
 ## What is not counted
 
-42 of the 90 bets in the ledger are not in these tables: they are open, withdrawn before data, untestable, undetermined after audit, or stated no odds (`ledger/brier.md`, "What is not scored, and why"), or are scored secondary bets on a run an earlier bet was already scored on (rule 15, one scored bet per run: ss-b2 on ss-b1's run, ss-b3 on ss-b1's run, ss-b7 on ss-b5's run, ss-b11 on ss-b1's run, em-gm2bf1 on em-gm3b's run, em-dm6f2f1 on em-dm6f2's run).
+44 of the 92 bets in the ledger are not in these tables: they are open, withdrawn before data, untestable, undetermined after audit, or stated no odds (`ledger/brier.md`, "What is not scored, and why"), or are scored secondary bets on a run an earlier bet was already scored on (rule 15, one scored bet per run: ss-b2 on ss-b1's run, ss-b3 on ss-b1's run, ss-b7 on ss-b5's run, ss-b11 on ss-b1's run, em-gm2bf1 on em-gm3b's run, em-dm6f2f1 on em-dm6f2's run).
 
 <!-- numbers (generated; read by site/numbers.py): {"prior_ci": "[0.15, 0.39]", "prior_hits": 12, "prior_n": 48, "prior_rate": "0.25"} -->
