@@ -191,7 +191,7 @@ def main():
         p, o = b["engine_odds"], b["outcome"]
         sec = f" (secondary of {b['secondary_of']}; sensitivity only)" if b.get("secondary_of") else ""
         w(f"| {b['id']}{sec} | {b['map']} {b['direction']} | {b['odds_event']} | {p:.2f} ({b['engine_odds_first']:.2f}) | "
-          f"{'—' if b['human_odds'] is None else b['human_odds']} | {o} | {(p - o) ** 2:.4f} | "
+          f"{'—' if b['human_odds'] is None else str(b['human_odds']) + (' (given on a different event; compare with the first-stated engine odds)' if b.get('human_event_mismatch') else '')} | {o} | {(p - o) ** 2:.4f} | "
           f"`{b['prereg_commit']}` | `{b['result_file']}` |")
     w("")
     w("## Sensitivity")
