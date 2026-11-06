@@ -181,3 +181,6 @@ Recommended, not required (C18): add to the "position habit" bullet: "Read per o
 - **Haiku, second wording, repeated.** 400 calls, about $0.11. This gives a direct same-wording test-retest on the test items, which settles whether 70.5% same-score is below call noise. It also gives a second estimate of the tie surge and of C2. If the repeat moves Haiku's averaged accuracy below 71.2% (more than 5 points from 76.2%), the wording result was luck.
 - **A third wording written by a different model family or a human.** Haiku and Sonnet, 800 calls, about $2.15. Write it without the "50 if neither" clause, or with the clause equalised across wordings, so the tie surge cannot carry the result.
 - **A per-order C2 as a pre-registered secondary.** Per-order C2 is the cheapest re-read of any rerun. On the present data it already fails Haiku in both orders.
+
+
+Revealed 2026-11-05: pl-048, planted miscount/cell at "## Tables, second table (C1/C2 per model), Haiku row, same pick cell" (0.770 -> 0.870); caught (Required cuts 1). Cut 1 is the plant: not applied to the real record, which reads 0.770.
