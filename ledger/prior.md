@@ -91,7 +91,7 @@ A program whose last three layers with settled bets hold no landed bet and no fi
 | program | layers with settled bets | last three | settled bets in them | novelty not recorded | layers deep (line 5) | $ in 2026-11 (line $15) | due | why |
 |---|---|---|---|---|---|---|---|---|
 | entangled-mind | 1, 3, 4, 5, 6 | 4, 5, 6 | 15 | 7 | 6 | 32.73 | no | landed: em-gm2b, em-bm0, em-dm6f2, em-gm2bf1, em-dm6f2f2; partly new or new: em-gm2b, em-gm3c, em-bm0, em-dm2, em-dm4, em-dm6, em-gm2bf1, em-dm6f2f2; rule 16: past a line by count, released by em-dm6f2f2 in layer 6 |
-| nature-graded | 1, 2, 3, 4 | 2, 3, 4 | 5 | 4 | 4 | 0.00 | no | landed: ng-p3-18; partly new or new: none |
+| nature-graded | 1, 2, 3, 4 | 2, 3, 4 | 6 | 4 | 4 | 0.00 | no | landed: ng-p3-18; partly new or new: ng-p3-17 |
 | other-minds | 1, 2 | 1, 2 | 12 | 9 | 2 | 12.97 | no | 2 layers with settled bets; the rule needs three |
 | said-vs-did | 1, 2 | 1, 2 | 5 | 3 | 2 | 4.35 | no | 2 layers with settled bets; the rule needs three |
 | self-grading | 1, 2, 3, 4 | 2, 3, 4 | 6 | 1 | 4 | 7.15 | no | landed: sg-b3, sg-b4; partly new or new: sg-b4, sg-b8, sg-b6, sg-b7 |

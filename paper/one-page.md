@@ -35,8 +35,8 @@ Here, the engine is the driver and its judgment is the driving. In most programs
 
 **Four additions** (`paper/the-engine.md` §3.7–3.10), where they stand on 2026-11-05:
 1. **A scored veto.** Built; the first two vetoes of research directions were logged on 5 November (ta-d8, ta-d10, steers st-22 and st-23), with shadow checks due from 12 November; none is scored yet (`ledger/scores.md`).
-2. **Planted faults to score the auditor.** Built; <!--n:plants_planted-->24<!--/n--> planted, <!--n:plants_caught-->24<!--/n--> caught (`ledger/scores.md`).
-3. **A pre-mortem.** Built; the engine named the actual reason for failure in <!--n:premortem_named-->17<!--/n--> of <!--n:premortem_failed-->38<!--/n--> scored cases.
+2. **Planted faults to score the auditor.** Built; <!--n:plants_planted-->25<!--/n--> planted, <!--n:plants_caught-->25<!--/n--> caught (`ledger/scores.md`).
+3. **A pre-mortem.** Built; the engine named the actual reason for failure in <!--n:premortem_named-->17<!--/n--> of <!--n:premortem_failed-->39<!--/n--> scored cases.
 4. **Hardware as referee and as a source of questions.** Built; program 3's questions grew out of the chip's own surprise in program 1, where it gave 0.50 when its noise model said 0.25, and three pre-registered tries have not brought it back.
 
 **What it costs.**

@@ -29,16 +29,16 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-48 audits prepared with a sealed plant line: 0 still sealed, 48 revealed, of which 24 carried a plant. 
+49 audits prepared with a sealed plant line: 0 still sealed, 49 revealed, of which 25 carried a plant. 
 
-**Catch rate: 24/24 = 1.00, 95% Wilson interval [0.86, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
+**Catch rate: 25/25 = 1.00, 95% Wilson interval [0.87, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
 
 | class / subclass | planted | caught | missed: expected checklist line |
 |---|---|---|---|
 | miscount / cell | 4 | 4 | — |
 | miscount / total | 8 | 8 | — |
 | overclaim / mechanism | 3 | 3 | — |
-| overclaim / plain_vs_table | 2 | 2 | — |
+| overclaim / plain_vs_table | 3 | 3 | — |
 | overclaim / rank | 5 | 5 | — |
 | overclaim / scope | 2 | 2 | — |
 
@@ -68,6 +68,7 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 | pl-046 | om-p2-14 | overclaim/rank | yes | audit om-p2-14, hole 1 / required cut 1: quotes 'the self advantage replicates on Opus, a second finding of this bet' and calls it a rank drift (Opus undetermined, interval includes 0, LOO flips) | claude-opus-5-5 |
 | pl-048 | ss-b17 | miscount/cell | yes | Required cuts 1: 'C2 table, Haiku row ... | 0.870 | ... with ... | 0.770 |'; header reproduced: false on that cell | claude-opus-5-5 |
 | pl-047 | ss-b16 | overclaim/plain_vs_table | yes | Required cuts 2: 'by 2.3 points on Haiku' ... the table says +5.3 (commit 6916fa7 changed that number) | claude-opus-5-5 |
+| pl-049 | ng-p3-17 | overclaim/plain_vs_table | yes | ledger/audits/ng-p3-17.md, Claims checked row 14 ('wide bounds ... only on h268 (7.7); on h221 it stays above it' -> hole: false; below on h221 and h268) and Required cuts, cut 1 | claude-opus-5-5 |
 
 **Limits, stated with the number:**
 
@@ -77,18 +78,18 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-66 of 89 bets carry an engine pre-mortem; 38 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+66 of 89 bets carry an engine pre-mortem; 39 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
-| engine: named the main reason | 17/38 = 0.45 [0.30, 0.60] |
-| engine: named it or its kind | 31/38 = 0.82 [0.67, 0.91] |
-| lazy baseline: failures whose reason was 'the effect is not there' | 25/41 = 0.61 [0.46, 0.74] |
+| engine: named the main reason | 17/39 = 0.44 [0.29, 0.59] |
+| engine: named it or its kind | 31/39 = 0.79 [0.64, 0.89] |
+| lazy baseline: failures whose reason was 'the effect is not there' | 25/42 = 0.60 [0.44, 0.73] |
 | human: named the main reason | — |
 
 | stated kind \ actual kind | world | design | execution | artefact |
 |---|---|---|---|---|
-| world | 20 | 6 | 0 | 0 |
+| world | 20 | 6 | 1 | 0 |
 | design | 2 | 8 | 0 | 0 |
 | execution | 0 | 0 | 1 | 0 |
 | artefact | 0 | 1 | 0 | 0 |
@@ -126,7 +127,7 @@ Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denv
 | bets flagged `rule_violation` | 1: sg-b6 |
 | withdrawn after a design review said redesign | 13 |
 
-Design reviews: 0 go, 50 fix-first, 12 redesign; 29 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 50 fix-first, 12 redesign; 30 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
@@ -134,14 +135,14 @@ Design reviews: 0 go, 50 fix-first, 12 redesign; 29 later found by the post-resu
 | P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 6 | 5 of 6 scored |
 | P3 | No dumb baseline: a trivial predictor would pass the rule | 37 | 20 of 33 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 5 | 3 of 5 scored |
-| P5 | Unmatched rivals: the contest is decided by how the families were built | 3 | 0 of 2 scored |
+| P5 | Unmatched rivals: the contest is decided by how the families were built | 3 | 0 of 3 scored |
 | P6 | A control that cannot fail | 3 | 1 of 3 scored |
 | P7 | A foreseeable execution risk run without a pilot | 3 | 1 of 3 scored |
 | P8 | Comparing across conditions that differ in more than the factor named | 32 | 16 of 29 scored |
 | P9 | The right rule, then the wrong noun | 13 | 11 of 12 scored |
 | P10 | A label that hangs on one item | 19 | 14 of 17 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 2 | 2 of 2 scored |
-| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 31 | 15 of 29 scored |
+| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 31 | 15 of 30 scored |
 | P13 | A boundary the rule names, compared in plain floating point | 12 | 7 of 10 scored |
 | P14 | Items that share a template or domain bootstrapped as if independent | 13 | 5 of 11 scored |
 | P15 | A dry run built on assumed spreads or base rates, not measured ones | 12 | 6 of 10 scored |
@@ -161,4 +162,4 @@ Design reviews: 0 go, 50 fix-first, 12 redesign; 29 later found by the post-resu
 API spend is a floor: scouts, design-review pilots and checks priced only in their own results files are not added.
 
 
-<!-- numbers (generated; read by site/numbers.py): {"api_allowance": 200, "api_usd": "108", "api_usd_exact": "107.61", "chip_left": "331", "chip_s": "89", "chip_stop": 420, "dr_fix": 50, "dr_go": 0, "dr_missed": 29, "dr_redesign": 12, "dr_total": 62, "plants_caught": 24, "plants_planted": 24, "plants_revealed": 48, "plants_rows": 48, "plants_sealed": 0, "premortem_failed": 38, "premortem_named": 17} -->
+<!-- numbers (generated; read by site/numbers.py): {"api_allowance": 200, "api_usd": "108", "api_usd_exact": "107.61", "chip_left": "331", "chip_s": "89", "chip_stop": 420, "dr_fix": 50, "dr_go": 0, "dr_missed": 30, "dr_redesign": 12, "dr_total": 62, "plants_caught": 25, "plants_planted": 25, "plants_revealed": 49, "plants_rows": 49, "plants_sealed": 0, "premortem_failed": 39, "premortem_named": 17} -->
