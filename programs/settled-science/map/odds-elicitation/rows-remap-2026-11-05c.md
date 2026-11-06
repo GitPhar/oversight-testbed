@@ -1,0 +1,81 @@
+# Rows handed to the odds elicitors, remap 2026-11-05c
+
+Each fresh context received the template v2 instructions, `ledger/prior.md` at `34d6b1f` verbatim, and exactly one row below (the whole prompt is reproducible from `ledger/prior.md` at that commit plus the row). Nothing else: no earlier odds on the direction, no earlier bet on it, no audit or review notes beyond the parent's one-sentence finding, no human odds, no other follow-up's odds.
+
+### ss-f11
+
+Title: Do Sonnet and Opus, as bettors, beat a 'which version is better news for the paper' rater asked on every one of round 1's 116 findings?
+Assumption at stake: Sonnet's (and Opus's) edge over the good-news rule is knowledge of results, not a good-news judgment the rule could not make on the 78 untagged items where it says 50%.
+Cheapest test (design): The ss-b6 Opus flattery prompt (first sentence adapted: the two versions may differ in more than one word), once per item, on round 1's 116 post-cutoff items, in the bettor's archived option order (field and the two options, no methods summary).
+Score the archived Sonnet and Haiku bettors (ss-b13) and the Opus bettor (ss-b1) against the rater's probability, item and paper-cluster bootstraps, 0.01 margin.
+Models: claude-opus-5-5 — New calls are the Opus rater only (the audit's named comparator, and the one ss-b13 used on round 2); all three bettors are scored from the archive, so the bettor side covers Haiku, Sonnet and Opus at no cost; Haiku is reported, not in the rule, because it already missed the weaker good-news rule.
+Cost: About $0.72: 116 Opus rater calls x $0.0049 (measured, ss-b6 rater on round 2: $0.6794 / 138 calls) = $0.57 to 116 x $0.0056 (measured, round-1 Opus bettor: $1.5472 / 276 calls, longer items) = $0.65, plus a 12-item pilot on excluded pre-cutoff items, 12 x $0.0056 = $0.07.
+Draft pass rule (the event you give P(pass) for): On round 1's 116 post-cutoff items, for both the claude-sonnet-5-5 bettor (ss-b13 archive) and the claude-opus-5-5 bettor (ss-b1 archive): Brier minus the Opus flattery rater's Brier (raw rater probability that Option 1 is better news, used as P(Option 1 is the reported result)) has a 95% upper bound below -0.01 on both the item and the paper-cluster bootstrap (seed 20261104). Scoreable: yes.
+What its parent result found (one sentence): On round 2's sentence pairs Sonnet only tied the Opus flattery rater and Haiku was worse than it, and on round 1 Sonnet beat the good-news rule only where that rule said 50-50.
+Prior work line (what published work predicts for this test): No paper scores a flattery or valence rater on items like these. Schoenegger et al. 2024 (arXiv 2402.19379) found an LLM ensemble leaning 'yes' (mean 57.35% where 45% resolved yes); Gordon et al. 2021 (PLOS ONE 16:e0248780) found forecasters' mean belief 0.63 against a 0.49 replication rate. Both show a positive lean, not its score as a rule. Adds: the good-news idea applied to every round-1 item.
+Its row on each table of prior.md: program = settled-science; referee = published-record; cost tier = under $1; source = literature; layer = layer 3.
+
+### ss-f12
+
+Title: Does Haiku beat the good-news rule on round 1's 116 findings when it runs at the thinking setting Opus ran at?
+Assumption at stake: Haiku's miss against the good-news rule reflects the smaller model, not that it ran with thinking off while Opus could not.
+Cheapest test (design): The bettor's prompt and archived option order, unchanged, on claude-haiku-5-5 over round 1's 116 post-cutoff items, at Opus's archived setting (thinking omitted, so adaptive, effort low; common.py ADAPTIVE_LOW), after a 12-item pilot on excluded pre-cutoff items.
+Score ss-b13's rule for one model (C1 to C3, 0.01 margin, item and paper-cluster bootstraps); the paired difference from Haiku's thinking-off archive is reported.
+Models: claude-haiku-5-5 — Opus already ran at this setting (ss-b1 archive) and cannot turn thinking off; Sonnet at this setting is an optional reported row only if its 12-item pilot prices the 116 calls under $0.40, because its thinking tokens bill at about 19 times Haiku's rate and the rival is about the model that missed.
+Cost: At most about $0.14 for Haiku: its measured $0.00015 per call (f1-cache, 208 calls) at 166 output tokens bounds output at under $0.0000009 per token, so even 1,000 extra thinking tokens add under $0.0009 per call; 116 x $0.00105 = $0.12, plus a 12-call pilot under $0.013. Optional Sonnet row up to $0.40 if its pilot allows (total up to about $0.54).
+Draft pass rule (the event you give P(pass) for): For claude-haiku-5-5 at thinking omitted (adaptive) and effort low, on round 1's 116 post-cutoff items: Brier 95% upper bound below 0.25, and Brier minus the up-word rule's and minus the good-news (headline-tag) rule's each with 95% upper bound below -0.01, every bound on both the item and the paper-cluster bootstrap (seed 20261104). Scoreable: yes.
+What its parent result found (one sentence): Haiku without thinking beat a coin on these 116 findings but was not shown to beat the good-news rule by the margin, while Sonnet without thinking and Opus with a little thinking did.
+Prior work line (what published work predicts for this test): Chen, Hu and Lu 2025 (arXiv 2504.01167) found chain-of-thought raised GPT accuracy on economics field-experiment conclusions by 7 points (GPT-3.5 Turbo, 61% to 68%), 10 (GPT-4 Turbo) and 3 (GPT-4o): the weaker models gained most, which predicts a Haiku gain. Whether the gain clears a 0.01 Brier margin against a publication-bias rule is in no paper. Adds: separates thinking from size in ss-b13's Haiku miss.
+Its row on each table of prior.md: program = settled-science; referee = published-record; cost tier = under $1; source = literature; layer = layer 3.
+
+### ss-f13
+
+Title: Do all three Claude bettors beat a finer answer-free rule on round 1's 116 findings when the rule is fitted fairly by cross-validation?
+Assumption at stake: No answer-free cue on round 1's items reaches the bettors once overfitting is netted out; the in-sample bar mostly rewarded fitted cells (ss-b11 audit B9).
+Cheapest test (design): Archive only: a ridge logistic rule on item-level answer-free cues (field, the up word, option order, the headline tag, option length difference), penalty fixed in advance, scored by 10-fold cross-validation with folds by paper (seed 20261104), plus a word-shuffle null on the same cells.
+Paired Brier difference for each archived bettor: Opus (ss-b1's run), Haiku and Sonnet (ss-b13's run), on round 1's 116 post-cutoff items.
+Models: claude-haiku-5-5, claude-sonnet-5-5, claude-opus-5-5 — All three are archived answers (no new calls): Opus from ss-b1's run, Haiku and Sonnet from ss-b13's run.
+Cost: $0: no API call, no QPU second, no local model (scoring script on items/items.jsonl, bettor/bets.jsonl, bettor/f1-bets.jsonl).
+Draft pass rule (the event you give P(pass) for): On round 1's 116 post-cutoff items, for each of the three archived bettors (claude-opus-5-5 from ss-b1, claude-haiku-5-5 and claude-sonnet-5-5 from ss-b13): Brier minus the 10-fold cross-validated answer-free rule's Brier has a paired 95% upper bound below -0.01 on both the item and the paper-cluster bootstrap (seed 20261104). Scoreable: yes.
+What its parent result found (one sentence): The largest model beat every answer-free rule tried on these findings, including one fitted on the answers themselves, but the audit found the research fields carried no real signal.
+Prior work line (what published work predicts for this test): Gordon et al. 2021 (PLOS ONE 16:e0248780) found an answer-free item cue, the original p-value, explained R² 0.2 of replication outcomes, while Altmejd et al. 2019 (PLOS ONE 14:e0225826) found discipline dummies had 'little bearing': item cues can carry signal that field labels lack. No paper scores an LLM against a cross-validated answer-free rule. Adds: the ss-b11 audit's fair-fit test, on three bettors.
+Its row on each table of prior.md: program = settled-science; referee = model; cost tier = free ($0); source = literature; layer = layer 4.
+
+### ss-f14
+
+Title: On new findings from research fields chosen because their results lean differently, do the Claude bettors beat a rule that knows each field's lean, learned only from older papers?
+Assumption at stake: The bettor's edge is more than knowing each field's habits, which round 1's four fields could not test because they barely differ.
+Cheapest test (design): Measure the arXiv pool first (P15): pick four fields by the spread of their up-word rates on at least 40 pre-cutoff template items each, gate at a 0.20 spread, then build at least 60 leakage-clean post-cutoff template items in them (round 2's writer, no model; Sonnet leakage drop).
+Fit the field rule on the pre-cutoff items only (shrink weight 4 to pooled); bettors on Haiku, Sonnet and Opus; paired Brier difference.
+Models: claude-haiku-5-5, claude-sonnet-5-5, claude-opus-5-5 — All three as bettors (rule 12); Opus on the same 60 items, since at round 2's measured $0.0048 per call it costs $0.29, and fewer items would leave the bound too wide.
+Cost: About $0.91: pool measurement and template writer $0 (arXiv API, no model); leakage drop about 150 candidates (round 2 kept 97 of 243) x $0.00294 (measured, items/r2/leakage-cache.json) = $0.44; bettors on 60 items: Opus 60 x $0.0048 (r2-bettor-cache) = $0.29, Sonnet 60 x $0.00287 (f1-cache) = $0.17, Haiku 60 x $0.00015 = $0.01.
+Draft pass rule (the event you give P(pass) for): Gate (before any post-cutoff item is built): the four chosen fields' pre-cutoff up-word rates span at least 0.20, else untestable and not run. Rule: on at least 60 leakage-clean post-cutoff items, for each of claude-haiku-5-5, claude-sonnet-5-5 and claude-opus-5-5, Brier minus the field rule's (rates fitted on pre-cutoff items only, shrink weight 4) has a 95% upper bound below -0.01 on both the item and the paper-cluster bootstrap (seed fixed in the pre-registration). Scoreable: yes.
+What its parent result found (one sentence): In round 1's four fields the field labels fit no better than shuffled ones, so the question of field habits was never really tested.
+Prior work line (what published work predicts for this test): Fanelli 2010 (PLoS ONE 5:e10068): positive results ranged from 70.2% (space science) to 91.5% (psychology), yet discipline explained at most 5.1% of the variance; Youyou, Yang and Uzzi 2023 (PNAS 120:e2208863120): psychology subfields' predicted replicability means span 0.36 to 0.55, partly a method mix. Field habits are real but weak, which predicts the bettors beat a field rule even where fields differ. Adds: fields chosen to differ, rates fitted out of sample.
+Its row on each table of prior.md: program = settled-science; referee = model; cost tier = under $1; source = literature; layer = layer 4.
+
+### ss-f15
+
+Title: Rate each BrainBench abstract on its own for how good news it is for the paper's idea, so option order cannot matter; does the higher-rated version still beat the experts' 63.4% on Haiku and Sonnet?
+Assumption at stake: Haiku's orders-averaged pass reflects a real lean toward the original abstract, not the size of its confidence when the original happens to be shown first (52 of its 100 scored items were right only when the original was shown first).
+Cheapest test (design): ss-b10c's flattery wording adapted to one abstract per call ('how good news is this result for the paper's own idea, 0-100'); both versions rated separately; the pick is the higher rating, equal ratings score 0.5, tie rate reported.
+Same scored items as ss-b10c (Haiku 100, Sonnet 126), Opus on 20 beacon-drawn items; plus a repeat of Haiku's 100 reversed-order paired calls as a reported noise row.
+Models: claude-haiku-5-5, claude-sonnet-5-5, claude-opus-5-5 — Opus on 20 items only (about 100 times Haiku's cost per call); it is a reported row, not part of the rule.
+Cost: about $1.69 (upper bound at ss-b10c's measured per-call costs for paired calls: Haiku 200 x $0.000259 = $0.052; Haiku repeat 100 x $0.000259 = $0.026; Sonnet 252 x $0.004955 = $1.249; Opus 40 x $0.009041 = $0.362)
+Draft pass rule (the event you give P(pass) for): On the BrainBench items ss-b10c scored (claude-haiku-5-5: 100, claude-sonnet-5-5: 126), with each abstract of a pair rated alone in its own call for how good news it is for the paper's own idea (0-100), the higher-rated version taken as the pick and equal ratings scored 0.5, for both models the accuracy has a 95% item-bootstrap lower bound above 0.634 (the published human-expert mean).
+What its parent result found (one sentence): With both orders averaged the better-news question beat the neuroscientists on Haiku (77.5%) and Sonnet (89.7%), but Haiku was right only when the real abstract came first on 52 of its 100 items, and counted by its two picks it was 67.0%.
+Prior work line (what published work predicts for this test): Tripathi et al. 2025 (arXiv 2504.14716; Llama and Qwen judges) find absolute ratings flip about 9% under distractors against about 35% for pairwise, but tie 84.6-93.2% on identical-quality pairs; Yin et al. 2025 (arXiv 2506.14092; Claude 3 Haiku among models) find primacy when both options look good, and say averaging over orders does not recover preferences. Together they predict Sonnet holds and leave Haiku open. Adds: the audit's overturning test, on Claude, on BrainBench.
+Its row on each table of prior.md: program = settled-science; referee = model; cost tier = $1 to under $5; source = literature; layer = layer 7 (no such row in the table yet).
+
+### ss-f16
+
+Title: Do the BrainBench items the better-news question gets right line up with the items the published LLMs got right? A $0 item-level comparison with BrainBench's public per-item results
+Assumption at stake: The published LLMs' 81.4% on BrainBench rests on something other than the valence shortcut, so the items the shortcut solves are not the items those models solve.
+Cheapest test (design): From the ss-b10/ss-b10c archive, each model's orders-averaged flattery probability for the original on all 200 items; from braingpt-lovelab/brainbench_results (model_results/*/human_abstracts), each published LLM's per-item correct/incorrect, averaged per item.
+Spearman correlation over the 200 items, item bootstrap; the forecasting prompt's and the human experts' per-item accuracy (brainbench_participant_data) as reported rows.
+Models: none: an archive comparison of ratings already collected (ss-b10, ss-b10c) with BrainBench's published per-item data; no model is called — Uses Haiku's and Sonnet's archived ratings on all 200 items; Opus has only 41 items and is a reported row.
+Cost: $0 of API (0 calls); a few laptop minutes to download the public files at a pinned commit and run the correlation
+Draft pass rule (the event you give P(pass) for): Over BrainBench's 200 human-written items, for both claude-haiku-5-5 and claude-sonnet-5-5, the Spearman correlation between the model's orders-averaged flattery probability for the original abstract (ss-b10 and ss-b10c archive) and the published LLMs' mean per-item accuracy (models in brainbench_results/model_results with human_abstracts results) has a 95% item-bootstrap lower bound above 0.15 (Luo et al.'s mean LLM-human item correlation).
+What its parent result found (one sentence): Asked only which version is better news for the paper, Haiku and Sonnet picked the real abstract 76.2% and 88.2% of the time on all 200 items with both orders averaged, while text-only rules scored at chance.
+Prior work line (what published work predicts for this test): Luo et al. 2024 (arXiv 2403.03230; 15 open LLMs, 171 experts) report a mean Spearman item-difficulty correlation of 0.75 among LLMs and 0.15 between LLMs and experts, and test no valence rater, so where a valence rule falls between them is unstated. No prior statement found after Semantic Scholar citations of arXiv:2403.03230 and web searches for BrainBench with valence, shortcut and item-level analysis, 2026-11-05. Adds: how much of the published LLMs' item pattern the shortcut shares.
+Its row on each table of prior.md: program = settled-science; referee = model; cost tier = free ($0); source = literature; layer = layer 7 (no such row in the table yet).

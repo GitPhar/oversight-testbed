@@ -797,6 +797,115 @@ def main():
         except Exception as e:  # noqa: BLE001
             rep.error(name, e)
 
+        # ---- P3-17: archive refit with bounded readout knobs; fits archived, bookkeeping recomputed (D48) ----------
+        import p3_17_bounded as P17  # noqa: E402  (scipy stubbed: only rates, bounds and verdict() run)
+        p17 = {}
+        name = "results/p3-17-bounded-readout.json"
+        try:
+            d = json.loads(committed_json["p3-17-bounded-readout.json"])
+            As = P17.assignment_matrices()
+            theirs, mine, pairs = {}, {}, {}
+            for r in d["items"]:
+                it, b = r["id"], r["boot_blur"]
+                lr = 2 * (r["logL"]["full16R"] - r["logL"]["cohR"])
+                bf, bc = boot(b["fitted"]["null"], lr), boot(b["corner"]["null"], lr)
+                dev = 2 * (sat(it) - r["logL"]["full16R"])
+                ps = r["setting_shares"]["per_setting"]
+                top = max(ps, key=ps.get)
+                m = {"rates": P17.rates(As[it]), "knob_bounds": [list(x) for x in P17.bounds_for(As[it])], "LR_b": lr,
+                     "LR_rot": 2 * (r["logL"]["full16R"] - r["logL"]["inc9R"]), "p": max(bf["p"], bc["p"]),
+                     "q99": max(bf["q99"], bc["q99"]), "B": [bf["B"], bc["B"]],
+                     "label": "still needed" if max(bf["p"], bc["p"]) < P17.ALPHA else "not needed",
+                     "deviance": dev, "misfit": dev > chi2_ppf(0.99, 7), "scaled": lr / max(1.0, dev / 7),
+                     "top": [top, ps[top] / lr], "shares_sum_to_LR_b": abs(sum(ps.values()) - lr) < 1e-6}
+                g = r["goodness_of_fit"]
+                theirs[it] = {"rates": r["rates"], "knob_bounds": r["knob_bounds"], "LR_b": r["LR_blur_given_rotation_readout"],
+                              "LR_rot": r["LR_rotation_given_blur_readout_point"], "p": b["p"], "q99": b["q99"],
+                              "B": [b["fitted"]["B"], b["corner"]["B"]], "label": r["label_blur"], "deviance": g["deviance"],
+                              "misfit": g["misfit"], "scaled": g["LR_b_scaled_by_overdispersion"],
+                              "top": [r["setting_shares"]["top_setting"], r["setting_shares"]["top_share"]],
+                              "shares_sum_to_LR_b": True}
+                mine[it] = m
+                pairs[it] = {"finite": True, "B_complete": m["B"][0] in (P17.B0, P17.B1) and m["B"][1] in (P17.B0, P17.B1),
+                             "p": m["p"], "lr_b": lr, "per_setting": ps, "deviance": dev, "misfit": m["misfit"],
+                             "scaled_lr_b": m["scaled"], "null_q99": m["q99"]}
+                p17[it] = (r, m, bf, bc)
+            v = P17.verdict(pairs)
+            theirs["verdict"], mine["verdict"] = [d["verdict"], d["sentences"]], [v["verdict"], v["sentences"]]
+            check_fields(rep, name, theirs, mine, "calibration rates and knob bounds from the archived assignment matrices, "
+                                                  "LR_b, bootstrap p and 99th percentiles (both generators' archived null "
+                                                  "draws), labels, deviance (saturated logL from program 1's counts), χ² "
+                                                  "misfit, scaled LR_b, setting shares, verdict() and its sentences; fits "
+                                                  "not repeated")
+        except Exception as e:  # noqa: BLE001
+            rep.error(name, e)
+
+        name = "results/p3-17-bounded-readout.run2-partial.json"
+        same = {}
+        try:
+            a = {r["id"]: r for r in json.loads(committed_json["p3-17-bounded-readout.run2-partial.json"])["items"]}
+            b_ = {r["id"]: r for r in json.loads(committed_json["p3-17-bounded-readout.json"])["items"]}
+            same = {it: (a[it] == b_[it]) if it in a else None for it in P17.ITEMS}
+            part = {it: {"finite": True, "B_complete": True, "p": a[it]["boot_blur"]["p"], "lr_b": a[it]["LR_blur_given_rotation_readout"],
+                         "per_setting": a[it]["setting_shares"]["per_setting"], "deviance": a[it]["goodness_of_fit"]["deviance"],
+                         "misfit": a[it]["goodness_of_fit"]["misfit"], "scaled_lr_b": a[it]["goodness_of_fit"]["LR_b_scaled_by_overdispersion"],
+                         "null_q99": a[it]["boot_blur"]["q99"]} for it in a}
+            rep.compare(name,
+                        "h221 identical; h088 differs; h268 not reached; verdict on the stalled run: untestable",
+                        f"h221 {'identical' if same['h221'] else 'differs'}; h088 {'identical' if same['h088'] else 'differs'}; "
+                        f"h268 {'not reached' if same['h268'] is None else 'present'}; verdict on the stalled run: "
+                        f"{P17.verdict(part)['verdict']}",
+                        what="D48: every field of each pair compared between the stalled run and the re-run; verdict() on the partial pairs")
+            d48 = P17.verdict(part)["sentences"]
+        except Exception as e:  # noqa: BLE001
+            rep.error(name, e)
+            d48 = []
+        for log in ("results/p3-17-run2-partial.log", "results/p3-17-run3.log"):
+            rep.skip(log, "run log (printed lines of --run), not a table")
+
+        name = "results/p3-17-bounded-readout.md"
+        try:
+            d = json.loads(committed_json["p3-17-bounded-readout.json"])
+            a = {r["id"]: r for r in json.loads(committed_json["p3-17-bounded-readout.run2-partial.json"])["items"]}
+            p35 = {r["id"]: r for r in json.loads(committed_json["p3-5c-nested.json"])["items"]}
+            t = Tables(md[name])
+            rows = []
+            for it, (r, m, bf, bc) in p17.items():
+                rows.append([f"{it} ({', '.join(map(str, p35[it]['physical_qubits']))})", ", ".join(f(x, 4) for x in m["rates"]),
+                             f(m["LR_b"], 1), f"{f(bf['q99'], 1)} / {f(bc['q99'], 1)}",
+                             f"{f(max(r['boot_blur']['fitted']['null']), 1)} / {f(max(r['boot_blur']['corner']['null']), 1)}",
+                             f"{f(m['p'])} ({m['B'][0]})", m["label"], f(p35[it]["LR_blur_given_rotation"], 1)])
+            t.add(0, rows)
+            rows = []
+            for it, (r, m, bf, bc) in p17.items():
+                q = a.get(it)
+                lc, lf = r["logL"]["cohR"], r["logL"]["full16R"]
+                if q:
+                    rows.append([it, f"{f(q['logL']['cohR'], 6)} / {f(lc, 6)}", f"{f(q['logL']['full16R'], 6)} / {f(lf, 6)}",
+                                 f"{f(q['LR_blur_given_rotation_readout'], 2)} / {f(m['LR_b'], 2)}",
+                                 f"{f(q['boot_blur']['corner']['q99'], 2)} / {f(bc['q99'], 2)}",
+                                 f"{f(m['p'])} ({m['B'][0]}) both" if q["boot_blur"]["p"] == m["p"] else K,
+                                 "identical (every field)" if same.get(it) else "no"])
+                else:
+                    rows.append([it, f"not reached / {f(lc, 6)}", f"not reached / {f(lf, 6)}", f"— / {f(m['LR_b'], 2)}",
+                                 f"— / {f(bc['q99'], 2)}", f"— / {f(m['p'])} ({m['B'][0]})", "—"])
+            t.add(1, rows)
+            rows = []
+            for it, (r, m, bf, bc) in p17.items():
+                sec = r["secondary_bounds"]
+                rows.append([it, f(m["LR_rot"], 1), f(m["deviance"], 1) + (" (misfit)" if m["misfit"] else ""), f(m["scaled"], 1),
+                             f"{m['top'][0]} ({f(m['top'][1], 2)})",
+                             " / ".join(f(sec[k]["LR_b_point"], 1) for k in ("knob", "3se", "wide"))])
+            t.add(2, rows)
+            t.check(rep, name)
+            sent = d["sentences"] + d48
+            missing = [x for x in sent if x not in md[name]]
+            rep.compare(name + " (verdict() sentences: the re-run's, and D48's untestable one)", "all present",
+                        "all present" if not missing else "missing from the write-up: " + " | ".join(missing),
+                        what=f"{len(sent)} sentences found verbatim")
+        except Exception as e:  # noqa: BLE001
+            rep.error(name, e)
+
         # ---- P3-9: sequential Peres-Mermin under exact CbD; CNT2 (an LP, scipy) archived, everything else recomputed -----
         import cbd_lp as CB  # noqa: E402  (scipy stubbed: linprog is never called below)
         import p3_9_pm as P9  # noqa: E402

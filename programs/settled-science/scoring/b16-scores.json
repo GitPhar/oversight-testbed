@@ -1,0 +1,179 @@
+{
+ "n_flattery": 199,
+ "n_all_four": 199,
+ "status": {
+  "opus both prompts, all 200": "cap",
+  "detail": "bbo opus: budget cap $17.6402709 reached; stopped"
+ },
+ "flattery": {
+  "n": 199,
+  "acc": 0.894472,
+  "ci": [
+   0.851759,
+   0.934673
+  ],
+  "section_ci": [
+   0.867052,
+   0.916058
+  ],
+  "brier_avg": 0.098578,
+  "acc_orig_first": 0.929648,
+  "acc_orig_second": 0.859296,
+  "option1_pull": 2.319095,
+  "both_right": 169,
+  "first_only": 15,
+  "second_only": 0,
+  "n_avg_50": 2,
+  "vs_llms": "above"
+ },
+ "c1": true,
+ "flattery_same_items": {
+  "n": 199,
+  "acc": 0.894472
+ },
+ "bettor": {
+  "n": 199,
+  "acc": 0.952261,
+  "ci": [
+   0.922111,
+   0.979899
+  ],
+  "section_ci": [
+   0.939698,
+   0.967742
+  ],
+  "brier_avg": 0.050094,
+  "acc_orig_first": 0.939698,
+  "acc_orig_second": 0.924623,
+  "option1_pull": 2.050251,
+  "both_right": 177,
+  "first_only": 10,
+  "second_only": 7,
+  "n_avg_50": 3,
+  "vs_llms": "above"
+ },
+ "bettor_minus_flattery": {
+  "d": 0.057789,
+  "ci": [
+   0.022613,
+   0.095477
+  ],
+  "ub95": 0.08794,
+  "ub95_seeds": [
+   0.08794,
+   0.08794,
+   0.08794,
+   0.08794,
+   0.08794,
+   0.08794,
+   0.08794,
+   0.08794,
+   0.08794,
+   0.08794
+  ],
+  "ub95_b100k": null
+ },
+ "c2": false,
+ "verdict": "mixed",
+ "vs_experts": true,
+ "votes": {
+  "acc": 0.89196,
+  "ci": [
+   0.851759,
+   0.929648
+  ]
+ },
+ "loo_flips": [],
+ "section_flips": [],
+ "c2_loo_flips": [],
+ "c2_section_flips": [],
+ "loo_changes_verdict": [],
+ "by_section": {
+  "Behavioral/Cognitive": {
+   "n": 75,
+   "flattery": 0.92
+  },
+  "Cellular/Molecular": {
+   "n": 25,
+   "flattery": 0.88
+  },
+  "Development/Plasticity/Repair": {
+   "n": 24,
+   "flattery": 0.875
+  },
+  "Neurobiology of Disease": {
+   "n": 25,
+   "flattery": 0.92
+  },
+  "Systems/Circuits": {
+   "n": 50,
+   "flattery": 0.86
+  }
+ },
+ "archive_split": {
+  "ss-b10c archive (known before this bet)": {
+   "n": 41,
+   "acc": 0.97561,
+   "ci": [
+    0.926829,
+    1.0
+   ],
+   "lb_above_0814": true
+  },
+  "new in ss-b16": {
+   "n": 158,
+   "acc": 0.873418,
+   "ci": [
+    0.81962,
+    0.920886
+   ],
+   "lb_above_0814": true
+  }
+ },
+ "others_same_items": {
+  "claude-haiku-5-5": {
+   "n": 199,
+   "acc": 0.761307,
+   "ci": [
+    0.703518,
+    0.816583
+   ],
+   "bettor_minus_flattery": {
+    "n": 199,
+    "d": 0.052764,
+    "ci": [
+     -0.01005,
+     0.11809
+    ],
+    "ub95": 0.105528
+   }
+  },
+  "claude-sonnet-5-5": {
+   "n": 199,
+   "acc": 0.886935,
+   "ci": [
+    0.844221,
+    0.927136
+   ],
+   "bettor_minus_flattery": {
+    "n": 199,
+    "d": 0.062814,
+    "ci": [
+     0.027638,
+     0.100503
+    ],
+    "ub95": 0.092965
+   }
+  }
+ },
+ "sentences": [
+  "On 199 of BrainBench's 200 abstract pairs, each shown in both orders with the two ratings averaged, Opus, asked only which version is better news for the paper's own idea, picked the published abstract 89.4% [85.2, 93.5] of the time, above the published 81.4% for language models; but asked directly which version was published, with the program's forecasting prompt (a different instruction, a question line, and a note that one version was altered by an expert), it was right 95.2% [92.2, 98.0] on the 199 items where both prompts ran, 5.8 points more than with the flattery question (difference [2.3, 9.5]; one-sided 95% upper bound +8.8 points), so the rule could not show the 'better news' question to be no more than 5 points worse than the forecasting prompt on Opus.",
+  "Against the 171 neuroscientists' 63.4%, Opus's flattery accuracy clears it.",
+  "On the 41 items whose ratings were already published in ss-b10c, Opus's flattery accuracy was 97.6% [92.7, 100.0], whose lower bound is above 81.4% (a reported row).",
+  "On the 158 items rated for the first time here, Opus's flattery accuracy was 87.3% [82.0, 92.1], whose lower bound is above 81.4% (a reported row).",
+  "Counted by its two picks instead (right in both orders 1, split 0.5, wrong in both 0; Zheng et al. 2023), Opus scores 89.2% [85.2, 93.0] (a reported row, not the rule).",
+  "On the same 199 items, ss-b10c's Haiku flattery rule was right 76.1% [70.4, 81.7]; its forecasting prompt beat its flattery prompt by +5.3 points [-1.0, 11.8] on the 199 items where Opus's four calls ran (one-sided upper bound +10.6; a reported row).",
+  "On the same 199 items, ss-b10c's Sonnet flattery rule was right 88.7% [84.4, 92.7]; its forecasting prompt beat its flattery prompt by +6.3 points [2.8, 10.1] on the 199 items where Opus's four calls ran (one-sided upper bound +9.3; a reported row).",
+  "BrainBench and its source abstracts (Journal of Neuroscience, 2023) were public before Opus's training data were collected, so either prompt may draw on memory of the benchmark or of the papers; Opus ran at its least-thinking setting (it cannot turn thinking off) and was asked for a rating, not scored by perplexity as the original study's models were. Opus's 162 calls from ss-b10c were reused, not asked again."
+ ]
+}

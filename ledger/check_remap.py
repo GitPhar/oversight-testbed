@@ -12,6 +12,13 @@ node needs a follow-up: a child (parent == its id, or its id in the child's also
 or carried into another program (moved_to), or a landed child (checked in turn). A dated closed_line also satisfies it,
 and is printed so a reader can judge it. Fewer than two not-yet-run follow-ups is a warning, not an error.
 Exit 1 if any landed or mixed node is a leaf.
+
+Rule 16, the layer line (CONTEXT.md section 3; ledger/rule16.py): a program that is not released (no landed result
+labelled partly new or new in its newest layer, no steer from Sean carrying rule16_release) may hold nothing open,
+running or pre-registered deeper than layer 5: no such direction on its map and no such bet in the ledger. Past the
+line its next action is a closing review, so a follow-up the remap owes there goes on the map as parked, with the
+note "parked: rule 16 layer line". A closed program (map status "closed") may hold no open or running direction.
+Each one found is an error (exit 1). Programs at the dollar line are printed, not failed; the budget code stops them.
 """
 import json
 import sys
@@ -88,6 +95,7 @@ def main():
                               f"(children: {', '.join(f'{c}={st.get(c)}' for c in ch) or 'none'})")
             elif len(fresh) < 2 and not any(st.get(c) in ("landed", "mixed") for c in ch):
                 warnings.append(f"{f.name} {nid} ({st[nid]}): {len(fresh)} not-yet-run follow-up(s); remap.md asks for two")
+    errors += rule16_errors(bets, quiet)
     if not quiet:
         for c in closed:
             print("closed  ", c)
@@ -96,9 +104,51 @@ def main():
     for e in errors:
         print("ERROR   ", e)
     if errors:
-        print(f"FAIL: {len(errors)} landed or mixed node(s) end the map ({checked} checked)")
+        print(f"FAIL: {len(errors)} error(s): landed or mixed node(s) ending the map ({checked} checked) or rule 16")
         sys.exit(1)
-    print(f"OK: no map ends at a landed bet ({checked} landed or mixed nodes checked, {len(warnings)} warning(s))")
+    print(f"OK: no map ends at a landed bet ({checked} landed or mixed nodes checked, {len(warnings)} warning(s)); "
+          "rule 16: nothing open past a program's layer line")
+
+
+def rule16_errors(bets, quiet=False):
+    """Rule 16's layer line, and a closed program's open directions (ledger/rule16.py)."""
+    import rule16
+    from merge_inbox import effective
+    from prior import depth, layer_of
+    steers = effective("steers")
+    _, _, maps = rule16.load(ROOT, with_inbox=False)
+    by_id = {b["id"]: b for b in bets}
+    out = []
+    for prog in sorted(maps):
+        m = maps[prog]
+        s = rule16.status(prog, bets, steers, maps)
+        if not quiet and (s["past_layer_line"] or s["past_dollar_line"]):
+            print("rule 16 ", f"{prog}: at the {'layer' if s['past_layer_line'] else 'dollar'} line "
+                  f"(layers deep {s['layers_deep']}, newest settled {s['newest_layer']}, ${s['usd_month']:.2f} in "
+                  f"{s['month']}); next action: a closing review" + (f" (reviewed {s['closing_review']})" if s['closing_review'] else ""))
+        nodes = m.get("directions") or []
+        live = [n for n in nodes if str(n.get("status", "")).strip().lower() in {"open", "running", "bet"}]
+        if s["closed"]:
+            for n in live:
+                out.append(f"{prog} {n.get('id')}: {n.get('status')} on a closed program (map status closed); "
+                           "park it with the closing review's note")
+            continue
+        if s["released_by_result"]:
+            continue
+        for n in live:
+            d = depth(m, n.get("id"))
+            if d > s["layer_line"]:
+                out.append(f"{prog} {n.get('id')}: {n.get('status')} at layer {d}, past rule 16's layer line "
+                           f"({s['layer_line']}); the program's next action is a closing review; park it "
+                           "('parked: rule 16 layer line') or log a steer from Sean")
+        for b in bets:
+            if b.get("program") != prog or str(b.get("verdict_after_audit") or b.get("verdict") or "").lower() not in {"open", "running", ""}:
+                continue
+            d, _ = layer_of(b, by_id, maps)
+            if d and d > s["layer_line"]:
+                out.append(f"{prog} bet {b['id']}: {b.get('verdict') or 'open'} at layer {d}, past rule 16's layer line "
+                           f"({s['layer_line']}) with no release")
+    return out
 
 
 if __name__ == "__main__":
