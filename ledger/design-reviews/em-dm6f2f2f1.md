@@ -13,7 +13,7 @@ papers_opened: 3
 flaws: 6
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 17:53
 ---
 
 # Design review of em-dm6f2f2f1
@@ -159,3 +159,102 @@ Each goes under one dated DEVIATIONS row (D94), written before any call and nami
      - (a) Sean's line is scored on this bet's outcome, and the human-against-engine comparison pairs it with 0.18 on the same card event, marked as an event mismatch; or
      - (b) it is left out of the human score.
    - Make this decision under rule 11 and state it in the commit, where Sean can veto it.
+
+## Addendum: confirmation of the D98 fixes (commit 43cc063)
+
+2026-11-05 17:26 America/Denver. Same reviewer session. I read D98 in `DEVIATIONS.md`, the new `experiments/dm6f2f2f1_opus.py`, `experiments/batch_runner.py`, `results/dm6f2f2f1-dry-run.json`, the re-elicitation in `experiments/dm6f2f2f1-odds.md` and the last update line in `ledger/inbox/p1-wave4.jsonl`. No paid call was made and no `.env` was loaded.
+- `--selftest` passes. It now includes the 25-usable and 6-flagged leave-one-out cases and the three fake-client cases.
+- `python3 ledger/check_prereg.py em-dm6f2f2f1 . programs/entangled-mind/experiments/dm6f2f2f1-opus.md --before-run`: L1–L3, R1 and H1 ok. R2 waits for this confirmation.
+- D98 is used instead of the D94 I named, because D94 was already taken. That is fine.
+
+**F1, the question set described as selected: confirmed.**
+- D98 supersedes §1, §2, §6 and §0's "Adds" with the review's wording and counts.
+- `SENTENCES` in the code now say "questions where Sonnet and Haiku had each given a number below 70% in at least one asking (mostly low numbers on 'No' guesses…)". The pass sentence adds "not on a fresh sample".
+- The bet row's `title` and `odds_event` follow, in the inbox update line.
+- `no_guess_below_half` is listed first among the secondaries. The archive stores guesses in lower case (`collections.Counter` over Sonnet's guesses: 'no' 767, 'yes' 275, None 158), so its test `guess == "no"` matches.
+
+**F2, cost and cut-off inputs: confirmed.**
+- `cost_sim()` now draws non-claim costs from Opus's unsure-set calls ($0.00239, n 32). My rerun gives the committed figures: P(all 40 run) 0.000, median 36 run (5–95%: 34–37), spend mean $0.2842, maximum $0.2922.
+- My own fake client, run against the new `run()`, gives the same: unsure-set costs ran 38 questions for $0.2863; every reply at max_tokens ran 21 questions for $0.2928.
+- The dry run now cuts at 3/32 (`cut_rate_unsure` 0.09375). It resamples only questions where the source model has all four cells, so Sonnet's missing cells are no longer counted twice. It runs the number of questions the cost simulation says will run.
+
+**F3, the dry-run worlds: confirmed in design, with one new flaw (F7 below).**
+- The knife-edge shrink is replaced by a quantile map of Sonnet's numbers onto Opus's 29 measured numbers.
+- The referent-fixed world is added. In it only P cells are flipped: a "No" guess below 0.5 becomes 1 − x. The docstring says so, and I accept it as the author's stated choice.
+- Each world now has 400 draws.
+- Opus's parent pattern is stated: 6 complete questions, flagged only h039.
+- I reran `dry_run()` and `cost_sim()` from a scratch script (output `rev-f1-x7/dry-rerun-d98.json`; the committed file was not touched). Committed figures first, my rerun second:
+
+  | world | P(pass) | P(fail) | P(untestable) |
+  |---|---|---|---|
+  | Sonnet-like | 0.605 / 0.640 | 0.233 / 0.198 | 0.163 / 0.163 |
+  | referent fixed | 0.590 / 0.552 | 0.253 / 0.290 | 0.158 / 0.158 |
+  | Opus quantile | 0.4125 / 0.403 | 0.360 / 0.362 | 0.228 / 0.235 |
+  | Haiku-like | 0.0925 / 0.090 | 0.738 / 0.740 | 0.170 / 0.170 |
+  | no effect, Sonnet-like | 0.000 / 0.000 | 0.855 / 0.855 | 0.145 / 0.145 |
+  | no effect, Opus quantile | 0.000 / 0.000 | 0.160 / 0.180 | 0.840 / 0.820 |
+
+- D11 holds on both sets. Three effect worlds pass at least 0.40, every null passes 0.00, and every null fails at least 0.16.
+- The numbers do not regenerate exactly. See F7.
+
+**F4, leave-one-out with this bet's rule: confirmed.**
+- `read_rule` sets `f2.MIN_Q = 0` and applies both floors through `verdict_here` to the reduced sample (n − 1 usable, flagged count less the removed question).
+- Floor-only flips go to `loo_floor_flips`, pass-to-fail flips to `loo_flips`. The selftest asserts 25 floor flips and no statistic flips at exactly 25 usable, and exactly the 6 flagged questions as floor flips at exactly 6 flagged.
+- `cluster_verdict` is recomputed with the floors.
+
+**F5, the crash path: confirmed.**
+- `batch_runner.recover()` stores a crashed batch's results with the refusal stop applied. I reran my own case: a refusal planted in batch 2, a crash while polling batch 2, then a restart. It stopped with "STOPPED on a refusal found in a crashed batch: opus|P|r0|h069", wrote the refusal record and created no further batch (2 batches in all). Before the fix it resubmitted the request in batch 3.
+- A submission marker and the key map are written before `batches.create`. A marker with no batch ID is reconciled through `batches.list()` (creation time and request count), and anything other than exactly one match stops the run. The selftest's create-crash case adopts `fake_1` without resubmitting it.
+- `real_list_adapter` maps the SDK's `request_counts` and `created_at` correctly.
+- One behaviour to know: a `create` call that fails without making a batch also leaves a marker. That stops the next start-up for a person to clear. This fails safe and is not a flaw.
+
+**F6, Sean's line: confirmed.**
+- D98 and the inbox update pre-register before data: `human_event_mismatch: true`; scored on this bet's outcome; paired for the human-against-engine comparison with `engine_odds_first` 0.18; the decision stated under rule 11.
+- The order of events is as I found it: design frozen at `f4158c2` (16:29:15), pickup at `f65b377` (16:30:43).
+- A follow-up for the ledger session, not this bet's design: `ledger/brier.py` does not read `human_event_mismatch`. It prints this bet's `odds_event` as "the event the odds were for" beside Sean's 0.65. The mark should be printed in that table before this bet is scored.
+
+**Odds re-elicited, 0.45 to 0.28 (fresh v2 context, prior 0.25, adjustment +0.03): recorded with all three numbers kept.** This is consistent with the rebuilt table.
+
+### New flaw found in the confirmation
+
+**F7 (D10): the committed dry run cannot be regenerated, because its draws depend on Python's hash seed.**
+- In `dry_run()`, line 386 builds `ids = [q for q in U if …]` with `U = set(unsure_set(R))`.
+- A set of strings iterates in an order that changes with `PYTHONHASHSEED`. On three runs, the first five simpleqa ids were `h055 h145 h297 h201 h026` (seed 1), `h297 h110 h063 h112 h094` (seed 2) and `h055 h145 h297 h201 h026` (seed 1 again).
+- So `rng.choice(ids, …)` draws different questions in every new process, and `results/dm6f2f2f1-dry-run.json` does not regenerate from the committed code. My rerun moved P(pass) by up to 0.038 (Sonnet-like 0.605 against 0.640).
+- The conclusions do not change. But a committed result that cannot be regenerated is a flaw in this repository's terms.
+- Line 372 iterates over `U` too, but then sorts, so it is unaffected.
+- **Fix:**
+  - Iterate `sorted(U)` (or `unsure_set(R)`, which is already sorted) on line 386.
+  - Rerun `--dry-run` and recommit `results/dm6f2f2f1-dry-run.json`.
+  - Under a dated DEVIATIONS row before any call, restate the table if it moves. The odds stay 0.28 unless the table moves materially; if they are re-elicited, all numbers are kept.
+  - Optionally assert in the selftest that two `dry_run(n_sims=5)` runs under different hash seeds give equal output.
+
+**Verdict after confirmation: fix-first (1 remaining: F7).** F1–F6 are confirmed. Once F7 is fixed and recommitted, a short second addendum can confirm it and set `confirmed_at`. The front matter above is left as written; `confirmed_at` stays null until then.
+
+## Second addendum: confirmation of F7 (D99, commit c7805e4)
+
+2026-11-05 17:53 America/Denver. Same reviewer session. No paid call was made and no `.env` was loaded.
+
+**F7, a dry run that does not depend on the hash seed: confirmed.**
+- The diff in `c7805e4` changes one line, which is the fix asked for: `ids = [q for q in sorted(U) if …]`.
+- I checked the other uses of `U` in `dry_run()` and `cost_sim()`. They are membership tests or sorted (`son_nums` is passed through `np.sort`; `ocells` and `pq` iterate over a dict, whose order is fixed). No other set-order dependence remains.
+- I reran `dry_run()` from a scratch script under `PYTHONHASHSEED=3`, a seed neither the author nor I had used before (output in `rev-f1-x7/f7-check.txt`). Every world matches the committed `results/dm6f2f2f1-dry-run.json` exactly. The rerun printed `IDENTICAL`, and every world compared equal.
+- The table matches D99. P(pass) / P(fail) / P(untestable) by world:
+
+  | world | P(pass) | P(fail) | P(untestable) |
+  |---|---|---|---|
+  | Sonnet-like | 0.575 | 0.2625 | 0.1625 |
+  | referent fixed | 0.6225 | 0.22 | 0.1575 |
+  | Opus quantile map | 0.40 | 0.365 | 0.235 |
+  | Haiku-like | 0.08 | 0.75 | 0.17 |
+  | no format effect (Sonnet-like) | 0.00 | 0.855 | 0.145 |
+  | no format effect (Opus quantile) | 0.00 | 0.1975 | 0.8025 |
+
+- D11 holds. Three effect worlds pass at least 0.40, every null passes 0.00, and every null fails at least 0.1975.
+- Haiku-like, at 0.08, is the one effect world below 0.10. D11 asks only for a world where the hypothesis holds to pass at least about 10%, and three do, so it is not a flaw. The results file should still say that a Haiku-like Opus would rarely pass.
+- `--selftest` passes.
+- The odds stay at 0.28, which is consistent with moves of at most 0.035.
+
+A follow-up for the ledger session, not this design, carried over from the first addendum: `ledger/brier.py` should print `human_event_mismatch` before this bet is scored.
+
+**Final verdict: go.** F1–F7 are confirmed, and `confirmed_at` is set above.
