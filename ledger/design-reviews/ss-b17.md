@@ -13,7 +13,7 @@ papers_opened: 4
 flaws: 3
 pilot_usd: 0.00
 verdict: fix-first
-confirmed_at: null
+confirmed_at: 2026-11-05 17:10 America/Denver
 ---
 
 # Design review of ss-b17
@@ -206,3 +206,49 @@ Each fix goes under one dated DEVIATIONS row, written before any data and naming
 - **Mixed.** Replace "so on <other> ss-b10c's result depends on the sentence as well as the shortcut" with "so on <other> ss-b10c's accuracy did not survive the change of sentence (call-to-call noise alone takes a model outside the 5-point window in about <p>% of the dry run's null runs)".
 - **Fail.** Replace "so ss-b10c's result depends on its sentence" with "so ss-b10c's accuracy did not survive the change of sentence on either model (call-to-call noise alone takes both models outside in about <p>% of the dry run's null runs)".
 - **Wiring.** <floor> and <p> come from F1's rebuilt null and are fixed in the scorer before any call. Add the bettor-prompt comparison (`d3.py`'s last row: Haiku d +4.8, meets; Sonnet d +6.2) to §4's secondary statistics as a reported reference row.
+
+## Addendum: fixes confirmed (2026-11-05 17:10 America/Denver)
+
+Read at commits 453d718 (D82, pilot), b5787de (D83, fixes) and 773b566 (odds revised). No paid call was made; the only repo write is this addendum.
+
+**F1: holds.**
+- **Pilot data checked independently** (`bettor/bbv2-pilot.jsonl`):
+  - 320 rows, all `claude-haiku-5-5`, first wording;
+  - 80 items, none of them among the 200 test items;
+  - each item in both orders, two draws each;
+  - cost $0.0774.
+- **Draw-to-draw differences:** n = 160, symmetrised SD 15.47 points, 39.4% identical. These match D83.
+- **The author's choice of main null is right.**
+  - The main null treats each wording as a fresh draw around the archived ratings, with per-call error equal to the pilot difference divided by √2.
+  - Two such draws differ by exactly the measured draw-to-draw spread, and by symmetry the mean shift is zero (−0.001). This is the symmetric null I asked for.
+  - The other version adds a whole difference to the already-noisy observed v1 and compares against that fixed v1. That is a flat-prior predictive, and it overstates regression of near-threshold items. Keeping it as the pessimistic bound is the right use of it.
+- **The numbers agree with my own simulation.**
+  - Main null: P(pass) 0.91.
+  - Pessimistic bound: 0.70.
+  - Analytic worst case beside them: 0.76 and 0.88 per model.
+  - My Gaussian symmetric null at a per-call SD of 10–12 gave 0.86–0.89. The empirical, heavy-tailed noise (39% identical) plausibly gives slightly more.
+- **Rerun:** I reran `scoring/dry_b16_b17.py --rules`. Its output is byte-identical to `scoring/dry_b16_b17.txt` at b5787de.
+- **Odds:** re-elicited from a fresh context, 0.37 → 0.45, with the first number kept (773b566). The `<re-elicited>` placeholder in `ls-ss-b17`'s `lesson_revised` is filled, and P15 is added.
+- **Remaining limit:** Sonnet is given Haiku's noise, not its own. D83 says so, and Sonnet's worst case (0.88) is reported.
+
+**F2: holds.**
+- **The shift worlds now carry the measured noise and run in both directions.** Per model, P(C2 holds) at a true shift of ±5 is 0.51–0.53, at ±8 it is 0.09–0.14, and the 80%-catch point is about 8 points either way.
+- **The text is corrected.** §4's replacement sentence is in D83, and `ls-ss-b17`'s `design_change` is corrected through the inbox.
+- **One new fact:** on Haiku, P(C1) is only 0.46 at a true 5-point drop. This is because noisy draws pull Haiku's expected accuracy about 2 points below the observed 0.762. D83 states it.
+
+**F3: holds.**
+- **The pass sentence** now says "accuracy … not tied to its one sentence, to within what 200 items can show (a point estimate; a true 5-point move passes about 53% of the time)", and adds the forecasting-prompt caveat.
+- **The mixed and fail sentences** now say "accuracy did not survive the change of sentence", with the null-run rates: 9.1% main, 30.3% pessimistic.
+- **Same-pick sentence and reference row:** the same-pick sentence prints the noise floor, and the forecasting-prompt reference row is computed and printed.
+- **The constants are fixed in `score_b17.py` before any call.**
+- **One non-blocking note.** The dry run's noise floor (0.818 Haiku, 0.888 Sonnet) is the share of items with the same item score (0, 0.5 or 1). The scorer's `same_pick` counts tie-versus-wrong as the same pick. Under the same null that definition gives 0.838 and 0.898. So the printed floor is 1–2 points lower than the scorer's statistic would show from noise alone.
+  - It affects a reported sentence only, not the rule or the verdict. The auditor should read the same-pick comparison with this in mind.
+  - Either matching the definitions or adding a one-line note before the run would remove it. Neither is a condition of this confirmation.
+
+**Worktree state (not part of this confirmation).** When this addendum was written, the shared worktree had another session's uncommitted edits:
+- `scoring/dry_b16_b17.py`, `score_b16.py`, `reproduce.py` and `ledger/design-reviews/ss-b16.md`;
+- `scoring/dry_b16_b17.txt`, which was **empty on disk**, mid-rewrite.
+
+ss-b17's design is confirmed as committed at b5787de and 773b566; `score_b17.py` has no uncommitted change. Whoever commits the dry-run output next should check its line count (62 lines at b5787de) and must not commit an empty file.
+
+**Verdict: fix-first, confirmed. The run may start.**
