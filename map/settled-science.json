@@ -658,16 +658,19 @@
    "prior_work_at": "2026-11-05T16:26",
    "diagnosis": null,
    "remap": null,
-   "engine_odds": 0.5,
+   "engine_odds": 0.45,
    "odds_prior": 0.25,
-   "odds_adjustment": 0.25,
-   "odds_reason": "Settled-science row 0.50 (3/6); dry run puts pass between the Sonnet-like world (0.38) and the Opus-41 world (1.00); C2 is fragile, and the 40/41 likely overstates the other 159.",
+   "odds_adjustment": 0.2,
+   "odds_reason": "settled-science row 0.50 and engine row 0.38 lift it; model-referee row 0.22 holds back. Sonnet-conditional dry run gives 0.18–0.70, and Sonnet's and Haiku's 5–6 point forecasting edge puts C2 at risk.",
    "odds_prior_commit": "961d6ec",
    "odds_template": "v2",
    "engine_odds_at": "2026-11-05T16:28",
    "odds_note": "fresh v2 subagent (claude-opus-5-5) handed only ledger/prior.md (961d6ec) and the bet's description with the committed dry run (06b990c); 1 read, no other tool use; the first odds for this direction",
    "odds_event_first": "On BrainBench's 200 human-written items, each rated in both option orders and the two ratings averaged, claude-opus-5-5's flattery accuracy has a 95% item-bootstrap lower bound above 0.814 (the published LLM mean), and its forecasting-prompt accuracy on the same items exceeds its flattery accuracy by at most 0.05.",
-   "odds_event_revised_by": "settled-science D84 (design review ss-b16 F1), before any call"
+   "odds_event_revised_by": "settled-science D84 (design review ss-b16 F1), before any call",
+   "engine_odds_first": 0.5,
+   "engine_odds_revised_at": "2026-11-05T17:04",
+   "odds_revised_by": "settled-science D84 (design review ss-b16), before any call; fresh v2 subagent, prior.md 961d6ec, one read"
   },
   {
    "id": "ss-f10",
@@ -704,14 +707,17 @@
    "prior_work_at": "2026-11-05T16:26",
    "diagnosis": null,
    "remap": null,
-   "engine_odds": 0.37,
+   "engine_odds": 0.45,
    "odds_prior": 0.25,
-   "odds_adjustment": 0.12,
-   "odds_reason": "Settled-science (0.50) and engine (0.38) rows sit above the prior; dry run's valence-only world gives 0.95. Pulled back: both models must stay within a two-sided ±5 window, and Haiku's discordance is 0.305.",
+   "odds_adjustment": 0.2,
+   "odds_reason": "settled-science row 0.50, engine 0.38, $1–5 0.31. Dry run gives 0.91 with no shift, but C2 must hold for both models, and a 3–5 point wording shift drops it to 0.2–0.6.",
    "odds_prior_commit": "961d6ec",
    "odds_template": "v2",
    "engine_odds_at": "2026-11-05T16:28",
-   "odds_note": "fresh v2 subagent (claude-opus-5-5) handed only ledger/prior.md (961d6ec) and the bet's description with the committed dry run (06b990c); 1 read, no other tool use; the first odds for this direction"
+   "odds_note": "fresh v2 subagent (claude-opus-5-5) handed only ledger/prior.md (961d6ec) and the bet's description with the committed dry run (06b990c); 1 read, no other tool use; the first odds for this direction",
+   "engine_odds_first": 0.37,
+   "engine_odds_revised_at": "2026-11-05T17:04",
+   "odds_revised_by": "settled-science D83 (design review ss-b17), before any call; fresh v2 subagent, prior.md 961d6ec, one read"
   }
  ]
 }

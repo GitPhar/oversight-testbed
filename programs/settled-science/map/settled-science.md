@@ -177,8 +177,8 @@ ss-b10c is the ledger's only result with Novelty "new", and it is unreplicated: 
 
 | direction | parent bet | test | models | cost | engine odds |
 |---|---|---|---|---|---|
-| ss-f9 | ss-b10c | Opus, both prompts, all 200 items in both orders: the flattery accuracy's lower bound above the published 81.4% for LLMs, and the forecasting prompt no more than 5 points better | Opus (Haiku and Sonnet reported from ss-b10c) | about $5.80 | 50 (0.25 + 0.25) |
-| ss-f10 | ss-b10c | the flattery question in a second wording (bettor/prompts/flattery-v2.txt), Haiku and Sonnet, all 200 items in both orders: each model's lower bound above 63.4% and within 5 points of its first-wording accuracy on the same items | Haiku, Sonnet | about $2.10 | 37 (0.25 + 0.12) |
+| ss-f9 | ss-b10c | Opus, both prompts, all 200 items in both orders: the flattery accuracy's lower bound above the published 81.4% for LLMs, and the forecasting prompt no more than 5 points better | Opus (Haiku and Sonnet reported from ss-b10c) | about $5.80 | 50 (0.25 + 0.25); 45 (0.25 + 0.20) after the design-review fixes, D84 |
+| ss-f10 | ss-b10c | the flattery question in a second wording (bettor/prompts/flattery-v2.txt), Haiku and Sonnet, all 200 items in both orders: each model's lower bound above 63.4% and within 5 points of its first-wording accuracy on the same items | Haiku, Sonnet | about $2.10 | 37 (0.25 + 0.12); 45 (0.25 + 0.20) after the design-review fixes, D83 |
 
 **Prior work, ss-f9.** BrainBench's 81.4% is for open models scored by perplexity; its authors avoided prompting and found chat-tuned models worse than base models. No paper reports a prompted Claude model or a valence question on BrainBench (predicts: unknown).
 
