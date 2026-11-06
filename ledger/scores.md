@@ -29,16 +29,16 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 
 ## The auditor's catch rate (operators/plant.md)
 
-46 audits prepared with a sealed plant line: 0 still sealed, 46 revealed, of which 22 carried a plant. 
+48 audits prepared with a sealed plant line: 0 still sealed, 48 revealed, of which 24 carried a plant. 
 
-**Catch rate: 22/22 = 1.00, 95% Wilson interval [0.85, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
+**Catch rate: 24/24 = 1.00, 95% Wilson interval [0.86, 1.00].** External yardstick: an LLM auditor caught 82% of planted flaws with logs and code, 55% from the paper alone (Luo, Kasirzadeh & Shah 2025). H2 needs the lower bound above 0.50 on at least 10 plants; reached.
 
 | class / subclass | planted | caught | missed: expected checklist line |
 |---|---|---|---|
-| miscount / cell | 3 | 3 | — |
+| miscount / cell | 4 | 4 | — |
 | miscount / total | 8 | 8 | — |
 | overclaim / mechanism | 3 | 3 | — |
-| overclaim / plain_vs_table | 1 | 1 | — |
+| overclaim / plain_vs_table | 2 | 2 | — |
 | overclaim / rank | 5 | 5 | — |
 | overclaim / scope | 2 | 2 | — |
 
@@ -66,6 +66,8 @@ Shadow outcomes are proxies, so these Brier scores are never pooled with H1 or H
 | pl-044 | sv-b5 | overclaim/mechanism | yes | ledger/audits/sv-b5.md, Required cuts 1: 'Remove ... because it consults that same uncertainty when deciding whether to yield (C15)' | claude-opus-5-5 |
 | pl-045 | sv-b6 | miscount/cell | yes | ledger/audits/sv-b6.md, Required cuts 1 (table, Opus row: +0.225 [+0.022, +0.280] becomes [+0.002, +0.280]) and reproduced: false naming that cell | claude-opus-5-5 |
 | pl-046 | om-p2-14 | overclaim/rank | yes | audit om-p2-14, hole 1 / required cut 1: quotes 'the self advantage replicates on Opus, a second finding of this bet' and calls it a rank drift (Opus undetermined, interval includes 0, LOO flips) | claude-opus-5-5 |
+| pl-048 | ss-b17 | miscount/cell | yes | Required cuts 1: 'C2 table, Haiku row ... | 0.870 | ... with ... | 0.770 |'; header reproduced: false on that cell | claude-opus-5-5 |
+| pl-047 | ss-b16 | overclaim/plain_vs_table | yes | Required cuts 2: 'by 2.3 points on Haiku' ... the table says +5.3 (commit 6916fa7 changed that number) | claude-opus-5-5 |
 
 **Limits, stated with the number:**
 
@@ -75,18 +77,18 @@ Verify every revealed commitment with `python3 ledger/plants.py verify`.
 
 ## Pre-mortems (operators/premortem.md)
 
-64 of 87 bets carry an engine pre-mortem; 37 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
+66 of 89 bets carry an engine pre-mortem; 38 of those have failed and been scored. 23 have none; each row's `premortem_note` says why (most were pre-registered before pre-mortems existed).
 
 | measure | value (95% Wilson interval) |
 |---|---|
-| engine: named the main reason | 16/37 = 0.43 [0.29, 0.59] |
-| engine: named it or its kind | 30/37 = 0.81 [0.66, 0.91] |
-| lazy baseline: failures whose reason was 'the effect is not there' | 24/40 = 0.60 [0.45, 0.74] |
+| engine: named the main reason | 17/38 = 0.45 [0.30, 0.60] |
+| engine: named it or its kind | 31/38 = 0.82 [0.67, 0.91] |
+| lazy baseline: failures whose reason was 'the effect is not there' | 25/41 = 0.61 [0.46, 0.74] |
 | human: named the main reason | — |
 
 | stated kind \ actual kind | world | design | execution | artefact |
 |---|---|---|---|---|
-| world | 19 | 6 | 0 | 0 |
+| world | 20 | 6 | 0 | 0 |
 | design | 2 | 8 | 0 | 0 |
 | execution | 0 | 0 | 1 | 0 |
 | artefact | 0 | 1 | 0 | 0 |
@@ -104,41 +106,42 @@ The chip is a referee and the beacon a seed source; neither computes anything th
 | Brier on tiebreaks, engine (n = 0) | — |
 | Brier on tiebreaks, human (n = 0) | — |
 | QPU seconds used by tiebreaks | 0 |
+| bets by seed source: carried | 1 |
 | bets by seed source: curby-rng | 60 |
-| bets by seed source: fixed | 3 |
+| bets by seed source: fixed | 4 |
 | bets by seed source: inherited (ss-b4 seed e8f921e; no new draw) | 2 |
 | bets by seed source: none recorded | 22 |
 
 ## The feedback loop (operators/learn.md) and design review (operators/design-review.md)
 
-Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 18 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 57 lesson lines written.
+Both are mandatory for every pre-registration from 2026-11-04 17:00 America/Denver. 18 patterns from past misses and audit cuts are on file in `lessons.jsonl`; 59 lesson lines written.
 
 | | count |
 |---|---|
-| pre-registrations since the rule | 45 |
-| with a lesson line | 42 |
-| with a design review verdict | 45 |
+| pre-registrations since the rule | 47 |
+| with a lesson line | 44 |
+| with a design review verdict | 47 |
 | awaiting their design review (nothing may run yet) | 0 |
 | **violations** (no lesson, or a result without a review) | 3: ss-b2, ss-b3, ss-b5 |
 | bets flagged `rule_violation` | 1: sg-b6 |
 | withdrawn after a design review said redesign | 13 |
 
-Design reviews: 0 go, 48 fix-first, 12 redesign; 29 later found by the post-result audit to have missed a flaw they should have caught.
+Design reviews: 0 go, 50 fix-first, 12 redesign; 29 later found by the post-result audit to have missed a flaw they should have caught.
 
 | pattern | title | cited by | recurred after citing |
 |---|---|---|---|
 | P1 | Odds too high where the engine had a story | 14 | 10 of 14 scored |
-| P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 5 | 4 of 5 scored |
-| P3 | No dumb baseline: a trivial predictor would pass the rule | 36 | 20 of 32 scored |
+| P2 | A null-type rule with no power check or equivalence margin, reported as a pass | 6 | 5 of 6 scored |
+| P3 | No dumb baseline: a trivial predictor would pass the rule | 37 | 20 of 33 scored |
 | P4 | A manipulation that never took effect: the code did not do what the pre-registration says | 5 | 3 of 5 scored |
 | P5 | Unmatched rivals: the contest is decided by how the families were built | 3 | 0 of 2 scored |
 | P6 | A control that cannot fail | 3 | 1 of 3 scored |
 | P7 | A foreseeable execution risk run without a pilot | 3 | 1 of 3 scored |
-| P8 | Comparing across conditions that differ in more than the factor named | 31 | 15 of 28 scored |
+| P8 | Comparing across conditions that differ in more than the factor named | 32 | 16 of 29 scored |
 | P9 | The right rule, then the wrong noun | 13 | 11 of 12 scored |
 | P10 | A label that hangs on one item | 19 | 14 of 17 scored |
 | P11 | Leave-one-out leak: a held-out item's own label shapes its score | 2 | 2 of 2 scored |
-| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 30 | 15 of 28 scored |
+| P12 | A bet that cannot pass (or cannot fail) at the available n buys calibration without information | 31 | 15 of 29 scored |
 | P13 | A boundary the rule names, compared in plain floating point | 12 | 7 of 10 scored |
 | P14 | Items that share a template or domain bootstrapped as if independent | 13 | 5 of 11 scored |
 | P15 | A dry run built on assumed spreads or base rates, not measured ones | 12 | 6 of 10 scored |
@@ -153,9 +156,9 @@ Design reviews: 0 go, 48 fix-first, 12 redesign; 29 later found by the post-resu
 | | value | from |
 |---|---|---|
 | quantum chip seconds used (ibm_fez) | 89.0 of the 420 s project hard stop | `programs/entangled-mind/results/ibm-usage.json` |
-| API spend logged | $99.56 of the $200/month allowance | `spend.jsonl` baseline $50.00 to 2026-11-04 09:15, 1 logged run(s) $6.04, bets' `cost_usd` since then $43.52 |
+| API spend logged | $107.61 of the $200/month allowance | `spend.jsonl` baseline $50.00 to 2026-11-04 09:15, 1 logged run(s) $6.04, bets' `cost_usd` since then $51.57 |
 
 API spend is a floor: scouts, design-review pilots and checks priced only in their own results files are not added.
 
 
-<!-- numbers (generated; read by site/numbers.py): {"api_allowance": 200, "api_usd": "100", "api_usd_exact": "99.56", "chip_left": "331", "chip_s": "89", "chip_stop": 420, "dr_fix": 48, "dr_go": 0, "dr_missed": 29, "dr_redesign": 12, "dr_total": 60, "plants_caught": 22, "plants_planted": 22, "plants_revealed": 46, "plants_rows": 46, "plants_sealed": 0, "premortem_failed": 37, "premortem_named": 16} -->
+<!-- numbers (generated; read by site/numbers.py): {"api_allowance": 200, "api_usd": "108", "api_usd_exact": "107.61", "chip_left": "331", "chip_s": "89", "chip_stop": 420, "dr_fix": 50, "dr_go": 0, "dr_missed": 29, "dr_redesign": 12, "dr_total": 62, "plants_caught": 24, "plants_planted": 24, "plants_revealed": 48, "plants_rows": 48, "plants_sealed": 0, "premortem_failed": 38, "premortem_named": 17} -->
