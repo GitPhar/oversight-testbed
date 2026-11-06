@@ -9,6 +9,7 @@ of anything else. Every circuit is three qubits and is simulated exactly on a la
                                             # ideal + noisy-simulator prediction (data/p3-9-prepared.json); commit before --submit
     $PY experiments/p3_9_pm.py --worlds     # P(pass) under the named worlds, from the committed prediction (D11)
     $PY experiments/p3_9_pm.py --submit     # every gate in code -> one SamplerV2 job via run_hardware; raw counts saved at once
+    $PY experiments/p3_9_pm.py --retrieve   # free read, only after a client error: the marker's job id -> its counts or status
     $PY experiments/p3_9_pm.py --analyse    # from the committed raw counts: CNT2 per system, bootstrap, verdict sentences
 
 The job: 6 lines of the square (3 rows, 3 columns) x 2 orders (forward, reverse) x 2 input states (|00>, Bell) = 24
@@ -339,8 +340,9 @@ def verdict(cls: dict, why_untestable: str | None = None) -> dict:
                          "spoiled the check here, not quantum theory.")
     if all(ok.values()):
         head = ("Pass: for both input states, in both measurement orders, the exact CbD linear program rejects "
-                "noncontextuality with CNT2's bootstrap 99% lower bound above 0. Program 1's check sees contextuality "
-                "on this chip where physics says it must be. This is an instrument check on one chip, one qubit triple "
+                "noncontextuality with CNT2's bootstrap 99% lower bound above 0. The exact CbD 2.0 linear program, "
+                "which reduces to program 1's rank-2 Gamma on two-question systems (shown in --check), sees "
+                "contextuality on this chip where physics says it must be. This is an instrument check on one chip, one qubit triple "
                 "and one job, not a new fact about quantum theory, and it says nothing about language models.")
         v, out = "pass", 1
     else:
@@ -617,12 +619,17 @@ def submit():
                                   "cumulative_before_s": used, "job_id": None}, indent=1))
     purpose = f"Program 3 P3-9 sequential Peres-Mermin: 24 pubs, {24 * SHOTS} shots"
     try:
-        counts, usage = backends.run_hardware(pubs, purpose=purpose, shots=SHOTS)
+        def on_submit(job_id, batch_id):           # F1a: the job id is on disk before the client waits for the result
+            m_ = json.loads(MARKER.read_text()); m_["job_id"] = job_id; m_["batch_id"] = batch_id
+            MARKER.write_text(json.dumps(m_, indent=1))
+        counts, usage = backends.run_hardware(pubs, purpose=purpose, shots=SHOTS, on_submit=on_submit, expected_s=EST_CAP_S)
         rec = {"submitted_at": t0.isoformat(), "order": order, "usage": usage, "counts_in_job_order": counts,
                "calibration_at_submit": cal}
     except BaseException as e:  # noqa: BLE001  never resubmitted: the marker blocks it; look the job up by hand
         rec = {"submitted_at": t0.isoformat(), "order": order, "client_error": repr(e), "calibration_at_submit": cal,
-               "note": "job state unknown or failed; never resubmitted (marker file blocks it)"}
+               "job_id": json.loads(MARKER.read_text()).get("job_id"),
+               "note": "client error; never resubmitted (marker file blocks it). If IBM reports the job DONE, its counts "
+                       "are the data: run --retrieve (a free read)."}
         RAW.write_text(json.dumps(rec, indent=1))
         raise
     RAW.write_text(json.dumps(rec, indent=1))                    # saved at once, before anything else
@@ -640,12 +647,48 @@ def submit():
     print("done", m["job_id"], "QPU s", usage.get("quantum_seconds"), "cumulative before", used, flush=True)
 
 
+def retrieve():
+    """F1c: a free read after a client error. Needs the marker's job id and a raw file with no counts. If IBM reports
+    the job DONE, its counts are fetched and written in the normal format (retrieved: true); otherwise its status is
+    recorded. Never submits."""
+    load_token()
+    from entangled_mind import backends
+    if not MARKER.exists():
+        raise SystemExit("no marker: nothing was submitted")
+    m = json.loads(MARKER.read_text())
+    if not m.get("job_id"):
+        raise SystemExit("the marker holds no job id; nothing to retrieve")
+    raw = json.loads(RAW.read_text()) if RAW.exists() else {}
+    if "counts_in_job_order" in raw:
+        raise SystemExit("the raw file already holds counts; nothing to retrieve")
+    jb = backends.service().job(m["job_id"])
+    st = str(jb.status()).split(".")[-1].upper()
+    raw |= {"job_id": m["job_id"], "order": m["order"], "ibm_status": st,
+            "status_read_at": dt.datetime.now(dt.timezone.utc).isoformat()}
+    if st == "DONE":
+        res = jb.result()
+        met = jb.metrics()
+        raw |= {"counts_in_job_order": [pub.data.meas.get_counts() for pub in res], "retrieved": True,
+                "usage": {"job_id": m["job_id"], "quantum_seconds": backends.qpu_seconds(met.get("usage") or {}),
+                          "job_metrics_usage": met.get("usage")},
+                "timestamps": met.get("timestamps", {})}
+    RAW.write_text(json.dumps(raw, indent=1))
+    print("job", m["job_id"], "status", st, "| counts retrieved" if st == "DONE" else "| no counts")
+
+
 # --- analyse -------------------------------------------------------------------------------------------------------------
 
 def untestable(prep, raw):
+    """F1d: a client error is never by itself untestable. If IBM reports the job DONE, its counts are the data (fetched
+    with --retrieve). Untestable only if: not submitted; IBM reports ERROR or CANCELLED; no counts; the wrong number
+    of circuits; a circuit under 90% of its shots."""
     if "not_submitted" in raw:
         return "not submitted: " + raw["not_submitted"]
+    if raw.get("ibm_status") in ("ERROR", "CANCELLED"):
+        return f"IBM reports the job {raw['ibm_status']}"
     if "counts_in_job_order" not in raw:
+        if "client_error" in raw and "ibm_status" not in raw:
+            raise SystemExit("client error and IBM's job status not yet read: run --retrieve first (a free read)")
         return "the job returned no counts"
     if len(raw["counts_in_job_order"]) != len(prep["labels"]):
         return "the job returned the wrong number of circuits"
@@ -729,6 +772,29 @@ def check():
             n += 1; agree += (L.cnt2(s) > TOL) == (L.kdl_contextual(nn, e, list(mf), list(ms)) > 0)
     assert agree == n, f"LP disagrees with KDL on {n - agree} of {n}"
     print(f"(1) LP = KDL on {n} of {n} random cyclic systems")
+    # (1b) rank 2 (design review F2a): the LP = KDL at n = 2 = program 1's Gamma = |q_QQ| - OSS on the same bunches
+    r2 = np.random.default_rng(42)
+    n2 = a2 = c2 = 0
+    for t in range(200):
+        sc = 1.0 if t % 2 else 0.15
+        mf, ms = r2.uniform(-1, 1, 2) * sc, r2.uniform(-1, 1, 2) * sc
+        e = [r2.uniform(abs(a + b) - 1, 1 - abs(a - b)) for a, b in zip(mf, ms)]
+        if t % 4 == 1:
+            e = [r2.choice([-1, 1]) * r2.uniform(0.6, 0.95), r2.choice([-1, 1]) * r2.uniform(0.6, 0.95)]
+        try:
+            s2 = L.cyclic_system(2, e, list(mf), list(ms))
+        except AssertionError:
+            continue
+        k2 = L.kdl_contextual(2, e, list(mf), list(ms))
+        if abs(k2) < 1e-6:
+            continue
+        q = (s2.bunches[0][1] + s2.bunches[0][2]) - (s2.bunches[1][1] + s2.bunches[1][2])      # P(disagree) shift
+        oss = abs(s2.marginal(0, 0) - s2.marginal(1, 1)) + abs(s2.marginal(0, 1) - s2.marginal(1, 0))
+        gamma = abs(q) - oss                                                                   # exp4_run.py's Gamma
+        cc = L.cnt2(s2) > TOL
+        n2 += 1; c2 += cc; a2 += cc == (k2 > 0) == (gamma > 0)
+    assert a2 == n2 and 0.25 * n2 < c2 < 0.75 * n2, (a2, n2, c2)
+    print(f"(1b) rank 2: LP = KDL = program 1's Gamma (|q_QQ| - OSS) on {n2} of {n2} random systems ({c2} contextual)")
     # (2) Kirchmair; the cheat; ideal QM; FastCNT2 = cnt2; full LP = reduced on one contextual PM system
     mn, me, ks = L.completion_bounds(L.KIRCHMAIR_MEANS, L.KIRCHMAIR_PRODUCTS)
     assert mn > 0.1 and abs(L.chi(ks) - 5.463) < 1e-3 and abs(L.delta0(ks) - 0.166) < 1e-3
@@ -784,9 +850,26 @@ def check():
         vd = verdict(cl)
         assert vd["verdict"] in ("pass", "fail") and (vd["verdict"] == "pass") == all(x == "contextual" for x in combo)
     print("(4) the rule returns exactly one verdict on all 81 label combinations; pass iff all four contextual")
+    # (5) design review F1d: a client error alone is never untestable
+    p_ = {"labels": labs}
+    good = [{"000": SHOTS}] * len(labs)
+    ce = {"client_error": "TimeoutError()", "order": list(range(24))}
+    try:
+        untestable(p_, ce); raise AssertionError("client error without a status must refuse")
+    except SystemExit:
+        pass
+    assert untestable(p_, ce | {"ibm_status": "ERROR"}) == "IBM reports the job ERROR"
+    assert untestable(p_, ce | {"ibm_status": "CANCELLED"}) == "IBM reports the job CANCELLED"
+    assert untestable(p_, ce | {"ibm_status": "DONE", "retrieved": True, "counts_in_job_order": good}) is None
+    assert untestable(p_, {"counts_in_job_order": good[:23]}) is not None
+    assert untestable(p_, {"counts_in_job_order": [{"000": 3500}] * 24}) is not None
+    assert untestable(p_, {"not_submitted": "reserve rule"}).startswith("not submitted")
+    print("(5) untestable(): a client error alone refuses (run --retrieve); DONE with counts is data; ERROR or "
+          "CANCELLED, short or missing counts, wrong circuit count, not submitted are untestable")
     print("check OK")
 
 
 if __name__ == "__main__":
     arg = sys.argv[1] if len(sys.argv) > 1 else "--check"
-    {"--check": check, "--select": select, "--worlds": worlds, "--submit": submit, "--analyse": analyse}[arg]()
+    {"--check": check, "--select": select, "--worlds": worlds, "--submit": submit, "--retrieve": retrieve,
+     "--analyse": analyse}[arg]()

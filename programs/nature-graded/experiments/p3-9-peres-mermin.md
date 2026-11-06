@@ -1,6 +1,6 @@
 # P3-9: does program 1's contextuality check see contextuality on the chip, where physics says it must be there? Sequential Peres–Mermin under the exact CbD 2.0 linear program (pre-registration)
 
-Written and frozen 2026-11-05 (America/Denver; the commit's author time is the record), in its own commit, before any chip submission for this bet. DEVIATIONS.md D48. Budget **≤ 45 QPU s** (estimate 28.9 s nominal; 43.3 s with ×1.5 contingency for dynamic circuits), $0 API, enforced in code; approval is the engine's `budget_ruling` row in `ledger/spend.jsonl` under st-16, after the design review. Stop rules in §7.
+Written and frozen 2026-11-05 (America/Denver; the commit's author time is the record), in its own commit, before any chip submission for this bet. DEVIATIONS.md D48; design-review fixes D49. Budget **45 QPU s** (estimate 28.9 s nominal; 43.3 s with ×1.5 contingency for dynamic circuits), $0 API. The estimate and the 45 s cap are gated in code against the 300 s reserve line and the 420 s hard stop. The job's billed seconds are not capped, since a `max_execution_time` cancellation would destroy the one job. A bill above 45 s is reported as an overrun of the budget ruling and changes nothing else (D49, F3). Approval is the engine's `budget_ruling` row in `ledger/spend.jsonl` under st-16, after the design review. Stop rules in §7.
 
 > **The human is never asked in a terminal** (CONTEXT.md §3 rule 11). This session never asks Sean for odds or for a decision, in a terminal, a chat or a question dialog. His odds come only from `ledger/human-odds.jsonl` (the cockpit's downloads, committed); if a direction has no line there when its bet is pre-registered, the bet proceeds marked "no human odds". A decision this session would otherwise ask about, it makes under the written rules and states in its report and commit, where Sean can veto it from the cockpit. Sean's judgment is recorded and scored as steers in `ledger/steers.jsonl`: seed questions, vetoes, added questions and architecture decisions.
 
@@ -17,11 +17,11 @@ Written and frozen 2026-11-05 (America/Denver; the commit's author time is the r
 | bet type | `standard` (a foundations instrument check, not a simulator-vs-chip tiebreak; the simulator's prediction is committed and reported beside the result) |
 | direction | `P3-9` (`programs/nature-graded/map/program-3-map.json`; gold map direction 8) |
 | source | `literature` (reads cluster B: Kirchmair 2009, Kumar 2025, Kelleher & Holweck 2025, Massé 2021; plus program 1's CbD check) |
-| prior work | **On every platform tried, Peres–Mermin exceeds its noncontextual bound of 4 in χ.** Two trapped ions with each observable read out sequentially: 5.46(4) (Kirchmair et al. 2009, Nature 460:494, arXiv:0904.1655). Google Willow (superconducting) with mid-circuit measurement and reset: 5.618 ± 0.005 (Kumar et al. 2025, arXiv:2512.02284; no CbD, marginal or signalling analysis). IBM Heron r2 ibm_kingston, product-only readout: 5.31, no error bars (Kelleher & Holweck 2025, arXiv:2505.21243). 2019-era 5-qubit IBM devices: about 4.99 (Laghaout et al. 2022, Eur. J. Phys. 43:055401, arXiv:2009.10751). **CbD:** the only CbD treatment of PM hardware data, Massé 2021 (arXiv:2105.13821, unrefereed; an adapted, not exact, formula), leaves Kirchmair's data contextual by 0.566; the exact CbD 2.0 LP gives CNT2 ≥ 0.141 on the same published numbers under every completion (`map/reads/p3-9-desk-work-2026-11-05.md`, `8b95dbd`). **Prior work predicts a pass for both input states.** No exact CbD LP has been applied to PM data from superconducting hardware, and no CbD analysis of sequential superconducting PM data was found (three searches, 2026-11-05, in the desk-work note, the third in another field's words: "state-independent contextuality … sequential QND … signalling disturbance correction"). **What this bet adds:** the exact CbD 2.0 LP with a CNT2 bootstrap on sequential mid-circuit-measurement data from an IBM Heron r2 (ibm_fez), in both measurement orders and for two input states; program 1's check pointed where physics fixes the answer. It is an instrument check, not a new physics claim. The engine's odds (80) sit near what the prior work predicts; the 20 points left for a fail price the device's mid-circuit measurement and reset errors, which no published IBM PM test exposed to CbD. |
+| prior work | **On every platform tried, Peres–Mermin exceeds its noncontextual bound of 4 in χ.** Two trapped ions with each observable read out sequentially: 5.46(4) (Kirchmair et al. 2009, Nature 460:494, arXiv:0904.1655). Google Willow (superconducting) with mid-circuit measurement and reset: 5.618 ± 0.005 (Kumar et al. 2025, arXiv:2512.02284; no CbD, marginal or signalling analysis). IBM Heron r2 ibm_kingston: 5.31, the best of several embedded squares, 10,000 shots, no error bars (readout as in their ref. [18]) (Kelleher & Holweck 2025, arXiv:2505.21243; D49, F4). 2019-era 5-qubit IBM devices: about 4.99, also a best-of (Laghaout et al. 2022, Eur. J. Phys. 43:055401, arXiv:2009.10751). **CbD:** the only CbD treatment of PM hardware data, Massé 2021 (arXiv:2105.13821, unrefereed; an adapted, not exact, formula), leaves Kirchmair's data contextual by 0.566; the exact CbD 2.0 LP gives CNT2 ≥ 0.141 on the same published numbers under every completion (`map/reads/p3-9-desk-work-2026-11-05.md`, `8b95dbd`). **Prior work predicts a pass for both input states.** No exact CbD LP has been applied to PM data from superconducting hardware, and no CbD analysis of sequential superconducting PM data was found (three searches, 2026-11-05, in the desk-work note, the third in another field's words: "state-independent contextuality … sequential QND … signalling disturbance correction"). **What this bet adds:** the exact CbD 2.0 LP with a CNT2 bootstrap on sequential mid-circuit-measurement data from an IBM Heron r2 (ibm_fez), in both measurement orders and for two input states; program 1's check pointed where physics fixes the answer. It is an instrument check, not a new physics claim. The engine's odds (80) sit near what the prior work predicts; the 20 points left for a fail price the device's mid-circuit measurement and reset errors, which no published IBM PM test exposed to CbD. |
 | engine odds, P(pass) | **80** (rule 14, template v2: prior 0.32 + adjustment +0.48; reason "Low nature-graded/nature/literature rows (0.20, 0.13) are novel-claim bets; here QM, every published PM platform, and the simulator margin (CNT2 0.22, holds to ε=0.03) all predict pass."; fresh context, prior.md at `73eb5cf`; recorded `8bf9942`, `map/odds-elicitation/v2-p3-9.md`). First stated on the map: 40 (template v1-batch, 2026-11-04 14:06, a different draft event). Both kept. |
 | human odds, P(pass) | **90**, `ho-20261105-051140-7pv` (cockpit, saved 2026-11-05 05:11:40). His card's event: "For both input states (|00⟩ and a Bell state), the exact CbD linear program rejects noncontextuality, with CNT2's bootstrap 99% lower bound above 0." This file's scored event is the same with "in both measurement orders" added (§5, D48): a tightening, so a pass here implies his card's event (CbD 2.0 Theorem 3). His card's event is reported as a secondary. |
 | models | not all three, because no model is in the loop: the chip is the referee and the object measured (rule 12 does not apply). |
-| budget | 0 $ API · ≤ 45 QPU s (estimate 0.28 ms × 96,000 shots + 2 s = 28.9 s; ×1.5 = 43.3 s) · about 1 laptop hour |
+| budget | 0 $ API · 45 QPU s, estimate and cap gated in code, billed seconds not capped (D49, F3) (estimate 0.28 ms × 96,000 shots + 2 s = 28.9 s; ×1.5 = 43.3 s) · about 1 laptop hour |
 | lesson | Correcting P6, P12: program 1's CbD check never showed it could say 'contextual' or refuse a fake, and a bet physics decides buys calibration, not information. This bet checks the LP on Kirchmair's data and a χ-6 cheat, runs passing and failing worlds, and its odds are 80% (from 40% on the map) because physics and four platforms predict pass. |
 | design review | before any submission, a fresh subagent dry-runs this design (`operators/design-review.md`, checks D1–D12) → `ledger/design-reviews/ng-p3-9.md`; it must say go, and it checks the budget against the hard stop. `--submit` refuses without go (or a confirmed fix-first). |
 | pre-mortem | If this fails, the most likely reason is that ancilla 4's mid-circuit readouts and resets disturb the data qubits enough, growing with each later measurement, that CNT2 reaches 0 in at least one of the four systems. Kind: `design`. |
@@ -90,7 +90,7 @@ Physics and every published experiment predict that it finds the effect. What co
 |---|---|---|---|
 | select (done, `b1a06a5`) | free reads of IBM properties and target; qubit rule; circuits; simulator prediction | 0 | $0 |
 | worlds (done, before this commit) | P(pass) under five named worlds from the committed prediction (§4) | 0 | $0 |
-| submit | one job, 24 PUBs × 4,000 shots; calibration snapshot of the triple at submission and at run time (free reads); raw counts written to `data/p3-9-raw.json` the moment `run_hardware` returns | ≤ 45 (estimate 28.9) | $0 |
+| submit | one job, 24 PUBs × 4,000 shots; calibration snapshot of the triple at submission and at run time (free reads); raw counts written to `data/p3-9-raw.json` the moment `run_hardware` returns | estimate 28.9; cap 45 gated against the estimate (D49, F3) | $0 |
 | analyse | CNT2 per system, bootstrap, verdict sentences → `results/p3-9-peres-mermin.json` | 0 | $0 |
 
 The one job is the whole bet; there is no second job. A crash after submission never resubmits: `data/p3-9-submitting.json` is written before `run_hardware` and blocks any later `--submit`.
@@ -109,7 +109,7 @@ The one job is the whole bet; there is no second job. A crash after submission n
   - the number of bootstrap draws with CNT2 = 0;
   - measured against predicted χ and CNT2;
   - Sean's card event (both states, either order) — implied by a pass, and by CbD 2.0 Theorem 3 also by one order per state;
-  - χ against Kelleher & Holweck's 5.31 on another Heron r2.
+  - χ against Kelleher & Holweck's 5.31 on another Heron r2. That figure is upward-selected (the best of several squares) and comes from another device and readout, so this is a loose comparison (D49, F4).
 - **Multiple comparisons:** the pass rule is a conjunction of four tests, each at the 99% level; no correction is applied, because a conjunction can only make passing harder.
 - **Dumb baselines** (P3), named and shown not to pass the rule:
   - (a) **"χ > 4"** without CbD: the cheat (fixed context-dependent answers) has χ = 6.000 and CNT2 0 (`--check`; world "cheat" below), so a χ-only reading would be passed by a noncontextual system with signalling.
@@ -142,7 +142,7 @@ The sentences are produced by `p3_9_pm.verdict()` (`--check` prints them for eve
 - **absorbed:** not contextual, and χ's 99% lower bound > 4 (the raw sum beat the classical bound, but CbD's correction for the measured disturbance absorbed it);
 - **below:** neither (the raw sum did not clearly clear 4).
 
-1. **Pass:** all four systems contextual. Sentence: "Pass: for both input states, in both measurement orders, the exact CbD linear program rejects noncontextuality with CNT2's bootstrap 99% lower bound above 0. Program 1's check sees contextuality on this chip where physics says it must be. This is an instrument check on one chip, one qubit triple and one job, not a new fact about quantum theory, and it says nothing about language models." Outcome 1. Reported as **pass, unreplicated** (invariant 7).
+1. **Pass:** all four systems contextual. Sentence: "Pass: for both input states, in both measurement orders, the exact CbD linear program rejects noncontextuality with CNT2's bootstrap 99% lower bound above 0. The exact CbD 2.0 linear program, which reduces to program 1's rank-2 Gamma on two-question systems (shown in --check), sees contextuality on this chip where physics says it must be. This is an instrument check on one chip, one qubit triple and one job, not a new fact about quantum theory, and it says nothing about language models." Outcome 1. Reported as **pass, unreplicated** (invariant 7).
 2. **Fail:** any system not contextual. Outcome 0. The headline is one of:
    - "the check saw contextuality for <state> in both orders, but not for <the other state> in both orders"; or
    - "in some of the four systems but not for both input states in both orders"; or
@@ -156,9 +156,11 @@ The sentences are produced by `p3_9_pm.verdict()` (`--check` prints them for eve
    - If one order passed and the other did not for a state: "… so the order of the measurements mattered on this chip (by CbD 2.0 Theorem 3 the system with order folded into context is still contextual for that input)."
 4. **Untestable** (not scored): any one of
    - the job was not submitted (a stop before submission: the reserve rule, the hard stop, a circuit not ISA on the live target);
-   - the job errored or returned no counts;
+   - IBM reports the job ERROR or CANCELLED, or it returned no counts;
    - the wrong number of circuits came back;
    - any circuit returned under 90% of its 4,000 shots.
+
+   A client error is never by itself untestable (D49, F1). If IBM reports the job DONE, its counts are the data and are fetched with `--retrieve` (a free read). `--analyse` refuses to run on a client error until IBM's status has been read.
 
    Sentence: "The test could not be run as pre-registered (<reason>), so it says nothing about the check or the chip; it is not scored."
 5. **Reported in every case:** the four systems' χ (with SE), CNT2 (point, 99% lower bound, bootstrap median, draws at zero), Δ0 and Massé's CNTX; the connection table; measured against simulated values; the job id, billed QPU seconds, execution timestamps, and the triple's calibration at submission and at run time.
@@ -170,18 +172,24 @@ The sentences are produced by `p3_9_pm.verdict()` (`--check` prints them for eve
 - One chip, one qubit triple, one job, one afternoon. "Every", "all chips" or "superconducting hardware" will not appear in the write-up.
 - CbD 2.0's contextuality is a property of the observed system as CbD defines it. A pass shows that the bunches are incompatible with the multimaximal couplings of the connections, given the disturbance actually measured. It does not separate disturbance from other causes of inconsistent connectedness, and does not need to.
 - The order-folded 12-context system is not analysed beyond Theorem 3's implication (§4).
-- The noisy simulator omits mid-circuit-measurement crosstalk and reset error, so a gap between measured and predicted χ is about that omission, the calibration or the device. It is not a quantum advantage, and nothing here is one.
+- It does not show that program 1's Γ had the power to detect contextuality at program 1's sample sizes. Program 1's null is as informative as its own power made it, and no more (D49, F2). What it shows is that the exact LP, which equals Γ on two-question systems (`--check` block 1b), can say "contextual" on real counts where physics fixes the answer.
+- The noisy simulator omits mid-circuit-measurement crosstalk, reset error and idle decay (§2), so a gap between measured and predicted χ is about that omission, the calibration or the device. It is not a quantum advantage, and nothing here is one.
 
 ## 7. Stop rules
 
-- QPU cap in code: `--submit` refuses if the estimate exceeds 45 s, if 45 s exceeds the approved `budget_ruling`, if cumulative billed seconds plus 45 would pass the **420 s hard stop**, or if cumulative plus 1.5 × the estimate would pass the 300 s reserve line. `run_hardware` refuses at 420 s regardless.
+- QPU gates in code, on the estimate and the cap, not the bill (D49, F3):
+  - `--submit` refuses if the estimate exceeds 45 s, or if 45 s exceeds the approved `budget_ruling`.
+  - It refuses if cumulative billed seconds plus 45 would pass the **420 s hard stop**.
+  - It refuses if cumulative plus 1.5 × the estimate would pass the 300 s reserve line.
+  - `run_hardware` refuses if cumulative plus the 45 s cap (`expected_s`) would pass 420 s, and at 420 s used regardless.
+  - The billed seconds are not capped. A bill above 45 s is reported as an overrun of the budget ruling.
 - `--submit` also refuses:
   - without a design-review go;
   - if any file it uses is uncommitted or changed;
   - if `ledger/check_prereg.py ng-p3-9 … --before-run` fails;
   - on a circuit hash mismatch;
   - if this bet already has a raw file, a marker, or a QPU ledger entry.
-- One job only; never resubmitted. A client error after submission leaves the marker and is resolved by looking the job up by id (a free read); the counts are retrieved, never re-run.
+- One job only; never resubmitted. The job id is written to the marker the moment the job is submitted, before the client waits for the result (`run_hardware`'s `on_submit`). If the result raises, a usage entry is logged with whatever seconds IBM reports. A client error is resolved by `--retrieve`, a free read of the job by id: DONE means its counts are fetched and are the data; ERROR or CANCELLED means untestable. Nothing is re-run (D49, F1).
 - Untestable conditions as in §5.4.
 
 ## 8. Ledger entry (filled now, completed after audit)
@@ -216,7 +224,7 @@ The sentences are produced by `p3_9_pm.verdict()` (`--check` prints them for eve
 - [x] Pre-mortem: one sentence, a checkable mechanism, kind `design`.
 - [x] One scale direction: not applicable (no graded prompt; the chip's ±1 outcomes).
 - [x] §2 records CURBY-Q's latest completed round and names the chain by the 24-hour rule; the seed commit follows this one before any data.
-- [x] Budget, hard stop, reserve line and one-job rule enforced in code (§7).
+- [x] Estimate and cap gated against the reserve line and hard stop, and one-job rule, in code (§7; billed seconds not capped, D49).
 - [x] DEVIATIONS.md row D48.
 - [ ] Budget ruling in `ledger/spend.jsonl` under st-16, after the design review. Its id is the next free `br-NNN` above main and every sibling worktree, read immediately before writing. The drafting session's `br-007` is taken (ss-b13); br-001 to br-019 were in use when this file was finished.
 - [ ] *(after the result)* The Novelty line (rule 13) is written by a fresh session before the results file is audited.
