@@ -465,6 +465,8 @@ Odds above are not revised. Outcomes, audited in round 2 (entangled-mind audit2 
 
 **QPU:** P3-16 billed 7.0 s (3 + 2 + 2) against 7.12 estimated and 10 approved (br-003). Cumulative **69 s** of the 420 s hard stop: 46 s from program 1, 23 s from program 3 (wave 1 8 s, P3-15 8 s, P3-16 7 s).
 
+**QPU, after P3-9** (2026-11-05 18:08): P3-18 billed 20.0 s (br-006) and P3-9 28.0 s (job dbmib3t8mdtc73d80on0; estimate 28.9, approved 45, br-025). Cumulative **117 s** of the 420 s hard stop: 46 s from program 1, 71 s from program 3 (wave 1 8 s, P3-15 8 s, P3-16 7 s, P3-18 20 s, P3-9 28 s). P3-9 was the chip's one foundations experiment (st-19's cap, st-24); what remains for the chip in this program is seeds (from CURBy, not the chip) and tiebreaks.
+
 ## Notes for the engine
 
 - **The comparison this program exists for is underpowered, and it is said so up front.**

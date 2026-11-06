@@ -3,11 +3,11 @@
  "seed_question": "Open questions in quantum foundations and in Heron r2 device physics that fit the IBM Open Plan (600 QPU s/month, 374 s left, project hard stop 420 s), with the quantum chip as ground truth, never as a computational resource.",
  "scouted": "2026-11-04",
  "qpu": {
-  "used_s": 69,
+  "used_s": 117,
   "hard_stop_s": 420,
-  "remaining_s": 351,
+  "remaining_s": 303,
   "cost_rule": "0.28 ms x shots + ~2 s/job; x1.5 for mid-circuit measurement",
-  "as_of": "2026-11-05 05:18 America/Denver (after ng-p3-16)",
+  "as_of": "2026-11-05 18:08 America/Denver (after ng-p3-9)",
   "used_s_when_mapped": 46
  },
  "expected_passes_nature_graded": 5.08,
