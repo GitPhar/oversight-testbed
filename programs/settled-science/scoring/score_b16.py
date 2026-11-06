@@ -11,8 +11,11 @@ int(0.025n) and int(0.975n) - 1). Tolerance EPS = 1e-12 on every threshold (P13)
 Pass, both of:
   C1  Opus's orders-averaged flattery accuracy, on its items with both flattery orders, has an item-bootstrap lower bound
       above 0.814 (Luo et al. 2024's published mean for LLMs);
-  C2  on the items where all four Opus calls ran, the forecasting prompt's orders-averaged accuracy exceeds the flattery
-      prompt's by at most 0.05 (point estimate of the paired mean difference, bettor minus flattery; its interval reported).
+  C2  on the items where all four Opus calls ran, the one-sided 95% upper bound of the paired item-bootstrap mean of
+      (forecasting item score - flattery item score) is at most 0.05 (D84, design review ss-b16 F1; the point estimate and
+      the two-sided interval are reported). Same 10,000 resamples and default_rng(20261104); the bound is the sorted
+      resample means at index int(0.95 * 10000) - 1. The bound is also computed at seeds 20261104 + 1 ... + 9; if the ten
+      disagree on its side of 0.05, the verdict reads the bound at 100,000 resamples and seed 20261104 instead.
 Mixed: exactly one holds. Fail: neither. Untestable: fewer than 180 items with both flattery orders, or fewer than 180
 with all four calls.
 """
@@ -44,6 +47,24 @@ def c1(hits):
     return bool(SB.boot(hits)[0] > LLMS + EPS)
 
 
+def ub95(v, n=SB.BOOT_N, seed=SB.BOOT_SEED):
+    v = np.asarray(v, float)
+    m = np.sort(v[np.random.default_rng(seed).integers(0, len(v), size=(n, len(v)))].mean(1))
+    return float(m[int(0.95 * n) - 1])
+
+
+def c2_bound(d):
+    """C2's bound (D84): B = 10,000 at seed 20261104, unless ten seeds disagree on its side of 0.05 (then B = 100,000)."""
+    seeds = [ub95(d, seed=SB.BOOT_SEED + k) for k in range(10)]
+    sides = {b <= MARGIN + EPS for b in seeds}
+    big = ub95(d, n=100_000) if len(sides) > 1 else None
+    return (big if big is not None else seeds[0]), seeds, big
+
+
+def c2(d):
+    return bool(c2_bound(d)[0] <= MARGIN + EPS)
+
+
 def votes(P, ids):
     """Zheng et al. 2023's swap-and-tie count (auditor's re-analysis of ss-b10c): right in both orders 1, split 0.5, wrong in both 0."""
     v = [1.0 if P[i][0] > 0.5 and P[i][1] > 0.5 else 0.0 if P[i][0] < 0.5 and P[i][1] < 0.5 else 0.5 for i in ids]
@@ -71,14 +92,25 @@ def score(items, rows, others, status=None):
     Bb = BBB.acc_block(items, B, both)
     Bb.pop("hits")
     out["bettor"] = Bb
-    out["bettor_minus_flattery"] = {"d": r3(np.mean(d)), "ci": [r3(x) for x in SB.boot(d)]}
-    out["c2"] = bool(np.mean(d) <= MARGIN + EPS)
+    bound, seeds, big = c2_bound(d)
+    out["bettor_minus_flattery"] = {"d": r3(np.mean(d)), "ci": [r3(x) for x in SB.boot(d)], "ub95": r3(bound),
+                                    "ub95_seeds": [r3(x) for x in seeds], "ub95_b100k": r3(big) if big is not None else None}
+    out["c2"] = bool(bound <= MARGIN + EPS)
     out["verdict"] = "pass" if out["c1"] and out["c2"] else "mixed" if out["c1"] or out["c2"] else "fail"
     out["vs_experts"] = bool(SB.boot(h)[0] > EXPERTS + EPS)
     out["votes"] = votes(F, fids)
     out["loo_flips"] = [fids[k] for k in range(len(fids)) if c1(h[:k] + h[k + 1:]) != out["c1"]]
     secs = sorted({items[i]["journal_section"] for i in fids})
     out["section_flips"] = [s for s in secs if c1([x for x, i in zip(h, fids) if items[i]["journal_section"] != s]) != out["c1"]]
+    # D84 (review ss-b16 F4): leave-one-out on C2 too (reported; the verdict is unchanged). Single-seed bound for speed.
+    c2s = lambda dd: bool(ub95(dd) <= MARGIN + EPS)  # noqa: E731
+    base2 = c2s(d)
+    out["c2_loo_flips"] = [both[k] for k in range(len(both)) if c2s(d[:k] + d[k + 1:]) != base2]
+    out["c2_section_flips"] = [s for s in secs if c2s([x for x, i in zip(d, both) if items[i]["journal_section"] != s]) != base2]
+    def verdict_of(a, b):
+        return "pass" if a and b else "mixed" if a or b else "fail"
+    out["loo_changes_verdict"] = sorted({i for i in out["loo_flips"] + out["c2_loo_flips"]
+                                         if verdict_of(c1([x for x, j in zip(h, fids) if j != i]), c2s([x for x, j in zip(d, both) if j != i])) != out["verdict"]})
     out["by_section"] = {s: {"n": sum(items[i]["journal_section"] == s for i in fids),
                              "flattery": r3(np.mean([x for x, i in zip(h, fids) if items[i]["journal_section"] == s]))} for s in secs}
     # P12 transparency: the items whose flattery ratings were already in ss-b10c's archive (published) vs the new ones
@@ -96,11 +128,16 @@ def score(items, rows, others, status=None):
             out["archive_split"][k] = {"n": len(ids), "acc": r3(np.mean(hh)), "ci": [r3(lo), r3(hi)], "lb_above_0814": bool(lo > LLMS + EPS)}
     out["others_same_items"] = {}
     for m in ("claude-haiku-5-5", "claude-sonnet-5-5"):
-        Fm = BBB.pairs(others, m, "flattery")
+        Fm, Bm = BBB.pairs(others, m, "flattery"), BBB.pairs(others, m, "bettor")
         same = [i for i in fids if i in Fm]
         if same:
             hh = [SB.hit(sum(Fm[i]) / 2) for i in same]
             out["others_same_items"][m] = {"n": len(same), "acc": r3(np.mean(hh)), "ci": [r3(x) for x in SB.boot(hh)]}
+            sb = [i for i in both if i in Fm and i in Bm]   # D84 (review ss-b16 F3): their bettor - flattery on Opus's items
+            if sb:
+                dm = [SB.hit(sum(Bm[i]) / 2) - SB.hit(sum(Fm[i]) / 2) for i in sb]
+                out["others_same_items"][m]["bettor_minus_flattery"] = {"n": len(sb), "d": r3(np.mean(dm)), "ci": [r3(x) for x in SB.boot(dm)],
+                                                                         "ub95": r3(ub95(dm))}
     out["sentences"] = sentences(out)
     return out
 
@@ -118,24 +155,25 @@ def sentences(o):
     lead = (f"On {A['n']} of BrainBench's 200 abstract pairs, each shown in both orders with the two ratings averaged, Opus, "
             f"asked only which version is better news for the paper's own idea, picked the published abstract {pct(A['acc'])} "
             f"{cis(A['ci'])} of the time")
-    fc = (f"asked directly which version was published (the program's forecasting prompt), it was right {pct(Bb['acc'])} "
-          f"{cis(Bb['ci'])} on the {Bb['n']} items where both prompts ran, {abs(100 * d['d']):.1f} points "
-          f"{'more' if d['d'] >= 0 else 'less'} than with the flattery question (difference {cis(d['ci'])})")
+    fc = (f"asked directly which version was published, with the program's forecasting prompt (a different instruction, a "
+          f"question line, and a note that one version was altered by an expert), it was right {pct(Bb['acc'])} {cis(Bb['ci'])} "
+          f"on the {Bb['n']} items where both prompts ran, {abs(100 * d['d']):.1f} points {'more' if d['d'] >= 0 else 'less'} "
+          f"than with the flattery question (difference {cis(d['ci'])}; one-sided 95% upper bound {100 * d['ub95']:+.1f} points)")
     if v == "pass":
         s = (f"{lead}, above the 81.4% the original study published for language models scored by perplexity; {fc}, within "
-             "the 5 points the rule allowed. So on Opus too, the 'better news' question alone does about as well as asking "
-             "which version is real; this design cannot tell whether Opus answered by valence, by plausibility or from memory "
+             "the 5 points the rule allowed (its upper bound). So on Opus the 'better news' question alone is no more than 5 points "
+             "worse than the program's forecasting prompt; this design cannot tell whether Opus answered by valence, by plausibility or from memory "
              "of the papers, and it does not show that the models in the original study used such a rule.")
     elif v == "mixed" and o["c1"]:
-        s = (f"{lead}, above the published 81.4% for language models; but {fc}, more than the 5 points the rule allowed, so on "
-             "Opus the forecasting prompt does clearly better than the 'better news' question alone.")
+        s = (f"{lead}, above the published 81.4% for language models; but {fc}, so the rule could not show the 'better news' "
+             "question to be no more than 5 points worse than the forecasting prompt on Opus.")
     elif v == "mixed":
         s = (f"{lead}, not shown to beat the published 81.4% for language models (the rule needed the lower bound above it), "
-             f"although {fc}, within the 5 points the rule allowed.")
+             f"although {fc}, within the 5 points the rule allowed (its upper bound).")
     else:
-        s = (f"{lead}, not shown to beat the published 81.4% for language models, and {fc}, more than the 5 points the rule "
-             "allowed; so on Opus the 'better news' question alone neither beats the published figure nor keeps up with "
-             "asking which version is real.")
+        s = (f"{lead}, not shown to beat the published 81.4% for language models, and {fc}, so the rule could not show it "
+             "within 5 points of the forecasting prompt either; on Opus the 'better news' question alone was shown neither to beat "
+             "the published figure nor to keep up with the forecasting prompt.")
     out = [s]
     out.append(f"Against the 171 neuroscientists' 63.4%, Opus's flattery accuracy {'clears' if o['vs_experts'] else 'does not clear'} it.")
     for k, x in o["archive_split"].items():
@@ -145,12 +183,21 @@ def sentences(o):
     out.append(f"Counted by its two picks instead (right in both orders 1, split 0.5, wrong in both 0; Zheng et al. 2023), Opus "
                f"scores {pct(o['votes']['acc'])} {cis(o['votes']['ci'])} (a reported row, not the rule).")
     for m, x in o["others_same_items"].items():
-        out.append(f"On the same {x['n']} items, ss-b10c's {'Haiku' if 'haiku' in m else 'Sonnet'} flattery rule was right "
-                   f"{pct(x['acc'])} {cis(x['ci'])}.")
+        nm = 'Haiku' if 'haiku' in m else 'Sonnet'
+        out.append(f"On the same {x['n']} items, ss-b10c's {nm} flattery rule was right {pct(x['acc'])} {cis(x['ci'])}"
+                   + (f"; its forecasting prompt beat its flattery prompt by {100 * x['bettor_minus_flattery']['d']:+.1f} points "
+                      f"{cis(x['bettor_minus_flattery']['ci'])} on the {x['bettor_minus_flattery']['n']} items where Opus's four calls ran "
+                      f"(one-sided upper bound {100 * x['bettor_minus_flattery']['ub95']:+.1f}; a reported row)." if 'bettor_minus_flattery' in x else "."))
     if o["loo_flips"]:
         out.append(f"Leaving out any one of {len(o['loo_flips'])} items ({', '.join(o['loo_flips'][:5])}{', ...' if len(o['loo_flips']) > 5 else ''}) would change whether it clears 81.4%.")
     if o["section_flips"]:
         out.append(f"Leaving out the {', '.join(o['section_flips'])} section(s) would change whether it clears 81.4%.")
+    if o["c2_loo_flips"]:
+        out.append(f"Leaving out any one of {len(o['c2_loo_flips'])} items ({', '.join(o['c2_loo_flips'][:5])}{', ...' if len(o['c2_loo_flips']) > 5 else ''}) would change whether the forecasting-prompt condition holds.")
+    if o["c2_section_flips"]:
+        out.append(f"Leaving out the {', '.join(o['c2_section_flips'])} section(s) would change whether the forecasting-prompt condition holds.")
+    if o["loo_changes_verdict"]:
+        out.append(f"Leaving out one of {', '.join(o['loo_changes_verdict'][:5])} would change the verdict (reported; the verdict stands as read).")
     sc = A["section_ci"]
     if (sc[0] > LLMS + EPS) != o["c1"]:
         out.append(f"A bootstrap over the five journal sections gives {cis(sc)}, which {'clears' if sc[0] > LLMS + EPS else 'does not clear'} 81.4% (reported; the bar is read on items).")
@@ -173,7 +220,9 @@ def tables(o):
     d = o["bettor_minus_flattery"]
     L.append(f"\n| condition | value | 95% CI | met |\n|---|---|---|---|")
     L.append(f"| C1: flattery lower bound above 0.814 | {o['flattery']['ci'][0]:.3f} | — | {'yes' if o['c1'] else 'no'} |")
-    L.append(f"| C2: bettor − flattery on the same {o['bettor']['n']} items, at most +0.05 | {d['d']:+.3f} | [{d['ci'][0]:+.3f}, {d['ci'][1]:+.3f}] | {'yes' if o['c2'] else 'no'} |")
+    L.append(f"| C2: bettor − flattery on the same {o['bettor']['n']} items, one-sided 95% upper bound at most +0.05 | {d['ub95']:+.3f} (point {d['d']:+.3f}) | [{d['ci'][0]:+.3f}, {d['ci'][1]:+.3f}] | {'yes' if o['c2'] else 'no'} |")
+    L.append(f"\nC2's upper bound at seeds 20261104 to 20261113: {', '.join(f'{x:+.3f}' for x in d['ub95_seeds'])}"
+             + (f"; they disagree on the side of 0.05, so the verdict reads B = 100,000: {d['ub95_b100k']:+.3f}." if d['ub95_b100k'] is not None else "; all on one side of 0.05."))
     L.append(f"\n**Verdict: {o['verdict']}.**\n")
     L.append("| reported row | n | accuracy | 95% CI |\n|---|---|---|---|")
     for k, x in o["archive_split"].items():
@@ -181,10 +230,15 @@ def tables(o):
     L.append(f"| Opus flattery, vote count (both 1, split 0.5, both wrong 0) | {o['flattery']['n']} | {o['votes']['acc']:.3f} | [{o['votes']['ci'][0]:.3f}, {o['votes']['ci'][1]:.3f}] |")
     for m, x in o["others_same_items"].items():
         L.append(f"| ss-b10c {'Haiku' if 'haiku' in m else 'Sonnet'} flattery, same items | {x['n']} | {x['acc']:.3f} | [{x['ci'][0]:.3f}, {x['ci'][1]:.3f}] |")
+        if "bettor_minus_flattery" in x:
+            y = x["bettor_minus_flattery"]
+            L.append(f"| ss-b10c {'Haiku' if 'haiku' in m else 'Sonnet'} bettor − flattery, same items | {y['n']} | {y['d']:+.3f} | [{y['ci'][0]:+.3f}, {y['ci'][1]:+.3f}] |")
     L.append("\n| section | n | Opus flattery |\n|---|---|---|")
     for s, x in o["by_section"].items():
         L.append(f"| {s} | {x['n']} | {x['flattery']:.3f} |")
-    L.append(f"\nLeave-one-item-out flips: {', '.join(o['loo_flips']) or 'none'}. Leave-one-section-out flips: {', '.join(o['section_flips']) or 'none'}.")
+    L.append(f"\nLeave-one-item-out flips, C1: {', '.join(o['loo_flips']) or 'none'}; C2: {', '.join(o['c2_loo_flips']) or 'none'}. "
+             f"Leave-one-section-out flips, C1: {', '.join(o['section_flips']) or 'none'}; C2: {', '.join(o['c2_section_flips']) or 'none'}. "
+             f"Items whose removal changes the verdict: {', '.join(o['loo_changes_verdict']) or 'none'}.")
     return "\n".join(L) + "\n"
 
 

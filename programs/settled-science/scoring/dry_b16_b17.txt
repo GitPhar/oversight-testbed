@@ -1,0 +1,62 @@
+ss-b16: Opus known items 41 (flattery right 40), new items 159; 2000 runs per world
+world                         P(C1)  P(C2)  P(pass) P(not pass)   P(C2), old point rule
+opus-41                       1.000  1.000    1.000       0.000                   1.000
+sonnet-like                   0.917  0.030    0.030       0.970                   0.369
+sonnet-conditional w=0.5      0.983  0.703    0.702       0.298                   0.921
+sonnet-conditional w=2        0.961  0.438    0.437       0.563                   0.811
+sonnet-conditional w=5        0.923  0.178    0.178       0.822                   0.648
+haiku-like                    0.011  0.073    0.006       0.994                   0.557
+hypothesis holds v=0.8        0.140  1.000    0.140       0.860                   1.000
+hypothesis holds v=0.83       0.458  1.000    0.458       0.542                   1.000
+hypothesis holds v=0.85       0.741  1.000    0.741       0.259                   1.000
+hypothesis holds v=0.88       0.957  1.000    0.957       0.043                   1.000
+hypothesis holds v=0.9        0.995  1.000    0.995       0.005                   1.000
+hypothesis holds v=0.95       1.000  1.000    1.000       0.000                   1.000
+
+ss-b17: pilot draw-to-draw differences n=160 (symmetrised), sd 15.5 points (per call 10.9), identical 0.394; 2000 runs per world
+world                    model    P(C1)  P(C2)  P(meets)    P(pass) P(not pass)
+null (two draws)         haiku    0.986  0.938     0.930      0.909       0.091
+                         sonnet   1.000  0.978     0.978
+null (conditional)       haiku    0.959  0.875     0.875      0.697       0.303
+                         sonnet   1.000  0.798     0.798
+bettor-like              haiku    1.000  0.530     0.530      0.145       0.855
+                         sonnet   1.000  0.274     0.274
+shift -3                 haiku    0.801  0.781     0.703      0.591       0.409
+                         sonnet   1.000  0.841     0.841
+shift +3                 haiku    1.000  0.784     0.784      0.655       0.345
+                         sonnet   1.000  0.833     0.833
+shift -5                 haiku    0.455  0.520     0.355      0.188       0.812
+                         sonnet   1.000  0.511     0.511
+shift +5                 haiku    1.000  0.533     0.533      0.281       0.719
+                         sonnet   1.000  0.519     0.519
+shift -6                 haiku    0.268  0.377     0.202      0.071       0.929
+                         sonnet   1.000  0.335     0.335
+shift +6                 haiku    1.000  0.359     0.359      0.126       0.875
+                         sonnet   1.000  0.353     0.353
+shift -8                 haiku    0.050  0.143     0.035      0.004       0.997
+                         sonnet   1.000  0.099     0.099
+shift +8                 haiku    1.000  0.141     0.141      0.016       0.984
+                         sonnet   1.000  0.088     0.088
+shift -10                haiku    0.003  0.041     0.001      0.000       1.000
+                         sonnet   1.000  0.006     0.006
+shift +10                haiku    1.000  0.040     0.040      0.000       1.000
+                         sonnet   1.000  0.015     0.015
+  null (two draws): same item score under both wordings on 0.818 (Haiku) and 0.888 (Sonnet) of items (the noise floor); mean v2 - v1 -0.001 / -0.001; P(at least one model misses the rule) 0.091
+  null (conditional): same item score under both wordings on 0.833 (Haiku) and 0.893 (Sonnet) of items (the noise floor); mean v2 - v1 -0.027 / -0.035; P(at least one model misses the rule) 0.303
+  haiku: v1 accuracy 0.762; worst-case resampling null P(|d| <= 0.05) 0.760
+  sonnet: v1 accuracy 0.882; worst-case resampling null P(|d| <= 0.05) 0.880
+  haiku: P(C2 holds) at shifts -/+ 3: 0.78/0.78, 5: 0.52/0.53, 6: 0.38/0.36, 8: 0.14/0.14, 10: 0.04/0.04; a shift either way is caught at least 80% of the time from 8 points
+  sonnet: P(C2 holds) at shifts -/+ 3: 0.84/0.83, 5: 0.51/0.52, 6: 0.33/0.35, 8: 0.10/0.09, 10: 0.01/0.02; a shift either way is caught at least 80% of the time from 8 points
+
+score_b16 on synthetic rows:
+  pass               -> pass (C2 bound +0.035; C2 leave-one-out flips 0, section flips 1)
+  mixed (C1 only)    -> mixed (C2 bound +0.135; C2 leave-one-out flips 0, section flips 0)
+  mixed (C2 only)    -> mixed (C2 bound +0.030; C2 leave-one-out flips 0, section flips 0)
+  fail               -> fail (C2 bound +0.130; C2 leave-one-out flips 0, section flips 0)
+  untestable         -> untestable
+score_b17 on synthetic rows (first wording: Haiku 0.762, Sonnet 0.882):
+  pass                   -> pass
+  mixed                  -> mixed
+  fail                   -> fail
+  fail (both too high)   -> fail
+  untestable             -> untestable

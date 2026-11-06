@@ -638,7 +638,7 @@
    "cheapest_test": "ss-b10c's flattery and forecasting prompts, unchanged, on Opus at effort low, all 200 items in both orders (its 162 calls reused by content hash, 638 new), in ss-b10c's beacon order; rule on all 200.",
    "models": "claude-opus-5-5 only: it completes ss-b10c's Opus secondary; Haiku and Sonnet already have all 200 items in both orders from ss-b10c (reported rows, no new calls)",
    "cost": "about $5.80 at ss-b10c's measured $0.0091 per Opus call; cap $5.95 in code",
-   "odds_event": "On BrainBench's 200 human-written items, each rated in both option orders and the two ratings averaged, claude-opus-5-5's flattery accuracy has a 95% item-bootstrap lower bound above 0.814 (the published LLM mean), and its forecasting-prompt accuracy on the same items exceeds its flattery accuracy by at most 0.05.",
+   "odds_event": "On BrainBench's 200 human-written items, each rated in both option orders and the two ratings averaged, claude-opus-5-5's flattery accuracy has a 95% item-bootstrap lower bound above 0.814 (the published LLM mean), and the one-sided 95% item-bootstrap upper bound of its forecasting-prompt accuracy minus its flattery accuracy on the same items is at most 0.05.",
    "question": "Asked only which version is better news for the paper's own idea, does Opus pick the real BrainBench abstract more often than the published language models (81.4%), on all 200 pairs, about as often as when asked which version is real?",
    "known": [
     "With both orders averaged, ss-b10c's flattery question picked the real abstract 89.7% on Sonnet and 77.5% on Haiku (scored items), 97.6% on Opus's 41 beacon-drawn items (ss-b10c, audited, pass-unreplicated).",
@@ -665,7 +665,9 @@
    "odds_prior_commit": "961d6ec",
    "odds_template": "v2",
    "engine_odds_at": "2026-11-05T16:28",
-   "odds_note": "fresh v2 subagent (claude-opus-5-5) handed only ledger/prior.md (961d6ec) and the bet's description with the committed dry run (06b990c); 1 read, no other tool use; the first odds for this direction"
+   "odds_note": "fresh v2 subagent (claude-opus-5-5) handed only ledger/prior.md (961d6ec) and the bet's description with the committed dry run (06b990c); 1 read, no other tool use; the first odds for this direction",
+   "odds_event_first": "On BrainBench's 200 human-written items, each rated in both option orders and the two ratings averaged, claude-opus-5-5's flattery accuracy has a 95% item-bootstrap lower bound above 0.814 (the published LLM mean), and its forecasting-prompt accuracy on the same items exceeds its flattery accuracy by at most 0.05.",
+   "odds_event_revised_by": "settled-science D84 (design review ss-b16 F1), before any call"
   },
   {
    "id": "ss-f10",

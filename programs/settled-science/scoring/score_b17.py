@@ -36,6 +36,13 @@ NAME = {"claude-haiku-5-5": "Haiku", "claude-sonnet-5-5": "Sonnet"}
 EXPERTS, LLMS, EPS = SB.EXPERTS, SB.LLMS, SB.EPS
 MARGIN = 0.05
 MIN_N = 180
+# D83 (design review ss-b17 F3): fixed before any call from the rebuilt dry run (scoring/dry_b16_b17.py, measured pilot
+# noise, D82): the null world's share of items with the same item score under both wordings, per model (the noise floor),
+# and the share of null runs in which at least one model misses the rule by call noise alone.
+NOISE_FLOOR = {"claude-haiku-5-5": 0.818, "claude-sonnet-5-5": 0.888}   # two-draw null world
+NULL_OUT = 0.091          # two-draw null world (main)
+NULL_OUT_PESS = 0.303     # conditional null world (pessimistic: noise added on top of observed ratings)
+FIVE_POINT_PASS = 0.53    # P(C2 holds) at a true 5-point shift, Haiku (Sonnet 0.52), two-draw null world
 r3 = SB.r3
 
 
@@ -78,6 +85,14 @@ def model_block(items, rows, v1rows, model, sset):
         hh = [SB.hit(sum(F2[i]) / 2) for i in sub]
         hv1 = [SB.hit(sum(F1[i]) / 2) for i in sub]
         out["ss_b10c_scored_items"] = {"n": len(sub), "v2": r3(np.mean(hh)), "v2_ci": [r3(x) for x in SB.boot(hh)], "v1": r3(np.mean(hv1))}
+    Bf = BBB.pairs(v1rows, model, "bettor")     # D83 (F3): the forecasting prompt through the same comparison (reported)
+    bi = [i for i in ids if i in Bf]
+    if bi:
+        hb = [SB.hit(sum(Bf[i]) / 2) for i in bi]
+        h1b = [SB.hit(sum(F1[i]) / 2) for i in bi]
+        db = float(np.mean(hb) - np.mean(h1b))
+        out["forecasting_reference"] = {"n": len(bi), "acc": r3(np.mean(hb)), "d": r3(db), "meets": bool(c1(hb) and abs(db) <= MARGIN + EPS),
+                                        "same_pick": r3(np.mean([(sum(Bf[i]) / 2 > 0.5) == (sum(F1[i]) / 2 > 0.5) for i in bi]))}
     out["by_section"] = {s: {"n": sum(items[i]["journal_section"] == s for i in ids),
                              "v2": r3(np.mean([x for x, i in zip(h2, ids) if items[i]["journal_section"] == s])),
                              "v1": r3(np.mean([x for x, i in zip(h1, ids) if items[i]["journal_section"] == s]))} for s in secs}
@@ -121,8 +136,11 @@ def sentences(o):
             "supported)")
     if v == "pass":
         s = (f"{lead} picked the published abstract more often than the 171 neuroscientists did (63.4%) on both models, and "
-             f"within 5 points of the first wording on each: {desc(H)}; {desc(S_)}. So the shortcut did not depend on the one "
-             "sentence ss-b10c used; this design still cannot tell valence from plausibility or memory of the papers.")
+             f"within 5 points of the first wording on each: {desc(H)}; {desc(S_)}. So ss-b10c's accuracy was not tied to its one "
+             f"sentence, to within what 200 items can show (a point estimate; a true 5-point move passes about "
+             f"{pct(FIVE_POINT_PASS)} of the time). A different question, the program's forecasting prompt, run through the same "
+             "comparison would also have come close, so matching accuracy does not show the models answered the same question "
+             "both times; this design still cannot tell valence from plausibility or memory of the papers.")
     elif v == "mixed":
         w = next(m for m in MODELS if ms[m]["label"] == "meets")
         l = next(m for m in MODELS if ms[m]["label"] != "meets")
@@ -132,20 +150,28 @@ def sentences(o):
         if not ms[l]["c2"]:
             why.append("it moved more than 5 points from the first wording")
         s = (f"{lead} held on {NAME[w]} ({desc(ms[w])}) but not on {NAME[l]} ({desc(ms[l])}; {' and '.join(why)}), so on "
-             f"{NAME[l]} ss-b10c's result depends on the sentence as well as the shortcut.")
+             f"{NAME[l]} ss-b10c's accuracy did not survive the change of sentence (call noise alone takes at least one model "
+             f"outside the rule in about {pct(NULL_OUT)} of null runs, {pct(NULL_OUT_PESS)} under a pessimistic noise model).")
     else:
         s = (f"{lead} did not hold on either model ({desc(H)}; {desc(S_)}): each either failed to clear the neuroscientists' "
-             "63.4% or moved more than 5 points from the first wording, so ss-b10c's result depends on its sentence.")
+             "63.4% or moved more than 5 points from the first wording, so ss-b10c's accuracy did not survive the change of "
+             f"sentence (call noise alone takes at least one model outside the rule in about {pct(NULL_OUT)} of null runs, {pct(NULL_OUT_PESS)} under a pessimistic noise model).")
     out = [s]
     for m in MODELS:
         M = ms[m]
-        out.append(f"{NAME[m]} gave the same pick under both wordings on {pct(M['same_pick'])} of the items; with the second wording "
+        out.append(f"{NAME[m]} gave the same pick under both wordings on {pct(M['same_pick'])} of the items (call noise alone gives "
+                   f"about {pct(NOISE_FLOOR[m])}); with the second wording "
                    f"it was right {pct(M['v2']['acc_orig_first'])} with the original shown first and {pct(M['v2']['acc_orig_second'])} "
                    f"with it second (Option-1 pull {M['v2']['option1_pull']:+.1f} points; {M['v1']['option1_pull']:+.1f} with the first wording).")
         if "ss_b10c_scored_items" in M:
             x = M["ss_b10c_scored_items"]
             out.append(f"On the {x['n']} items ss-b10c's rule was read on, {NAME[m]}'s second-wording accuracy was {pct(x['v2'])} "
                        f"{cis(x['v2_ci'])}, against ss-b10c's {pct(x['v1'])} (a reported row).")
+        if "forecasting_reference" in M:
+            x = M["forecasting_reference"]
+            out.append(f"Run through the same comparison, {NAME[m]}'s forecasting prompt (ss-b10c, a different question) scores "
+                       f"{pct(x['acc'])}, {100 * x['d']:+.1f} points from the first wording, same pick on {pct(x['same_pick'])}, and "
+                       f"{'would' if x['meets'] else 'would not'} meet the rule (a reference row).")
         if M["loo_flips"]:
             out.append(f"On {NAME[m]}, leaving out any one of {len(M['loo_flips'])} items ({', '.join(M['loo_flips'][:5])}{', ...' if len(M['loo_flips']) > 5 else ''}) would change whether it meets the rule.")
         if M["section_flips"]:
@@ -174,7 +200,12 @@ def tables(o):
         L.append(f"| {NAME[m]} | {M['v2']['ci'][0]:.3f} ({'yes' if M['c1'] else 'no'}) | {d['d']:+.3f} | [{d['ci'][0]:+.3f}, {d['ci'][1]:+.3f}] | "
                  f"{'yes' if M['c2'] else 'no'} | {M['same_pick']:.3f} | {'yes' if M['label'] == 'meets' else 'no'} |")
     L.append(f"\n**Verdict: {o['verdict']}.**\n")
-    L.append("| model | ss-b10c's scored items | second wording | 95% CI | first wording |\n|---|---|---|---|---|")
+    L.append("| model | reference: forecasting prompt as the 'second wording' | n | accuracy | − first wording | same pick | would meet the rule |\n|---|---|---|---|---|---|---|")
+    for m in MODELS:
+        x = o["models"][m].get("forecasting_reference")
+        if x:
+            L.append(f"| {NAME[m]} | ss-b10c bettor | {x['n']} | {x['acc']:.3f} | {x['d']:+.3f} | {x['same_pick']:.3f} | {'yes' if x['meets'] else 'no'} |")
+    L.append("\n| model | ss-b10c's scored items | second wording | 95% CI | first wording |\n|---|---|---|---|---|")
     for m in MODELS:
         x = o["models"][m].get("ss_b10c_scored_items")
         if x:
