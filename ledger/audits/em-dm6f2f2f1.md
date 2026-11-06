@@ -142,3 +142,6 @@ The pre-mortem, quoted: "If this fails, the most likely reason is that Opus answ
 ## What would break it next
 
 The verdict word cannot be overturned from this archive, because the floor and complete-case analysis were fixed before data. What could change the reading is the same 40 drawn questions (the same items seed) on claude-opus-5-5 with max_tokens raised to 600 for the non-claim questions, so that h204, h138, h299 and h088 finish and h112 and h158 run. That is 160 requests. At the measured $0.0018 per request at the batch rate, with longer replies on the cut questions, it costs about $0.35, which needs its own budget ruling because br-022's $0.30 for this bet is spent. Pre-register the same rule with the floors at 25 usable and 6 flagged. If it reads fail, the "untestable, not a fail" framing was a cut-off artefact. To make the bet able to pass at all, the cheaper and more informative change is to draw the 30 non-claim questions from Opus's own sub-0.80 answers on an excluded pilot of about 60 questions (about $0.10 at the same rate, then the 160-request run). This bet's archive shows that Sonnet's and Haiku's uncertainty does not carry over to Opus.
+
+
+Revealed 2026-11-05: pl-050, clean; nothing to set aside.
