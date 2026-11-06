@@ -627,7 +627,7 @@
    ],
    "human_prompt": "Would you spend about $6 to find out whether the strongest Claude model, asked only which version is better news for the paper's idea, beats the language models in the BrainBench study on all 200 pairs? Will it come back a hit?",
    "engine_only": [],
-   "status": "open",
+   "status": "bet",
    "opened": "2026-11-05T16:26",
    "prior_work_line": "BrainBench (Luo et al. 2024, Nature Human Behaviour, arXiv 2403.03230): LLMs averaged 81.4% against 63.4% for experts, scored by perplexity, not by asking; chat or instruction-tuned models did worse than base models, and the authors avoided prompting because it 'may yield less reliable judgments'. No paper reports a prompted Claude model, or a valence question, on BrainBench (predicts: unknown). Adds: ss-b10c's 41-item Opus row completed to 200, against the stricter 81.4% bar.",
    "prior_work_predicts": "unknown",
@@ -651,7 +651,17 @@
    "odds_event_revised_by": "settled-science D84 (design review ss-b16 F1), before any call",
    "engine_odds_first": 0.5,
    "engine_odds_revised_at": "2026-11-05T17:04",
-   "odds_revised_by": "settled-science D84 (design review ss-b16), before any call; fresh v2 subagent, prior.md 961d6ec, one read"
+   "odds_revised_by": "settled-science D84 (design review ss-b16), before any call; fresh v2 subagent, prior.md 961d6ec, one read",
+   "bet": "ss-b16",
+   "bets": [
+    "ss-b16"
+   ],
+   "verdict": "mixed",
+   "result": "Opus, 199 BrainBench items in both orders: 'better news' 89.4% [85.2, 93.5] above the published 81.4%, but the forecasting prompt 95.2%, 5.8 points more (upper bound 8.8 > 5); mixed. The 41 ss-b10c items 97.6%, the 158 new 87.3%.",
+   "audit": "ledger/audits/ss-b16.md",
+   "novelty": "partly new",
+   "novelty_line": "**Novelty:** partly new. Luo et al. (2024, arXiv 2403.03230 v4, *Nature Human Behaviour*) prompted no model for an answer: \"A correct response was when the model produces a lower perplexity for the original abstract than the altered abstract\", each abstract prefixed only with \"You are a neuroscientist with deep knowledge in neuroscience\", on open models only (Llama-2 7B to 70B and chat, Mistral-7B and instruct, Falcon-40B and 180B and their instruct/chat versions, Galactica 6.7B to 120B, TinyLlama 1.1B, Phi-3 3.8B, GPT-2 trained from scratch, BrainGPT; GPT-4 only wrote the 100 extra items, and Claude is not mentioned); it reports \"LLMs averaging 81.4% accuracy and human experts averaging 63.4%\", Phi-3 the best named model at 82.5%, and BrainGPT 3% above its base model. Its controls were local context only, swapped sentences, zlib-perplexity memorisation (\"no indication that BrainBench was memorized\"), publication date, calibration and the GPT-4-written items; it ran none for valence, flattery, positive results or option order (perplexity scores each version on its own), and it avoided prompting because \"Prompting in natural language may yield less reliable judgments and degrade model competency\", having found that \"Chat or instruction-optimized models performed worse than their base model counterparts\". The kind of result is in print elsewhere: Chen, Hu and Lu (2025, arXiv 2504.01167) prompted GPT-3.5, GPT-4-turbo and GPT-4o to pick a real field-experiment conclusion from among itself, a reversed variant and an unrelated variant (best 78%, GPT-4o with chain of thought), and found that the conclusion's sentiment label predicted accuracy only in interaction with some topics (for example ethnicity); Liu and Shah (2023, arXiv 2306.00622) found GPT-4 \"biased towards the abstract that has a positive (p<0.05) result\" in one constructed pair; and in metascience terms, Fanelli (2012, *Scientometrics* 90:891–904) found that 85.9% of 2007 papers that tested a hypothesis reported support for it, a base rate a \"better news\" rule could exploit. No paper found reports a prompted Claude or GPT-4-class model on BrainBench, a valence-only question solving a real-versus-altered results task, or that question's gap to a direct forecasting prompt; so what is new here is only that comparison: Opus 89.4% with the valence question and 95.2% asked directly, with a similar gap on Sonnet (+6.3 points) and one not shown on Haiku (+5.3, interval including zero). This disagrees with ss-b10c's \"new\", whose search missed Chen et al., and it cannot separate valence from memory or plausibility. Search: \"BrainBench\" with GPT-4o, Claude, o1, prompted, shortcut, heuristic, follow-up; \"LLM predict experimental outcomes optimism bias positive results\"; \"frontier models real versus altered paper result\"; \"LLM hypothesis-supporting abstract publication bias\"; \"LLM forecast replication outcomes positive results cue metascience\"; Fanelli \"Negative results are disappearing\"; general web search (standard and extended) and arxiv.org search for \"BrainBench\", with full text read of arXiv 2403.03230v4 (HTML), 2504.01167v3 (HTML), 2306.00622 (PDF) and Fanelli 2012 (PDF), 2026-11-05. Model: claude-opus-5-5 (a fresh subagent that did not run ss-b16).",
+   "what_would_break_it_next": "see ledger/audits/ss-b16.md, 'What would break it next'"
   },
   {
    "id": "ss-f10",
@@ -674,7 +684,7 @@
    ],
    "human_prompt": "Would you spend about $2 to find out whether the 'better news' shortcut on BrainBench survives being asked in different words, on both smaller Claude models? Will it come back a hit?",
    "engine_only": [],
-   "status": "open",
+   "status": "hit",
    "opened": "2026-11-05T16:26",
    "prior_work_line": "Prompt-paraphrase studies predict some movement: single-instruction results are brittle across 20 LLMs (Mizrahi et al. 2024, TACL, arXiv 2401.00595), and formatting alone moved LLaMA-2-13B by up to 76 points (Sclar et al. 2023, arXiv 2310.11324); but with model-judged answers, variance across 12 paraphrased templates drops sharply (arXiv 2509.01790). None tests a valence question, BrainBench or Claude 5 models (predicts: mixed). Adds: the first paraphrase test of ss-b10c's shortcut.",
    "prior_work_predicts": "mixed",
@@ -698,7 +708,17 @@
    "odds_note": "fresh v2 subagent (claude-opus-5-5) handed only ledger/prior.md (961d6ec) and the bet's description with the committed dry run (06b990c); 1 read, no other tool use; the first odds for this direction",
    "engine_odds_first": 0.37,
    "engine_odds_revised_at": "2026-11-05T17:04",
-   "odds_revised_by": "settled-science D83 (design review ss-b17), before any call; fresh v2 subagent, prior.md 961d6ec, one read"
+   "odds_revised_by": "settled-science D83 (design review ss-b17), before any call; fresh v2 subagent, prior.md 961d6ec, one read",
+   "bet": "ss-b17",
+   "bets": [
+    "ss-b17"
+   ],
+   "verdict": "pass-unreplicated",
+   "result": "Second wording, 200 items in both orders: Haiku 72.5% (first wording 76.2%), Sonnet 87.0% (88.2%); both above 63.4% and within 5 points; pass, unreplicated. Haiku's ties rose (88 of 400 calls at 50, against 15).",
+   "audit": "ledger/audits/ss-b17.md",
+   "novelty": "partly new",
+   "novelty_line": "**Novelty:** partly new. Luo et al. (2024, arXiv 2403.03230v4, *Nature Human Behaviour*) scored 15 open-weight models (Galactica 6.7B, 30B and 120B; Falcon-40B and 180B; Llama-2 7B, 13B and 70B; Mistral-7B; base and chat or instruct versions; GPT-2, TinyLlama, Phi-3 and their LoRA-tuned BrainGPT in the supplement) by the perplexity of each abstract, each scored on its own under one fixed prefix (\"You are a neuroscientist with deep knowledge in neuroscience. Here is an abstract from a neuroscience publication:\"). Its controls were local context only, results sentences swapped within a subfield, memorisation (zlib-perplexity ratio against a Gettysburg Address anchor, publication date against difficulty), calibration, and items written by GPT-4; it asked no model a question in words (\"Our approach diverged from the popular approach of prompting models for responses through natural language\"), so it ran no valence or flattery question, no option-order test and no second prompt wording, and it tested no Claude or other closed model. The kind of result is in print: Hua et al. (2025, arXiv 2509.01790; 7 LLMs, 6 benchmarks, 12 templates) trace much prompt sensitivity to log-likelihood scoring and rigid answer matching, with \"a substantial reduction in performance variance\" when an LLM judge reads the answers, which agrees with our near-equal totals; JudgeSense (Bellibatlu, Raff and Zhang, 2026, arXiv 2604.23478v3; 25 judges including claude-haiku-4-5 and claude-sonnet-4-5) finds \"rewording moves a judge's verdict by more than its own decoding noise does\", the pattern in Haiku's item scores (70.5% the same against an 81.8% noise floor), though on its two pairwise tasks the cost did not clear its threshold; Mizrahi et al. (2024, arXiv 2401.00595) and Sclar et al. (2023, arXiv 2310.11324; up to 76 accuracy points from formatting, LLaMA-2-13B, few-shot) report larger brittleness elsewhere. Nearest on the task, Chen, Hu and Lu (2025, arXiv 2504.01167) carried Luo's real-versus-reversed design to 1,261 conclusions from 276 field experiments on GPT models and found that conclusion sentiment, interacting with topic, predicted accuracy, but they asked which conclusion is true, not which flatters the authors; in metascience terms, Fanelli (2012, *Scientometrics* 90:891) found 85.9% of papers that tested a hypothesis in 2007 reported support for it, the base rate that would let \"pick the version better for the authors' idea\" beat chance, yet no paper found tests that rule on a real-versus-altered task, or its robustness to a second wording, which is what this bet adds. Search: \"BrainBench\" with shortcut, valence, positive result, prompting chat models, follow-up; \"LLM distinguish real from altered scientific findings prompt wording\"; \"LLM bias toward positive results predicting experimental outcomes\"; \"LLM-as-a-judge pairwise robustness to prompt paraphrase\"; \"sycophancy paraphrased prompt confirmation bias scientific results\"; \"positive results bias heuristic forecasting replication\"; \"Fanelli negative results are disappearing\"; general web search, then arxiv.org abstract and HTML pages, the Scientometrics PDF on gwern.net, 2026-11-05. Model: claude-opus-5-5 (a fresh subagent that did not run ss-b17).",
+   "what_would_break_it_next": "see ledger/audits/ss-b17.md, 'What would break it next'"
   }
  ]
 }
